@@ -8,7 +8,7 @@ import { CarQuerySchema, MonthsQuerySchema } from "@api/schemas";
 import type { Make } from "@api/types";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
-import { getTrailingTwelveMonths } from "@sgcarstrends/utils";
+import { getTrailingSixMonths } from "@sgcarstrends/utils";
 import { and, asc, between, desc, eq, ilike, sql } from "drizzle-orm";
 import { Hono } from "hono";
 
@@ -18,12 +18,12 @@ app.get("/", zValidator("query", CarQuerySchema), async (c) => {
   const query = c.req.query();
   const { month, ...queries } = query;
 
-  // const CACHE_KEY = `cars:${JSON.stringify(query)}`;
-  //
-  // const cachedData = await redis.get(CACHE_KEY);
-  // if (cachedData) {
-  //   return c.json(cachedData);
-  // }
+  const CACHE_KEY = `cars:${JSON.stringify(query)}`;
+
+  const cachedData = await redis.get(CACHE_KEY);
+  if (cachedData) {
+    return c.json(cachedData);
+  }
 
   try {
     const latestMonth = !month && (await getLatestMonth(cars));
@@ -31,11 +31,7 @@ app.get("/", zValidator("query", CarQuerySchema), async (c) => {
     const filters = [
       month
         ? eq(cars.month, month)
-        : between(
-            cars.month,
-            getTrailingTwelveMonths(latestMonth),
-            latestMonth,
-          ),
+        : between(cars.month, getTrailingSixMonths(latestMonth), latestMonth),
     ];
 
     for (const [key, value] of Object.entries(queries)) {
@@ -53,7 +49,7 @@ app.get("/", zValidator("query", CarQuerySchema), async (c) => {
       .where(and(...filters))
       .orderBy(desc(cars.month));
 
-    // await redis.set(CACHE_KEY, JSON.stringify(results), { ex: 86400 });
+    await redis.set(CACHE_KEY, JSON.stringify(results), { ex: 86400 });
 
     return c.json(results);
   } catch (e) {

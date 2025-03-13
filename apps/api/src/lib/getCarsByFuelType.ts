@@ -2,7 +2,7 @@ import db from "@api/config/db";
 import { getLatestMonth } from "@api/lib/getLatestMonth";
 import { cars } from "@sgcarstrends/schema";
 import type { FuelType } from "@sgcarstrends/types";
-import { getTrailingTwelveMonths } from "@sgcarstrends/utils";
+import { getTrailingSixMonths } from "@sgcarstrends/utils";
 import { and, asc, between, desc, eq, ilike, or } from "drizzle-orm";
 
 const HYBRID_TYPES = [
@@ -23,7 +23,7 @@ export const getCarsByFuelType = async (fuelType: FuelType, month?: string) => {
       ),
     month
       ? eq(cars.month, month)
-      : between(cars.month, getTrailingTwelveMonths(latestMonth), latestMonth),
+      : between(cars.month, getTrailingSixMonths(latestMonth), latestMonth),
   ];
 
   try {

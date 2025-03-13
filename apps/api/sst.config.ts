@@ -1,6 +1,6 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
-import type { Stage } from "@/types";
+import type { Stage } from "@api/types";
 
 const DOMAIN_NAME = "sgcarstrends.com";
 
