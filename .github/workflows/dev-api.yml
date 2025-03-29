@@ -1,10 +1,12 @@
-name: Deploy (Development)
+name: API Deploy (Development)
 
 on:
   push:
     branches-ignore:
       - "main"
       - "release/**"
+    paths:
+      - "apps/api/**"
 
 permissions:
   id-token: write
@@ -24,14 +26,6 @@ jobs:
   deploy-api:
     needs: [run-migrations, test]
     uses: ./.github/workflows/deploy-api.yml
-    with:
-      environment: Development
-      sst-stage: dev
-    secrets: inherit
-    
-  deploy-updater:
-    needs: [run-migrations, test]
-    uses: ./.github/workflows/deploy-updater.yml
     with:
       environment: Development
       sst-stage: dev
