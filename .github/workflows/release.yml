@@ -44,4 +44,4 @@ jobs:
           title: "chore(release): version packages"
           publish: pnpm tag-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
