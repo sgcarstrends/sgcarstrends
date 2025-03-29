@@ -1,10 +1,13 @@
 name: Deploy (Production)
 
 on:
-  push:
-    tags:
-      - ".+@[0-9]+.[0-9]+.[0-9]+"
-      - ".+@[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+"
+  release:
+    types:
+      - published
+#  push:
+#    tags:
+#      - ".+@[0-9]+.[0-9]+.[0-9]+"
+#      - ".+@[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+"
 
 permissions:
   id-token: write
