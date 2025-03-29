@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -13,9 +17,8 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
 
     steps:
       - name: Checkout Repo
@@ -43,5 +46,3 @@ jobs:
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
           publish: pnpm tag-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
