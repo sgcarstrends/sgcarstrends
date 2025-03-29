@@ -1,5 +1,11 @@
 # @sgcarstrends/api
 
+## 1.4.3
+
+### Patch Changes
+
+- [`9bf70db`](https://github.com/sgcarstrends/backend/commit/9bf70dbb408914713fa9481c47f983526544ebbc) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Re-deploy after workflow config changes
+
 ## 1.4.2
 
 ### Patch Changes
