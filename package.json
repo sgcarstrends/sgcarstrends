@@ -15,8 +15,7 @@
     "migrate": "turbo migrate",
     "migrate:check": "turbo migrate:check",
     "changeset": "changeset",
-    "version": "changeset version",
-    "build": "turbo build"
+    "version": "changeset version"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
