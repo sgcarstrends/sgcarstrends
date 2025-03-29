@@ -40,7 +40,6 @@ jobs:
       - name: Create and publish versions
         uses: changesets/action@v1
         with:
-          version: pnpm changeset version
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
         env:
