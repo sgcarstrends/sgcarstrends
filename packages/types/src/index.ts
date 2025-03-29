@@ -17,6 +17,11 @@ export enum FuelType {
   Others = "Others",
 }
 
+export enum VehicleType {
+  MultiPurposeVehicle = "Multi-purpose Vehicle",
+  StationWagon = "Station-wagon",
+}
+
 export enum Collection {
   Cars = "cars",
   COE = "coe",

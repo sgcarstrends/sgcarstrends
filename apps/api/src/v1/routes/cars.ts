@@ -1,4 +1,4 @@
-import { CACHE_TTL, HYBRID_REGEX } from "@api/config";
+import { CACHE_TTL, HYBRID_REGEX, MPV_REGEX } from "@api/config";
 import db from "@api/config/db";
 import redis from "@api/config/redis";
 import { getLatestMonth } from "@api/lib/getLatestMonth";
@@ -40,7 +40,14 @@ app.get("/", zValidator("query", CarQuerySchema), async (c) => {
         continue;
       }
 
-      filters.push(ilike(cars[key], value.split("-").join("%")));
+      if (
+        key === "vehicle_type" &&
+        value.toLowerCase() === "multi-purpose-vehicle"
+      ) {
+        filters.push(sql`${cars.vehicle_type} ~ ${MPV_REGEX.source}::text`);
+      }
+
+      filters.push(ilike(cars[key], `${value.split("-").join("%")}%`));
     }
 
     const results = await db
