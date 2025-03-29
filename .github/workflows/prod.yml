@@ -3,8 +3,9 @@ name: Deploy (Production)
 on:
   push:
     tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
-      - "v[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+"
+      - ".+@[0-9]+.[0-9]+.[0-9]+"
+      - ".+@[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+"
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -25,7 +26,7 @@ jobs:
       environment: Production
       sst-stage: prod
     secrets: inherit
-    
+
   deploy-updater:
     needs: run-migrations
     uses: ./.github/workflows/deploy-updater.yml
@@ -33,10 +34,10 @@ jobs:
       environment: Production
       sst-stage: prod
     secrets: inherit
-      
-  deploy-trigger:
-    needs: run-migrations
-    uses: ./.github/workflows/deploy-trigger.yml
-    secrets: inherit
-    with:
-      environment: 'Production'
+
+#  deploy-trigger:
+#    needs: run-migrations
+#    uses: ./.github/workflows/deploy-trigger.yml
+#    secrets: inherit
+#    with:
+#      environment: 'Production'

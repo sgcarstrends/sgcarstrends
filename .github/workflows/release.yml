@@ -5,17 +5,19 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   release:
+    if: github.repository == 'sgcarstrends/backend' # Prevents this action from running on forks
     name: Release
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
       - name: Checkout Repo
@@ -42,8 +44,6 @@ jobs:
         with:
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
+          publish: pnpm tag-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Tag releases
-        run: pnpm tag-release
