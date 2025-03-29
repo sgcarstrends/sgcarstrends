@@ -46,4 +46,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Tag releases
-        run: pnpm tag-release
+        run: |
+          pnpm tag-release
+          git push --follow-tags
