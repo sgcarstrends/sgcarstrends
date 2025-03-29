@@ -2,7 +2,6 @@
   "name": "@sgcarstrends/api",
   "description": "API for SG Cars Trends",
   "version": "1.4.1",
-  "private": true,
   "type": "module",
   "scripts": {
     "dev": "sst dev --stage dev",
