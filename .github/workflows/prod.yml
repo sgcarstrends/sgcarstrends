@@ -2,8 +2,6 @@ name: Deploy (Production)
 
 on:
   push:
-    paths:
-      - "apps/**"
     tags:
       - ".+@[0-9]+.[0-9]+.[0-9]+"
       - ".+@[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+"
