@@ -13,10 +13,14 @@
     "test:coverage": "turbo test:coverage",
     "lint": "turbo lint",
     "migrate": "turbo migrate",
-    "migrate:check": "turbo migrate:check"
+    "migrate:check": "turbo migrate:check",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "build": "turbo build"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@changesets/cli": "^2.28.1",
     "@types/node": "^22.13.9",
     "@vitest/coverage-v8": "^3.0.8",
     "turbo": "^2.4.4",
