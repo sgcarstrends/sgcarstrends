@@ -9,7 +9,6 @@ import type { Make } from "@api/types";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
 import { getTrailingSixMonths } from "@sgcarstrends/utils";
-import { sq } from "date-fns/locale";
 import { and, asc, between, desc, eq, ilike, sql } from "drizzle-orm";
 import { Hono } from "hono";
 

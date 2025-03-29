@@ -24,6 +24,6 @@ export const HYBRID_REGEX = new RegExp(
 );
 
 export const MPV_REGEX = new RegExp(
-  `^(${VehicleType.MultiPurposeVehicle}|${VehicleType.MultiPurposeVehicle}\/${VehicleType.StationWagon})$`,
+  `^(${VehicleType.MultiPurposeVehicle}|${VehicleType.MultiPurposeVehicle}/${VehicleType.StationWagon})$`,
   "i",
 );
