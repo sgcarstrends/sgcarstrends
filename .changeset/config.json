@@ -7,7 +7,9 @@
     }
   ],
   "commit": false,
-  "fixed": [["schema", "utils", "types"]],
+  "fixed": [
+    ["@sgcarstrends/schema", "@sgcarstrends/utils", "@sgcarstrends/types"]
+  ],
   "linked": [],
   "access": "restricted",
   "baseBranch": "main",
