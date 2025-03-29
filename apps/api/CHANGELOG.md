@@ -1,5 +1,11 @@
 # @sgcarstrends/api
 
+## 1.4.3
+
+### Patch Changes
+
+- [`e77447a`](https://github.com/sgcarstrends/backend/commit/e77447adc13e8c8256dea5342259fac38636bd3d) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Re-deploy
+
 ## 1.4.2
 
 ### Patch Changes
