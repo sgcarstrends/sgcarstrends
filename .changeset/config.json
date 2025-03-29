@@ -12,6 +12,10 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
+  "privatePackages": {
+    "version": true,
+    "tag": true
+  },
   "__experimentalUnsafeOptions_WIP__": {
     "onlyUpdatePeerDependenciesWhenOutOfRange": true
   }
