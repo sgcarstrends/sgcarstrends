@@ -3,8 +3,10 @@ name: Deploy (Production)
 on:
   push:
     tags:
-      - ".+@[0-9]+.[0-9]+.[0-9]+"
-      - ".+@[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+"
+      - "@sgcarstrends/api/**"
+      - "@sgcarstrends/updater/**"
+#      - ".+@[0-9]+.[0-9]+.[0-9]+"
+#      - ".+@[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+"
 
 permissions:
   id-token: write
