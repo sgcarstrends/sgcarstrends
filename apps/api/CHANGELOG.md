@@ -1,5 +1,11 @@
 # @sgcarstrends/api
 
+## 1.4.2
+
+### Patch Changes
+
+- [`24633c0`](https://github.com/sgcarstrends/backend/commit/24633c0bb7a556284aeba155c3094312ea5144f8) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Refactor fetching data for cars
+
 ## 1.4.1
 
 ### Patch Changes
