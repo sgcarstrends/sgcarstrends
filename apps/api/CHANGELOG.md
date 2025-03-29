@@ -1,5 +1,11 @@
 # @sgcarstrends/api
 
+## 1.4.1
+
+### Patch Changes
+
+- [`ceb9eec`](https://github.com/sgcarstrends/backend/commit/ceb9eec2dcb0f051b420e5a5b7bec94bc3d7b75c) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Redeploy
+
 ## 1.4.0
 
 ### Minor Changes
