@@ -2,6 +2,8 @@ name: Deploy (Development)
 
 on:
   push:
+    paths:
+      - "apps/**"
     branches-ignore:
       - "main"
       - "release/**"
@@ -28,7 +30,7 @@ jobs:
       environment: Development
       sst-stage: dev
     secrets: inherit
-    
+
   deploy-updater:
     needs: [run-migrations, test]
     uses: ./.github/workflows/deploy-updater.yml

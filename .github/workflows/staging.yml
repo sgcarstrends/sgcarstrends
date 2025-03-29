@@ -2,6 +2,8 @@ name: Deploy (Staging)
 
 on:
   push:
+    paths:
+      - "apps/**"
     branches:
       - "main"
       - "release/**"
@@ -30,7 +32,7 @@ jobs:
       environment: Staging
       sst-stage: staging
     secrets: inherit
-    
+
   deploy-updater:
     needs: [run-migrations, test]
     uses: ./.github/workflows/deploy-updater.yml
