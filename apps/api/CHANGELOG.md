@@ -1,5 +1,11 @@
 # @sgcarstrends/api
 
+## 1.4.2
+
+### Patch Changes
+
+- [`00a4eff`](https://github.com/sgcarstrends/backend/commit/00a4eff707e74da6cfb9ade53128cc48f7f1d31d) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Remove `private: true` from `package.json`
+
 ## 1.4.1
 
 ### Patch Changes
