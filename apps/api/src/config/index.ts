@@ -1,4 +1,4 @@
-import { FuelType } from "@sgcarstrends/types";
+import { FuelType, VehicleType } from "@sgcarstrends/types";
 
 export const CACHE_TTL = 24 * 60 * 60;
 
@@ -20,5 +20,10 @@ export const CACHE_TTL = 24 * 60 * 60;
  */
 export const HYBRID_REGEX = new RegExp(
   `^(${FuelType.Diesel}|${FuelType.Petrol})-${FuelType.Electric}(\\s\\(Plug-In\\))?$`,
+  "i",
+);
+
+export const MPV_REGEX = new RegExp(
+  `^(${VehicleType.MultiPurposeVehicle}|${VehicleType.MultiPurposeVehicle}\/${VehicleType.StationWagon})$`,
   "i",
 );
