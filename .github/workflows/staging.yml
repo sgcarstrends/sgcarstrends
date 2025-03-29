@@ -1,4 +1,4 @@
-name: API Deploy (Staging)
+name: Deploy (Staging)
 
 on:
   push:
@@ -7,8 +7,6 @@ on:
       - "release/**"
     tags-ignore:
       - "*"
-    paths:
-      - "apps/api/**"
 
 permissions:
   id-token: write
@@ -28,6 +26,14 @@ jobs:
   deploy-api:
     needs: [run-migrations, test]
     uses: ./.github/workflows/deploy-api.yml
+    with:
+      environment: Staging
+      sst-stage: staging
+    secrets: inherit
+    
+  deploy-updater:
+    needs: [run-migrations, test]
+    uses: ./.github/workflows/deploy-updater.yml
     with:
       environment: Staging
       sst-stage: staging
