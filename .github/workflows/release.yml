@@ -42,10 +42,6 @@ jobs:
         with:
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
+          publish: pnpm tag-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Tag releases
-        run: |
-          pnpm tag-release
-          git push --follow-tags
