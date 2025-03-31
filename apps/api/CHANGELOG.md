@@ -1,5 +1,18 @@
 # @sgcarstrends/api
 
+## 1.5.0
+
+### Minor Changes
+
+- [#119](https://github.com/sgcarstrends/backend/pull/119) [`6fee1de`](https://github.com/sgcarstrends/backend/commit/6fee1de2e4c9716499dedd719d3c054f1e7866f0) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add car trends comparison API
+
+### Patch Changes
+
+- Updated dependencies [[`43ae487`](https://github.com/sgcarstrends/backend/commit/43ae4875699821fd1fc5b7001d7e36f6b9e25da2)]:
+  - @sgcarstrends/utils@0.0.3
+  - @sgcarstrends/schema@0.0.3
+  - @sgcarstrends/types@0.0.3
+
 ## 1.4.2
 
 ### Patch Changes
