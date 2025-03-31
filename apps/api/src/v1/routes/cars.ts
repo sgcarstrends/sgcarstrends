@@ -16,7 +16,7 @@ import {
 } from "@api/v1/service/car.service";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
-import { asc, eq } from "drizzle-orm";
+import { asc } from "drizzle-orm";
 import { Hono } from "hono";
 
 const app = new Hono();
