@@ -3,7 +3,7 @@ import db from "@api/config/db";
 import { getLatestMonth } from "@api/lib/getLatestMonth";
 import type { Car } from "@api/schemas";
 import { cars } from "@sgcarstrends/schema";
-import { getTrailingSixMonths } from "@sgcarstrends/utils";
+import { formatPercentage, getTrailingSixMonths } from "@sgcarstrends/utils";
 import { type SQL, and, between, desc, eq, ilike, sql } from "drizzle-orm";
 
 namespace Metric {
@@ -120,7 +120,8 @@ export const getCarMetricsForPeriod = async (
     if (previous === 0) {
       return 0;
     }
-    return Number((((current - previous) / previous) * 100).toFixed(1));
+
+    return formatPercentage((current - previous) / previous);
   };
 
   const groupByProperty = (data: Car[], prop: keyof Car) =>
