@@ -1,5 +1,12 @@
 import { z } from "zod";
 
+export const ComparisonQuerySchema = z
+  .object({
+    month: z.string(),
+    type: z.optional(z.enum(["yearly", "monthly"])),
+  })
+  .strict();
+
 // Common schemas
 export const MonthSchema = z.string().regex(/^\d{4}-\d{2}$/); // YYYY-MM format
 
@@ -82,6 +89,7 @@ export const LatestMonthResponseSchema = z
 
 export const MonthsByYearSchema = z.record(z.string(), z.array(z.string()));
 
+export type ComparisonQuery = z.infer<typeof ComparisonQuerySchema>;
 export type MakeParams = z.infer<typeof MakeParamSchema>;
 export type MakeQuery = z.infer<typeof MakeQuerySchema>;
 export type CarQuery = z.infer<typeof CarQuerySchema>;
