@@ -4,7 +4,8 @@
   "description": "Utility functions for SG Cars Trends",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "test": "vitest"
   },
   "dependencies": {
     "@sgcarstrends/types": "workspace:*",

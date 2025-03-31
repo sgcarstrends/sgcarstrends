@@ -3,9 +3,17 @@ import db from "@api/config/db";
 import redis from "@api/config/redis";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
-import { CarQuerySchema, MonthsQuerySchema } from "@api/schemas";
+import {
+  CarQuerySchema,
+  ComparisonQuerySchema,
+  MonthsQuerySchema,
+} from "@api/schemas";
 import type { Make } from "@api/types";
-import { buildFilters, fetchCars } from "@api/v1/service/car.service";
+import {
+  buildFilters,
+  fetchCars,
+  getCarMetricsForPeriod,
+} from "@api/v1/service/car.service";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
 import { asc } from "drizzle-orm";
@@ -39,6 +47,18 @@ app.get("/", zValidator("query", CarQuerySchema), async (c) => {
       },
       500,
     );
+  }
+});
+
+app.get("/compare", zValidator("query", ComparisonQuerySchema), async (c) => {
+  const { month } = c.req.query();
+
+  try {
+    const metrics = await getCarMetricsForPeriod(month);
+    return c.json(metrics);
+  } catch (e) {
+    console.error("Error fetching car metrics:", e);
+    return c.json({ error: "Internal server error" }, 500);
   }
 });
 
