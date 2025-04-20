@@ -1,5 +1,11 @@
 # @sgcarstrends/api
 
+## 1.5.1
+
+### Patch Changes
+
+- [#122](https://github.com/sgcarstrends/backend/pull/122) [`fc5bdc0`](https://github.com/sgcarstrends/backend/commit/fc5bdc05725dd8c6508c84bdf5f5cc1083ec2447) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add cars registration endpoint
+
 ## 1.5.0
 
 ### Minor Changes
