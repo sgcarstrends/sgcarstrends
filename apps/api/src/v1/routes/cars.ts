@@ -58,27 +58,25 @@ app.get(
     try {
       const { month } = c.req.query();
 
-      const fuelTypeQuery = await db
-        .select({ fuelType: cars.fuel_type, total: sum(cars.number) })
-        .from(cars)
-        .where(and(eq(cars.month, month), ne(cars.number, 0)))
-        .groupBy(cars.fuel_type);
+      const nonZeroInNumber = and(eq(cars.month, month), ne(cars.number, 0));
 
-      const vehicleTypeQuery = await db
-        .select({ vehicleType: cars.vehicle_type, total: sum(cars.number) })
-        .from(cars)
-        .where(and(eq(cars.month, month), ne(cars.number, 0)))
-        .groupBy(cars.vehicle_type);
-
-      const totalRecordsQuery = await db
-        .select({ total: sum(cars.number) })
-        .from(cars)
-        .where(and(eq(cars.month, month), ne(cars.number, 0)))
-        .limit(1);
-
-      const [getByFuelType, getByVehicleType, totalRecords] = await Promise.all(
-        [fuelTypeQuery, vehicleTypeQuery, totalRecordsQuery],
-      );
+      const [getByFuelType, getByVehicleType, totalRecords] = await db.batch([
+        db
+          .select({ fuelType: cars.fuel_type, total: sum(cars.number) })
+          .from(cars)
+          .where(nonZeroInNumber)
+          .groupBy(cars.fuel_type),
+        db
+          .select({ vehicleType: cars.vehicle_type, total: sum(cars.number) })
+          .from(cars)
+          .where(nonZeroInNumber)
+          .groupBy(cars.vehicle_type),
+        db
+          .select({ total: sum(cars.number) })
+          .from(cars)
+          .where(nonZeroInNumber)
+          .limit(1),
+      ]);
 
       const fuelType = Object.fromEntries(
         getByFuelType.map(({ fuelType, total }) => [fuelType, Number(total)]),
