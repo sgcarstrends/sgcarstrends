@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export const CarRegistrationQuerySchema = z
+  .object({ month: z.string() })
+  .strict();
+
 export const ComparisonQuerySchema = z
   .object({
     month: z.string(),

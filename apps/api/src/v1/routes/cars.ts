@@ -5,6 +5,7 @@ import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import {
   CarQuerySchema,
+  CarRegistrationQuerySchema,
   ComparisonQuerySchema,
   MonthsQuerySchema,
 } from "@api/schemas";
@@ -16,7 +17,7 @@ import {
 } from "@api/v1/service/car.service";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
-import { asc } from "drizzle-orm";
+import { and, asc, eq, ne } from "drizzle-orm";
 import { Hono } from "hono";
 
 const app = new Hono();
@@ -49,6 +50,21 @@ app.get("/", zValidator("query", CarQuerySchema), async (c) => {
     );
   }
 });
+
+app.get(
+  "/registration",
+  zValidator("query", CarRegistrationQuerySchema),
+  async (c) => {
+    const { month } = c.req.query();
+
+    const result = await db
+      .select()
+      .from(cars)
+      .where(and(eq(cars.month, month), ne(cars.number, 0)));
+
+    return c.json(result);
+  },
+);
 
 app.get("/compare", zValidator("query", ComparisonQuerySchema), async (c) => {
   const { month } = c.req.query();
