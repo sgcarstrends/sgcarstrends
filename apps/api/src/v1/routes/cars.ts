@@ -5,7 +5,7 @@ import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import {
   CarQuerySchema,
-  CarRegistrationQuerySchema,
+  CarsRegistrationQuerySchema,
   ComparisonQuerySchema,
   MonthsQuerySchema,
 } from "@api/schemas";
@@ -53,10 +53,21 @@ app.get("/", zValidator("query", CarQuerySchema), async (c) => {
 
 app.get(
   "/registration",
-  zValidator("query", CarRegistrationQuerySchema),
+  zValidator("query", CarsRegistrationQuerySchema),
   async (c) => {
     try {
       const { month } = c.req.query();
+
+      const cacheKey = `cars:registration:${month}`;
+
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        return c.json({
+          status: 200,
+          timestamp: new Date().toISOString(),
+          data: cachedData,
+        });
+      }
 
       const nonZeroInNumber = and(eq(cars.month, month), ne(cars.number, 0));
 
@@ -91,10 +102,14 @@ app.get(
 
       const total = Number(totalRecords[0].total ?? 0);
 
+      const data = { month, fuelType, vehicleType, total };
+
+      await redis.set(cacheKey, JSON.stringify(data));
+
       return c.json({
         status: 200,
         timestamp: new Date().toISOString(),
-        data: { month, fuelType, vehicleType, total },
+        data,
       });
     } catch (error) {
       console.error(error);
