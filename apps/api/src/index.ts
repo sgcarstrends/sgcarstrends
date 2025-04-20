@@ -44,24 +44,28 @@ if (process.env.FEATURE_FLAG_RATE_LIMIT) {
 //   return next();
 // });
 
-app.onError((err, c) => {
-  if (err instanceof HTTPException) {
+app.onError((error, c) => {
+  if (error instanceof HTTPException) {
     // Use the original exception's status code
     return c.json(
       {
-        status: err.status,
-        message: err.message,
+        status: error.status,
+        timestamp: new Date().toISOString(),
+        error: { message: error.message },
+        data: null,
       },
-      err.status,
+      error.status,
     );
   }
 
   // Fallback for unexpected errors
-  console.error(err);
+  console.error(error);
   return c.json(
     {
       status: 500,
-      message: "Internal Server Error",
+      timestamp: new Date().toISOString(),
+      error: { message: "Internal Server Error" },
+      data: null,
     },
     500,
   );
