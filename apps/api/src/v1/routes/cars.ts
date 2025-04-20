@@ -10,6 +10,7 @@ import {
   MonthsQuerySchema,
 } from "@api/schemas";
 import type { Make } from "@api/types";
+import { successResponse } from "@api/utils/responses";
 import {
   buildFilters,
   fetchCars,
@@ -55,80 +56,51 @@ app.get(
   "/registration",
   zValidator("query", CarsRegistrationQuerySchema),
   async (c) => {
-    try {
-      const { month } = c.req.query();
+    const { month } = c.req.query();
 
-      const cacheKey = `cars:registration:${month}`;
+    const cacheKey = `cars:registration:${month}`;
 
-      const cachedData = await redis.get(cacheKey);
-      if (cachedData) {
-        return c.json({
-          status: 200,
-          timestamp: new Date().toISOString(),
-          data: cachedData,
-        });
-      }
-
-      const nonZeroInNumber = and(eq(cars.month, month), ne(cars.number, 0));
-
-      const [getByFuelType, getByVehicleType, totalRecords] = await db.batch([
-        db
-          .select({ fuelType: cars.fuel_type, total: sum(cars.number) })
-          .from(cars)
-          .where(nonZeroInNumber)
-          .groupBy(cars.fuel_type),
-        db
-          .select({ vehicleType: cars.vehicle_type, total: sum(cars.number) })
-          .from(cars)
-          .where(nonZeroInNumber)
-          .groupBy(cars.vehicle_type),
-        db
-          .select({ total: sum(cars.number) })
-          .from(cars)
-          .where(nonZeroInNumber)
-          .limit(1),
-      ]);
-
-      const fuelType = Object.fromEntries(
-        getByFuelType.map(({ fuelType, total }) => [fuelType, Number(total)]),
-      );
-
-      const vehicleType = Object.fromEntries(
-        getByVehicleType.map(({ vehicleType, total }) => [
-          vehicleType,
-          Number(total),
-        ]),
-      );
-
-      const total = Number(totalRecords[0].total ?? 0);
-
-      const data = { month, fuelType, vehicleType, total };
-
-      await redis.set(cacheKey, JSON.stringify(data));
-
-      return c.json({
-        status: 200,
-        timestamp: new Date().toISOString(),
-        data,
-      });
-    } catch (error) {
-      console.error(error);
-
-      const statusCode = error.status || error.statusCode || 500;
-
-      return c.json(
-        {
-          status: statusCode,
-          timestamp: new Date().toISOString(),
-          error: {
-            code: error.code || "UNKNOWN_ERROR",
-            detail: error.message,
-          },
-          data: null,
-        },
-        statusCode,
-      );
+    const cachedData = await redis.get(cacheKey);
+    if (cachedData) {
+      return successResponse(c, cachedData);
     }
+
+    const nonZeroInNumber = and(eq(cars.month, month), ne(cars.number, 0));
+
+    const [getByFuelType, getByVehicleType, totalRecords] = await db.batch([
+      db
+        .select({ fuelType: cars.fuel_type, total: sum(cars.number) })
+        .from(cars)
+        .where(nonZeroInNumber)
+        .groupBy(cars.fuel_type),
+      db
+        .select({ vehicleType: cars.vehicle_type, total: sum(cars.number) })
+        .from(cars)
+        .where(nonZeroInNumber)
+        .groupBy(cars.vehicle_type),
+      db
+        .select({ total: sum(cars.number) })
+        .from(cars)
+        .where(nonZeroInNumber)
+        .limit(1),
+    ]);
+
+    const fuelType = Object.fromEntries(
+      getByFuelType.map(({ fuelType, total }) => [fuelType, Number(total)]),
+    );
+
+    const vehicleType = Object.fromEntries(
+      getByVehicleType.map(({ vehicleType, total }) => [
+        vehicleType,
+        Number(total),
+      ]),
+    );
+
+    const total = Number(totalRecords[0].total ?? 0);
+
+    const data = { month, fuelType, vehicleType, total };
+    await redis.set(cacheKey, JSON.stringify(data));
+    return successResponse(c, data);
   },
 );
 
