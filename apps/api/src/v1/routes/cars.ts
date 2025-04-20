@@ -94,7 +94,11 @@ app.get(
 
     const total = Number(totalRecords[0].total ?? 0);
 
-    return c.json({ month, fuelType, vehicleType, total });
+    return c.json({
+      success: true,
+      timestamp: new Date().toISOString(),
+      data: { month, fuelType, vehicleType, total },
+    });
   },
 );
 
