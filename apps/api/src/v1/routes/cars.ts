@@ -55,50 +55,67 @@ app.get(
   "/registration",
   zValidator("query", CarRegistrationQuerySchema),
   async (c) => {
-    const { month } = c.req.query();
+    try {
+      const { month } = c.req.query();
 
-    const fuelTypeQuery = await db
-      .select({ fuelType: cars.fuel_type, total: sum(cars.number) })
-      .from(cars)
-      .where(and(eq(cars.month, month), ne(cars.number, 0)))
-      .groupBy(cars.fuel_type);
+      const fuelTypeQuery = await db
+        .select({ fuelType: cars.fuel_type, total: sum(cars.number) })
+        .from(cars)
+        .where(and(eq(cars.month, month), ne(cars.number, 0)))
+        .groupBy(cars.fuel_type);
 
-    const vehicleTypeQuery = await db
-      .select({ vehicleType: cars.vehicle_type, total: sum(cars.number) })
-      .from(cars)
-      .where(and(eq(cars.month, month), ne(cars.number, 0)))
-      .groupBy(cars.vehicle_type);
+      const vehicleTypeQuery = await db
+        .select({ vehicleType: cars.vehicle_type, total: sum(cars.number) })
+        .from(cars)
+        .where(and(eq(cars.month, month), ne(cars.number, 0)))
+        .groupBy(cars.vehicle_type);
 
-    const totalRecordsQuery = await db
-      .select({ total: sum(cars.number) })
-      .from(cars)
-      .where(and(eq(cars.month, month), ne(cars.number, 0)))
-      .limit(1);
+      const totalRecordsQuery = await db
+        .select({ total: sum(cars.number) })
+        .from(cars)
+        .where(and(eq(cars.month, month), ne(cars.number, 0)))
+        .limit(1);
 
-    const [getByFuelType, getByVehicleType, totalRecords] = await Promise.all([
-      fuelTypeQuery,
-      vehicleTypeQuery,
-      totalRecordsQuery,
-    ]);
+      const [getByFuelType, getByVehicleType, totalRecords] = await Promise.all(
+        [fuelTypeQuery, vehicleTypeQuery, totalRecordsQuery],
+      );
 
-    const fuelType = Object.fromEntries(
-      getByFuelType.map(({ fuelType, total }) => [fuelType, Number(total)]),
-    );
+      const fuelType = Object.fromEntries(
+        getByFuelType.map(({ fuelType, total }) => [fuelType, Number(total)]),
+      );
 
-    const vehicleType = Object.fromEntries(
-      getByVehicleType.map(({ vehicleType, total }) => [
-        vehicleType,
-        Number(total),
-      ]),
-    );
+      const vehicleType = Object.fromEntries(
+        getByVehicleType.map(({ vehicleType, total }) => [
+          vehicleType,
+          Number(total),
+        ]),
+      );
 
-    const total = Number(totalRecords[0].total ?? 0);
+      const total = Number(totalRecords[0].total ?? 0);
 
-    return c.json({
-      success: true,
-      timestamp: new Date().toISOString(),
-      data: { month, fuelType, vehicleType, total },
-    });
+      return c.json({
+        status: 200,
+        timestamp: new Date().toISOString(),
+        data: { month, fuelType, vehicleType, total },
+      });
+    } catch (error) {
+      console.error(error);
+
+      const statusCode = error.status || error.statusCode || 500;
+
+      return c.json(
+        {
+          status: statusCode,
+          timestamp: new Date().toISOString(),
+          error: {
+            code: error.code || "UNKNOWN_ERROR",
+            detail: error.message,
+          },
+          data: null,
+        },
+        statusCode,
+      );
+    }
   },
 );
 
