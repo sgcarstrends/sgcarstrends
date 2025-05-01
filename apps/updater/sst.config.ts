@@ -16,8 +16,9 @@ export default $config({
       providers: {
         aws: {
           region: "ap-southeast-1",
+          version: "6.66.2",
         },
-        cloudflare: true,
+        cloudflare: { version: "5.37.1" },
       },
     };
   },
