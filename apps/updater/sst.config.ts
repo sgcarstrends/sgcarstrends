@@ -7,6 +7,8 @@ const DOMAINS = {
   prod: `updater.${DOMAIN_NAME}`,
 };
 
+const UPDATER_CRON = "*/60 0-10 * * 1-5";
+
 export default $config({
   app(input) {
     return {
@@ -19,6 +21,11 @@ export default $config({
           version: "6.66.2",
         },
         cloudflare: { version: "5.37.1" },
+        "@upstash/pulumi": {
+          email: process.env.UPSTASH_EMAIL,
+          apiKey: process.env.UPSTASH_API_KEY,
+          version: "0.3.14",
+        },
       },
     };
   },
@@ -53,6 +60,11 @@ export default $config({
       routes: {
         "/*": url,
       },
+    });
+
+    new upstash.QStashScheduleV2("Updater", {
+      destination: `https://${DOMAINS[$app.stage]}/qstash`,
+      cron: UPDATER_CRON,
     });
   },
 });
