@@ -27,6 +27,8 @@ export default $config({
       "DATABASE_URL",
       "UPSTASH_REDIS_REST_URL",
       "UPSTASH_REDIS_REST_TOKEN",
+      "QSTASH_CURRENT_SIGNING_KEY",
+      "QSTASH_NEXT_SIGNING_KEY",
     ] as const;
     const secrets = Object.fromEntries(
       SECRET_KEYS.map((key) => [key, new sst.Secret(key, process.env[key])]),
@@ -36,6 +38,9 @@ export default $config({
     const { url } = new sst.aws.Function("Updater", {
       link: [...allSecrets],
       handler: "src/index.handler",
+      environment: {
+        QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
+      },
       url: true,
     });
 
