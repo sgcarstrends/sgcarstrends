@@ -2,9 +2,11 @@ name: Deploy (Production)
 
 on:
   push:
-    tags:
-      - '@sgcarstrends/*@*.*.*'
-      - '@sgcarstrends/*@*.*.*-beta.*'
+    branches:
+      - release/**
+    paths:
+      - apps/**
+      - packages/**
   workflow_dispatch:
 
 permissions:
