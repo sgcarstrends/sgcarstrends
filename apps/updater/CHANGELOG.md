@@ -1,5 +1,11 @@
 # @sgcarstrends/updater
 
+## 2.1.2
+
+### Patch Changes
+
+- [#127](https://github.com/sgcarstrends/backend/pull/127) [`8492e7f`](https://github.com/sgcarstrends/backend/commit/8492e7f45cbb1e79ee122e2031674eb48820b8f3) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Setup Upstash QStash/Workflow
+
 ## 2.1.1
 
 ### Patch Changes
