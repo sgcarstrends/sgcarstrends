@@ -7,6 +7,8 @@ const DOMAINS = {
   prod: `updater.${DOMAIN_NAME}`,
 };
 
+const UPDATER_CRON = "*/60 0-10 * * 1-5";
+
 export default $config({
   app(input) {
     return {
@@ -16,8 +18,14 @@ export default $config({
       providers: {
         aws: {
           region: "ap-southeast-1",
+          version: "6.66.2",
         },
-        cloudflare: true,
+        cloudflare: { version: "5.37.1" },
+        "@upstash/pulumi": {
+          email: process.env.UPSTASH_EMAIL,
+          apiKey: process.env.UPSTASH_API_KEY,
+          version: "0.3.14",
+        },
       },
     };
   },
@@ -27,6 +35,8 @@ export default $config({
       "DATABASE_URL",
       "UPSTASH_REDIS_REST_URL",
       "UPSTASH_REDIS_REST_TOKEN",
+      "QSTASH_CURRENT_SIGNING_KEY",
+      "QSTASH_NEXT_SIGNING_KEY",
     ] as const;
     const secrets = Object.fromEntries(
       SECRET_KEYS.map((key) => [key, new sst.Secret(key, process.env[key])]),
@@ -36,6 +46,9 @@ export default $config({
     const { url } = new sst.aws.Function("Updater", {
       link: [...allSecrets],
       handler: "src/index.handler",
+      environment: {
+        QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
+      },
       url: true,
     });
 
@@ -47,6 +60,11 @@ export default $config({
       routes: {
         "/*": url,
       },
+    });
+
+    new upstash.QStashScheduleV2("Updater", {
+      destination: `https://${DOMAINS[$app.stage]}/qstash`,
+      cron: UPDATER_CRON,
     });
   },
 });
