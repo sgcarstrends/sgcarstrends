@@ -48,14 +48,14 @@ jobs:
         working-directory: ./apps/updater
         run: pnpm sst deploy --stage ${{ inputs.sst-stage }}
         env:
-          UPDATER_API_TOKEN: ${{ secrets.UPDATER_API_TOKEN }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          QSTASH_URL: ${{ secrets.QSTASH_URL }}
-          QSTASH_TOKEN: ${{ secrets.QSTASH_TOKEN }}
           QSTASH_CURRENT_SIGNING_KEY: ${{ secrets.QSTASH_CURRENT_SIGNING_KEY }}
           QSTASH_NEXT_SIGNING_KEY: ${{ secrets.QSTASH_NEXT_SIGNING_KEY }}
-          UPSTASH_EMAIL: ${{ secrets.UPSTASH_EMAIL }}
+          QSTASH_TOKEN: ${{ secrets.QSTASH_TOKEN }}
+          QSTASH_URL: ${{ secrets.QSTASH_URL }}
+          UPDATER_API_TOKEN: ${{ secrets.UPDATER_API_TOKEN }}
           UPSTASH_API_KEY: ${{ secrets.UPSTASH_API_KEY }}
-          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_EMAIL: ${{ secrets.UPSTASH_EMAIL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
