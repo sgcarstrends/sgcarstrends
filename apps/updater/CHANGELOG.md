@@ -1,5 +1,13 @@
 # @sgcarstrends/updater
 
+## 2.1.3
+
+### Patch Changes
+
+- [#133](https://github.com/sgcarstrends/backend/pull/133) [`c208815`](https://github.com/sgcarstrends/backend/commit/c2088153742a099600a23e1764733c4f8225d1a9) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update GitHub Actions workflow to deploy Production on release branch
+
+- [#133](https://github.com/sgcarstrends/backend/pull/133) [`9566b85`](https://github.com/sgcarstrends/backend/commit/9566b8527227751c97c75c8308c4a4a892366a64) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Restore Upstash QStash scheduler using SST
+
 ## 2.1.2
 
 ### Patch Changes
