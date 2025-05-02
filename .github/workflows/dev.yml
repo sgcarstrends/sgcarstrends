@@ -3,8 +3,8 @@ name: Deploy (Development)
 on:
   push:
     branches-ignore:
-      - "main"
-      - "release/**"
+      - main
+      - release
 
 permissions:
   id-token: write
@@ -28,7 +28,7 @@ jobs:
       environment: Development
       sst-stage: dev
     secrets: inherit
-    
+
   deploy-updater:
     needs: [run-migrations, test]
     uses: ./.github/workflows/deploy-updater.yml
