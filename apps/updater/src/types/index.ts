@@ -1,4 +1,5 @@
-// Re-export types from shared package
+export type Stage = "dev" | "staging" | "prod";
+
 export type {
   Car,
   COE,
