@@ -62,9 +62,9 @@ export default $config({
       },
     });
 
-    // new upstash.QStashScheduleV2("Updater", {
-    //   destination: `https://${DOMAINS[$app.stage]}/qstash`,
-    //   cron: UPDATER_CRON,
-    // });
+    new upstash.QStashScheduleV2("Updater", {
+      destination: `https://${DOMAINS[$app.stage]}/qstash`,
+      cron: UPDATER_CRON,
+    });
   },
 });
