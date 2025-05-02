@@ -1,5 +1,11 @@
 # @sgcarstrends/updater
 
+## 2.1.4
+
+### Patch Changes
+
+- [#139](https://github.com/sgcarstrends/backend/pull/139) [`90585e9`](https://github.com/sgcarstrends/backend/commit/90585e96ccd110fda778ab7ef326530170039293) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Fix updater hostname
+
 ## 2.1.3
 
 ### Patch Changes
