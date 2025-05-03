@@ -1,10 +1,17 @@
+import redis from "@updater/config/redis";
 import { updateCOE } from "@updater/lib/updateCOE";
 import { updateCOEPQP } from "@updater/lib/updateCOEPQP";
 import { updateCars } from "@updater/lib/updateCars";
+import type { UpdaterResult } from "@updater/lib/updater";
 import { Receiver } from "@upstash/qstash";
 import { serve } from "@upstash/workflow/hono";
 import { Hono } from "hono";
 import { Resource } from "sst";
+
+interface Task {
+  name: string;
+  fn: () => Promise<UpdaterResult>;
+}
 
 const app = new Hono();
 
@@ -15,9 +22,24 @@ app.post(
       await context.run("updater", async () => {
         console.log("Running updater");
 
-        await updateCars();
-        await updateCOE();
-        await updateCOEPQP();
+        const tasks: Task[] = [
+          { name: "cars", fn: updateCars },
+          { name: "coe", fn: updateCOE },
+          { name: "coe-pqp", fn: updateCOEPQP },
+        ];
+
+        for (const { name, fn } of tasks) {
+          try {
+            const now = Date.now();
+            await fn();
+            console.log(`Last updated "${name}"`, { timestamp: now });
+            await redis.set(`lastUpdated:${name}`, now);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
+        return;
       });
     },
     {
