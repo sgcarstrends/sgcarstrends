@@ -28,7 +28,6 @@ pnpm install
 - [Drizzle ORM](https://orm.drizzle.team/)
 - [Neon Database Serverless](https://neon.tech/)
 - [Upstash Redis](https://upstash.com/)
-- [Trigger.dev](https://trigger.dev/) (Job scheduling and orchestration)
 - [AdmZip](https://github.com/cthackers/adm-zip) (File extraction)
 - [Node.js Crypto](https://nodejs.org/api/crypto.html) (Checksum generation)
 
@@ -39,7 +38,6 @@ pnpm install
 
 ## Key Features
 
-- Automated job scheduling with Trigger.dev
 - Efficient file download and extraction
 - SHA-256 checksum calculation
 - Serverless database migrations
