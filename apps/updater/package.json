@@ -7,8 +7,6 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "trigger:dev": "trigger dev",
-    "trigger:deploy": "trigger deploy",
     "lint": "biome check ."
   },
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
@@ -18,7 +16,6 @@
     "@sgcarstrends/schema": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
-    "@trigger.dev/sdk": "3.3.16",
     "@upstash/qstash": "^2.7.23",
     "@upstash/redis": "^1.34.3",
     "@upstash/workflow": "^0.2.12",
@@ -32,7 +29,6 @@
     "@types/adm-zip": "^0.5.7",
     "@types/aws-lambda": "8.10.146",
     "@types/papaparse": "^5.3.15",
-    "drizzle-kit": "^0.30.1",
-    "trigger.dev": "3.3.16"
+    "drizzle-kit": "^0.30.1"
   }
 }
