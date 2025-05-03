@@ -1,5 +1,11 @@
 # @sgcarstrends/updater
 
+## 2.1.5
+
+### Patch Changes
+
+- [#143](https://github.com/sgcarstrends/backend/pull/143) [`edf4684`](https://github.com/sgcarstrends/backend/commit/edf4684a6518a09b7ac66139ae47f64d28a6bf38) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add Last Updated to Workflow and cache on Redis
+
 ## 2.1.4
 
 ### Patch Changes
