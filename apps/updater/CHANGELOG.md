@@ -1,5 +1,11 @@
 # @sgcarstrends/updater
 
+## 2.2.0
+
+### Minor Changes
+
+- [#145](https://github.com/sgcarstrends/backend/pull/145) [`ee9c229`](https://github.com/sgcarstrends/backend/commit/ee9c229afe8724ea7d7413bc075aeb54937f616a) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Remove Trigger.dev
+
 ## 2.1.5
 
 ### Patch Changes
