@@ -30,32 +30,15 @@ export default $config({
     };
   },
   async run() {
-    const SECRET_KEYS = [
-      "UPDATER_API_TOKEN",
-      "DATABASE_URL",
-      "UPSTASH_REDIS_REST_URL",
-      "UPSTASH_REDIS_REST_TOKEN",
-      "QSTASH_CURRENT_SIGNING_KEY",
-      "QSTASH_NEXT_SIGNING_KEY",
-      // Add social media API tokens/secrets
-      "TWITTER_API_KEY",
-      "TWITTER_API_SECRET",
-      "TWITTER_ACCESS_TOKEN",
-      "TWITTER_ACCESS_SECRET",
-      "LINKEDIN_CLIENT_ID",
-      "LINKEDIN_CLIENT_SECRET",
-      "LINKEDIN_ACCESS_TOKEN",
-      "LINKEDIN_ORGANISATION_ID",
-      "LINKEDIN_USER_ID",
-      // "FACEBOOK_ACCESS_TOKEN",
-    ] as const;
+    const { SECRET_KEYS } = await import("./env");
+
     const secrets = Object.fromEntries(
       SECRET_KEYS.map((key) => [key, new sst.Secret(key, process.env[key])]),
     );
-    const allSecrets = Object.values(secrets);
+    const ALL_SECRETS = Object.values(secrets);
 
     const { url } = new sst.aws.Function("Updater", {
-      link: [...allSecrets],
+      link: [...ALL_SECRETS],
       handler: "src/index.handler",
       environment: {
         QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
