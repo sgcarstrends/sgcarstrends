@@ -1,5 +1,7 @@
 import { UPDATER_BASE_URL } from "@updater/config";
 import { client } from "@updater/config/qstash";
+import { linkedin } from "@updater/routes/linkedin";
+import { publishToSocialMedia } from "@updater/utils/social-media-publisher";
 // import { updateCOEPQP } from "@updater/lib/updateCOEPQP";
 import { Hono } from "hono";
 import { handle } from "hono/aws-lambda";
@@ -32,6 +34,8 @@ app.post("/qstash", async (c) => {
 
 app.route("/workflow", workflow);
 
+app.route("/linkedin", linkedin);
+
 // app.use("/process/*", bearerAuth({ token: Resource.UPDATER_API_TOKEN.value }));
 
 // app.post("/process/cars", async (c) => {
@@ -48,6 +52,30 @@ app.route("/workflow", workflow);
 //   const response = await updateCOEPQP();
 //   return c.json(response);
 // });
+
+app.post("/social/publish", async (c) => {
+  try {
+    const body = await c.req.json();
+    const { result, platforms = ["linkedin"] } = body;
+
+    if (!result || !result.table) {
+      return c.json({ error: "Missing required updater result" }, 400);
+    }
+
+    const publishResults = await publishToSocialMedia(result, {
+      platforms,
+    });
+    console.log(publishResults);
+
+    return c.json({
+      success: true,
+      publishResults,
+    });
+  } catch (error) {
+    console.error("Error in social media publish:", error);
+    return c.json({ error: error.message }, 500);
+  }
+});
 
 showRoutes(app);
 
