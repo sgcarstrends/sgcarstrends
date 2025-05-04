@@ -36,7 +36,7 @@ export const formatUpdateMessage = (result: UpdaterResult): string => {
   });
 
   if (recordsProcessed > 0) {
-    return `🚗 SG Cars Trends Update: ${Math.random() * recordsProcessed} new ${table} records processed on ${formattedDate}. #sgcarstrends #data`;
+    return `🚗 SG Cars Trends Update: ${recordsProcessed} new ${table} records processed on ${formattedDate}. #sgcarstrends #data`;
   }
 
   return `🚗 SG Cars Trends: No changes in ${table} data as of ${formattedDate}. #sgcarstrends`;
