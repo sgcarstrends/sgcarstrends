@@ -53,29 +53,29 @@ app.route("/linkedin", linkedin);
 //   return c.json(response);
 // });
 
-app.post("/social/publish", async (c) => {
-  try {
-    const body = await c.req.json();
-    const { result, platforms = ["linkedin"] } = body;
-
-    if (!result || !result.table) {
-      return c.json({ error: "Missing required updater result" }, 400);
-    }
-
-    const publishResults = await publishToSocialMedia(result, {
-      platforms,
-    });
-    console.log(publishResults);
-
-    return c.json({
-      success: true,
-      publishResults,
-    });
-  } catch (error) {
-    console.error("Error in social media publish:", error);
-    return c.json({ error: error.message }, 500);
-  }
-});
+// app.post("/social/publish", async (c) => {
+//   try {
+//     const body = await c.req.json();
+//     const { result, platforms = ["linkedin"] } = body;
+//
+//     if (!result || !result.table) {
+//       return c.json({ error: "Missing required updater result" }, 400);
+//     }
+//
+//     const publishResults = await publishToSocialMedia(result, {
+//       platforms,
+//     });
+//     console.log(publishResults);
+//
+//     return c.json({
+//       success: true,
+//       publishResults,
+//     });
+//   } catch (error) {
+//     console.error("Error in social media publish:", error);
+//     return c.json({ error: error.message }, 500);
+//   }
+// });
 
 showRoutes(app);
 
