@@ -12,6 +12,11 @@ export const LINKEDIN_SECRETS = [
   "LINKEDIN_USER_ID",
 ] as const;
 
+export const TELEGRAM_SECRETS = [
+  "TELEGRAM_BOT_TOKEN",
+  "TELEGRAM_CHANNEL_ID",
+] as const;
+
 export const TWITTER_SECRETS = [
   "TWITTER_APP_KEY",
   "TWITTER_APP_SECRET",
@@ -30,6 +35,7 @@ export const SECRET_KEYS = [
   ...BASE_SECRETS,
   ...DISCORD_SECRETS,
   ...LINKEDIN_SECRETS,
+  ...TELEGRAM_SECRETS,
   ...TWITTER_SECRETS,
   ...UPSTASH_SECRETS,
 ];
