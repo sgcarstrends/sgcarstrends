@@ -2,6 +2,7 @@ import { UPDATER_BASE_URL } from "@updater/config";
 import { client } from "@updater/config/qstash";
 import { linkedin } from "@updater/routes/linkedin";
 import { twitter } from "@updater/routes/twitter";
+import { discord } from "@updater/routes/discord";
 import { publishToSocialMedia } from "@updater/utils/social-media-publisher";
 // import { updateCOEPQP } from "@updater/lib/updateCOEPQP";
 import { Hono } from "hono";
@@ -37,6 +38,7 @@ app.route("/workflow", workflow);
 
 app.route("/linkedin", linkedin);
 app.route("/twitter", twitter);
+app.route("/discord", discord);
 
 // app.use("/process/*", bearerAuth({ token: Resource.UPDATER_API_TOKEN.value }));
 

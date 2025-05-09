@@ -1,0 +1,44 @@
+import { Resource } from "sst";
+
+/**
+ * Post a message to a Discord channel via webhook.
+ *
+ * @param message - The content to send.
+ * @returns The response from the Discord API.
+ */
+export const postToDiscord = async (message: string) => {
+  if (!message) {
+    throw new Error("Discord message cannot be empty.");
+  }
+
+  const webhookUrl = Resource.DISCORD_WEBHOOK_URL.value;
+  if (!webhookUrl) {
+    throw new Error("Discord webhook URL is required.");
+  }
+
+  try {
+    const response = await fetch(`${webhookUrl}?wait=true`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ content: message }),
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      return {
+        error: true,
+        status: response.status,
+        message: text,
+      };
+    }
+
+    const data = await response.json();
+    console.log("Discord message sent:", data);
+    return data;
+  } catch (error) {
+    console.error("Error posting to Discord:", error);
+    throw new Error(error.message || "Failed to post to Discord.");
+  }
+};
