@@ -1,9 +1,6 @@
 name: Deploy (Development)
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - '[0-9]+-*'
