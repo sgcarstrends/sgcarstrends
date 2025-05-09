@@ -122,6 +122,9 @@ importers:
       sst:
         specifier: 3.11.11
         version: 3.11.11
+      twitter-api-v2:
+        specifier: ^1.23.0
+        version: 1.23.0
     devDependencies:
       '@types/adm-zip':
         specifier: ^0.5.7
@@ -2623,6 +2626,9 @@ packages:
   turbo@2.4.4:
     resolution: {integrity: sha512-N9FDOVaY3yz0YCOhYIgOGYad7+m2ptvinXygw27WPLQvcZDl3+0Sa77KGVlLSiuPDChOUEnTKE9VJwLSi9BPGQ==}
     hasBin: true
+
+  twitter-api-v2@1.23.0:
+    resolution: {integrity: sha512-5i1agETVpTuY68Zuk9i2B3N9wHzc4JIWw0WKyG4CEaFv9mRKmU87roa+U1oYYXTChWb0HMcqfkwoBJHYmLbeDA==}
 
   type-is@2.0.1:
     resolution: {integrity: sha512-OZs6gsjF4vMp32qrCbiVSkrFmXtG/AZhY3t0iAMrMBiAZyV9oALtXO8hsrHbMXF9x6L3grlFuwW2oAz7cav+Gw==}
@@ -5688,6 +5694,8 @@ snapshots:
       turbo-linux-arm64: 2.4.4
       turbo-windows-64: 2.4.4
       turbo-windows-arm64: 2.4.4
+
+  twitter-api-v2@1.23.0: {}
 
   type-is@2.0.1:
     dependencies:

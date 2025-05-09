@@ -11,8 +11,8 @@ export const LINKEDIN_SECRETS = [
 ] as const;
 
 export const TWITTER_SECRETS = [
-  "TWITTER_API_KEY",
-  "TWITTER_API_SECRET",
+  "TWITTER_APP_KEY",
+  "TWITTER_APP_SECRET",
   "TWITTER_ACCESS_TOKEN",
   "TWITTER_ACCESS_SECRET",
 ] as const;
