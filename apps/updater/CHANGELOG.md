@@ -1,5 +1,16 @@
 # @sgcarstrends/updater
 
+## 2.3.0
+
+### Minor Changes
+
+- [#148](https://github.com/sgcarstrends/backend/pull/148) [`c9622c1`](https://github.com/sgcarstrends/backend/commit/c9622c1bbe492c68d3d4ef4e878c6f2e2bb9e176) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add auto publishing to social media
+
+  - Twitter
+  - LinkedIn
+  - Discord
+  - Telegram Channel
+
 ## 2.2.0
 
 ### Minor Changes
