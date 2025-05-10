@@ -1,6 +1,4 @@
-import { CACHE_TTL } from "@api/config";
 import db from "@api/config/db";
-import redis from "@api/config/redis";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import {
@@ -9,7 +7,6 @@ import {
   ComparisonQuerySchema,
   MonthsQuerySchema,
 } from "@api/schemas";
-import type { Make } from "@api/types";
 import { successResponse } from "@api/utils/responses";
 import {
   buildFilters,
@@ -26,18 +23,9 @@ const app = new Hono();
 app.get("/", zValidator("query", CarQuerySchema), async (c) => {
   const query = c.req.query();
 
-  const CACHE_KEY = `cars:${JSON.stringify(query)}`;
-
-  const cachedData = await redis.get(CACHE_KEY);
-  if (cachedData) {
-    return c.json(cachedData);
-  }
-
   try {
     const filters = await buildFilters(query);
     const results = await fetchCars(filters);
-
-    await redis.set(CACHE_KEY, JSON.stringify(results), { ex: 86400 });
 
     return c.json(results);
   } catch (e) {
@@ -57,13 +45,6 @@ app.get(
   zValidator("query", CarsRegistrationQuerySchema),
   async (c) => {
     const { month } = c.req.query();
-
-    const cacheKey = `cars:registration:${month}`;
-
-    const cachedData = await redis.get(cacheKey);
-    if (cachedData) {
-      return successResponse(c, cachedData);
-    }
 
     const nonZeroInNumber = and(eq(cars.month, month), ne(cars.number, 0));
 
@@ -97,10 +78,7 @@ app.get(
     );
 
     const total = Number(totalRecords[0].total ?? 0);
-
-    const data = { month, fuelType, vehicleType, total };
-    await redis.set(cacheKey, JSON.stringify(data));
-    return successResponse(c, data);
+    return successResponse(c, { month, fuelType, vehicleType, total });
   },
 );
 
@@ -128,21 +106,11 @@ app.get("/months", zValidator("query", MonthsQuerySchema), async (c) => {
 });
 
 app.get("/makes", async (c) => {
-  const CACHE_KEY = "makes";
-
-  let makes = await redis.zrange<Make[]>(CACHE_KEY, 0, -1);
-  if (makes.length === 0) {
-    makes = await db
-      .selectDistinct({ make: cars.make })
-      .from(cars)
-      .orderBy(asc(cars.make))
-      .then((res) => res.map(({ make }) => make));
-
-    for (const make of makes) {
-      await redis.zadd(CACHE_KEY, { score: 0, member: make });
-    }
-    await redis.expire(CACHE_KEY, CACHE_TTL);
-  }
+  const makes = await db
+    .selectDistinct({ make: cars.make })
+    .from(cars)
+    .orderBy(asc(cars.make))
+    .then((res) => res.map(({ make }) => make));
 
   return c.json(makes);
 });
