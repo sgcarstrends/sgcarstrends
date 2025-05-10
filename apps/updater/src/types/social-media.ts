@@ -1,8 +1,16 @@
 import type { LICreateResponse } from "linkedin-api-client";
 
+export type Platform = "Discord" | "LinkedIn" | "Telegram" | "Twitter";
+export namespace Platform {
+  export const Discord: Platform = "Discord";
+  export const LinkedIn: Platform = "LinkedIn";
+  export const Telegram: Platform = "Telegram";
+  export const Twitter: Platform = "Twitter";
+}
+
 export type CreatedEntityId = LICreateResponse["createdEntityId"];
 
-interface PostToSocialMediaParam {
+export interface PostToSocialMediaParam {
   message: string;
   link: string;
 }
