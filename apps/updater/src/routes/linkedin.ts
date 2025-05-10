@@ -6,17 +6,31 @@ import { Resource } from "sst";
 const linkedin = new Hono();
 
 linkedin.post("/post", async (c) => {
-  const accessToken = Resource.LINKEDIN_ACCESS_TOKEN.value;
-  if (!accessToken) {
-    return c.text("Access token and message are required", 400);
-  }
+  try {
+    const body = await c.req.json();
+    if (!body) {
+      return c.json({ success: false, error: "Message is required" }, 400);
+    }
 
-  const createdEntityId = await postToLinkedin();
-  if (createdEntityId) {
-    await resharePost(createdEntityId);
-  }
+    const accessToken = Resource.LINKEDIN_ACCESS_TOKEN.value;
+    if (!accessToken) {
+      return c.json(
+        { success: false, error: "Access token and message are required" },
+        401,
+      );
+    }
 
-  return c.json({ createdEntityId });
+    const { message, link } = body;
+    const createdEntityId = await postToLinkedin({ message, link });
+    if (createdEntityId) {
+      await resharePost({ createdEntityId, message });
+    }
+
+    return c.json({ success: true, data: { id: createdEntityId } });
+  } catch (error) {
+    console.error("[LinkedIn] Error posting:", error);
+    return c.json({ success: false, error: error.message }, 500);
+  }
 });
 
 export { linkedin };

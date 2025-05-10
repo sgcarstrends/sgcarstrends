@@ -1,13 +1,16 @@
-import { type LICreateResponse, RestliClient } from "linkedin-api-client";
+import type {
+  CreatedEntityId,
+  PostToLinkedInParam,
+} from "@updater/types/social-media";
+import { RestliClient } from "linkedin-api-client";
 import { Resource } from "sst";
 
 const UGC_POSTS_RESOURCE = "/ugcPosts";
-const PLACEHOLDER_TEXT =
-  "Automated test post. More info: https://sgcarstrends.com/cars";
 
-export const postToLinkedin = async (): Promise<
-  LICreateResponse["createdEntityId"]
-> => {
+export const postToLinkedin = async ({
+  message,
+  link,
+}: PostToLinkedInParam): Promise<CreatedEntityId> => {
   const accessToken = Resource.LINKEDIN_ACCESS_TOKEN.value;
 
   try {
@@ -20,14 +23,12 @@ export const postToLinkedin = async (): Promise<
         lifecycleState: "PUBLISHED",
         specificContent: {
           "com.linkedin.ugc.ShareContent": {
-            shareCommentary: {
-              text: PLACEHOLDER_TEXT + Date.now(),
-            },
+            shareCommentary: { text: message },
             shareMediaCategory: "ARTICLE",
             media: [
               {
                 status: "READY",
-                originalUrl: "https://sgcarstrends.com/cars",
+                originalUrl: link,
               },
             ],
           },

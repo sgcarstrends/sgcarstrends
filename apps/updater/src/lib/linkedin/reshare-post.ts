@@ -1,9 +1,10 @@
-import type { LICreateResponse } from "linkedin-api-client";
+import type { ResharePostParam } from "@updater/types/social-media";
 import { Resource } from "sst";
 
-export const resharePost = async (
-  createdEntityId: LICreateResponse["createdEntityId"],
-) => {
+export const resharePost = async ({
+  createdEntityId,
+  message,
+}: ResharePostParam) => {
   try {
     await fetch("https://api.linkedin.com/rest/posts", {
       method: "POST",
@@ -13,7 +14,7 @@ export const resharePost = async (
       },
       body: JSON.stringify({
         author: `urn:li:person:${Resource.LINKEDIN_USER_ID.value}`,
-        commentary: "Automated reshare post",
+        commentary: message,
         visibility: "PUBLIC",
         distribution: {
           feedDistribution: "MAIN_FEED",

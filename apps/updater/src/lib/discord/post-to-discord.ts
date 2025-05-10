@@ -1,12 +1,10 @@
+import type { PostToDiscordParam } from "@updater/types/social-media";
 import { Resource } from "sst";
 
 /**
  * Post a message to a Discord channel via webhook.
- *
- * @param message - The content to send.
- * @returns The response from the Discord API.
  */
-export const postToDiscord = async (message: string) => {
+export const postToDiscord = async ({ message, link }: PostToDiscordParam) => {
   if (!message) {
     throw new Error("Discord message cannot be empty.");
   }
@@ -22,7 +20,7 @@ export const postToDiscord = async (message: string) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ content: message }),
+      body: JSON.stringify({ content: `${message} ${link}` }),
     });
 
     if (!response.ok) {

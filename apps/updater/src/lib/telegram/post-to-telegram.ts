@@ -1,3 +1,4 @@
+import type { PostToTelegramParam } from "@updater/types/social-media";
 import { Resource } from "sst";
 
 const botToken = Resource.TELEGRAM_BOT_TOKEN.value;
@@ -5,10 +6,11 @@ const channelId = Resource.TELEGRAM_CHANNEL_ID.value;
 
 /**
  * Post a message to a Telegram channel via bot.
- *
- * @param message - The content to send.
  */
-export const postToTelegram = async (message: string) => {
+export const postToTelegram = async ({
+  message,
+  link,
+}: PostToTelegramParam) => {
   if (!message) {
     throw new Error("Telegram message cannot be empty.");
   }
@@ -23,7 +25,7 @@ export const postToTelegram = async (message: string) => {
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: channelId, text: message }),
+      body: JSON.stringify({ chat_id: channelId, text: `${message} ${link}` }),
     });
 
     if (!res.ok) {

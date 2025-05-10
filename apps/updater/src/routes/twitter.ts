@@ -11,13 +11,14 @@ twitter.post("/post", async (c) => {
     const body = await c.req.json();
 
     if (!body.message) {
-      return c.json({ error: "Message is required" }, 400);
+      return c.json({ success: false, error: "Message is required" }, 400);
     }
 
-    const result = await postToTwitter(body.message);
+    const { message, link } = body;
+    const result = await postToTwitter({ message, link });
     return c.json({ success: true, data: result.data });
   } catch (error) {
-    console.error("Error posting tweet:", error);
+    console.error("[Twitter] Error posting:", error);
     return c.json({ success: false, error: error.message }, 500);
   }
 });

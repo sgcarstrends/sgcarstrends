@@ -1,12 +1,11 @@
+import type { PostToTwitterParam } from "@updater/types/social-media";
 import { Resource } from "sst";
 import { TwitterApi } from "twitter-api-v2";
 
 /**
  * Post to Twitter
- *
- * @param message
  */
-export const postToTwitter = async (message: string) => {
+export const postToTwitter = async ({ message, link }: PostToTwitterParam) => {
   if (!message) {
     throw new Error("Tweet cannot be empty.");
   }
@@ -30,7 +29,7 @@ export const postToTwitter = async (message: string) => {
       accessSecret,
     });
 
-    const result = await twitterClient.v2.tweet({ text: message });
+    const result = await twitterClient.v2.tweet({ text: `${message} ${link}` });
     console.log("Tweet posted successfully:", result);
     return result;
   } catch (error) {
