@@ -17,7 +17,7 @@
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
     "@upstash/qstash": "^2.7.23",
-    "@upstash/redis": "^1.34.3",
+    "@upstash/redis": "^1.34.8",
     "@upstash/workflow": "^0.2.12",
     "adm-zip": "^0.5.16",
     "drizzle-orm": "^0.38.2",
