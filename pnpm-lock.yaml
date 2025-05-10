@@ -65,8 +65,8 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
       drizzle-orm:
-        specifier: 0.43.1-4aa795a
-        version: 0.43.1-4aa795a(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0)
+        specifier: 0.43.1-8eb999a
+        version: 0.43.1-8eb999a(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0)
       hono:
         specifier: ^4.6.5
         version: 4.7.2
@@ -1940,8 +1940,8 @@ packages:
       sqlite3:
         optional: true
 
-  drizzle-orm@0.43.1-4aa795a:
-    resolution: {integrity: sha512-COefKZdegkuHfmrZRoOHB8Q4bJcJkppx/Az1sh6WOMFycO8Mt5271n0kARDEegDyl+c8JyZj6skF6z+MG0YzrQ==}
+  drizzle-orm@0.43.1-8eb999a:
+    resolution: {integrity: sha512-GTVyKBteYUAJ9WrXCvrS+/GGVFxWEU4U27VEPVvUhH++4zCkQz0typc0RB0eqqipstTOvfYKL4inKgYtzGAWYw==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=4'
@@ -5842,7 +5842,7 @@ snapshots:
       kysely: 0.25.0
       react: 18.3.1
 
-  drizzle-orm@0.43.1-4aa795a(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0):
+  drizzle-orm@0.43.1-8eb999a(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0):
     optionalDependencies:
       '@aws-sdk/client-rds-data': 3.758.0(aws-crt@1.25.3)
       '@neondatabase/serverless': 0.10.4

@@ -1,4 +1,4 @@
-import { CACHE_TTL } from "@api/config/index";
+import { CACHE_TTL } from "@api/config";
 import { neon } from "@neondatabase/serverless";
 import { upstashCache } from "drizzle-orm/cache/upstash";
 import { drizzle } from "drizzle-orm/neon-http";
