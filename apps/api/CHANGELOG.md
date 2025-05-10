@@ -1,5 +1,11 @@
 # @sgcarstrends/api
 
+## 1.5.2
+
+### Patch Changes
+
+- [#156](https://github.com/sgcarstrends/backend/pull/156) [`41b1b5c`](https://github.com/sgcarstrends/backend/commit/41b1b5c9338cb0f1837bc525edaf02acf9a64cfc) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Use Drizzle ORM + Upstash Redis caching
+
 ## 1.5.1
 
 ### Patch Changes
