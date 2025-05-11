@@ -1,3 +1,4 @@
+import { resharePost } from "@updater/lib/linkedin/reshare-post";
 import type {
   CreatedEntityId,
   PostToLinkedInParam,
@@ -41,7 +42,13 @@ export const postToLinkedin = async ({
     });
 
     const { createdEntityId } = response;
+
     console.log({ createdEntityId });
+
+    if (createdEntityId) {
+      await resharePost({ createdEntityId, message });
+    }
+
     return createdEntityId;
   } catch (error) {
     console.error(error);
