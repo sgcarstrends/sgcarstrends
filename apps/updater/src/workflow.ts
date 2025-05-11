@@ -75,14 +75,106 @@ app.post(
         currentSigningKey: Resource.QSTASH_CURRENT_SIGNING_KEY.value,
         nextSigningKey: Resource.QSTASH_NEXT_SIGNING_KEY.value,
       }),
-      failureFunction: async ({
-        context,
-        failStatus,
-        failResponse,
-        failHeaders,
-      }) => {
-        console.error("Update workflow failed:", failResponse);
+      onError: async (error) => {
+        const payload = {
+          embeds: [
+            {
+              title: "❌ Upstash Workflow Failed",
+              color: 0xff0000,
+              fields: [
+                {
+                  name: "Error Type",
+                  value: error.name ?? "Unknown",
+                  inline: true,
+                },
+                {
+                  name: "Status",
+                  value: "Failed",
+                  inline: true,
+                },
+                {
+                  name: "Error Cause",
+                  value: error.cause ?? "Unknown",
+                  inline: true,
+                },
+                {
+                  name: "Error Message",
+                  value: error.message?.slice(0, 1000) ?? "Unknown",
+                },
+
+                {
+                  name: "Stack Trace",
+                  value: error.stack?.slice(0, 1000) ?? "Unknown",
+                },
+              ],
+              timestamp: new Date().toISOString(),
+            },
+          ],
+        };
+
+        console.log(payload);
+
+        try {
+          await fetch(Resource.DISCORD_WORKFLOW_WEBHOOK_URL.value, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+        } catch (error) {
+          console.error("Failed to send Discord log:", error);
+        }
       },
+      // TODO: There seems to be a bug with `failureFunction` for now
+      // failureFunction: async ({
+      //   context,
+      //   failStatus,
+      //   failResponse,
+      //   failHeaders,
+      // }) => {
+      //   console.error("Update workflow failed:", failResponse);
+      //
+      //   const payload = {
+      //     embeds: [
+      //       {
+      //         title: "❌ Upstash Workflow Failed",
+      //         color: 0xff0000,
+      //         fields: [
+      //           {
+      //             name: "Status",
+      //             value: String(failStatus),
+      //             inline: true,
+      //           },
+      //           {
+      //             name: "Run ID",
+      //             value: context?.workflowRunId || "N/A",
+      //             inline: true,
+      //           },
+      //           {
+      //             name: "Response",
+      //             value: JSON.stringify(failResponse).slice(0, 1000) || "N/A",
+      //           },
+      //           {
+      //             name: "Headers",
+      //             value: JSON.stringify(failHeaders).slice(0, 1000) || "N/A",
+      //           },
+      //         ],
+      //         timestamp: new Date().toISOString(),
+      //       },
+      //     ],
+      //   };
+      //
+      //   console.log("failureFunction", payload);
+      //
+      //   try {
+      //     await fetch(Resource.DISCORD_WORKFLOW_WEBHOOK_URL.value, {
+      //       method: "POST",
+      //       headers: { "Content-Type": "application/json" },
+      //       body: JSON.stringify(payload),
+      //     });
+      //   } catch (error) {
+      //     console.error("Failed to send Discord log:", error);
+      //   }
+      // },
     },
   ),
 );
