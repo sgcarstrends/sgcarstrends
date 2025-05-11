@@ -61,7 +61,7 @@ app.post(
       );
 
       for (const { table, updated } of results) {
-        if (updated) {
+        if (table === "cars" && updated) {
           await Promise.all(
             platforms.map((platform) =>
               publishToPlatform(context, platform, table),
