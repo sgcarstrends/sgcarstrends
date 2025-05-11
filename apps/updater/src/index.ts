@@ -5,13 +5,13 @@ import { discord } from "@updater/routes/discord";
 import { linkedin } from "@updater/routes/linkedin";
 import { telegram } from "@updater/routes/telegram";
 import { twitter } from "@updater/routes/twitter";
-import { publishToSocialMedia } from "@updater/utils/social-media-publisher";
+// import { publishToSocialMedia } from "@updater/utils/social-media-publisher";
 // import { updateCOEPQP } from "@updater/lib/updateCOEPQP";
 import { Hono } from "hono";
 import { handle } from "hono/aws-lambda";
-// import { bearerAuth } from "hono/bearer-auth";
+import { bearerAuth } from "hono/bearer-auth";
 import { showRoutes } from "hono/dev";
-// import { Resource } from "sst";
+import { Resource } from "sst";
 import packageJson from "../package.json" assert { type: "json" };
 // import { updateCOE } from "./lib/updateCOE";
 // import { updateCars } from "./lib/updateCars";
@@ -26,7 +26,9 @@ app.get("/", async (c) => {
   });
 });
 
-app.post("/qstash", async (c) => {
+const authMiddleware = bearerAuth({ token: Resource.UPDATER_API_TOKEN.value });
+
+app.post("/qstash", authMiddleware, async (c) => {
   const workflowRunId: string = crypto.randomUUID();
 
   const response = await client.trigger({
