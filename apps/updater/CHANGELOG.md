@@ -1,5 +1,11 @@
 # @sgcarstrends/updater
 
+## 2.3.2
+
+### Patch Changes
+
+- [#170](https://github.com/sgcarstrends/backend/pull/170) [`89080ca`](https://github.com/sgcarstrends/backend/commit/89080ca93dae33f597876889eba095de81408465) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add auto reshare of published post from page to personal account
+
 ## 2.3.1
 
 ### Patch Changes
