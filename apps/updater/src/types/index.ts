@@ -1,4 +1,8 @@
-export type Stage = "dev" | "staging" | "prod";
+export enum Stage {
+  DEVELOPMENT = "dev",
+  STAGING = "staging",
+  PRODUCTION = "prod",
+}
 
 export type {
   Car,

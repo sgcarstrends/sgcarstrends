@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { UPDATER_BASE_URL } from "@updater/config";
 import { client } from "@updater/config/qstash";
 import { discord } from "@updater/routes/discord";
@@ -26,8 +27,14 @@ app.get("/", async (c) => {
 });
 
 app.post("/qstash", async (c) => {
+  const workflowRunId: string = crypto.randomUUID();
+
   const response = await client.trigger({
     url: `${UPDATER_BASE_URL}/workflow`,
+    headers: {
+      "Upstash-Workflow-RunId": workflowRunId,
+    },
+    workflowRunId,
   });
 
   console.log(response);
