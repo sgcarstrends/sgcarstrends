@@ -62,11 +62,19 @@ export const publishToPlatform = async (
     `Publish to ${platform.platform} for ${table} updates`,
     async () => {
       console.log(`Publishing to ${platform.platform} for ${table}`);
+
+      const message = [
+        "📊 New data for the month has been updated!\n",
+        "👇🏼 Here are the latest numbers.\n\n",
+      ].join("\n");
+
       const result = await platform.handler({
-        message: `Updates for ${table}`,
+        message,
         link: "https://sgcarstrends.com",
       });
+
       console.log(`[${platform.platform}]`, result);
+
       return result;
     },
   );
