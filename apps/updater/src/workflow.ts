@@ -1,4 +1,3 @@
-import redis from "@updater/config/redis";
 import { postToDiscord } from "@updater/lib/discord/post-to-discord";
 import { postToLinkedin } from "@updater/lib/linkedin/post-to-linkedin";
 import { postToTelegram } from "@updater/lib/telegram/post-to-telegram";
@@ -6,27 +5,18 @@ import { postToTwitter } from "@updater/lib/twitter/post-to-twitter";
 import { updateCOE } from "@updater/lib/updateCOE";
 import { updateCOEPQP } from "@updater/lib/updateCOEPQP";
 import { updateCars } from "@updater/lib/updateCars";
-import type { UpdaterResult } from "@updater/lib/updater";
-import { Stage } from "@updater/types";
 import {
-  Platform,
-  type PostToSocialMediaParam,
-} from "@updater/types/social-media";
+  type IPlatform,
+  type Task,
+  processTask,
+  publishToPlatform,
+} from "@updater/lib/workflow";
+import { Stage } from "@updater/types";
+import { Platform } from "@updater/types/social-media";
 import { Receiver } from "@upstash/qstash";
 import { serve } from "@upstash/workflow/hono";
 import { Hono } from "hono";
 import { Resource } from "sst";
-
-interface Task {
-  name: string;
-  fn: () => Promise<UpdaterResult>;
-}
-
-interface IPlatform {
-  platform: Platform;
-  fn: ({ message, link }: PostToSocialMediaParam) => Promise<unknown>;
-  enabled: boolean;
-}
 
 const app = new Hono();
 
@@ -37,70 +27,44 @@ app.post(
   serve(
     async (context) => {
       const tasks: Task[] = [
-        { name: "cars", fn: updateCars },
-        { name: "coe", fn: updateCOE },
-        { name: "coe-pqp", fn: updateCOEPQP },
+        { name: "cars", handler: updateCars },
+        { name: "coe", handler: updateCOE },
+        { name: "coe-pqp", handler: updateCOEPQP },
       ];
 
       const platforms: IPlatform[] = [
-        { platform: Platform.Discord, fn: postToDiscord, enabled: true },
+        {
+          platform: Platform.Discord,
+          handler: postToDiscord,
+          enabled: true,
+        },
         {
           platform: Platform.LinkedIn,
-          fn: postToLinkedin,
+          handler: postToLinkedin,
           enabled: isProduction,
         },
-        { platform: Platform.Telegram, fn: postToTelegram, enabled: true },
+        {
+          platform: Platform.Telegram,
+          handler: postToTelegram,
+          enabled: true,
+        },
         {
           platform: Platform.Twitter,
-          fn: postToTwitter,
+          handler: postToTwitter,
           enabled: isProduction,
         },
       ];
 
+      // Process all tasks in parallel and collect results
       const results = await Promise.all(
-        tasks.map(({ name, fn }) =>
-          context.run(`Processing "${name}" data`, async () => {
-            console.log(`Processing "${name}" data`);
-
-            try {
-              const result = await fn();
-              const { updated } = result;
-
-              if (updated) {
-                const now = Date.now();
-                await redis.set(`lastUpdated:${name}`, now);
-                console.log(`Last updated "${name}":`, now);
-              } else {
-                console.log(`No changes for "${name}"`);
-              }
-
-              return result;
-            } catch (error) {
-              console.error(`Task "${name}" failed`, error);
-              throw error;
-            }
-          }),
-        ),
+        tasks.map(({ name, handler }) => processTask(context, name, handler)),
       );
 
       for (const { table, updated } of results) {
         if (updated) {
           await Promise.all(
-            platforms.map(
-              ({ platform, fn, enabled }) =>
-                enabled &&
-                context.run(
-                  `Publish to ${platform} for ${table} updates`,
-                  async () => {
-                    console.log(`Publishing to ${platform} for ${table}`);
-                    const result = await fn({
-                      message: `Updates for ${table}`,
-                      link: "https://sgcarstrends.com",
-                    });
-                    console.log(`[${platform}]`, result);
-                    return result;
-                  },
-                ),
+            platforms.map((platform) =>
+              publishToPlatform(context, platform, table),
             ),
           );
         }
