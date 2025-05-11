@@ -1,5 +1,15 @@
 # @sgcarstrends/updater
 
+## 2.3.1
+
+### Patch Changes
+
+- [#165](https://github.com/sgcarstrends/backend/pull/165) [`e71e831`](https://github.com/sgcarstrends/backend/commit/e71e831cf1b645ee54a1144f85938f080464376a) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update workflow to return early and skipping the next step if no records are processed
+
+- [#167](https://github.com/sgcarstrends/backend/pull/167) [`12ad505`](https://github.com/sgcarstrends/backend/commit/12ad5052d038dcdca7ba950f17528a691e13f7f4) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Secure endpoint
+
+- [#162](https://github.com/sgcarstrends/backend/pull/162) [`4d1b9b7`](https://github.com/sgcarstrends/backend/commit/4d1b9b71c2eb9f3d75c5aee7d259f7a1dd47c4fe) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update message for social media post
+
 ## 2.3.0
 
 ### Minor Changes
