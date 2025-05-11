@@ -36,10 +36,3 @@ jobs:
       environment: Production
       sst-stage: prod
     secrets: inherit
-
-#  deploy-trigger:
-#    needs: run-migrations
-#    uses: ./.github/workflows/deploy-trigger.yml
-#    secrets: inherit
-#    with:
-#      environment: 'Production'

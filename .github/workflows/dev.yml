@@ -2,9 +2,9 @@ name: Deploy (Development)
 
 on:
   push:
-    branches-ignore:
-      - main
-      - release
+    branches:
+      - '[0-9]+-*'
+      - 'feature/**'
 
 permissions:
   id-token: write

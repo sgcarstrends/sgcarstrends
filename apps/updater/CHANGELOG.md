@@ -1,5 +1,28 @@
 # @sgcarstrends/updater
 
+## 2.3.0
+
+### Minor Changes
+
+- [#148](https://github.com/sgcarstrends/backend/pull/148) [`c9622c1`](https://github.com/sgcarstrends/backend/commit/c9622c1bbe492c68d3d4ef4e878c6f2e2bb9e176) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add auto publishing to social media
+
+  - Twitter
+  - LinkedIn
+  - Discord
+  - Telegram Channel
+
+## 2.2.0
+
+### Minor Changes
+
+- [#145](https://github.com/sgcarstrends/backend/pull/145) [`ee9c229`](https://github.com/sgcarstrends/backend/commit/ee9c229afe8724ea7d7413bc075aeb54937f616a) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Remove Trigger.dev
+
+## 2.1.5
+
+### Patch Changes
+
+- [#143](https://github.com/sgcarstrends/backend/pull/143) [`edf4684`](https://github.com/sgcarstrends/backend/commit/edf4684a6518a09b7ac66139ae47f64d28a6bf38) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add Last Updated to Workflow and cache on Redis
+
 ## 2.1.4
 
 ### Patch Changes

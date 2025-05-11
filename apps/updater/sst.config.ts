@@ -30,21 +30,15 @@ export default $config({
     };
   },
   async run() {
-    const SECRET_KEYS = [
-      "UPDATER_API_TOKEN",
-      "DATABASE_URL",
-      "UPSTASH_REDIS_REST_URL",
-      "UPSTASH_REDIS_REST_TOKEN",
-      "QSTASH_CURRENT_SIGNING_KEY",
-      "QSTASH_NEXT_SIGNING_KEY",
-    ] as const;
+    const { SECRET_KEYS } = await import("./env");
+
     const secrets = Object.fromEntries(
       SECRET_KEYS.map((key) => [key, new sst.Secret(key, process.env[key])]),
     );
-    const allSecrets = Object.values(secrets);
+    const ALL_SECRETS = Object.values(secrets);
 
     const { url } = new sst.aws.Function("Updater", {
-      link: [...allSecrets],
+      link: [...ALL_SECRETS],
       handler: "src/index.handler",
       environment: {
         QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,

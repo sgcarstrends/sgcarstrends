@@ -29,3 +29,6 @@ yarn-error.log*
 .sst
 .build
 .open-next
+
+# claude code
+.claude
