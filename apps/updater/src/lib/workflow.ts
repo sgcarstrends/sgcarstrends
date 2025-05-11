@@ -31,7 +31,7 @@ export const processTask = async (
     try {
       const result = await handler();
 
-      if (result.updated) {
+      if (result.recordsProcessed > 0) {
         const now = Date.now();
         await redis.set(`lastUpdated:${name}`, now);
         console.log(`Last updated "${name}":`, now);

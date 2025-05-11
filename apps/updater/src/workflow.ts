@@ -60,14 +60,23 @@ app.post(
         tasks.map(({ name, handler }) => processTask(context, name, handler)),
       );
 
-      for (const { table, updated } of results) {
-        if (table === "cars" && updated) {
-          await Promise.all(
-            platforms.map((platform) =>
-              publishToPlatform(context, platform, table),
-            ),
-          );
-        }
+      const processedResults = results.filter(
+        ({ table, recordsProcessed }) =>
+          table === "cars" && recordsProcessed > 0,
+      );
+
+      if (processedResults.length === 0) {
+        return {
+          message: "No records processed. Skipped publishing to social media.",
+        };
+      }
+
+      for (const { table } of processedResults) {
+        await Promise.all(
+          platforms.map((platform) =>
+            publishToPlatform(context, platform, table),
+          ),
+        );
       }
     },
     {

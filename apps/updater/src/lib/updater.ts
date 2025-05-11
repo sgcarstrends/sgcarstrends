@@ -22,7 +22,6 @@ export interface UpdaterConfig<T> {
 export interface UpdaterResult {
   table: string;
   recordsProcessed: number;
-  updated: boolean;
   message: string;
   timestamp: string;
   checksum?: string;
@@ -66,7 +65,6 @@ export const updater = async <T>({
       return {
         table: tableName,
         recordsProcessed: 0,
-        updated: false,
         message,
         timestamp,
         checksum,
@@ -105,7 +103,6 @@ export const updater = async <T>({
       return {
         table: tableName,
         recordsProcessed: 0,
-        updated: false,
         message:
           "No new data to insert. The provided data matches the existing records.",
         timestamp: new Date().toISOString(),
@@ -131,7 +128,6 @@ export const updater = async <T>({
     const response = {
       table: tableName,
       recordsProcessed: totalInserted,
-      updated: true,
       message: `${totalInserted} record(s) inserted in ${Math.round(end - start)}ms`,
       timestamp: new Date().toISOString(),
     };
