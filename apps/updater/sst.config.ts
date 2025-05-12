@@ -58,6 +58,9 @@ export default $config({
 
     new upstash.QStashScheduleV2("Updater", {
       destination: `https://${DOMAINS[$app.stage]}/qstash`,
+      forwardHeaders: {
+        Authorization: `Bearer ${process.env.UPDATER_API_TOKEN}`,
+      },
       cron: UPDATER_CRON,
     });
   },
