@@ -1,5 +1,11 @@
 # @sgcarstrends/updater
 
+## 2.3.3
+
+### Patch Changes
+
+- [#174](https://github.com/sgcarstrends/backend/pull/174) [`ef93be8`](https://github.com/sgcarstrends/backend/commit/ef93be8d2d7e2544c33bb45e30ca51ca677803ea) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Fix QStash trigger endpoint returning 401 unauthorised
+
 ## 2.3.2
 
 ### Patch Changes
