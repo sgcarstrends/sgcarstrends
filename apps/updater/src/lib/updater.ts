@@ -125,6 +125,9 @@ export const updater = async <T>({
 
     await cacheChecksum(extractedFileName, checksum);
 
+    // Invalidate the cache when the table is updated
+    await db.$cache.invalidate({ tables: table });
+
     const response = {
       table: tableName,
       recordsProcessed: totalInserted,
