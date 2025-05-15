@@ -46,7 +46,7 @@ export const postToLinkedin = async ({
     console.log({ createdEntityId });
 
     if (createdEntityId) {
-      await resharePost({ createdEntityId, message });
+      await resharePost({ createdEntityId });
     }
 
     return createdEntityId;
