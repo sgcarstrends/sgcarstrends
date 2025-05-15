@@ -29,19 +29,37 @@ app.get("/", async (c) => {
 const authMiddleware = bearerAuth({ token: Resource.UPDATER_API_TOKEN.value });
 
 app.post("/qstash", authMiddleware, async (c) => {
-  const workflowRunId: string = crypto.randomUUID();
+  try {
+    const endpoints = ["cars", "coe"];
+    const workflows = endpoints.map((endpoint) => {
+      const workflowRunId: string = crypto.randomUUID();
 
-  const response = await client.trigger({
-    url: `${UPDATER_BASE_URL}/workflow`,
-    headers: {
-      "Upstash-Workflow-RunId": workflowRunId,
-    },
-    workflowRunId,
-  });
+      return client.trigger({
+        url: `${UPDATER_BASE_URL}/workflow/${endpoint}`,
+        headers: {
+          "Upstash-Workflow-RunId": workflowRunId,
+        },
+        workflowRunId,
+      });
+    });
 
-  console.log(response);
+    const workflowRunIds = await Promise.all(workflows);
 
-  return c.json(response);
+    return c.json({
+      success: true,
+      message: "Workflows triggered successfully",
+      workflowRunIds: workflowRunIds.map(({ workflowRunId }) => workflowRunId),
+    });
+  } catch (error) {
+    return c.json(
+      {
+        success: false,
+        message: "Failed to trigger workflows",
+        error: error.message,
+      },
+      500,
+    );
+  }
 });
 
 app.route("/workflow", workflow);
