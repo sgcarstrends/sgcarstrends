@@ -24,7 +24,7 @@ app.get("/", async (c) => {
 
 const authMiddleware = bearerAuth({ token: Resource.UPDATER_API_TOKEN.value });
 
-app.post("/qstash", authMiddleware, async (c) => {
+app.post("/workflows/trigger", authMiddleware, async (c) => {
   try {
     const endpoints = ["cars", "coe"];
     const workflows = endpoints.map((endpoint) => {
