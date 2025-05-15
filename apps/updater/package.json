@@ -20,7 +20,7 @@
     "@upstash/redis": "^1.34.8",
     "@upstash/workflow": "^0.2.12",
     "adm-zip": "^0.5.16",
-    "drizzle-orm": "^0.38.2",
+    "drizzle-orm": "0.43.1-d1468f0",
     "hono": "^4.6.14",
     "linkedin-api-client": "^0.3.0",
     "papaparse": "^5.4.1",
