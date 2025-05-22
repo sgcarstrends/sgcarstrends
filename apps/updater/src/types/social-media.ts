@@ -22,5 +22,5 @@ export interface PostToTwitterParam extends PostToSocialMediaParam {}
 
 export type ResharePostParam = {
   createdEntityId: CreatedEntityId;
-  message: string;
+  message?: string;
 };

@@ -7,7 +7,7 @@ const DOMAINS = {
   prod: `updater.${DOMAIN_NAME}`,
 };
 
-const UPDATER_CRON = "*/60 0-10 * * 1-5";
+const SCHEDULER = "*/60 0-10 * * 1-5";
 
 export default $config({
   app(input) {
@@ -56,12 +56,12 @@ export default $config({
       },
     });
 
-    new upstash.QStashScheduleV2("Updater", {
-      destination: `https://${DOMAINS[$app.stage]}/qstash`,
+    new upstash.QStashScheduleV2("Scheduler", {
+      destination: `https://${DOMAINS[$app.stage]}/workflows/trigger`,
       forwardHeaders: {
         Authorization: `Bearer ${process.env.UPDATER_API_TOKEN}`,
       },
-      cron: UPDATER_CRON,
+      cron: SCHEDULER,
     });
   },
 });
