@@ -1,10 +1,14 @@
 name: Claude PR Creation
-permissions:
-  contents: read
-  issues: write
+
 on:
   issue_comment:
     types: [created]  # Triggers when someone comments on an issue or PR
+
+permissions:
+  contents: read
+  id-token: write
+  issues: write
+  pull-requests: write
 
 jobs:
   create-pr:
