@@ -27,10 +27,17 @@ export const carsWorkflow = createWorkflow(
       };
     }
 
-    for (const { table } of processedCarResults) {
+    const message = [
+      "🚗 Fresh car registration data is here!\n",
+      "👇🏼 Check out the latest monthly numbers.\n\n",
+    ].join("\n");
+
+    const link = "https://sgcarstrends.com/cars";
+
+    for (const _ of processedCarResults) {
       await Promise.all(
         platforms.map((platform) =>
-          publishToPlatform(context, platform, table),
+          publishToPlatform(context, platform, { message, link }),
         ),
       );
     }

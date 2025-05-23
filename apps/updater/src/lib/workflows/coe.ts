@@ -31,10 +31,17 @@ export const coeWorkflow = createWorkflow(
       };
     }
 
-    for (const { table } of processedCOEResults) {
+    const message = [
+      "💰 Latest COE bidding results are in!\n",
+      "👇🏼 See the newest premium rates.\n\n",
+    ].join("\n");
+
+    const link = "https://sgcarstrends.com/coe";
+
+    for (const _ of processedCOEResults) {
       await Promise.all(
         platforms.map((platform) =>
-          publishToPlatform(context, platform, table),
+          publishToPlatform(context, platform, { message, link }),
         ),
       );
     }
