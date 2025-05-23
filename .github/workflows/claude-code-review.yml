@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [opened, synchronize]  # Runs on new PRs and updates
 
+permissions:
+  contents: read
+
 jobs:
   code-review:
     runs-on: ubuntu-latest
