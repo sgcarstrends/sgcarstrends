@@ -3,6 +3,7 @@ import type {
   CreatedEntityId,
   PostToLinkedInParam,
 } from "@updater/types/social-media";
+import { refreshLinkedInToken } from "@updater/utils/linkedin";
 import { RestliClient } from "linkedin-api-client";
 import { Resource } from "sst";
 
@@ -12,9 +13,13 @@ export const postToLinkedin = async ({
   message,
   link,
 }: PostToLinkedInParam): Promise<CreatedEntityId> => {
-  const accessToken = Resource.LINKEDIN_ACCESS_TOKEN.value;
+  let accessToken = Resource.LINKEDIN_ACCESS_TOKEN.value;
 
   try {
+    // Get fresh access token
+    accessToken = await refreshLinkedInToken();
+    console.log("LinkedIn token refreshed successfully");
+
     const restliClient = new RestliClient();
     restliClient.setDebugParams({ enabled: true });
     const response = await restliClient.create({
@@ -46,7 +51,7 @@ export const postToLinkedin = async ({
     console.log({ createdEntityId });
 
     if (createdEntityId) {
-      await resharePost({ createdEntityId });
+      await resharePost({ createdEntityId, accessToken });
     }
 
     return createdEntityId;

@@ -64,9 +64,6 @@ export const publishToSocialMedia = async (
         case "twitter":
           results.push(await publishToTwitter(message));
           break;
-        case "linkedin":
-          results.push(await publishToLinkedIn(message));
-          break;
         // case "facebook":
         //   results.push(await publishToFacebook(message));
         //   break;
@@ -110,33 +107,6 @@ const publishToTwitter = async (
     };
   } catch (error) {
     console.error("Twitter publishing error:", error);
-    throw error;
-  }
-};
-
-/**
- * Publish a message to LinkedIn
- *
- * @param message - The message to post
- * @returns Result of publishing operation
- */
-const publishToLinkedIn = async (
-  message: string,
-): Promise<SocialMediaPublishResult> => {
-  try {
-    const { postToLinkedIn } = await import("@updater/utils/linkedin");
-
-    const response = await postToLinkedIn(message);
-
-    console.log("Published to LinkedIn:", message);
-
-    return {
-      platform: "linkedin",
-      success: true,
-      url: `https://www.linkedin.com/feed/update/${response.id}`,
-    };
-  } catch (error) {
-    console.error("LinkedIn publishing error:", error);
     throw error;
   }
 };
