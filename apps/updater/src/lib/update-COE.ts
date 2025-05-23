@@ -1,13 +1,11 @@
-import { coe } from "@sgcarstrends/schema";
+import { coe, coePQP } from "@sgcarstrends/schema";
 import { LTA_DATAMALL_BASE_URL } from "@updater/config";
-import type { COE } from "@updater/types";
+import type { COE, PQP } from "@updater/types";
 import { updater } from "./updater";
 
-export const updateCOE = () => {
+export const updateCOE = async () => {
   const filename = "COE Bidding Results.zip";
-  const CSV_FILE = "M11-coe_results.csv";
   const url = `${LTA_DATAMALL_BASE_URL}/${filename}`;
-  const keyFields: Array<keyof COE> = ["month", "bidding_no"];
 
   const parseNumericString = (value: string | number) => {
     if (typeof value === "string") {
@@ -17,23 +15,41 @@ export const updateCOE = () => {
     return value;
   };
 
+  // Update COE bidding results
+  const coeKeyFields: Array<keyof COE> = ["month", "bidding_no"];
   const parseNumericFields: Array<keyof COE> = [
     "quota",
     "bids_success",
     "bids_received",
   ];
 
-  return updater<COE>({
+  const coeResult = await updater<COE>({
     table: coe,
     url,
-    csvFile: CSV_FILE,
-    keyFields,
+    csvFile: "M11-coe_results.csv",
+    keyFields: coeKeyFields,
     csvTransformOptions: {
       fields: Object.fromEntries(
         parseNumericFields.map((field) => [field, parseNumericString]),
       ),
     },
   });
+
+  console.log("[COE]", coeResult);
+
+  // Update COE PQP (Prevailing Quota Premium)
+  const pqpKeyFields: Array<keyof PQP> = ["month", "vehicle_class", "pqp"];
+
+  const pqpResult = await updater<PQP>({
+    table: coePQP,
+    url,
+    csvFile: "M11-coe_results_pqp.csv",
+    keyFields: pqpKeyFields,
+  });
+
+  console.log("[COE PQP]", pqpResult);
+
+  return coeResult;
 };
 
 export const handler = async () => {

@@ -1,6 +1,5 @@
 import { platforms } from "@updater/config/platforms";
-import { updateCOE } from "@updater/lib/updateCOE";
-import { updateCOEPQP } from "@updater/lib/updateCOEPQP";
+import { updateCOE } from "@updater/lib/update-COE";
 import {
   type Task,
   processTask,
@@ -11,14 +10,14 @@ import { createWorkflow } from "@upstash/workflow/hono";
 
 export const coeWorkflow = createWorkflow(
   async (context) => {
-    const coeTasks: Task[] = [
-      { name: "coe", handler: updateCOE },
-      { name: "coe-pqp", handler: updateCOEPQP },
-    ];
+    const coeTasks: Task[] = [{ name: "coe", handler: updateCOE }];
 
-    const coeResults = await Promise.all(
+    const coeTaskResults = await Promise.all(
       coeTasks.map(({ name, handler }) => processTask(context, name, handler)),
     );
+
+    // Flatten the results since updateCOE returns an array of results
+    const coeResults = coeTaskResults.flat();
 
     const processedCOEResults = coeResults.filter(
       ({ recordsProcessed }) => recordsProcessed > 0,
