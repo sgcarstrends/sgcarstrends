@@ -45,5 +45,6 @@ jobs:
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
           publish: pnpm tag-release
+          commitMode: github-api
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
