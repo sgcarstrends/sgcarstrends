@@ -1,5 +1,4 @@
 import { postToLinkedin } from "@updater/lib/linkedin/post-to-linkedin";
-import { resharePost } from "@updater/lib/linkedin/reshare-post";
 import { Hono } from "hono";
 import { Resource } from "sst";
 
@@ -22,9 +21,6 @@ linkedin.post("/post", async (c) => {
 
     const { message, link } = body;
     const createdEntityId = await postToLinkedin({ message, link });
-    if (createdEntityId) {
-      await resharePost({ createdEntityId, message });
-    }
 
     return c.json({ success: true, data: { id: createdEntityId } });
   } catch (error) {
