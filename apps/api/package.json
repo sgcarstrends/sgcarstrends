@@ -21,7 +21,7 @@
     "date-fns": "^2.30.0",
     "drizzle-orm": "0.43.1-d1468f0",
     "hono": "^4.6.5",
-    "sst": "3.11.11",
+    "sst": "^3.14.12",
     "zod": "^3.24.1"
   },
   "devDependencies": {
