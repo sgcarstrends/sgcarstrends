@@ -18,13 +18,11 @@ export default $config({
       providers: {
         aws: {
           region: "ap-southeast-1",
-          version: "6.66.2",
         },
-        cloudflare: { version: "5.37.1" },
+        cloudflare: true,
         "@upstash/pulumi": {
           email: process.env.UPSTASH_EMAIL,
           apiKey: process.env.UPSTASH_API_KEY,
-          version: "0.3.14",
         },
       },
     };
