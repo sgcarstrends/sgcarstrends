@@ -1,3 +1,4 @@
+import { SITE_URL } from "@updater/config";
 import { platforms } from "@updater/config/platforms";
 import { updateCars } from "@updater/lib/updateCars";
 import {
@@ -32,7 +33,7 @@ export const carsWorkflow = createWorkflow(
       "👇🏼 Check out the latest monthly numbers.\n\n",
     ].join("\n");
 
-    const link = "https://sgcarstrends.com/cars";
+    const link = `${SITE_URL}/cars`;
 
     for (const _ of processedCarResults) {
       await Promise.all(

@@ -1,3 +1,4 @@
+import { SITE_URL } from "@updater/config";
 import { platforms } from "@updater/config/platforms";
 import { updateCOE } from "@updater/lib/update-COE";
 import {
@@ -35,7 +36,7 @@ export const coeWorkflow = createWorkflow(
       "👇🏼 See the newest premium rates.\n\n",
     ].join("\n");
 
-    const link = "https://sgcarstrends.com/coe";
+    const link = `${SITE_URL}/coe`;
 
     for (const _ of processedCOEResults) {
       await Promise.all(
