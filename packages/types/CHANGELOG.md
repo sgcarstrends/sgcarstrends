@@ -1,5 +1,12 @@
 # @sgcarstrends/types
 
+## 0.1.0
+
+### Patch Changes
+
+- Updated dependencies [[`6390ee8`](https://github.com/sgcarstrends/backend/commit/6390ee83e871b46c80ecb289979dd9d2e029bb1b)]:
+  - @sgcarstrends/schema@0.1.0
+
 ## 0.0.3
 
 ### Patch Changes
