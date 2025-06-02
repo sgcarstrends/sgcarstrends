@@ -1,5 +1,9 @@
 import { SITE_URL } from "@updater/config";
 import { platforms } from "@updater/config/platforms";
+import {
+  getCarRegistrationsByMonth,
+  getCarsLatestMonth,
+} from "@updater/db/queries/cars";
 import { updateCars } from "@updater/lib/updateCars";
 import {
   type Task,
@@ -28,12 +32,25 @@ export const carsWorkflow = createWorkflow(
       };
     }
 
+    // Get latest updated month for cars from the database
+    const { month } = await getCarsLatestMonth();
+
+    const result = await getCarRegistrationsByMonth(month);
+
     const message = [
-      "🚗 Fresh car registration data is here!\n",
-      "👇🏼 Check out the latest monthly numbers.\n\n",
+      `🚗 Updated car registration data for ${result.month}!`,
+      `\n📊 Total registrations: ${result.total.toLocaleString()}`,
+      "\n⚡ By Fuel Type:",
+      ...Object.entries(result.fuelType).map(
+        ([type, count]) => `${type}: ${count.toLocaleString()}`,
+      ),
+      "\n🚙 By Vehicle Type:",
+      ...Object.entries(result.vehicleType).map(
+        ([type, count]) => `${type}: ${count.toLocaleString()}`,
+      ),
     ].join("\n");
 
-    const link = `${SITE_URL}/cars`;
+    const link = `${SITE_URL}/cars?month=${month}`;
 
     for (const _ of processedCarResults) {
       await Promise.all(
