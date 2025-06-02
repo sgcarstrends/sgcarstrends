@@ -1,5 +1,14 @@
 # @sgcarstrends/utils
 
+## 0.1.0
+
+### Patch Changes
+
+- [#203](https://github.com/sgcarstrends/backend/pull/203) [`c0c3a1e`](https://github.com/sgcarstrends/backend/commit/c0c3a1e489be9b5b914d823eedc51bb9346c7c56) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update social media contents for auto publishing each time data is being updated
+
+- Updated dependencies []:
+  - @sgcarstrends/types@0.1.0
+
 ## 0.0.3
 
 ### Patch Changes
