@@ -63,6 +63,10 @@ pnpm test:coverage
 pnpm lint
 ```
 
+## Repo Activity
+
+![Alt](https://repobeats.axiom.co/api/embed/258928105d0fb955b3e6c42387ac59340df721e8.svg "Repobeats analytics image")
+
 ## License
 
 MIT

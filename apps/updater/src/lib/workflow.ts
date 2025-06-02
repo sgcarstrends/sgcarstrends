@@ -52,30 +52,19 @@ export const processTask = async (
 export const publishToPlatform = async (
   context: WorkflowContext,
   platform: IPlatform,
-  table: string,
+  options: { message: string; link: string },
 ): Promise<unknown | false> => {
   if (!platform.enabled) {
     return false;
   }
 
-  return context.run(
-    `Publish to ${platform.platform} for ${table} updates`,
-    async () => {
-      console.log(`Publishing to ${platform.platform} for ${table}`);
+  return context.run(`Publish to ${platform.platform}`, async () => {
+    console.log(`Publishing to ${platform.platform}`);
 
-      const message = [
-        "📊 New data for the month has been updated!\n",
-        "👇🏼 Here are the latest numbers.\n\n",
-      ].join("\n");
+    const result = await platform.handler(options);
 
-      const result = await platform.handler({
-        message,
-        link: "https://sgcarstrends.com",
-      });
+    console.log(`[${platform.platform}]`, result);
 
-      console.log(`[${platform.platform}]`, result);
-
-      return result;
-    },
-  );
+    return result;
+  });
 };

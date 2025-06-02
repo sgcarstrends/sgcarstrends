@@ -1,6 +1,8 @@
+import { formatOrdinal } from "@sgcarstrends/utils";
+import { SITE_URL } from "@updater/config";
 import { platforms } from "@updater/config/platforms";
-import { updateCOE } from "@updater/lib/updateCOE";
-import { updateCOEPQP } from "@updater/lib/updateCOEPQP";
+import { getCoeLatestMonth, getLatestCoeResult } from "@updater/db/queries/coe";
+import { updateCOE } from "@updater/lib/update-COE";
 import {
   type Task,
   processTask,
@@ -11,14 +13,14 @@ import { createWorkflow } from "@upstash/workflow/hono";
 
 export const coeWorkflow = createWorkflow(
   async (context) => {
-    const coeTasks: Task[] = [
-      { name: "coe", handler: updateCOE },
-      { name: "coe-pqp", handler: updateCOEPQP },
-    ];
+    const coeTasks: Task[] = [{ name: "coe", handler: updateCOE }];
 
-    const coeResults = await Promise.all(
+    const coeTaskResults = await Promise.all(
       coeTasks.map(({ name, handler }) => processTask(context, name, handler)),
     );
+
+    // Flatten the results since updateCOE returns an array of results
+    const coeResults = coeTaskResults.flat();
 
     const processedCOEResults = coeResults.filter(
       ({ recordsProcessed }) => recordsProcessed > 0,
@@ -31,10 +33,23 @@ export const coeWorkflow = createWorkflow(
       };
     }
 
-    for (const { table } of processedCOEResults) {
+    const { month, bidding_no: biddingNo } = await getCoeLatestMonth();
+    const result = await getLatestCoeResult({ month, biddingNo });
+
+    const message = [
+      `💰 Latest COE results for ${result[0]?.month} (${formatOrdinal(result[0]?.bidding_no)} Bidding)!`,
+      "\n💸 Premium rates by category:",
+      ...result.map(
+        (coe) => `${coe.vehicle_class}: $${coe.premium.toLocaleString()}`,
+      ),
+    ].join("\n");
+
+    const link = `${SITE_URL}/coe`;
+
+    for (const _ of processedCOEResults) {
       await Promise.all(
         platforms.map((platform) =>
-          publishToPlatform(context, platform, table),
+          publishToPlatform(context, platform, { message, link }),
         ),
       );
     }

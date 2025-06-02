@@ -1,6 +1,6 @@
 {
   "name": "@sgcarstrends/updater",
-  "version": "2.3.3",
+  "version": "2.4.0",
   "description": "Scheduler for downloading and updating cars and COE data.",
   "scripts": {
     "dev": "sst dev --stage dev",
@@ -24,7 +24,7 @@
     "hono": "^4.6.14",
     "linkedin-api-client": "^0.3.0",
     "papaparse": "^5.4.1",
-    "sst": "3.11.11",
+    "sst": "^3.14.12",
     "twitter-api-v2": "^1.23.0"
   },
   "devDependencies": {

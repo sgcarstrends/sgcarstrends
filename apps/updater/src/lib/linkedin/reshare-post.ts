@@ -4,12 +4,13 @@ import { Resource } from "sst";
 export const resharePost = async ({
   createdEntityId,
   message,
-}: ResharePostParam) => {
+  accessToken,
+}: ResharePostParam & { accessToken: string }) => {
   try {
     await fetch("https://api.linkedin.com/rest/posts", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${Resource.LINKEDIN_ACCESS_TOKEN.value}`,
+        Authorization: `Bearer ${accessToken}`,
         "LinkedIn-Version": "202504",
       },
       body: JSON.stringify({

@@ -1,6 +1,6 @@
 {
   "name": "@sgcarstrends/utils",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Utility functions for SG Cars Trends",
   "main": "src/index.ts",
   "scripts": {
