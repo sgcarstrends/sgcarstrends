@@ -1,5 +1,7 @@
+import { formatOrdinal } from "@sgcarstrends/utils";
 import { SITE_URL } from "@updater/config";
 import { platforms } from "@updater/config/platforms";
+import { getCoeLatestMonth, getLatestCoeResult } from "@updater/db/queries/coe";
 import { updateCOE } from "@updater/lib/update-COE";
 import {
   type Task,
@@ -31,9 +33,15 @@ export const coeWorkflow = createWorkflow(
       };
     }
 
+    const { month, bidding_no: biddingNo } = await getCoeLatestMonth();
+    const result = await getLatestCoeResult({ month, biddingNo });
+
     const message = [
-      "💰 Latest COE bidding results are in!\n",
-      "👇🏼 See the newest premium rates.\n\n",
+      `💰 Latest COE results for ${result[0]?.month} (${formatOrdinal(result[0]?.bidding_no)} Bidding)!`,
+      "\n💸 Premium rates by category:",
+      ...result.map(
+        (coe) => `${coe.vehicle_class}: $${coe.premium.toLocaleString()}`,
+      ),
     ].join("\n");
 
     const link = `${SITE_URL}/coe`;
