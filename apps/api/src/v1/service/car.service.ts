@@ -1,37 +1,35 @@
 import { HYBRID_REGEX, MPV_REGEX } from "@api/config";
 import db from "@api/config/db";
 import { getLatestMonth } from "@api/lib/getLatestMonth";
-import type { Car } from "@api/schemas";
+import { getCarMetricsData } from "@api/queries";
 import { cars } from "@sgcarstrends/schema";
-import { formatPercentage, getTrailingSixMonths } from "@sgcarstrends/utils";
+import { getTrailingSixMonths } from "@sgcarstrends/utils";
 import { type SQL, and, between, desc, eq, ilike, sql } from "drizzle-orm";
 
 namespace Metric {
-  export interface Breakdown {
-    period: string;
-    value: number;
-    abs_change: number;
-    pct_change: number;
+  export interface CategoryCount {
+    label: string;
+    count: number;
   }
 
-  export interface Group {
-    label: string;
-    current: number;
-    monthly: Breakdown;
-    yearly: Breakdown;
+  export interface PeriodData {
+    total: number;
+    fuelType: CategoryCount[];
+    vehicleType: CategoryCount[];
+  }
+
+  export interface PeriodInfo {
+    period: string;
+    total: number;
+    fuelType: CategoryCount[];
+    vehicleType: CategoryCount[];
   }
 
   export interface Response {
-    period: string;
-    metrics: {
-      total_registrations: {
-        label: string;
-        current: number;
-        monthly: Breakdown;
-        yearly: Breakdown;
-      };
-      fuel_types: Group[];
-      vehicle_types: Group[];
+    data: {
+      currentMonth: PeriodInfo;
+      previousMonth: PeriodInfo;
+      previousYear: PeriodInfo;
     };
   }
 }
@@ -88,154 +86,69 @@ export const getCarMetricsForPeriod = async (
   const previousMonthPeriod = `${prevMonthYear}-${prevMonth.toString().padStart(2, "0")}`;
   const previousYearPeriod = `${year - 1}-${monthStr}`;
 
-  const currentDataQ = db
-    .select()
-    .from(cars)
-    .where(eq(cars.month, currentPeriod));
-  const previousMonthDataQ = db
-    .select()
-    .from(cars)
-    .where(eq(cars.month, previousMonthPeriod));
-  const previousYearDataQ = db
-    .select()
-    .from(cars)
-    .where(eq(cars.month, previousYearPeriod));
-
-  const [currentData, previousMonthData, previousYearData] = await Promise.all([
-    currentDataQ,
-    previousMonthDataQ,
-    previousYearDataQ,
-  ]);
-
-  const sumNumbers = (data: Car[]) =>
-    data.reduce((sum, { number }) => sum + number, 0);
-
-  const totalRegistrations = {
-    current: sumNumbers(currentData),
-    previousMonth: sumNumbers(previousMonthData),
-    previousYear: sumNumbers(previousYearData),
-  };
-
-  const calculatePctChange = (current: number, previous: number) => {
-    if (previous === 0) {
-      return 0;
-    }
-
-    return formatPercentage((current - previous) / previous);
-  };
-
-  const groupByProperty = (data: Car[], prop: keyof Car) =>
-    data.reduce(
-      (acc, record) => {
-        const key = record[prop];
-        acc[key] = (acc[key] || 0) + record.number;
-        return acc;
-      },
-      {} as Record<string, number>,
+  const { currentData, previousMonthData, previousYearData } =
+    await getCarMetricsData(
+      currentPeriod,
+      previousMonthPeriod,
+      previousYearPeriod,
     );
 
-  const currentFuelData = groupByProperty(currentData, "fuel_type");
-  const previousMonthFuelData = groupByProperty(previousMonthData, "fuel_type");
-  const previousYearFuelData = groupByProperty(previousYearData, "fuel_type");
+  const processData = (
+    data: Array<{ number: number; fuel_type: string; vehicle_type: string }>,
+  ) => {
+    let total = 0;
+    const fuelGroups: Record<string, number> = {};
+    const vehicleGroups: Record<string, number> = {};
 
-  const currentVehicleData = groupByProperty(currentData, "vehicle_type");
-  const previousMonthVehicleData = groupByProperty(
-    previousMonthData,
-    "vehicle_type",
-  );
-  const previousYearVehicleData = groupByProperty(
-    previousYearData,
-    "vehicle_type",
-  );
+    for (const record of data) {
+      total += record.number;
+      fuelGroups[record.fuel_type] =
+        (fuelGroups[record.fuel_type] || 0) + record.number;
+      vehicleGroups[record.vehicle_type] =
+        (vehicleGroups[record.vehicle_type] || 0) + record.number;
+    }
 
-  const fuelTypes = Array.from(
-    new Set([
-      ...Object.keys(currentFuelData),
-      ...Object.keys(previousMonthFuelData),
-      ...Object.keys(previousYearFuelData),
-    ]),
-  );
+    return { total, fuelGroups, vehicleGroups };
+  };
 
-  const fuelTypesData: Metric.Group[] = fuelTypes.map((fuel) => {
-    const currentCount = currentFuelData[fuel] || 0;
-    const prevMonthCount = previousMonthFuelData[fuel] || 0;
-    const prevYearCount = previousYearFuelData[fuel] || 0;
-    return {
-      label: fuel,
-      current: currentCount,
-      monthly: {
-        period: previousMonthPeriod,
-        value: prevMonthCount,
-        abs_change: currentCount - prevMonthCount,
-        pct_change: calculatePctChange(currentCount, prevMonthCount),
-      },
-      yearly: {
-        period: previousYearPeriod,
-        value: prevYearCount,
-        abs_change: currentCount - prevYearCount,
-        pct_change: calculatePctChange(currentCount, prevYearCount),
-      },
-    };
-  });
+  const current = processData(currentData);
+  const previousMonth = processData(previousMonthData);
+  const previousYear = processData(previousYearData);
 
-  const vehicleTypes = Array.from(
-    new Set([
-      ...Object.keys(currentVehicleData),
-      ...Object.keys(previousMonthVehicleData),
-      ...Object.keys(previousYearVehicleData),
-    ]),
-  );
-  const vehicleTypesData: Metric.Group[] = vehicleTypes.map((type) => {
-    const currentCount = currentVehicleData[type] || 0;
-    const prevMonthCount = previousMonthVehicleData[type] || 0;
-    const prevYearCount = previousYearVehicleData[type] || 0;
-    return {
-      label: type,
-      current: currentCount,
-      monthly: {
-        period: previousMonthPeriod,
-        value: prevMonthCount,
-        abs_change: currentCount - prevMonthCount,
-        pct_change: calculatePctChange(currentCount, prevMonthCount),
-      },
-      yearly: {
-        period: previousYearPeriod,
-        value: prevYearCount,
-        abs_change: currentCount - prevYearCount,
-        pct_change: calculatePctChange(currentCount, prevYearCount),
-      },
-    };
+  interface ProcessedMetrics {
+    total: number;
+    fuelGroups: Record<string, number>;
+    vehicleGroups: Record<string, number>;
+  }
+
+  const createCategoryData = (
+    groups: Record<string, number>,
+  ): Metric.CategoryCount[] =>
+    Object.entries(groups)
+      .filter(([, count]) => count > 0)
+      .map(([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count);
+
+  const createPeriodData = (metrics: ProcessedMetrics): Metric.PeriodData => ({
+    total: metrics.total,
+    fuelType: createCategoryData(metrics.fuelGroups),
+    vehicleType: createCategoryData(metrics.vehicleGroups),
   });
 
   return {
-    period: currentPeriod,
-    metrics: {
-      total_registrations: {
-        label: "Total Registrations",
-        current: totalRegistrations.current,
-        monthly: {
-          period: previousMonthPeriod,
-          value: totalRegistrations.previousMonth,
-          abs_change:
-            totalRegistrations.current - totalRegistrations.previousMonth,
-          pct_change: calculatePctChange(
-            totalRegistrations.current,
-            totalRegistrations.previousMonth,
-          ),
-        },
-        yearly: {
-          period: previousYearPeriod,
-          value: totalRegistrations.previousYear,
-          abs_change:
-            totalRegistrations.current - totalRegistrations.previousYear,
-          pct_change: calculatePctChange(
-            totalRegistrations.current,
-            totalRegistrations.previousYear,
-          ),
-        },
+    data: {
+      currentMonth: {
+        period: currentPeriod,
+        ...createPeriodData(current),
       },
-      fuel_types: fuelTypesData,
-      vehicle_types: vehicleTypesData,
+      previousMonth: {
+        period: previousMonthPeriod,
+        ...createPeriodData(previousMonth),
+      },
+      previousYear: {
+        period: previousYearPeriod,
+        ...createPeriodData(previousYear),
+      },
     },
   };
 };
