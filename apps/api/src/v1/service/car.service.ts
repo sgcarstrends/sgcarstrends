@@ -1,7 +1,7 @@
 import { HYBRID_REGEX, MPV_REGEX } from "@api/config";
 import db from "@api/config/db";
 import { getLatestMonth } from "@api/lib/getLatestMonth";
-import { getCarMetricsData } from "@api/queries";
+import { getCarsByMonth } from "@api/queries";
 import { cars } from "@sgcarstrends/schema";
 import { getTrailingSixMonths } from "@sgcarstrends/utils";
 import { type SQL, and, between, desc, eq, ilike, sql } from "drizzle-orm";
@@ -69,6 +69,24 @@ export const fetchCars = (filters: SQL<unknown>[]) =>
     .from(cars)
     .where(and(...filters))
     .orderBy(desc(cars.month));
+
+const getCarMetricsData = async (
+  currentPeriod: string,
+  previousMonthPeriod: string,
+  previousYearPeriod: string,
+) => {
+  const [currentData, previousMonthData, previousYearData] = await Promise.all([
+    getCarsByMonth(currentPeriod),
+    getCarsByMonth(previousMonthPeriod),
+    getCarsByMonth(previousYearPeriod),
+  ]);
+
+  return {
+    currentData,
+    previousMonthData,
+    previousYearData,
+  };
+};
 
 export const getCarMetricsForPeriod = async (
   currentPeriod: string,
