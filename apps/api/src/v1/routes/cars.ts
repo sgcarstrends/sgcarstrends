@@ -5,6 +5,7 @@ import {
   CarQuerySchema,
   CarsRegistrationQuerySchema,
   ComparisonQuerySchema,
+  ComparisonResponseSchema,
   MonthsQuerySchema,
 } from "@api/schemas";
 import { successResponse } from "@api/utils/responses";
@@ -13,12 +14,12 @@ import {
   fetchCars,
   getCarMetricsForPeriod,
 } from "@api/v1/service/car.service";
+import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
 import { and, asc, eq, ne, sum } from "drizzle-orm";
-import { Hono } from "hono";
 
-const app = new Hono();
+const app = new OpenAPIHono();
 
 app.get("/", zValidator("query", CarQuerySchema), async (c) => {
   const query = c.req.query();
@@ -82,17 +83,41 @@ app.get(
   },
 );
 
-app.get("/compare", zValidator("query", ComparisonQuerySchema), async (c) => {
-  const { month } = c.req.query();
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/compare",
+    summary: "Compare car registration metrics",
+    description:
+      "Get car registration metrics for a specific month compared to previous month and same month in previous year",
+    // tags: ["Cars"],
+    request: { query: ComparisonQuerySchema },
+    responses: {
+      200: {
+        description: "Car registration metrics comparison",
+        content: {
+          "application/json": {
+            schema: ComparisonResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const { month } = c.req.query();
 
-  try {
-    const metrics = await getCarMetricsForPeriod(month);
-    return c.json(metrics);
-  } catch (e) {
-    console.error("Error fetching car metrics:", e);
-    return c.json({ error: "Internal server error" }, 500);
-  }
-});
+    try {
+      const metrics = await getCarMetricsForPeriod(month);
+      return c.json(metrics);
+    } catch (e) {
+      console.error("Error fetching car metrics:", e);
+      return c.json({ error: "Internal server error" }, 500);
+    }
+  },
+);
 
 app.get("/months", zValidator("query", MonthsQuerySchema), async (c) => {
   const { grouped } = c.req.query();

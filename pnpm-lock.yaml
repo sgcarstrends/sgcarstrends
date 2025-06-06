@@ -27,7 +27,7 @@ importers:
         version: 22.13.9
       '@vitest/coverage-v8':
         specifier: ^3.1.2
-        version: 3.1.2(vitest@3.1.2(@types/node@22.13.9)(jiti@1.21.7))
+        version: 3.1.2(vitest@3.1.2(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0))
       turbo:
         specifier: ^2.4.4
         version: 2.4.4
@@ -36,16 +36,22 @@ importers:
         version: 5.8.2
       vitest:
         specifier: ^3.1.2
-        version: 3.1.2(@types/node@22.13.9)(jiti@1.21.7)
+        version: 3.1.2(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0)
 
   apps/api:
     dependencies:
+      '@hono/zod-openapi':
+        specifier: ^0.19.8
+        version: 0.19.8(hono@4.7.2)(zod@3.24.2)
       '@hono/zod-validator':
         specifier: ^0.4.2
         version: 0.4.3(hono@4.7.2)(zod@3.24.2)
       '@neondatabase/serverless':
         specifier: ^0.10.4
         version: 0.10.4
+      '@scalar/hono-api-reference':
+        specifier: ^0.9.3
+        version: 0.9.3(hono@4.7.2)
       '@sgcarstrends/schema':
         specifier: workspace:*
         version: link:../../packages/schema
@@ -68,13 +74,13 @@ importers:
         specifier: 0.43.1-d1468f0
         version: 0.43.1-d1468f0(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0)
       hono:
-        specifier: ^4.6.5
+        specifier: ^4.7.2
         version: 4.7.2
       sst:
         specifier: ^3.14.12
         version: 3.16.0
       zod:
-        specifier: ^3.24.1
+        specifier: ^3.24.2
         version: 3.24.2
     devDependencies:
       drizzle-kit:
@@ -201,6 +207,11 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
+
+  '@asteasolutions/zod-to-openapi@7.3.2':
+    resolution: {integrity: sha512-Wvl+jHwSgYrRc3tQLMG7Qxq6wn0WjDk8E9ZA0lAyW73FqK18XPHVIKpk0lA6L0S+zmzzNKTndeV2v/Or0LyfHQ==}
+    peerDependencies:
+      zod: ^3.20.2
 
   '@aws-crypto/sha256-browser@5.2.0':
     resolution: {integrity: sha512-AXfN/lGotSQwu6HNcEsIASo7kWXZ5HYWvfOmSNKDsEqC4OashTp8alTmaz+F7TC2L083SFv5RdB+qU3Vs1kZqw==}
@@ -760,11 +771,24 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@hono/zod-openapi@0.19.8':
+    resolution: {integrity: sha512-CHUSW0K+bDGUYXovxQSbVjZffzoPeTsGu6wevPoGSmBdPuUw5yZqDeomnvyAAAAvEjhLQPlAsUyASc1Zi35exQ==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      hono: '>=4.3.6'
+      zod: 3.*
+
   '@hono/zod-validator@0.4.3':
     resolution: {integrity: sha512-xIgMYXDyJ4Hj6ekm9T9Y27s080Nl9NXHcJkOvkXPhubOLj8hZkOL8pDnnXfvCf5xEE8Q4oMFenQUZZREUY2gqQ==}
     peerDependencies:
       hono: '>=3.9.0'
       zod: ^3.19.1
+
+  '@hono/zod-validator@0.7.0':
+    resolution: {integrity: sha512-qe2ZE6sHFE98dcUrbYMtS3bAV8hqcCOflykvZga2S7XhmNSZzT+dIz4OuMILsjLHkJw9JMn912/dB7dQOmuPvg==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      zod: ^3.25.0
 
   '@httptoolkit/websocket-stream@6.0.1':
     resolution: {integrity: sha512-A0NOZI+Glp3Xgcz6Na7i7o09+/+xm2m0UCU8gdtM2nIv6/cjLmhMZMqehSpTlgbx9omtLmV8LVqOskPEyWnmZQ==}
@@ -927,6 +951,24 @@ packages:
     resolution: {integrity: sha512-ECyOuDeH3C1I8jH2MK1RtBJW+YPMvSfT0a5NN0nHfQYnDSJ6tUiZH3gzwVP5/Kfh/+Tt7tpWVF9LXNTnhTJ3kA==}
     cpu: [x64]
     os: [win32]
+
+  '@scalar/core@0.3.2':
+    resolution: {integrity: sha512-XxB9/xVEVYpBgVyUoAjoALaFkJMvz+7GjSTYyc1jKVP7o5VAdvNTDWdGMNqlYtzpQmco7LQllb7aAmDo33S4xg==}
+    engines: {node: '>=20'}
+
+  '@scalar/hono-api-reference@0.9.3':
+    resolution: {integrity: sha512-UzdciNNyABx3iiqA2H9ljiU/nJaHDHpNbK85ZsOWDLN4QLnpWeBOTzhL5CZr5C8D33B1AKsvTYaqnQGKp1If6w==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      hono: ^4.0.0
+
+  '@scalar/openapi-types@0.3.2':
+    resolution: {integrity: sha512-O1AnVF29Z34TTiuMPzA8Bi9zAZuxLq5xGbW5vLvm9zUkwtI1v/mUsDNiWF3b0oOdk5LlVkrppKvI3xRFYUiyXg==}
+    engines: {node: '>=20'}
+
+  '@scalar/types@0.2.2':
+    resolution: {integrity: sha512-56KPwde4+zemnA/Nln6TP0ezBiem7K/UcEk94WhsPZU8PV9DVScyepCPU1xEMCNayMrOGG9OHybYyXKkbqt/fA==}
+    engines: {node: '>=20'}
 
   '@smithy/abort-controller@4.0.3':
     resolution: {integrity: sha512-AqXFf6DXnuRBXy4SoK/n1mfgHaKaq36bmkphmD1KO0nHq6xK/g9KHSW4HEsPQUBCGdIEfuJifGHwxFXPIFay9Q==}
@@ -2076,6 +2118,11 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  nanoid@5.1.5:
+    resolution: {integrity: sha512-Ir/+ZpE9fDsNH0hQ3C68uyThDXzYcim2EqcZ8zn8Chtt1iylPT9xXJB0kPCnqzgcEGikO9RxSrh63MsmVCU7Fw==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+
   negotiator@1.0.0:
     resolution: {integrity: sha512-8Ofs/AUQh8MaEcrlq5xOX0CQ9ypTF5dl78mjlMNfOK08fzpgTHQRQPBxcPlEtIw0yRpws+Zo/3r+5WRby7u3Gg==}
     engines: {node: '>= 0.6'}
@@ -2121,6 +2168,9 @@ packages:
 
   once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
+
+  openapi3-ts@4.4.0:
+    resolution: {integrity: sha512-9asTNB9IkKEzWMcHmVZE7Ts3kC9G7AFHfs8i7caD8HbI76gEjdkId4z/AkP83xdZsH7PLAnnbl47qZkXuxpArw==}
 
   opencontrol@0.0.6:
     resolution: {integrity: sha512-QeCrpOK5D15QV8kjnGVeD/BHFLwcVr+sn4T6KKmP0WAMs2pww56e4h+eOGHb5iPOufUQXbdbBKi6WV2kk7tefQ==}
@@ -2829,6 +2879,11 @@ packages:
   yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
 
+  yaml@2.8.0:
+    resolution: {integrity: sha512-4lLa/EcQCB0cJkyts+FpIRx5G/llPxfP6VQU5KByHEhLxY3IJCH0f0Hy1MHI8sClTvsIb8qwRJ6R/ZdlDJ/leQ==}
+    engines: {node: '>= 14.6'}
+    hasBin: true
+
   zod-to-json-schema@3.24.3:
     resolution: {integrity: sha512-HIAfWdYIt1sssHfYZFCXp4rU1w2r8hVVXYIlmoa0r0gABLs5di3RCqPU5DDROogVz1pAdYBaz7HK5n9pSUNs3A==}
     peerDependencies:
@@ -2838,6 +2893,9 @@ packages:
     resolution: {integrity: sha512-/AuWwMP+YqiPbsJx5D6TfgRTc4kTLjsh5SOcd4bLsfUg2RcEXrFMJl1DGgdHy2aCfsIA/cr/1JM0xcB2GZji8g==}
     peerDependencies:
       zod: ^3.24.1
+
+  zod@3.24.1:
+    resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
 
   zod@3.24.2:
     resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
@@ -2882,6 +2940,11 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
+
+  '@asteasolutions/zod-to-openapi@7.3.2(zod@3.24.2)':
+    dependencies:
+      openapi3-ts: 4.4.0
+      zod: 3.24.2
 
   '@aws-crypto/sha256-browser@5.2.0':
     dependencies:
@@ -3629,7 +3692,19 @@ snapshots:
   '@esbuild/win32-x64@0.25.3':
     optional: true
 
+  '@hono/zod-openapi@0.19.8(hono@4.7.2)(zod@3.24.2)':
+    dependencies:
+      '@asteasolutions/zod-to-openapi': 7.3.2(zod@3.24.2)
+      '@hono/zod-validator': 0.7.0(hono@4.7.2)(zod@3.24.2)
+      hono: 4.7.2
+      zod: 3.24.2
+
   '@hono/zod-validator@0.4.3(hono@4.7.2)(zod@3.24.2)':
+    dependencies:
+      hono: 4.7.2
+      zod: 3.24.2
+
+  '@hono/zod-validator@0.7.0(hono@4.7.2)(zod@3.24.2)':
     dependencies:
       hono: 4.7.2
       zod: 3.24.2
@@ -3787,6 +3862,25 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.40.1':
     optional: true
+
+  '@scalar/core@0.3.2':
+    dependencies:
+      '@scalar/types': 0.2.2
+
+  '@scalar/hono-api-reference@0.9.3(hono@4.7.2)':
+    dependencies:
+      '@scalar/core': 0.3.2
+      hono: 4.7.2
+
+  '@scalar/openapi-types@0.3.2':
+    dependencies:
+      zod: 3.24.1
+
+  '@scalar/types@0.2.2':
+    dependencies:
+      '@scalar/openapi-types': 0.3.2
+      nanoid: 5.1.5
+      zod: 3.24.1
 
   '@smithy/abort-controller@4.0.3':
     dependencies:
@@ -4164,7 +4258,7 @@ snapshots:
     transitivePeerDependencies:
       - react
 
-  '@vitest/coverage-v8@3.1.2(vitest@3.1.2(@types/node@22.13.9)(jiti@1.21.7))':
+  '@vitest/coverage-v8@3.1.2(vitest@3.1.2(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 1.0.2
@@ -4178,7 +4272,7 @@ snapshots:
       std-env: 3.9.0
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.1.2(@types/node@22.13.9)(jiti@1.21.7)
+      vitest: 3.1.2(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -4189,13 +4283,13 @@ snapshots:
       chai: 5.2.0
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@3.1.2(vite@6.3.4(@types/node@22.13.9)(jiti@1.21.7))':
+  '@vitest/mocker@3.1.2(vite@6.3.4(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0))':
     dependencies:
       '@vitest/spy': 3.1.2
       estree-walker: 3.0.3
       magic-string: 0.30.17
     optionalDependencies:
-      vite: 6.3.4(@types/node@22.13.9)(jiti@1.21.7)
+      vite: 6.3.4(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0)
 
   '@vitest/pretty-format@3.1.2':
     dependencies:
@@ -5148,6 +5242,8 @@ snapshots:
 
   nanoid@3.3.8: {}
 
+  nanoid@5.1.5: {}
+
   negotiator@1.0.0: {}
 
   neverthrow@7.2.0: {}
@@ -5181,6 +5277,10 @@ snapshots:
   once@1.4.0:
     dependencies:
       wrappy: 1.0.2
+
+  openapi3-ts@4.4.0:
+    dependencies:
+      yaml: 2.8.0
 
   opencontrol@0.0.6:
     dependencies:
@@ -5749,13 +5849,13 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite-node@3.1.2(@types/node@22.13.9)(jiti@1.21.7):
+  vite-node@3.1.2(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.0
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 6.3.4(@types/node@22.13.9)(jiti@1.21.7)
+      vite: 6.3.4(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -5770,7 +5870,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite@6.3.4(@types/node@22.13.9)(jiti@1.21.7):
+  vite@6.3.4(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0):
     dependencies:
       esbuild: 0.25.3
       fdir: 6.4.4(picomatch@4.0.2)
@@ -5782,11 +5882,12 @@ snapshots:
       '@types/node': 22.13.9
       fsevents: 2.3.3
       jiti: 1.21.7
+      yaml: 2.8.0
 
-  vitest@3.1.2(@types/node@22.13.9)(jiti@1.21.7):
+  vitest@3.1.2(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0):
     dependencies:
       '@vitest/expect': 3.1.2
-      '@vitest/mocker': 3.1.2(vite@6.3.4(@types/node@22.13.9)(jiti@1.21.7))
+      '@vitest/mocker': 3.1.2(vite@6.3.4(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0))
       '@vitest/pretty-format': 3.1.2
       '@vitest/runner': 3.1.2
       '@vitest/snapshot': 3.1.2
@@ -5803,8 +5904,8 @@ snapshots:
       tinyglobby: 0.2.13
       tinypool: 1.0.2
       tinyrainbow: 2.0.0
-      vite: 6.3.4(@types/node@22.13.9)(jiti@1.21.7)
-      vite-node: 3.1.2(@types/node@22.13.9)(jiti@1.21.7)
+      vite: 6.3.4(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0)
+      vite-node: 3.1.2(@types/node@22.13.9)(jiti@1.21.7)(yaml@2.8.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 22.13.9
@@ -5880,6 +5981,8 @@ snapshots:
 
   yallist@4.0.0: {}
 
+  yaml@2.8.0: {}
+
   zod-to-json-schema@3.24.3(zod@3.24.2):
     dependencies:
       zod: 3.24.2
@@ -5887,5 +5990,7 @@ snapshots:
   zod-to-json-schema@3.24.5(zod@3.24.2):
     dependencies:
       zod: 3.24.2
+
+  zod@3.24.1: {}
 
   zod@3.24.2: {}
