@@ -93,7 +93,7 @@ app.openapi(
     summary: "Compare car registration metrics",
     description:
       "Get car registration metrics for a specific month compared to previous month and same month in previous year",
-    // tags: ["Cars"],
+    tags: ["Cars"],
     request: { query: ComparisonQuerySchema },
     responses: {
       200: {
@@ -129,6 +129,7 @@ app.openapi(
     summary: "Top fuel and vehicle type by month",
     description:
       "Get the most popular fuel type and vehicle type based on registration numbers for a specific month",
+    tags: ["Cars"],
     request: { query: TopTypesQuerySchema },
     responses: {
       200: {
