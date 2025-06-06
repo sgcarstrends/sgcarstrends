@@ -1,12 +1,15 @@
 import db from "@api/config/db";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
+import { getTopTypes } from "@api/queries/cars";
 import {
   CarQuerySchema,
   CarsRegistrationQuerySchema,
   ComparisonQuerySchema,
   ComparisonResponseSchema,
   MonthsQuerySchema,
+  TopTypesQuerySchema,
+  TopTypesResponseSchema,
 } from "@api/schemas";
 import { successResponse } from "@api/utils/responses";
 import {
@@ -114,6 +117,56 @@ app.openapi(
       return c.json(metrics);
     } catch (e) {
       console.error("Error fetching car metrics:", e);
+      return c.json({ error: "Internal server error" }, 500);
+    }
+  },
+);
+
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/top-types",
+    summary: "Top fuel and vehicle type by month",
+    description:
+      "Get the most popular fuel type and vehicle type based on registration numbers for a specific month",
+    request: { query: TopTypesQuerySchema },
+    responses: {
+      200: {
+        description: "Top fuel and vehicle types for the month",
+        content: {
+          "application/json": {
+            schema: TopTypesResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const { month } = c.req.query();
+
+    try {
+      const [fuelTypeResult, vehicleTypeResult] = await getTopTypes(month);
+
+      const topFuelType = {
+        name: fuelTypeResult[0].name,
+        total: fuelTypeResult[0].total,
+      };
+
+      const topVehicleType = {
+        name: vehicleTypeResult[0].name,
+        total: vehicleTypeResult[0].total,
+      };
+
+      return successResponse(c, {
+        month,
+        topFuelType,
+        topVehicleType,
+      });
+    } catch (e) {
+      console.error("Error fetching top types:", e);
       return c.json({ error: "Internal server error" }, 500);
     }
   },
