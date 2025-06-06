@@ -4,6 +4,32 @@ export const CarsRegistrationQuerySchema = z
   .object({ month: z.string() })
   .strict();
 
+export const TopTypesQuerySchema = z
+  .object({
+    month: z.string().openapi({
+      description: "Month in YYYY-MM format to get top types for",
+      example: "2025-01",
+    }),
+  })
+  .openapi({
+    description: "Query parameters for top fuel and vehicle types endpoint",
+  });
+
+export const TopTypeSchema = z
+  .object({
+    name: z.string(),
+    total: z.number(),
+  })
+  .nullable();
+
+export const TopTypesResponseSchema = z.object({
+  data: z.object({
+    month: z.string(),
+    topFuelType: TopTypeSchema,
+    topVehicleType: TopTypeSchema,
+  }),
+});
+
 export const ComparisonQuerySchema = z
   .object({
     month: z.string().openapi({
@@ -124,6 +150,7 @@ export const LatestMonthResponseSchema = z
 export const MonthsByYearSchema = z.record(z.string(), z.array(z.string()));
 
 export type ComparisonQuery = z.infer<typeof ComparisonQuerySchema>;
+export type TopTypesQuery = z.infer<typeof TopTypesQuerySchema>;
 export type MakeParams = z.infer<typeof MakeParamSchema>;
 export type MakeQuery = z.infer<typeof MakeQuerySchema>;
 export type CarQuery = z.infer<typeof CarQuerySchema>;
