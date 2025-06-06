@@ -11,8 +11,10 @@
     "lint": "biome check ."
   },
   "dependencies": {
+    "@hono/zod-openapi": "^0.19.8",
     "@hono/zod-validator": "^0.4.2",
     "@neondatabase/serverless": "^0.10.4",
+    "@scalar/hono-api-reference": "^0.9.3",
     "@sgcarstrends/schema": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
@@ -20,9 +22,9 @@
     "@upstash/redis": "^1.34.8",
     "date-fns": "^2.30.0",
     "drizzle-orm": "0.43.1-d1468f0",
-    "hono": "^4.6.5",
+    "hono": "^4.7.2",
     "sst": "^3.14.12",
-    "zod": "^3.24.1"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "drizzle-kit": "^0.30.1"

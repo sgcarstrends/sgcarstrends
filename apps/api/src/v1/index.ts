@@ -1,6 +1,6 @@
 import { getCarsByFuelType } from "@api/lib/getCarsByFuelType";
+import { OpenAPIHono } from "@hono/zod-openapi";
 import { FuelType } from "@sgcarstrends/types";
-import { Hono } from "hono";
 import { bearerAuth } from "hono/bearer-auth";
 import { Resource } from "sst";
 import cars from "./routes/cars";
@@ -8,7 +8,7 @@ import coe from "./routes/coe";
 import make from "./routes/makes";
 import months from "./routes/months";
 
-const v1 = new Hono();
+const v1 = new OpenAPIHono();
 
 v1.use(bearerAuth({ token: Resource.SG_CARS_TRENDS_API_TOKEN.value }));
 

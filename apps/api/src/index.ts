@@ -1,5 +1,6 @@
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { Scalar } from "@scalar/hono-api-reference";
 import { Ratelimit } from "@upstash/ratelimit";
-import { Hono } from "hono";
 import { handle } from "hono/aws-lambda";
 import { compress } from "hono/compress";
 import { showRoutes } from "hono/dev";
@@ -16,7 +17,7 @@ const ratelimit = new Ratelimit({
   analytics: true,
 });
 
-const app = new Hono();
+const app = new OpenAPIHono();
 
 const rateLimitMiddleware = async (c, next) => {
   const ip = c.req.header("x-forwarded-for") || "unknown";
@@ -75,13 +76,16 @@ app.notFound((c) =>
   c.json({ message: `Resource not found: ${c.req.path}` }, 404),
 );
 
-app.get("/", async (c) =>
-  c.json({
+app.doc("/docs", {
+  openapi: "3.1.0",
+  info: {
     version: packageJson.version,
-    timestamp: new Date().toISOString(),
-    message: "Welcome to the SG Cars Trends API",
-  }),
-);
+    title: "SG Cars Trends API",
+    description: packageJson.description,
+  },
+});
+
+app.get("/", Scalar({ url: "/docs" }));
 
 app.route("/v1", v1);
 

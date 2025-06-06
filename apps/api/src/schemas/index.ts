@@ -1,11 +1,44 @@
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 
 export const CarsRegistrationQuerySchema = z
   .object({ month: z.string() })
   .strict();
 
-export const ComparisonQuerySchema = z.object({
-  month: z.string(),
+export const ComparisonQuerySchema = z
+  .object({
+    month: z.string().openapi({
+      description: "Month in YYYY-MM format to compare metrics for",
+      example: "2025-01",
+    }),
+  })
+  .openapi({
+    description: "Query parameters for car metrics comparison endpoint",
+  });
+
+export const CategoryCountSchema = z.object({
+  label: z.string(),
+  count: z.number(),
+});
+
+export const PeriodDataSchema = z.object({
+  total: z.number(),
+  fuelType: z.array(CategoryCountSchema),
+  vehicleType: z.array(CategoryCountSchema),
+});
+
+export const PeriodInfoSchema = z.object({
+  period: z.string(),
+  total: z.number(),
+  fuelType: z.array(CategoryCountSchema),
+  vehicleType: z.array(CategoryCountSchema),
+});
+
+export const ComparisonResponseSchema = z.object({
+  data: z.object({
+    currentMonth: PeriodInfoSchema,
+    previousMonth: PeriodInfoSchema,
+    previousYear: PeriodInfoSchema,
+  }),
 });
 
 // Common schemas
