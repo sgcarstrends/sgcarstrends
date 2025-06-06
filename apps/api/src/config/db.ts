@@ -1,5 +1,6 @@
 import { CACHE_TTL } from "@api/config";
 import { neon } from "@neondatabase/serverless";
+import * as schema from "@sgcarstrends/schema";
 import { upstashCache } from "drizzle-orm/cache/upstash";
 import { drizzle } from "drizzle-orm/neon-http";
 import { Resource } from "sst";
@@ -12,6 +13,7 @@ export const db = drizzle(sql, {
     global: true,
     config: { ex: CACHE_TTL },
   }),
+  schema,
 });
 
 export default db;

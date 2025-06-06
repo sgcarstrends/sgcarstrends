@@ -4,12 +4,9 @@ export const CarsRegistrationQuerySchema = z
   .object({ month: z.string() })
   .strict();
 
-export const ComparisonQuerySchema = z
-  .object({
-    month: z.string(),
-    type: z.optional(z.enum(["yearly", "monthly"])),
-  })
-  .strict();
+export const ComparisonQuerySchema = z.object({
+  month: z.string(),
+});
 
 // Common schemas
 export const MonthSchema = z.string().regex(/^\d{4}-\d{2}$/); // YYYY-MM format
