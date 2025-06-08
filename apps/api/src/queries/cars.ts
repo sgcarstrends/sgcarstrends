@@ -1,6 +1,6 @@
 import db from "@api/config/db";
 import { cars } from "@sgcarstrends/schema";
-import { desc, eq, sql, sum } from "drizzle-orm";
+import { desc, eq, gt, sql, sum } from "drizzle-orm";
 
 export const getCarsByMonth = (month: string) =>
   db.query.cars.findMany({
@@ -11,6 +11,28 @@ export const getCarsByMonth = (month: string) =>
       vehicle_type: true,
     },
   });
+
+export const getCarsByFuelType = (month: string) =>
+  db
+    .select({
+      name: cars.fuel_type,
+      total: sql<number>`cast(sum(${cars.number}) as integer)`,
+    })
+    .from(cars)
+    .where(eq(cars.month, month))
+    .groupBy(cars.fuel_type)
+    .having(gt(sum(cars.number), 0));
+
+export const getCarsByVehicleType = (month: string) =>
+  db
+    .select({
+      name: cars.vehicle_type,
+      total: sql<number>`cast(sum(${cars.number}) as integer)`,
+    })
+    .from(cars)
+    .where(eq(cars.month, month))
+    .groupBy(cars.vehicle_type)
+    .having(gt(sum(cars.number), 0));
 
 export const getTopTypes = (month: string) =>
   db.batch([

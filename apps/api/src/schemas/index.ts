@@ -131,6 +131,16 @@ export const CarSchema = z.object({
   number: z.number(),
 });
 
+export const CarResponseSchema = z.array(CarSchema);
+
+export const CarsByTypeSchema = z.object({
+  month: z.string(),
+  data: z.object({
+    fuelType: z.array(CategoryCountSchema),
+    vehicleType: z.array(CategoryCountSchema),
+  }),
+});
+
 export const COESchema = z.object({
   month: z.string(),
   bidding_no: z.number(),
