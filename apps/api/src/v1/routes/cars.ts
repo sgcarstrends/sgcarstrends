@@ -1,9 +1,15 @@
 import db from "@api/config/db";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
-import { getTopTypes } from "@api/queries/cars";
+import {
+  getCarsByFuelType,
+  getCarsByVehicleType,
+  getTopTypes,
+} from "@api/queries/cars";
 import {
   CarQuerySchema,
+  CarResponseSchema,
+  CarsByTypeSchema,
   CarsRegistrationQuerySchema,
   ComparisonQuerySchema,
   ComparisonResponseSchema,
@@ -17,32 +23,64 @@ import {
   fetchCars,
   getCarMetricsForPeriod,
 } from "@api/v1/service/car.service";
-import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
+import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
 import { and, asc, eq, ne, sum } from "drizzle-orm";
 
 const app = new OpenAPIHono();
 
-app.get("/", zValidator("query", CarQuerySchema), async (c) => {
-  const query = c.req.query();
-
-  try {
-    const filters = await buildFilters(query);
-    const results = await fetchCars(filters);
-
-    return c.json(results);
-  } catch (e) {
-    console.error("Car query error:", e);
-    return c.json(
-      {
-        error: "An error occurred while fetching cars",
-        details: e.message,
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/",
+    summary: "Car registration data by month",
+    description:
+      "Get car registration data filtered by various parameters. When month is provided, returns aggregated data by fuel type and vehicle type.",
+    tags: ["Cars"],
+    request: { query: CarQuerySchema },
+    responses: {
+      200: {
+        description: "Car registration data",
+        content: {
+          "application/json": {
+            schema: z.union([CarResponseSchema, CarsByTypeSchema]),
+          },
+        },
       },
-      500,
-    );
-  }
-});
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const query = c.req.query();
+    const { month } = query;
+
+    if (month) {
+      const fuelType = await getCarsByFuelType(month);
+      const vehicleType = await getCarsByVehicleType(month);
+      const data = { fuelType, vehicleType };
+      return c.json({ month, data });
+    }
+
+    try {
+      const filters = await buildFilters(query);
+      const results = await fetchCars(filters);
+
+      return c.json(results);
+    } catch (e) {
+      console.error("Car query error:", e);
+      return c.json(
+        {
+          error: "An error occurred while fetching cars",
+          details: e.message,
+        },
+        500,
+      );
+    }
+  },
+);
 
 app.get(
   "/registration",
