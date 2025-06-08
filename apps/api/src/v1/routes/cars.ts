@@ -1,32 +1,36 @@
-import db from "@api/config/db";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import {
+  getCarRegistrationByMonth,
   getCarsByFuelType,
   getCarsByVehicleType,
+  getCarsTopMakesByFuelType,
+  getDistinctMakes,
+  getMake,
+  getMatchingMake,
   getTopTypes,
 } from "@api/queries/cars";
 import {
   CarQuerySchema,
   CarResponseSchema,
   CarsByTypeSchema,
-  CarsRegistrationQuerySchema,
   ComparisonQuerySchema,
   ComparisonResponseSchema,
+  MakeParamSchema,
+  MakeQuerySchema,
+  MakeResponseSchema,
+  MakesResponseSchema,
   MonthsQuerySchema,
+  TopMakesQuerySchema,
+  TopMakesResponseSchema,
   TopTypesQuerySchema,
   TopTypesResponseSchema,
 } from "@api/schemas";
 import { successResponse } from "@api/utils/responses";
-import {
-  buildFilters,
-  fetchCars,
-  getCarMetricsForPeriod,
-} from "@api/v1/service/car.service";
+import { getCarMetricsForPeriod } from "@api/v1/service/car.service";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
-import { and, asc, eq, ne, sum } from "drizzle-orm";
 
 const app = new OpenAPIHono();
 
@@ -57,18 +61,16 @@ app.openapi(
     const query = c.req.query();
     const { month } = query;
 
-    if (month) {
-      const fuelType = await getCarsByFuelType(month);
-      const vehicleType = await getCarsByVehicleType(month);
-      const data = { fuelType, vehicleType };
-      return c.json({ month, data });
-    }
-
     try {
-      const filters = await buildFilters(query);
-      const results = await fetchCars(filters);
+      if (month) {
+        const [{ total }] = await getCarRegistrationByMonth(month);
+        const fuelType = await getCarsByFuelType(month);
+        const vehicleType = await getCarsByVehicleType(month);
+        const data = { month, total, fuelType, vehicleType };
+        return c.json({ data });
+      }
 
-      return c.json(results);
+      return c.json({ data: null });
     } catch (e) {
       console.error("Car query error:", e);
       return c.json(
@@ -79,48 +81,6 @@ app.openapi(
         500,
       );
     }
-  },
-);
-
-app.get(
-  "/registration",
-  zValidator("query", CarsRegistrationQuerySchema),
-  async (c) => {
-    const { month } = c.req.query();
-
-    const nonZeroInNumber = and(eq(cars.month, month), ne(cars.number, 0));
-
-    const [getByFuelType, getByVehicleType, totalRecords] = await db.batch([
-      db
-        .select({ fuelType: cars.fuel_type, total: sum(cars.number) })
-        .from(cars)
-        .where(nonZeroInNumber)
-        .groupBy(cars.fuel_type),
-      db
-        .select({ vehicleType: cars.vehicle_type, total: sum(cars.number) })
-        .from(cars)
-        .where(nonZeroInNumber)
-        .groupBy(cars.vehicle_type),
-      db
-        .select({ total: sum(cars.number) })
-        .from(cars)
-        .where(nonZeroInNumber)
-        .limit(1),
-    ]);
-
-    const fuelType = Object.fromEntries(
-      getByFuelType.map(({ fuelType, total }) => [fuelType, Number(total)]),
-    );
-
-    const vehicleType = Object.fromEntries(
-      getByVehicleType.map(({ vehicleType, total }) => [
-        vehicleType,
-        Number(total),
-      ]),
-    );
-
-    const total = Number(totalRecords[0].total ?? 0);
-    return successResponse(c, { month, fuelType, vehicleType, total });
   },
 );
 
@@ -211,6 +171,42 @@ app.openapi(
   },
 );
 
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/top-makes",
+    summary: "Top makes by fuel type for a month",
+    description:
+      "Get the top 3 car makes for each fuel type based on registration numbers for a specific month",
+    tags: ["Cars"],
+    request: { query: TopMakesQuerySchema },
+    responses: {
+      200: {
+        description: "Top makes grouped by fuel type for the month",
+        content: {
+          "application/json": {
+            schema: TopMakesResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const { month } = c.req.query();
+
+    try {
+      const result = await getCarsTopMakesByFuelType(month);
+      return c.json({ data: result });
+    } catch (e) {
+      console.error("Error fetching top makes:", e);
+      return c.json({ error: "Internal server error" }, 500);
+    }
+  },
+);
+
 app.get("/months", zValidator("query", MonthsQuerySchema), async (c) => {
   const { grouped } = c.req.query();
 
@@ -222,14 +218,70 @@ app.get("/months", zValidator("query", MonthsQuerySchema), async (c) => {
   return c.json(months);
 });
 
-app.get("/makes", async (c) => {
-  const makes = await db
-    .selectDistinct({ make: cars.make })
-    .from(cars)
-    .orderBy(asc(cars.make))
-    .then((res) => res.map(({ make }) => make));
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/makes",
+    summary: "Get all car makes",
+    description: "Get a list of all available car manufacturers",
+    tags: ["Cars"],
+    responses: {
+      200: {
+        description: "List of car makes",
+        content: {
+          "application/json": {
+            schema: MakesResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const result = await getDistinctMakes();
+    const makes = result.map(({ make }) => make);
+    return c.json({ data: makes });
+  },
+);
 
-  return c.json(makes);
-});
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/makes/{make}",
+    summary: "Get car data for a specific make",
+    description:
+      "Get car registration data for a specific make, optionally filtered by month",
+    tags: ["Cars"],
+    request: {
+      params: MakeParamSchema,
+      query: MakeQuerySchema,
+    },
+    responses: {
+      200: {
+        description: "Car data for the specified make",
+        content: {
+          "application/json": {
+            schema: MakeResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const { make } = c.req.valid("param");
+    const { month } = c.req.valid("query");
+
+    const { make: matchingMake } = await getMatchingMake(make);
+
+    const result = await getMake(make, month);
+    const total = result.reduce((total, current) => total + current.count, 0);
+    return c.json({ make: matchingMake, total, data: result });
+  },
+);
 
 export default app;

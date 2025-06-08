@@ -15,6 +15,17 @@ export const TopTypesQuerySchema = z
     description: "Query parameters for top fuel and vehicle types endpoint",
   });
 
+export const TopMakesQuerySchema = z
+  .object({
+    month: z.string().openapi({
+      description: "Month in YYYY-MM format to get top makes for",
+      example: "2025-01",
+    }),
+  })
+  .openapi({
+    description: "Query parameters for top makes by fuel type endpoint",
+  });
+
 export const TopTypeSchema = z
   .object({
     name: z.string(),
@@ -28,6 +39,21 @@ export const TopTypesResponseSchema = z.object({
     topFuelType: TopTypeSchema,
     topVehicleType: TopTypeSchema,
   }),
+});
+
+export const MakeCountSchema = z.object({
+  make: z.string(),
+  count: z.number(),
+});
+
+export const FuelTypeMakesSchema = z.object({
+  fuelType: z.string(),
+  total: z.number(),
+  makes: z.array(MakeCountSchema),
+});
+
+export const TopMakesResponseSchema = z.object({
+  data: z.array(FuelTypeMakesSchema),
 });
 
 export const ComparisonQuerySchema = z
@@ -71,18 +97,10 @@ export const ComparisonResponseSchema = z.object({
 export const MonthSchema = z.string().regex(/^\d{4}-\d{2}$/); // YYYY-MM format
 
 // Makes routes
-export const MakeParamSchema = z
-  .object({
-    make: z.string(),
-  })
-  .strict();
+export const MakeParamSchema = z.object({ make: z.string() }).strict();
 
 export const MakeQuerySchema = z
-  .object({
-    month: MonthSchema.optional(),
-    fuel_type: z.string().optional(),
-    vehicle_type: z.string().optional(),
-  })
+  .object({ month: MonthSchema.optional() })
   .strict();
 
 // Cars routes
@@ -122,6 +140,22 @@ export const LatestMonthQuerySchema = z
 // Response schemas
 export const MakeArraySchema = z.array(z.string());
 
+export const MakesResponseSchema = z.object({
+  data: MakeArraySchema,
+});
+
+export const MakeItemSchema = z.object({
+  fuel_type: z.string(),
+  vehicle_type: z.string(),
+  count: z.number(),
+});
+
+export const MakeResponseSchema = z.object({
+  make: z.string(),
+  total: z.number(),
+  data: z.array(MakeItemSchema),
+});
+
 export const CarSchema = z.object({
   make: z.string(),
   model: z.string(),
@@ -135,6 +169,7 @@ export const CarResponseSchema = z.array(CarSchema);
 
 export const CarsByTypeSchema = z.object({
   month: z.string(),
+  total: z.number(),
   data: z.object({
     fuelType: z.array(CategoryCountSchema),
     vehicleType: z.array(CategoryCountSchema),

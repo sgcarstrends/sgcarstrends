@@ -19,27 +19,27 @@ const ratelimit = new Ratelimit({
 
 const app = new OpenAPIHono();
 
-const rateLimitMiddleware = async (c, next) => {
-  const ip = c.req.header("x-forwarded-for") || "unknown";
-  const { success, limit, remaining, reset } = await ratelimit.limit(ip);
-
-  c.header("X-RateLimit-Limit", limit.toString());
-  c.header("X-RateLimit-Remaining", remaining.toString());
-  c.header("X-RateLimit-Reset", reset.toString());
-
-  if (!success) {
-    return c.text("Rate limit exceeded", 429);
-  }
-
-  await next();
-};
+// const rateLimitMiddleware = async (c, next) => {
+//   const ip = c.req.header("x-forwarded-for") || "unknown";
+//   const { success, limit, remaining, reset } = await ratelimit.limit(ip);
+//
+//   c.header("X-RateLimit-Limit", limit.toString());
+//   c.header("X-RateLimit-Remaining", remaining.toString());
+//   c.header("X-RateLimit-Reset", reset.toString());
+//
+//   if (!success) {
+//     return c.text("Rate limit exceeded", 429);
+//   }
+//
+//   await next();
+// };
 
 app.use(logger());
 app.use(compress());
 app.use(prettyJSON());
-if (process.env.FEATURE_FLAG_RATE_LIMIT) {
-  app.use("*", rateLimitMiddleware);
-}
+// if (process.env.FEATURE_FLAG_RATE_LIMIT) {
+//   app.use("*", rateLimitMiddleware);
+// }
 // app.use("*", (c, next) => {
 //   c.res.headers.append("Cache-Control", "public, max-age=86400");
 //   return next();
