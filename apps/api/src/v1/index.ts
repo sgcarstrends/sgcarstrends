@@ -5,7 +5,6 @@ import { bearerAuth } from "hono/bearer-auth";
 import { Resource } from "sst";
 import cars from "./routes/cars";
 import coe from "./routes/coe";
-import make from "./routes/makes";
 import months from "./routes/months";
 
 const v1 = new OpenAPIHono();
@@ -19,7 +18,6 @@ v1.get("/", async (c) => {
 
 v1.route("/cars", cars);
 v1.route("/coe", coe);
-v1.route("/makes", make);
 v1.route("/months", months);
 
 export default v1;
