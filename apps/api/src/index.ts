@@ -1,3 +1,4 @@
+import health from "@api/v1/routes/health";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 import { Ratelimit } from "@upstash/ratelimit";
@@ -87,6 +88,7 @@ app.doc("/docs", {
 
 app.get("/", Scalar({ url: "/docs" }));
 
+app.route("/health", health);
 app.route("/v1", v1);
 
 showRoutes(app);
