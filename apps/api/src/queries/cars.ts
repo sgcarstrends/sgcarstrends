@@ -111,15 +111,17 @@ export const getTopTypes = (month: string) =>
 export const getDistinctMakes = () =>
   db.selectDistinct({ make: cars.make }).from(cars).orderBy(asc(cars.make));
 
-export const getMatchingMake = async (make: string) =>
-  db.query.cars.findFirst({
-    where: ilike(cars.make, `%${make.replaceAll("-", " ")}%`),
+export const getMatchingMake = async (make: string) => {
+  const searchPattern = make.replaceAll("-", "%");
+  return db.query.cars.findFirst({
+    where: ilike(cars.make, searchPattern),
     columns: { make: true },
   });
+};
 
 export const getMake = async (make: string, month: string) => {
-  const searchPattern = make.replaceAll("-", " ");
-  const whereConditions = [ilike(cars.make, `%${searchPattern}%`)];
+  const searchPattern = make.replaceAll("-", "%");
+  const whereConditions = [ilike(cars.make, searchPattern)];
 
   if (month) {
     whereConditions.push(eq(cars.month, month));
@@ -136,4 +138,16 @@ export const getMake = async (make: string, month: string) => {
     .where(and(...whereConditions))
     .groupBy(cars.month, cars.fuel_type, cars.vehicle_type)
     .orderBy(desc(cars.month));
+};
+
+export const getTotalByMake = async (make: string) => {
+  const searchPattern = make.replaceAll("-", "%");
+  const whereConditions = [ilike(cars.make, searchPattern)];
+
+  return db
+    .select({
+      total: sql<number>`cast(sum(${cars.number}) as integer)`,
+    })
+    .from(cars)
+    .where(and(...whereConditions));
 };

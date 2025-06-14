@@ -9,6 +9,7 @@ import {
   getMake,
   getMatchingMake,
   getTopTypes,
+  getTotalByMake,
 } from "@api/queries/cars";
 import {
   CarQuerySchema,
@@ -276,11 +277,13 @@ app.openapi(
     const { make } = c.req.valid("param");
     const { month } = c.req.valid("query");
 
-    const { make: matchingMake } = await getMatchingMake(make);
+    const matchingMake = await getMatchingMake(make);
+    const result = await getMake(matchingMake.make, month);
+    const totalResult = await getTotalByMake(matchingMake.make);
 
-    const result = await getMake(make, month);
-    const total = result.reduce((total, current) => total + current.count, 0);
-    return c.json({ make: matchingMake, total, data: result });
+    const total = totalResult[0].total ?? 0;
+
+    return c.json({ make: matchingMake.make, total, data: result });
   },
 );
 
