@@ -6,9 +6,13 @@ import {
   getCarsByFuelType,
   getCarsByVehicleType,
   getCarsTopMakesByFuelType,
+  getDistinctFuelTypes,
   getDistinctMakes,
+  getDistinctVehicleTypes,
+  getFuelTypeByMonth,
   getMake,
   getTopTypes,
+  getVehicleTypeByMonth,
 } from "@api/queries/cars";
 import {
   CarQuerySchema,
@@ -20,6 +24,7 @@ import {
   MakeQuerySchema,
   MakeResponseSchema,
   MakesResponseSchema,
+  MonthSchema,
   MonthsQuerySchema,
   TopMakesQuerySchema,
   TopMakesResponseSchema,
@@ -83,6 +88,40 @@ app.openapi(
     }
   },
 );
+
+app.get("/fuel-types", async (c) => {
+  const { month } = c.req.query();
+
+  const result = await getDistinctFuelTypes(month);
+  const fuelTypes = result.map(({ fuelType }) => fuelType);
+  return c.json({ data: fuelTypes });
+});
+
+app.get("/fuel-types/:fuelType", async (c) => {
+  const { fuelType } = c.req.param();
+  const { month } = c.req.query();
+
+  const [totalResult, result] = await getFuelTypeByMonth(fuelType, month);
+
+  return c.json({ total: totalResult[0].total, data: result });
+});
+
+app.get("/vehicle-types", async (c) => {
+  const { month } = c.req.query();
+
+  const result = await getDistinctVehicleTypes(month);
+  const vehicleTypes = result.map(({ vehicleType }) => vehicleType);
+  return c.json({ data: vehicleTypes });
+});
+
+app.get("/vehicle-types/:vehicleType", async (c) => {
+  const { vehicleType } = c.req.param();
+  const { month } = c.req.query();
+
+  const [totalResult, result] = await getVehicleTypeByMonth(vehicleType, month);
+
+  return c.json({ total: totalResult[0].total, data: result });
+});
 
 app.openapi(
   createRoute({

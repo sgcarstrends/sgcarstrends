@@ -108,6 +108,92 @@ export const getTopTypes = (month: string) =>
       .limit(1),
   ]);
 
+export const getDistinctFuelTypes = (month: string) => {
+  const whereConditions = [];
+
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  return db
+    .selectDistinct({ fuelType: cars.fuel_type })
+    .from(cars)
+    .where(and(...whereConditions))
+    .orderBy(asc(cars.fuel_type));
+};
+
+export const getFuelTypeByMonth = (fuelType: string, month: string) => {
+  const whereConditions = [
+    ilike(cars.fuel_type, fuelType.replaceAll("-", "%")),
+  ];
+
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  return db.batch([
+    db
+      .select({ total: sql<number>`cast(sum(${cars.number}) as integer)` })
+      .from(cars)
+      .where(and(...whereConditions)),
+    db
+      .select({
+        month: cars.month,
+        make: cars.make,
+        fuel_type: cars.fuel_type,
+        count: sql<number>`cast(sum(${cars.number}) as integer)`,
+      })
+      .from(cars)
+      .where(and(...whereConditions))
+      .groupBy(cars.month, cars.make, cars.fuel_type)
+      .orderBy(desc(sum(cars.number)))
+      .having(gt(sum(cars.number), 0)),
+  ]);
+};
+
+export const getDistinctVehicleTypes = (month: string) => {
+  const whereConditions = [];
+
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  return db
+    .selectDistinct({ vehicleType: cars.vehicle_type })
+    .from(cars)
+    .where(and(...whereConditions))
+    .orderBy(asc(cars.vehicle_type));
+};
+
+export const getVehicleTypeByMonth = (vehicleType: string, month: string) => {
+  const whereConditions = [
+    ilike(cars.vehicle_type, vehicleType.replaceAll("-", "%")),
+  ];
+
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  return db.batch([
+    db
+      .select({ total: sql<number>`cast(sum(${cars.number}) as integer)` })
+      .from(cars)
+      .where(and(...whereConditions)),
+    db
+      .select({
+        month: cars.month,
+        make: cars.make,
+        vehicle_type: cars.vehicle_type,
+        count: sql<number>`cast(sum(${cars.number}) as integer)`,
+      })
+      .from(cars)
+      .where(and(...whereConditions))
+      .groupBy(cars.month, cars.make, cars.vehicle_type)
+      .orderBy(desc(sum(cars.number)))
+      .having(gt(sum(cars.number), 0)),
+  ]);
+};
+
 export const getDistinctMakes = () =>
   db.selectDistinct({ make: cars.make }).from(cars).orderBy(asc(cars.make));
 
