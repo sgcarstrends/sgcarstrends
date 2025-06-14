@@ -1,15 +1,14 @@
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import {
+  checkMakeIfExist,
   getCarRegistrationByMonth,
   getCarsByFuelType,
   getCarsByVehicleType,
   getCarsTopMakesByFuelType,
   getDistinctMakes,
   getMake,
-  getMatchingMake,
   getTopTypes,
-  getTotalByMake,
 } from "@api/queries/cars";
 import {
   CarQuerySchema,
@@ -277,13 +276,18 @@ app.openapi(
     const { make } = c.req.valid("param");
     const { month } = c.req.valid("query");
 
-    const matchingMake = await getMatchingMake(make);
-    const result = await getMake(matchingMake.make, month);
-    const totalResult = await getTotalByMake(matchingMake.make);
+    const makeExists = await checkMakeIfExist(make);
+    if (!makeExists) {
+      return c.json({ error: "Make not found" }, 404);
+    }
 
-    const total = totalResult[0].total ?? 0;
+    const { total, data } = await getMake(makeExists.make, month);
 
-    return c.json({ make: matchingMake.make, total, data: result });
+    return c.json({
+      make: makeExists.make,
+      total,
+      data,
+    });
   },
 );
 

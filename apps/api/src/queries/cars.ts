@@ -111,43 +111,49 @@ export const getTopTypes = (month: string) =>
 export const getDistinctMakes = () =>
   db.selectDistinct({ make: cars.make }).from(cars).orderBy(asc(cars.make));
 
-export const getMatchingMake = async (make: string) => {
-  const searchPattern = make.replaceAll("-", "%");
-  return db.query.cars.findFirst({
-    where: ilike(cars.make, searchPattern),
-    columns: { make: true },
-  });
-};
+const createMakeSearchPattern = (make: string) => make.replaceAll("-", "%");
 
-export const getMake = async (make: string, month: string) => {
-  const searchPattern = make.replaceAll("-", "%");
-  const whereConditions = [ilike(cars.make, searchPattern)];
+const createMakeWhereConditions = (make: string, month?: string) => {
+  const whereConditions = [ilike(cars.make, createMakeSearchPattern(make))];
 
   if (month) {
     whereConditions.push(eq(cars.month, month));
   }
 
-  return db
-    .select({
-      month: cars.month,
-      fuelType: cars.fuel_type,
-      vehicleType: cars.vehicle_type,
-      count: sql<number>`cast(sum(${cars.number}) as integer)`,
-    })
-    .from(cars)
-    .where(and(...whereConditions))
-    .groupBy(cars.month, cars.fuel_type, cars.vehicle_type)
-    .orderBy(desc(cars.month));
+  return whereConditions;
 };
 
-export const getTotalByMake = async (make: string) => {
-  const searchPattern = make.replaceAll("-", "%");
-  const whereConditions = [ilike(cars.make, searchPattern)];
+export const checkMakeIfExist = (make: string) =>
+  db.query.cars.findFirst({
+    where: ilike(cars.make, createMakeSearchPattern(make)),
+    columns: { make: true },
+  });
 
-  return db
-    .select({
-      total: sql<number>`cast(sum(${cars.number}) as integer)`,
-    })
-    .from(cars)
-    .where(and(...whereConditions));
+export const getMake = async (make: string, month: string) => {
+  const whereConditions = createMakeWhereConditions(make, month);
+
+  const [totalResult, data] = await db.batch([
+    db
+      .select({
+        total: sql<number>`cast(sum(${cars.number}) as integer)`,
+      })
+      .from(cars)
+      .where(and(...whereConditions)),
+    db
+      .select({
+        month: cars.month,
+        fuelType: cars.fuel_type,
+        vehicleType: cars.vehicle_type,
+        count: sql<number>`cast(sum(${cars.number}) as integer)`,
+      })
+      .from(cars)
+      .where(and(...whereConditions))
+      .groupBy(cars.month, cars.fuel_type, cars.vehicle_type)
+      .orderBy(desc(cars.month)),
+  ]);
+
+  return {
+    total: totalResult[0].total ?? 0,
+    data,
+  };
 };
