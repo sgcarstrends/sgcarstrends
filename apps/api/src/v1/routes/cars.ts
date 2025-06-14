@@ -31,7 +31,6 @@ import {
   TopTypesQuerySchema,
   TopTypesResponseSchema,
 } from "@api/schemas";
-import { successResponse } from "@api/utils/responses";
 import { getCarMetricsForPeriod } from "@api/v1/service/car.service";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
@@ -72,10 +71,10 @@ app.openapi(
         const fuelType = await getCarsByFuelType(month);
         const vehicleType = await getCarsByVehicleType(month);
         const data = { month, total, fuelType, vehicleType };
-        return c.json({ data });
+        return c.json(data);
       }
 
-      return c.json({ data: null });
+      return c.json(null);
     } catch (e) {
       console.error("Car query error:", e);
       return c.json(
@@ -94,7 +93,7 @@ app.get("/fuel-types", async (c) => {
 
   const result = await getDistinctFuelTypes(month);
   const fuelTypes = result.map(({ fuelType }) => fuelType);
-  return c.json({ data: fuelTypes });
+  return c.json(fuelTypes);
 });
 
 app.get("/fuel-types/:fuelType", async (c) => {
@@ -103,7 +102,7 @@ app.get("/fuel-types/:fuelType", async (c) => {
 
   const [totalResult, result] = await getFuelTypeByMonth(fuelType, month);
 
-  return c.json({ total: totalResult[0].total, data: result });
+  return c.json({ total: totalResult[0].total, results: result });
 });
 
 app.get("/vehicle-types", async (c) => {
@@ -111,7 +110,7 @@ app.get("/vehicle-types", async (c) => {
 
   const result = await getDistinctVehicleTypes(month);
   const vehicleTypes = result.map(({ vehicleType }) => vehicleType);
-  return c.json({ data: vehicleTypes });
+  return c.json(vehicleTypes);
 });
 
 app.get("/vehicle-types/:vehicleType", async (c) => {
@@ -120,7 +119,7 @@ app.get("/vehicle-types/:vehicleType", async (c) => {
 
   const [totalResult, result] = await getVehicleTypeByMonth(vehicleType, month);
 
-  return c.json({ total: totalResult[0].total, data: result });
+  return c.json({ total: totalResult[0].total, results: result });
 });
 
 app.openapi(
@@ -198,7 +197,7 @@ app.openapi(
         total: vehicleTypeResult[0].total,
       };
 
-      return successResponse(c, {
+      return c.json({
         month,
         topFuelType,
         topVehicleType,
@@ -238,7 +237,7 @@ app.openapi(
 
     try {
       const result = await getCarsTopMakesByFuelType(month);
-      return c.json({ data: result });
+      return c.json(result);
     } catch (e) {
       console.error("Error fetching top makes:", e);
       return c.json({ error: "Internal server error" }, 500);
@@ -281,7 +280,7 @@ app.openapi(
   async (c) => {
     const result = await getDistinctMakes();
     const makes = result.map(({ make }) => make);
-    return c.json({ data: makes });
+    return c.json(makes);
   },
 );
 
@@ -325,7 +324,7 @@ app.openapi(
     return c.json({
       make: makeExists.make,
       total,
-      data,
+      results: data,
     });
   },
 );

@@ -34,11 +34,9 @@ export const TopTypeSchema = z
   .nullable();
 
 export const TopTypesResponseSchema = z.object({
-  data: z.object({
-    month: z.string(),
-    topFuelType: TopTypeSchema,
-    topVehicleType: TopTypeSchema,
-  }),
+  month: z.string(),
+  topFuelType: TopTypeSchema,
+  topVehicleType: TopTypeSchema,
 });
 
 export const MakeCountSchema = z.object({
@@ -52,9 +50,7 @@ export const FuelTypeMakesSchema = z.object({
   makes: z.array(MakeCountSchema),
 });
 
-export const TopMakesResponseSchema = z.object({
-  data: z.array(FuelTypeMakesSchema),
-});
+export const TopMakesResponseSchema = z.array(FuelTypeMakesSchema);
 
 export const ComparisonQuerySchema = z
   .object({
@@ -86,11 +82,9 @@ export const PeriodInfoSchema = z.object({
 });
 
 export const ComparisonResponseSchema = z.object({
-  data: z.object({
-    currentMonth: PeriodInfoSchema,
-    previousMonth: PeriodInfoSchema,
-    previousYear: PeriodInfoSchema,
-  }),
+  currentMonth: PeriodInfoSchema,
+  previousMonth: PeriodInfoSchema,
+  previousYear: PeriodInfoSchema,
 });
 
 // Common schemas
@@ -140,9 +134,7 @@ export const LatestMonthQuerySchema = z
 // Response schemas
 export const MakeArraySchema = z.array(z.string());
 
-export const MakesResponseSchema = z.object({
-  data: MakeArraySchema,
-});
+export const MakesResponseSchema = MakeArraySchema;
 
 export const MakeItemSchema = z.object({
   fuel_type: z.string(),
@@ -153,7 +145,7 @@ export const MakeItemSchema = z.object({
 export const MakeResponseSchema = z.object({
   make: z.string(),
   total: z.number(),
-  data: z.array(MakeItemSchema),
+  results: z.array(MakeItemSchema),
 });
 
 export const CarSchema = z.object({
@@ -170,10 +162,8 @@ export const CarResponseSchema = z.array(CarSchema);
 export const CarsByTypeSchema = z.object({
   month: z.string(),
   total: z.number(),
-  data: z.object({
-    fuelType: z.array(CategoryCountSchema),
-    vehicleType: z.array(CategoryCountSchema),
-  }),
+  fuelType: z.array(CategoryCountSchema),
+  vehicleType: z.array(CategoryCountSchema),
 });
 
 export const COESchema = z.object({

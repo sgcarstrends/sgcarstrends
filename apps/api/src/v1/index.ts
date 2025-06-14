@@ -13,7 +13,7 @@ v1.use(bearerAuth({ token: Resource.SG_CARS_TRENDS_API_TOKEN.value }));
 
 v1.get("/", async (c) => {
   const month = c.req.query("month");
-  return c.json(await getCarsByFuelType(FuelType.Petrol, month));
+  return c.json({ data: await getCarsByFuelType(FuelType.Petrol, month) });
 });
 
 v1.route("/cars", cars);
