@@ -71,8 +71,8 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
       drizzle-orm:
-        specifier: 0.43.1-d1468f0
-        version: 0.43.1-d1468f0(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0)
+        specifier: 0.44.0
+        version: 0.44.0(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0)
       hono:
         specifier: ^4.7.2
         version: 4.7.2
@@ -114,8 +114,8 @@ importers:
         specifier: ^0.5.16
         version: 0.5.16
       drizzle-orm:
-        specifier: 0.43.1-d1468f0
-        version: 0.43.1-d1468f0(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0)
+        specifier: 0.44.0
+        version: 0.44.0(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0)
       hono:
         specifier: ^4.6.14
         version: 4.7.2
@@ -148,8 +148,8 @@ importers:
   packages/schema:
     dependencies:
       drizzle-orm:
-        specifier: 0.43.1-d1468f0
-        version: 0.43.1-d1468f0(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0)
+        specifier: 0.44.0
+        version: 0.44.0(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0)
     devDependencies:
       drizzle-kit:
         specifier: ^0.30.1
@@ -1293,6 +1293,9 @@ packages:
   aws4fetch@1.0.18:
     resolution: {integrity: sha512-3Cf+YaUl07p24MoQ46rFwulAmiyCwH2+1zw1ZyPAX5OtJ34Hh185DwB8y/qRLb6cYYYtSFJ9pthyLc0MD4e8sQ==}
 
+  axios@1.10.0:
+    resolution: {integrity: sha512-/1xYAC4MP/HEG+3duIhFr4ZQXR4sQXOIe+o6sdqzeykGLx6Upp/1p8MHqhINOvGeP7xyNHe7tsiJByc4SSVUxw==}
+
   axios@1.9.0:
     resolution: {integrity: sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg==}
 
@@ -1492,8 +1495,8 @@ packages:
     resolution: {integrity: sha512-B2oJN5UkvwwNHscPWXDG5KqAixu7AUzZ3qbe++KU9SsQ+cZWR4DXEPYcvWplyFAno0dhRJECNEhNxiDmFaPGyQ==}
     hasBin: true
 
-  drizzle-orm@0.43.1-d1468f0:
-    resolution: {integrity: sha512-jWiknRF/tmao+qLP0o9EmZrjdXtBoj+vbeYhYGX69lyRRGJ4jR+pLjuoALeqPrL2QDku4PEEHk32iS6XdgpKkg==}
+  drizzle-orm@0.44.0:
+    resolution: {integrity: sha512-/8wYepe887Gp1eCVILKitNegclGLPUMdK4oDDyDftKJOeHoCylY+XM++chMJloy9oKTceWOALiQMl2aAuFuPTw==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=4'
@@ -1749,6 +1752,10 @@ packages:
 
   form-data@4.0.2:
     resolution: {integrity: sha512-hGfm/slu0ZabnNt4oaRZ6uREyfCj6P4fT/n6A1rGV+Z0VdGXjfOhVUpkn6qVQONHGIFwmveGXyDs75+nr6FM8w==}
+    engines: {node: '>= 6'}
+
+  form-data@4.0.3:
+    resolution: {integrity: sha512-qsITQPfmvMOSAdeyZ+12I1c+CKSstAFAwu+97zrnWAbIr5u8wfsExUzCesVLC8NgHuRUqNN4Zy6UPWUTRGslcA==}
     engines: {node: '>= 6'}
 
   forwarded@0.2.0:
@@ -4366,7 +4373,7 @@ snapshots:
     dependencies:
       '@aws-sdk/util-utf8-browser': 3.259.0
       '@httptoolkit/websocket-stream': 6.0.1
-      axios: 1.9.0
+      axios: 1.10.0
       buffer: 6.0.3
       crypto-js: 4.2.0
       mqtt: 4.3.8
@@ -4392,6 +4399,15 @@ snapshots:
       xml2js: 0.6.2
 
   aws4fetch@1.0.18: {}
+
+  axios@1.10.0:
+    dependencies:
+      follow-redirects: 1.15.9
+      form-data: 4.0.3
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    optional: true
 
   axios@1.9.0:
     dependencies:
@@ -4604,7 +4620,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.43.1-d1468f0(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0):
+  drizzle-orm@0.44.0(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@neondatabase/serverless@0.10.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@upstash/redis@1.34.8)(kysely@0.25.0):
     optionalDependencies:
       '@aws-sdk/client-rds-data': 3.758.0(aws-crt@1.25.3)
       '@neondatabase/serverless': 0.10.4
@@ -4857,6 +4873,15 @@ snapshots:
       combined-stream: 1.0.8
       es-set-tostringtag: 2.1.0
       mime-types: 2.1.35
+
+  form-data@4.0.3:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      es-set-tostringtag: 2.1.0
+      hasown: 2.0.2
+      mime-types: 2.1.35
+    optional: true
 
   forwarded@0.2.0: {}
 
