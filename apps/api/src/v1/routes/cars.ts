@@ -102,7 +102,7 @@ app.get("/fuel-types/:fuelType", async (c) => {
 
   const [totalResult, result] = await getFuelTypeByMonth(fuelType, month);
 
-  return c.json({ total: totalResult[0].total, results: result });
+  return c.json({ total: totalResult[0].total, data: result });
 });
 
 app.get("/vehicle-types", async (c) => {
@@ -119,7 +119,7 @@ app.get("/vehicle-types/:vehicleType", async (c) => {
 
   const [totalResult, result] = await getVehicleTypeByMonth(vehicleType, month);
 
-  return c.json({ total: totalResult[0].total, results: result });
+  return c.json({ total: totalResult[0].total, data: result });
 });
 
 app.openapi(
@@ -324,7 +324,7 @@ app.openapi(
     return c.json({
       make: makeExists.make,
       total,
-      results: data,
+      data,
     });
   },
 );
