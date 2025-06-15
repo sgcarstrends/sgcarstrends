@@ -137,15 +137,16 @@ export const MakeArraySchema = z.array(z.string());
 export const MakesResponseSchema = MakeArraySchema;
 
 export const MakeItemSchema = z.object({
-  fuel_type: z.string(),
-  vehicle_type: z.string(),
+  month: z.string(),
+  fuelType: z.string(),
+  vehicleType: z.string(),
   count: z.number(),
 });
 
 export const MakeResponseSchema = z.object({
   make: z.string(),
   total: z.number(),
-  results: z.array(MakeItemSchema),
+  data: z.array(MakeItemSchema),
 });
 
 export const CarSchema = z.object({
@@ -175,6 +176,14 @@ export const COESchema = z.object({
   premium: z.number(),
 });
 
+export const COEResponseSchema = z.object({
+  data: z.array(COESchema),
+});
+
+export const COEPQPResponseSchema = z.object({
+  data: z.record(z.string(), z.record(z.string(), z.number())),
+});
+
 export const LatestMonthResponseSchema = z
   .object({
     cars: MonthSchema.optional(),
@@ -195,5 +204,7 @@ export type LatestMonthQuery = z.infer<typeof LatestMonthQuerySchema>;
 
 export type Car = z.infer<typeof CarSchema>;
 export type COE = z.infer<typeof COESchema>;
+export type COEResponse = z.infer<typeof COEResponseSchema>;
+export type COEPQPResponse = z.infer<typeof COEPQPResponseSchema>;
 export type LatestMonthResponse = z.infer<typeof LatestMonthResponseSchema>;
 export type MonthsByYear = z.infer<typeof MonthsByYearSchema>;
