@@ -20,11 +20,9 @@ namespace Metric {
   }
 
   export interface Response {
-    data: {
-      currentMonth: PeriodInfo;
-      previousMonth: PeriodInfo;
-      previousYear: PeriodInfo;
-    };
+    currentMonth: PeriodInfo;
+    previousMonth: PeriodInfo;
+    previousYear: PeriodInfo;
   }
 }
 
@@ -112,19 +110,17 @@ export const getCarMetricsForPeriod = async (
   });
 
   return {
-    data: {
-      currentMonth: {
-        period: currentPeriod,
-        ...createPeriodData(current),
-      },
-      previousMonth: {
-        period: previousMonthPeriod,
-        ...createPeriodData(previousMonth),
-      },
-      previousYear: {
-        period: previousYearPeriod,
-        ...createPeriodData(previousYear),
-      },
+    currentMonth: {
+      period: currentPeriod,
+      ...createPeriodData(current),
+    },
+    previousMonth: {
+      period: previousMonthPeriod,
+      ...createPeriodData(previousMonth),
+    },
+    previousYear: {
+      period: previousYearPeriod,
+      ...createPeriodData(previousYear),
     },
   };
 };
