@@ -1,5 +1,5 @@
+import { coe } from "@api/db/schema";
 import { db } from "@api/lib/workflows/db";
-import { coe } from "@sgcarstrends/schema";
 import { and, asc, desc, eq } from "drizzle-orm";
 
 export const getCoeLatestMonth = () =>

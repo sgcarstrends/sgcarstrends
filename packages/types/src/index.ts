@@ -1,13 +1,3 @@
-// Re-export schema types
-export type {
-  InsertCar,
-  SelectCar,
-  InsertCOE,
-  SelectCOE,
-  InsertCOEPQP,
-  SelectCOEPQP,
-} from "@sgcarstrends/schema";
-
 // Enums
 export enum FuelType {
   Diesel = "Diesel",

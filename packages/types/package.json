@@ -6,8 +6,6 @@
   "scripts": {
     "dev": "tsc --watch"
   },
-  "dependencies": {
-    "@sgcarstrends/schema": "workspace:*"
-  },
+  "dependencies": {},
   "devDependencies": {}
 }

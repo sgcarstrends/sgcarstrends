@@ -1,5 +1,5 @@
 import { LTA_DATAMALL_BASE_URL } from "@api/config";
-import { cars } from "@sgcarstrends/schema";
+import { cars } from "@api/db/schema";
 import type { Car } from "@sgcarstrends/types";
 import { cleanSpecialChars } from "@sgcarstrends/utils";
 import { updater } from "./updater";
