@@ -5,7 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsc --watch",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@sgcarstrends/types": "workspace:*",
