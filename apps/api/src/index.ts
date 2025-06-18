@@ -1,3 +1,4 @@
+import updater from "@api/updater";
 import health from "@api/v1/routes/health";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
@@ -9,7 +10,6 @@ import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import packageJson from "../package.json";
-
 // import redis from "./config/redis";
 import v1 from "./v1";
 
@@ -89,9 +89,12 @@ app.doc("/docs", {
 
 app.get("/", Scalar({ url: "/docs" }));
 
+app.route("/updater", updater);
 app.route("/health", health);
 app.route("/v1", v1);
 
 showRoutes(app);
 
 export const handler = handle(app);
+
+export default app;

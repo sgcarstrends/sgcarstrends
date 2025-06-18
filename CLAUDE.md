@@ -3,10 +3,11 @@
 ## Project Overview
 
 SG Cars Trends Backend provides access to Singapore vehicle registration data and Certificate of Entitlement (COE)
-bidding results. The system consists of:
+bidding results. The system is a unified API service that includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
-- **Updater Service**: Scheduled jobs that fetch and process data from LTA DataMall (Trigger.dev)
+- **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA DataMall (QStash workflows)
+- **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available
 
 ## Commands
 
@@ -28,15 +29,14 @@ bidding results. The system consists of:
 
 ### Deployment Commands
 
-- Deploy API: `pnpm -F @sgcarstrends/api deploy`
-- Deploy Updater service: `pnpm -F @sgcarstrends/updater deploy`
-- Deploy Trigger.dev jobs: `pnpm -F @sgcarstrends/updater trigger:deploy`
-- Deploy to specific stage: `pnpm -F @sgcarstrends/<package> deploy --stage <stage-name>`
+- Deploy API (includes updater functionality): `pnpm -F @sgcarstrends/api deploy`
+- Deploy to specific stage: `pnpm -F @sgcarstrends/api deploy --stage <stage-name>`
 
 ## Code Structure
 
-- **apps/api**: API service using Hono framework
-- **apps/updater**: Data update service using Trigger.dev
+- **apps/api**: Unified API service using Hono framework with integrated updater workflows
+  - **src/v1**: API endpoints for data access
+  - **src/updater**: Workflow-based data update system and social media integration
 - **packages/schema**: Shared database schema (Drizzle ORM)
 - **packages/types**: Shared TypeScript type definitions
 - **packages/utils**: Shared utility functions
@@ -52,7 +52,7 @@ bidding results. The system consists of:
 - Constants: UPPER_CASE for true constants
 - Error handling: Use try/catch for async operations with specific error types
 - Use workspace imports for shared packages: `@sgcarstrends/utils`, etc.
-- Path aliases: Use `@api/` for imports in API app
+- Path aliases: Use `@api/` for imports in API app, `@api/updater/` for updater functionality
 - Avoid using `any` type - prefer unknown with type guards
 - Group imports by: 1) built-in, 2) external, 3) internal
 
@@ -69,11 +69,21 @@ bidding results. The system consists of:
 
 ## API Endpoints
 
+### Data Access Endpoints
 - **/v1/cars**: Car registration data (filterable by month, make, fuel type)
 - **/v1/coe**: COE bidding results
 - **/v1/coe/pqp**: COE Prevailing Quota Premium rates
 - **/v1/makes**: List of car manufacturers
 - **/v1/months/latest**: Get the latest month with data
+
+### Updater Endpoints
+- **/workflows/trigger**: Trigger data update workflows (authenticated)
+- **/workflow/cars**: Car data update workflow endpoint
+- **/workflow/coe**: COE data update workflow endpoint
+- **/linkedin**: LinkedIn posting webhook
+- **/twitter**: Twitter posting webhook
+- **/discord**: Discord posting webhook
+- **/telegram**: Telegram posting webhook
 
 ## Environment Setup
 
@@ -101,6 +111,30 @@ Required environment variables (store in .env.local for local development):
 - **coePQP**: Prevailing Quota Premium rates
 - **months**: Available data months
 - **makes**: Vehicle manufacturers
+
+## Workflow Architecture
+
+The integrated updater service uses a workflow-based architecture with:
+
+### Key Components
+- **Workflows** (`src/updater/lib/workflows/`): Cars and COE data processing workflows
+- **Task Processing** (`src/updater/lib/workflow.ts`): Common processing logic with Redis-based timestamp tracking
+- **Updater Core** (`src/updater/lib/updater.ts`): File download, checksum verification, CSV processing, and database updates
+- **Social Media** (`src/updater/lib/*/`): Platform-specific posting functionality (Discord, LinkedIn, Telegram, Twitter)
+- **QStash Integration** (`src/updater/config/qstash.ts`): Message queue functionality for workflow execution
+
+### Workflow Flow
+1. Workflows triggered via HTTP endpoints or scheduled QStash cron jobs
+2. Files downloaded and checksums verified to prevent redundant processing
+3. New data inserted into database in batches
+4. Updates published to configured social media platforms when data changes
+5. Comprehensive error handling with Discord notifications for failures
+
+### Design Principles
+- Modular and independent workflows
+- Checksum-based redundancy prevention
+- Batch database operations for efficiency
+- Conditional social media publishing based on environment and data changes
 
 ## Contribution Guidelines
 
