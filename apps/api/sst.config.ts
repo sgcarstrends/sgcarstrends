@@ -85,9 +85,9 @@ export default $config({
 
     // QStash Scheduler for updater workflows
     new upstash.QStashScheduleV2("Scheduler", {
-      destination: `https://${DOMAIN[$app.stage].name}/updater/workflows/trigger`,
+      destination: `https://${DOMAIN[$app.stage].name}/workflows/trigger`,
       forwardHeaders: {
-        Authorization: `Bearer ${process.env.UPDATER_API_TOKEN}`,
+        Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
       },
       cron: SCHEDULER,
     });
