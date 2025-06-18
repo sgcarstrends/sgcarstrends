@@ -10,7 +10,8 @@ import { handle } from "hono/aws-lambda";
 import { bearerAuth } from "hono/bearer-auth";
 import { showRoutes } from "hono/dev";
 import { Resource } from "sst";
-import packageJson from "../package.json" assert { type: "json" };
+import packageJson from "../package.json";
+
 import workflow from "./workflow";
 
 const app = new Hono();

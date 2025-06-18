@@ -9,7 +9,7 @@ import {
   processCSV,
 } from "@updater/utils/processCSV";
 import { cacheChecksum, getCachedChecksum } from "@updater/utils/redisCache";
-import { type Table, getTableName } from "drizzle-orm";
+import { getTableName, type Table } from "drizzle-orm";
 
 export interface UpdaterConfig<T> {
   table: Table;

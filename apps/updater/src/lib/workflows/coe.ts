@@ -4,9 +4,9 @@ import { platforms } from "@updater/config/platforms";
 import { getCoeLatestMonth, getLatestCoeResult } from "@updater/db/queries/coe";
 import { updateCOE } from "@updater/lib/update-COE";
 import {
-  type Task,
   processTask,
   publishToPlatform,
+  type Task,
 } from "@updater/lib/workflow";
 import { options } from "@updater/lib/workflows/options";
 import { createWorkflow } from "@upstash/workflow/hono";

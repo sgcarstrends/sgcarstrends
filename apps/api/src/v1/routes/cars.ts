@@ -24,7 +24,6 @@ import {
   MakeQuerySchema,
   MakeResponseSchema,
   MakesResponseSchema,
-  MonthSchema,
   MonthsQuerySchema,
   TopMakesQuerySchema,
   TopMakesResponseSchema,
@@ -32,7 +31,7 @@ import {
   TopTypesResponseSchema,
 } from "@api/schemas";
 import { getCarMetricsForPeriod } from "@api/v1/service/car.service";
-import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
 import { cars } from "@sgcarstrends/schema";
 
