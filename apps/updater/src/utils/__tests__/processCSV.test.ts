@@ -24,14 +24,14 @@ describe("processCSV", () => {
     vi.clearAllMocks();
 
     // Set up mock implementations for each test
-    vi.mocked(fs.readFileSync).mockReturnValue("mock csv content" as any);
+    vi.mocked(fs.readFileSync).mockReturnValue("mock csv content");
 
     vi.mocked(Papa.parse).mockReturnValue({
       data: [
         { name: " John Doe ", age: "25", active: "true" },
         { name: " Jane Smith ", age: "30", active: "false" },
       ],
-    } as any);
+    } as never);
   });
 
   afterEach(() => {
@@ -68,13 +68,9 @@ describe("processCSV", () => {
       data: [{ name: " John Doe ", age: "25" }],
     };
 
-    vi.mocked(Papa.parse).mockImplementationOnce((content, options) => {
-      // Call the transform function to test it
-      const nameTransformed = options.transform(" John Doe ", "name");
-      const ageTransformed = options.transform("25", "age");
-
+    vi.mocked(Papa.parse).mockImplementationOnce(() => {
       // Return mock data
-      return mockParseResult as any;
+      return { ...mockParseResult } as never;
     });
 
     const customFields = {
@@ -113,7 +109,7 @@ describe("processCSV", () => {
   it("should return an empty array if no records are found", async () => {
     vi.mocked(Papa.parse).mockReturnValueOnce({
       data: [],
-    } as any);
+    } as never);
 
     const result = await processCSV(filePath);
 

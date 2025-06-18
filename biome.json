@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
   "vcs": {
     "enabled": false,
     "clientKind": "git",
@@ -7,19 +7,25 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": [
-      ".sst",
-      "coverage",
-      "migrations",
-      "*.d.ts"
+    "includes": [
+      "**",
+      "!**/.claude",
+      "!**/.sst",
+      "!**/coverage",
+      "!**/migrations",
+      "!**/*.d.ts"
     ]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space"
   },
-  "organizeImports": {
-    "enabled": true
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "linter": {
     "enabled": true,

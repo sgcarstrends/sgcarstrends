@@ -6,9 +6,9 @@ import {
 } from "@updater/db/queries/cars";
 import { updateCars } from "@updater/lib/updateCars";
 import {
-  type Task,
   processTask,
   publishToPlatform,
+  type Task,
 } from "@updater/lib/workflow";
 import { options } from "@updater/lib/workflows/options";
 import { createWorkflow } from "@upstash/workflow/hono";

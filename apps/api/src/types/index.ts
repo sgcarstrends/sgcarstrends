@@ -1,11 +1,11 @@
 // Reexport all types from @sgcarstrends/types
 export type {
-  FuelType,
   Collection,
-  OrderBy,
-  VehicleClass,
-  Stage,
+  FuelType,
   LatestMonth,
+  OrderBy,
+  Stage,
+  VehicleClass,
 } from "@sgcarstrends/types";
 
 // Local types that aren't shared

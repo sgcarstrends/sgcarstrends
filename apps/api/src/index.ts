@@ -1,22 +1,23 @@
 import health from "@api/v1/routes/health";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
-import { Ratelimit } from "@upstash/ratelimit";
+// import { Ratelimit } from "@upstash/ratelimit";
 import { handle } from "hono/aws-lambda";
 import { compress } from "hono/compress";
 import { showRoutes } from "hono/dev";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
-import packageJson from "../package.json" assert { type: "json" };
-import redis from "./config/redis";
+import packageJson from "../package.json";
+
+// import redis from "./config/redis";
 import v1 from "./v1";
 
-const ratelimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(10, "10 s"),
-  analytics: true,
-});
+// const ratelimit = new Ratelimit({
+//   redis,
+//   limiter: Ratelimit.slidingWindow(10, "10 s"),
+//   analytics: true,
+// });
 
 const app = new OpenAPIHono();
 
