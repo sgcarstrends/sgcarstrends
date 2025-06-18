@@ -1,9 +1,9 @@
 import db from "@api/config/db";
+import { coe, coePQP } from "@api/db/schema";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import { COEQuerySchema, MonthsQuerySchema } from "@api/schemas";
 import { zValidator } from "@hono/zod-validator";
-import { coe, coePQP } from "@sgcarstrends/schema";
 import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
 import { Hono } from "hono";
 
