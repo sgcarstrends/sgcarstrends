@@ -119,8 +119,8 @@ export const COEQuerySchema = z
     sort: z.string().optional(),
     orderBy: z.string().optional(),
     month: MonthSchema.optional(),
-    from: MonthSchema.optional(),
-    to: MonthSchema.optional(),
+    start: MonthSchema.optional(),
+    end: MonthSchema.optional(),
   })
   .strict();
 

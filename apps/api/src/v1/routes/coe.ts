@@ -41,12 +41,12 @@ app.openapi(
   }),
   async (c) => {
     const query = c.req.query();
-    const { month, from, to } = query;
+    const { month, start, end } = query;
 
     const filters = [
       month && eq(coe.month, month),
-      from && gte(coe.month, from),
-      to && lte(coe.month, to),
+      start && gte(coe.month, start),
+      end && lte(coe.month, end),
     ];
 
     const results = await db
