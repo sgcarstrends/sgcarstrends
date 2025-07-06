@@ -193,6 +193,56 @@ export const LatestMonthResponseSchema = z
 
 export const MonthsByYearSchema = z.record(z.string(), z.array(z.string()));
 
+// Additional response schemas for missing endpoints
+export const FuelTypesResponseSchema = z.array(z.string());
+export const VehicleTypesResponseSchema = z.array(z.string());
+
+export const FuelTypeParamSchema = z
+  .object({
+    fuelType: z.string(),
+  })
+  .strict();
+
+export const VehicleTypeParamSchema = z
+  .object({
+    vehicleType: z.string(),
+  })
+  .strict();
+
+export const FuelTypeDataSchema = z.object({
+  total: z.number(),
+  data: z.array(CarSchema),
+});
+
+export const VehicleTypeDataSchema = z.object({
+  total: z.number(),
+  data: z.array(CarSchema),
+});
+
+export const COELatestResponseSchema = z.array(COESchema);
+
+export const MonthsResponseSchema = z.union([
+  z.array(z.string()),
+  MonthsByYearSchema,
+]);
+
+// Workflow response schemas
+export const WorkflowTriggerResponseSchema = z.object({
+  success: z.boolean(),
+  message: z.string(),
+  workflowRunIds: z.array(z.string()).optional(),
+  error: z.string().optional(),
+});
+
+export const WorkflowExecutionResponseSchema = z.object({
+  success: z.boolean(),
+  message: z.string(),
+  error: z.string().optional(),
+});
+
+// Import health schemas
+export { healthResponseSchema } from "./health";
+
 export type ComparisonQuery = z.infer<typeof ComparisonQuerySchema>;
 export type TopTypesQuery = z.infer<typeof TopTypesQuerySchema>;
 export type MakeParams = z.infer<typeof MakeParamSchema>;
