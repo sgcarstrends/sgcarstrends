@@ -1,0 +1,988 @@
+---
+title: 'Testing Guide'
+description: 'Comprehensive testing strategies and best practices for the SG Cars Trends API'
+---
+
+## Overview
+
+The SG Cars Trends API uses a comprehensive testing approach with **Vitest** as the primary testing framework. This guide covers testing strategies, best practices, and practical examples.
+
+## Testing Framework
+
+### Vitest Configuration
+
+The project uses Vitest for fast, modern testing:
+
+<CodeGroup>
+
+```typescript vitest.config.ts
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    environment: 'node',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/**',
+        'dist/**',
+        'coverage/**',
+        '**/*.d.ts',
+        '**/*.test.{ts,js}',
+        '**/__tests__/**'
+      ]
+    },
+    setupFiles: ['./src/test/setup.ts']
+  }
+});
+```
+
+</CodeGroup>
+
+### Test Structure
+
+Tests are organized in `__tests__` directories alongside source code:
+
+```
+src/
+├── utils/
+│   ├── slugify.ts
+│   └── __tests__/
+│       └── slugify.test.ts
+├── lib/
+│   ├── getLatestMonth.ts
+│   └── __tests__/
+│       └── getLatestMonth.test.ts
+└── v1/
+    ├── routes/
+    │   ├── cars.ts
+    │   └── __tests__/
+    │       └── cars.test.ts
+```
+
+## Running Tests
+
+### Basic Commands
+
+<CodeGroup>
+
+```bash All tests
+pnpm test
+```
+
+```bash Watch mode
+pnpm test:watch
+```
+
+```bash Coverage report
+pnpm test:coverage
+```
+
+```bash Specific test file
+pnpm -F @sgcarstrends/api test -- src/utils/__tests__/slugify.test.ts
+```
+
+```bash Pattern matching
+pnpm test -- --grep "slugify"
+```
+
+</CodeGroup>
+
+### Test Options
+
+| Option | Description | Example |
+|--------|-------------|---------|
+| `--watch` | Watch mode for development | `pnpm test:watch` |
+| `--coverage` | Generate coverage report | `pnpm test:coverage` |
+| `--reporter` | Specify test reporter | `pnpm test -- --reporter=json` |
+| `--grep` | Filter tests by pattern | `pnpm test -- --grep "API"` |
+| `--bail` | Stop on first failure | `pnpm test -- --bail` |
+
+## Test Categories
+
+### 1. Unit Tests
+
+Test individual functions and utilities:
+
+<CodeGroup>
+
+```typescript src/utils/__tests__/slugify.test.ts
+import { describe, it, expect } from 'vitest';
+import { slugify } from '../slugify';
+
+describe('slugify', () => {
+  it('should convert string to lowercase slug', () => {
+    expect(slugify('Hello World')).toBe('hello-world');
+  });
+
+  it('should handle special characters', () => {
+    expect(slugify('Hello, World!')).toBe('hello-world');
+  });
+
+  it('should handle multiple spaces', () => {
+    expect(slugify('Hello    World')).toBe('hello-world');
+  });
+
+  it('should handle empty string', () => {
+    expect(slugify('')).toBe('');
+  });
+
+  it('should handle unicode characters', () => {
+    expect(slugify('Café & Restaurant')).toBe('cafe-restaurant');
+  });
+});
+```
+
+</CodeGroup>
+
+### 2. Integration Tests
+
+Test API endpoints and database interactions:
+
+<CodeGroup>
+
+```typescript src/v1/routes/__tests__/cars.test.ts
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { testClient } from '../../../test/client';
+import { setupTestDatabase, cleanupTestDatabase } from '../../../test/database';
+
+describe('Cars API', () => {
+  beforeEach(async () => {
+    await setupTestDatabase();
+  });
+
+  afterEach(async () => {
+    await cleanupTestDatabase();
+  });
+
+  describe('GET /v1/cars', () => {
+    it('should return cars data', async () => {
+      const response = await testClient.get('/v1/cars');
+      
+      expect(response.status).toBe(200);
+      expect(response.body).toMatchObject({
+        success: true,
+        data: expect.any(Array),
+        total: expect.any(Number),
+        page: 1,
+        limit: 50
+      });
+    });
+
+    it('should filter by month', async () => {
+      const response = await testClient.get('/v1/cars?month=2024-01');
+      
+      expect(response.status).toBe(200);
+      expect(response.body.data).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            month: '2024-01'
+          })
+        ])
+      );
+    });
+
+    it('should return 401 without authentication', async () => {
+      const response = await testClient
+        .get('/v1/cars')
+        .unset('Authorization');
+      
+      expect(response.status).toBe(401);
+      expect(response.body.error).toContain('authentication');
+    });
+  });
+
+  describe('GET /v1/cars/compare', () => {
+    it('should return comparison data', async () => {
+      const response = await testClient.get('/v1/cars/compare?month=2024-01');
+      
+      expect(response.status).toBe(200);
+      expect(response.body.data).toMatchObject({
+        current_month: expect.any(Object),
+        previous_month: expect.any(Object),
+        previous_year: expect.any(Object),
+        comparison: expect.any(Object)
+      });
+    });
+
+    it('should require month parameter', async () => {
+      const response = await testClient.get('/v1/cars/compare');
+      
+      expect(response.status).toBe(400);
+      expect(response.body.error).toContain('month');
+    });
+  });
+});
+```
+
+</CodeGroup>
+
+### 3. Database Tests
+
+Test database operations and queries:
+
+<CodeGroup>
+
+```typescript src/queries/__tests__/cars.test.ts
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { db } from '../../config/db';
+import { cars } from '../../db/schema';
+import { getCarsByMonth, getCarComparison } from '../cars';
+import { setupTestDatabase, cleanupTestDatabase, insertTestData } from '../../test/database';
+
+describe('Car Queries', () => {
+  beforeEach(async () => {
+    await setupTestDatabase();
+    await insertTestData();
+  });
+
+  afterEach(async () => {
+    await cleanupTestDatabase();
+  });
+
+  describe('getCarsByMonth', () => {
+    it('should return cars for specific month', async () => {
+      const result = await getCarsByMonth('2024-01');
+      
+      expect(result).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            month: '2024-01',
+            make: expect.any(String),
+            fuel_type: expect.any(String),
+            vehicle_type: expect.any(String),
+            number: expect.any(Number)
+          })
+        ])
+      );
+    });
+
+    it('should return empty array for non-existent month', async () => {
+      const result = await getCarsByMonth('2030-01');
+      
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe('getCarComparison', () => {
+    it('should return comparison data', async () => {
+      const result = await getCarComparison('2024-01');
+      
+      expect(result).toMatchObject({
+        current_month: expect.any(Object),
+        previous_month: expect.any(Object),
+        previous_year: expect.any(Object),
+        comparison: expect.any(Object)
+      });
+    });
+  });
+});
+```
+
+</CodeGroup>
+
+## Test Utilities
+
+### Test Database Setup
+
+<CodeGroup>
+
+```typescript src/test/database.ts
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { migrate } from 'drizzle-orm/node-postgres/migrator';
+import { Client } from 'pg';
+import { cars, coe, months } from '../db/schema';
+
+const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL || 'postgresql://localhost:5432/sgcarstrends_test';
+
+export async function setupTestDatabase() {
+  const client = new Client({ connectionString: TEST_DATABASE_URL });
+  await client.connect();
+  
+  const db = drizzle(client);
+  
+  // Run migrations
+  await migrate(db, { migrationsFolder: './migrations' });
+  
+  await client.end();
+}
+
+export async function cleanupTestDatabase() {
+  const client = new Client({ connectionString: TEST_DATABASE_URL });
+  await client.connect();
+  
+  const db = drizzle(client);
+  
+  // Clean up test data
+  await db.delete(cars);
+  await db.delete(coe);
+  await db.delete(months);
+  
+  await client.end();
+}
+
+export async function insertTestData() {
+  const client = new Client({ connectionString: TEST_DATABASE_URL });
+  await client.connect();
+  
+  const db = drizzle(client);
+  
+  // Insert test car data
+  await db.insert(cars).values([
+    {
+      month: '2024-01',
+      make: 'Toyota',
+      fuel_type: 'Petrol',
+      vehicle_type: 'Passenger Cars',
+      number: 150
+    },
+    {
+      month: '2024-01',
+      make: 'Honda',
+      fuel_type: 'Hybrid',
+      vehicle_type: 'Passenger Cars',
+      number: 100
+    },
+    {
+      month: '2023-12',
+      make: 'Toyota',
+      fuel_type: 'Petrol',
+      vehicle_type: 'Passenger Cars',
+      number: 120
+    }
+  ]);
+  
+  await client.end();
+}
+```
+
+</CodeGroup>
+
+### Test Client Setup
+
+<CodeGroup>
+
+```typescript src/test/client.ts
+import { Hono } from 'hono';
+import { testClient as createTestClient } from 'hono/testing';
+import { app } from '../index';
+
+// Create test client with authentication
+export const testClient = createTestClient(app, {
+  headers: {
+    'Authorization': 'Bearer test-token',
+    'Content-Type': 'application/json'
+  }
+});
+
+// Test client without authentication
+export const unauthenticatedClient = createTestClient(app);
+```
+
+</CodeGroup>
+
+### Mock Data
+
+<CodeGroup>
+
+```typescript src/test/mocks.ts
+export const mockCarData = [
+  {
+    month: '2024-01',
+    make: 'Toyota',
+    fuel_type: 'Petrol',
+    vehicle_type: 'Passenger Cars',
+    number: 150
+  },
+  {
+    month: '2024-01',
+    make: 'Honda',
+    fuel_type: 'Hybrid',
+    vehicle_type: 'Passenger Cars',
+    number: 100
+  }
+];
+
+export const mockCoeData = [
+  {
+    month: '2024-01',
+    bidding_no: 1,
+    vehicle_class: 'Category A',
+    quota: 1000,
+    bids_success: 950,
+    bids_received: 1200,
+    premium: 85000
+  }
+];
+
+export const mockApiResponse = {
+  success: true,
+  data: mockCarData,
+  total: 2,
+  page: 1,
+  limit: 50
+};
+```
+
+</CodeGroup>
+
+## Testing Strategies
+
+### 1. Test-Driven Development (TDD)
+
+Write tests before implementing features:
+
+<CodeGroup>
+
+```typescript Example TDD Flow
+// 1. Write the test first
+describe('calculateGrowthRate', () => {
+  it('should calculate percentage growth', () => {
+    expect(calculateGrowthRate(120, 100)).toBe(20);
+  });
+
+  it('should handle zero previous value', () => {
+    expect(calculateGrowthRate(100, 0)).toBe(null);
+  });
+});
+
+// 2. Implement the function
+export function calculateGrowthRate(current: number, previous: number): number | null {
+  if (previous === 0) return null;
+  return ((current - previous) / previous) * 100;
+}
+
+// 3. Run tests to verify implementation
+```
+
+</CodeGroup>
+
+### 2. Behavior-Driven Development (BDD)
+
+Write tests in a descriptive, behavioral format:
+
+<CodeGroup>
+
+```typescript BDD Style Tests
+describe('Car registration API', () => {
+  describe('when user requests cars data', () => {
+    describe('with valid authentication', () => {
+      it('should return success response with car data', async () => {
+        // Given
+        const validToken = 'valid-api-token';
+        
+        // When
+        const response = await testClient
+          .get('/v1/cars')
+          .set('Authorization', `Bearer ${validToken}`);
+        
+        // Then
+        expect(response.status).toBe(200);
+        expect(response.body.success).toBe(true);
+        expect(response.body.data).toBeInstanceOf(Array);
+      });
+    });
+
+    describe('without authentication', () => {
+      it('should return unauthorized error', async () => {
+        // Given
+        const noAuthRequest = testClient.get('/v1/cars');
+        
+        // When
+        const response = await noAuthRequest.unset('Authorization');
+        
+        // Then
+        expect(response.status).toBe(401);
+        expect(response.body.success).toBe(false);
+      });
+    });
+  });
+});
+```
+
+</CodeGroup>
+
+### 3. Snapshot Testing
+
+Test complex objects and responses:
+
+<CodeGroup>
+
+```typescript Snapshot Tests
+import { expect, it } from 'vitest';
+
+it('should match API response structure', async () => {
+  const response = await testClient.get('/v1/cars?month=2024-01');
+  
+  expect(response.body).toMatchSnapshot();
+});
+
+// Updates snapshots with --update-snapshots flag
+// pnpm test -- --update-snapshots
+```
+
+</CodeGroup>
+
+## Mocking and Fixtures
+
+### External API Mocking
+
+<CodeGroup>
+
+```typescript src/test/mocks/lta-api.ts
+import { vi } from 'vitest';
+
+export const mockLtaApi = {
+  downloadFile: vi.fn(),
+  getCarRegistrations: vi.fn(),
+  getCoeResults: vi.fn()
+};
+
+// Mock implementation
+mockLtaApi.downloadFile.mockResolvedValue({
+  data: 'mocked,csv,data',
+  checksum: 'mock-checksum'
+});
+
+mockLtaApi.getCarRegistrations.mockResolvedValue([
+  {
+    month: '2024-01',
+    make: 'Toyota',
+    fuel_type: 'Petrol',
+    vehicle_type: 'Passenger Cars',
+    number: 150
+  }
+]);
+```
+
+</CodeGroup>
+
+### Database Mocking
+
+<CodeGroup>
+
+```typescript src/test/mocks/database.ts
+import { vi } from 'vitest';
+
+export const mockDb = {
+  select: vi.fn(),
+  insert: vi.fn(),
+  update: vi.fn(),
+  delete: vi.fn()
+};
+
+// Mock implementations
+mockDb.select.mockReturnValue({
+  from: vi.fn().mockReturnValue({
+    where: vi.fn().mockResolvedValue([])
+  })
+});
+
+mockDb.insert.mockReturnValue({
+  values: vi.fn().mockResolvedValue({ insertedId: 1 })
+});
+```
+
+</CodeGroup>
+
+## Performance Testing
+
+### Load Testing
+
+<CodeGroup>
+
+```typescript src/test/performance/load.test.ts
+import { describe, it, expect } from 'vitest';
+import { testClient } from '../client';
+
+describe('Load Testing', () => {
+  it('should handle concurrent requests', async () => {
+    const concurrentRequests = 50;
+    const startTime = Date.now();
+    
+    const promises = Array.from({ length: concurrentRequests }, () =>
+      testClient.get('/v1/cars')
+    );
+    
+    const responses = await Promise.all(promises);
+    const endTime = Date.now();
+    
+    // All requests should succeed
+    responses.forEach(response => {
+      expect(response.status).toBe(200);
+    });
+    
+    // Should complete within reasonable time
+    const duration = endTime - startTime;
+    expect(duration).toBeLessThan(5000); // 5 seconds
+  });
+});
+```
+
+</CodeGroup>
+
+### Memory Usage Testing
+
+<CodeGroup>
+
+```typescript src/test/performance/memory.test.ts
+import { describe, it, expect } from 'vitest';
+import { testClient } from '../client';
+
+describe('Memory Usage', () => {
+  it('should not leak memory on repeated requests', async () => {
+    const initialMemory = process.memoryUsage().heapUsed;
+    
+    // Make many requests
+    for (let i = 0; i < 100; i++) {
+      await testClient.get('/v1/cars');
+    }
+    
+    // Force garbage collection
+    if (global.gc) {
+      global.gc();
+    }
+    
+    const finalMemory = process.memoryUsage().heapUsed;
+    const memoryIncrease = finalMemory - initialMemory;
+    
+    // Memory increase should be reasonable
+    expect(memoryIncrease).toBeLessThan(50 * 1024 * 1024); // 50MB
+  });
+});
+```
+
+</CodeGroup>
+
+## Error Testing
+
+### Error Handling
+
+<CodeGroup>
+
+```typescript src/test/error-handling.test.ts
+import { describe, it, expect } from 'vitest';
+import { testClient } from './client';
+
+describe('Error Handling', () => {
+  it('should handle database connection errors', async () => {
+    // Mock database failure
+    vi.mocked(db.select).mockRejectedValue(new Error('Database connection failed'));
+    
+    const response = await testClient.get('/v1/cars');
+    
+    expect(response.status).toBe(500);
+    expect(response.body.error).toContain('Internal server error');
+  });
+
+  it('should handle invalid query parameters', async () => {
+    const response = await testClient.get('/v1/cars?month=invalid-date');
+    
+    expect(response.status).toBe(400);
+    expect(response.body.error).toContain('Invalid month format');
+  });
+
+  it('should handle rate limiting', async () => {
+    // Make many requests quickly
+    const promises = Array.from({ length: 200 }, () =>
+      testClient.get('/v1/cars')
+    );
+    
+    const responses = await Promise.all(promises);
+    
+    // Some requests should be rate limited
+    const rateLimitedResponses = responses.filter(r => r.status === 429);
+    expect(rateLimitedResponses.length).toBeGreaterThan(0);
+  });
+});
+```
+
+</CodeGroup>
+
+## Test Coverage
+
+### Coverage Configuration
+
+<CodeGroup>
+
+```typescript vitest.config.ts
+export default defineConfig({
+  test: {
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      thresholds: {
+        statements: 80,
+        branches: 70,
+        functions: 80,
+        lines: 80
+      },
+      exclude: [
+        'node_modules/**',
+        'dist/**',
+        'coverage/**',
+        '**/*.d.ts',
+        '**/*.test.{ts,js}',
+        '**/__tests__/**',
+        '**/test/**'
+      ]
+    }
+  }
+});
+```
+
+</CodeGroup>
+
+### Coverage Reports
+
+<CodeGroup>
+
+```bash Generate coverage
+pnpm test:coverage
+```
+
+```bash View HTML report
+open coverage/index.html
+```
+
+</CodeGroup>
+
+### Coverage Targets
+
+| File Type | Target Coverage |
+|-----------|----------------|
+| Utilities | 90%+ |
+| API Routes | 85%+ |
+| Database Queries | 80%+ |
+| Workflow Logic | 75%+ |
+| Configuration | 60%+ |
+
+## Continuous Integration
+
+### GitHub Actions
+
+<CodeGroup>
+
+```yaml .github/workflows/test.yml
+name: Test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: sgcarstrends_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:7
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          
+      - name: Install dependencies
+        run: pnpm install
+        
+      - name: Run tests
+        run: pnpm test:coverage
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/sgcarstrends_test
+          REDIS_URL: redis://localhost:6379
+          
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/coverage-final.json
+```
+
+</CodeGroup>
+
+## Best Practices
+
+### 1. Test Organization
+
+<CardGroup cols={2}>
+  <Card
+    title="Descriptive Names"
+    icon="tag"
+  >
+    Use clear, descriptive test names that explain what's being tested
+  </Card>
+  <Card
+    title="Single Responsibility"
+    icon="focus"
+  >
+    Each test should focus on one specific behavior or scenario
+  </Card>
+  <Card
+    title="Arrange-Act-Assert"
+    icon="list"
+  >
+    Structure tests with clear setup, execution, and verification phases
+  </Card>
+  <Card
+    title="Independent Tests"
+    icon="independence"
+  >
+    Tests should not depend on each other and can run in any order
+  </Card>
+</CardGroup>
+
+### 2. Test Data Management
+
+<CodeGroup>
+
+```typescript Good Test Data
+// Use factory functions for consistent test data
+export function createTestCar(overrides: Partial<Car> = {}): Car {
+  return {
+    month: '2024-01',
+    make: 'Toyota',
+    fuel_type: 'Petrol',
+    vehicle_type: 'Passenger Cars',
+    number: 100,
+    ...overrides
+  };
+}
+
+// Use in tests
+const testCar = createTestCar({ make: 'Honda', number: 150 });
+```
+
+</CodeGroup>
+
+### 3. Async Testing
+
+<CodeGroup>
+
+```typescript Async Test Patterns
+// Use async/await for promises
+it('should fetch data asynchronously', async () => {
+  const data = await fetchCarData('2024-01');
+  expect(data).toBeDefined();
+});
+
+// Handle rejections
+it('should handle errors gracefully', async () => {
+  await expect(fetchCarData('invalid')).rejects.toThrow('Invalid month');
+});
+
+// Timeout for long operations
+it('should complete within timeout', async () => {
+  await expect(longRunningOperation()).resolves.toBeDefined();
+}, 10000); // 10 second timeout
+```
+
+</CodeGroup>
+
+## Debugging Tests
+
+### Debug Configuration
+
+<CodeGroup>
+
+```json .vscode/launch.json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": ["run", "--reporter=verbose"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+### Debug Utilities
+
+<CodeGroup>
+
+```typescript Debug Helpers
+import { vi } from 'vitest';
+
+// Log function calls
+const mockFn = vi.fn();
+mockFn.mockImplementation((...args) => {
+  console.log('Mock called with:', args);
+  return 'result';
+});
+
+// Debug test data
+it('should debug test data', () => {
+  const data = getTestData();
+  console.log('Test data:', JSON.stringify(data, null, 2));
+  expect(data).toBeDefined();
+});
+```
+
+</CodeGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Deployment"
+    icon="rocket"
+    href="/development/deployment"
+  >
+    Learn about deployment strategies and CI/CD
+  </Card>
+  <Card
+    title="Contributing"
+    icon="git-branch"
+    href="/development/contributing"
+  >
+    Guidelines for contributing to the project
+  </Card>
+  <Card
+    title="Examples"
+    icon="code"
+    href="/examples/javascript"
+  >
+    See practical testing examples
+  </Card>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/overview"
+  >
+    Explore the API endpoints
+  </Card>
+</CardGroup>

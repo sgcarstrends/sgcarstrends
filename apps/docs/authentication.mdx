@@ -1,0 +1,323 @@
+---
+title: 'Authentication'
+description: 'Learn how to authenticate your API requests'
+---
+
+## Overview
+
+The SG Cars Trends API uses **Bearer Token authentication** for secure access to protected endpoints. Most API endpoints require authentication, with the exception of health checks and some workflow endpoints.
+
+## API Key Requirements
+
+<CardGroup cols={2}>
+  <Card
+    title="Protected Endpoints"
+    icon="lock"
+  >
+    - All `/v1/*` endpoints (cars, coe, months data)
+    - `/workflows/trigger` endpoint
+  </Card>
+  <Card
+    title="Public Endpoints"
+    icon="unlock"
+  >
+    - `/health` endpoint
+    - Individual workflow endpoints (`/workflows/cars`, `/workflows/coe`)
+    - Social media webhook endpoints
+  </Card>
+</CardGroup>
+
+## Getting Your API Key
+
+<Note>
+  API keys are currently issued on a case-by-case basis. To request an API key:
+  1. Create an issue in our [GitHub repository](https://github.com/sgcarstrends/backend/issues)
+  2. Describe your use case and expected usage volume
+  3. Provide your contact information
+  4. Wait for approval and key issuance
+</Note>
+
+## Using Your API Key
+
+### Bearer Token Format
+
+Include your API key in the `Authorization` header using the Bearer token format:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+### Request Examples
+
+<CodeGroup>
+
+```bash curl
+curl -X GET \
+  "https://api.sgcarstrends.com/v1/cars" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+```javascript JavaScript
+const response = await fetch('https://api.sgcarstrends.com/v1/cars', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json',
+  },
+});
+
+const data = await response.json();
+```
+
+```python Python
+import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+}
+
+response = requests.get('https://api.sgcarstrends.com/v1/cars', headers=headers)
+data = response.json()
+```
+
+```php PHP
+<?php
+$headers = [
+    'Authorization: Bearer YOUR_API_KEY',
+    'Content-Type: application/json'
+];
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'https://api.sgcarstrends.com/v1/cars');
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$response = curl_exec($ch);
+$data = json_decode($response, true);
+curl_close($ch);
+?>
+```
+
+</CodeGroup>
+
+## Authentication Errors
+
+### Common Error Responses
+
+<CodeGroup>
+
+```json Missing Authorization Header
+{
+  "success": false,
+  "error": "Missing Authorization header",
+  "code": 401
+}
+```
+
+```json Invalid Token Format
+{
+  "success": false,
+  "error": "Invalid token format. Expected: Bearer <token>",
+  "code": 401
+}
+```
+
+```json Invalid Token
+{
+  "success": false,
+  "error": "Invalid authentication token",
+  "code": 401
+}
+```
+
+```json Expired Token
+{
+  "success": false,
+  "error": "Authentication token has expired",
+  "code": 401
+}
+```
+
+</CodeGroup>
+
+## Rate Limiting
+
+The API implements rate limiting based on your authentication status:
+
+| Authentication Status | Rate Limit | Window |
+|----------------------|------------|---------|
+| Authenticated | 100 requests | 1 minute |
+| Unauthenticated | 10 requests | 1 minute |
+
+### Rate Limit Headers
+
+Rate limit information is included in response headers:
+
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1640995200
+```
+
+### Rate Limit Exceeded
+
+When you exceed the rate limit, you'll receive a `429 Too Many Requests` response:
+
+```json
+{
+  "success": false,
+  "error": "Rate limit exceeded. Please try again later.",
+  "code": 429,
+  "retry_after": 60
+}
+```
+
+## Best Practices
+
+### 1. Secure Storage
+
+<Warning>
+  Never expose your API key in client-side code, public repositories, or logs.
+</Warning>
+
+**Do:**
+- Store API keys in environment variables
+- Use secure key management systems
+- Rotate keys regularly
+
+**Don't:**
+- Hardcode keys in your application
+- Commit keys to version control
+- Share keys in plain text
+
+### 2. Error Handling
+
+Always implement proper error handling for authentication failures:
+
+<CodeGroup>
+
+```javascript JavaScript
+try {
+  const response = await fetch('https://api.sgcarstrends.com/v1/cars', {
+    headers: {
+      'Authorization': 'Bearer YOUR_API_KEY',
+      'Content-Type': 'application/json',
+    },
+  });
+  
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Authentication failed. Check your API key.');
+    }
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+} catch (error) {
+  console.error('API request failed:', error.message);
+  throw error;
+}
+```
+
+```python Python
+import requests
+from requests.exceptions import HTTPError
+
+try:
+    response = requests.get(
+        'https://api.sgcarstrends.com/v1/cars',
+        headers={'Authorization': 'Bearer YOUR_API_KEY'}
+    )
+    response.raise_for_status()
+    data = response.json()
+except HTTPError as e:
+    if e.response.status_code == 401:
+        print("Authentication failed. Check your API key.")
+    else:
+        print(f"HTTP error occurred: {e}")
+except Exception as e:
+    print(f"An error occurred: {e}")
+```
+
+</CodeGroup>
+
+### 3. Respect Rate Limits
+
+Implement backoff strategies when hitting rate limits:
+
+```javascript
+async function makeAPIRequest(url, options = {}) {
+  const maxRetries = 3;
+  let retryCount = 0;
+  
+  while (retryCount < maxRetries) {
+    try {
+      const response = await fetch(url, options);
+      
+      if (response.status === 429) {
+        const retryAfter = response.headers.get('Retry-After') || 60;
+        await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
+        retryCount++;
+        continue;
+      }
+      
+      return response;
+    } catch (error) {
+      retryCount++;
+      if (retryCount === maxRetries) throw error;
+      await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
+    }
+  }
+}
+```
+
+## Environment Variables
+
+Store your API key as an environment variable:
+
+<CodeGroup>
+
+```bash .env
+SG_CARS_TRENDS_API_KEY=your_api_key_here
+```
+
+```javascript Node.js
+// Load from environment
+const apiKey = process.env.SG_CARS_TRENDS_API_KEY;
+
+if (!apiKey) {
+  throw new Error('SG_CARS_TRENDS_API_KEY environment variable is required');
+}
+```
+
+```python Python
+import os
+
+api_key = os.getenv('SG_CARS_TRENDS_API_KEY')
+if not api_key:
+    raise ValueError('SG_CARS_TRENDS_API_KEY environment variable is required')
+```
+
+</CodeGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/overview"
+  >
+    Explore all available endpoints
+  </Card>
+  <Card
+    title="Data Models"
+    icon="database"
+    href="/guides/data-models"
+  >
+    Understand the data structure
+  </Card>
+</CardGroup>

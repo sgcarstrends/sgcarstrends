@@ -37,6 +37,15 @@ backend/
 - **Testing**: Vitest
 - **Linting**: Biome
 
+## Documentation
+
+📚 **Complete API documentation is available at: [docs.sgcarstrends.com](https://docs.sgcarstrends.com)**
+
+- **[Getting Started](https://docs.sgcarstrends.com/quickstart)** - Quick start guide and authentication
+- **[API Reference](https://docs.sgcarstrends.com/api-reference/overview)** - Complete endpoint documentation
+- **[Developer Guides](https://docs.sgcarstrends.com/guides/data-models)** - Data models, filtering, and analytics
+- **[Examples](https://docs.sgcarstrends.com/examples/javascript)** - Code examples in multiple languages
+
 ## Getting Started
 
 ### Prerequisites
@@ -72,6 +81,10 @@ pnpm lint
 
 # Deploy the API (includes updater functionality)
 pnpm -F @sgcarstrends/api deploy
+
+# Documentation development
+pnpm docs:dev     # Start local docs server
+pnpm docs:build   # Build documentation
 ```
 
 ## API Endpoints

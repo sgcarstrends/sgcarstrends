@@ -1,0 +1,153 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "SG Cars Trends API",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.ico",
+  "colors": {
+    "primary": "#2563eb",
+    "light": "#3b82f6",
+    "dark": "#1d4ed8",
+    "anchors": {
+      "from": "#2563eb",
+      "to": "#3b82f6"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/sgcarstrends/backend"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Live API",
+    "url": "https://staging.api.sgcarstrends.com"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    },
+    {
+      "name": "Guides",
+      "url": "guides"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Website",
+      "icon": "globe",
+      "url": "https://sgcarstrends.com"
+    },
+    {
+      "name": "Community",
+      "icon": "github",
+      "url": "https://github.com/sgcarstrends/backend/discussions"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": ["introduction", "quickstart", "authentication"]
+    },
+    {
+      "group": "Core Concepts",
+      "pages": [
+        "guides/data-models",
+        "guides/filtering",
+        "guides/comparison-analytics",
+        "guides/workflows"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api-reference/overview",
+        {
+          "group": "Health Check",
+          "pages": ["api-reference/health/get-health-status"]
+        },
+        {
+          "group": "Cars Data",
+          "pages": [
+            "api-reference/cars/get-cars",
+            "api-reference/cars/get-fuel-types",
+            "api-reference/cars/get-fuel-type-data",
+            "api-reference/cars/get-vehicle-types",
+            "api-reference/cars/get-vehicle-type-data",
+            "api-reference/cars/compare-cars",
+            "api-reference/cars/get-top-types",
+            "api-reference/cars/get-top-makes",
+            "api-reference/cars/get-car-months",
+            "api-reference/cars/get-makes",
+            "api-reference/cars/get-make-data"
+          ]
+        },
+        {
+          "group": "COE Data",
+          "pages": [
+            "api-reference/coe/get-coe-results",
+            "api-reference/coe/get-coe-months",
+            "api-reference/coe/get-latest-coe",
+            "api-reference/coe/get-coe-pqp"
+          ]
+        },
+        {
+          "group": "Months",
+          "pages": ["api-reference/months/get-latest-month"]
+        },
+        {
+          "group": "Workflows",
+          "pages": [
+            "api-reference/workflows/trigger-workflows",
+            "api-reference/workflows/cars-workflow",
+            "api-reference/workflows/coe-workflow"
+          ]
+        },
+        {
+          "group": "Social Media",
+          "pages": [
+            "api-reference/social/post-to-linkedin",
+            "api-reference/social/post-to-twitter",
+            "api-reference/social/post-to-discord",
+            "api-reference/social/post-to-telegram"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Development",
+      "pages": [
+        "development/setup",
+        "development/testing",
+        "development/deployment",
+        "development/contributing"
+      ]
+    },
+    {
+      "group": "Examples",
+      "pages": ["examples/javascript", "examples/python", "examples/curl"]
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/sgcarstrends/backend",
+    "website": "https://sgcarstrends.com"
+  },
+  "api": {
+    "baseUrl": "https://staging.api.sgcarstrends.com",
+    "auth": {
+      "method": "bearer"
+    }
+  },
+  "openapi": "https://staging.api.sgcarstrends.com/docs",
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
+  "search": {
+    "prompt": "Search documentation..."
+  }
+}
