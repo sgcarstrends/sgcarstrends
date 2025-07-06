@@ -21,19 +21,25 @@ import {
   CarsByTypeSchema,
   ComparisonQuerySchema,
   ComparisonResponseSchema,
+  FuelTypeDataSchema,
+  FuelTypeParamSchema,
+  FuelTypesResponseSchema,
   MakeParamSchema,
   MakeQuerySchema,
   MakeResponseSchema,
   MakesResponseSchema,
   MonthsQuerySchema,
+  MonthsResponseSchema,
   TopMakesQuerySchema,
   TopMakesResponseSchema,
   TopTypesQuerySchema,
   TopTypesResponseSchema,
+  VehicleTypeDataSchema,
+  VehicleTypeParamSchema,
+  VehicleTypesResponseSchema,
 } from "@api/schemas";
 import { getCarMetricsForPeriod } from "@api/v1/service/car.service";
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
-import { zValidator } from "@hono/zod-validator";
 
 const app = new OpenAPIHono();
 
@@ -87,39 +93,156 @@ app.openapi(
   },
 );
 
-app.get("/fuel-types", async (c) => {
-  const { month } = c.req.query();
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/fuel-types",
+    summary: "Get distinct fuel types",
+    description:
+      "Get a list of all distinct fuel types available in the dataset, optionally filtered by month",
+    tags: ["Cars"],
+    request: {
+      query: z.object({
+        month: z.string().optional(),
+      }),
+    },
+    responses: {
+      200: {
+        description: "List of distinct fuel types",
+        content: {
+          "application/json": {
+            schema: FuelTypesResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const { month } = c.req.query();
 
-  const result = await getDistinctFuelTypes(month);
-  const fuelTypes = result.map(({ fuelType }) => fuelType);
-  return c.json(fuelTypes);
-});
+    const result = await getDistinctFuelTypes(month);
+    const fuelTypes = result.map(({ fuelType }) => fuelType);
+    return c.json(fuelTypes);
+  },
+);
 
-app.get("/fuel-types/:fuelType", async (c) => {
-  const { fuelType } = c.req.param();
-  const { month } = c.req.query();
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/fuel-types/{fuelType}",
+    summary: "Get data for specific fuel type",
+    description:
+      "Get car registration data for a specific fuel type, optionally filtered by month",
+    tags: ["Cars"],
+    request: {
+      params: FuelTypeParamSchema,
+      query: z.object({
+        month: z.string().optional(),
+      }),
+    },
+    responses: {
+      200: {
+        description: "Car registration data for the specified fuel type",
+        content: {
+          "application/json": {
+            schema: FuelTypeDataSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const { fuelType } = c.req.param();
+    const { month } = c.req.query();
 
-  const [totalResult, result] = await getFuelTypeByMonth(fuelType, month);
+    const [totalResult, result] = await getFuelTypeByMonth(fuelType, month);
 
-  return c.json({ total: totalResult[0].total, data: result });
-});
+    return c.json({ total: totalResult[0].total, data: result });
+  },
+);
 
-app.get("/vehicle-types", async (c) => {
-  const { month } = c.req.query();
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/vehicle-types",
+    summary: "Get distinct vehicle types",
+    description:
+      "Get a list of all distinct vehicle types available in the dataset, optionally filtered by month",
+    tags: ["Cars"],
+    request: {
+      query: z.object({
+        month: z.string().optional(),
+      }),
+    },
+    responses: {
+      200: {
+        description: "List of distinct vehicle types",
+        content: {
+          "application/json": {
+            schema: VehicleTypesResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const { month } = c.req.query();
 
-  const result = await getDistinctVehicleTypes(month);
-  const vehicleTypes = result.map(({ vehicleType }) => vehicleType);
-  return c.json(vehicleTypes);
-});
+    const result = await getDistinctVehicleTypes(month);
+    const vehicleTypes = result.map(({ vehicleType }) => vehicleType);
+    return c.json(vehicleTypes);
+  },
+);
 
-app.get("/vehicle-types/:vehicleType", async (c) => {
-  const { vehicleType } = c.req.param();
-  const { month } = c.req.query();
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/vehicle-types/{vehicleType}",
+    summary: "Get data for specific vehicle type",
+    description:
+      "Get car registration data for a specific vehicle type, optionally filtered by month",
+    tags: ["Cars"],
+    request: {
+      params: VehicleTypeParamSchema,
+      query: z.object({
+        month: z.string().optional(),
+      }),
+    },
+    responses: {
+      200: {
+        description: "Car registration data for the specified vehicle type",
+        content: {
+          "application/json": {
+            schema: VehicleTypeDataSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const { vehicleType } = c.req.param();
+    const { month } = c.req.query();
 
-  const [totalResult, result] = await getVehicleTypeByMonth(vehicleType, month);
+    const [totalResult, result] = await getVehicleTypeByMonth(
+      vehicleType,
+      month,
+    );
 
-  return c.json({ total: totalResult[0].total, data: result });
-});
+    return c.json({ total: totalResult[0].total, data: result });
+  },
+);
 
 app.openapi(
   createRoute({
@@ -244,16 +367,42 @@ app.openapi(
   },
 );
 
-app.get("/months", zValidator("query", MonthsQuerySchema), async (c) => {
-  const { grouped } = c.req.query();
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/months",
+    summary: "Get available months",
+    description:
+      "Get a list of all available months with car registration data, optionally grouped by year",
+    tags: ["Cars"],
+    request: {
+      query: MonthsQuerySchema,
+    },
+    responses: {
+      200: {
+        description: "List of available months",
+        content: {
+          "application/json": {
+            schema: MonthsResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const { grouped } = c.req.query();
 
-  const months = await getUniqueMonths(cars);
-  if (grouped) {
-    return c.json(groupMonthsByYear(months));
-  }
+    const months = await getUniqueMonths(cars);
+    if (grouped) {
+      return c.json(groupMonthsByYear(months));
+    }
 
-  return c.json(months);
-});
+    return c.json(months);
+  },
+);
 
 app.openapi(
   createRoute({
