@@ -1,0 +1,201 @@
+---
+title: 'Quickstart'
+description: 'Start making API calls to SG Cars Trends in under 5 minutes'
+---
+
+## Get Your API Key
+
+All API requests to the SG Cars Trends API must be authenticated with a Bearer token. 
+
+<Note>
+  Contact the SG Cars Trends team to obtain your API key. You can reach out through our [GitHub repository](https://github.com/sgcarstrends/backend) or via email.
+</Note>
+
+## Make Your First API Call
+
+<CodeGroup>
+
+```bash curl
+curl -X GET \
+  "https://api.sgcarstrends.com/v1/cars?month=2024-01" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```javascript JavaScript
+const response = await fetch('https://api.sgcarstrends.com/v1/cars?month=2024-01', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json',
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+url = "https://api.sgcarstrends.com/v1/cars"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+params = {
+    "month": "2024-01"
+}
+
+response = requests.get(url, headers=headers, params=params)
+data = response.json()
+print(data)
+```
+
+</CodeGroup>
+
+## Understanding the Response
+
+The API returns structured JSON data with car registration statistics:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "month": "2024-01",
+      "make": "Toyota",
+      "fuel_type": "Petrol",
+      "vehicle_type": "Passenger Cars",
+      "number": 245
+    },
+    {
+      "month": "2024-01",
+      "make": "Honda",
+      "fuel_type": "Petrol",
+      "vehicle_type": "Passenger Cars",
+      "number": 189
+    }
+  ],
+  "total": 2,
+  "page": 1,
+  "limit": 50
+}
+```
+
+## Try Different Endpoints
+
+<CardGroup cols={2}>
+  <Card
+    title="Get COE Results"
+    icon="chart-line"
+    href="/api-reference/coe/get-coe-results"
+  >
+    ```bash
+    curl "https://api.sgcarstrends.com/v1/coe" \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Card>
+  <Card
+    title="Get Latest Month"
+    icon="calendar"
+    href="/api-reference/months/get-latest-month"
+  >
+    ```bash
+    curl "https://api.sgcarstrends.com/v1/months/latest" \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Card>
+  <Card
+    title="Compare Car Data"
+    icon="chart-bar"
+    href="/api-reference/cars/compare-cars"
+  >
+    ```bash
+    curl "https://api.sgcarstrends.com/v1/cars/compare?month=2024-01" \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Card>
+  <Card
+    title="Get Top Makes"
+    icon="trophy"
+    href="/api-reference/cars/get-top-makes"
+  >
+    ```bash
+    curl "https://api.sgcarstrends.com/v1/cars/top-makes?month=2024-01" \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Card>
+</CardGroup>
+
+## Common Use Cases
+
+### 1. Get Monthly Car Registration Trends
+
+```bash
+curl "https://api.sgcarstrends.com/v1/cars?month=2024-01" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### 2. Filter by Fuel Type
+
+```bash
+curl "https://api.sgcarstrends.com/v1/cars/fuel-types/Electric?month=2024-01" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### 3. Get Latest COE Bidding Results
+
+```bash
+curl "https://api.sgcarstrends.com/v1/coe/latest" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### 4. Compare Year-over-Year Growth
+
+```bash
+curl "https://api.sgcarstrends.com/v1/cars/compare?month=2024-01" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Authentication"
+    icon="key"
+    href="/authentication"
+  >
+    Learn more about API authentication and security
+  </Card>
+  <Card
+    title="Data Models"
+    icon="database"
+    href="/guides/data-models"
+  >
+    Understand the data structure and relationships
+  </Card>
+  <Card
+    title="Filtering Guide"
+    icon="filter"
+    href="/guides/filtering"
+  >
+    Master advanced filtering techniques
+  </Card>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/overview"
+  >
+    Explore all available endpoints
+  </Card>
+</CardGroup>
+
+## Rate Limits
+
+The API has the following rate limits:
+- **100 requests per minute** for authenticated requests
+- **10 requests per minute** for unauthenticated requests
+
+<Tip>
+  If you need higher rate limits, please contact our team to discuss your use case.
+</Tip>

@@ -16,7 +16,9 @@
     "migrate:check": "turbo migrate:check",
     "changeset": "changeset",
     "version": "changeset version",
-    "tag-release": "changeset tag"
+    "tag-release": "changeset tag",
+    "docs:dev": "pnpm -F @sgcarstrends/docs dev",
+    "docs:build": "pnpm -F @sgcarstrends/docs build"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
