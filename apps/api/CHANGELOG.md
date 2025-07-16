@@ -1,5 +1,39 @@
 # @sgcarstrends/api
 
+## 2.0.0
+
+### Major Changes
+
+- [#229](https://github.com/sgcarstrends/backend/pull/229) [`8732342`](https://github.com/sgcarstrends/backend/commit/8732342fe2959b54989f1355b5c031f1a9056eb3) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Restructure job orchestrator into the API
+
+### Minor Changes
+
+- [#213](https://github.com/sgcarstrends/backend/pull/213) [`78da448`](https://github.com/sgcarstrends/backend/commit/78da4480ecd7dfcbad6c1cae6270a74d51cda40d) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Clean up Car endpoints
+
+- [#206](https://github.com/sgcarstrends/backend/pull/206) [`f38fe06`](https://github.com/sgcarstrends/backend/commit/f38fe0641ee1356fd589385b7d7964914bcb9c30) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add compare metrics endpoint for cars
+
+- [#223](https://github.com/sgcarstrends/backend/pull/223) [`14e4150`](https://github.com/sgcarstrends/backend/commit/14e41507c4e11b42dcce698753baf7cb12fd8474) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update API endpoints for response to be consistent
+
+- [#210](https://github.com/sgcarstrends/backend/pull/210) [`115d699`](https://github.com/sgcarstrends/backend/commit/115d69906b790074319aa304cce6739d87f419d0) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add API endpoint to get the top fuel and vehicle types for a month
+
+- [#233](https://github.com/sgcarstrends/backend/pull/233) [`a858555`](https://github.com/sgcarstrends/backend/commit/a85855576d9e0be877053df5b2de99fb365d9e69) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Move database schema in packages into API itself
+
+- [#219](https://github.com/sgcarstrends/backend/pull/219) [`b873035`](https://github.com/sgcarstrends/backend/commit/b87303585e52aa4405e68df7e14bcecb1c2b71b1) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Add endpoints for fuel and vehicle types by month
+
+### Patch Changes
+
+- [#221](https://github.com/sgcarstrends/backend/pull/221) [`d849574`](https://github.com/sgcarstrends/backend/commit/d849574ec2b81a5e27f89346ede18bde2b7c98bf) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Implement proper health check on API
+
+- [#212](https://github.com/sgcarstrends/backend/pull/212) [`cee6886`](https://github.com/sgcarstrends/backend/commit/cee6886c851ab7e329c3b371881f3fb91bdbc0b6) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update cars endpoint to return data by fuel and vehicle type
+
+- [#217](https://github.com/sgcarstrends/backend/pull/217) [`4c5fbce`](https://github.com/sgcarstrends/backend/commit/4c5fbce2a610db22130bf27869a5c04651123449) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Fix Makes API returning errors
+
+- [#208](https://github.com/sgcarstrends/backend/pull/208) [`e829e69`](https://github.com/sgcarstrends/backend/commit/e829e695bb9555fc9160b3b4667e61d844c0df0b) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Setup documentation using OpenAPI and Scalar
+
+- Updated dependencies [[`a858555`](https://github.com/sgcarstrends/backend/commit/a85855576d9e0be877053df5b2de99fb365d9e69), [`9fd546c`](https://github.com/sgcarstrends/backend/commit/9fd546c797b2e29a76ac0d38eadb6bd15774d9d0)]:
+  - @sgcarstrends/types@0.2.0
+  - @sgcarstrends/utils@0.2.0
+
 ## 1.6.0
 
 ### Minor Changes

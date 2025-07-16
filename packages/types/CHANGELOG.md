@@ -1,5 +1,11 @@
 # @sgcarstrends/types
 
+## 0.2.0
+
+### Minor Changes
+
+- [#233](https://github.com/sgcarstrends/backend/pull/233) [`a858555`](https://github.com/sgcarstrends/backend/commit/a85855576d9e0be877053df5b2de99fb365d9e69) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Move database schema in packages into API itself
+
 ## 0.1.0
 
 ### Patch Changes
