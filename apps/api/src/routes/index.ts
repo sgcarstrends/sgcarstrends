@@ -23,6 +23,7 @@ app.openapi(
   createRoute({
     method: "post",
     path: "/trigger",
+    middleware: [authMiddleware],
     summary: "Trigger data update workflows",
     description:
       "Trigger both cars and COE data update workflows for fetching latest data from LTA DataMall",
@@ -50,7 +51,6 @@ app.openapi(
       },
     },
   }),
-  authMiddleware,
   async (c) => {
     try {
       const endpoints = ["cars", "coe"];
@@ -88,66 +88,10 @@ app.openapi(
   },
 );
 
-app.openapi(
-  createRoute({
-    method: "post",
-    path: "/cars",
-    summary: "Car data update workflow endpoint",
-    description:
-      "Execute the car registration data update workflow to fetch and process latest data from LTA DataMall",
-    tags: ["Workflows"],
-    responses: {
-      200: {
-        description: "Workflow executed successfully",
-        content: {
-          "application/json": {
-            schema: WorkflowTriggerResponseSchema,
-          },
-        },
-      },
-      500: {
-        description: "Internal server error",
-        content: {
-          "application/json": {
-            schema: WorkflowTriggerResponseSchema,
-          },
-        },
-      },
-    },
-  }),
+app.post(
+  "/*",
   serveMany({
     cars: carsWorkflow,
-  }),
-);
-
-app.openapi(
-  createRoute({
-    method: "post",
-    path: "/coe",
-    summary: "COE data update workflow endpoint",
-    description:
-      "Execute the COE bidding data update workflow to fetch and process latest data from LTA DataMall",
-    tags: ["Workflows"],
-    responses: {
-      200: {
-        description: "Workflow executed successfully",
-        content: {
-          "application/json": {
-            schema: WorkflowTriggerResponseSchema,
-          },
-        },
-      },
-      500: {
-        description: "Internal server error",
-        content: {
-          "application/json": {
-            schema: WorkflowTriggerResponseSchema,
-          },
-        },
-      },
-    },
-  }),
-  serveMany({
     coe: coeWorkflow,
   }),
 );
