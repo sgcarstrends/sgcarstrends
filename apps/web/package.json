@@ -33,6 +33,8 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
     "@ruchernchong/number-format": "^2.3.4",
+    "@sgcarstrends/utils": "workspace:*",
+    "@sgcarstrends/types": "workspace:*",
     "@sindresorhus/slugify": "^2.2.1",
     "@tanstack/react-table": "^8.20.1",
     "@upstash/redis": "^1.34.8",
