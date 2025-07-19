@@ -1,5 +1,5 @@
 {
-  "name": "@sgcarstrends/backend",
+  "name": "sgcarstrends",
   "description": "Monorepo backend infrastructure for SG Cars Trends",
   "private": true,
   "repository": {
