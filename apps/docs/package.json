@@ -4,9 +4,7 @@
   "version": "1.6.0",
   "type": "module",
   "private": true,
-  "scripts": {
-    "dev": "mint dev"
-  },
+  "scripts": {},
   "devDependencies": {
     "mint": "^4.2.3"
   }

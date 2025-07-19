@@ -7,7 +7,7 @@
     "url": "https://github.com/sgcarstrends/backend.git"
   },
   "scripts": {
-    "dev": "turbo dev",
+    "dev": "turbo dev --parallel",
     "test": "turbo test",
     "test:watch": "turbo test:watch",
     "test:coverage": "turbo test:coverage",
