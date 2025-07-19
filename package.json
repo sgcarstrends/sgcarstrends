@@ -8,9 +8,12 @@
   },
   "scripts": {
     "dev": "turbo dev --parallel",
+    "build": "turbo build",
     "test": "turbo test",
     "test:watch": "turbo test:watch",
     "test:coverage": "turbo test:coverage",
+    "test:e2e": "pnpm -F @sgcarstrends/web test:e2e",
+    "test:e2e:ui": "pnpm -F @sgcarstrends/web test:e2e:ui",
     "lint": "turbo lint",
     "migrate": "turbo migrate",
     "migrate:check": "turbo migrate:check",
@@ -18,7 +21,13 @@
     "version": "changeset version",
     "tag-release": "changeset tag",
     "docs:dev": "pnpm -F @sgcarstrends/docs dev",
-    "docs:build": "pnpm -F @sgcarstrends/docs build"
+    "docs:build": "pnpm -F @sgcarstrends/docs build",
+    "web:dev": "pnpm -F @sgcarstrends/web dev",
+    "web:build": "pnpm -F @sgcarstrends/web build",
+    "web:start": "pnpm -F @sgcarstrends/web start",
+    "web:deploy:dev": "pnpm -F @sgcarstrends/web deploy:dev",
+    "web:deploy:staging": "pnpm -F @sgcarstrends/web deploy:staging",
+    "web:deploy:prod": "pnpm -F @sgcarstrends/web deploy:prod"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",

@@ -2,12 +2,13 @@
 
 ## Project Overview
 
-SG Cars Trends Backend provides access to Singapore vehicle registration data and Certificate of Entitlement (COE)
-bidding results. The system is a unified API service that includes:
+SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data and Certificate of Entitlement (COE) bidding results. The monorepo includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
+- **Web Application**: Next.js frontend with interactive charts and analytics
 - **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA DataMall (QStash workflows)
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available
+- **Documentation**: Comprehensive developer documentation using Mintlify
 
 ## Commands
 
@@ -19,8 +20,16 @@ bidding results. The system is a unified API service that includes:
 - Test all: `pnpm test`
 - Test watch: `pnpm test:watch`
 - Test coverage: `pnpm test:coverage`
+- E2E tests: `pnpm test:e2e`
+- E2E tests with UI: `pnpm test:e2e:ui`
 - Run single test: `pnpm -F @sgcarstrends/api test -- src/utils/__tests__/slugify.test.ts`
 - Package-specific test: `pnpm -F @sgcarstrends/<package> test`
+
+### Web Application Commands
+
+- Web dev server: `pnpm web:dev`
+- Web build: `pnpm web:build`
+- Web start: `pnpm web:start`
 
 ### Database Commands
 
@@ -31,13 +40,20 @@ bidding results. The system is a unified API service that includes:
 
 - Deploy API (includes updater functionality): `pnpm -F @sgcarstrends/api deploy`
 - Deploy to specific stage: `pnpm -F @sgcarstrends/api deploy --stage <stage-name>`
+- Deploy web to dev: `pnpm web:deploy:dev`
+- Deploy web to staging: `pnpm web:deploy:staging`
+- Deploy web to production: `pnpm web:deploy:prod`
 
 ## Code Structure
 
 - **apps/api**: Unified API service using Hono framework with integrated updater workflows
   - **src/v1**: API endpoints for data access
   - **src/updater**: Workflow-based data update system and social media integration
-- **packages/schema**: Shared database schema (Drizzle ORM)
+- **apps/web**: Next.js frontend application
+  - **src/app**: Next.js App Router pages and layouts
+  - **src/components**: React components with tests
+  - **src/utils**: Web-specific utility functions
+- **apps/docs**: Mintlify documentation site
 - **packages/types**: Shared TypeScript type definitions
 - **packages/utils**: Shared utility functions
 

@@ -20,7 +20,7 @@ import { ChevronDown } from "lucide-react";
 import { BrandLogo } from "@/components/brand-logo";
 import { UnreleasedFeature } from "@/components/unreleased-feature";
 import { navLinks } from "@/config/navigation";
-import type { NavbarProps } from "@heroui/navbar";
+import type { NavbarProps } from "@heroui/react";
 
 export const Header = (props: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

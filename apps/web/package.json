@@ -22,6 +22,8 @@
     "tag-release": "changeset tag"
   },
   "dependencies": {
+    "@sgcarstrends/types": "workspace:*",
+    "@sgcarstrends/utils": "workspace:*",
     "@heroui/react": "2.8.0-beta.15",
     "@icons-pack/react-simple-icons": "^10.2.0",
     "@neondatabase/serverless": "^0.9.4",

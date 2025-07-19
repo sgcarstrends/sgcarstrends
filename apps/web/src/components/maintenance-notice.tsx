@@ -20,7 +20,7 @@ const containerVariants = {
     opacity: 1,
     transition: {
       duration: 0.6,
-      ease: "easeOut",
+      ease: [0.4, 0, 0.2, 1] as const,
       staggerChildren: 0.1,
     },
   },
@@ -32,7 +32,7 @@ const itemVariants = {
     opacity: 1,
     transition: {
       duration: 0.5,
-      ease: "easeOut",
+      ease: [0.4, 0, 0.2, 1] as const,
     },
   },
 };
@@ -43,9 +43,7 @@ const iconVariants = {
     opacity: 1,
     scale: 1,
     transition: {
-      duration: 0.5,
-      ease: "easeOut",
-      type: "spring",
+      type: "spring" as const,
       stiffness: 200,
       damping: 15,
     },
@@ -91,7 +89,7 @@ const spinVariants = {
     rotate: 360,
     transition: {
       duration: 10,
-      ease: "linear",
+      ease: "linear" as const,
       repeat: Infinity,
     },
   },
