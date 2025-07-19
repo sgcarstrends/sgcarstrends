@@ -39,12 +39,36 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: Create and publish versions
-        uses: changesets/action@v1
-        with:
-          commit: "chore(release): version packages"
-          title: "chore(release): version packages"
-          publish: pnpm tag-release
-          commitMode: github-api
+      - name: Run Tests
+        run: pnpm test
+
+      - name: Run Lint
+        run: pnpm lint
+
+      - name: Build All Packages
+        run: pnpm build
+
+      - name: Release API
+        run: cd apps/api && npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release Web
+        run: cd apps/web && npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release Docs
+        run: cd apps/docs && npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release Types
+        run: cd packages/types && npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release Utils
+        run: cd packages/utils && npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

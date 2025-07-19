@@ -36,6 +36,13 @@ SG Cars Trends is a full-stack platform providing access to Singapore vehicle re
 - Run migrations: `pnpm migrate`
 - Check pending migrations: `pnpm migrate:check`
 
+### Release Commands
+
+- Test release (dry run): `pnpm release:dry`
+- Test all packages release: `pnpm release:all:dry`
+- Manual release (use with caution): `pnpm release`
+- Release all packages: `pnpm release:all`
+
 ### Deployment Commands
 
 - Deploy API (includes updater functionality): `pnpm -F @sgcarstrends/api deploy`
@@ -155,7 +162,9 @@ The integrated updater service uses a workflow-based architecture with:
 ## Contribution Guidelines
 
 - Create feature branches from main branch
+- **Use conventional commit messages** (see SEMANTIC_RELEASE.md for details)
 - Submit PRs with descriptive titles and summaries
 - Ensure CI passes (tests, lint, typecheck) before requesting review
 - Maintain backward compatibility for public APIs
-- Document breaking changes in PR descriptions
+- Use `feat!:` or `BREAKING CHANGE:` footer for breaking changes
+- **Automated releases** happen on merge to main based on commit messages
