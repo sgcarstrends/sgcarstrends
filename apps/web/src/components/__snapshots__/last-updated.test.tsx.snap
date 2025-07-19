@@ -1,0 +1,17 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LastUpdated > should render 1`] = `
+<div>
+  <div
+    class="text-muted-foreground text-xs"
+  >
+    Last updated:
+     
+    <span
+      class="underline"
+    >
+      1 Jan 2025, 00:00AM
+    </span>
+  </div>
+</div>
+`;
