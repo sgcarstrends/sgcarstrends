@@ -65,13 +65,21 @@ export const ReferrerChart = ({ data, totalViews }: Props) => {
       let name = item.referrer;
 
       // Simplify common referrers
-      if (name.includes("google.com")) name = "Google";
-      else if (name.includes("facebook.com")) name = "Facebook";
-      else if (name.includes("twitter.com") || name.includes("x.com"))
-        name = "X (Twitter)";
-      else if (name.includes("linkedin.com")) name = "LinkedIn";
-      else if (name.includes("youtube.com")) name = "YouTube";
-      else if (name.length > 20) name = `${name.substring(0, 20)}...`;
+      try {
+        const parsedUrl = new URL(name);
+        const host = parsedUrl.host;
+
+        if (host === "google.com" || host.endsWith(".google.com")) name = "Google";
+        else if (host === "facebook.com" || host.endsWith(".facebook.com")) name = "Facebook";
+        else if (host === "twitter.com" || host === "x.com" || host.endsWith(".twitter.com") || host.endsWith(".x.com"))
+          name = "X (Twitter)";
+        else if (host === "linkedin.com" || host.endsWith(".linkedin.com")) name = "LinkedIn";
+        else if (host === "youtube.com" || host.endsWith(".youtube.com")) name = "YouTube";
+        else if (name.length > 20) name = `${name.substring(0, 20)}...`;
+      } catch {
+        // If parsing fails, fall back to the original name
+        if (name.length > 20) name = `${name.substring(0, 20)}...`;
+      }
 
       return {
         name,
