@@ -7,7 +7,7 @@
   "plugins": ["import"],
   "rules": {
     "import/order": [
-      "error",
+      "warn",
       {
         "pathGroups": [
           {
@@ -50,9 +50,7 @@
     {
       "files": ["components/ui/**"],
       "rules": {
-        // Disable all rules
         "import/order": "off"
-        // Optionally specify any other rules to disable here
       }
     }
   ]

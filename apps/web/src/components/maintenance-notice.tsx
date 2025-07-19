@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardBody, Chip, Divider, Link } from "@heroui/react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import {
   Clock,
   Mail,
@@ -14,19 +14,18 @@ import {
 } from "lucide-react";
 import useMaintenance from "@/hooks/use-maintenance";
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
       duration: 0.6,
       ease: "easeOut",
-      staggerChildren: 0.1,
     },
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -37,7 +36,7 @@ const itemVariants = {
   },
 };
 
-const iconVariants = {
+const iconVariants: Variants = {
   hidden: { opacity: 0, scale: 0.8 },
   visible: {
     opacity: 1,
@@ -52,7 +51,7 @@ const iconVariants = {
   },
 };
 
-const textVariants = {
+const textVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -64,18 +63,17 @@ const textVariants = {
   },
 };
 
-const cardGridVariants = {
+const cardGridVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
       delayChildren: 0.1,
     },
   },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -86,7 +84,7 @@ const cardVariants = {
   },
 };
 
-const spinVariants = {
+const spinVariants: Variants = {
   animate: {
     rotate: 360,
     transition: {
