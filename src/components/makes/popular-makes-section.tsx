@@ -1,0 +1,40 @@
+"use client";
+
+import { Chip } from "@heroui/react";
+import { type Make } from "@/types";
+import { MakeCard } from "./make-card";
+
+interface PopularMakesSectionProps {
+  makes: Make[];
+  onMakePress?: (make: Make) => void;
+}
+
+export const PopularMakesSection = ({
+  makes,
+  onMakePress,
+}: PopularMakesSectionProps) => {
+  if (makes.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="space-y-4">
+      <div className="flex items-center gap-2">
+        <h2 className="text-xl font-semibold">Popular Makes</h2>
+        <Chip size="sm" variant="flat" color="primary">
+          {makes.length}
+        </Chip>
+      </div>
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        {makes.map((make) => (
+          <MakeCard
+            key={make}
+            make={make}
+            isPopular={true}
+            onMakePress={onMakePress}
+          />
+        ))}
+      </div>
+    </section>
+  );
+};
