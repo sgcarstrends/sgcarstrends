@@ -29,19 +29,19 @@ jobs:
           version: '10.4.1'
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 'lts/*'
           cache: "pnpm"
-          
+
       - name: Install dependencies
         run: pnpm install
-        
+
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
           aws-region: ${{ vars.AWS_REGION }}
-          
+
       - name: Run migrations
-        working-directory: ./packages/schema
+        working-directory: ./apps/api
         run: pnpm migrate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

@@ -1,44 +1,47 @@
-import { Ratelimit } from "@upstash/ratelimit";
-import { Hono } from "hono";
+import workflows from "@api/routes";
+import health from "@api/v1/routes/health";
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { Scalar } from "@scalar/hono-api-reference";
+// import { Ratelimit } from "@upstash/ratelimit";
 import { handle } from "hono/aws-lambda";
 import { compress } from "hono/compress";
 import { showRoutes } from "hono/dev";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
-import packageJson from "../package.json" assert { type: "json" };
-import redis from "./config/redis";
+import packageJson from "../package.json";
+// import redis from "./config/redis";
 import v1 from "./v1";
 
-const ratelimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(10, "10 s"),
-  analytics: true,
-});
+// const ratelimit = new Ratelimit({
+//   redis,
+//   limiter: Ratelimit.slidingWindow(10, "10 s"),
+//   analytics: true,
+// });
 
-const app = new Hono();
+const app = new OpenAPIHono();
 
-const rateLimitMiddleware = async (c, next) => {
-  const ip = c.req.header("x-forwarded-for") || "unknown";
-  const { success, limit, remaining, reset } = await ratelimit.limit(ip);
-
-  c.header("X-RateLimit-Limit", limit.toString());
-  c.header("X-RateLimit-Remaining", remaining.toString());
-  c.header("X-RateLimit-Reset", reset.toString());
-
-  if (!success) {
-    return c.text("Rate limit exceeded", 429);
-  }
-
-  await next();
-};
+// const rateLimitMiddleware = async (c, next) => {
+//   const ip = c.req.header("x-forwarded-for") || "unknown";
+//   const { success, limit, remaining, reset } = await ratelimit.limit(ip);
+//
+//   c.header("X-RateLimit-Limit", limit.toString());
+//   c.header("X-RateLimit-Remaining", remaining.toString());
+//   c.header("X-RateLimit-Reset", reset.toString());
+//
+//   if (!success) {
+//     return c.text("Rate limit exceeded", 429);
+//   }
+//
+//   await next();
+// };
 
 app.use(logger());
 app.use(compress());
 app.use(prettyJSON());
-if (process.env.FEATURE_FLAG_RATE_LIMIT) {
-  app.use("*", rateLimitMiddleware);
-}
+// if (process.env.FEATURE_FLAG_RATE_LIMIT) {
+//   app.use("*", rateLimitMiddleware);
+// }
 // app.use("*", (c, next) => {
 //   c.res.headers.append("Cache-Control", "public, max-age=86400");
 //   return next();
@@ -75,16 +78,23 @@ app.notFound((c) =>
   c.json({ message: `Resource not found: ${c.req.path}` }, 404),
 );
 
-app.get("/", async (c) =>
-  c.json({
+app.doc("/docs", {
+  openapi: "3.1.0",
+  info: {
     version: packageJson.version,
-    timestamp: new Date().toISOString(),
-    message: "Welcome to the SG Cars Trends API",
-  }),
-);
+    title: "SG Cars Trends API",
+    description: packageJson.description,
+  },
+});
 
+app.get("/", Scalar({ url: "/docs" }));
+
+app.route("/workflows", workflows);
+app.route("/health", health);
 app.route("/v1", v1);
 
 showRoutes(app);
 
 export const handler = handle(app);
+
+export default app;

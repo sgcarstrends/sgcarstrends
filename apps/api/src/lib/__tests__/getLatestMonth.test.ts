@@ -10,7 +10,7 @@ vi.mock("@api/config/db", () => ({
 }));
 
 describe("getLatestMonth", () => {
-  const mockTable = { month: "month" } as any;
+  const mockTable = { month: "month" } as never;
 
   beforeEach(() => {
     vi.resetAllMocks();
@@ -25,7 +25,7 @@ describe("getLatestMonth", () => {
 
     vi.mocked(db.select).mockReturnValue({
       from: vi.fn().mockResolvedValue([{ month: mockMonth }]),
-    } as any);
+    } as never);
 
     const result = await getLatestMonth(mockTable);
 
@@ -36,7 +36,7 @@ describe("getLatestMonth", () => {
   it("should return null when no data is found", async () => {
     vi.mocked(db.select).mockReturnValue({
       from: vi.fn().mockResolvedValue([{ month: null }]),
-    } as any);
+    } as never);
 
     const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
@@ -53,7 +53,7 @@ describe("getLatestMonth", () => {
 
     vi.mocked(db.select).mockReturnValue({
       from: vi.fn().mockRejectedValue(mockError),
-    } as any);
+    } as never);
 
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 

@@ -1,5 +1,14 @@
 # @sgcarstrends/utils
 
+## 0.2.0
+
+### Patch Changes
+
+- [`9fd546c`](https://github.com/sgcarstrends/backend/commit/9fd546c797b2e29a76ac0d38eadb6bd15774d9d0) Thanks [@ruchernchong](https://github.com/ruchernchong)! - Update test scripts for utils
+
+- Updated dependencies [[`a858555`](https://github.com/sgcarstrends/backend/commit/a85855576d9e0be877053df5b2de99fb365d9e69)]:
+  - @sgcarstrends/types@0.2.0
+
 ## 0.1.0
 
 ### Patch Changes

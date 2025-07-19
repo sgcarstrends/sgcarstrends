@@ -1,0 +1,660 @@
+---
+title: 'Development Setup'
+description: 'Set up your local development environment for the SG Cars Trends API'
+---
+
+## Prerequisites
+
+Before setting up the development environment, ensure you have the following installed:
+
+<CardGroup cols={2}>
+  <Card
+    title="Node.js"
+    icon="node-js"
+  >
+    Version 18.0 or higher
+    [Download Node.js](https://nodejs.org/)
+  </Card>
+  <Card
+    title="pnpm"
+    icon="package"
+  >
+    Version 8.0 or higher
+    ```bash
+    npm install -g pnpm
+    ```
+  </Card>
+  <Card
+    title="PostgreSQL"
+    icon="database"
+  >
+    Version 14.0 or higher
+    [Download PostgreSQL](https://www.postgresql.org/download/)
+  </Card>
+  <Card
+    title="Redis"
+    icon="memory"
+  >
+    Version 6.0 or higher
+    [Download Redis](https://redis.io/download)
+  </Card>
+</CardGroup>
+
+## Project Structure
+
+The SG Cars Trends backend is organized as a monorepo with the following structure:
+
+```
+backend/
+├── apps/
+│   └── api/                    # Main API application
+│       ├── src/
+│       │   ├── config/         # Configuration files
+│       │   ├── db/             # Database schema
+│       │   ├── lib/            # Utility functions and workflows
+│       │   ├── queries/        # Database queries
+│       │   ├── routes/         # API routes
+│       │   ├── schemas/        # Validation schemas
+│       │   ├── types/          # Type definitions
+│       │   ├── utils/          # Utility functions
+│       │   └── v1/             # API version 1 routes
+│       ├── migrations/         # Database migrations
+│       └── sst.config.ts       # SST configuration
+├── packages/
+│   ├── schema/                 # Shared database schema
+│   ├── types/                  # Shared TypeScript types
+│   └── utils/                  # Shared utility functions
+├── docs/                       # Documentation (this site)
+└── mint.json                   # Mintlify configuration
+```
+
+## Environment Setup
+
+### 1. Clone the Repository
+
+<CodeGroup>
+
+```bash HTTPS
+git clone https://github.com/sgcarstrends/backend.git
+cd backend
+```
+
+```bash SSH
+git clone git@github.com:sgcarstrends/backend.git
+cd backend
+```
+
+```bash GitHub CLI
+gh repo clone sgcarstrends/backend
+cd backend
+```
+
+</CodeGroup>
+
+### 2. Install Dependencies
+
+<CodeGroup>
+
+```bash pnpm
+pnpm install
+```
+
+```bash npm
+npm install
+```
+
+```bash yarn
+yarn install
+```
+
+</CodeGroup>
+
+### 3. Environment Variables
+
+Create a `.env.local` file in the root directory with the following variables:
+
+<CodeGroup>
+
+```bash .env.local
+# Database Configuration
+DATABASE_URL="postgresql://username:password@localhost:5432/sgcarstrends"
+
+# Redis Configuration
+UPSTASH_REDIS_REST_URL="redis://localhost:6379"
+UPSTASH_REDIS_REST_TOKEN="your_redis_token"
+
+# API Configuration
+SG_CARS_TRENDS_API_TOKEN="your_api_token_here"
+UPDATER_API_TOKEN="your_updater_token_here"
+
+# LTA DataMall API
+LTA_DATAMALL_API_KEY="your_lta_datamall_api_key"
+
+# QStash Configuration (for workflows)
+QSTASH_URL="https://qstash.upstash.io"
+QSTASH_TOKEN="your_qstash_token"
+
+# Social Media API Keys (optional for development)
+LINKEDIN_ACCESS_TOKEN="your_linkedin_token"
+TWITTER_BEARER_TOKEN="your_twitter_token"
+DISCORD_WEBHOOK_URL="your_discord_webhook"
+TELEGRAM_BOT_TOKEN="your_telegram_token"
+TELEGRAM_CHAT_ID="your_telegram_chat_id"
+```
+
+</CodeGroup>
+
+<Note>
+  Most environment variables are optional for basic development. The API will work with just the database and Redis configuration.
+</Note>
+
+### 4. Database Setup
+
+#### Local PostgreSQL
+
+<CodeGroup>
+
+```bash Create Database
+# Connect to PostgreSQL
+psql -U postgres
+
+# Create database
+CREATE DATABASE sgcarstrends;
+
+# Create user (optional)
+CREATE USER sgcarstrends WITH PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE sgcarstrends TO sgcarstrends;
+
+# Exit PostgreSQL
+\q
+```
+
+```bash Alternative (command line)
+# Create database directly
+createdb sgcarstrends
+
+# Set permissions
+psql -d sgcarstrends -c "GRANT ALL ON SCHEMA public TO sgcarstrends;"
+```
+
+</CodeGroup>
+
+#### Run Migrations
+
+<CodeGroup>
+
+```bash pnpm
+pnpm migrate
+```
+
+```bash npm
+npm run migrate
+```
+
+</CodeGroup>
+
+#### Verify Database Setup
+
+<CodeGroup>
+
+```bash Check migrations
+pnpm migrate:check
+```
+
+```bash Connect to database
+psql -d sgcarstrends -c "\dt"
+```
+
+</CodeGroup>
+
+### 5. Redis Setup
+
+#### Local Redis
+
+<CodeGroup>
+
+```bash macOS (Homebrew)
+brew install redis
+brew services start redis
+```
+
+```bash Ubuntu/Debian
+sudo apt update
+sudo apt install redis-server
+sudo systemctl start redis-server
+```
+
+```bash Windows (WSL)
+sudo apt update
+sudo apt install redis-server
+sudo service redis-server start
+```
+
+</CodeGroup>
+
+#### Verify Redis Connection
+
+<CodeGroup>
+
+```bash Test connection
+redis-cli ping
+# Should return: PONG
+```
+
+</CodeGroup>
+
+## Development Workflow
+
+### 1. Start Development Server
+
+<CodeGroup>
+
+```bash pnpm
+pnpm dev
+```
+
+```bash npm
+npm run dev
+```
+
+</CodeGroup>
+
+This will start the development server using SST dev mode on `http://localhost:3000`.
+
+### 2. Available Scripts
+
+| Script | Description |
+|--------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | Build for production |
+| `pnpm test` | Run all tests |
+| `pnpm test:watch` | Run tests in watch mode |
+| `pnpm test:coverage` | Run tests with coverage |
+| `pnpm lint` | Run linting |
+| `pnpm migrate` | Run database migrations |
+| `pnpm migrate:check` | Check migration status |
+
+### 3. Development URLs
+
+Once the development server is running, you can access:
+
+- **API**: `http://localhost:3000`
+- **Health Check**: `http://localhost:3000/health`
+- **API Documentation**: `http://localhost:3000/docs`
+- **OpenAPI Schema**: `http://localhost:3000/docs/openapi.json`
+
+## Testing
+
+### Running Tests
+
+<CodeGroup>
+
+```bash All tests
+pnpm test
+```
+
+```bash Watch mode
+pnpm test:watch
+```
+
+```bash Coverage
+pnpm test:coverage
+```
+
+```bash Specific test file
+pnpm -F @sgcarstrends/api test -- src/utils/__tests__/slugify.test.ts
+```
+
+</CodeGroup>
+
+### Test Structure
+
+Tests are organized alongside the source code:
+
+```
+src/
+├── utils/
+│   ├── slugify.ts
+│   └── __tests__/
+│       └── slugify.test.ts
+└── lib/
+    ├── getLatestMonth.ts
+    └── __tests__/
+        └── getLatestMonth.test.ts
+```
+
+### Writing Tests
+
+<CodeGroup>
+
+```typescript Example Test
+import { describe, it, expect } from 'vitest';
+import { slugify } from '../slugify';
+
+describe('slugify', () => {
+  it('should convert string to slug', () => {
+    expect(slugify('Hello World')).toBe('hello-world');
+  });
+
+  it('should handle special characters', () => {
+    expect(slugify('Hello, World!')).toBe('hello-world');
+  });
+
+  it('should handle empty string', () => {
+    expect(slugify('')).toBe('');
+  });
+});
+```
+
+</CodeGroup>
+
+## Code Quality
+
+### Linting
+
+The project uses Biome for linting and formatting:
+
+<CodeGroup>
+
+```bash Run linter
+pnpm lint
+```
+
+```bash Auto-fix issues
+pnpm lint --apply
+```
+
+</CodeGroup>
+
+### Configuration
+
+Biome configuration is in `biome.json`:
+
+```json
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": ["node_modules/**", ".sst/**", "dist/**"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  }
+}
+```
+
+## Database Operations
+
+### Migrations
+
+<CodeGroup>
+
+```bash Create migration
+# Modify schema in packages/schema/src/index.ts
+# Then generate migration
+pnpm migrate
+```
+
+```bash Check migration status
+pnpm migrate:check
+```
+
+```bash Reset database (development only)
+# Drop all tables and re-run migrations
+psql -d sgcarstrends -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
+pnpm migrate
+```
+
+</CodeGroup>
+
+### Schema Changes
+
+Database schema is managed with Drizzle ORM:
+
+<CodeGroup>
+
+```typescript Schema Example
+// packages/schema/src/index.ts
+import { pgTable, text, integer, timestamp } from 'drizzle-orm/pg-core';
+
+export const cars = pgTable('cars', {
+  id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
+  month: text('month').notNull(),
+  make: text('make').notNull(),
+  fuelType: text('fuel_type').notNull(),
+  vehicleType: text('vehicle_type').notNull(),
+  number: integer('number').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
+```
+
+</CodeGroup>
+
+## API Testing
+
+### Manual Testing
+
+<CodeGroup>
+
+```bash Health check
+curl http://localhost:3000/health
+```
+
+```bash Get cars (requires API key)
+curl -H "Authorization: Bearer YOUR_API_KEY" \
+  http://localhost:3000/v1/cars
+```
+
+```bash Test workflow
+curl -X POST \
+  -H "Content-Type: application/json" \
+  http://localhost:3000/workflows/cars
+```
+
+</CodeGroup>
+
+### API Documentation
+
+The API documentation is available at `http://localhost:3000/docs` when running locally.
+
+## Troubleshooting
+
+### Common Issues
+
+<AccordionGroup>
+  <Accordion title="Database Connection Error">
+    **Error**: `ECONNREFUSED` or `connection refused`
+    
+    **Solution**:
+    - Ensure PostgreSQL is running
+    - Check database credentials in `.env.local`
+    - Verify database exists: `psql -l`
+  </Accordion>
+
+  <Accordion title="Redis Connection Error">
+    **Error**: `Redis connection failed`
+    
+    **Solution**:
+    - Ensure Redis is running: `redis-cli ping`
+    - Check Redis configuration in `.env.local`
+    - Restart Redis: `brew services restart redis` (macOS)
+  </Accordion>
+
+  <Accordion title="Migration Errors">
+    **Error**: `Migration failed` or `Table already exists`
+    
+    **Solution**:
+    - Check migration status: `pnpm migrate:check`
+    - Reset database (development only):
+      ```bash
+      psql -d sgcarstrends -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
+      pnpm migrate
+      ```
+  </Accordion>
+
+  <Accordion title="TypeScript Errors">
+    **Error**: Type checking errors
+    
+    **Solution**:
+    - Ensure all packages are installed: `pnpm install`
+    - Check TypeScript configuration in `tsconfig.json`
+    - Restart TypeScript server in your IDE
+  </Accordion>
+
+  <Accordion title="Test Failures">
+    **Error**: Tests failing unexpectedly
+    
+    **Solution**:
+    - Check test database connection
+    - Ensure test data is properly mocked
+    - Run tests individually: `pnpm test -- specific.test.ts`
+  </Accordion>
+</AccordionGroup>
+
+### Debug Mode
+
+Enable debug logging:
+
+<CodeGroup>
+
+```bash Environment Variable
+export DEBUG=sgcarstrends:*
+pnpm dev
+```
+
+```bash Console Logging
+# Add to your code
+console.log('Debug info:', { variable });
+```
+
+</CodeGroup>
+
+## IDE Configuration
+
+### VS Code
+
+Recommended extensions:
+
+- **Biome**: For linting and formatting
+- **TypeScript**: For type checking
+- **PostgreSQL**: For database management
+- **Rest Client**: For API testing
+
+### Settings
+
+<CodeGroup>
+
+```json .vscode/settings.json
+{
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "typescript.preferences.includePackageJsonAutoImports": "auto"
+}
+```
+
+</CodeGroup>
+
+## Docker Setup (Optional)
+
+For containerized development:
+
+<CodeGroup>
+
+```dockerfile Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
+```
+
+```yaml docker-compose.yml
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: sgcarstrends
+      POSTGRES_USER: sgcarstrends
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
+```
+
+</CodeGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Testing Guide"
+    icon="test-tube"
+    href="/development/testing"
+  >
+    Learn about testing strategies and practices
+  </Card>
+  <Card
+    title="Deployment Guide"
+    icon="rocket"
+    href="/development/deployment"
+  >
+    Deploy your application to production
+  </Card>
+  <Card
+    title="Contributing"
+    icon="git-branch"
+    href="/development/contributing"
+  >
+    Guidelines for contributing to the project
+  </Card>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/overview"
+  >
+    Explore the API endpoints
+  </Card>
+</CardGroup>

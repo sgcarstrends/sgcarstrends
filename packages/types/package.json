@@ -1,13 +1,13 @@
 {
   "name": "@sgcarstrends/types",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared type definitions for SG Cars Trends",
+  "type": "module",
   "main": "src/index.ts",
+  "module": "src/index.ts",
   "scripts": {
     "dev": "tsc --watch"
   },
-  "dependencies": {
-    "@sgcarstrends/schema": "workspace:*"
-  },
+  "dependencies": {},
   "devDependencies": {}
 }

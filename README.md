@@ -4,15 +4,20 @@
 
 ## Overview
 
-This monorepo contains the backend services for SG Cars Trends, tracking Singapore's car statistics including:
+This monorepo provides a unified backend service for SG Cars Trends, tracking Singapore's car registration statistics and Certificate of Entitlement (COE) data. The system includes:
+
+- **REST API**: Data access endpoints for car registrations and COE results
+- **Integrated Data Updater**: Workflow-based system for fetching and processing LTA data
+- **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter
 
 ## Project Structure
 
 ```
 backend/
 ├── apps/
-│   ├── api/          # REST API service
-│   └── updater/      # Data update service
+│   └── api/          # Unified API service with integrated updater
+│       ├── src/v1/          # API endpoints for data access
+│       └── src/updater/     # Data update workflows and social media integration
 ├── packages/
 │   ├── schema/       # Database schema using Drizzle ORM
 │   ├── types/        # Shared TypeScript types
@@ -26,11 +31,20 @@ backend/
 - **Database**: Neon Serverless PostgreSQL with Drizzle ORM
 - **Caching**: Upstash Redis
 - **Infrastructure**: SST (Serverless Stack)
-- **Scheduling**: Trigger.dev
+- **Scheduling**: QStash Workflows
 - **Package Management**: pnpm workspace
 - **Build Tools**: Turbo
 - **Testing**: Vitest
 - **Linting**: Biome
+
+## Documentation
+
+📚 **Complete API documentation is available at: [docs.sgcarstrends.com](https://docs.sgcarstrends.com)**
+
+- **[Getting Started](https://docs.sgcarstrends.com/quickstart)** - Quick start guide and authentication
+- **[API Reference](https://docs.sgcarstrends.com/api-reference/overview)** - Complete endpoint documentation
+- **[Developer Guides](https://docs.sgcarstrends.com/guides/data-models)** - Data models, filtering, and analytics
+- **[Examples](https://docs.sgcarstrends.com/examples/javascript)** - Code examples in multiple languages
 
 ## Getting Started
 
@@ -53,6 +67,9 @@ pnpm install
 ### Development
 
 ```bash
+# Run the unified API service
+pnpm -F @sgcarstrends/api dev
+
 # Run all tests
 pnpm test
 
@@ -61,7 +78,32 @@ pnpm test:coverage
 
 # Run linting
 pnpm lint
+
+# Deploy the API (includes updater functionality)
+pnpm -F @sgcarstrends/api deploy
+
+# Documentation development
+pnpm docs:dev     # Start local docs server
+pnpm docs:build   # Build documentation
 ```
+
+## API Endpoints
+
+### Data Access
+- `GET /v1/cars` - Car registration data
+- `GET /v1/coe` - COE bidding results
+- `GET /v1/coe/pqp` - COE Prevailing Quota Premium rates
+- `GET /v1/makes` - Car manufacturers
+- `GET /v1/months/latest` - Latest month with data
+
+### Updater (Authenticated)
+- `POST /updater/workflows/trigger` - Trigger data update workflows
+- `POST /updater/workflow/cars` - Car data workflow
+- `POST /updater/workflow/coe` - COE data workflow
+- `POST /updater/linkedin` - LinkedIn posting webhook
+- `POST /updater/twitter` - Twitter posting webhook
+- `POST /updater/discord` - Discord posting webhook
+- `POST /updater/telegram` - Telegram posting webhook
 
 ## Repo Activity
 

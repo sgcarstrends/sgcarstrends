@@ -7,7 +7,7 @@
     "url": "https://github.com/sgcarstrends/backend.git"
   },
   "scripts": {
-    "dev": "turbo dev",
+    "dev": "turbo dev --parallel",
     "test": "turbo test",
     "test:watch": "turbo test:watch",
     "test:coverage": "turbo test:coverage",
@@ -16,15 +16,17 @@
     "migrate:check": "turbo migrate:check",
     "changeset": "changeset",
     "version": "changeset version",
-    "tag-release": "changeset tag"
+    "tag-release": "changeset tag",
+    "docs:dev": "pnpm -F @sgcarstrends/docs dev",
+    "docs:build": "pnpm -F @sgcarstrends/docs build"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.0",
     "@changesets/changelog-github": "^0.5.1",
     "@changesets/cli": "^2.28.1",
     "@types/node": "^22.13.9",
     "@vitest/coverage-v8": "^3.1.2",
-    "turbo": "^2.4.4",
+    "turbo": "^2.5.4",
     "typescript": "^5.4.5",
     "vitest": "^3.1.2"
   },
