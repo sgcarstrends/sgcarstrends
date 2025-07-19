@@ -1,40 +1,49 @@
-# SG Cars Trends Backend
+# SG Cars Trends
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview
 
-This monorepo provides a unified backend service for SG Cars Trends, tracking Singapore's car registration statistics and Certificate of Entitlement (COE) data. The system includes:
+This monorepo provides a complete platform for SG Cars Trends, tracking Singapore's car registration statistics and Certificate of Entitlement (COE) data. The system includes:
 
+- **Web Application**: Next.js frontend with interactive charts and analytics
 - **REST API**: Data access endpoints for car registrations and COE results
 - **Integrated Data Updater**: Workflow-based system for fetching and processing LTA data
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter
+- **Documentation**: Comprehensive developer documentation
 
 ## Project Structure
 
 ```
-backend/
+sgcarstrends/
 ├── apps/
-│   └── api/          # Unified API service with integrated updater
-│       ├── src/v1/          # API endpoints for data access
-│       └── src/updater/     # Data update workflows and social media integration
+│   ├── api/          # Unified API service with integrated updater
+│   │   ├── src/v1/          # API endpoints for data access
+│   │   └── src/updater/     # Data update workflows and social media integration
+│   ├── web/          # Next.js frontend application
+│   │   ├── src/app/         # Next.js App Router pages and layouts
+│   │   ├── src/components/  # React components with tests
+│   │   └── src/utils/       # Web-specific utility functions
+│   └── docs/         # Mintlify documentation site
 ├── packages/
-│   ├── schema/       # Database schema using Drizzle ORM
 │   ├── types/        # Shared TypeScript types
 │   └── utils/        # Shared utility functions
 ```
 
 ## Technologies
 
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **UI Library**: HeroUI (NextUI successor)
+- **Styling**: Tailwind CSS v4
 - **Backend**: Node.js, TypeScript
-- **Framework**: Hono
+- **API Framework**: Hono
 - **Database**: Neon Serverless PostgreSQL with Drizzle ORM
 - **Caching**: Upstash Redis
 - **Infrastructure**: SST (Serverless Stack)
 - **Scheduling**: QStash Workflows
 - **Package Management**: pnpm workspace
 - **Build Tools**: Turbo
-- **Testing**: Vitest
+- **Testing**: Vitest (unit), Playwright (E2E)
 - **Linting**: Biome
 
 ## Documentation
@@ -67,24 +76,31 @@ pnpm install
 ### Development
 
 ```bash
-# Run the unified API service
-pnpm -F @sgcarstrends/api dev
+# Run all applications in development mode
+pnpm dev
 
-# Run all tests
-pnpm test
+# Run specific applications
+pnpm -F @sgcarstrends/api dev    # API service only
+pnpm web:dev                     # Web application only
+pnpm docs:dev                    # Documentation site only
 
-# Run tests with coverage
-pnpm test:coverage
+# Build all applications
+pnpm build
 
-# Run linting
-pnpm lint
+# Testing
+pnpm test          # Run all unit tests
+pnpm test:coverage # Run tests with coverage
+pnpm test:e2e      # Run E2E tests (web app)
+pnpm test:e2e:ui   # Run E2E tests with UI
 
-# Deploy the API (includes updater functionality)
-pnpm -F @sgcarstrends/api deploy
+# Code quality
+pnpm lint          # Run linting on all packages
 
-# Documentation development
-pnpm docs:dev     # Start local docs server
-pnpm docs:build   # Build documentation
+# Deployment
+pnpm -F @sgcarstrends/api deploy     # Deploy API service
+pnpm web:deploy:dev                  # Deploy web to dev
+pnpm web:deploy:staging              # Deploy web to staging
+pnpm web:deploy:prod                 # Deploy web to production
 ```
 
 ## API Endpoints
