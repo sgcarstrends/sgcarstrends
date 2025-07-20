@@ -2,10 +2,8 @@
   "name": "sgcarstrends",
   "description": "Monorepo for SG Cars Trends",
   "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sgcarstrends/sgcarstrends.git"
-  },
+  "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
+  "license": "MIT",
   "scripts": {
     "dev": "turbo dev --parallel",
     "build": "turbo build --env-mode=loose",

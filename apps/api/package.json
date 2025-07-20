@@ -1,6 +1,6 @@
 {
   "name": "@sgcarstrends/api",
-  "description": "API for SG Cars Trends",
+  "description": "API service for SG Cars Trends",
   "version": "3.0.0",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",

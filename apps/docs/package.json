@@ -4,6 +4,8 @@
   "version": "3.0.0",
   "type": "module",
   "private": true,
+  "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
+  "license": "MIT",
   "scripts": {},
   "devDependencies": {
     "@biomejs/biome": "2.1.2",

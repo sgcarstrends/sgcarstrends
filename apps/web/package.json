@@ -1,7 +1,8 @@
 {
   "name": "@sgcarstrends/web",
-  "description": "Statistics for car trends in Singapore. Data provided by Land Transport Authority (LTA)",
+  "description": "Web application for SG Cars Trends",
   "version": "3.0.0",
+  "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
   "scripts": {
     "dev": "next dev --turbopack",
