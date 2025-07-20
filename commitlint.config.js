@@ -4,6 +4,7 @@ module.exports = {
     "@commitlint/config-lerna-scopes",
   ],
   rules: {
+    "body-max-line-length": [0],
     "scope-enum": [
       2,
       "always",
