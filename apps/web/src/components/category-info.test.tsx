@@ -24,7 +24,7 @@ describe("CategoryInfo", () => {
         icon={Car}
         category="Category A"
         description="Cars up to 1600cc and 97kW"
-      />
+      />,
     );
 
     expect(screen.getByText("Category A")).toBeInTheDocument();
@@ -38,7 +38,7 @@ describe("CategoryInfo", () => {
         category="Category A"
         description="Test description"
         canFilter={false}
-      />
+      />,
     );
 
     expect(screen.getByText("Category A")).toBeInTheDocument();

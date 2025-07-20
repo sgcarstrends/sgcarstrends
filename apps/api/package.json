@@ -22,8 +22,8 @@
     "@hono/zod-validator": "^0.4.2",
     "@neondatabase/serverless": "^0.10.4",
     "@scalar/hono-api-reference": "^0.9.3",
-    "@sgcarstrends/utils": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
+    "@sgcarstrends/utils": "workspace:*",
     "@upstash/qstash": "^2.7.23",
     "@upstash/ratelimit": "^2.0.3",
     "@upstash/redis": "^1.34.8",
@@ -39,6 +39,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.1.2",
     "@types/adm-zip": "^0.5.7",
     "@types/aws-lambda": "8.10.146",
     "@types/papaparse": "^5.3.15",

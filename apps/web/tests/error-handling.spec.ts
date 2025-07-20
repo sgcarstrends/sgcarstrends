@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("Error Handling and Edge Cases", () => {
   test.describe("404 Error Pages", () => {

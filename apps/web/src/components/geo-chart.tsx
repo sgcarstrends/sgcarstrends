@@ -1,6 +1,13 @@
 "use client";
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
 import {
   Card,
   CardContent,
@@ -40,9 +47,7 @@ export const GeoChart = ({ data }: Props) => {
     <Card>
       <CardHeader>
         <CardTitle>Top Countries</CardTitle>
-        <CardDescription>
-          Visitor distribution by country
-        </CardDescription>
+        <CardDescription>Visitor distribution by country</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
@@ -52,11 +57,7 @@ export const GeoChart = ({ data }: Props) => {
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              type="number" 
-              axisLine={false}
-              tickLine={false}
-            />
+            <XAxis type="number" axisLine={false} tickLine={false} />
             <YAxis
               type="category"
               dataKey="displayName"
@@ -68,12 +69,11 @@ export const GeoChart = ({ data }: Props) => {
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  formatter={(value, name) => [
-                    `${value} visitors`,
-                    'Visitors'
-                  ]}
+                  formatter={(value, name) => [`${value} visitors`, "Visitors"]}
                   labelFormatter={(label) => {
-                    const country = formattedData.find(item => item.displayName === label);
+                    const country = formattedData.find(
+                      (item) => item.displayName === label,
+                    );
                     return country ? country.country : label;
                   }}
                 />

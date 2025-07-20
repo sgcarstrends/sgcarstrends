@@ -102,9 +102,7 @@ export const Footer = () => (
       {/* Bottom Section */}
       <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
         <div className="text-default-600 text-center text-sm md:text-left">
-          <p>
-            © {new Date().getFullYear()} SGCarsTrends. All rights reserved.
-          </p>
+          <p>© {new Date().getFullYear()} SGCarsTrends. All rights reserved.</p>
           <p className="mt-1">
             Data provided by{" "}
             <Link

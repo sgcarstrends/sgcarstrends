@@ -62,10 +62,7 @@ const PQPRatesPage = async () => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-y-4">
-        <PageHeader
-          title="PQP RATES"
-          lastUpdated={lastUpdated}
-        />
+        <PageHeader title="PQP RATES" lastUpdated={lastUpdated} />
         <Alert>
           <AlertCircle className="size-4" />
           <AlertTitle>Understanding PQP Rates</AlertTitle>

@@ -23,7 +23,10 @@ describe("MakeCard", () => {
   it("renders correct link for make", () => {
     render(<MakeCard make={mockMake} />);
     const exploreButton = screen.getByRole("button", { name: "Explore" });
-    expect(exploreButton.closest("a")).toHaveAttribute("href", "/cars/makes/toyota");
+    expect(exploreButton.closest("a")).toHaveAttribute(
+      "href",
+      "/cars/makes/toyota",
+    );
   });
 
   it("applies popular styling when isPopular is true", () => {
@@ -32,8 +35,12 @@ describe("MakeCard", () => {
   });
 
   it("does not apply popular styling when isPopular is false", () => {
-    const { container } = render(<MakeCard make={mockMake} isPopular={false} />);
-    expect(container.querySelector(".ring-primary-200")).not.toBeInTheDocument();
+    const { container } = render(
+      <MakeCard make={mockMake} isPopular={false} />,
+    );
+    expect(
+      container.querySelector(".ring-primary-200"),
+    ).not.toBeInTheDocument();
   });
 
   it("renders image with correct alt text", () => {

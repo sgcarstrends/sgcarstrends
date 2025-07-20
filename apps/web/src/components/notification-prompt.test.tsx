@@ -53,9 +53,11 @@ describe("NotificationPrompt Component", () => {
     render(<NotificationPrompt />);
 
     expect(screen.getByText("Enable Notifications?")).toBeInTheDocument();
-    expect(screen.getByText(
-      "Stay updated with the latest news and alerts by enabling browser notifications"
-    )).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Stay updated with the latest news and alerts by enabling browser notifications",
+      ),
+    ).toBeInTheDocument();
     expect(screen.getByText("Allow")).toBeInTheDocument();
     expect(screen.getByText("Deny")).toBeInTheDocument();
   });

@@ -128,8 +128,10 @@ export const GET = async (request: NextRequest) => {
         count: count(),
       })
       .from(analyticsTable)
-      .where(dateFilter).groupBy(sql`DATE
-        (${analyticsTable.date})`).orderBy(sql`DATE
+      .where(dateFilter)
+      .groupBy(sql`DATE
+        (${analyticsTable.date})`)
+      .orderBy(sql`DATE
         (${analyticsTable.date})`);
 
     return NextResponse.json({

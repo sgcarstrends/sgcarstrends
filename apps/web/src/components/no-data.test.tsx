@@ -13,9 +13,17 @@ describe("NoData", () => {
     render(<NoData />);
 
     expect(screen.getByText("No Data Available")).toBeInTheDocument();
-    expect(screen.getByText("The requested page does not exist or no data is available.")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /go home/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /go back/i })).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "The requested page does not exist or no data is available.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /go home/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /go back/i }),
+    ).toBeInTheDocument();
   });
 
   it("should render alert component", () => {

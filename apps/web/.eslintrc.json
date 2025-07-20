@@ -3,55 +3,5 @@
     "next/core-web-vitals",
     "plugin:import/recommended",
     "plugin:import/typescript"
-  ],
-  "plugins": ["import"],
-  "rules": {
-    "import/order": [
-      "warn",
-      {
-        "pathGroups": [
-          {
-            "pattern": "react",
-            "group": "builtin",
-            "position": "before"
-          },
-          {
-            "pattern": "next/**",
-            "group": "builtin",
-            "position": "before"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": ["react"],
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index",
-          "object",
-          "type"
-        ],
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": false
-        }
-      }
-    ]
-  },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
-    }
-  },
-  "overrides": [
-    {
-      "files": ["components/ui/**"],
-      "rules": {
-        "import/order": "off"
-      }
-    }
   ]
 }

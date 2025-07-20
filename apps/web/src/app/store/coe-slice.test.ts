@@ -48,15 +48,15 @@ describe("COE Slice", () => {
     const { updateCategories } = store.getState();
 
     const initialState = store.getState().categories;
-    
+
     // Toggle Category A
     updateCategories("Category A");
-    
+
     const newState = store.getState().categories;
-    
+
     // Category A should be toggled
     expect(newState["Category A"]).toBe(!initialState["Category A"]);
-    
+
     // Other categories should remain unchanged
     expect(newState["Category B"]).toBe(initialState["Category B"]);
     expect(newState["Category C"]).toBe(initialState["Category C"]);

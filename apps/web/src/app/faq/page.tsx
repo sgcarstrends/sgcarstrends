@@ -129,7 +129,7 @@ const FAQPage = () => {
       ],
     },
   ];
- 
+
   return (
     <>
       <StructuredData data={structuredData} />

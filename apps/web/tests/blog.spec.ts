@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("Blog", () => {
   test.describe("Blog listing page", () => {
@@ -35,7 +35,10 @@ test.describe("Blog", () => {
         const href = await firstLink.getAttribute("href");
 
         await firstLink.click();
-        await expect(page).toHaveURL(href);
+
+        if (href) {
+          await expect(page).toHaveURL(href);
+        }
       }
     });
   });

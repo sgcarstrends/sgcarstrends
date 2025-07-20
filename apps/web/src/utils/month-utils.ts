@@ -14,11 +14,14 @@ export const fetchMonthsForCOE = async (): Promise<Month[]> => {
   });
 };
 
-export const getLatestMonth = async (type: "cars" | "coe" = "cars"): Promise<string> => {
-  const latestMonths = await fetchApi<LatestMonth>(
-    `${API_URL}/months/latest`,
-    { next: { tags: type === "cars" ? [RevalidateTags.Cars] : [RevalidateTags.COE] } },
-  );
+export const getLatestMonth = async (
+  type: "cars" | "coe" = "cars",
+): Promise<string> => {
+  const latestMonths = await fetchApi<LatestMonth>(`${API_URL}/months/latest`, {
+    next: {
+      tags: type === "cars" ? [RevalidateTags.Cars] : [RevalidateTags.COE],
+    },
+  });
   return type === "cars" ? latestMonths.cars : latestMonths.coe;
 };
 

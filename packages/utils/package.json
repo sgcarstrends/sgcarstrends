@@ -15,5 +15,7 @@
     "@sgcarstrends/types": "workspace:*",
     "date-fns": "^2.30.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@biomejs/biome": "2.1.2"
+  }
 }

@@ -39,13 +39,13 @@ describe("Date Slice", () => {
     // Set month without affecting year
     const initialYear = store.getState().selectedYear;
     setSelectedMonth("06");
-    
+
     expect(store.getState().selectedMonth).toBe("06");
     expect(store.getState().selectedYear).toBe(initialYear);
 
     // Set year without affecting month
     setSelectedYear("2025");
-    
+
     expect(store.getState().selectedMonth).toBe("06");
     expect(store.getState().selectedYear).toBe("2025");
   });

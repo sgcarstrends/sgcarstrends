@@ -8,7 +8,8 @@ describe("FAQSections", () => {
       items: [
         {
           question: "What is COE?",
-          answer: "Certificate of Entitlement is required to own a vehicle in Singapore.",
+          answer:
+            "Certificate of Entitlement is required to own a vehicle in Singapore.",
         },
         {
           question: "How long is COE valid?",
@@ -39,7 +40,9 @@ describe("FAQSections", () => {
 
     expect(screen.getByText("What is COE?")).toBeInTheDocument();
     expect(screen.getByText("How long is COE valid?")).toBeInTheDocument();
-    expect(screen.getByText("How often are COE biddings held?")).toBeInTheDocument();
+    expect(
+      screen.getByText("How often are COE biddings held?"),
+    ).toBeInTheDocument();
   });
 
   it("should render the help section", () => {
@@ -47,13 +50,15 @@ describe("FAQSections", () => {
 
     expect(screen.getByText("Still Have Questions?")).toBeInTheDocument();
     expect(
-      screen.getByText(/If you have additional questions about Singapore's automotive market/)
+      screen.getByText(
+        /If you have additional questions about Singapore's automotive market/,
+      ),
     ).toBeInTheDocument();
   });
 
   it("should render with empty sections", () => {
     render(<FAQSections sections={[]} />);
-    
+
     expect(screen.getByText("Still Have Questions?")).toBeInTheDocument();
   });
 

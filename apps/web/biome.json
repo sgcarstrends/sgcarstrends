@@ -8,7 +8,8 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": false,
+    "includes": ["**", "!src/components/ui"]
   },
   "formatter": {
     "enabled": true,
@@ -17,7 +18,17 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "nursery": {
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {
+            "attributes": ["classList"],
+            "functions": ["cn", "clsx", "cva", "tw"]
+          }
+        }
+      }
     }
   },
   "javascript": {
@@ -28,6 +39,7 @@
   "assist": {
     "enabled": true,
     "actions": {
+      "recommended": true,
       "source": {
         "organizeImports": "on"
       }

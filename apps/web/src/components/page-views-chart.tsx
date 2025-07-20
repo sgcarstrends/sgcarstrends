@@ -32,18 +32,17 @@ const chartConfig = {
 export const PageViewsChart = ({ data }: Props) => {
   const formattedData = data.slice(0, 8).map((item) => ({
     ...item,
-    displayPath: item.pathname.length > 20 
-      ? `${item.pathname.substring(0, 20)}...` 
-      : item.pathname,
+    displayPath:
+      item.pathname.length > 20
+        ? `${item.pathname.substring(0, 20)}...`
+        : item.pathname,
   }));
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Popular Pages</CardTitle>
-        <CardDescription>
-          Most visited pages by view count
-        </CardDescription>
+        <CardDescription>Most visited pages by view count</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
@@ -53,11 +52,7 @@ export const PageViewsChart = ({ data }: Props) => {
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              type="number" 
-              axisLine={false}
-              tickLine={false}
-            />
+            <XAxis type="number" axisLine={false} tickLine={false} />
             <YAxis
               type="category"
               dataKey="displayPath"
@@ -69,12 +64,11 @@ export const PageViewsChart = ({ data }: Props) => {
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  formatter={(value, name) => [
-                    `${value} views`,
-                    'Page Views'
-                  ]}
+                  formatter={(value, name) => [`${value} views`, "Page Views"]}
                   labelFormatter={(label) => {
-                    const page = formattedData.find(item => item.displayPath === label);
+                    const page = formattedData.find(
+                      (item) => item.displayPath === label,
+                    );
                     return page ? page.pathname : label;
                   }}
                 />

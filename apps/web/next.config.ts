@@ -1,5 +1,5 @@
-import type { Redirect } from "next/dist/lib/load-custom-routes";
 import type { NextConfig } from "next";
+import type { Redirect } from "next/dist/lib/load-custom-routes";
 
 const isProd = process.env.NODE_ENV === "production";
 

@@ -7,14 +7,17 @@ vi.mock("next/navigation", () => ({
 
 vi.mock("next/link", () => ({
   default: ({ href, children, ...props }: any) => (
-    <a href={typeof href === "object" ? `${href.pathname}?${href.query}` : href} {...props}>
+    <a
+      href={typeof href === "object" ? `${href.pathname}?${href.query}` : href}
+      {...props}
+    >
       {children}
     </a>
   ),
 }));
 
 const mockUseSearchParams = vi.mocked(
-  await import("next/navigation")
+  await import("next/navigation"),
 ).useSearchParams;
 
 describe("LinkWithParams", () => {
@@ -26,7 +29,7 @@ describe("LinkWithParams", () => {
     render(
       <LinkWithParams href="/test">
         <span>Test Link</span>
-      </LinkWithParams>
+      </LinkWithParams>,
     );
 
     expect(screen.getByRole("link")).toBeInTheDocument();
@@ -41,7 +44,7 @@ describe("LinkWithParams", () => {
     render(
       <LinkWithParams href="/test">
         <span>Test Link</span>
-      </LinkWithParams>
+      </LinkWithParams>,
     );
 
     expect(screen.getByRole("link")).toBeInTheDocument();

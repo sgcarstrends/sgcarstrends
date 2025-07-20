@@ -13,7 +13,9 @@ vi.mock("@/app/cars/bar-chart-by-type", () => ({
   BarChartByType: ({ data }: { data: RegistrationStat[] }) => (
     <div data-testid="bar-chart">
       {data.map((item) => (
-        <div key={item.name}>{item.name}: {item.count}</div>
+        <div key={item.name}>
+          {item.name}: {item.count}
+        </div>
       ))}
     </div>
   ),

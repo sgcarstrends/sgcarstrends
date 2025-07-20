@@ -15,5 +15,7 @@ export const columns: ColumnDef<PQP>[] = [
     accessorKey: "month",
     header: "Month",
   },
-  ...["Category A", "Category B", "Category C", "Category D"].map(createCategoryColumn),
+  ...["Category A", "Category B", "Category C", "Category D"].map(
+    createCategoryColumn,
+  ),
 ];

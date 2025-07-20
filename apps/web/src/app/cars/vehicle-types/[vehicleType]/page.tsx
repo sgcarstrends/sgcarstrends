@@ -84,7 +84,9 @@ const CarsByVehicleTypePage = async ({ params, searchParams }: Props) => {
   month = await getMonthOrLatest(month, "cars");
 
   const [cars, months] = await Promise.all([
-    fetchApi<VehicleType>(`${API_URL}/cars/vehicle-types/${vehicleType}?month=${month}`),
+    fetchApi<VehicleType>(
+      `${API_URL}/cars/vehicle-types/${vehicleType}?month=${month}`,
+    ),
     fetchMonthsForCars(),
   ]);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);

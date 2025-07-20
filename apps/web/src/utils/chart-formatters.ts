@@ -61,7 +61,7 @@ export const chartCategories = {
 } as const;
 
 export const createDataFormatter = (
-  formatType: "number" | "percentage" | "currency" | "count" | "growth"
+  formatType: "number" | "percentage" | "currency" | "count" | "growth",
 ) => {
   return (value: number) => {
     switch (formatType) {
@@ -84,7 +84,12 @@ export const createDataFormatter = (
 export const customTooltipFormatter = (
   value: number,
   name: string,
-  formatType: "number" | "percentage" | "currency" | "count" | "growth" = "number"
+  formatType:
+    | "number"
+    | "percentage"
+    | "currency"
+    | "count"
+    | "growth" = "number",
 ) => {
   const formatter = createDataFormatter(formatType);
   return [formatter(value), name];
