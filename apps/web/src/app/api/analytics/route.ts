@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { sql, count, desc, isNotNull, ne, gte, lte, and } from "drizzle-orm";
 import { db } from "@/config/db";
 import { geolocation } from "@/functions/geolocation";
-import { analyticsTable, type InsertAnalytics } from "@/schema/analytics";
+import { analyticsTable, type InsertAnalytics } from "@sgcarstrends/database";
 
 interface RequestData {
   pathname: string;
