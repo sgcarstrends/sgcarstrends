@@ -5,6 +5,7 @@ module.exports = {
   ],
   rules: {
     "body-max-line-length": [0],
+    "footer-max-line-length": [0],
     "scope-enum": [
       2,
       "always",

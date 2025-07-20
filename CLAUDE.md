@@ -38,10 +38,9 @@ SG Cars Trends is a full-stack platform providing access to Singapore vehicle re
 
 ### Release Commands
 
-- Test release (dry run): `pnpm release:dry`
-- Test all packages release: `pnpm release:all:dry`
-- Manual release (use with caution): `pnpm release`
-- Release all packages: `pnpm release:all`
+- Create changeset: `pnpm changeset`
+- Version packages: `pnpm version`
+- Tag release: `pnpm tag-release`
 
 ### Deployment Commands
 
@@ -50,6 +49,14 @@ SG Cars Trends is a full-stack platform providing access to Singapore vehicle re
 - Deploy web to dev: `pnpm web:deploy:dev`
 - Deploy web to staging: `pnpm web:deploy:staging`
 - Deploy web to production: `pnpm web:deploy:prod`
+
+## Versioning Strategy
+
+SG Cars Trends uses **unified versioning** across all packages:
+- All packages (`@sgcarstrends/*`) share the same version number
+- Releases are managed with [Changesets](https://github.com/changesets/changesets)
+- Single release per version with combined changelog
+- Ensures compatibility across all packages
 
 ## Code Structure
 
@@ -162,9 +169,20 @@ The integrated updater service uses a workflow-based architecture with:
 ## Contribution Guidelines
 
 - Create feature branches from main branch
-- **Use conventional commit messages** (see SEMANTIC_RELEASE.md for details)
+- **Create changeset files** for any changes that should trigger a release
 - Submit PRs with descriptive titles and summaries
 - Ensure CI passes (tests, lint, typecheck) before requesting review
 - Maintain backward compatibility for public APIs
-- Use `feat!:` or `BREAKING CHANGE:` footer for breaking changes
-- **Automated releases** happen on merge to main based on commit messages
+
+### Changeset Workflow
+
+1. **Make your changes** in a feature branch
+2. **Create a changeset**: `pnpm changeset`
+   - Choose change type: `patch`, `minor`, or `major`
+   - Write a clear description of the change
+   - All packages will be bumped together (unified versioning)
+3. **Commit the changeset file** with your changes
+4. **Submit PR** - changesets will be reviewed with your code
+5. **On merge to main**: 
+   - Changeset bot creates a "Version Packages" PR
+   - Merging the Version PR triggers automated release to GitHub

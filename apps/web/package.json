@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/web",
   "description": "Statistics for car trends in Singapore. Data provided by Land Transport Authority (LTA)",
-  "version": "2.8.0",
+  "version": "3.0.0",
   "license": "MIT",
   "scripts": {
     "dev": "next dev --turbopack",
@@ -16,10 +16,7 @@
     "test:e2e:ui": "playwright test --ui",
     "deploy:dev": "sst deploy --stage dev",
     "deploy:staging": "sst deploy --stage staging",
-    "deploy:prod": "sst deploy --stage prod",
-    "changeset": "changeset",
-    "version": "changeset version",
-    "tag-release": "changeset tag"
+    "deploy:prod": "sst deploy --stage prod"
   },
   "dependencies": {
     "@heroui/react": "2.8.0-beta.15",
@@ -65,8 +62,6 @@
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",
     "@biomejs/biome": "2.1.2",
-    "@changesets/changelog-github": "^0.5.1",
-    "@changesets/cli": "^2.29.5",
     "@playwright/test": "^1.54.1",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/postcss": "^4.1.11",
