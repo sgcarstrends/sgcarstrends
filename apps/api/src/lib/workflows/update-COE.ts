@@ -1,6 +1,6 @@
 import { LTA_DATAMALL_BASE_URL } from "@api/config";
-import { coe, coePQP } from "@api/db/schema";
 import type { COE, PQP } from "@api/types";
+import { coe, coePQP } from "@sgcarstrends/database";
 import { updater } from "./updater";
 
 export const updateCOE = async () => {

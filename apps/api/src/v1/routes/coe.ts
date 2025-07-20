@@ -1,5 +1,5 @@
 import db from "@api/config/db";
-import { coe, coePQP } from "@api/db/schema";
+import { coe, coePQP } from "@sgcarstrends/database";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import {

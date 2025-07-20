@@ -22,6 +22,7 @@
     "@hono/zod-validator": "^0.4.2",
     "@neondatabase/serverless": "^0.10.4",
     "@scalar/hono-api-reference": "^0.9.3",
+    "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
     "@upstash/qstash": "^2.7.23",
