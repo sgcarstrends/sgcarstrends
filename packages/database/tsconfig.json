@@ -2,13 +2,10 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "es2016",
-    "module": "commonjs",
+    "module": "ESNext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true,
-    "paths": {
-      "@db/*": ["./src/*"]
-    }
+    "skipLibCheck": true
   }
 }

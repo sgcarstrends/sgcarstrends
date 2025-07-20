@@ -20,7 +20,7 @@
   "dependencies": {
     "@hono/zod-openapi": "^0.19.8",
     "@hono/zod-validator": "^0.4.2",
-    "@neondatabase/serverless": "^0.10.4",
+    "@neondatabase/serverless": "1.0.1",
     "@scalar/hono-api-reference": "^0.9.3",
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
@@ -31,7 +31,7 @@
     "@upstash/workflow": "^0.2.12",
     "adm-zip": "^0.5.16",
     "date-fns": "^2.30.0",
-    "drizzle-orm": "0.44.0",
+    "drizzle-orm": "0.44.3",
     "hono": "^4.7.2",
     "linkedin-api-client": "^0.3.0",
     "papaparse": "^5.4.1",
