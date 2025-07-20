@@ -12,7 +12,9 @@
     }
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "drizzle-kit migrate",
+    "migrate:check": "drizzle-kit check"
   },
   "keywords": [],
   "author": "Ru Chern CHONG <ruchern.chong@sgcarstrends.com",

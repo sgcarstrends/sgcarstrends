@@ -10,8 +10,6 @@
     "deploy:dev": "sst deploy --stage dev",
     "deploy:staging": "sst deploy --stage staging",
     "deploy:prod": "sst deploy --stage prod",
-    "migrate": "drizzle-kit migrate",
-    "migrate:check": "drizzle-kit check",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -43,7 +41,6 @@
     "@biomejs/biome": "2.1.2",
     "@types/adm-zip": "^0.5.7",
     "@types/aws-lambda": "8.10.146",
-    "@types/papaparse": "^5.3.15",
-    "drizzle-kit": "^0.30.1"
+    "@types/papaparse": "^5.3.15"
   }
 }
