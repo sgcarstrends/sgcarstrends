@@ -40,8 +40,14 @@ jobs:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Run migrations
+      - name: Run API migrations
         working-directory: ./apps/api
+        run: pnpm migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Run Web migrations
+        working-directory: ./apps/web
         run: pnpm migrate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
