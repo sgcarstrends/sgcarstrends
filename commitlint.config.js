@@ -17,6 +17,7 @@ module.exports = {
         // Packages
         "types",
         "utils",
+        "db",
         // Special scopes
         "deps",
         "release",
