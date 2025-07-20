@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalDependencies": ["**/.env"],
   "globalEnv": ["NODE_ENV"],
   "tasks": {
     "build": {
@@ -21,16 +21,31 @@
       "persistent": true
     },
     "test": {
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "tests/**/*.ts"],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "test/**/*.ts",
+        "tests/**/*.ts"
+      ],
       "outputs": []
     },
     "test:watch": {
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "tests/**/*.ts"],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "test/**/*.ts",
+        "tests/**/*.ts"
+      ],
       "cache": false,
       "persistent": true
     },
     "test:coverage": {
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "tests/**/*.ts"],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "test/**/*.ts",
+        "tests/**/*.ts"
+      ],
       "outputs": ["coverage/**"]
     },
     "test:e2e": {

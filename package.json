@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "turbo dev --parallel",
-    "build": "turbo build",
+    "build": "turbo build --env-mode=loose",
     "test": "turbo test",
     "test:watch": "turbo test:watch",
     "test:coverage": "turbo test:coverage",
