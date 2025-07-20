@@ -1,15 +1,15 @@
 import slugify from "@sindresorhus/slugify";
+import type { Metadata } from "next";
+import type { SearchParams } from "nuqs/server";
+import type { WebPage, WithContext } from "schema-dts";
 import { CarMakeContent } from "@/app/cars/makes/[make]/car-make-content";
 import { loadSearchParams } from "@/app/cars/makes/[make]/search-params";
 import { StructuredData } from "@/components/structured-data";
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
-import { type Car, type Make } from "@/types";
+import type { Car, Make } from "@/types";
 import { fetchApi } from "@/utils/fetch-api";
 import { getMonthOrLatest } from "@/utils/month-utils";
-import type { Metadata } from "next";
-import type { SearchParams } from "nuqs/server";
-import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   params: Promise<{ make: string }>;
@@ -59,16 +59,17 @@ export const generateMetadata = async ({
 
 export const generateStaticParams = async () => {
   const makes = await fetchApi<Make[]>(`${API_URL}/cars/makes`);
-  return makes.map(async (make) => {
-    await fetch(
-      `https://car-logos.sgcarstrends.workers.dev/logos/${slugify(make)}`,
-    );
-    return { make: slugify(make) };
-  });
+  await fetch(`https://car-logos.sgcarstrends.workers.dev/logos/sync`);
+  return makes.map((make) => ({ make: slugify(make) }));
 };
 
 const CarMakePage = async ({ params }: Props) => {
   const { make } = await params;
+
+  const getLogo = () =>
+    fetch(`https://car-logos.sgcarstrends.workers.dev/logos/${slugify(make)}`)
+      .then((res) => res.json())
+      .catch((e) => console.error(e));
 
   const [cars, makes, logoUrl]: [
     { make: string; total: number; data: Car[] },
@@ -79,9 +80,7 @@ const CarMakePage = async ({ params }: Props) => {
       `${API_URL}/cars/makes/${slugify(make)}`,
     ),
     fetchApi<Make[]>(`${API_URL}/cars/makes`),
-    fetch(`https://car-logos.sgcarstrends.workers.dev/logos/${slugify(make)}`)
-      .then((res) => res.json())
-      .then((res) => res.logo.url),
+    getLogo(),
   ]);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
