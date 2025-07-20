@@ -1,5 +1,5 @@
-import { cars } from "@api/db/schema";
 import { db } from "@api/lib/workflows/db";
+import { cars } from "@sgcarstrends/database";
 import { and, desc, eq, ne, sum } from "drizzle-orm";
 
 export const getCarsLatestMonth = async () =>

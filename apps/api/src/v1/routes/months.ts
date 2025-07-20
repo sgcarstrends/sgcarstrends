@@ -1,4 +1,4 @@
-import { cars, coe } from "@api/db/schema";
+import { cars, coe } from "@sgcarstrends/database";
 import { getLatestMonth } from "@api/lib/getLatestMonth";
 import {
   LatestMonthQuerySchema,

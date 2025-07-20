@@ -1,4 +1,4 @@
-import { cars } from "@api/db/schema";
+import { cars } from "@sgcarstrends/database";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import {

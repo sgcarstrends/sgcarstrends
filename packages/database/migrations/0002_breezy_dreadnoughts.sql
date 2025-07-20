@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "analytics" (
+CREATE TABLE "analytics" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"date" timestamp with time zone DEFAULT now(),
 	"pathname" text NOT NULL,

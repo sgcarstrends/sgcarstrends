@@ -11,8 +11,7 @@
     "verbatimModuleSyntax": true,
     "paths": {
       "@api/*": ["apps/api/src/*"],
-      "@updater/*": ["apps/updater/src/*"],
-      "@schema/*": ["packages/schema/src/*"]
+      "@web/*": ["apps/web/src/*"]
     }
   }
 }
