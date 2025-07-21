@@ -16,6 +16,13 @@ interface Props {
   searchParams: Promise<SearchParams>;
 }
 
+// TODO: Interim fix
+export type Logo = {
+  brand: string;
+  filename: string;
+  url: string;
+};
+
 export const generateMetadata = async ({
   params,
   searchParams,
@@ -66,15 +73,16 @@ export const generateStaticParams = async () => {
 const CarMakePage = async ({ params }: Props) => {
   const { make } = await params;
 
-  const getLogo = () =>
+  const getLogo = (): Promise<Logo> =>
     fetch(`https://car-logos.sgcarstrends.workers.dev/logos/${slugify(make)}`)
       .then((res) => res.json())
+      .then((data) => data.logo)
       .catch((e) => console.error(e));
 
-  const [cars, makes, logoUrl]: [
+  const [cars, makes, logo]: [
     { make: string; total: number; data: Car[] },
     Make[],
-    string,
+    Logo,
   ] = await Promise.all([
     fetchApi<{ make: string; total: number; data: Car[] }>(
       `${API_URL}/cars/makes/${slugify(make)}`,
@@ -107,7 +115,7 @@ const CarMakePage = async ({ params }: Props) => {
         cars={cars}
         makes={makes}
         lastUpdated={lastUpdated}
-        logoUrl={logoUrl}
+        logo={logo}
       />
     </>
   );
