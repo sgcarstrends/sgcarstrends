@@ -32,25 +32,24 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: '10.4.1'
+          bun-version: 1.2.17
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-          cache: "pnpm"
-          
+
       - name: Install dependencies
-        run: pnpm install
-        
+        run: bun install
+
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
           aws-region: ${{ vars.AWS_REGION }}
-          
+
       - name: Deploy API
         working-directory: ./apps/api
-        run: pnpm deploy:staging
+        run: bun deploy:api:staging
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -91,17 +90,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: '10.4.1'
+          bun-version: 1.2.17
 
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-          cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun install
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -117,7 +115,7 @@ jobs:
 
       - name: Deploy Web
         working-directory: ./apps/web
-        run: pnpm deploy:staging
+        run: bun deploy:web:staging
         env:
           NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
           NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED: ${{ vars.NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED }}
