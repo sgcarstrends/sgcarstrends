@@ -23,7 +23,7 @@
   ],
   "topbarCtaButton": {
     "name": "Live API",
-    "url": "https://staging.api.sgcarstrends.com"
+    "url": "https://api.sgcarstrends.com"
   },
   "tabs": [
     {
@@ -136,12 +136,12 @@
     "website": "https://sgcarstrends.com"
   },
   "api": {
-    "baseUrl": "https://staging.api.sgcarstrends.com",
+    "baseUrl": "https://api.sgcarstrends.com",
     "auth": {
       "method": "bearer"
     }
   },
-  "openapi": "https://staging.api.sgcarstrends.com/docs",
+  "openapi": "https://api.sgcarstrends.com/docs",
   "feedback": {
     "thumbsRating": true,
     "suggestEdit": true,
