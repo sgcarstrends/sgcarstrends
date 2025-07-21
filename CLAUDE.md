@@ -31,6 +31,11 @@ SG Cars Trends is a full-stack platform providing access to Singapore vehicle re
 - Web build: `pnpm web:build`
 - Web start: `pnpm web:start`
 
+### Documentation Commands
+
+- Docs dev server: `pnpm docs:dev`
+- Docs build: `pnpm docs:build`
+
 ### Database Commands
 
 - Run migrations: `pnpm migrate`
@@ -62,12 +67,15 @@ SG Cars Trends uses **unified versioning** across all packages:
 
 - **apps/api**: Unified API service using Hono framework with integrated updater workflows
   - **src/v1**: API endpoints for data access
-  - **src/updater**: Workflow-based data update system and social media integration
+  - **src/lib/workflows**: Workflow-based data update system and social media integration
+  - **src/routes**: API route handlers including workflow endpoints
+  - **src/config**: Database, Redis, QStash, and platform configurations
 - **apps/web**: Next.js frontend application
   - **src/app**: Next.js App Router pages and layouts
   - **src/components**: React components with tests
   - **src/utils**: Web-specific utility functions
 - **apps/docs**: Mintlify documentation site
+- **packages/database**: Database schema and migrations using Drizzle ORM
 - **packages/types**: Shared TypeScript type definitions
 - **packages/utils**: Shared utility functions
 
@@ -82,7 +90,7 @@ SG Cars Trends uses **unified versioning** across all packages:
 - Constants: UPPER_CASE for true constants
 - Error handling: Use try/catch for async operations with specific error types
 - Use workspace imports for shared packages: `@sgcarstrends/utils`, etc.
-- Path aliases: Use `@api/` for imports in API app, `@api/updater/` for updater functionality
+- Path aliases: Use `@api/` for imports in API app
 - Avoid using `any` type - prefer unknown with type guards
 - Group imports by: 1) built-in, 2) external, 3) internal
 
@@ -147,11 +155,11 @@ Required environment variables (store in .env.local for local development):
 The integrated updater service uses a workflow-based architecture with:
 
 ### Key Components
-- **Workflows** (`src/updater/lib/workflows/`): Cars and COE data processing workflows
-- **Task Processing** (`src/updater/lib/workflow.ts`): Common processing logic with Redis-based timestamp tracking
-- **Updater Core** (`src/updater/lib/updater.ts`): File download, checksum verification, CSV processing, and database updates
-- **Social Media** (`src/updater/lib/*/`): Platform-specific posting functionality (Discord, LinkedIn, Telegram, Twitter)
-- **QStash Integration** (`src/updater/config/qstash.ts`): Message queue functionality for workflow execution
+- **Workflows** (`src/lib/workflows/`): Cars and COE data processing workflows
+- **Task Processing** (`src/lib/workflows/workflow.ts`): Common processing logic with Redis-based timestamp tracking
+- **Updater Core** (`src/lib/workflows/updater.ts`): File download, checksum verification, CSV processing, and database updates
+- **Social Media** (`src/lib/social/*/`): Platform-specific posting functionality (Discord, LinkedIn, Telegram, Twitter)
+- **QStash Integration** (`src/config/qstash.ts`): Message queue functionality for workflow execution
 
 ### Workflow Flow
 1. Workflows triggered via HTTP endpoints or scheduled QStash cron jobs
