@@ -1,59 +1,45 @@
-# dependencies
-node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
+# Dependencies
+**/node_modules/
+**/.pnp
+**/.pnp.js
+**/.yarn/
 
-# testing
-/coverage
+# Build outputs
+**/dist/
+**/.next/
+**/out/
+**/.build/
+**/.open-next/
+**/.sst/
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
-/dist
-
-# misc
-.DS_Store
-*.pem
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.*
+# Environment files
+.env*
 !.env.example
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Logs
+**/*debug.log*
+**/*error.log*
 
-# turbo
-.turbo
+# Testing & Coverage
+**/coverage/
+**/test-results/
+**/playwright-report/
+**/blob-report/
+**/playwright/.cache/
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# Cache & Temp
+**/.turbo/
+**/.vercel/
+**/.DS_Store
+**/*.pem
+**/*.tsbuildinfo
 
-# vercel
-.vercel
+# Framework files
+**/next-env.d.ts
+**/sst-env.d.ts
 
-# SST
-.sst
-.build
-.open-next
-sst-env.d.ts
-
-# playwright
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-
-# changesets
+# Changesets
 .changeset/pre.json
 
-# claude
+# Claude
 .claude
