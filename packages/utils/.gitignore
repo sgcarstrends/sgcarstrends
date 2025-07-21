@@ -1,6 +1,8 @@
-# Node modules and build artifacts
-node_modules/
+# Build outputs
 dist/
 
-# TypeScript build info files
+# Testing
+coverage/
+
+# Cache
 *.tsbuildinfo
