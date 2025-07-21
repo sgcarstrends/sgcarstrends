@@ -1,5 +1,4 @@
 import db from "@api/config/db";
-import { coe, coePQP } from "@api/db/schema";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import {
@@ -10,6 +9,7 @@ import {
   MonthsResponseSchema,
 } from "@api/schemas";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { coe, coePQP } from "@sgcarstrends/database";
 import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
 
 const app = new OpenAPIHono();

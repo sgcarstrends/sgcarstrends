@@ -21,7 +21,7 @@ jobs:
     # Concurrency group name ensures concurrent workflow runs wait for any in-progress job to finish
     concurrency:
       group: migrations-${{ inputs.environment }}-${{ github.ref }}
-    
+
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -41,7 +41,7 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Run migrations
-        working-directory: ./apps/api
+        working-directory: ./packages/database
         run: pnpm migrate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

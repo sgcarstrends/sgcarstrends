@@ -1,11 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalDependencies": ["**/.env"],
   "globalEnv": ["NODE_ENV"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {
       "inputs": ["src/**/*.ts", "src/**/*.tsx"],
@@ -15,18 +15,42 @@
       "cache": false,
       "persistent": true
     },
+    "start": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true
+    },
     "test": {
-      "inputs": ["src/**/*.ts", "test/**/*.ts"],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "test/**/*.ts",
+        "tests/**/*.ts"
+      ],
       "outputs": []
     },
     "test:watch": {
-      "inputs": ["src/**/*.ts", "test/**/*.ts"],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "test/**/*.ts",
+        "tests/**/*.ts"
+      ],
       "cache": false,
       "persistent": true
     },
     "test:coverage": {
-      "inputs": ["src/**/*.ts", "test/**/*.ts"],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "test/**/*.ts",
+        "tests/**/*.ts"
+      ],
       "outputs": ["coverage/**"]
+    },
+    "test:e2e": {
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts"],
+      "outputs": ["test-results/**", "playwright-report/**"]
     },
     "migrate": {
       "inputs": ["migrations/**/*.sql"],

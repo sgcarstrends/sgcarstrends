@@ -2,17 +2,13 @@
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    {
-      "repo": "sgcarstrends/backend"
-    }
+    { "repo": "sgcarstrends/sgcarstrends" }
   ],
   "commit": false,
-  "fixed": [["@sgcarstrends/utils", "@sgcarstrends/types"]],
+  "fixed": [["@sgcarstrends/*"]],
   "linked": [],
-  "access": "restricted",
+  "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "__experimentalUnsafeOptions_WIP__": {
-    "onlyUpdatePeerDependenciesWhenOutOfRange": true
-  }
+  "ignore": []
 }

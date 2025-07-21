@@ -1,0 +1,38 @@
+# Build outputs
+/.next/
+/out/
+/build/
+/dist/
+.open-next/
+.sst/
+
+# Environment files
+.env.*
+!.env.example
+
+# Logs
+*debug.log*
+*error.log*
+
+# Testing & Coverage
+/coverage/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Cache & Temp
+*.tsbuildinfo
+.DS_Store
+*.pem
+.vercel/
+
+# Framework files
+next-env.d.ts
+sst-env.d.ts
+
+# Changesets
+.changeset/pre.json
+
+# Claude
+.claude

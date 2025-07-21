@@ -1,16 +1,18 @@
-# dependencies
-node_modules
+# Build outputs
+dist/
+build/
+.sst/
+.build/
+.open-next/
 
-# sst
-.sst
-.build
-sst-env.d.ts
+# Environment files
+.env*
 
-# opennext
-.open-next
+# Logs
+*debug.log*
+*error.log*
 
-# misc
+# Cache & Temp
+*.tsbuildinfo
 .DS_Store
-
-# local env files
-.env*.local
+*.pem

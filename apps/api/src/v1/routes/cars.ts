@@ -1,4 +1,3 @@
-import { cars } from "@api/db/schema";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import {
@@ -40,6 +39,7 @@ import {
 } from "@api/schemas";
 import { getCarMetricsForPeriod } from "@api/v1/service/car.service";
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
+import { cars } from "@sgcarstrends/database";
 
 const app = new OpenAPIHono();
 

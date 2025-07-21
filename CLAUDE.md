@@ -2,12 +2,13 @@
 
 ## Project Overview
 
-SG Cars Trends Backend provides access to Singapore vehicle registration data and Certificate of Entitlement (COE)
-bidding results. The system is a unified API service that includes:
+SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data and Certificate of Entitlement (COE) bidding results. The monorepo includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
+- **Web Application**: Next.js frontend with interactive charts and analytics
 - **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA DataMall (QStash workflows)
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available
+- **Documentation**: Comprehensive developer documentation using Mintlify
 
 ## Commands
 
@@ -19,25 +20,62 @@ bidding results. The system is a unified API service that includes:
 - Test all: `pnpm test`
 - Test watch: `pnpm test:watch`
 - Test coverage: `pnpm test:coverage`
+- E2E tests: `pnpm test:e2e`
+- E2E tests with UI: `pnpm test:e2e:ui`
 - Run single test: `pnpm -F @sgcarstrends/api test -- src/utils/__tests__/slugify.test.ts`
 - Package-specific test: `pnpm -F @sgcarstrends/<package> test`
+
+### Web Application Commands
+
+- Web dev server: `pnpm web:dev`
+- Web build: `pnpm web:build`
+- Web start: `pnpm web:start`
+
+### Documentation Commands
+
+- Docs dev server: `pnpm docs:dev`
+- Docs build: `pnpm docs:build`
 
 ### Database Commands
 
 - Run migrations: `pnpm migrate`
 - Check pending migrations: `pnpm migrate:check`
 
+### Release Commands
+
+- Create changeset: `pnpm changeset`
+- Version packages: `pnpm version`
+- Tag release: `pnpm tag-release`
+
 ### Deployment Commands
 
 - Deploy API (includes updater functionality): `pnpm -F @sgcarstrends/api deploy`
 - Deploy to specific stage: `pnpm -F @sgcarstrends/api deploy --stage <stage-name>`
+- Deploy web to dev: `pnpm web:deploy:dev`
+- Deploy web to staging: `pnpm web:deploy:staging`
+- Deploy web to production: `pnpm web:deploy:prod`
+
+## Versioning Strategy
+
+SG Cars Trends uses **unified versioning** across all packages:
+- All packages (`@sgcarstrends/*`) share the same version number
+- Releases are managed with [Changesets](https://github.com/changesets/changesets)
+- Single release per version with combined changelog
+- Ensures compatibility across all packages
 
 ## Code Structure
 
 - **apps/api**: Unified API service using Hono framework with integrated updater workflows
   - **src/v1**: API endpoints for data access
-  - **src/updater**: Workflow-based data update system and social media integration
-- **packages/schema**: Shared database schema (Drizzle ORM)
+  - **src/lib/workflows**: Workflow-based data update system and social media integration
+  - **src/routes**: API route handlers including workflow endpoints
+  - **src/config**: Database, Redis, QStash, and platform configurations
+- **apps/web**: Next.js frontend application
+  - **src/app**: Next.js App Router pages and layouts
+  - **src/components**: React components with tests
+  - **src/utils**: Web-specific utility functions
+- **apps/docs**: Mintlify documentation site
+- **packages/database**: Database schema and migrations using Drizzle ORM
 - **packages/types**: Shared TypeScript type definitions
 - **packages/utils**: Shared utility functions
 
@@ -52,7 +90,7 @@ bidding results. The system is a unified API service that includes:
 - Constants: UPPER_CASE for true constants
 - Error handling: Use try/catch for async operations with specific error types
 - Use workspace imports for shared packages: `@sgcarstrends/utils`, etc.
-- Path aliases: Use `@api/` for imports in API app, `@api/updater/` for updater functionality
+- Path aliases: Use `@api/` for imports in API app
 - Avoid using `any` type - prefer unknown with type guards
 - Group imports by: 1) built-in, 2) external, 3) internal
 
@@ -117,11 +155,11 @@ Required environment variables (store in .env.local for local development):
 The integrated updater service uses a workflow-based architecture with:
 
 ### Key Components
-- **Workflows** (`src/updater/lib/workflows/`): Cars and COE data processing workflows
-- **Task Processing** (`src/updater/lib/workflow.ts`): Common processing logic with Redis-based timestamp tracking
-- **Updater Core** (`src/updater/lib/updater.ts`): File download, checksum verification, CSV processing, and database updates
-- **Social Media** (`src/updater/lib/*/`): Platform-specific posting functionality (Discord, LinkedIn, Telegram, Twitter)
-- **QStash Integration** (`src/updater/config/qstash.ts`): Message queue functionality for workflow execution
+- **Workflows** (`src/lib/workflows/`): Cars and COE data processing workflows
+- **Task Processing** (`src/lib/workflows/workflow.ts`): Common processing logic with Redis-based timestamp tracking
+- **Updater Core** (`src/lib/workflows/updater.ts`): File download, checksum verification, CSV processing, and database updates
+- **Social Media** (`src/lib/social/*/`): Platform-specific posting functionality (Discord, LinkedIn, Telegram, Twitter)
+- **QStash Integration** (`src/config/qstash.ts`): Message queue functionality for workflow execution
 
 ### Workflow Flow
 1. Workflows triggered via HTTP endpoints or scheduled QStash cron jobs
@@ -139,7 +177,20 @@ The integrated updater service uses a workflow-based architecture with:
 ## Contribution Guidelines
 
 - Create feature branches from main branch
+- **Create changeset files** for any changes that should trigger a release
 - Submit PRs with descriptive titles and summaries
 - Ensure CI passes (tests, lint, typecheck) before requesting review
 - Maintain backward compatibility for public APIs
-- Document breaking changes in PR descriptions
+
+### Changeset Workflow
+
+1. **Make your changes** in a feature branch
+2. **Create a changeset**: `pnpm changeset`
+   - Choose change type: `patch`, `minor`, or `major`
+   - Write a clear description of the change
+   - All packages will be bumped together (unified versioning)
+3. **Commit the changeset file** with your changes
+4. **Submit PR** - changesets will be reviewed with your code
+5. **On merge to main**: 
+   - Changeset bot creates a "Version Packages" PR
+   - Merging the Version PR triggers automated release to GitHub

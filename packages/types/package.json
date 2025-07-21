@@ -1,13 +1,16 @@
 {
   "name": "@sgcarstrends/types",
-  "version": "0.2.0",
   "description": "Shared type definitions for SG Cars Trends",
+  "version": "3.0.1",
   "type": "module",
+  "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
+  "license": "MIT",
   "main": "src/index.ts",
   "module": "src/index.ts",
   "scripts": {
     "dev": "tsc --watch"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "@biomejs/biome": "2.1.2"
+  }
 }
