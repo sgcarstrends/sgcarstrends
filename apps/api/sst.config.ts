@@ -18,8 +18,8 @@ const CORS: Record<Stage, unknown> = {
 };
 
 const DOMAIN: Record<Stage, unknown> = {
-  dev: { name: `dev.api.${DOMAIN_NAME}` },
-  staging: { name: `staging.api.${DOMAIN_NAME}` },
+  dev: { name: `api.dev.${DOMAIN_NAME}` },
+  staging: { name: `api.staging.${DOMAIN_NAME}` },
   prod: { name: `api.${DOMAIN_NAME}` },
 };
 
