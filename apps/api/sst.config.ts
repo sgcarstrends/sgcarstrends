@@ -60,6 +60,7 @@ export default $config({
     const { url } = new sst.aws.Function("Hono", {
       link: Object.values(secrets),
       architecture: "arm64",
+      runtime: "nodejs22.x",
       description: "API for SG Cars Trends with integrated data updater",
       environment: {
         FEATURE_FLAG_RATE_LIMIT: process.env.FEATURE_FLAG_RATE_LIMIT ?? "",
