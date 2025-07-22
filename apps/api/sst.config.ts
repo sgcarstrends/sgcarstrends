@@ -18,8 +18,8 @@ const CORS: Record<Stage, unknown> = {
 };
 
 const DOMAIN: Record<Stage, unknown> = {
-  dev: { name: `dev.api.${DOMAIN_NAME}` },
-  staging: { name: `staging.api.${DOMAIN_NAME}` },
+  dev: { name: `api.dev.${DOMAIN_NAME}` },
+  staging: { name: `api.staging.${DOMAIN_NAME}` },
   prod: { name: `api.${DOMAIN_NAME}` },
 };
 
@@ -60,6 +60,7 @@ export default $config({
     const { url } = new sst.aws.Function("Hono", {
       link: Object.values(secrets),
       architecture: "arm64",
+      runtime: "nodejs22.x",
       description: "API for SG Cars Trends with integrated data updater",
       environment: {
         FEATURE_FLAG_RATE_LIMIT: process.env.FEATURE_FLAG_RATE_LIMIT ?? "",
@@ -83,13 +84,13 @@ export default $config({
       },
     });
 
-    // QStash Scheduler for updater workflows
-    new upstash.QStashScheduleV2("Scheduler", {
-      destination: `https://${DOMAIN[$app.stage].name}/workflows/trigger`,
-      forwardHeaders: {
-        Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
-      },
-      cron: SCHEDULER,
-    });
+    // // QStash Scheduler for updater workflows
+    // new upstash.QStashScheduleV2("Scheduler", {
+    //   destination: `https://${DOMAIN[$app.stage].name}/workflows/trigger`,
+    //   forwardHeaders: {
+    //     Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
+    //   },
+    //   cron: SCHEDULER,
+    // });
   },
 });

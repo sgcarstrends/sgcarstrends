@@ -2,11 +2,13 @@
 
 ## Project Overview
 
-SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data and Certificate of Entitlement (COE) bidding results. The monorepo includes:
+SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data and Certificate of
+Entitlement (COE) bidding results. The monorepo includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
 - **Web Application**: Next.js frontend with interactive charts and analytics
-- **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA DataMall (QStash workflows)
+- **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA
+  DataMall (QStash workflows)
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available
 - **Documentation**: Comprehensive developer documentation using Mintlify
 
@@ -58,6 +60,7 @@ SG Cars Trends is a full-stack platform providing access to Singapore vehicle re
 ## Versioning Strategy
 
 SG Cars Trends uses **unified versioning** across all packages:
+
 - All packages (`@sgcarstrends/*`) share the same version number
 - Releases are managed with [Changesets](https://github.com/changesets/changesets)
 - Single release per version with combined changelog
@@ -66,14 +69,14 @@ SG Cars Trends uses **unified versioning** across all packages:
 ## Code Structure
 
 - **apps/api**: Unified API service using Hono framework with integrated updater workflows
-  - **src/v1**: API endpoints for data access
-  - **src/lib/workflows**: Workflow-based data update system and social media integration
-  - **src/routes**: API route handlers including workflow endpoints
-  - **src/config**: Database, Redis, QStash, and platform configurations
+    - **src/v1**: API endpoints for data access
+    - **src/lib/workflows**: Workflow-based data update system and social media integration
+    - **src/routes**: API route handlers including workflow endpoints
+    - **src/config**: Database, Redis, QStash, and platform configurations
 - **apps/web**: Next.js frontend application
-  - **src/app**: Next.js App Router pages and layouts
-  - **src/components**: React components with tests
-  - **src/utils**: Web-specific utility functions
+    - **src/app**: Next.js App Router pages and layouts
+    - **src/components**: React components with tests
+    - **src/utils**: Web-specific utility functions
 - **apps/docs**: Mintlify documentation site
 - **packages/database**: Database schema and migrations using Drizzle ORM
 - **packages/types**: Shared TypeScript type definitions
@@ -108,6 +111,7 @@ SG Cars Trends uses **unified versioning** across all packages:
 ## API Endpoints
 
 ### Data Access Endpoints
+
 - **/v1/cars**: Car registration data (filterable by month, make, fuel type)
 - **/v1/coe**: COE bidding results
 - **/v1/coe/pqp**: COE Prevailing Quota Premium rates
@@ -115,6 +119,7 @@ SG Cars Trends uses **unified versioning** across all packages:
 - **/v1/months/latest**: Get the latest month with data
 
 ### Updater Endpoints
+
 - **/workflows/trigger**: Trigger data update workflows (authenticated)
 - **/workflow/cars**: Car data update workflow endpoint
 - **/workflow/coe**: COE data update workflow endpoint
@@ -142,6 +147,36 @@ Required environment variables (store in .env.local for local development):
 - Cloudflare for DNS management
 - SST framework for infrastructure
 
+## Domain Convention
+
+SG Cars Trends uses a standardized domain convention across services:
+
+### API Service
+
+- **Convention**: `<service>.<environment>.<domain>`
+- **Production**: `api.sgcarstrends.com`
+- **Staging**: `api.staging.sgcarstrends.com`
+- **Development**: `api.dev.sgcarstrends.com`
+
+### Web Application
+
+- **Convention**: `<environment>.<domain>` with apex domain for production
+- **Production**: `sgcarstrends.com` (main user-facing domain)
+- **Staging**: `staging.sgcarstrends.com`
+- **Development**: `dev.sgcarstrends.com`
+
+### Domain Strategy
+
+- **API services** follow strict `<service>.<environment>.<domain>` pattern for clear service identification
+- **Web frontend** uses user-friendly approach with apex domain in production for optimal SEO and branding
+- **DNS Management**: All domains managed through Cloudflare with automatic SSL certificate provisioning
+- **Cross-Origin Requests**: CORS configured to allow appropriate domain combinations across environments
+
+### Adding New Services
+
+- Backend services: Follow API pattern `<service>.<environment>.sgcarstrends.com`
+- Frontend services: Evaluate based on user interaction needs (apex domain vs service subdomain)
+
 ## Data Models
 
 - **cars**: Car registrations by make, fuel type, and vehicle type
@@ -155,13 +190,16 @@ Required environment variables (store in .env.local for local development):
 The integrated updater service uses a workflow-based architecture with:
 
 ### Key Components
+
 - **Workflows** (`src/lib/workflows/`): Cars and COE data processing workflows
 - **Task Processing** (`src/lib/workflows/workflow.ts`): Common processing logic with Redis-based timestamp tracking
-- **Updater Core** (`src/lib/workflows/updater.ts`): File download, checksum verification, CSV processing, and database updates
+- **Updater Core** (`src/lib/workflows/updater.ts`): File download, checksum verification, CSV processing, and database
+  updates
 - **Social Media** (`src/lib/social/*/`): Platform-specific posting functionality (Discord, LinkedIn, Telegram, Twitter)
 - **QStash Integration** (`src/config/qstash.ts`): Message queue functionality for workflow execution
 
 ### Workflow Flow
+
 1. Workflows triggered via HTTP endpoints or scheduled QStash cron jobs
 2. Files downloaded and checksums verified to prevent redundant processing
 3. New data inserted into database in batches
@@ -169,6 +207,7 @@ The integrated updater service uses a workflow-based architecture with:
 5. Comprehensive error handling with Discord notifications for failures
 
 ### Design Principles
+
 - Modular and independent workflows
 - Checksum-based redundancy prevention
 - Batch database operations for efficiency
@@ -186,11 +225,11 @@ The integrated updater service uses a workflow-based architecture with:
 
 1. **Make your changes** in a feature branch
 2. **Create a changeset**: `pnpm changeset`
-   - Choose change type: `patch`, `minor`, or `major`
-   - Write a clear description of the change
-   - All packages will be bumped together (unified versioning)
+    - Choose change type: `patch`, `minor`, or `major`
+    - Write a clear description of the change
+    - All packages will be bumped together (unified versioning)
 3. **Commit the changeset file** with your changes
 4. **Submit PR** - changesets will be reviewed with your code
-5. **On merge to main**: 
-   - Changeset bot creates a "Version Packages" PR
-   - Merging the Version PR triggers automated release to GitHub
+5. **On merge to main**:
+    - Changeset bot creates a "Version Packages" PR
+    - Merging the Version PR triggers automated release to GitHub
