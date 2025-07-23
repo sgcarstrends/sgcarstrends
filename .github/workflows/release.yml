@@ -61,10 +61,8 @@ jobs:
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
 
       - name: Create Release Pull Request or Tag Release
-        uses: changesets/action@v1
+        uses: googleapis/release-please-action@v4
+        id: release
         with:
-          commit: "chore(release): version packages"
-          title: "chore(release): version packages"
-          publish: pnpm tag-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          command: manifest
+          token: ${{ secrets.GITHUB_TOKEN }}
