@@ -1,10 +1,31 @@
 import db from "@api/config/db";
+import { getLatestCOEData } from "@api/lib/getLatestCOEData";
 import { COELatestResponseSchema, COEQuerySchema } from "@api/schemas";
 import { coe, coePQP } from "@sgcarstrends/database";
 import { TRPCError } from "@trpc/server";
-import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
+import { and, asc, desc, eq, gte, lte, type SQL } from "drizzle-orm";
 import { z } from "zod";
 import { publicProcedure, router } from "./index";
+
+const handleTRPCError = (error: unknown, message: string) => {
+  throw new TRPCError({
+    code: "INTERNAL_SERVER_ERROR",
+    message,
+    cause: error,
+  });
+};
+
+const buildDateFilters = (
+  month?: string,
+  start?: string,
+  end?: string,
+): (SQL | undefined)[] => {
+  return [
+    month && eq(coe.month, month),
+    start && gte(coe.month, start),
+    end && lte(coe.month, end),
+  ];
+};
 
 export const coeRouter = router({
   getAll: publicProcedure
@@ -13,12 +34,7 @@ export const coeRouter = router({
     .query(async ({ input }) => {
       try {
         const { month, start, end } = input;
-
-        const filters = [
-          month && eq(coe.month, month),
-          start && gte(coe.month, start),
-          end && lte(coe.month, end),
-        ];
+        const filters = buildDateFilters(month, start, end);
 
         const results = await db
           .select()
@@ -32,11 +48,7 @@ export const coeRouter = router({
 
         return results;
       } catch (error) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to get COE data",
-          cause: error,
-        });
+        handleTRPCError(error, "Failed to get COE data");
       }
     }),
 
@@ -45,34 +57,9 @@ export const coeRouter = router({
     .output(COELatestResponseSchema)
     .query(async () => {
       try {
-        const [{ latestMonth }] = await db
-          .select({ latestMonth: max(coe.month) })
-          .from(coe);
-
-        const results = await db
-          .select()
-          .from(coe)
-          .where(
-            and(
-              eq(coe.month, latestMonth),
-              inArray(
-                coe.bidding_no,
-                db
-                  .select({ bidding_no: max(coe.bidding_no) })
-                  .from(coe)
-                  .where(eq(coe.month, latestMonth)),
-              ),
-            ),
-          )
-          .orderBy(desc(coe.bidding_no), asc(coe.vehicle_class));
-
-        return results;
+        return getLatestCOEData();
       } catch (error) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to get latest COE data",
-          cause: error,
-        });
+        handleTRPCError(error, "Failed to get latest COE data");
       }
     }),
 
@@ -103,11 +90,7 @@ export const coeRouter = router({
 
         return { data: pqpRates };
       } catch (error) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to get COE PQP data",
-          cause: error,
-        });
+        handleTRPCError(error, "Failed to get COE PQP data");
       }
     }),
 });
