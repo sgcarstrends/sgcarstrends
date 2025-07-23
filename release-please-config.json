@@ -1,9 +1,5 @@
 {
   "separate-pull-requests": false,
-  "package-name": "sgcarstrends",
-  "release-type": "node",
-  "tag-separator": "-v",
-  "include-component-in-tag": false,
   "plugins": [
     {
       "type": "node-workspace",
@@ -14,5 +10,25 @@
       "groupName": "sgcarstrends",
       "components": ["api", "web", "docs", "database", "types", "utils"]
     }
-  ]
+  ],
+  "packages": {
+    "apps/api": {
+      "component": "api"
+    },
+    "apps/web": {
+      "component": "web"
+    },
+    "apps/docs": {
+      "component": "docs"
+    },
+    "packages/database": {
+      "component": "database"
+    },
+    "packages/types": {
+      "component": "types"
+    },
+    "packages/utils": {
+      "component": "utils"
+    }
+  }
 }
