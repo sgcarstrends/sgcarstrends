@@ -45,6 +45,17 @@ jobs:
       - name: Run Lint
         run: pnpm lint
 
+      - name: Cache build artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            apps/*/dist
+            apps/*/.next
+            packages/*/dist
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml', '**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
       - name: Build All Packages
         run: pnpm build
         env:
