@@ -29,7 +29,23 @@ export const postToTwitter = async ({ message, link }: PostToTwitterParam) => {
       accessSecret,
     });
 
-    const result = await twitterClient.v2.tweet({ text: `${message} ${link}` });
+    // Twitter character limit for non-premium accounts
+    const TWITTER_CHAR_LIMIT = 280;
+    const fullText = `${message} ${link}`;
+    
+    let tweetText = fullText;
+    if (fullText.length > TWITTER_CHAR_LIMIT) {
+      // Calculate available space for message: total limit - link length - space - ellipsis
+      const availableSpace = TWITTER_CHAR_LIMIT - link.length - 4; // 4 chars for " ..."
+      if (availableSpace > 0) {
+        tweetText = `${message.substring(0, availableSpace)}... ${link}`;
+      } else {
+        // If link is too long, just truncate the entire text
+        tweetText = fullText.substring(0, TWITTER_CHAR_LIMIT - 3) + "...";
+      }
+    }
+
+    const result = await twitterClient.v2.tweet({ text: tweetText });
     console.log("Tweet posted successfully:", result);
     return result;
   } catch (error) {
