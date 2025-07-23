@@ -1,0 +1,18 @@
+{
+  "separate-pull-requests": false,
+  "package-name": "sgcarstrends",
+  "release-type": "node",
+  "tag-separator": "-v",
+  "include-component-in-tag": false,
+  "plugins": [
+    {
+      "type": "node-workspace",
+      "updatePeerDependencies": true
+    },
+    {
+      "type": "linked-versions",
+      "groupName": "sgcarstrends",
+      "components": ["api", "web", "docs", "database", "types", "utils"]
+    }
+  ]
+}
