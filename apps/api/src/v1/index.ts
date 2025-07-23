@@ -7,7 +7,7 @@ import months from "./routes/months";
 
 const app = new OpenAPIHono();
 
-app.use(bearerAuth({ token: Resource.SG_CARS_TRENDS_API_TOKEN.value }));
+app.use(bearerAuth({ token: process.env.SG_CARS_TRENDS_API_TOKEN }));
 
 app.route("/cars", cars);
 app.route("/coe", coe);

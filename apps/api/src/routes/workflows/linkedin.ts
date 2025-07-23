@@ -11,7 +11,7 @@ linkedin.post("/post", async (c) => {
       return c.json({ success: false, error: "Message is required" }, 400);
     }
 
-    const accessToken = Resource.LINKEDIN_ACCESS_TOKEN.value;
+    const accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
     if (!accessToken) {
       return c.json(
         { success: false, error: "Access token and message are required" },

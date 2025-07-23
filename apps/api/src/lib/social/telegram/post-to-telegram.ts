@@ -1,8 +1,8 @@
 import type { PostToTelegramParam } from "@api/types/social-media";
 import { Resource } from "sst";
 
-const botToken = Resource.TELEGRAM_BOT_TOKEN.value;
-const channelId = Resource.TELEGRAM_CHANNEL_ID.value;
+const botToken = process.env.TELEGRAM_BOT_TOKEN;
+const channelId = process.env.TELEGRAM_CHANNEL_ID;
 
 /**
  * Post a message to a Telegram channel via bot.

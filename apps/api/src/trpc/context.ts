@@ -15,7 +15,7 @@ export const createTRPCContext = async (
 ): Promise<TRPCContext> => {
   const authHeader = c.req.header("Authorization");
   const token = authHeader?.split(" ")[1];
-  const isAuthenticated = token === Resource.SG_CARS_TRENDS_API_TOKEN.value;
+  const isAuthenticated = token === process.env.SG_CARS_TRENDS_API_TOKEN;
 
   return {
     db,

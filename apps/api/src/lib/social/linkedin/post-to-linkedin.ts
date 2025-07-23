@@ -13,7 +13,7 @@ export const postToLinkedin = async ({
   message,
   link,
 }: PostToLinkedInParam): Promise<CreatedEntityId> => {
-  let accessToken = Resource.LINKEDIN_ACCESS_TOKEN.value;
+  let accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
 
   try {
     // Get fresh access token
@@ -25,7 +25,7 @@ export const postToLinkedin = async ({
     const response = await restliClient.create({
       resourcePath: UGC_POSTS_RESOURCE,
       entity: {
-        author: `urn:li:organization:${Resource.LINKEDIN_ORGANISATION_ID.value}`,
+        author: `urn:li:organization:${process.env.LINKEDIN_ORGANISATION_ID}`,
         lifecycleState: "PUBLISHED",
         specificContent: {
           "com.linkedin.ugc.ShareContent": {

@@ -1,5 +1,4 @@
 import type { Stage } from "@api/types";
-import { Resource } from "sst";
 
 export const DOMAIN_NAME = "sgcarstrends.com";
 export const API_DOMAINS: Record<Stage, string> = {
@@ -7,14 +6,14 @@ export const API_DOMAINS: Record<Stage, string> = {
   staging: `staging.api.${DOMAIN_NAME}`,
   prod: `api.${DOMAIN_NAME}`,
 };
-export const WORKFLOWS_BASE_URL = `https://${API_DOMAINS[Resource.App.stage]}/workflows`;
+export const WORKFLOWS_BASE_URL = `https://${API_DOMAINS[process.env.APP_STAGE as Stage]}/workflows`;
 
 export const SITE_DOMAINS: Record<Stage, string> = {
   dev: `dev.${DOMAIN_NAME}`,
   staging: `staging.${DOMAIN_NAME}`,
   prod: DOMAIN_NAME,
 };
-export const SITE_URL = `https://${SITE_DOMAINS[Resource.App.stage]}`;
+export const SITE_URL = `https://${SITE_DOMAINS[process.env.APP_STAGE as Stage]}`;
 
 export const CACHE_TTL = 24 * 60 * 60;
 

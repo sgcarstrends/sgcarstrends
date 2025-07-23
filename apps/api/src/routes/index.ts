@@ -11,12 +11,11 @@ import { WorkflowTriggerResponseSchema } from "@api/schemas";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { serveMany } from "@upstash/workflow/hono";
 import { bearerAuth } from "hono/bearer-auth";
-import { Resource } from "sst";
 
 const app = new OpenAPIHono();
 
 const authMiddleware = bearerAuth({
-  token: Resource.SG_CARS_TRENDS_API_TOKEN.value,
+  token: process.env.SG_CARS_TRENDS_API_TOKEN as string,
 });
 
 app.openapi(

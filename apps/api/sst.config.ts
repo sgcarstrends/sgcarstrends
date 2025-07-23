@@ -52,19 +52,20 @@ export default $config({
   async run() {
     const { SECRET_KEYS } = await import("./env");
 
-    // Create all secrets from env.ts
-    const secrets = Object.fromEntries(
-      SECRET_KEYS.map((key) => [key, new sst.Secret(key, process.env[key])]),
+    // Create environment variables from SECRET_KEYS
+    const environments = Object.fromEntries(
+      SECRET_KEYS.map((key) => [key, process.env[key] as string]),
     );
 
     const { url } = new sst.aws.Function("Hono", {
-      link: Object.values(secrets),
       architecture: "arm64",
       runtime: "nodejs22.x",
       description: "API for SG Cars Trends with integrated data updater",
       environment: {
         FEATURE_FLAG_RATE_LIMIT: process.env.FEATURE_FLAG_RATE_LIMIT ?? "",
         QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
+        APP_STAGE: $app.stage,
+        ...environments,
       },
       handler: "src/index.handler",
       url: {

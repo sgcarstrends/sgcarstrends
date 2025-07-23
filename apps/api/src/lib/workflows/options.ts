@@ -43,7 +43,7 @@ export const options: PublicServeOptions = {
     console.log(payload);
 
     try {
-      await fetch(Resource.DISCORD_WORKFLOW_WEBHOOK_URL.value, {
+      await fetch(process.env.DISCORD_WORKFLOW_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
