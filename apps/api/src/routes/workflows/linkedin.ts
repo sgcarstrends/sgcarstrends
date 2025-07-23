@@ -1,6 +1,5 @@
 import { postToLinkedin } from "@api/lib/social/linkedin/post-to-linkedin";
 import { Hono } from "hono";
-import { Resource } from "sst";
 
 const linkedin = new Hono();
 

@@ -1,5 +1,5 @@
 import type { PostToTwitterParam } from "@api/types/social-media";
-import { Resource } from "sst";
+
 import { TwitterApi } from "twitter-api-v2";
 
 /**

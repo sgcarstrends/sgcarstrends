@@ -1,5 +1,4 @@
 import type { PostToDiscordParam } from "@api/types/social-media";
-import { Resource } from "sst";
 
 /**
  * Post a message to a Discord channel via webhook.

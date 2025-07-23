@@ -3,7 +3,6 @@ import { neon } from "@neondatabase/serverless";
 import * as schema from "@sgcarstrends/database";
 import { upstashCache } from "drizzle-orm/cache/upstash";
 import { drizzle } from "drizzle-orm/neon-http";
-import { Resource } from "sst";
 
 const sql = neon(process.env.DATABASE_URL);
 export const db = drizzle(sql, {

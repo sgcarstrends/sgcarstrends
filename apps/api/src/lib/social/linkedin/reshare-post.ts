@@ -1,5 +1,4 @@
 import type { ResharePostParam } from "@api/types/social-media";
-import { Resource } from "sst";
 
 export const resharePost = async ({
   createdEntityId,

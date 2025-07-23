@@ -5,7 +5,6 @@ import type {
 } from "@api/types/social-media";
 import { refreshLinkedInToken } from "@api/utils/linkedin";
 import { RestliClient } from "linkedin-api-client";
-import { Resource } from "sst";
 
 const UGC_POSTS_RESOURCE = "/ugcPosts";
 

@@ -1,7 +1,6 @@
 import { db } from "@api/config/db";
 import redis from "@api/config/redis";
 import type { Context } from "hono";
-import { Resource } from "sst";
 
 export type TRPCContext = {
   db: typeof db;

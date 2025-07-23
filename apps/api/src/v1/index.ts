@@ -1,6 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { bearerAuth } from "hono/bearer-auth";
-import { Resource } from "sst";
+
 import cars from "./routes/cars";
 import coe from "./routes/coe";
 import months from "./routes/months";

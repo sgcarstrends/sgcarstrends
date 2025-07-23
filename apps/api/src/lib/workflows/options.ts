@@ -1,6 +1,5 @@
 import { receiver } from "@api/config/qstash";
 import type { PublicServeOptions } from "@upstash/workflow";
-import { Resource } from "sst";
 
 export const options: PublicServeOptions = {
   receiver,

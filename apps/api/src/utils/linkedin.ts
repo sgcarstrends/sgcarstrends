@@ -1,5 +1,3 @@
-import { Resource } from "sst";
-
 /**
  * Refreshes LinkedIn access token using refresh token
  *

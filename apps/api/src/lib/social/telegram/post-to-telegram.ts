@@ -1,5 +1,4 @@
 import type { PostToTelegramParam } from "@api/types/social-media";
-import { Resource } from "sst";
 
 const botToken = process.env.TELEGRAM_BOT_TOKEN;
 const channelId = process.env.TELEGRAM_CHANNEL_ID;
