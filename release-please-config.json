@@ -1,0 +1,42 @@
+{
+  "bootstrap-sha": "387f5f76c1ade458ae2109518ccd6b4d9b4640f8",
+  "release-type": "node",
+  "separate-pull-requests": false,
+  "packages": {
+    "apps/api": {
+      "package-name": "@sgcarstrends/api",
+      "component": "api"
+    },
+    "apps/web": {
+      "package-name": "@sgcarstrends/web",
+      "component": "web"
+    },
+    "apps/docs": {
+      "package-name": "@sgcarstrends/docs",
+      "component": "docs"
+    },
+    "packages/database": {
+      "package-name": "@sgcarstrends/database",
+      "component": "database"
+    },
+    "packages/types": {
+      "package-name": "@sgcarstrends/types",
+      "component": "types"
+    },
+    "packages/utils": {
+      "package-name": "@sgcarstrends/utils",
+      "component": "utils"
+    }
+  },
+  "plugins": [
+    {
+      "type": "node-workspace",
+      "updatePeerDependencies": true
+    },
+    {
+      "type": "linked-versions",
+      "groupName": "sgcarstrends",
+      "components": ["api", "web", "docs", "database", "types", "utils"]
+    }
+  ]
+}
