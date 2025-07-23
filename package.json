@@ -23,15 +23,10 @@
     "web:deploy:dev": "pnpm -F @sgcarstrends/web deploy:dev",
     "web:deploy:staging": "pnpm -F @sgcarstrends/web deploy:staging",
     "web:deploy:prod": "pnpm -F @sgcarstrends/web deploy:prod",
-    "changeset": "changeset",
-    "version": "changeset version",
-    "tag-release": "changeset tag",
     "prepare": "husky"
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
-    "@changesets/changelog-github": "^0.5.1",
-    "@changesets/cli": "^2.29.5",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@commitlint/config-lerna-scopes": "^19.8.1",

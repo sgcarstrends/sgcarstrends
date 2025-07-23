@@ -56,11 +56,6 @@ Entitlement (COE) bidding results. The monorepo includes:
 - Run migrations: `pnpm migrate`
 - Check pending migrations: `pnpm migrate:check`
 
-### Release Commands
-
-- Create changeset: `pnpm changeset`
-- Version packages: `pnpm version`
-- Tag release: `pnpm tag-release`
 
 ### Deployment Commands
 
@@ -75,7 +70,7 @@ Entitlement (COE) bidding results. The monorepo includes:
 SG Cars Trends uses **unified versioning** across all packages:
 
 - All packages (`@sgcarstrends/*`) share the same version number
-- Releases are managed with [Changesets](https://github.com/changesets/changesets)
+- Releases are managed with [Release Please](https://github.com/googleapis/release-please) based on conventional commits
 - Single release per version with combined changelog
 - Ensures compatibility across all packages
 
@@ -229,20 +224,20 @@ The integrated updater service uses a workflow-based architecture with:
 ## Contribution Guidelines
 
 - Create feature branches from main branch
-- **Create changeset files** for any changes that should trigger a release
+- **Use conventional commit messages** for changes that should trigger a release
 - Submit PRs with descriptive titles and summaries
 - Ensure CI passes (tests, lint, typecheck) before requesting review
 - Maintain backward compatibility for public APIs
 
-### Changeset Workflow
+### Release Please Workflow
 
-1. **Make your changes** in a feature branch
-2. **Create a changeset**: `pnpm changeset`
-    - Choose change type: `patch`, `minor`, or `major`
-    - Write a clear description of the change
-    - All packages will be bumped together (unified versioning)
-3. **Commit the changeset file** with your changes
-4. **Submit PR** - changesets will be reviewed with your code
-5. **On merge to main**:
-    - Changeset bot creates a "Version Packages" PR
-    - Merging the Version PR triggers automated release to GitHub
+1. **Make your changes** in a feature branch using conventional commits:
+    - `fix:` for bug fixes (patch version bump)
+    - `feat:` for new features (minor version bump)
+    - `feat!:` or `fix!:` with breaking changes (major version bump)
+2. **Submit PR** with conventional commit messages
+3. **On merge to main**:
+    - Release Please analyzes commits and creates/updates a release PR
+    - Merging the release PR triggers automated versioning and GitHub release
+    - All packages are bumped together (unified versioning)
+4. **No manual changeset creation required** - everything is automated based on commit messages
