@@ -11,7 +11,7 @@ export const getLatestCOEData = async () => {
     .select({ latestMonth: max(coe.month) })
     .from(coe);
 
-  const results = await db
+  return db
     .select()
     .from(coe)
     .where(
@@ -27,6 +27,4 @@ export const getLatestCOEData = async () => {
       ),
     )
     .orderBy(desc(coe.bidding_no), asc(coe.vehicle_class));
-
-  return results;
 };
