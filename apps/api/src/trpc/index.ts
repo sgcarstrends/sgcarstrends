@@ -8,7 +8,7 @@ const t = initTRPC.context<TRPCContext>().create({
       data: {
         ...shape.data,
         code: error.code,
-        httpStatus: error.cause?.httpStatus ?? 500,
+        error: error ?? 500,
       },
     };
   },
@@ -23,10 +23,7 @@ const isAuthenticated = t.middleware(({ ctx, next }) => {
     });
   }
   return next({
-    ctx: {
-      ...ctx,
-      userId: ctx.userId as string,
-    },
+    ctx,
   });
 });
 

@@ -1,4 +1,5 @@
 import db from "@api/config/db";
+import { getLatestCOEData } from "@api/lib/getLatestCOEData";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import {
@@ -10,7 +11,7 @@ import {
 } from "@api/schemas";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { coe, coePQP } from "@sgcarstrends/database";
-import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
+import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 
 const app = new OpenAPIHono();
 
@@ -119,26 +120,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const [{ latestMonth }] = await db
-      .select({ latestMonth: max(coe.month) })
-      .from(coe);
-    const results = await db
-      .select()
-      .from(coe)
-      .where(
-        and(
-          eq(coe.month, latestMonth),
-          inArray(
-            coe.bidding_no,
-            db
-              .select({ bidding_no: max(coe.bidding_no) })
-              .from(coe)
-              .where(eq(coe.month, latestMonth)),
-          ),
-        ),
-      )
-      .orderBy(desc(coe.bidding_no), asc(coe.vehicle_class));
-
+    const results = await getLatestCOEData();
     return c.json(results);
   },
 );

@@ -13,5 +13,6 @@
       "@api/*": ["apps/api/src/*"],
       "@web/*": ["apps/web/src/*"]
     }
-  }
+  },
+  "exclude": ["**/.sst/**"]
 }
