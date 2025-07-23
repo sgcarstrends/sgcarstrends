@@ -5,9 +5,8 @@ import { postToTwitter } from "@api/lib/social/twitter/post-to-twitter";
 import type { IPlatform } from "@api/lib/workflows/workflow";
 import { Stage } from "@api/types";
 import { Platform } from "@api/types/social-media";
-import { Resource } from "sst";
 
-const isProduction = Resource.App.stage === Stage.PRODUCTION;
+const isProduction = process.env.APP_STAGE === Stage.PRODUCTION;
 
 export const platforms: IPlatform[] = [
   {

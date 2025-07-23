@@ -14,7 +14,7 @@ export const resharePost = async ({
         "LinkedIn-Version": "202504",
       },
       body: JSON.stringify({
-        author: `urn:li:person:${Resource.LINKEDIN_USER_ID.value}`,
+        author: `urn:li:person:${process.env.LINKEDIN_USER_ID}`,
         commentary: message ?? "",
         visibility: "PUBLIC",
         distribution: {

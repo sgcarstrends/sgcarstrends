@@ -9,7 +9,7 @@ export const postToDiscord = async ({ message, link }: PostToDiscordParam) => {
     throw new Error("Discord message cannot be empty.");
   }
 
-  const webhookUrl = Resource.DISCORD_WEBHOOK_URL.value;
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
   if (!webhookUrl) {
     throw new Error("Discord webhook URL is required.");
   }

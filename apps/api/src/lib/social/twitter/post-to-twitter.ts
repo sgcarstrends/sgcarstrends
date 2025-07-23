@@ -11,10 +11,10 @@ export const postToTwitter = async ({ message, link }: PostToTwitterParam) => {
   }
 
   // Get Twitter API credentials
-  const appKey = Resource.TWITTER_APP_KEY.value;
-  const appSecret = Resource.TWITTER_APP_SECRET.value;
-  const accessToken = Resource.TWITTER_ACCESS_TOKEN.value;
-  const accessSecret = Resource.TWITTER_ACCESS_SECRET.value;
+  const appKey = process.env.TWITTER_APP_KEY;
+  const appSecret = process.env.TWITTER_APP_SECRET;
+  const accessToken = process.env.TWITTER_ACCESS_TOKEN;
+  const accessSecret = process.env.TWITTER_ACCESS_SECRET;
 
   // Validate credentials
   if (!appKey || !appSecret || !accessToken || !accessSecret) {

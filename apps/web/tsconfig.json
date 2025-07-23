@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -19,6 +20,7 @@
       }
     ],
     "paths": {
+      "@api/*": ["../api/src/*"],
       "@/*": ["./src/*"]
     },
     "target": "ESNext",
