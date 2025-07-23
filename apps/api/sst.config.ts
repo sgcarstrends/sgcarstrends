@@ -84,12 +84,12 @@ export default $config({
     });
 
     // QStash Scheduler for updater workflows
-    new upstash.QStashScheduleV2("Scheduler", {
-      destination: `https://${DOMAIN[$app.stage].name}/workflows/trigger`,
-      forwardHeaders: {
-        Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
-      },
-      cron: SCHEDULER,
-    });
+    // new upstash.QStashScheduleV2("Scheduler", {
+    //   destination: `https://${DOMAIN[$app.stage].name}/workflows/trigger`,
+    //   forwardHeaders: {
+    //     Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
+    //   },
+    //   cron: SCHEDULER,
+    // });
   },
 });
