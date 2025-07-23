@@ -1,10 +1,10 @@
+import type { Metadata } from "next";
+import type { WebPage, WithContext } from "schema-dts";
 import { PageHeader } from "@/components/page-header";
 import { StructuredData } from "@/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@/config";
 import { generateCOEFAQSchema } from "@/lib/structured-data";
 import { FAQSections } from "./faq-sections";
-import type { Metadata } from "next";
-import type { WebPage, WithContext } from "schema-dts";
 
 const title = "Frequently Asked Questions";
 const description =
@@ -120,11 +120,6 @@ const FAQPage = () => {
           question: "How can I access historical data?",
           answer:
             "Historical data is available through our website's month selector feature on various pages. You can also access our API endpoints for programmatic access to historical car registration and COE data dating back to 2020.",
-        },
-        {
-          question: "Is the data available for commercial use?",
-          answer:
-            "Yes, our data is freely accessible for research and commercial analysis. We appreciate attribution to both SG Cars Trends and the Land Transport Authority (LTA) as the original data source. Real-time data access is available through our public API.",
         },
       ],
     },
