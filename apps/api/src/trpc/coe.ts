@@ -36,7 +36,7 @@ export const coeRouter = router({
         const { month, start, end } = input;
         const filters = buildDateFilters(month, start, end);
 
-        const results = await db
+        return await db
           .select()
           .from(coe)
           .where(and(...filters))
@@ -45,8 +45,6 @@ export const coeRouter = router({
             asc(coe.bidding_no),
             asc(coe.vehicle_class),
           );
-
-        return results;
       } catch (error) {
         handleTRPCError(error, "Failed to get COE data");
       }
@@ -57,7 +55,7 @@ export const coeRouter = router({
     .output(COELatestResponseSchema)
     .query(async () => {
       try {
-        return getLatestCOEData();
+        return await getLatestCOEData();
       } catch (error) {
         handleTRPCError(error, "Failed to get latest COE data");
       }
