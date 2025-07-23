@@ -1,6 +1,6 @@
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { healthResponseSchema } from "@api/schemas/health";
 import { performHealthCheck } from "@api/utils/health";
+import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 
 const app = new OpenAPIHono();
 
@@ -33,7 +33,10 @@ app.openapi(
   }),
   async (c) => {
     const healthResponse = await performHealthCheck();
-    return c.json(healthResponse, healthResponse.status === "healthy" ? 200 : 503);
+    return c.json(
+      healthResponse,
+      healthResponse.status === "healthy" ? 200 : 503,
+    );
   },
 );
 
