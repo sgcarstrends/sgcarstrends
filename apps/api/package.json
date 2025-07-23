@@ -16,6 +16,7 @@
     "lint": "biome check ."
   },
   "dependencies": {
+    "@hono/trpc-server": "^0.4.0",
     "@hono/zod-openapi": "^0.19.8",
     "@hono/zod-validator": "^0.4.2",
     "@neondatabase/serverless": "1.0.1",
@@ -23,6 +24,7 @@
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
+    "@trpc/server": "^11.4.3",
     "@upstash/qstash": "^2.7.23",
     "@upstash/ratelimit": "^2.0.3",
     "@upstash/redis": "^1.34.8",

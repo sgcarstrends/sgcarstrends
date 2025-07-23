@@ -41,6 +41,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@hono/trpc-server':
+        specifier: ^0.4.0
+        version: 0.4.0(@trpc/server@11.4.3(typescript@5.8.3))(hono@4.7.2)
       '@hono/zod-openapi':
         specifier: ^0.19.8
         version: 0.19.8(hono@4.7.2)(zod@3.24.2)
@@ -62,6 +65,9 @@ importers:
       '@sgcarstrends/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@trpc/server':
+        specifier: ^11.4.3
+        version: 11.4.3(typescript@5.8.3)
       '@upstash/qstash':
         specifier: ^2.7.23
         version: 2.7.23
@@ -2170,6 +2176,13 @@ packages:
       react: '>=18 || >=19.0.0-rc.0'
       react-dom: '>=18 || >=19.0.0-rc.0'
 
+  '@hono/trpc-server@0.4.0':
+    resolution: {integrity: sha512-LGlJfCmNIGMwcknZEIYdujVMs9OkNVazhpOhaz3kTWOXvNL660VOHpvvktosCiJrajyBY1RtIJKQ+IKaQvNuSg==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@trpc/server': ^10.10.0 || >11.0.0-rc
+      hono: '>=4.*'
+
   '@hono/zod-openapi@0.19.8':
     resolution: {integrity: sha512-CHUSW0K+bDGUYXovxQSbVjZffzoPeTsGu6wevPoGSmBdPuUw5yZqDeomnvyAAAAvEjhLQPlAsUyASc1Zi35exQ==}
     engines: {node: '>=16.0.0'}
@@ -4174,6 +4187,11 @@ packages:
 
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
+
+  '@trpc/server@11.4.3':
+    resolution: {integrity: sha512-wnWq3wiLlMOlYkaIZz+qbuYA5udPTLS4GVVRyFkr6aT83xpdCHyVtURT+u4hSoIrOXQM9OPCNXSXsAujWZDdaw==}
+    peerDependencies:
+      typescript: '>=5.7.2'
 
   '@tsconfig/bun@1.0.7':
     resolution: {integrity: sha512-udGrGJBNQdXGVulehc1aWT73wkR9wdaGBtB6yL70RJsqwW/yJhIg6ZbRlPOfIUiFNrnBuYLBi9CSmMKfDC7dvA==}
@@ -12055,6 +12073,11 @@ snapshots:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
+  '@hono/trpc-server@0.4.0(@trpc/server@11.4.3(typescript@5.8.3))(hono@4.7.2)':
+    dependencies:
+      '@trpc/server': 11.4.3(typescript@5.8.3)
+      hono: 4.7.2
+
   '@hono/zod-openapi@0.19.8(hono@4.7.2)(zod@3.24.2)':
     dependencies:
       '@asteasolutions/zod-to-openapi': 7.3.2(zod@3.24.2)
@@ -14651,6 +14674,10 @@ snapshots:
       '@types/react-dom': 19.1.0(@types/react@19.1.0)
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
+
+  '@trpc/server@11.4.3(typescript@5.8.3)':
+    dependencies:
+      typescript: 5.8.3
 
   '@tsconfig/bun@1.0.7': {}
 
