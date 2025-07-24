@@ -53,7 +53,7 @@ export function CarMakeContent({
             )}
             <Typography.H1>{cars.make}</Typography.H1>
           </div>
-          <div className="flex flex-row-reverse items-center justify-between gap-2 lg:flex-row">
+          <div className="flex flex-col items-start gap-2">
             {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
             <MakeSelector makes={makes} selectedMake={make} />
           </div>

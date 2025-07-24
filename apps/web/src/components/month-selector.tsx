@@ -1,24 +1,20 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  AutocompleteSection,
+} from "@heroui/react";
 import { Calendar } from "lucide-react";
 import { useQueryState } from "nuqs";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useEffect, useMemo } from "react";
+import type { Month } from "@/types";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 import { groupByYear } from "@/utils/group-by-year";
-import type { Month } from "@/types";
 
-interface Props {
+type Props = {
   months: Month[];
-}
+};
 
 export const MonthSelector = ({ months }: Props) => {
   const [month, setMonth] = useQueryState("month", { shallow: false });
@@ -28,7 +24,7 @@ export const MonthSelector = ({ months }: Props) => {
     if (!month) {
       void setMonth(latestMonth);
     }
-  }, [latestMonth, month, months, setMonth]);
+  }, [latestMonth, month, setMonth]);
 
   const memoisedGroupByYear = useMemo(() => groupByYear, []);
   const sortedMonths = useMemo(
@@ -37,30 +33,29 @@ export const MonthSelector = ({ months }: Props) => {
   );
 
   return (
-    <Select value={month || latestMonth} onValueChange={setMonth}>
-      <SelectTrigger>
-        <SelectValue placeholder="Select Month" />
-      </SelectTrigger>
-      <SelectContent>
-        {sortedMonths.map(([year, months]) => (
-          <SelectGroup key={year}>
-            <SelectLabel>{year}</SelectLabel>
-            {months.slice().map((month) => {
-              const date = `${year}-${month}`;
-              return (
-                <SelectItem key={month} value={date}>
-                  <div className="flex items-center">
-                    <Calendar className="mr-2 size-4" />
-                    {formatDateToMonthYear(date)}
-                  </div>
-                </SelectItem>
-              );
-            })}
-          </SelectGroup>
-        ))}
-      </SelectContent>
-    </Select>
+    <Autocomplete
+      selectedKey={month ?? latestMonth}
+      onSelectionChange={(key) => setMonth(key as string)}
+      aria-label="Month"
+      placeholder="Select Month"
+      startContent={<Calendar className="size-4" />}
+      variant="underlined"
+    >
+      {sortedMonths.map(([year, months]) => (
+        <AutocompleteSection key={year} title={year}>
+          {months.map((month) => {
+            const date = `${year}-${month}`;
+            return (
+              <AutocompleteItem
+                key={date}
+                textValue={formatDateToMonthYear(date)}
+              >
+                {formatDateToMonthYear(date)}
+              </AutocompleteItem>
+            );
+          })}
+        </AutocompleteSection>
+      ))}
+    </Autocomplete>
   );
 };
-
-export default MonthSelector;
