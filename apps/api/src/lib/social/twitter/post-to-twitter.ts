@@ -32,7 +32,7 @@ export const postToTwitter = async ({ message, link }: PostToTwitterParam) => {
     // Twitter character limit for non-premium accounts
     const TWITTER_CHAR_LIMIT = 280;
     const fullText = `${message} ${link}`;
-    
+
     let tweetText = fullText;
     if (fullText.length > TWITTER_CHAR_LIMIT) {
       // Calculate available space for message: total limit - link length - space - ellipsis
@@ -41,7 +41,7 @@ export const postToTwitter = async ({ message, link }: PostToTwitterParam) => {
         tweetText = `${message.substring(0, availableSpace)}... ${link}`;
       } else {
         // If link is too long, just truncate the entire text
-        tweetText = fullText.substring(0, TWITTER_CHAR_LIMIT - 3) + "...";
+        tweetText = `${fullText.substring(0, TWITTER_CHAR_LIMIT - 3)}...`;
       }
     }
 
