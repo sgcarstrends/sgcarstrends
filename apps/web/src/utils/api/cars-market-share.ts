@@ -1,5 +1,5 @@
-import { API_URL } from "@/config";
-import { fetchApi } from "@/utils/fetch-api";
+import { cache } from 'react';
+import { getCarsData } from "@/utils/cached-api";
 
 export interface MarketShareData {
   name: string;
@@ -19,16 +19,11 @@ export interface MarketShareResponse {
   };
 }
 
-export const fetchMarketShare = async (
+export const fetchMarketShare = cache(async (
   month: string,
   category: "fuelType" | "vehicleType",
 ): Promise<MarketShareResponse> => {
-  const response = await fetchApi<{
-    month: string;
-    total: number;
-    fuelType: Array<{ name: string; count: number }>;
-    vehicleType: Array<{ name: string; count: number }>;
-  }>(`${API_URL}/cars?month=${month}`);
+  const response = await getCarsData(month);
 
   const categoryData = response[category];
   const total = response.total;
@@ -67,7 +62,7 @@ export const fetchMarketShare = async (
       percentage: dominantType.percentage,
     },
   };
-};
+});
 
 export const calculateMarketShareInsights = (
   data: MarketShareData[],

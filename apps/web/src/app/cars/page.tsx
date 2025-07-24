@@ -1,4 +1,7 @@
 import { notFound } from "next/navigation";
+
+// Enable ISR with 1-hour revalidation
+export const revalidate = 3600;
 import { BarChart3, CarFront, Fuel } from "lucide-react";
 import { loadSearchParams } from "@/app/cars/search-params";
 import { AnimatedNumber } from "@/components/animated-number";
@@ -19,9 +22,9 @@ import {
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import { generateDatasetSchema } from "@/lib/structured-data";
-import { fetchApi } from "@/utils/fetch-api";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
+import { getCarsData, getCarsComparison, getTopTypes, getTopMakes } from "@/utils/cached-api";
 import type {
   Registration,
   Comparison,
@@ -49,15 +52,9 @@ export const generateMetadata = async ({
   const title = `${formattedMonth} Car Registrations`;
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
 
-  const getTopTypes = fetchApi<TopMake>(
-    `${API_URL}/cars/top-types?month=${month}`,
-  );
-  const getCarRegistration = fetchApi<Registration>(
-    `${API_URL}/cars?month=${month}`,
-  );
   const [topTypes, carRegistration] = await Promise.all([
-    getTopTypes,
-    getCarRegistration,
+    getTopTypes(month),
+    getCarsData(month),
   ]);
   const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${carRegistration.total}&topFuelType=${topTypes.topFuelType.name}&topVehicleType=${topTypes.topVehicleType.name}`;
 
@@ -90,22 +87,11 @@ const CarsPage = async ({ searchParams }: Props) => {
 
   month = await getMonthOrLatest(month, "cars");
 
-  const getCars = fetchApi<Registration>(`${API_URL}/cars?month=${month}`);
-  const getComparison = fetchApi<Comparison>(
-    `${API_URL}/cars/compare?month=${month}`,
-  );
-  const getTopTypes = fetchApi<TopType>(
-    `${API_URL}/cars/top-types?month=${month}`,
-  );
-  const getTopMakes = fetchApi<FuelType[]>(
-    `${API_URL}/cars/top-makes?month=${month}`,
-  );
-
   const [cars, comparison, topTypes, topMakes, months] = await Promise.all([
-    getCars,
-    getComparison,
-    getTopTypes,
-    getTopMakes,
+    getCarsData(month),
+    getCarsComparison(month),
+    getTopTypes(month),
+    getTopMakes(month),
     fetchMonthsForCars(),
   ]);
 

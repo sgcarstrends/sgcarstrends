@@ -1,4 +1,7 @@
 import Link from "next/link";
+
+// Enable ISR with 1-hour revalidation
+export const revalidate = 3600;
 import { AnimatedNumber } from "@/components/animated-number";
 import { LatestCOEPrices } from "@/components/latest-coe-prices";
 import { PageHeader } from "@/components/page-header";
@@ -17,7 +20,7 @@ import { Progress } from "@/components/ui/progress";
 import { API_URL, LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import { type COEResult, type PQP, RevalidateTags } from "@/types";
-import { fetchApi } from "@/utils/fetch-api";
+import { getCOEResults, getLatestCOEResults, getPQPData } from "@/utils/cached-api";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 import { formatPercent } from "@/utils/format-percent";
 import type { Metadata } from "next";
@@ -29,7 +32,7 @@ const description =
 
 export const generateMetadata = async (): Promise<Metadata> => {
   // TODO: Refactor and clean up
-  const results = await fetchApi<COEResult[]>(`${API_URL}/coe/latest`);
+  const results = await getLatestCOEResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
       category[current.vehicle_class] = current.premium;
@@ -65,13 +68,9 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 const COEPricesPage = async () => {
   const [latestResults, allCoeResults, pqpRates] = await Promise.all([
-    fetchApi<COEResult[]>(`${API_URL}/coe/latest`, {
-      next: { tags: [RevalidateTags.COE] },
-    }),
-    fetchApi<COEResult[]>(`${API_URL}/coe`, {
-      next: { tags: [RevalidateTags.COE] },
-    }),
-    fetchApi<Record<string, PQP>>(`${API_URL}/coe/pqp`),
+    getLatestCOEResults(),
+    getCOEResults(),
+    getPQPData(),
   ]);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
 
