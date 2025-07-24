@@ -13,16 +13,15 @@ import {
 import { formatPercentage } from "@/utils/chart-formatters";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 import type { TypeItem } from "@/types";
-import type { MarketShareResponse } from "@/utils/api/cars-market-share";
-import type { TopPerformersData } from "@/utils/api/cars-top-performers";
+import type { CarMarketShareResponse, CarTopPerformersData } from "@/utils/api/cars";
 
 interface Props {
   types: TypeItem[];
   month: string;
   category: string;
   title: string;
-  topPerformers: TopPerformersData;
-  marketShare: MarketShareResponse;
+  topPerformers: CarTopPerformersData;
+  marketShare: CarMarketShareResponse;
   totalRegistrations: number;
 }
 

@@ -11,7 +11,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { getRankingEmoji } from "@/utils/api/cars-top-performers";
+import { getRankingEmoji } from "@/utils/api/cars";
 import {
   formatNumber,
   formatPercentage,

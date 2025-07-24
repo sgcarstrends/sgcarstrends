@@ -3,8 +3,7 @@ import { PageHeader } from "@/components/page-header";
 import { StructuredData } from "@/components/structured-data";
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
-import { fetchMarketShare } from "@/utils/api/cars-market-share";
-import { fetchTopPerformers } from "@/utils/api/cars-top-performers";
+import { getCarMarketShareData, getCarTopPerformersData } from "@/utils/api/cars";
 import { fetchApi } from "@/utils/fetch-api";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
@@ -120,8 +119,8 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
   const [lastUpdated, cars, topPerformers, marketShare] = await Promise.all([
     redis.get<number>(LAST_UPDATED_CARS_KEY),
     getCars,
-    fetchTopPerformers(month),
-    fetchMarketShare(month, config.apiDataField),
+    getCarTopPerformersData(month),
+    getCarMarketShareData(month, config.apiDataField),
   ]);
 
   const categoryData = cars?.[config.apiDataField] || [];
