@@ -1,28 +1,5 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
-import type { Stage } from "@api/types";
-
-const DOMAIN_NAME = "sgcarstrends.com";
-
-const CORS: Record<Stage, unknown> = {
-  dev: {
-    allowOrigins: ["*"],
-  },
-  staging: {
-    allowOrigins: ["*"],
-  },
-  prod: {
-    allowOrigins: [`https://${DOMAIN_NAME}`],
-    maxAge: "1 day",
-  },
-};
-
-const DOMAIN: Record<Stage, unknown> = {
-  dev: { name: `api.dev.${DOMAIN_NAME}` },
-  staging: { name: `api.staging.${DOMAIN_NAME}` },
-  prod: { name: `api.${DOMAIN_NAME}` },
-};
-
 const SCHEDULER = "*/60 0-10 * * 1-5";
 
 // const INVALIDATION = {
@@ -50,7 +27,21 @@ export default $config({
     };
   },
   async run() {
+    const { API_DOMAINS, DOMAIN_NAME } = await import("@api/config/domains");
     const { SECRET_KEYS } = await import("./env");
+
+    const CORS = {
+      dev: {
+        allowOrigins: ["*"],
+      },
+      staging: {
+        allowOrigins: ["*"],
+      },
+      prod: {
+        allowOrigins: [`https://${DOMAIN_NAME}`],
+        maxAge: "1 day",
+      },
+    };
 
     // Create all secrets from env.ts
     const secrets = Object.fromEntries(
@@ -74,7 +65,7 @@ export default $config({
 
     new sst.aws.Router("SGCarsTrends", {
       domain: {
-        ...DOMAIN[$app.stage],
+        name: API_DOMAINS[$app.stage],
         dns: sst.cloudflare.dns(),
       },
       // TODO: Will enable later
@@ -86,7 +77,7 @@ export default $config({
 
     // QStash Scheduler for updater workflows
     new upstash.QStashScheduleV2("Scheduler", {
-      destination: `https://${DOMAIN[$app.stage].name}/workflows/trigger`,
+      destination: `https://${API_DOMAINS[$app.stage]}/workflows/trigger`,
       forwardHeaders: {
         Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
       },
