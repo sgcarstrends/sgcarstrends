@@ -22,6 +22,11 @@ describe("fetchApi", () => {
       headers: {
         Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
       },
+      cache: "force-cache",
+      next: {
+        revalidate: 86400,
+        tags: ["api"],
+      },
     });
     expect(data).toEqual(mockResponse);
   });
