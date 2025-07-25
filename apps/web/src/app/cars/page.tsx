@@ -1,8 +1,9 @@
-import { notFound } from "next/navigation";
-
-// Enable ISR with 1-hour revalidation
-export const revalidate = 3600;
 import { BarChart3, CarFront, Fuel } from "lucide-react";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import type { SearchParams } from "nuqs/server";
+import type { WebPage, WithContext } from "schema-dts";
+import { CarRegistration } from "@/app/cars/car-registration";
 import { loadSearchParams } from "@/app/cars/search-params";
 import { AnimatedNumber } from "@/components/animated-number";
 import { MetricsComparison } from "@/components/metrics-comparison";
@@ -19,26 +20,25 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
+import { UnreleasedFeature } from "@/components/unreleased-feature";
+import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
 import { generateDatasetSchema } from "@/lib/structured-data";
+import {
+  getCarsComparison,
+  getCarsData,
+  getTopMakes,
+  getTopTypes,
+} from "@/utils/cached-api";
 import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
-import { getCarsData, getCarsComparison, getTopTypes, getTopMakes } from "@/utils/cached-api";
-import type {
-  Registration,
-  Comparison,
-  TopMake,
-  TopType,
-  FuelType,
-} from "@/types/cars";
-import type { Metadata } from "next";
-import type { SearchParams } from "nuqs/server";
-import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   searchParams: Promise<SearchParams>;
 }
+
+// Enable ISR with 1-hour revalidation
+export const revalidate = 3600;
 
 export const generateMetadata = async ({
   searchParams,
@@ -131,6 +131,11 @@ const CarsPage = async ({ searchParams }: Props) => {
           months={months}
           showMonthSelector={true}
         />
+
+        <UnreleasedFeature>
+          <CarRegistration />
+        </UnreleasedFeature>
+
         {/*TODO: Improvise*/}
         {!cars && (
           <Typography.H3>
@@ -148,7 +153,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                   </CardTitle>
                   <Badge className="bg-blue-600">{formattedMonth}</Badge>
                 </CardHeader>
-                <CardContent className="text-4xl font-bold text-blue-600">
+                <CardContent className="font-bold text-4xl text-blue-600">
                   <AnimatedNumber value={cars.total} />
                 </CardContent>
                 <CardFooter>
@@ -168,7 +173,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                     {topTypes.topFuelType.name}
                   </Badge>
                 </CardHeader>
-                <CardContent className="text-4xl font-bold text-green-600">
+                <CardContent className="font-bold text-4xl text-green-600">
                   <AnimatedNumber value={topTypes.topFuelType.total} />
                 </CardContent>
                 <CardFooter>
@@ -192,7 +197,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                     {topTypes.topVehicleType.name}
                   </Badge>
                 </CardHeader>
-                <CardContent className="text-4xl font-bold text-pink-600">
+                <CardContent className="font-bold text-4xl text-pink-600">
                   <AnimatedNumber value={topTypes.topVehicleType.total} />
                 </CardContent>
                 <CardFooter>
@@ -206,16 +211,6 @@ const CarsPage = async ({ searchParams }: Props) => {
                   />
                 </CardFooter>
               </Card>
-              {/*<UnreleasedFeature>*/}
-              {/*  <Card>*/}
-              {/*    <CardHeader>*/}
-              {/*      <CardTitle>Growth Trend: Electric</CardTitle>*/}
-              {/*    </CardHeader>*/}
-              {/*    <CardContent>*/}
-              {/*      <p className="text-4xl font-bold text-purple-600">1037</p>*/}
-              {/*    </CardContent>*/}
-              {/*  </Card>*/}
-              {/*</UnreleasedFeature>*/}
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <StatCard
