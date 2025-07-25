@@ -1,9 +1,9 @@
-import React, { type ReactNode } from "react";
-import { Inter } from "next/font/google";
-import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import classNames from "classnames";
+import { Inter } from "next/font/google";
+import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import React, { type ReactNode } from "react";
 import LoadingIndicator from "@/app/loading-indicator";
 import { Providers } from "@/app/providers";
 import { Analytics } from "@/components/analytics";
@@ -60,7 +60,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
           <NuqsAdapter>
             <LoadingIndicator />
             <Header />
-            <main className="container mx-auto px-4 py-16">{children}</main>
+            <main className="w-full max-w-full px-6 py-8">{children}</main>
             <Footer />
           </NuqsAdapter>
           {process.env.NODE_ENV === "production" && <Analytics />}

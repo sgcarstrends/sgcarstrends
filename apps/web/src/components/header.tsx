@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import type { NavbarProps } from "@heroui/navbar";
 import {
   Button,
   Dropdown,
@@ -17,11 +16,12 @@ import {
   NavbarMenuToggle,
 } from "@heroui/react";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 import { BrandLogo } from "@/components/brand-logo";
+import { BetaChip, NewChip } from "@/components/chips";
 import { UnreleasedFeature } from "@/components/unreleased-feature";
-import { NewChip, BetaChip } from "@/components/chips";
 import { navLinks } from "@/config/navigation";
-import type { NavbarProps } from "@heroui/navbar";
 
 export const Header = (props: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,184 +33,187 @@ export const Header = (props: NavbarProps) => {
       height="60px"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="container mx-auto"
     >
-      <NavbarBrand>
-        <Link href="/">
-          <BrandLogo />
-        </Link>
-      </NavbarBrand>
-      <NavbarContent className="hidden sm:flex" justify="center">
-        <Dropdown>
-          <NavbarItem>
-            <DropdownTrigger>
-              <Button
-                disableRipple
-                className="bg-transparent p-0 data-[hover=true]:bg-transparent"
-                endContent={<ChevronDown className="size-4" />}
-                radius="sm"
-                variant="light"
-              >
-                Cars
-              </Button>
-            </DropdownTrigger>
-          </NavbarItem>
-          <DropdownMenu
-            aria-label="Cars"
-            itemClasses={{
-              base: "gap-4",
-            }}
-          >
-            <DropdownItem
-              key={navLinks.cars.overview.title}
-              href={navLinks.cars.overview.url}
-              className="text-foreground hover:text-primary"
-              startContent={
-                <navLinks.cars.overview.icon className="size-6 text-blue-500" />
-              }
-              description={navLinks.cars.overview.description}
-            >
-              {navLinks.cars.overview.title}
-            </DropdownItem>
-            <DropdownItem
-              key={navLinks.cars.makes.title}
-              href={navLinks.cars.makes.url}
-              className="text-foreground hover:text-primary"
-              startContent={
-                <navLinks.cars.makes.icon className="size-6 text-pink-500" />
-              }
-              endContent={<BetaChip />}
-              description={navLinks.cars.makes.description}
-            >
-              {navLinks.cars.makes.title}
-            </DropdownItem>
-            <DropdownItem
-              key={navLinks.cars.fuelTypes.title}
-              href={navLinks.cars.fuelTypes.url}
-              className="text-foreground hover:text-primary"
-              startContent={
-                <navLinks.cars.fuelTypes.icon className="size-6 text-green-500" />
-              }
-              description={navLinks.cars.fuelTypes.description}
-            >
-              {navLinks.cars.fuelTypes.title}
-            </DropdownItem>
-            <DropdownItem
-              key={navLinks.cars.vehicleTypes.title}
-              href={navLinks.cars.vehicleTypes.url}
-              className="text-foreground hover:text-primary"
-              startContent={
-                <navLinks.cars.vehicleTypes.icon className="size-6 text-purple-500" />
-              }
-              description={navLinks.cars.vehicleTypes.description}
-            >
-              {navLinks.cars.vehicleTypes.title}
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-        <Dropdown>
-          <NavbarItem>
-            <DropdownTrigger>
-              <Button
-                disableRipple
-                className="bg-transparent p-0 data-[hover=true]:bg-transparent"
-                endContent={<ChevronDown className="size-4" />}
-                radius="sm"
-                variant="light"
-              >
-                COE
-              </Button>
-            </DropdownTrigger>
-          </NavbarItem>
-          <DropdownMenu
-            aria-label="COE"
-            itemClasses={{
-              base: "gap-4",
-            }}
-          >
-            {navLinks.coe.map((item, index) => {
-              const colors = [
-                "text-orange-500",
-                "text-red-500",
-                "text-indigo-500",
-                "text-amber-500",
-                "text-teal-500",
-              ];
-              return (
-                <DropdownItem
-                  key={item.title}
-                  href={item.url}
-                  className="text-foreground hover:text-primary"
-                  startContent={
-                    <item.icon
-                      className={`size-6 ${colors[index % colors.length]}`}
-                    />
-                  }
-                  description={item.description}
-                >
-                  {item.title}
-                </DropdownItem>
-              );
-            })}
-          </DropdownMenu>
-        </Dropdown>
-        <NavbarItem>
-          <Link href="/faq" className="flex items-center gap-2">
-            FAQ
-            <NewChip />
+      {/* Desktop Navigation */}
+      <div className="mx-auto flex w-full max-w-full items-center">
+        <NavbarBrand>
+          <Link href="/">
+            <BrandLogo />
           </Link>
-        </NavbarItem>
-        <UnreleasedFeature>
-          <NavbarItem>
-            <Link href="/blog" className="flex items-center gap-2">
-              Blog
-              <NewChip />
-            </Link>
-          </NavbarItem>
-        </UnreleasedFeature>
-        <UnreleasedFeature>
-          <NavbarItem>
-            <Link href="/visitors" className="flex items-center gap-2">
-              Visitors
-              <NewChip />
-            </Link>
-          </NavbarItem>
-        </UnreleasedFeature>
-      </NavbarContent>
-      <NavbarContent className="hidden md:flex" justify="end">
-        <NavbarItem className="ml-2 !flex gap-2">
-          {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (
-            <Button
-              key={title}
-              as="a"
-              href={url}
-              rel="me noreferrer"
-              target="_blank"
-              isIconOnly
-              variant="light"
-              size="sm"
-              className="text-default-500 hover:text-primary transition-colors"
-              aria-label={title}
+        </NavbarBrand>
+        <NavbarContent className="hidden lg:flex" justify="center">
+          <Dropdown>
+            <NavbarItem>
+              <DropdownTrigger>
+                <Button
+                  disableRipple
+                  className="bg-transparent p-0 data-[hover=true]:bg-transparent"
+                  endContent={<ChevronDown className="size-4" />}
+                  radius="sm"
+                  variant="light"
+                >
+                  Cars
+                </Button>
+              </DropdownTrigger>
+            </NavbarItem>
+            <DropdownMenu
+              aria-label="Cars"
+              itemClasses={{
+                base: "gap-4",
+              }}
             >
-              <Icon className="size-4" />
-            </Button>
-          ))}
-        </NavbarItem>
-      </NavbarContent>
+              <DropdownItem
+                key={navLinks.cars.overview.title}
+                href={navLinks.cars.overview.url}
+                className="text-foreground hover:text-primary"
+                startContent={
+                  <navLinks.cars.overview.icon className="size-6 text-blue-500" />
+                }
+                description={navLinks.cars.overview.description}
+              >
+                {navLinks.cars.overview.title}
+              </DropdownItem>
+              <DropdownItem
+                key={navLinks.cars.makes.title}
+                href={navLinks.cars.makes.url}
+                className="text-foreground hover:text-primary"
+                startContent={
+                  <navLinks.cars.makes.icon className="size-6 text-pink-500" />
+                }
+                endContent={<BetaChip />}
+                description={navLinks.cars.makes.description}
+              >
+                {navLinks.cars.makes.title}
+              </DropdownItem>
+              <DropdownItem
+                key={navLinks.cars.fuelTypes.title}
+                href={navLinks.cars.fuelTypes.url}
+                className="text-foreground hover:text-primary"
+                startContent={
+                  <navLinks.cars.fuelTypes.icon className="size-6 text-green-500" />
+                }
+                description={navLinks.cars.fuelTypes.description}
+              >
+                {navLinks.cars.fuelTypes.title}
+              </DropdownItem>
+              <DropdownItem
+                key={navLinks.cars.vehicleTypes.title}
+                href={navLinks.cars.vehicleTypes.url}
+                className="text-foreground hover:text-primary"
+                startContent={
+                  <navLinks.cars.vehicleTypes.icon className="size-6 text-purple-500" />
+                }
+                description={navLinks.cars.vehicleTypes.description}
+              >
+                {navLinks.cars.vehicleTypes.title}
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <Dropdown>
+            <NavbarItem>
+              <DropdownTrigger>
+                <Button
+                  disableRipple
+                  className="bg-transparent p-0 data-[hover=true]:bg-transparent"
+                  endContent={<ChevronDown className="size-4" />}
+                  radius="sm"
+                  variant="light"
+                >
+                  COE
+                </Button>
+              </DropdownTrigger>
+            </NavbarItem>
+            <DropdownMenu
+              aria-label="COE"
+              itemClasses={{
+                base: "gap-4",
+              }}
+            >
+              {navLinks.coe.map((item, index) => {
+                const colors = [
+                  "text-orange-500",
+                  "text-red-500",
+                  "text-indigo-500",
+                  "text-amber-500",
+                  "text-teal-500",
+                ];
+                return (
+                  <DropdownItem
+                    key={item.title}
+                    href={item.url}
+                    className="text-foreground hover:text-primary"
+                    startContent={
+                      <item.icon
+                        className={`size-6 ${colors[index % colors.length]}`}
+                      />
+                    }
+                    description={item.description}
+                  >
+                    {item.title}
+                  </DropdownItem>
+                );
+              })}
+            </DropdownMenu>
+          </Dropdown>
+          <NavbarItem>
+            <Link href="/faq" className="flex items-center gap-2">
+              FAQ
+              <NewChip />
+            </Link>
+          </NavbarItem>
+          <UnreleasedFeature>
+            <NavbarItem>
+              <Link href="/blog" className="flex items-center gap-2">
+                Blog
+                <NewChip />
+              </Link>
+            </NavbarItem>
+          </UnreleasedFeature>
+          <UnreleasedFeature>
+            <NavbarItem>
+              <Link href="/visitors" className="flex items-center gap-2">
+                Visitors
+                <NewChip />
+              </Link>
+            </NavbarItem>
+          </UnreleasedFeature>
+        </NavbarContent>
+        <NavbarContent className="hidden lg:flex" justify="end">
+          <NavbarItem className="!flex ml-2 gap-2">
+            {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (
+              <Button
+                key={title}
+                as="a"
+                href={url}
+                rel="me noreferrer"
+                target="_blank"
+                isIconOnly
+                variant="light"
+                size="sm"
+                className="text-default-500 transition-colors hover:text-primary"
+                aria-label={title}
+              >
+                <Icon className="size-4" />
+              </Button>
+            ))}
+          </NavbarItem>
+        </NavbarContent>
 
-      <NavbarMenuToggle
-        aria-label="Toggle navigation menu"
-        className="sm:hidden"
-      />
+        <NavbarMenuToggle
+          aria-label="Toggle navigation menu"
+          className="lg:hidden"
+        />
+      </div>
 
+      {/* Mobile Navigation Menu */}
       <NavbarMenu>
         <NavbarMenuItem>
-          <div className="text-default-600 py-2 text-sm font-medium">Cars</div>
+          <div className="py-2 font-medium text-default-600 text-sm">Cars</div>
         </NavbarMenuItem>
         <NavbarMenuItem>
           <Link
             href={navLinks.cars.overview.url}
-            className="text-default-700 w-full pl-4"
+            className="w-full pl-4 text-default-700"
           >
             {navLinks.cars.overview.title}
           </Link>
@@ -218,7 +221,7 @@ export const Header = (props: NavbarProps) => {
         <NavbarMenuItem>
           <Link
             href={navLinks.cars.makes.url}
-            className="text-default-700 w-full pl-4 flex items-center gap-2"
+            className="flex w-full items-center gap-2 pl-4 text-default-700"
           >
             {navLinks.cars.makes.title}
             <BetaChip />
@@ -227,7 +230,7 @@ export const Header = (props: NavbarProps) => {
         <NavbarMenuItem>
           <Link
             href={navLinks.cars.fuelTypes.url}
-            className="text-default-700 w-full pl-4"
+            className="w-full pl-4 text-default-700"
           >
             {navLinks.cars.fuelTypes.title}
           </Link>
@@ -235,17 +238,17 @@ export const Header = (props: NavbarProps) => {
         <NavbarMenuItem>
           <Link
             href={navLinks.cars.vehicleTypes.url}
-            className="text-default-700 w-full pl-4"
+            className="w-full pl-4 text-default-700"
           >
             {navLinks.cars.vehicleTypes.title}
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <div className="text-default-600 py-2 text-sm font-medium">COE</div>
+          <div className="py-2 font-medium text-default-600 text-sm">COE</div>
         </NavbarMenuItem>
         {navLinks.coe.map((item) => (
           <NavbarMenuItem key={item.title}>
-            <Link href={item.url} className="text-default-700 w-full pl-4">
+            <Link href={item.url} className="w-full pl-4 text-default-700">
               {item.title}
             </Link>
           </NavbarMenuItem>
