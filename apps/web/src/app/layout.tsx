@@ -53,7 +53,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={classNames(inter.className)}>
+      <body className={classNames(inter.className, "bg-neutral-100")}>
         <Providers>
           <NotificationPrompt />
           {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
