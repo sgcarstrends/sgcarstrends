@@ -22,10 +22,10 @@ exports[`MakeCard > should render correctly 1`] = `
         width="512"
       />
       <div
-        class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+        class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
       >
         <svg
-          class="lucide lucide-car text-primary-600 size-8"
+          class="lucide lucide-car size-8 text-primary-600"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -56,7 +56,7 @@ exports[`MakeCard > should render correctly 1`] = `
       </div>
     </div>
     <div
-      class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+      class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
     >
       <p
         class="text-tiny"
@@ -64,7 +64,7 @@ exports[`MakeCard > should render correctly 1`] = `
         TOYOTA
       </p>
       <a
-        class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-default/40 text-default-700 data-[hover=true]:opacity-hover"
+        class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-default/50 bg-default text-default-foreground data-[hover=true]:opacity-hover"
         data-react-aria-pressable="true"
         href="/cars/makes/toyota"
         role="button"

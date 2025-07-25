@@ -130,9 +130,19 @@ exports[`Navbar > should render correctly 1`] = `
           class="text-medium whitespace-nowrap box-border list-none data-[active=true]:font-semibold"
         >
           <a
+            class="flex items-center gap-2"
             href="/faq"
           >
             FAQ
+            <div
+              class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-tiny rounded-full bg-success/20 text-success-700 dark:text-success"
+            >
+              <span
+                class="flex-1 text-inherit font-normal px-1"
+              >
+                New
+              </span>
+            </div>
           </a>
         </li>
       </ul>

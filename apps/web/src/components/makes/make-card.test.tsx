@@ -31,7 +31,7 @@ describe("MakeCard", () => {
 
   it("applies popular styling when isPopular is true", () => {
     const { container } = render(<MakeCard make={mockMake} isPopular={true} />);
-    expect(container.querySelector(".ring-primary-200")).toBeInTheDocument();
+    expect(container.querySelector(".ring-primary-600")).toBeInTheDocument();
   });
 
   it("does not apply popular styling when isPopular is false", () => {
@@ -39,7 +39,7 @@ describe("MakeCard", () => {
       <MakeCard make={mockMake} isPopular={false} />,
     );
     expect(
-      container.querySelector(".ring-primary-200"),
+      container.querySelector(".ring-primary-600"),
     ).not.toBeInTheDocument();
   });
 

@@ -69,7 +69,7 @@ exports[`MakesList > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-7 text-small rounded-full bg-primary/20 text-primary-600"
+          class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-7 text-small rounded-full shadow-lg shadow-primary/40 bg-primary text-primary-foreground"
         >
           <span
             class="flex-1 text-inherit font-normal px-2"
@@ -89,12 +89,12 @@ exports[`MakesList > should render correctly 1`] = `
         class="flex items-center gap-2"
       >
         <h2
-          class="text-xl font-semibold"
+          class="font-semibold text-xl"
         >
           Popular Makes
         </h2>
         <div
-          class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-tiny rounded-full bg-primary/20 text-primary-600"
+          class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-tiny rounded-full shadow-lg shadow-primary/40 bg-primary text-primary-foreground"
         >
           <span
             class="flex-1 text-inherit font-normal px-1"
@@ -107,7 +107,7 @@ exports[`MakesList > should render correctly 1`] = `
         class="grid grid-cols-2 gap-4 md:grid-cols-4"
       >
         <div
-          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-primary-200 ring-2"
+          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-2 ring-primary-600"
           tabindex="-1"
         >
           <div
@@ -126,10 +126,10 @@ exports[`MakesList > should render correctly 1`] = `
               width="512"
             />
             <div
-              class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+              class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
             >
               <svg
-                class="lucide lucide-car text-primary-600 size-8"
+                class="lucide lucide-car size-8 text-primary-600"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -160,7 +160,7 @@ exports[`MakesList > should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
           >
             <p
               class="text-tiny"
@@ -168,7 +168,7 @@ exports[`MakesList > should render correctly 1`] = `
               AUDI
             </p>
             <a
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary/20 text-primary-600 data-[hover=true]:opacity-hover"
+              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-primary/40 bg-primary text-primary-foreground data-[hover=true]:opacity-hover"
               data-react-aria-pressable="true"
               href="/cars/makes/audi"
               role="button"
@@ -179,7 +179,7 @@ exports[`MakesList > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-primary-200 ring-2"
+          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-2 ring-primary-600"
           tabindex="-1"
         >
           <div
@@ -198,10 +198,10 @@ exports[`MakesList > should render correctly 1`] = `
               width="512"
             />
             <div
-              class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+              class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
             >
               <svg
-                class="lucide lucide-car text-primary-600 size-8"
+                class="lucide lucide-car size-8 text-primary-600"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -232,7 +232,7 @@ exports[`MakesList > should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
           >
             <p
               class="text-tiny"
@@ -240,7 +240,7 @@ exports[`MakesList > should render correctly 1`] = `
               BMW
             </p>
             <a
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary/20 text-primary-600 data-[hover=true]:opacity-hover"
+              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-primary/40 bg-primary text-primary-foreground data-[hover=true]:opacity-hover"
               data-react-aria-pressable="true"
               href="/cars/makes/bmw"
               role="button"
@@ -251,7 +251,7 @@ exports[`MakesList > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-primary-200 ring-2"
+          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-2 ring-primary-600"
           tabindex="-1"
         >
           <div
@@ -270,10 +270,10 @@ exports[`MakesList > should render correctly 1`] = `
               width="512"
             />
             <div
-              class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+              class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
             >
               <svg
-                class="lucide lucide-car text-primary-600 size-8"
+                class="lucide lucide-car size-8 text-primary-600"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -304,7 +304,7 @@ exports[`MakesList > should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
           >
             <p
               class="text-tiny"
@@ -312,7 +312,7 @@ exports[`MakesList > should render correctly 1`] = `
               HONDA
             </p>
             <a
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary/20 text-primary-600 data-[hover=true]:opacity-hover"
+              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-primary/40 bg-primary text-primary-foreground data-[hover=true]:opacity-hover"
               data-react-aria-pressable="true"
               href="/cars/makes/honda"
               role="button"
@@ -323,7 +323,7 @@ exports[`MakesList > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-primary-200 ring-2"
+          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-2 ring-primary-600"
           tabindex="-1"
         >
           <div
@@ -342,10 +342,10 @@ exports[`MakesList > should render correctly 1`] = `
               width="512"
             />
             <div
-              class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+              class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
             >
               <svg
-                class="lucide lucide-car text-primary-600 size-8"
+                class="lucide lucide-car size-8 text-primary-600"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -376,7 +376,7 @@ exports[`MakesList > should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
           >
             <p
               class="text-tiny"
@@ -384,7 +384,7 @@ exports[`MakesList > should render correctly 1`] = `
               HYUNDAI
             </p>
             <a
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary/20 text-primary-600 data-[hover=true]:opacity-hover"
+              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-primary/40 bg-primary text-primary-foreground data-[hover=true]:opacity-hover"
               data-react-aria-pressable="true"
               href="/cars/makes/hyundai"
               role="button"
@@ -395,7 +395,7 @@ exports[`MakesList > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-primary-200 ring-2"
+          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-2 ring-primary-600"
           tabindex="-1"
         >
           <div
@@ -414,10 +414,10 @@ exports[`MakesList > should render correctly 1`] = `
               width="512"
             />
             <div
-              class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+              class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
             >
               <svg
-                class="lucide lucide-car text-primary-600 size-8"
+                class="lucide lucide-car size-8 text-primary-600"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -448,7 +448,7 @@ exports[`MakesList > should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
           >
             <p
               class="text-tiny"
@@ -456,7 +456,7 @@ exports[`MakesList > should render correctly 1`] = `
               KIA
             </p>
             <a
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary/20 text-primary-600 data-[hover=true]:opacity-hover"
+              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-primary/40 bg-primary text-primary-foreground data-[hover=true]:opacity-hover"
               data-react-aria-pressable="true"
               href="/cars/makes/kia"
               role="button"
@@ -467,7 +467,7 @@ exports[`MakesList > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-primary-200 ring-2"
+          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-2 ring-primary-600"
           tabindex="-1"
         >
           <div
@@ -486,10 +486,10 @@ exports[`MakesList > should render correctly 1`] = `
               width="512"
             />
             <div
-              class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+              class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
             >
               <svg
-                class="lucide lucide-car text-primary-600 size-8"
+                class="lucide lucide-car size-8 text-primary-600"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -520,7 +520,7 @@ exports[`MakesList > should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
           >
             <p
               class="text-tiny"
@@ -528,7 +528,7 @@ exports[`MakesList > should render correctly 1`] = `
               MERCEDES BENZ
             </p>
             <a
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary/20 text-primary-600 data-[hover=true]:opacity-hover"
+              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-primary/40 bg-primary text-primary-foreground data-[hover=true]:opacity-hover"
               data-react-aria-pressable="true"
               href="/cars/makes/mercedes-benz"
               role="button"
@@ -539,7 +539,7 @@ exports[`MakesList > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-primary-200 ring-2"
+          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-2 ring-primary-600"
           tabindex="-1"
         >
           <div
@@ -558,10 +558,10 @@ exports[`MakesList > should render correctly 1`] = `
               width="512"
             />
             <div
-              class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+              class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
             >
               <svg
-                class="lucide lucide-car text-primary-600 size-8"
+                class="lucide lucide-car size-8 text-primary-600"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -592,7 +592,7 @@ exports[`MakesList > should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
           >
             <p
               class="text-tiny"
@@ -600,7 +600,7 @@ exports[`MakesList > should render correctly 1`] = `
               TOYOTA
             </p>
             <a
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary/20 text-primary-600 data-[hover=true]:opacity-hover"
+              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-primary/40 bg-primary text-primary-foreground data-[hover=true]:opacity-hover"
               data-react-aria-pressable="true"
               href="/cars/makes/toyota"
               role="button"
@@ -611,7 +611,7 @@ exports[`MakesList > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-primary-200 ring-2"
+          class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-2 ring-primary-600"
           tabindex="-1"
         >
           <div
@@ -630,10 +630,10 @@ exports[`MakesList > should render correctly 1`] = `
               width="512"
             />
             <div
-              class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+              class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
             >
               <svg
-                class="lucide lucide-car text-primary-600 size-8"
+                class="lucide lucide-car size-8 text-primary-600"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -664,7 +664,7 @@ exports[`MakesList > should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
           >
             <p
               class="text-tiny"
@@ -672,7 +672,7 @@ exports[`MakesList > should render correctly 1`] = `
               VOLKSWAGEN
             </p>
             <a
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary/20 text-primary-600 data-[hover=true]:opacity-hover"
+              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-primary/40 bg-primary text-primary-foreground data-[hover=true]:opacity-hover"
               data-react-aria-pressable="true"
               href="/cars/makes/volkswagen"
               role="button"
@@ -728,10 +728,10 @@ exports[`MakesList > should render correctly 1`] = `
               width="512"
             />
             <div
-              class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+              class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
             >
               <svg
-                class="lucide lucide-car text-primary-600 size-8"
+                class="lucide lucide-car size-8 text-primary-600"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -762,7 +762,7 @@ exports[`MakesList > should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
           >
             <p
               class="text-tiny"
@@ -770,7 +770,7 @@ exports[`MakesList > should render correctly 1`] = `
               NISSAN
             </p>
             <a
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-default/40 text-default-700 data-[hover=true]:opacity-hover"
+              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-default/50 bg-default text-default-foreground data-[hover=true]:opacity-hover"
               data-react-aria-pressable="true"
               href="/cars/makes/nissan"
               role="button"
@@ -800,10 +800,10 @@ exports[`MakesList > should render correctly 1`] = `
               width="512"
             />
             <div
-              class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+              class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
             >
               <svg
-                class="lucide lucide-car text-primary-600 size-8"
+                class="lucide lucide-car size-8 text-primary-600"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -834,7 +834,7 @@ exports[`MakesList > should render correctly 1`] = `
             </div>
           </div>
           <div
-            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+            class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
           >
             <p
               class="text-tiny"
@@ -842,7 +842,7 @@ exports[`MakesList > should render correctly 1`] = `
               MAZDA
             </p>
             <a
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-default/40 text-default-700 data-[hover=true]:opacity-hover"
+              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-default/50 bg-default text-default-foreground data-[hover=true]:opacity-hover"
               data-react-aria-pressable="true"
               href="/cars/makes/mazda"
               role="button"
