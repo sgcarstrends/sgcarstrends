@@ -115,7 +115,7 @@ Infrastructure uses AWS Lambda with ARM64 architecture and CloudFlare DNS.
 - **TypeScript**: Strict mode enabled
 - **Turbopack**: Enabled for faster builds and development
 - **Feature Flags**: Controlled via `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`
-- **Analytics**: Integrated with Google Analytics and custom analytics
+- **Analytics**: Integrated with Umami analytics
 
 ## UI Component Strategy
 
