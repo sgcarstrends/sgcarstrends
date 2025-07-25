@@ -1,14 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { Chip, Input } from "@heroui/react";
 import { Search } from "lucide-react";
+import { useMemo, useState } from "react";
 import {
-  PopularMakesSection,
-  OtherMakesSection,
   MakesSearchResults,
+  OtherMakesSection,
+  PopularMakesSection,
 } from "@/components/makes";
-import { type Make } from "@/types";
+import type { Make } from "@/types";
 
 interface PopularMakesProps {
   makes: Make[];
@@ -66,7 +66,7 @@ export const MakesList = ({ makes }: PopularMakesProps) => {
             startContent={<Search className="size-4" />}
             variant="bordered"
           />
-          <Chip variant="flat" color="primary">
+          <Chip variant="shadow" color="primary">
             {filteredMakes.length} of {makes.length} makes
           </Chip>
         </div>
@@ -90,8 +90,8 @@ export const MakesList = ({ makes }: PopularMakesProps) => {
       {filteredMakes.length === 0 && (
         <div className="py-12 text-center">
           <div className="flex flex-col items-center gap-3">
-            <div className="bg-default-100 rounded-full p-4">
-              <Search className="text-default-400 size-8" />
+            <div className="rounded-full bg-default-100 p-4">
+              <Search className="size-8 text-default-400" />
             </div>
             <div className="text-default-500">
               No makes found matching &quot;{searchTerm}&quot;

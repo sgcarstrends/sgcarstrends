@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button, Divider } from "@heroui/react";
 import { BrandLogo } from "@/components/brand-logo";
 import { UnreleasedFeature } from "@/components/unreleased-feature";
+import { BetaChip, NewChip } from "@/components/chips";
 import { navLinks } from "@/config/navigation";
 
 export const Footer = () => (
@@ -59,6 +60,13 @@ export const Footer = () => (
             >
               {navLinks.cars.vehicleTypes.title}
             </Link>
+            <Link
+              href={navLinks.cars.makes.url}
+              className="text-default-600 hover:text-primary flex items-center gap-2 text-sm transition-colors"
+            >
+              {navLinks.cars.makes.title}
+              <BetaChip />
+            </Link>
           </div>
         </div>
 
@@ -83,15 +91,21 @@ export const Footer = () => (
           <div className="space-y-4">
             <h3 className="text-default-900 text-lg font-semibold">General</h3>
             <div className="space-y-2">
-              {navLinks.general.map((item) => (
-                <Link
-                  key={item.title}
-                  href={item.url}
-                  className="text-default-600 hover:text-primary block text-sm transition-colors"
-                >
-                  {item.title}
-                </Link>
-              ))}
+              {navLinks.general.map((item) => {
+                const showNewChip = ["FAQ", "Blog", "Visitors"].includes(item.title);
+                return (
+                  <Link
+                    key={item.title}
+                    href={item.url}
+                    className={`text-default-600 hover:text-primary text-sm transition-colors ${
+                      showNewChip ? "flex items-center gap-2" : "block"
+                    }`}
+                  >
+                    {item.title}
+                    {showNewChip && <NewChip />}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </UnreleasedFeature>

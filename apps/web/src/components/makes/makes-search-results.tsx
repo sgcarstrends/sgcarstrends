@@ -1,4 +1,4 @@
-import { type Make } from "@/types";
+import type { Make } from "@/types";
 import { MakeCard } from "./make-card";
 
 interface MakesSearchResultsProps {
@@ -11,7 +11,6 @@ interface MakesSearchResultsProps {
 export const MakesSearchResults = ({
   makes,
   popular,
-  searchTerm,
   onMakeClick,
 }: MakesSearchResultsProps) => {
   if (makes.length === 0) {

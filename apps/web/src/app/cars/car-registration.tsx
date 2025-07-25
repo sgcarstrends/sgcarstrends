@@ -3,6 +3,7 @@
 import { Button, useDisclosure } from "@heroui/react";
 import { TrendingUp } from "lucide-react";
 import { TrendsComparisonBottomSheet } from "@/components/trends-comparison-bottom-sheet";
+import { BetaChip } from "@/components/chips";
 
 export const CarRegistration = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -14,6 +15,7 @@ export const CarRegistration = () => {
           color="primary"
           variant="shadow"
           startContent={<TrendingUp className="size-4" />}
+          endContent={<BetaChip />}
           onPress={onOpen}
         >
           Compare Trends

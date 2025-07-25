@@ -19,6 +19,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { BrandLogo } from "@/components/brand-logo";
 import { UnreleasedFeature } from "@/components/unreleased-feature";
+import { NewChip, BetaChip } from "@/components/chips";
 import { navLinks } from "@/config/navigation";
 import type { NavbarProps } from "@heroui/navbar";
 
@@ -78,6 +79,7 @@ export const Header = (props: NavbarProps) => {
               startContent={
                 <navLinks.cars.makes.icon className="size-6 text-pink-500" />
               }
+              endContent={<BetaChip />}
               description={navLinks.cars.makes.description}
             >
               {navLinks.cars.makes.title}
@@ -153,16 +155,25 @@ export const Header = (props: NavbarProps) => {
           </DropdownMenu>
         </Dropdown>
         <NavbarItem>
-          <Link href="/faq">FAQ</Link>
+          <Link href="/faq" className="flex items-center gap-2">
+            FAQ
+            <NewChip />
+          </Link>
         </NavbarItem>
         <UnreleasedFeature>
           <NavbarItem>
-            <Link href="/blog">Blog</Link>
+            <Link href="/blog" className="flex items-center gap-2">
+              Blog
+              <NewChip />
+            </Link>
           </NavbarItem>
         </UnreleasedFeature>
         <UnreleasedFeature>
           <NavbarItem>
-            <Link href="/visitors">Visitors</Link>
+            <Link href="/visitors" className="flex items-center gap-2">
+              Visitors
+              <NewChip />
+            </Link>
           </NavbarItem>
         </UnreleasedFeature>
       </NavbarContent>
@@ -206,6 +217,15 @@ export const Header = (props: NavbarProps) => {
         </NavbarMenuItem>
         <NavbarMenuItem>
           <Link
+            href={navLinks.cars.makes.url}
+            className="text-default-700 w-full pl-4 flex items-center gap-2"
+          >
+            {navLinks.cars.makes.title}
+            <BetaChip />
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
             href={navLinks.cars.fuelTypes.url}
             className="text-default-700 w-full pl-4"
           >
@@ -232,16 +252,25 @@ export const Header = (props: NavbarProps) => {
         ))}
 
         <NavbarMenuItem>
-          <Link href="/faq">FAQ</Link>
+          <Link href="/faq" className="flex items-center gap-2">
+            FAQ
+            <NewChip />
+          </Link>
         </NavbarMenuItem>
         <UnreleasedFeature>
           <NavbarMenuItem>
-            <Link href="/blog">Blog</Link>
+            <Link href="/blog" className="flex items-center gap-2">
+              Blog
+              <NewChip />
+            </Link>
           </NavbarMenuItem>
         </UnreleasedFeature>
         <UnreleasedFeature>
           <NavbarMenuItem>
-            <Link href="/visitors">Visitors</Link>
+            <Link href="/visitors" className="flex items-center gap-2">
+              Visitors
+              <NewChip />
+            </Link>
           </NavbarMenuItem>
         </UnreleasedFeature>
       </NavbarMenu>

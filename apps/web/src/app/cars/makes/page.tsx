@@ -1,15 +1,16 @@
+import type { Metadata } from "next";
+import type { SearchParams } from "nuqs/server";
+import type { WebPage, WithContext } from "schema-dts";
 import { loadSearchParams } from "@/app/cars/search-params";
+import { BetaChip } from "@/components/chips";
 import { PageHeader } from "@/components/page-header";
 import { StructuredData } from "@/components/structured-data";
 import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
 import redis from "@/config/redis";
-import { type Make } from "@/types";
+import type { Make } from "@/types";
 import { fetchApi } from "@/utils/fetch-api";
 import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
 import { MakesList } from "./makes-list";
-import type { Metadata } from "next";
-import type { SearchParams } from "nuqs/server";
-import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   searchParams: Promise<SearchParams>;
@@ -55,7 +56,7 @@ const CarMakesPage = async ({ searchParams }: Props) => {
   let { month } = await loadSearchParams(searchParams);
   month = await getMonthOrLatest(month, "cars");
 
-  let [makes, months, lastUpdated] = await Promise.all([
+  const [makes, months, lastUpdated] = await Promise.all([
     fetchApi<Make[]>(`${API_URL}/cars/makes`),
     fetchMonthsForCars(),
     redis.get<number>(LAST_UPDATED_CARS_KEY),
@@ -82,6 +83,7 @@ const CarMakesPage = async ({ searchParams }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
+        <BetaChip />
         <PageHeader
           title="Makes"
           subtitle="List of car makes registered in Singapore."
