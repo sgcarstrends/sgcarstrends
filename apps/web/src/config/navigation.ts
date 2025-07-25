@@ -62,6 +62,11 @@ const socialMedia = [
     icon: SiLinkedin,
   },
   {
+    title: "Telegram",
+    url: "https://t.me/sgcarstrends",
+    icon: SiTelegram,
+  },
+  {
     title: "GitHub",
     url: "https://github.com/sgcarstrends",
     icon: SiGithub,
