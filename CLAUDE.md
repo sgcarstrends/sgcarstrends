@@ -104,6 +104,7 @@ SG Cars Trends uses **unified versioning** across all packages:
 - Path aliases: Use `@api/` for imports in API app
 - Avoid using `any` type - prefer unknown with type guards
 - Group imports by: 1) built-in, 2) external, 3) internal
+- **Commit messages**: Use single line conventional commit messages (max 72 characters)
 
 ## Testing
 
