@@ -1,5 +1,21 @@
 # @sgcarstrends/web
 
+## [3.2.0](https://github.com/sgcarstrends/sgcarstrends/compare/web-v3.1.0...web-v3.2.0) (2025-07-25)
+
+
+### Features
+
+* add BetaChip and NewChip components ([ff227ac](https://github.com/sgcarstrends/sgcarstrends/commit/ff227acad34241fb72164299a6c66edd16b26303))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @sgcarstrends/database bumped to 3.2.0
+    * @sgcarstrends/types bumped to 3.2.0
+    * @sgcarstrends/utils bumped to 3.2.0
+
 ## [3.1.0](https://github.com/sgcarstrends/sgcarstrends/compare/web-v3.0.1...web-v3.1.0) (2025-07-25)
 
 

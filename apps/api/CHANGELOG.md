@@ -1,5 +1,21 @@
 # @sgcarstrends/api
 
+## [3.2.0](https://github.com/sgcarstrends/sgcarstrends/compare/api-v3.1.0...api-v3.2.0) (2025-07-25)
+
+
+### Miscellaneous Chores
+
+* **api:** Synchronize sgcarstrends versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @sgcarstrends/database bumped to 3.2.0
+    * @sgcarstrends/types bumped to 3.2.0
+    * @sgcarstrends/utils bumped to 3.2.0
+
 ## [3.1.0](https://github.com/sgcarstrends/sgcarstrends/compare/api-v3.0.1...api-v3.1.0) (2025-07-25)
 
 
