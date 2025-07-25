@@ -1,10 +1,10 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/react";
-import useStore from "@/app/store";
-import { AnimatedNumber } from "@/components/animated-number";
-import { formatOrdinal } from "@/utils/format-ordinal";
-import type { COEResult } from "@/types";
+import useStore from "@web/app/store";
+import { AnimatedNumber } from "@web/components/animated-number";
+import { formatOrdinal } from "@web/utils/format-ordinal";
+import type { COEResult } from "@web/types";
 
 interface LatestCOEPricesProps {
   results: COEResult[];

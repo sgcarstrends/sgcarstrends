@@ -1,8 +1,13 @@
+import { API_URL } from "@web/config";
+import { RevalidateTags } from "@web/types";
+import type {
+  Comparison,
+  FuelType,
+  Registration,
+  TopType,
+} from "@web/types/cars";
+import { CACHE_DURATION, fetchApi } from "@web/utils/fetch-api";
 import { cache } from "react";
-import { API_URL } from "@/config";
-import { RevalidateTags } from "@/types";
-import type { Comparison, FuelType, Registration, TopType } from "@/types/cars";
-import { CACHE_DURATION, fetchApi } from "@/utils/fetch-api";
 
 // Cars-specific types
 export interface CarMarketShareData {

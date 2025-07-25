@@ -1,28 +1,17 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight } from "lucide-react";
-import { BarChartByType } from "@/app/cars/bar-chart-by-type";
-import { Badge } from "@/components/ui/badge";
+import { BarChartByType } from "@web/app/cars/bar-chart-by-type";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { FUEL_TYPE } from "@/config";
-import { formatPercent } from "@/utils/format-percent";
-import { slugify } from "@/utils/slugify";
-import type { RegistrationStat } from "@/types/cars";
+} from "@web/components/ui/card";
+import { FUEL_TYPE } from "@web/config";
+import { slugify } from "@web/utils/slugify";
+import type { RegistrationStat } from "@web/types/cars";
 
 interface Props {
   title: string;

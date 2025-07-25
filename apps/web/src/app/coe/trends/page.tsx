@@ -3,28 +3,33 @@ import {
   loadSearchParams,
   getDefaultStartDate,
   getDefaultEndDate,
-} from "@/app/coe/search-params";
-import { COEPremiumChart } from "@/components/COE-premium-chart";
-import { COECategories } from "@/components/coe-categories";
-import { PageHeader } from "@/components/page-header";
-import { StructuredData } from "@/components/structured-data";
-import Typography from "@/components/typography";
+} from "@web/app/coe/search-params";
+import { COEPremiumChart } from "@web/components/COE-premium-chart";
+import { COECategories } from "@web/components/coe-categories";
+import { PageHeader } from "@web/components/page-header";
+import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { API_URL, LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@/config";
-import redis from "@/config/redis";
+} from "@web/components/ui/card";
+import {
+  API_URL,
+  LAST_UPDATED_COE_KEY,
+  SITE_TITLE,
+  SITE_URL,
+} from "@web/config";
+import redis from "@web/config/redis";
 import {
   type COEBiddingResult,
   type COEResult,
   type Month,
   RevalidateTags,
-} from "@/types";
-import { fetchApi } from "@/utils/fetch-api";
+} from "@web/types";
+import { fetchApi } from "@web/utils/fetch-api";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 

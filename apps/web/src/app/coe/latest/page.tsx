@@ -1,8 +1,13 @@
-import { StructuredData } from "@/components/structured-data";
-import { API_URL, LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@/config";
-import redis from "@/config/redis";
-import { type COEResult, RevalidateTags } from "@/types";
-import { fetchApi } from "@/utils/fetch-api";
+import { StructuredData } from "@web/components/structured-data";
+import {
+  API_URL,
+  LAST_UPDATED_COE_KEY,
+  SITE_TITLE,
+  SITE_URL,
+} from "@web/config";
+import redis from "@web/config/redis";
+import { type COEResult, RevalidateTags } from "@web/types";
+import { fetchApi } from "@web/utils/fetch-api";
 import { LatestCOEClient } from "./latest-coe-client";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";

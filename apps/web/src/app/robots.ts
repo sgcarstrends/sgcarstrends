@@ -1,5 +1,5 @@
-import { APP_ENV, SITE_URL } from "@/config";
-import { AppEnv } from "@/types";
+import { APP_ENV, SITE_URL } from "@web/config";
+import { AppEnv } from "@web/types";
 import type { MetadataRoute } from "next";
 
 const robots = (): MetadataRoute.Robots => {

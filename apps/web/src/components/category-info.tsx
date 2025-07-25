@@ -1,8 +1,8 @@
 "use client";
 
-import useStore from "@/app/store";
-import { cn } from "@/lib/utils";
-import type { COECategory } from "@/types";
+import useStore from "@web/app/store";
+import { cn } from "@web/lib/utils";
+import type { COECategory } from "@web/types";
 import type { LucideIcon } from "lucide-react";
 
 interface Props {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { DOMAIN_NAME } from "@/config";
+import { DOMAIN_NAME } from "@web/config";
 
 export const middleware = (request: NextRequest) => {
   // TODO: Temporary method for now

@@ -1,7 +1,7 @@
 import { Battery, Droplet, Fuel, Zap } from "lucide-react";
-import { VEHICLE_TYPE_MAP } from "@/constants";
-import type { AppEnv, LinkItem, VehicleType } from "@/types";
-import { slugify } from "@/utils/slugify";
+import { VEHICLE_TYPE_MAP } from "@web/constants";
+import type { AppEnv, LinkItem, VehicleType } from "@web/types";
+import { slugify } from "@web/utils/slugify";
 
 export const DOMAIN_NAME = "sgcarstrends.com";
 const API_VERSION = "v1";

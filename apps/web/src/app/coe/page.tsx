@@ -2,12 +2,12 @@ import Link from "next/link";
 
 // Enable ISR with 1-hour revalidation
 export const revalidate = 3600;
-import { AnimatedNumber } from "@/components/animated-number";
-import { LatestCOEPrices } from "@/components/latest-coe-prices";
-import { PageHeader } from "@/components/page-header";
-import { StructuredData } from "@/components/structured-data";
-import Typography from "@/components/typography";
-import { Button } from "@/components/ui/button";
+import { AnimatedNumber } from "@web/components/animated-number";
+import { LatestCOEPrices } from "@web/components/latest-coe-prices";
+import { PageHeader } from "@web/components/page-header";
+import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
+import { Button } from "@web/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,14 +15,23 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { API_URL, LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@/config";
-import redis from "@/config/redis";
-import { type COEResult, type PQP, RevalidateTags } from "@/types";
-import { getCOEResults, getLatestCOEResults, getPQPData } from "@/utils/cached-api";
-import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
-import { formatPercent } from "@/utils/format-percent";
+} from "@web/components/ui/card";
+import { Progress } from "@web/components/ui/progress";
+import {
+  API_URL,
+  LAST_UPDATED_COE_KEY,
+  SITE_TITLE,
+  SITE_URL,
+} from "@web/config";
+import redis from "@web/config/redis";
+import { type COEResult, type PQP, RevalidateTags } from "@web/types";
+import {
+  getCOEResults,
+  getLatestCOEResults,
+  getPQPData,
+} from "@web/utils/cached-api";
+import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { formatPercent } from "@web/utils/format-percent";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 

@@ -3,9 +3,9 @@
 import Link from "next/link";
 import slugify from "@sindresorhus/slugify";
 import { ArrowUpDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { deslugify } from "@/utils/slugify";
-import type { Car } from "@/types";
+import { Button } from "@web/components/ui/button";
+import { deslugify } from "@web/utils/slugify";
+import type { Car } from "@web/types";
 import type { ColumnDef } from "@tanstack/react-table";
 
 export const columns: ColumnDef<Car>[] = [

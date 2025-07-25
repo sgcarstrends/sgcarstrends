@@ -1,7 +1,7 @@
 "use client";
 
 import { Accordion, AccordionItem } from "@heroui/react";
-import Typography from "@/components/typography";
+import Typography from "@web/components/typography";
 
 interface FAQItem {
   question: string;

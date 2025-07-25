@@ -1,4 +1,4 @@
-import type { Make } from "@/types";
+import type { Make } from "@web/types";
 import { MakeCard } from "./make-card";
 
 interface MakesSearchResultsProps {

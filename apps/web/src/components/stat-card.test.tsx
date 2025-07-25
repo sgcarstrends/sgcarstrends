@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { StatCard } from "./stat-card";
-import type { RegistrationStat } from "@/types/cars";
+import type { RegistrationStat } from "@web/types/cars";
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({
@@ -9,7 +9,7 @@ vi.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(),
 }));
 
-vi.mock("@/app/cars/bar-chart-by-type", () => ({
+vi.mock("@web/app/cars/bar-chart-by-type", () => ({
   BarChartByType: ({ data }: { data: RegistrationStat[] }) => (
     <div data-testid="bar-chart">
       {data.map((item) => (
@@ -21,7 +21,7 @@ vi.mock("@/app/cars/bar-chart-by-type", () => ({
   ),
 }));
 
-vi.mock("@/config", () => ({
+vi.mock("@web/config", () => ({
   FUEL_TYPE: {
     OTHERS: "Others",
   },

@@ -9,12 +9,12 @@ import {
   CardHeader,
   Chip,
 } from "@heroui/react";
-import { LatestCOEPrices } from "@/components/latest-coe-prices";
-import { PageHeader } from "@/components/page-header";
-import Typography from "@/components/typography";
-import { UnreleasedFeature } from "@/components/unreleased-feature";
-import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
-import type { COEResult } from "@/types";
+import { LatestCOEPrices } from "@web/components/latest-coe-prices";
+import { PageHeader } from "@web/components/page-header";
+import Typography from "@web/components/typography";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import type { COEResult } from "@web/types";
 
 interface LatestCOEClientProps {
   results: COEResult[];

@@ -3,20 +3,25 @@
 import { useMemo } from "react";
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@web/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@web/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { getRankingEmoji } from "@/utils/api/cars";
+} from "@web/components/ui/chart";
+import { getRankingEmoji } from "@web/utils/api/cars";
 import {
   formatNumber,
   formatPercentage,
   getColorForIndex,
-} from "@/utils/chart-formatters";
+} from "@web/utils/chart-formatters";
 
 interface TopPerformerData {
   name: string;

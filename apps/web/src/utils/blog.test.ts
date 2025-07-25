@@ -4,7 +4,7 @@ import {
   getBlogPostBySlug,
   getBlogPostMetadata,
   calculateReadingTime,
-} from "@/utils/blog";
+} from "@web/utils/blog";
 
 describe("blog utilities", () => {
   describe("getAllBlogPosts", () => {

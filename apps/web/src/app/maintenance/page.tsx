@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { MaintenanceNotice } from "@/components/maintenance-notice";
+import { MaintenanceNotice } from "@web/components/maintenance-notice";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -1,21 +1,21 @@
 import Image from "next/image";
-import { columns } from "@/app/cars/makes/[make]/columns";
-import type { Logo } from "@/app/cars/makes/[make]/page";
-import { TrendChart } from "@/app/cars/makes/[make]/trend-chart";
-import { LastUpdated } from "@/components/last-updated";
-import { MakeSelector } from "@/components/make-selector";
-import NoData from "@/components/no-data";
-import Typography from "@/components/typography";
+import { columns } from "@web/app/cars/makes/[make]/columns";
+import type { Logo } from "@web/app/cars/makes/[make]/page";
+import { TrendChart } from "@web/app/cars/makes/[make]/trend-chart";
+import { LastUpdated } from "@web/components/last-updated";
+import { MakeSelector } from "@web/components/make-selector";
+import NoData from "@web/components/no-data";
+import Typography from "@web/components/typography";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { UnreleasedFeature } from "@/components/unreleased-feature";
-import type { Car, Make } from "@/types";
+} from "@web/components/ui/card";
+import { DataTable } from "@web/components/ui/data-table";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import type { Car, Make } from "@web/types";
 
 interface CarMakeContentProps {
   make: string;

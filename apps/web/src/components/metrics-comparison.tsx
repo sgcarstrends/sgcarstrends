@@ -1,5 +1,5 @@
 import { TrendingDown, TrendingUp } from "lucide-react";
-import { formatPercent } from "@/utils/format-percent";
+import { formatPercent } from "@web/utils/format-percent";
 
 interface StatsCompareProps {
   current: number;

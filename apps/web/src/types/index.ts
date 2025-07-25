@@ -1,4 +1,4 @@
-import { FUEL_TYPE } from "@/config";
+import { FUEL_TYPE } from "@web/config";
 import type { LucideIcon } from "lucide-react";
 
 export type VehicleType =
@@ -78,18 +78,18 @@ export enum RevalidateTags {
   // Core data types
   Cars = "cars",
   COE = "coe",
-  
+
   // Time-based tags
   Latest = "latest",
   Monthly = "monthly",
-  
+
   // Feature-based tags
   Analysis = "analysis",
   Comparison = "comparison",
   MarketShare = "market-share",
   TopPerformers = "top-performers",
   Reference = "reference",
-  
+
   // Legacy compatibility
   API = "api",
 }

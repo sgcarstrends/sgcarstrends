@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { Header } from "@/components/header";
+import { Header } from "@web/components/header";
 
 describe("Navbar", () => {
   it("should render correctly", () => {

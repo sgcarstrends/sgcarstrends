@@ -3,8 +3,8 @@
 import { Autocomplete, AutocompleteItem } from "@heroui/react";
 import Image from "next/image";
 import { useMemo } from "react";
-import type { Make } from "@/types";
-import { slugify } from "@/utils/slugify";
+import type { Make } from "@web/types";
+import { slugify } from "@web/utils/slugify";
 
 type MakeSelectorProps = {
   makes: Make[];

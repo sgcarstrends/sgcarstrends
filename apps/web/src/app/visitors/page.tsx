@@ -1,8 +1,8 @@
-import { StructuredData } from "@/components/structured-data";
-import Typography from "@/components/typography";
-import { VisitorsAnalytics } from "@/components/visitors-analytics";
-import { SITE_TITLE, SITE_URL } from "@/config";
-import type { AnalyticsData } from "@/types/analytics";
+import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
+import { VisitorsAnalytics } from "@web/components/visitors-analytics";
+import { SITE_TITLE, SITE_URL } from "@web/config";
+import type { AnalyticsData } from "@web/types/analytics";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 

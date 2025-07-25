@@ -1,4 +1,4 @@
-import type { BlogPost, BlogMetadata } from "@/types";
+import type { BlogPost, BlogMetadata } from "@web/types";
 
 const blogPosts: BlogPost[] = [
   {

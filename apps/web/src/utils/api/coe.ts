@@ -1,8 +1,8 @@
+import { API_URL } from "@web/config";
+import type { COEResult, PQP } from "@web/types";
+import { RevalidateTags } from "@web/types";
+import { CACHE_DURATION, fetchApi } from "@web/utils/fetch-api";
 import { cache } from "react";
-import { API_URL } from "@/config";
-import type { COEResult, PQP } from "@/types";
-import { RevalidateTags } from "@/types";
-import { CACHE_DURATION, fetchApi } from "@/utils/fetch-api";
 
 // COE-specific types
 export interface COEMarketShareData {

@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { slugify } from "@/utils/slugify";
+import { slugify } from "@web/utils/slugify";
 
 test.describe("Makes Page", () => {
   const carMakes = [

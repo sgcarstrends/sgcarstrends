@@ -10,7 +10,7 @@ const DOMAIN: Record<string, any> = {
 
 export default $config({
   async app(input) {
-    const { AppEnv } = await import("@/types");
+    const { AppEnv } = await import("@web/types");
 
     return {
       name: "sgcarstrends",

@@ -1,7 +1,7 @@
 "use client";
 
-import { formatCurrency } from "@/utils/format-currency";
-import type { PQP } from "@/types";
+import { formatCurrency } from "@web/utils/format-currency";
+import type { PQP } from "@web/types";
 import type { ColumnDef } from "@tanstack/react-table";
 
 const createCategoryColumn = (category: string): ColumnDef<PQP> => ({

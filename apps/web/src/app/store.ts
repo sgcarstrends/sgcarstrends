@@ -4,17 +4,17 @@ import {
   type COEAction,
   type COEState,
   createCoeSlice,
-} from "@/app/store/coe-slice";
+} from "@web/app/store/coe-slice";
 import {
   createDateSlice,
   type DateAction,
   type DateState,
-} from "@/app/store/date-slice";
+} from "@web/app/store/date-slice";
 import {
   createNotificationSlice,
   type NotificationAction,
   type NotificationState,
-} from "@/app/store/notification-slice";
+} from "@web/app/store/notification-slice";
 
 type State = DateState & COEState & NotificationState;
 type Action = DateAction & COEAction & NotificationAction;

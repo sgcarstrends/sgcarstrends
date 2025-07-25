@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@web/lib/utils";
 
 const H1 = React.forwardRef<
   HTMLHeadingElement,
@@ -104,7 +104,7 @@ const InlineCode = React.forwardRef<
   <code
     ref={ref}
     className={cn(
-      "relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+      "bg-muted relative rounded-sm px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
       className,
     )}
     {...props}
@@ -118,7 +118,7 @@ const Lead = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-xl text-muted-foreground", className)}
+    className={cn("text-muted-foreground text-xl", className)}
     {...props}
   />
 ));
@@ -128,7 +128,7 @@ const Small = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
   ({ className, ...props }, ref) => (
     <small
       ref={ref}
-      className={cn("text-sm font-medium leading-none", className)}
+      className={cn("text-sm leading-none font-medium", className)}
       {...props}
     />
   ),
@@ -141,7 +141,7 @@ const Muted = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn("text-muted-foreground text-sm", className)}
     {...props}
   />
 ));

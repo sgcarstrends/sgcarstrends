@@ -2,8 +2,8 @@
 
 import { Button, useDisclosure } from "@heroui/react";
 import { TrendingUp } from "lucide-react";
-import { TrendsComparisonBottomSheet } from "@/components/trends-comparison-bottom-sheet";
-import { BetaChip } from "@/components/chips";
+import { TrendsComparisonBottomSheet } from "@web/components/trends-comparison-bottom-sheet";
+import { BetaChip } from "@web/components/chips";
 
 export const CarRegistration = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

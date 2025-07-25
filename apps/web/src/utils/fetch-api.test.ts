@@ -1,4 +1,4 @@
-import { fetchApi } from "@/utils/fetch-api";
+import { fetchApi } from "@web/utils/fetch-api";
 
 describe("fetchApi", () => {
   beforeEach(() => {

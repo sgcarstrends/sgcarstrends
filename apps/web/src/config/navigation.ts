@@ -6,6 +6,7 @@ import {
   SiTelegram,
   SiX,
 } from "@icons-pack/react-simple-icons";
+import { sortByName } from "@web/utils/sorting";
 import {
   BarChart3,
   Calculator,
@@ -20,7 +21,6 @@ import {
   type LucideIcon,
   TrendingUp,
 } from "lucide-react";
-import { sortByName } from "@/utils/sorting";
 
 export interface NavigationItem {
   title: string;

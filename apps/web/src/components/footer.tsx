@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { Button, Divider } from "@heroui/react";
-import { BrandLogo } from "@/components/brand-logo";
-import { UnreleasedFeature } from "@/components/unreleased-feature";
-import { BetaChip, NewChip } from "@/components/chips";
-import { navLinks } from "@/config/navigation";
+import { BrandLogo } from "@web/components/brand-logo";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { BetaChip, NewChip } from "@web/components/chips";
+import { navLinks } from "@web/config/navigation";
 
 export const Footer = () => (
   <footer className="bg-content1 border-divider border-t">
@@ -92,7 +92,9 @@ export const Footer = () => (
             <h3 className="text-default-900 text-lg font-semibold">General</h3>
             <div className="space-y-2">
               {navLinks.general.map((item) => {
-                const showNewChip = ["FAQ", "Blog", "Visitors"].includes(item.title);
+                const showNewChip = ["FAQ", "Blog", "Visitors"].includes(
+                  item.title,
+                );
                 return (
                   <Link
                     key={item.title}

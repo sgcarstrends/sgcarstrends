@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
-import { PageHeader } from "@/components/page-header";
-import { StructuredData } from "@/components/structured-data";
-import { SITE_TITLE, SITE_URL } from "@/config";
-import { generateCOEFAQSchema } from "@/lib/structured-data";
+import { PageHeader } from "@web/components/page-header";
+import { StructuredData } from "@web/components/structured-data";
+import { SITE_TITLE, SITE_URL } from "@web/config";
+import { generateCOEFAQSchema } from "@web/lib/structured-data";
 import { FAQSections } from "./faq-sections";
 
 const title = "Frequently Asked Questions";

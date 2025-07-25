@@ -7,20 +7,20 @@ import {
   HelpCircleIcon,
   Truck,
 } from "lucide-react";
-import { CategoryInfo } from "@/components/category-info";
+import { CategoryInfo } from "@web/components/category-info";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@web/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@web/components/ui/tooltip";
 
 export const COECategories = () => {
   return (

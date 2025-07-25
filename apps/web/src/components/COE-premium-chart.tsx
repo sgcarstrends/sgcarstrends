@@ -12,30 +12,30 @@ import { addYears, format, parse, subMonths } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts";
-import useStore from "@/app/store";
+import useStore from "@web/app/store";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@web/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@web/components/ui/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
-import type { COEBiddingResult, COECategory, Month } from "@/types";
+} from "@web/components/ui/select";
+import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import type { COEBiddingResult, COECategory, Month } from "@web/types";
 
 interface Props {
   data: COEBiddingResult[];

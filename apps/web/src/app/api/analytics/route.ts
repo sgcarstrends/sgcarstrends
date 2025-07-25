@@ -1,8 +1,8 @@
 import { analyticsTable, type InsertAnalytics } from "@sgcarstrends/database";
+import { db } from "@web/config/db";
+import { geolocation } from "@web/functions/geolocation";
 import { and, count, desc, gte, isNotNull, lte, ne, sql } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
-import { db } from "@/config/db";
-import { geolocation } from "@/functions/geolocation";
 
 interface RequestData {
   pathname: string;

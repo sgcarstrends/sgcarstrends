@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
-import { loadSearchParams } from "@/app/cars/search-params";
-import { BetaChip } from "@/components/chips";
-import { PageHeader } from "@/components/page-header";
-import { StructuredData } from "@/components/structured-data";
-import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
-import redis from "@/config/redis";
-import type { Make } from "@/types";
-import { fetchApi } from "@/utils/fetch-api";
-import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
+import { loadSearchParams } from "@web/app/cars/search-params";
+import { BetaChip } from "@web/components/chips";
+import { PageHeader } from "@web/components/page-header";
+import { StructuredData } from "@web/components/structured-data";
+import {
+  API_URL,
+  LAST_UPDATED_CARS_KEY,
+  SITE_TITLE,
+  SITE_URL,
+} from "@web/config";
+import redis from "@web/config/redis";
+import type { Make } from "@web/types";
+import { fetchApi } from "@web/utils/fetch-api";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
 import { MakesList } from "./makes-list";
 
 interface Props {

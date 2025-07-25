@@ -1,4 +1,4 @@
-import { PageNotFound } from "@/components/page-not-found";
+import { PageNotFound } from "@web/components/page-not-found";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

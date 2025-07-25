@@ -9,11 +9,14 @@ import {
   InsightCards,
   MarketShareDonut,
   TopPerformersBar,
-} from "@/components/charts";
-import { formatPercentage } from "@/utils/chart-formatters";
-import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
-import type { TypeItem } from "@/types";
-import type { CarMarketShareResponse, CarTopPerformersData } from "@/utils/api/cars";
+} from "@web/components/charts";
+import { formatPercentage } from "@web/utils/chart-formatters";
+import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import type { TypeItem } from "@web/types";
+import type {
+  CarMarketShareResponse,
+  CarTopPerformersData,
+} from "@web/utils/api/cars";
 
 interface Props {
   types: TypeItem[];

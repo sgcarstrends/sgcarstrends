@@ -8,9 +8,9 @@ import {
 import { Calendar } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useEffect, useMemo } from "react";
-import type { Month } from "@/types";
-import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
-import { groupByYear } from "@/utils/group-by-year";
+import type { Month } from "@web/types";
+import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { groupByYear } from "@web/utils/group-by-year";
 
 type Props = {
   months: Month[];

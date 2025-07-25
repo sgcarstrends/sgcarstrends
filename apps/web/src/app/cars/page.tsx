@@ -3,35 +3,35 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
-import { CarRegistration } from "@/app/cars/car-registration";
-import { loadSearchParams } from "@/app/cars/search-params";
-import { AnimatedNumber } from "@/components/animated-number";
-import { MetricsComparison } from "@/components/metrics-comparison";
-import { PageHeader } from "@/components/page-header";
-import { StatCard } from "@/components/stat-card";
-import { StructuredData } from "@/components/structured-data";
-import { TopMakes } from "@/components/top-makes";
-import Typography from "@/components/typography";
-import { Badge } from "@/components/ui/badge";
+import { CarRegistration } from "@web/app/cars/car-registration";
+import { loadSearchParams } from "@web/app/cars/search-params";
+import { AnimatedNumber } from "@web/components/animated-number";
+import { MetricsComparison } from "@web/components/metrics-comparison";
+import { PageHeader } from "@web/components/page-header";
+import { StatCard } from "@web/components/stat-card";
+import { StructuredData } from "@web/components/structured-data";
+import { TopMakes } from "@web/components/top-makes";
+import Typography from "@web/components/typography";
+import { Badge } from "@web/components/ui/badge";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { UnreleasedFeature } from "@/components/unreleased-feature";
-import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
-import redis from "@/config/redis";
-import { generateDatasetSchema } from "@/lib/structured-data";
+} from "@web/components/ui/card";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import redis from "@web/config/redis";
+import { generateDatasetSchema } from "@web/lib/structured-data";
 import {
   getCarsComparison,
   getCarsData,
   getTopMakes,
   getTopTypes,
-} from "@/utils/cached-api";
-import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
-import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
+} from "@web/utils/cached-api";
+import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
 
 interface Props {
   searchParams: Promise<SearchParams>;
@@ -153,7 +153,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                   </CardTitle>
                   <Badge className="bg-blue-600">{formattedMonth}</Badge>
                 </CardHeader>
-                <CardContent className="font-bold text-4xl text-blue-600">
+                <CardContent className="text-4xl font-bold text-blue-600">
                   <AnimatedNumber value={cars.total} />
                 </CardContent>
                 <CardFooter>
@@ -173,7 +173,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                     {topTypes.topFuelType.name}
                   </Badge>
                 </CardHeader>
-                <CardContent className="font-bold text-4xl text-green-600">
+                <CardContent className="text-4xl font-bold text-green-600">
                   <AnimatedNumber value={topTypes.topFuelType.total} />
                 </CardContent>
                 <CardFooter>
@@ -197,7 +197,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                     {topTypes.topVehicleType.name}
                   </Badge>
                 </CardHeader>
-                <CardContent className="font-bold text-4xl text-pink-600">
+                <CardContent className="text-4xl font-bold text-pink-600">
                   <AnimatedNumber value={topTypes.topVehicleType.total} />
                 </CardContent>
                 <CardFooter>

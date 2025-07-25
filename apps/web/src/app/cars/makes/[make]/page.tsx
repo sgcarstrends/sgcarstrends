@@ -2,14 +2,19 @@ import slugify from "@sindresorhus/slugify";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
-import { CarMakeContent } from "@/app/cars/makes/[make]/car-make-content";
-import { loadSearchParams } from "@/app/cars/makes/[make]/search-params";
-import { StructuredData } from "@/components/structured-data";
-import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
-import redis from "@/config/redis";
-import type { Car, Make } from "@/types";
-import { fetchApi } from "@/utils/fetch-api";
-import { getMonthOrLatest } from "@/utils/month-utils";
+import { CarMakeContent } from "@web/app/cars/makes/[make]/car-make-content";
+import { loadSearchParams } from "@web/app/cars/makes/[make]/search-params";
+import { StructuredData } from "@web/components/structured-data";
+import {
+  API_URL,
+  LAST_UPDATED_CARS_KEY,
+  SITE_TITLE,
+  SITE_URL,
+} from "@web/config";
+import redis from "@web/config/redis";
+import type { Car, Make } from "@web/types";
+import { fetchApi } from "@web/utils/fetch-api";
+import { getMonthOrLatest } from "@web/utils/month-utils";
 
 interface Props {
   params: Promise<{ make: string }>;

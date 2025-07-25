@@ -18,10 +18,10 @@ import {
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { BrandLogo } from "@/components/brand-logo";
-import { BetaChip, NewChip } from "@/components/chips";
-import { UnreleasedFeature } from "@/components/unreleased-feature";
-import { navLinks } from "@/config/navigation";
+import { BrandLogo } from "@web/components/brand-logo";
+import { BetaChip, NewChip } from "@web/components/chips";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { navLinks } from "@web/config/navigation";
 
 export const Header = (props: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -179,7 +179,7 @@ export const Header = (props: NavbarProps) => {
           </UnreleasedFeature>
         </NavbarContent>
         <NavbarContent className="hidden lg:flex" justify="end">
-          <NavbarItem className="!flex ml-2 gap-2">
+          <NavbarItem className="ml-2 !flex gap-2">
             {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (
               <Button
                 key={title}
@@ -190,7 +190,7 @@ export const Header = (props: NavbarProps) => {
                 isIconOnly
                 variant="light"
                 size="sm"
-                className="text-default-500 transition-colors hover:text-primary"
+                className="text-default-500 hover:text-primary transition-colors"
                 aria-label={title}
               >
                 <Icon className="size-4" />
@@ -208,12 +208,12 @@ export const Header = (props: NavbarProps) => {
       {/* Mobile Navigation Menu */}
       <NavbarMenu>
         <NavbarMenuItem>
-          <div className="py-2 font-medium text-default-600 text-sm">Cars</div>
+          <div className="text-default-600 py-2 text-sm font-medium">Cars</div>
         </NavbarMenuItem>
         <NavbarMenuItem>
           <Link
             href={navLinks.cars.overview.url}
-            className="w-full pl-4 text-default-700"
+            className="text-default-700 w-full pl-4"
           >
             {navLinks.cars.overview.title}
           </Link>
@@ -221,7 +221,7 @@ export const Header = (props: NavbarProps) => {
         <NavbarMenuItem>
           <Link
             href={navLinks.cars.makes.url}
-            className="flex w-full items-center gap-2 pl-4 text-default-700"
+            className="text-default-700 flex w-full items-center gap-2 pl-4"
           >
             {navLinks.cars.makes.title}
             <BetaChip />
@@ -230,7 +230,7 @@ export const Header = (props: NavbarProps) => {
         <NavbarMenuItem>
           <Link
             href={navLinks.cars.fuelTypes.url}
-            className="w-full pl-4 text-default-700"
+            className="text-default-700 w-full pl-4"
           >
             {navLinks.cars.fuelTypes.title}
           </Link>
@@ -238,17 +238,17 @@ export const Header = (props: NavbarProps) => {
         <NavbarMenuItem>
           <Link
             href={navLinks.cars.vehicleTypes.url}
-            className="w-full pl-4 text-default-700"
+            className="text-default-700 w-full pl-4"
           >
             {navLinks.cars.vehicleTypes.title}
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <div className="py-2 font-medium text-default-600 text-sm">COE</div>
+          <div className="text-default-600 py-2 text-sm font-medium">COE</div>
         </NavbarMenuItem>
         {navLinks.coe.map((item) => (
           <NavbarMenuItem key={item.title}>
-            <Link href={item.url} className="w-full pl-4 text-default-700">
+            <Link href={item.url} className="text-default-700 w-full pl-4">
               {item.title}
             </Link>
           </NavbarMenuItem>
