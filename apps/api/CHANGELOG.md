@@ -13,7 +13,6 @@
 
 * **api:** clean up domain names ([be5271b](https://github.com/sgcarstrends/sgcarstrends/commit/be5271b17ecb04bd4f69127ae72dcec41c8e42d1))
 * correct CategoryCountSchema field name from label to name ([663148f](https://github.com/sgcarstrends/sgcarstrends/commit/663148fa01cc019bc14a85d3068152e8b041e9d6))
-* handle Twitter 280-character limit for non-premium accounts ([de27cf3](https://github.com/sgcarstrends/sgcarstrends/commit/de27cf3edf811d69252ea58cbbf4a13d7bbd2038))
 * handle Twitter 280-character limit for non-premium accounts ([21cc1df](https://github.com/sgcarstrends/sgcarstrends/commit/21cc1df5888b6ec22e980665aa17bad8fd2bfa12))
 
 
