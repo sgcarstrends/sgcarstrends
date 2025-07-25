@@ -1,8 +1,9 @@
-import type { ComponentType } from "react";
 import {
+  type IconType,
   SiGithub,
   SiInstagram,
   SiLinkedin,
+  SiTelegram,
   SiX,
 } from "@icons-pack/react-simple-icons";
 import {
@@ -16,6 +17,7 @@ import {
   Fuel,
   Gavel,
   HelpCircle,
+  type LucideIcon,
   TrendingUp,
 } from "lucide-react";
 import { sortByName } from "@/utils/sorting";
@@ -23,14 +25,14 @@ import { sortByName } from "@/utils/sorting";
 export interface NavigationItem {
   title: string;
   url: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: LucideIcon;
   description: string;
 }
 
 export interface SocialMediaItem {
   title: string;
   url: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: IconType;
 }
 
 export interface NavLinks {
