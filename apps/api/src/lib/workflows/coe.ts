@@ -40,8 +40,8 @@ export const coeWorkflow = createWorkflow(
     const result = await getLatestCoeResult({ month, biddingNo });
 
     const message = [
-      `💰 Latest COE results for ${result[0]?.month} (${formatOrdinal(result[0]?.bidding_no)} Bidding)!`,
-      "\n💸 Premium rates by category:",
+      `<b>💰 Latest COE results for ${result[0]?.month} (${formatOrdinal(result[0]?.bidding_no)} Bidding)!</b>`,
+      "💸 <b>Premium rates by category:</b>",
       ...result.map(
         (coe) => `${coe.vehicle_class}: $${coe.premium.toLocaleString()}`,
       ),
