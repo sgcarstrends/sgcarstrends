@@ -1,5 +1,27 @@
 # @sgcarstrends/web
 
+## [3.1.0](https://github.com/sgcarstrends/sgcarstrends/compare/web-v3.0.1...web-v3.1.0) (2025-07-25)
+
+
+### Features
+
+* migrate months and makes selector to autocomplete ([1c3d586](https://github.com/sgcarstrends/sgcarstrends/commit/1c3d586424f1c417cbf30d58e4991397d836c25b))
+* optimize API calls with React cache and ISR ([db6be89](https://github.com/sgcarstrends/sgcarstrends/commit/db6be8915e75bf028fb545dd3259b7380827a54f))
+
+
+### Bug Fixes
+
+* **web:** remove misleading commercial faq ([4542d02](https://github.com/sgcarstrends/sgcarstrends/commit/4542d0231925591d23eebdbdca743f25a31cf869))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @sgcarstrends/database bumped to 3.1.0
+    * @sgcarstrends/types bumped to 3.1.0
+    * @sgcarstrends/utils bumped to 3.1.0
+
 ## 3.0.1
 
 ### Patch Changes
