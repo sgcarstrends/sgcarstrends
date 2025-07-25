@@ -10,6 +10,7 @@ const channelId = Resource.TELEGRAM_CHANNEL_ID.value;
 export const postToTelegram = async ({
   message,
   link,
+  parseMode = "HTML",
 }: PostToTelegramParam) => {
   if (!message) {
     throw new Error("Telegram message cannot be empty.");
@@ -25,7 +26,11 @@ export const postToTelegram = async ({
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: channelId, text: `${message} ${link}` }),
+      body: JSON.stringify({
+        chat_id: channelId,
+        text: `${message}\n\n🔗 <a href="${link}">View Full Details</a>`,
+        parse_mode: parseMode,
+      }),
     });
 
     if (!res.ok) {
