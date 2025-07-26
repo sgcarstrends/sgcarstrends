@@ -1,3 +1,9 @@
+## [4.0.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.0.0...v4.0.1) (2025-07-26)
+
+### Reverts
+
+* Revert "feat: improve Telegram message formatting" ([204d061](https://github.com/sgcarstrends/sgcarstrends/commit/204d061e069022502cab53304e5794ae6cf016be))
+
 ## [4.0.0](https://github.com/sgcarstrends/sgcarstrends/compare/v3.1.0...v4.0.0) (2025-07-26)
 
 ### ⚠ BREAKING CHANGES
