@@ -33,7 +33,7 @@
     "hono": "^4.7.2",
     "linkedin-api-client": "^0.3.0",
     "papaparse": "^5.4.1",
-    "sst": "^3.14.12",
+    "sst": "^3.17.10",
     "twitter-api-v2": "^1.23.0",
     "zod": "^3.24.2"
   },
