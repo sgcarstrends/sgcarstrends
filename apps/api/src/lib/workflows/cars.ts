@@ -38,16 +38,13 @@ export const carsWorkflow = createWorkflow(
     const result = await getCarRegistrationsByMonth(month);
 
     const message = [
-      `<b>🚗 <a href="${SITE_URL}/cars?month=${month}">Car registration for ${result.month}</a></b>`,
-      "",
-      `📊 <b>Total registrations:</b> ${result.total.toLocaleString()}`,
-      "",
-      "⚡ <b>By Fuel Type:</b>",
+      `🚗 Updated car registration data for ${result.month}!`,
+      `\n📊 Total registrations: ${result.total.toLocaleString()}`,
+      "\n⚡ By Fuel Type:",
       ...Object.entries(result.fuelType).map(
         ([type, count]) => `${type}: ${count.toLocaleString()}`,
       ),
-      "",
-      "🚙 <b>By Vehicle Type:</b>",
+      "\n🚙 By Vehicle Type:",
       ...Object.entries(result.vehicleType).map(
         ([type, count]) => `${type}: ${count.toLocaleString()}`,
       ),
