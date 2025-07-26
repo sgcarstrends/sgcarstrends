@@ -10,6 +10,7 @@
 
 * setup SST infrastructure for monorepo setup (#416)
 
+# [3.1.0](https://github.com/sgcarstrends/sgcarstrends/compare/v3.0.0...v3.1.0) (2025-07-26)
 
 ### Bug Fixes
 
