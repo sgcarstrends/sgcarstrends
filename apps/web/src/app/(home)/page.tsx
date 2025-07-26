@@ -1,10 +1,10 @@
-import { KeyStatistics } from "@/components/key-statistics";
-import { StructuredData } from "@/components/structured-data";
-import { Top5CarMakesByYear } from "@/components/top-5-car-makes-by-year";
-import { TotalNewCarRegistrationsByYear } from "@/components/total-new-car-registrations-by-year";
-import Typography from "@/components/typography";
-import { UnreleasedFeature } from "@/components/unreleased-feature";
-import { SITE_TITLE, SITE_URL } from "@/config";
+import { KeyStatistics } from "@web/components/key-statistics";
+import { StructuredData } from "@web/components/structured-data";
+import { Top5CarMakesByYear } from "@web/components/top-5-car-makes-by-year";
+import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-registrations-by-year";
+import Typography from "@web/components/typography";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { WebSite, WithContext } from "schema-dts";
 
 const HomePage = () => {

@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { AIBadge } from "@/components/ai-badge";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { getAllBlogPosts, getBlogPostBySlug } from "@/utils/blog";
-import { parseMarkdownToHtml } from "@/utils/markdown";
+import { AIBadge } from "@web/components/ai-badge";
+import { Badge } from "@web/components/ui/badge";
+import { Button } from "@web/components/ui/button";
+import { Separator } from "@web/components/ui/separator";
+import { getAllBlogPosts, getBlogPostBySlug } from "@web/utils/blog";
+import { parseMarkdownToHtml } from "@web/utils/markdown";
 import type { Metadata } from "next";
 
 interface BlogPostPageProps {

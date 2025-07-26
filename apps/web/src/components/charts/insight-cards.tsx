@@ -8,11 +8,11 @@ import {
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
-import { AnimatedNumber } from "@/components/animated-number";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import { formatGrowthRate } from "@/utils/chart-formatters";
+import { AnimatedNumber } from "@web/components/animated-number";
+import { Badge } from "@web/components/ui/badge";
+import { Card, CardContent } from "@web/components/ui/card";
+import { cn } from "@web/lib/utils";
+import { formatGrowthRate } from "@web/utils/chart-formatters";
 
 interface InsightData {
   title: string;

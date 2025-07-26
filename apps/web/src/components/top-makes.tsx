@@ -10,7 +10,7 @@ import {
 } from "@heroui/react";
 import slugify from "@sindresorhus/slugify";
 import { Battery, Droplet, Fuel, type LucideIcon, Zap } from "lucide-react";
-import type { FuelType } from "@/types/cars";
+import type { FuelType } from "@web/types/cars";
 
 // interface Category {
 //   title: string;

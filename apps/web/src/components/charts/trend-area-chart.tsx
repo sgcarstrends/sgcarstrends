@@ -3,7 +3,12 @@
 import { useMemo } from "react";
 
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@web/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
@@ -11,12 +16,12 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@web/components/ui/chart";
 import {
   chartColorPalette,
   formatMonthYear,
   formatNumber,
-} from "@/utils/chart-formatters";
+} from "@web/utils/chart-formatters";
 
 interface TrendData {
   month: string;

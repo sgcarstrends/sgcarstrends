@@ -1,9 +1,14 @@
 import Link from "next/link";
-import { AIBadge } from "@/components/ai-badge";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { getAllBlogPosts } from "@/utils/blog";
+import { AIBadge } from "@web/components/ai-badge";
+import { Badge } from "@web/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@web/components/ui/card";
+import { Separator } from "@web/components/ui/separator";
+import { getAllBlogPosts } from "@web/utils/blog";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -1,7 +1,7 @@
 "use client";
 
 import { Chip } from "@heroui/react";
-import { type Make } from "@/types";
+import { type Make } from "@web/types";
 import { MakeCard } from "./make-card";
 
 interface OtherMakesSectionProps {

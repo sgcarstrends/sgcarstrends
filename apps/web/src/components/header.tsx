@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import type { NavbarProps } from "@heroui/navbar";
 import {
   Button,
   Dropdown,
@@ -17,10 +16,12 @@ import {
   NavbarMenuToggle,
 } from "@heroui/react";
 import { ChevronDown } from "lucide-react";
-import { BrandLogo } from "@/components/brand-logo";
-import { UnreleasedFeature } from "@/components/unreleased-feature";
-import { navLinks } from "@/config/navigation";
-import type { NavbarProps } from "@heroui/navbar";
+import Link from "next/link";
+import { useState } from "react";
+import { BrandLogo } from "@web/components/brand-logo";
+import { BetaChip, NewChip } from "@web/components/chips";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { navLinks } from "@web/config/navigation";
 
 export const Header = (props: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,18 +29,17 @@ export const Header = (props: NavbarProps) => {
   return (
     <Navbar
       {...props}
-      maxWidth="full"
-      height="60px"
+      shouldHideOnScroll={true}
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="container mx-auto"
     >
+      {/* Desktop Navigation */}
       <NavbarBrand>
         <Link href="/">
           <BrandLogo />
         </Link>
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex" justify="center">
+      <NavbarContent className="hidden lg:flex" justify="center">
         <Dropdown>
           <NavbarItem>
             <DropdownTrigger>
@@ -78,6 +78,7 @@ export const Header = (props: NavbarProps) => {
               startContent={
                 <navLinks.cars.makes.icon className="size-6 text-pink-500" />
               }
+              endContent={<BetaChip />}
               description={navLinks.cars.makes.description}
             >
               {navLinks.cars.makes.title}
@@ -153,20 +154,29 @@ export const Header = (props: NavbarProps) => {
           </DropdownMenu>
         </Dropdown>
         <NavbarItem>
-          <Link href="/faq">FAQ</Link>
+          <Link href="/faq" className="flex items-center gap-2">
+            FAQ
+            <NewChip />
+          </Link>
         </NavbarItem>
         <UnreleasedFeature>
           <NavbarItem>
-            <Link href="/blog">Blog</Link>
+            <Link href="/blog" className="flex items-center gap-2">
+              Blog
+              <NewChip />
+            </Link>
           </NavbarItem>
         </UnreleasedFeature>
         <UnreleasedFeature>
           <NavbarItem>
-            <Link href="/visitors">Visitors</Link>
+            <Link href="/visitors" className="flex items-center gap-2">
+              Visitors
+              <NewChip />
+            </Link>
           </NavbarItem>
         </UnreleasedFeature>
       </NavbarContent>
-      <NavbarContent className="hidden md:flex" justify="end">
+      <NavbarContent className="hidden lg:flex" justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
           {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (
             <Button
@@ -189,9 +199,10 @@ export const Header = (props: NavbarProps) => {
 
       <NavbarMenuToggle
         aria-label="Toggle navigation menu"
-        className="sm:hidden"
+        className="lg:hidden"
       />
 
+      {/* Mobile Navigation Menu */}
       <NavbarMenu>
         <NavbarMenuItem>
           <div className="text-default-600 py-2 text-sm font-medium">Cars</div>
@@ -202,6 +213,15 @@ export const Header = (props: NavbarProps) => {
             className="text-default-700 w-full pl-4"
           >
             {navLinks.cars.overview.title}
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
+            href={navLinks.cars.makes.url}
+            className="text-default-700 flex w-full items-center gap-2 pl-4"
+          >
+            {navLinks.cars.makes.title}
+            <BetaChip />
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
@@ -232,16 +252,25 @@ export const Header = (props: NavbarProps) => {
         ))}
 
         <NavbarMenuItem>
-          <Link href="/faq">FAQ</Link>
+          <Link href="/faq" className="flex items-center gap-2">
+            FAQ
+            <NewChip />
+          </Link>
         </NavbarMenuItem>
         <UnreleasedFeature>
           <NavbarMenuItem>
-            <Link href="/blog">Blog</Link>
+            <Link href="/blog" className="flex items-center gap-2">
+              Blog
+              <NewChip />
+            </Link>
           </NavbarMenuItem>
         </UnreleasedFeature>
         <UnreleasedFeature>
           <NavbarMenuItem>
-            <Link href="/visitors">Visitors</Link>
+            <Link href="/visitors" className="flex items-center gap-2">
+              Visitors
+              <NewChip />
+            </Link>
           </NavbarMenuItem>
         </UnreleasedFeature>
       </NavbarMenu>

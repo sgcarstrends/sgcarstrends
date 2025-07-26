@@ -2,7 +2,12 @@
 
 import { useMemo } from "react";
 import { Cell, Pie, PieChart } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@web/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
@@ -10,8 +15,8 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { formatNumber, formatPercentage } from "@/utils/chart-formatters";
+} from "@web/components/ui/chart";
+import { formatNumber, formatPercentage } from "@web/utils/chart-formatters";
 
 interface MarketShareData {
   name: string;

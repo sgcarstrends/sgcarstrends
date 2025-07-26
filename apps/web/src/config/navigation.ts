@@ -1,10 +1,12 @@
-import type { ComponentType } from "react";
 import {
+  type IconType,
   SiGithub,
   SiInstagram,
   SiLinkedin,
+  SiTelegram,
   SiX,
 } from "@icons-pack/react-simple-icons";
+import { sortByName } from "@web/utils/sorting";
 import {
   BarChart3,
   Calculator,
@@ -16,21 +18,21 @@ import {
   Fuel,
   Gavel,
   HelpCircle,
+  type LucideIcon,
   TrendingUp,
 } from "lucide-react";
-import { sortByName } from "@/utils/sorting";
 
 export interface NavigationItem {
   title: string;
   url: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: LucideIcon;
   description: string;
 }
 
 export interface SocialMediaItem {
   title: string;
   url: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: IconType;
 }
 
 export interface NavLinks {
@@ -60,6 +62,11 @@ const socialMedia = [
     title: "LinkedIn",
     url: "https://linkedin.com/company/sgcarstrends",
     icon: SiLinkedin,
+  },
+  {
+    title: "Telegram",
+    url: "https://t.me/sgcarstrends",
+    icon: SiTelegram,
   },
   {
     title: "GitHub",

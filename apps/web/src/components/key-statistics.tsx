@@ -1,14 +1,19 @@
 "use client";
 
-import useStore from "@/app/store";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import useStore from "@web/app/store";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@web/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@web/components/ui/select";
 
 interface Props {
   data: { year: number; total: number }[];

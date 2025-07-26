@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { FEATURE_FLAG_UNRELEASED } from "@/config";
+import { FEATURE_FLAG_UNRELEASED } from "@web/config";
 
 export const UnreleasedFeature = ({ children }: { children: ReactNode }) =>
   FEATURE_FLAG_UNRELEASED && (

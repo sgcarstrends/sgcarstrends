@@ -1,4 +1,4 @@
-import { capitaliseWords } from "@/utils/capitalise-words";
+import { capitaliseWords } from "@web/utils/capitalise-words";
 
 describe("capitaliseWords", () => {
   it("should return as it is when words are already capitalised", () => {

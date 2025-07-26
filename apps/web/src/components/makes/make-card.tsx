@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { Button, Card, CardFooter, cn } from "@heroui/react";
 import slugify from "@sindresorhus/slugify";
 import { Car } from "lucide-react";
-import { type Make } from "@/types";
+import Image from "next/image";
+import Link from "next/link";
+import type { Make } from "@web/types";
 
 interface MakeCardProps {
   make: Make;
@@ -29,7 +29,7 @@ export const MakeCard = ({
       key={make}
       isFooterBlurred
       className={cn("h-32 border-none", {
-        "ring-primary-200 ring-2": isPopular,
+        "ring-primary-600 ring-2": isPopular,
       })}
       radius="lg"
     >
@@ -53,7 +53,7 @@ export const MakeCard = ({
           color={isPopular ? "primary" : "default"}
           radius="lg"
           size="sm"
-          variant="flat"
+          variant="shadow"
           onPress={handlePress}
         >
           Explore

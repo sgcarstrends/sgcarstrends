@@ -1,7 +1,7 @@
 "use client";
 
 import { Chip } from "@heroui/react";
-import { type Make } from "@/types";
+import type { Make } from "@web/types";
 import { MakeCard } from "./make-card";
 
 interface PopularMakesSectionProps {
@@ -21,7 +21,7 @@ export const PopularMakesSection = ({
     <section className="space-y-4">
       <div className="flex items-center gap-2">
         <h2 className="text-xl font-semibold">Popular Makes</h2>
-        <Chip size="sm" variant="flat" color="primary">
+        <Chip size="sm" variant="shadow" color="primary">
           {makes.length}
         </Chip>
       </div>

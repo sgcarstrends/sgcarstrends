@@ -1,15 +1,21 @@
-import { loadSearchParams } from "@/app/cars/search-params";
-import { PageHeader } from "@/components/page-header";
-import { StructuredData } from "@/components/structured-data";
-import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
-import redis from "@/config/redis";
-import { type Make } from "@/types";
-import { fetchApi } from "@/utils/fetch-api";
-import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
-import { MakesList } from "./makes-list";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
+import { loadSearchParams } from "@web/app/cars/search-params";
+import { BetaChip } from "@web/components/chips";
+import { PageHeader } from "@web/components/page-header";
+import { StructuredData } from "@web/components/structured-data";
+import {
+  API_URL,
+  LAST_UPDATED_CARS_KEY,
+  SITE_TITLE,
+  SITE_URL,
+} from "@web/config";
+import redis from "@web/config/redis";
+import type { Make } from "@web/types";
+import { fetchApi } from "@web/utils/fetch-api";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
+import { MakesList } from "./makes-list";
 
 interface Props {
   searchParams: Promise<SearchParams>;
@@ -55,7 +61,7 @@ const CarMakesPage = async ({ searchParams }: Props) => {
   let { month } = await loadSearchParams(searchParams);
   month = await getMonthOrLatest(month, "cars");
 
-  let [makes, months, lastUpdated] = await Promise.all([
+  const [makes, months, lastUpdated] = await Promise.all([
     fetchApi<Make[]>(`${API_URL}/cars/makes`),
     fetchMonthsForCars(),
     redis.get<number>(LAST_UPDATED_CARS_KEY),
@@ -82,6 +88,7 @@ const CarMakesPage = async ({ searchParams }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
+        <BetaChip />
         <PageHeader
           title="Makes"
           subtitle="List of car makes registered in Singapore."

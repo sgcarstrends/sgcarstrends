@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/api",
   "description": "API service for SG Cars Trends",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -33,7 +33,7 @@
     "hono": "^4.7.2",
     "linkedin-api-client": "^0.3.0",
     "papaparse": "^5.4.1",
-    "sst": "^3.14.12",
+    "sst": "^3.17.10",
     "twitter-api-v2": "^1.23.0",
     "zod": "^3.24.2"
   },

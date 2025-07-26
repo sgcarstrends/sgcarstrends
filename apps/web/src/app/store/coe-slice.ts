@@ -1,4 +1,4 @@
-import type { COECategoryFilter, COECategory } from "@/types";
+import type { COECategory, COECategoryFilter } from "@web/types";
 import type { StateCreator } from "zustand";
 
 export type COEState = {

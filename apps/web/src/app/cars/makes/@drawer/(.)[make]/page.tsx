@@ -1,12 +1,12 @@
 import slugify from "@sindresorhus/slugify";
-import { CarMakeContent } from "@/app/cars/makes/[make]/car-make-content";
-import { loadSearchParams } from "@/app/cars/makes/[make]/search-params";
-import { MakeDrawer } from "@/components/makes";
-import { API_URL, LAST_UPDATED_CARS_KEY } from "@/config";
-import redis from "@/config/redis";
-import { type Car, type Make } from "@/types";
-import { fetchApi } from "@/utils/fetch-api";
-import { getMonthOrLatest } from "@/utils/month-utils";
+import { CarMakeContent } from "@web/app/cars/makes/[make]/car-make-content";
+import { loadSearchParams } from "@web/app/cars/makes/[make]/search-params";
+import { MakeDrawer } from "@web/components/makes";
+import { API_URL, LAST_UPDATED_CARS_KEY } from "@web/config";
+import redis from "@web/config/redis";
+import { type Car, type Make } from "@web/types";
+import { fetchApi } from "@web/utils/fetch-api";
+import { getMonthOrLatest } from "@web/utils/month-utils";
 import type { SearchParams } from "nuqs/server";
 
 interface Props {

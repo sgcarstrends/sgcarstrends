@@ -64,7 +64,7 @@ export const ComparisonQuerySchema = z
   });
 
 export const CategoryCountSchema = z.object({
-  label: z.string(),
+  name: z.string(),
   count: z.number(),
 });
 

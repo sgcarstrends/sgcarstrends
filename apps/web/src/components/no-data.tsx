@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { AlertCircle, Home, RotateCcw } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@web/components/ui/alert";
+import { Button } from "@web/components/ui/button";
 
 const NoData = () => {
   const router = useRouter();

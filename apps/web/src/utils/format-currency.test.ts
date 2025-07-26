@@ -1,4 +1,4 @@
-import { formatCurrency } from "@/utils/format-currency";
+import { formatCurrency } from "@web/utils/format-currency";
 
 describe("formatCurrency", () => {
   it("should format whole numbers correctly", () => {

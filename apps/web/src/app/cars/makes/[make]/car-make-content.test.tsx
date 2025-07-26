@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
-import type { Car, Make } from "@/types";
+import type { Car, Make } from "@web/types";
 import { CarMakeContent } from "./car-make-content";
 
 vi.mock("next/navigation", () => ({
@@ -10,19 +10,19 @@ vi.mock("next/navigation", () => ({
   }),
 }));
 
-vi.mock("@/app/cars/makes/[make]/trend-chart", () => ({
+vi.mock("@web/app/cars/makes/[make]/trend-chart", () => ({
   TrendChart: () => <div>TrendChart</div>,
 }));
 
-vi.mock("@/components/make-selector", () => ({
+vi.mock("@web/components/make-selector", () => ({
   MakeSelector: () => <div>MakeSelector</div>,
 }));
 
-vi.mock("@/components/ui/data-table", () => ({
+vi.mock("@web/components/ui/data-table", () => ({
   DataTable: () => <div>DataTable</div>,
 }));
 
-vi.mock("@/components/unreleased-feature", () => ({
+vi.mock("@web/components/unreleased-feature", () => ({
   UnreleasedFeature: ({ children }: { children: ReactNode }) => (
     <div>{children}</div>
   ),

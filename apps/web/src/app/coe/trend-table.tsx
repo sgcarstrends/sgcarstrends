@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import { columns } from "@/app/coe/columns";
-import useStore from "@/app/store";
-import { DataTable } from "@/components/ui/data-table";
-import type { COEResult } from "@/types";
+import { columns } from "@web/app/coe/columns";
+import useStore from "@web/app/store";
+import { DataTable } from "@web/components/ui/data-table";
+import type { COEResult } from "@web/types";
 
 interface Props {
   coeResults: COEResult[];

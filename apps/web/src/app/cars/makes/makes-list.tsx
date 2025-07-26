@@ -1,14 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { Chip, Input } from "@heroui/react";
 import { Search } from "lucide-react";
+import { useMemo, useState } from "react";
 import {
-  PopularMakesSection,
-  OtherMakesSection,
   MakesSearchResults,
-} from "@/components/makes";
-import { type Make } from "@/types";
+  OtherMakesSection,
+  PopularMakesSection,
+} from "@web/components/makes";
+import type { Make } from "@web/types";
 
 interface PopularMakesProps {
   makes: Make[];
@@ -66,7 +66,7 @@ export const MakesList = ({ makes }: PopularMakesProps) => {
             startContent={<Search className="size-4" />}
             variant="bordered"
           />
-          <Chip variant="flat" color="primary">
+          <Chip variant="shadow" color="primary">
             {filteredMakes.length} of {makes.length} makes
           </Chip>
         </div>

@@ -1,4 +1,4 @@
-import { deslugify, slugify } from "@/utils/slugify";
+import { deslugify, slugify } from "@web/utils/slugify";
 
 describe("slugify", () => {
   it("should convert basic string to slug", () => {

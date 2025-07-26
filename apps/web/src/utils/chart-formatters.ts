@@ -1,4 +1,4 @@
-import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
+import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 
 export const formatNumber = (value: number): string => {
   return new Intl.NumberFormat("en-SG").format(value);

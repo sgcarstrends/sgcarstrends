@@ -1,9 +1,9 @@
 import { type ReactNode, Suspense } from "react";
-import { LastUpdated } from "@/components/last-updated";
-import { MonthSelector } from "@/components/month-selector";
-import Typography from "@/components/typography";
-import { cn } from "@/lib/utils";
-import type { Month } from "@/types";
+import { LastUpdated } from "@web/components/last-updated";
+import { MonthSelector } from "@web/components/month-selector";
+import Typography from "@web/components/typography";
+import { cn } from "@web/lib/utils";
+import type { Month } from "@web/types";
 
 interface Props {
   title: string;
@@ -36,7 +36,7 @@ export const PageHeader = ({
             </Typography.H2>
           )}
         </div>
-        <div className="flex flex-row-reverse items-center justify-between gap-2 lg:flex-row">
+        <div className="flex flex-col items-start gap-2">
           {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
           {showMonthSelector && months && (
             <Suspense fallback={null}>

@@ -7,7 +7,7 @@ const mockCategories = {
   "Category B": false,
 };
 
-vi.mock("@/app/store", () => ({
+vi.mock("@web/app/store", () => ({
   default: vi.fn((selector) => {
     const state = {
       categories: mockCategories,

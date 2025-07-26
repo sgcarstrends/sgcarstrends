@@ -1,17 +1,16 @@
-import React, { type ReactNode } from "react";
+import classNames from "classnames";
 import { Inter } from "next/font/google";
 import Script from "next/script";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import classNames from "classnames";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import LoadingIndicator from "@/app/loading-indicator";
-import { Providers } from "@/app/providers";
-import { Analytics } from "@/components/analytics";
-import { Announcement } from "@/components/announcement";
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
-import { NotificationPrompt } from "@/components/notification-prompt";
-import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@/config";
+import type { ReactNode } from "react";
+import LoadingIndicator from "@web/app/loading-indicator";
+import { Providers } from "@web/app/providers";
+import { Analytics } from "@web/components/analytics";
+import { Announcement } from "@web/components/announcement";
+import { Footer } from "@web/components/footer";
+import { Header } from "@web/components/header";
+import { NotificationPrompt } from "@web/components/notification-prompt";
+import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@web/config";
 import "./globals.css";
 import type { Metadata } from "next";
 
@@ -49,18 +48,16 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
-  const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={classNames(inter.className)}>
+      <body className={classNames(inter.className, "bg-neutral-100")}>
         <Providers>
           <NotificationPrompt />
           {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
           <NuqsAdapter>
             <LoadingIndicator />
             <Header />
-            <main className="container mx-auto px-4 py-16">{children}</main>
+            <main className="container mx-auto px-6 py-8">{children}</main>
             <Footer />
           </NuqsAdapter>
           {process.env.NODE_ENV === "production" && <Analytics />}
@@ -72,7 +69,6 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
         data-website-id="b98dda44-ccc9-4a73-87d4-dcbe561aedb8"
         data-domains="sgcarstrends.com"
       />
-      <GoogleAnalytics gaId={gaMeasurementId} />
     </html>
   );
 };

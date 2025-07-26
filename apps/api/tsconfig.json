@@ -9,5 +9,6 @@
       "@api/*": ["src/*"]
     }
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": [".sst"]
 }

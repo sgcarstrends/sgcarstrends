@@ -1,4 +1,4 @@
-import type { Month } from "@/types";
+import type { Month } from "@web/types";
 
 export const groupByYear = (dates: Month[]) => {
   if (!dates) {

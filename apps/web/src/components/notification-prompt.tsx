@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect } from "react";
 import { Alert, Button, cn, addToast } from "@heroui/react";
-import useStore from "@/app/store";
+import useStore from "@web/app/store";
 
 export const NotificationPrompt = () => {
   const { notificationStatus, setNotificationStatus } = useStore();

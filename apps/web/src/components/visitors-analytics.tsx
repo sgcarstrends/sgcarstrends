@@ -1,9 +1,14 @@
 "use client";
 
 import { useCallback, useState, useTransition } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { VisitorTrendsChart } from "@/components/visitor-trends-chart";
-import type { AnalyticsData } from "@/types/analytics";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@web/components/ui/card";
+import { VisitorTrendsChart } from "@web/components/visitor-trends-chart";
+import type { AnalyticsData } from "@web/types/analytics";
 
 interface VisitorsAnalyticsProps {
   initialData: AnalyticsData;

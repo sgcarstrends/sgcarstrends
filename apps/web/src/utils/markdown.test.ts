@@ -1,4 +1,4 @@
-import { parseMarkdownToHtml } from "@/utils/markdown";
+import { parseMarkdownToHtml } from "@web/utils/markdown";
 
 describe("parseMarkdownToHtml", () => {
   it("should convert h2 headers", () => {

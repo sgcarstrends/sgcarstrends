@@ -1,6 +1,6 @@
+import { getLatestMonth } from "@web/utils/month-utils";
 import { addYears, format } from "date-fns";
 import { createLoader, parseAsString } from "nuqs/server";
-import { getLatestMonth } from "@/utils/month-utils";
 
 export const getDefaultEndDate = async (): Promise<string> => {
   return await getLatestMonth("coe");

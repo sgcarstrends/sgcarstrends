@@ -1,41 +1,44 @@
-import { notFound } from "next/navigation";
 import { BarChart3, CarFront, Fuel } from "lucide-react";
-import { loadSearchParams } from "@/app/cars/search-params";
-import { AnimatedNumber } from "@/components/animated-number";
-import { MetricsComparison } from "@/components/metrics-comparison";
-import { PageHeader } from "@/components/page-header";
-import { StatCard } from "@/components/stat-card";
-import { StructuredData } from "@/components/structured-data";
-import { TopMakes } from "@/components/top-makes";
-import Typography from "@/components/typography";
-import { Badge } from "@/components/ui/badge";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import type { SearchParams } from "nuqs/server";
+import type { WebPage, WithContext } from "schema-dts";
+import { CarRegistration } from "@web/app/cars/car-registration";
+import { loadSearchParams } from "@web/app/cars/search-params";
+import { AnimatedNumber } from "@web/components/animated-number";
+import { MetricsComparison } from "@web/components/metrics-comparison";
+import { PageHeader } from "@web/components/page-header";
+import { StatCard } from "@web/components/stat-card";
+import { StructuredData } from "@web/components/structured-data";
+import { TopMakes } from "@web/components/top-makes";
+import Typography from "@web/components/typography";
+import { Badge } from "@web/components/ui/badge";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { API_URL, LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@/config";
-import redis from "@/config/redis";
-import { generateDatasetSchema } from "@/lib/structured-data";
-import { fetchApi } from "@/utils/fetch-api";
-import { formatDateToMonthYear } from "@/utils/format-date-to-month-year";
-import { fetchMonthsForCars, getMonthOrLatest } from "@/utils/month-utils";
-import type {
-  Registration,
-  Comparison,
-  TopMake,
-  TopType,
-  FuelType,
-} from "@/types/cars";
-import type { Metadata } from "next";
-import type { SearchParams } from "nuqs/server";
-import type { WebPage, WithContext } from "schema-dts";
+} from "@web/components/ui/card";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import redis from "@web/config/redis";
+import { generateDatasetSchema } from "@web/lib/structured-data";
+import {
+  getCarsComparison,
+  getCarsData,
+  getTopMakes,
+  getTopTypes,
+} from "@web/utils/cached-api";
+import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
 
 interface Props {
   searchParams: Promise<SearchParams>;
 }
+
+// Enable ISR with 1-hour revalidation
+export const revalidate = 3600;
 
 export const generateMetadata = async ({
   searchParams,
@@ -49,15 +52,9 @@ export const generateMetadata = async ({
   const title = `${formattedMonth} Car Registrations`;
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
 
-  const getTopTypes = fetchApi<TopMake>(
-    `${API_URL}/cars/top-types?month=${month}`,
-  );
-  const getCarRegistration = fetchApi<Registration>(
-    `${API_URL}/cars?month=${month}`,
-  );
   const [topTypes, carRegistration] = await Promise.all([
-    getTopTypes,
-    getCarRegistration,
+    getTopTypes(month),
+    getCarsData(month),
   ]);
   const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${carRegistration.total}&topFuelType=${topTypes.topFuelType.name}&topVehicleType=${topTypes.topVehicleType.name}`;
 
@@ -90,22 +87,11 @@ const CarsPage = async ({ searchParams }: Props) => {
 
   month = await getMonthOrLatest(month, "cars");
 
-  const getCars = fetchApi<Registration>(`${API_URL}/cars?month=${month}`);
-  const getComparison = fetchApi<Comparison>(
-    `${API_URL}/cars/compare?month=${month}`,
-  );
-  const getTopTypes = fetchApi<TopType>(
-    `${API_URL}/cars/top-types?month=${month}`,
-  );
-  const getTopMakes = fetchApi<FuelType[]>(
-    `${API_URL}/cars/top-makes?month=${month}`,
-  );
-
   const [cars, comparison, topTypes, topMakes, months] = await Promise.all([
-    getCars,
-    getComparison,
-    getTopTypes,
-    getTopMakes,
+    getCarsData(month),
+    getCarsComparison(month),
+    getTopTypes(month),
+    getTopMakes(month),
     fetchMonthsForCars(),
   ]);
 
@@ -145,6 +131,11 @@ const CarsPage = async ({ searchParams }: Props) => {
           months={months}
           showMonthSelector={true}
         />
+
+        <UnreleasedFeature>
+          <CarRegistration />
+        </UnreleasedFeature>
+
         {/*TODO: Improvise*/}
         {!cars && (
           <Typography.H3>
@@ -220,16 +211,6 @@ const CarsPage = async ({ searchParams }: Props) => {
                   />
                 </CardFooter>
               </Card>
-              {/*<UnreleasedFeature>*/}
-              {/*  <Card>*/}
-              {/*    <CardHeader>*/}
-              {/*      <CardTitle>Growth Trend: Electric</CardTitle>*/}
-              {/*    </CardHeader>*/}
-              {/*    <CardContent>*/}
-              {/*      <p className="text-4xl font-bold text-purple-600">1037</p>*/}
-              {/*    </CardContent>*/}
-              {/*  </Card>*/}
-              {/*</UnreleasedFeature>*/}
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <StatCard

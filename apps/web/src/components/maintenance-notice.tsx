@@ -12,7 +12,7 @@ import {
   Wrench,
   Zap,
 } from "lucide-react";
-import useMaintenance from "@/hooks/use-maintenance";
+import useMaintenance from "@web/hooks/use-maintenance";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },

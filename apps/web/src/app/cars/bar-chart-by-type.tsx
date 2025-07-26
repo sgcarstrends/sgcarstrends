@@ -4,8 +4,8 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import type { RegistrationStat } from "@/types/cars";
+} from "@web/components/ui/chart";
+import type { RegistrationStat } from "@web/types/cars";
 
 interface Props {
   data: RegistrationStat[];

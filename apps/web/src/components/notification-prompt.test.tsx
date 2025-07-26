@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import useStore from "@/app/store";
+import useStore from "@web/app/store";
 import { NotificationPrompt } from "./notification-prompt";
 
-vi.mock("@/app/store", () => ({
+vi.mock("@web/app/store", () => ({
   default: vi.fn(() => ({
     notificationStatus: "default",
     setNotificationStatus: vi.fn(),

@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/config";
+import { SITE_URL } from "@web/config";
 import type { Dataset, FAQPage } from "schema-dts";
 
 /**

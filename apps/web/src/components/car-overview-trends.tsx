@@ -1,14 +1,14 @@
 import Link from "next/link";
 import slugify from "@sindresorhus/slugify";
-import { TrendChart } from "@/app/cars/trend-chart";
-import { AnimatedNumber } from "@/components/animated-number";
+import { TrendChart } from "@web/app/cars/trend-chart";
+import { AnimatedNumber } from "@web/components/animated-number";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@web/components/ui/card";
 
 interface Props {
   cars: any[];

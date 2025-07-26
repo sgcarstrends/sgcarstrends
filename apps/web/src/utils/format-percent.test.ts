@@ -1,4 +1,4 @@
-import { formatPercent } from "@/utils/format-percent";
+import { formatPercent } from "@web/utils/format-percent";
 
 describe("formatPercent", () => {
   it("should format a value in percentage", () => {
