@@ -9,7 +9,7 @@ import { navLinks } from "@web/config/navigation";
 
 export const Footer = () => (
   <footer className="bg-content1 border-divider border-t">
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-6 py-12">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
         {/* Brand Section */}
         <div className="space-y-4">
@@ -118,7 +118,9 @@ export const Footer = () => (
       {/* Bottom Section */}
       <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
         <div className="text-default-600 text-center text-sm md:text-left">
-          <p>© {new Date().getFullYear()} SGCarsTrends. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} SGCarsTrends. All rights reserved.
+          </p>
           <p className="mt-1">
             Data provided by{" "}
             <Link

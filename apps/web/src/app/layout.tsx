@@ -57,7 +57,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
           <NuqsAdapter>
             <LoadingIndicator />
             <Header />
-            <main className="w-full max-w-full px-6 py-8">{children}</main>
+            <main className="container mx-auto px-6 py-8">{children}</main>
             <Footer />
           </NuqsAdapter>
           {process.env.NODE_ENV === "production" && <Analytics />}
