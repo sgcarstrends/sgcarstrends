@@ -57,6 +57,11 @@ Entitlement (COE) bidding results. The monorepo includes:
 - Check pending migrations: `pnpm migrate:check`
 
 
+### Release Commands
+
+- Create release: `pnpm release` (runs semantic-release locally, not recommended for production)
+- Manual version check: `npx semantic-release --dry-run` (preview next version without releasing)
+
 ### Deployment Commands
 
 - Deploy API (includes updater functionality): `pnpm -F @sgcarstrends/api deploy`
@@ -96,7 +101,12 @@ Entitlement (COE) bidding results. The monorepo includes:
 - Path aliases: Use `@api/` for imports in API app
 - Avoid using `any` type - prefer unknown with type guards
 - Group imports by: 1) built-in, 2) external, 3) internal
-- **Commit messages**: Use single line conventional commit messages (max 72 characters)
+- **Commit messages**: Use conventional commit format for semantic-release:
+  - `feat: add new feature` (minor version bump)
+  - `fix: resolve bug` (patch version bump)  
+  - `feat!: breaking change` or `feat: add feature\n\nBREAKING CHANGE: description` (major version bump)
+  - `chore:`, `docs:`, `style:`, `refactor:`, `test:` (no version bump)
+  - Max 72 characters for subject line
 
 ## Testing
 
@@ -214,10 +224,20 @@ The integrated updater service uses a workflow-based architecture with:
 - Batch database operations for efficiency
 - Conditional social media publishing based on environment and data changes
 
+## Release Process
+
+Releases are automated using semantic-release based on conventional commits:
+
+- **Automatic releases**: Triggered on push to main branch via GitHub Actions
+- **Version format**: Uses "v" prefix (v1.0.0, v1.1.0, v2.0.0)
+- **Unified versioning**: All workspace packages receive the same version bump
+- **Changelog**: Automatically generated and updated
+- **GitHub releases**: Created automatically with release notes
+
 ## Contribution Guidelines
 
 - Create feature branches from main branch
-- **Use conventional commit messages** with clear, descriptive subjects
+- **Use conventional commit messages** following the format above
 - Submit PRs with descriptive titles and summaries
 - Ensure CI passes (tests, lint, typecheck) before requesting review
 - Maintain backward compatibility for public APIs
