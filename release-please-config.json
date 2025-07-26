@@ -1,8 +1,0 @@
-{
-  "release-type": "simple",
-  "include-component-in-tag": false,
-  "separate-pull-requests": false,
-  "packages": {
-    ".": {}
-  }
-}

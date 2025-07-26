@@ -65,14 +65,6 @@ Entitlement (COE) bidding results. The monorepo includes:
 - Deploy web to staging: `pnpm web:deploy:staging`
 - Deploy web to production: `pnpm web:deploy:prod`
 
-## Versioning Strategy
-
-SG Cars Trends uses **unified versioning** across all packages:
-
-- All packages (`@sgcarstrends/*`) share the same version number
-- Releases are managed with [Release Please](https://github.com/googleapis/release-please) based on conventional commits
-- Single release per version with combined changelog
-- Ensures compatibility across all packages
 
 ## Code Structure
 
@@ -225,20 +217,7 @@ The integrated updater service uses a workflow-based architecture with:
 ## Contribution Guidelines
 
 - Create feature branches from main branch
-- **Use conventional commit messages** for changes that should trigger a release
+- **Use conventional commit messages** with clear, descriptive subjects
 - Submit PRs with descriptive titles and summaries
 - Ensure CI passes (tests, lint, typecheck) before requesting review
 - Maintain backward compatibility for public APIs
-
-### Release Please Workflow
-
-1. **Make your changes** in a feature branch using conventional commits:
-    - `fix:` for bug fixes (patch version bump)
-    - `feat:` for new features (minor version bump)
-    - `feat!:` or `fix!:` with breaking changes (major version bump)
-2. **Submit PR** with conventional commit messages
-3. **On merge to main**:
-    - Release Please analyzes commits and creates/updates a release PR
-    - Merging the release PR triggers automated versioning and GitHub release
-    - All packages are bumped together (unified versioning)
-4. **No manual changeset creation required** - everything is automated based on commit messages
