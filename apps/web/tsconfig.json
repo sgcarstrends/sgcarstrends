@@ -34,5 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "sst.config.ts"]
+  "exclude": ["node_modules", ".sst",
+    "sst.config.ts.backup"
+  ]
 }
