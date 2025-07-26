@@ -29,10 +29,10 @@ export const router = isPermanentStage
         dns: sst.cloudflare.dns(),
         name: domain,
         aliases: [`*.${domain}`],
-        // ...($app.stage === "prod" && { redirects: [`www.${DOMAIN_NAME}`] }),
+        ...($app.stage === "prod" && { redirects: [`www.${DOMAIN_NAME}`] }),
       },
     })
-  : sst.aws.Router.get("SGCarsTrends", "EFP1ZPQNDQSF0");
+  : sst.aws.Router.get("SGCarsTrends", "E2M8WSGGJD9DL0");
 
 export const url = router.url;
 
