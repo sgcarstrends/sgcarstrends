@@ -1,9 +1,28 @@
+## [4.0.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.0.2...v4.0.3) (2025-07-28)
+
+### Bug Fixes
+
+* feature flag in mobile menu ([97dca1d](https://github.com/sgcarstrends/sgcarstrends/commit/97dca1dfbe8b501318361b11498330bdcf2c3528))
+
+## [4.0.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.0.1...v4.0.2) (2025-07-28)
+
+### Bug Fixes
+
+* mobile menu not closing when navigation item clicked ([783cef1](https://github.com/sgcarstrends/sgcarstrends/commit/783cef15db7004ed4de443c08f86a2907535f65b))
+
+## [4.0.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.0.0...v4.0.1) (2025-07-26)
+
+### Reverts
+
+* Revert "feat: improve Telegram message formatting" ([204d061](https://github.com/sgcarstrends/sgcarstrends/commit/204d061e069022502cab53304e5794ae6cf016be))
+
 ## [4.0.0](https://github.com/sgcarstrends/sgcarstrends/compare/v3.1.0...v4.0.0) (2025-07-26)
 
 ### ⚠ BREAKING CHANGES
 
 * setup SST infrastructure for monorepo setup (#416)
 
+# [3.1.0](https://github.com/sgcarstrends/sgcarstrends/compare/v3.0.0...v3.1.0) (2025-07-26)
 
 ### Bug Fixes
 
@@ -25,3 +44,30 @@
 * improve Telegram message formatting ([2b354b0](https://github.com/sgcarstrends/sgcarstrends/commit/2b354b0f67ee79d814ffcf36fb579abd80a82781))
 * migrate months and makes selector to autocomplete ([1c3d586](https://github.com/sgcarstrends/sgcarstrends/commit/1c3d586424f1c417cbf30d58e4991397d836c25b))
 * optimize API calls with React cache and ISR ([db6be89](https://github.com/sgcarstrends/sgcarstrends/commit/db6be8915e75bf028fb545dd3259b7380827a54f))
+
+# 3.0.0 (2025-07-21)
+
+🎉 **Unified Versioning Migration**
+
+This release marks the migration from semantic-release to changesets with unified versioning across all packages.
+
+### 📦 All Packages Now at v3.0.0
+- **Web App**: Breaking changes migration
+- **API**: Bundled into unified versioning
+- **Documentation**: Aligned with platform version
+- **Types & Utils**: Aligned with platform version
+
+### 🔄 Release Process Changes
+- **Migrated** from semantic-release to changesets
+- **Unified versioning**: All packages version together
+- **Simplified workflow**: Single release per version
+- **Team collaboration**: Changeset files for release notes
+
+### 🛠️ Technical Changes
+- Consolidated all package versions to 3.0.0
+- Fixed versioning strategy for all @sgcarstrends/* packages
+- Updated GitHub Actions workflow for changesets
+- Cleaned up individual package release tags and releases
+
+---
+**Going forward:** All packages will maintain the same version number, ensuring compatibility and simplified dependency management.

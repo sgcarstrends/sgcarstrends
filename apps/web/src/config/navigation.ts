@@ -27,6 +27,7 @@ export interface NavigationItem {
   url: string;
   icon: LucideIcon;
   description: string;
+  show?: boolean;
 }
 
 export interface SocialMediaItem {
@@ -146,6 +147,7 @@ export const navLinks: NavLinks = {
       url: "/faq",
       icon: HelpCircle,
       description: "Frequently asked questions about COE and car buying",
+      show: true,
     },
     {
       title: "Visitors",

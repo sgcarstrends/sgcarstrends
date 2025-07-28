@@ -17,9 +17,7 @@ export interface PostToSocialMediaParam {
 
 export interface PostToDiscordParam extends PostToSocialMediaParam {}
 export interface PostToLinkedInParam extends PostToSocialMediaParam {}
-export interface PostToTelegramParam extends PostToSocialMediaParam {
-  parseMode?: "HTML" | "Markdown" | "MarkdownV2";
-}
+export interface PostToTelegramParam extends PostToSocialMediaParam {}
 export interface PostToTwitterParam extends PostToSocialMediaParam {}
 
 export type ResharePostParam = {
