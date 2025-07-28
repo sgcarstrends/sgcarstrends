@@ -1,3 +1,9 @@
+## [4.0.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.0.2...v4.0.3) (2025-07-28)
+
+### Bug Fixes
+
+* feature flag in mobile menu ([97dca1d](https://github.com/sgcarstrends/sgcarstrends/commit/97dca1dfbe8b501318361b11498330bdcf2c3528))
+
 ## [4.0.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.0.1...v4.0.2) (2025-07-28)
 
 ### Bug Fixes
