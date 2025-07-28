@@ -34,7 +34,7 @@ export const Header = (props: NavbarProps) => {
       onMenuOpenChange={setIsMenuOpen}
     >
       <DesktopHeader />
-      <MobileHeader />
+      <MobileHeader setIsMenuOpen={setIsMenuOpen} />
     </Navbar>
   );
 };
@@ -208,84 +208,69 @@ const DesktopHeader = () => {
   );
 };
 
-const MobileHeader = () => {
+const MobileHeader = ({
+  setIsMenuOpen,
+}: {
+  setIsMenuOpen: (isOpen: boolean) => void;
+}) => {
   return (
     <>
       <NavbarMenuToggle
         aria-label="Toggle navigation menu"
         className="lg:hidden"
       />
-
       <NavbarMenu>
         <NavbarMenuItem>
           <div className="text-default-600 py-2 text-sm font-medium">Cars</div>
         </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link
-            href={navLinks.cars.overview.url}
-            className="text-default-700 w-full pl-4"
-          >
-            {navLinks.cars.overview.title}
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link
-            href={navLinks.cars.makes.url}
-            className="text-default-700 flex w-full items-center gap-2 pl-4"
-          >
-            {navLinks.cars.makes.title}
-            <BetaChip />
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link
-            href={navLinks.cars.fuelTypes.url}
-            className="text-default-700 w-full pl-4"
-          >
-            {navLinks.cars.fuelTypes.title}
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link
-            href={navLinks.cars.vehicleTypes.url}
-            className="text-default-700 w-full pl-4"
-          >
-            {navLinks.cars.vehicleTypes.title}
-          </Link>
-        </NavbarMenuItem>
+        {Object.values(navLinks.cars).map((item) => (
+          <NavbarMenuItem key={item.title}>
+            <Link
+              href={item.url}
+              className={`text-default-700 w-full pl-4 ${
+                item.title === "Makes" ? "flex items-center gap-2" : ""
+              }`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {item.title}
+              {item.title === "Makes" && <BetaChip />}
+            </Link>
+          </NavbarMenuItem>
+        ))}
         <NavbarMenuItem>
           <div className="text-default-600 py-2 text-sm font-medium">COE</div>
         </NavbarMenuItem>
         {navLinks.coe.map((item) => (
           <NavbarMenuItem key={item.title}>
-            <Link href={item.url} className="text-default-700 w-full pl-4">
+            <Link
+              href={item.url}
+              className="text-default-700 w-full pl-4"
+              onClick={() => setIsMenuOpen(false)}
+            >
               {item.title}
             </Link>
           </NavbarMenuItem>
         ))}
+        {navLinks.general.map((item) => {
+          const menuItem = (
+            <NavbarMenuItem>
+              <Link
+                href={item.url}
+                className="flex items-center gap-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.title}
+                <NewChip />
+              </Link>
+            </NavbarMenuItem>
+          );
 
-        <NavbarMenuItem>
-          <Link href="/faq" className="flex items-center gap-2">
-            FAQ
-            <NewChip />
-          </Link>
-        </NavbarMenuItem>
-        <UnreleasedFeature>
-          <NavbarMenuItem>
-            <Link href="/blog" className="flex items-center gap-2">
-              Blog
-              <NewChip />
-            </Link>
-          </NavbarMenuItem>
-        </UnreleasedFeature>
-        <UnreleasedFeature>
-          <NavbarMenuItem>
-            <Link href="/visitors" className="flex items-center gap-2">
-              Visitors
-              <NewChip />
-            </Link>
-          </NavbarMenuItem>
-        </UnreleasedFeature>
+          return item.show === false ? (
+            <UnreleasedFeature key={item.title}>{menuItem}</UnreleasedFeature>
+          ) : (
+            <div key={item.title}>{menuItem}</div>
+          );
+        })}
       </NavbarMenu>
     </>
   );
