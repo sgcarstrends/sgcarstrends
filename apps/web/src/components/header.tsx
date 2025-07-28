@@ -265,7 +265,7 @@ const MobileHeader = ({
             </NavbarMenuItem>
           );
 
-          return item.show === false ? (
+          return !item.show ? (
             <UnreleasedFeature key={item.title}>{menuItem}</UnreleasedFeature>
           ) : (
             <div key={item.title}>{menuItem}</div>
