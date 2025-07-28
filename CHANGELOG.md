@@ -1,3 +1,9 @@
+## [4.0.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.0.1...v4.0.2) (2025-07-28)
+
+### Bug Fixes
+
+* mobile menu not closing when navigation item clicked ([783cef1](https://github.com/sgcarstrends/sgcarstrends/commit/783cef15db7004ed4de443c08f86a2907535f65b))
+
 ## [4.0.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.0.0...v4.0.1) (2025-07-26)
 
 ### Reverts
