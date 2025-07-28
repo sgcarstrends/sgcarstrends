@@ -33,7 +33,15 @@ export const Header = (props: NavbarProps) => {
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
-      {/* Desktop Navigation */}
+      <DesktopHeader />
+      <MobileHeader />
+    </Navbar>
+  );
+};
+
+const DesktopHeader = () => {
+  return (
+    <>
       <NavbarBrand>
         <Link href="/">
           <BrandLogo />
@@ -196,13 +204,18 @@ export const Header = (props: NavbarProps) => {
           ))}
         </NavbarItem>
       </NavbarContent>
+    </>
+  );
+};
 
+const MobileHeader = () => {
+  return (
+    <>
       <NavbarMenuToggle
         aria-label="Toggle navigation menu"
         className="lg:hidden"
       />
 
-      {/* Mobile Navigation Menu */}
       <NavbarMenu>
         <NavbarMenuItem>
           <div className="text-default-600 py-2 text-sm font-medium">Cars</div>
@@ -274,6 +287,6 @@ export const Header = (props: NavbarProps) => {
           </NavbarMenuItem>
         </UnreleasedFeature>
       </NavbarMenu>
-    </Navbar>
+    </>
   );
 };
