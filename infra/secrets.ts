@@ -30,9 +30,12 @@ const TWITTER_SECRETS = [
 const UPSTASH_SECRETS = [
   "QSTASH_CURRENT_SIGNING_KEY",
   "QSTASH_NEXT_SIGNING_KEY",
+  "QSTASH_TOKEN",
   "UPSTASH_REDIS_REST_URL",
   "UPSTASH_REDIS_REST_TOKEN",
 ] as const;
+
+const NEXTJS_SECRETS = ["NEXT_PUBLIC_REVALIDATE_TOKEN"] as const;
 
 export const SECRET_KEYS = [
   ...BASE_SECRETS,
@@ -41,6 +44,7 @@ export const SECRET_KEYS = [
   ...TELEGRAM_SECRETS,
   ...TWITTER_SECRETS,
   ...UPSTASH_SECRETS,
+  ...NEXTJS_SECRETS,
 ] as const;
 
 export const secrets = Object.fromEntries(

@@ -1,22 +1,19 @@
-import { APP_ENV, SITE_URL } from "@web/config";
-import { AppEnv } from "@web/types";
+import { SITE_URL } from "@web/config";
 import type { MetadataRoute } from "next";
+import { Resource } from "sst";
 
 const robots = (): MetadataRoute.Robots => {
   const protectedPaths = ["/api/", "/_next/"];
 
   let rules: MetadataRoute.Robots["rules"];
-  switch (APP_ENV) {
-    case AppEnv.PROD:
+  switch (Resource.App.stage) {
+    case "prod":
       rules = [
         { userAgent: "*", allow: "/" },
         { userAgent: "*", disallow: protectedPaths },
         { userAgent: "*", allow: "/api/og/" },
       ];
       break;
-
-    case AppEnv.STAGING:
-    case AppEnv.DEV:
     default:
       rules = [
         { userAgent: "*", disallow: "/" },
