@@ -9,7 +9,7 @@ This monorepo provides a complete platform for SG Cars Trends, tracking Singapor
 - **Web Application**: Next.js frontend with interactive charts and analytics
 - **REST API**: Data access endpoints for car registrations and COE results
 - **Integrated Data Updater**: Workflow-based system for fetching and processing LTA data
-- **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter
+- **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter with trackable redirect routes
 - **Documentation**: Comprehensive developer documentation
 
 ## Project Structure
@@ -22,6 +22,7 @@ sgcarstrends/
 │   │   └── src/updater/     # Data update workflows and social media integration
 │   ├── web/          # Next.js frontend application
 │   │   ├── src/app/         # Next.js App Router pages and layouts
+│   │   │   └── (social)/    # Social media redirect routes with UTM tracking
 │   │   ├── src/components/  # React components with tests
 │   │   └── src/utils/       # Web-specific utility functions
 │   └── docs/         # Mintlify documentation site

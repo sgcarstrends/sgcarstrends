@@ -1,5 +1,6 @@
 import {
   type IconType,
+  SiDiscord,
   SiGithub,
   SiInstagram,
   SiLinkedin,
@@ -30,7 +31,7 @@ export interface NavigationItem {
   show?: boolean;
 }
 
-export interface SocialMediaItem {
+export interface SocialMedia {
   title: string;
   url: string;
   icon: IconType;
@@ -45,34 +46,39 @@ export interface NavLinks {
   };
   coe: NavigationItem[];
   general: NavigationItem[];
-  socialMedia: SocialMediaItem[];
+  socialMedia: SocialMedia[];
 }
 
-const socialMedia = [
+const socialMedia: SocialMedia[] = [
   {
     title: "Twitter",
-    url: "https://twitter.com/sgcarstrends",
+    url: "/twitter",
     icon: SiX,
   },
   {
     title: "Instagram",
-    url: "https://instagram.com/sgcarstrends",
+    url: "/instagram",
     icon: SiInstagram,
   },
   {
     title: "LinkedIn",
-    url: "https://linkedin.com/company/sgcarstrends",
+    url: "/linkedin",
     icon: SiLinkedin,
   },
   {
     title: "Telegram",
-    url: "https://t.me/sgcarstrends",
+    url: "/telegram",
     icon: SiTelegram,
   },
   {
     title: "GitHub",
-    url: "https://github.com/sgcarstrends",
+    url: "/github",
     icon: SiGithub,
+  },
+  {
+    title: "Discord",
+    url: "/discord",
+    icon: SiDiscord,
   },
 ];
 
