@@ -31,7 +31,7 @@ export interface NavigationItem {
   show?: boolean;
 }
 
-export interface SocialMediaItem {
+export interface SocialMedia {
   title: string;
   url: string;
   icon: IconType;
@@ -46,10 +46,10 @@ export interface NavLinks {
   };
   coe: NavigationItem[];
   general: NavigationItem[];
-  socialMedia: SocialMediaItem[];
+  socialMedia: SocialMedia[];
 }
 
-const socialMedia = [
+const socialMedia: SocialMedia[] = [
   {
     title: "Twitter",
     url: "/twitter",
