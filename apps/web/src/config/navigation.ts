@@ -1,5 +1,6 @@
 import {
   type IconType,
+  SiDiscord,
   SiGithub,
   SiInstagram,
   SiLinkedin,
@@ -73,6 +74,11 @@ const socialMedia = [
     title: "GitHub",
     url: "/github",
     icon: SiGithub,
+  },
+  {
+    title: "Discord",
+    url: "/discord",
+    icon: SiDiscord,
   },
 ];
 
