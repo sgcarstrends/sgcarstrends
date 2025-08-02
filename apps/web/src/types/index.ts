@@ -1,4 +1,4 @@
-import { FUEL_TYPE } from "@web/config";
+import type { FUEL_TYPE } from "@web/config";
 import type { LucideIcon } from "lucide-react";
 
 export type VehicleType =
@@ -97,12 +97,6 @@ export enum RevalidateTags {
 export type Make = Car["make"];
 
 export type Month = Car["month"] | COEResult["month"];
-
-export enum AppEnv {
-  DEV = "dev",
-  STAGING = "staging",
-  PROD = "prod",
-}
 
 export interface LinkItem {
   label: string;

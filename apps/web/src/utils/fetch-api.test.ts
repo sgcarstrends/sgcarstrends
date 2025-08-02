@@ -1,5 +1,14 @@
 import { fetchApi } from "@web/utils/fetch-api";
 
+// Mock SST Resource
+vi.mock("sst", () => ({
+  Resource: {
+    SG_CARS_TRENDS_API_TOKEN: {
+      value: "test-api-token",
+    },
+  },
+}));
+
 describe("fetchApi", () => {
   beforeEach(() => {
     vi.restoreAllMocks();
@@ -20,7 +29,7 @@ describe("fetchApi", () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(url, {
       headers: {
-        Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
+        Authorization: "Bearer test-api-token",
       },
       cache: "force-cache",
       next: {

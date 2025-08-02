@@ -27,7 +27,6 @@ export const api = new sst.aws.Function("Api", {
   description: "API for SG Cars Trends",
   environment: {
     FEATURE_FLAG_RATE_LIMIT: process.env.FEATURE_FLAG_RATE_LIMIT ?? "",
-    QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
   },
   handler: "apps/api/src/index.handler",
   url: {

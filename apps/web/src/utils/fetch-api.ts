@@ -1,3 +1,5 @@
+import { Resource } from "sst";
+
 interface EnhancedFetchApiOptions extends RequestInit {
   cache?: RequestCache;
   next?: {
@@ -68,7 +70,7 @@ export const fetchApi = async <T>(
     ...restOptions,
     ...cacheConfig,
     headers: {
-      Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,
+      Authorization: `Bearer ${Resource.SG_CARS_TRENDS_API_TOKEN.value}`,
       ...restOptions.headers,
     },
   });

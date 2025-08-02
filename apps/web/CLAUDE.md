@@ -34,6 +34,7 @@ pnpm deploy:prod        # Deploy to production environment
 ## Architecture Overview
 
 ### Tech Stack
+
 - **Framework**: Next.js 15 with App Router and React 19
 - **Database**: PostgreSQL (Neon) with Drizzle ORM
 - **State Management**: Zustand with persistence
@@ -60,9 +61,11 @@ src/
 
 ### Data Architecture
 
-**Database**: Uses Drizzle ORM with PostgreSQL for car registration data and COE bidding results. Database connection configured in `src/config/db.ts`.
+**Database**: Uses Drizzle ORM with PostgreSQL for car registration data and COE bidding results. Database connection
+configured in `src/config/db.ts`.
 
 **State Management**: Zustand store with persistence in `src/app/store.ts` manages:
+
 - Date selection across components
 - COE category filters
 - Notification preferences
@@ -72,6 +75,7 @@ src/
 ### API Structure
 
 External API integration through `src/utils/api/` for:
+
 - Car comparison data
 - Market share analytics
 - Top performer statistics
@@ -95,16 +99,17 @@ External API integration through `src/utils/api/` for:
 ### Environment Configuration
 
 Environment variables managed through SST config:
+
 - `DATABASE_URL`: Neon PostgreSQL connection
 - `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
 - `SG_CARS_TRENDS_API_TOKEN`: External API authentication
-- `APP_ENV`: Environment stage (dev/staging/prod)
 
 ### Deployment
 
 Multi-stage deployment via SST:
+
 - **dev**: `dev.sgcarstrends.com`
-- **staging**: `staging.sgcarstrends.com` 
+- **staging**: `staging.sgcarstrends.com`
 - **prod**: `sgcarstrends.com`
 
 Infrastructure uses AWS Lambda with ARM64 architecture and CloudFlare DNS.
@@ -135,10 +140,10 @@ When Claude needs to refer to library documentation, use the Context7 MCP server
 1. **Resolve Library ID**: Use `mcp__context7__resolve-library-id` to find the correct library identifier
 2. **Fetch Documentation**: Use `mcp__context7__get-library-docs` with the resolved ID to get up-to-date documentation
 3. **Common Libraries**: For this project, frequently referenced libraries include:
-   - Next.js (`/vercel/next.js`)
-   - React (`/facebook/react`)
-   - Tailwind CSS (`/tailwindlabs/tailwindcss`)
-   - Drizzle ORM (`/drizzle-team/drizzle-orm`)
-   - Zustand (`/pmndrs/zustand`)
-   - Vitest (`/vitest-dev/vitest`)
-   - Playwright (`/microsoft/playwright`)
+    - Next.js (`/vercel/next.js`)
+    - React (`/facebook/react`)
+    - Tailwind CSS (`/tailwindlabs/tailwindcss`)
+    - Drizzle ORM (`/drizzle-team/drizzle-orm`)
+    - Zustand (`/pmndrs/zustand`)
+    - Vitest (`/vitest-dev/vitest`)
+    - Playwright (`/microsoft/playwright`)
