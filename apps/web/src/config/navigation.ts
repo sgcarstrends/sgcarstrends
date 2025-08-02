@@ -51,27 +51,27 @@ export interface NavLinks {
 const socialMedia = [
   {
     title: "Twitter",
-    url: "https://twitter.com/sgcarstrends",
+    url: "/twitter",
     icon: SiX,
   },
   {
     title: "Instagram",
-    url: "https://instagram.com/sgcarstrends",
+    url: "/instagram",
     icon: SiInstagram,
   },
   {
     title: "LinkedIn",
-    url: "https://linkedin.com/company/sgcarstrends",
+    url: "/linkedin",
     icon: SiLinkedin,
   },
   {
     title: "Telegram",
-    url: "https://t.me/sgcarstrends",
+    url: "/telegram",
     icon: SiTelegram,
   },
   {
     title: "GitHub",
-    url: "https://github.com/sgcarstrends",
+    url: "/github",
     icon: SiGithub,
   },
 ];
