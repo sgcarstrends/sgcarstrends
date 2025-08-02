@@ -46,6 +46,22 @@ Entitlement (COE) bidding results. The monorepo includes:
 - Web build: `pnpm web:build`
 - Web start: `pnpm web:start`
 
+### Social Media Redirect Routes
+
+The web application includes domain-based social media redirect routes that provide trackable, SEO-friendly URLs:
+
+- **/discord**: Redirects to Discord server with UTM tracking
+- **/twitter**: Redirects to Twitter profile with UTM tracking  
+- **/instagram**: Redirects to Instagram profile with UTM tracking
+- **/linkedin**: Redirects to LinkedIn profile with UTM tracking
+- **/telegram**: Redirects to Telegram channel with UTM tracking
+- **/github**: Redirects to GitHub organization with UTM tracking
+
+All redirects include standardized UTM parameters:
+- `utm_source=sgcarstrends`
+- `utm_medium=social_redirect` 
+- `utm_campaign={platform}_profile`
+
 ### Documentation Commands
 
 - Docs dev server: `pnpm docs:dev`

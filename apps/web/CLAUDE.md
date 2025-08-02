@@ -47,6 +47,7 @@ pnpm deploy:prod        # Deploy to production environment
 src/
 ├── app/               # Next.js App Router - pages, layouts, API routes
 │   ├── (home)/       # Home page route group
+│   ├── (social)/     # Social media redirect routes with UTM tracking
 │   ├── api/          # API routes (analytics, OG images, revalidation)
 │   ├── cars/         # Car-related pages with parallel routes
 │   ├── coe/          # COE (Certificate of Entitlement) pages
@@ -68,6 +69,8 @@ src/
 - Notification preferences
 
 **Caching**: Redis (Upstash) for API response caching and rate limiting.
+
+**Social Media Integration**: Implements domain-based redirect routes in `src/app/(social)/` that provide trackable, SEO-friendly URLs for all social media platforms. Each route includes standardized UTM parameters for analytics tracking.
 
 ### API Structure
 
