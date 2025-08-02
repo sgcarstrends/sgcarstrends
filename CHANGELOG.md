@@ -1,3 +1,12 @@
+## [4.1.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.0.3...v4.1.0) (2025-08-02)
+
+### Features
+
+* add Discord link ([f78c0a0](https://github.com/sgcarstrends/sgcarstrends/commit/f78c0a045abc42abff0ae9df01ec0dd5ffc8cf70))
+* add discord social media link ([2675db6](https://github.com/sgcarstrends/sgcarstrends/commit/2675db6c125be9e6b027638a5bb1e9b2f7220d7d))
+* add social media redirect routes ([9b2cd44](https://github.com/sgcarstrends/sgcarstrends/commit/9b2cd44c33ee932790573714ff0f624d70889857))
+* add UTM parameters to social media redirects ([014e920](https://github.com/sgcarstrends/sgcarstrends/commit/014e9202b7aec58522f6aeafa7c5b1ef0064e883))
+
 ## [4.0.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.0.2...v4.0.3) (2025-07-28)
 
 ### Bug Fixes
