@@ -37,20 +37,24 @@ exports[`Navbar > should render correctly 1`] = `
                 points="16 7 22 7 22 13"
               />
             </svg>
-            <span
-              class="font-bold lg:text-xl"
+            <div
+              class="flex items-center gap-2"
             >
               <span
-                class="text-black"
+                class="font-bold lg:text-xl"
               >
-                SGCars
+                <span
+                  class="text-black"
+                >
+                  SGCars
+                </span>
+                <span
+                  class="text-blue-600"
+                >
+                  Trends
+                </span>
               </span>
-              <span
-                class="text-blue-600"
-              >
-                Trends
-              </span>
-            </span>
+            </div>
           </div>
         </a>
       </div>
