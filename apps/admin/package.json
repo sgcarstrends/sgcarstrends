@@ -15,6 +15,7 @@
     "@radix-ui/react-progress": "^1.1.7",
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-tooltip": "^1.2.7",
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
@@ -30,6 +31,7 @@
     "zustand": "^5.0.6"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.1.3",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^22.16.4",
     "@types/react": "19.1.0",

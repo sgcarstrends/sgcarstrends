@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
     "paths": {
+      "@admin/*": ["apps/admin/src/*"],
       "@api/*": ["apps/api/src/*"],
       "@web/*": ["apps/web/src/*"]
     }
