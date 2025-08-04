@@ -1,8 +1,3 @@
-import { BarChart3, CarFront, Fuel } from "lucide-react";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import type { SearchParams } from "nuqs/server";
-import type { WebPage, WithContext } from "schema-dts";
 import { CarRegistration } from "@web/app/cars/car-registration";
 import { loadSearchParams } from "@web/app/cars/search-params";
 import { AnimatedNumber } from "@web/components/animated-number";
@@ -12,7 +7,6 @@ import { StatCard } from "@web/components/stat-card";
 import { StructuredData } from "@web/components/structured-data";
 import { TopMakes } from "@web/components/top-makes";
 import Typography from "@web/components/typography";
-import { Badge } from "@web/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -32,6 +26,10 @@ import {
 } from "@web/utils/cached-api";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import type { SearchParams } from "nuqs/server";
+import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   searchParams: Promise<SearchParams>;
@@ -145,15 +143,13 @@ const CarsPage = async ({ searchParams }: Props) => {
         {cars && (
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-              <Card>
+              <Card className="bg-gradient-to-tr from-primary-600 to-primary text-white">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="size-6 text-blue-600" />
                     Total Registrations
                   </CardTitle>
-                  <Badge className="bg-blue-600">{formattedMonth}</Badge>
                 </CardHeader>
-                <CardContent className="text-4xl font-bold text-blue-600">
+                <CardContent className="font-bold text-2xl">
                   <AnimatedNumber value={cars.total} />
                 </CardContent>
                 <CardFooter>
@@ -163,17 +159,14 @@ const CarsPage = async ({ searchParams }: Props) => {
                   />
                 </CardFooter>
               </Card>
+
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Fuel className="size-6 text-green-600" />
-                    Top Fuel Type
+                    Top Fuel Type: {topTypes.topFuelType.name}
                   </CardTitle>
-                  <Badge className="bg-green-600">
-                    {topTypes.topFuelType.name}
-                  </Badge>
                 </CardHeader>
-                <CardContent className="text-4xl font-bold text-green-600">
+                <CardContent className="font-bold text-2xl text-primary">
                   <AnimatedNumber value={topTypes.topFuelType.total} />
                 </CardContent>
                 <CardFooter>
@@ -187,17 +180,14 @@ const CarsPage = async ({ searchParams }: Props) => {
                   />
                 </CardFooter>
               </Card>
+
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <CarFront className="size-6 text-pink-600" />
-                    Top Vehicle Type
+                    Top Vehicle Type: {topTypes.topVehicleType.name}
                   </CardTitle>
-                  <Badge className="bg-pink-600">
-                    {topTypes.topVehicleType.name}
-                  </Badge>
                 </CardHeader>
-                <CardContent className="text-4xl font-bold text-pink-600">
+                <CardContent className="font-bold text-2xl text-primary">
                   <AnimatedNumber value={topTypes.topVehicleType.total} />
                 </CardContent>
                 <CardFooter>

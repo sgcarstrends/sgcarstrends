@@ -1,5 +1,5 @@
-import { TrendingDown, TrendingUp } from "lucide-react";
 import { formatPercent } from "@web/utils/format-percent";
+import { TrendingDown, TrendingUp } from "lucide-react";
 
 interface StatsCompareProps {
   current: number;
@@ -23,7 +23,7 @@ const TrendIndicator = ({ change, label }: TrendIndicatorProps) => (
       )}
       {formatPercent(Math.abs(change), { maximumFractionDigits: 1 })}
     </span>
-    <span className="text-muted-foreground text-sm">{label}</span>
+    <span className="text-sm">{label}</span>
   </div>
 );
 
