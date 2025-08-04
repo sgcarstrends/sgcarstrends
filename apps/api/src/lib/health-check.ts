@@ -32,8 +32,7 @@ export async function performHealthCheck() {
     services.database = {
       status: "unhealthy",
       responseTime: dbResponseTime,
-      error:
-        error instanceof Error ? error.message : "Unknown database error",
+      error: error instanceof Error ? error.message : "Unknown database error",
     };
   }
 
