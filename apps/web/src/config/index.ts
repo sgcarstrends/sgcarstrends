@@ -1,6 +1,6 @@
+import slugify from "@sindresorhus/slugify";
 import { VEHICLE_TYPE_MAP } from "@web/constants";
 import type { AppEnv, LinkItem, VehicleType } from "@web/types";
-import { slugify } from "@web/utils/slugify";
 import { Battery, Droplet, Fuel, Zap } from "lucide-react";
 
 export const DOMAIN_NAME = "sgcarstrends.com";

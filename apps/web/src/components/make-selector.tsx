@@ -4,7 +4,7 @@ import { Autocomplete, AutocompleteItem } from "@heroui/react";
 import Image from "next/image";
 import { useMemo } from "react";
 import type { Make } from "@web/types";
-import { slugify } from "@web/utils/slugify";
+import slugify from "@sindresorhus/slugify";
 
 type MakeSelectorProps = {
   makes: Make[];

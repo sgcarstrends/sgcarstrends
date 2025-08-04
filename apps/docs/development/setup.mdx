@@ -303,7 +303,7 @@ Once the development server is running, you can access:
     ```
 
     ```bash Specific test file
-    pnpm -F @sgcarstrends/api test -- src/utils/__tests__/slugify.test.ts
+    pnpm -F @sgcarstrends/api test -- src/utils/__tests__/format-percentage.test.ts
     ```
 
 </CodeGroup>
@@ -315,9 +315,9 @@ Tests are organized alongside the source code:
 ```
 src/
 ├── utils/
-│   ├── slugify.ts
+│   ├── format-percentage.ts
 │   └── __tests__/
-│       └── slugify.test.ts
+│       └── format-percentage.test.ts
 └── lib/
     ├── getLatestMonth.ts
     └── __tests__/
@@ -330,19 +330,19 @@ src/
 
     ```typescript Example Test
     import {describe, it, expect} from 'vitest';
-    import {slugify} from '../slugify';
+    import { formatPercentage } from '../format-percentage';
 
-    describe('slugify', () => {
-    it('should convert string to slug', () => {
-        expect(slugify('Hello World')).toBe('hello-world');
+    describe('formatPercentage', () => {
+    it('should format percentage correctly', () => {
+        expect(formatPercentage(0.1234)).toBe('12.34%');
     });
 
-    it('should handle special characters', () => {
-    expect(slugify('Hello, World!')).toBe('hello-world');
+    it('should handle zero', () => {
+    expect(formatPercentage(0)).toBe('0.00%');
 });
 
-    it('should handle empty string', () => {
-    expect(slugify('')).toBe('');
+    it('should handle one', () => {
+    expect(formatPercentage(1)).toBe('100.00%');
 });
 });
     ```

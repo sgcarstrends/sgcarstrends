@@ -1,6 +1,6 @@
 import { API_URL, SITE_LINKS, SITE_URL } from "@web/config";
 import { fetchApi } from "@web/utils/fetch-api";
-import { slugify } from "@web/utils/slugify";
+import slugify from "@sindresorhus/slugify";
 import type { Make } from "@web/types";
 import type { MetadataRoute } from "next";
 
