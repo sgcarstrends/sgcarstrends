@@ -1,3 +1,9 @@
+## [4.2.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.2.0...v4.2.1) (2025-08-04)
+
+### Bug Fixes
+
+* sync root package.json version with the rest ([e24d707](https://github.com/sgcarstrends/sgcarstrends/commit/e24d70714ca5a75316e4cd6540d737ddc7c59931))
+
 ## [4.2.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.1.0...v4.2.0) (2025-08-04)
 
 ### Features
