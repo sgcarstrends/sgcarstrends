@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'apps/api'
-      - 'apps/web'
+      - 'apps/api/**'
+      - 'apps/web/**'
       - 'packages/**'
 
 permissions:
