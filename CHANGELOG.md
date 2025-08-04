@@ -1,3 +1,18 @@
+## [4.2.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.1.0...v4.2.0) (2025-08-04)
+
+### Features
+
+* **admin:** add content management section with announcement functionality ([a2048a5](https://github.com/sgcarstrends/sgcarstrends/commit/a2048a58d845cc045d3fbe662657a9af70650740))
+* **admin:** add maintenance mode settings with comprehensive configuration options ([733178b](https://github.com/sgcarstrends/sgcarstrends/commit/733178b01409e25c9ccc35a5a18f9d1453ed7060))
+* **admin:** configure Tailwind CSS v4 and project structure ([daf664a](https://github.com/sgcarstrends/sgcarstrends/commit/daf664ae59d8f8a8c81a2d892eca9db75630ee55))
+* **admin:** disable SEO indexing with robots metadata ([835a1b4](https://github.com/sgcarstrends/sgcarstrends/commit/835a1b4a3dd26b5f9276eefd495294da42e383d7))
+* **admin:** implement basic admin dashboard overview ([2141362](https://github.com/sgcarstrends/sgcarstrends/commit/2141362a30bb60370f9864b4251b2d5efb6aa2d1))
+* **admin:** implement navigation sidebar with shadcn/ui ([8655327](https://github.com/sgcarstrends/sgcarstrends/commit/8655327eb0e629c1d4d9612824d61130fd61496b))
+* **admin:** setup admin app workspace integration and dependencies ([5ea5a4b](https://github.com/sgcarstrends/sgcarstrends/commit/5ea5a4b97cc45995b66dc487feb1eb39715c8858))
+* **admin:** setup admin dashboard ([fd3a4cf](https://github.com/sgcarstrends/sgcarstrends/commit/fd3a4cf0ae83be335d3d748b8f0d35aaed982c3e))
+* **admin:** setup admin dashboard shadcn/ui components ([fc900c9](https://github.com/sgcarstrends/sgcarstrends/commit/fc900c9dc1036b497176543c6d4117b507eae58e))
+* **api:** setup tRPC server with health check endpoint ([9fb0b44](https://github.com/sgcarstrends/sgcarstrends/commit/9fb0b44e9428a950a0981a94b72e779a4b14efca))
+
 ## [4.1.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.0.3...v4.1.0) (2025-08-02)
 
 ### Features

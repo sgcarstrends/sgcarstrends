@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/api",
   "description": "API service for SG Cars Trends",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
