@@ -1,19 +1,15 @@
 "use client";
 
-import { Chip, cn } from "@heroui/react";
+import { Chip } from "@heroui/react";
 
-interface ChipProps {
-  className?: string;
-}
-
-export const BetaChip = ({ className }: ChipProps) => (
-  <Chip color="warning" size="sm" variant="flat" className={cn(className)}>
+export const BetaChip = () => (
+  <Chip color="warning" size="sm" variant="light">
     Beta
   </Chip>
 );
 
-export const NewChip = ({ className }: ChipProps) => (
-  <Chip color="success" size="sm" variant="flat" className={cn(className)}>
+export const NewChip = () => (
+  <Chip color="success" size="sm" variant="light">
     New
   </Chip>
 );

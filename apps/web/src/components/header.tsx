@@ -15,13 +15,13 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@heroui/react";
-import { ChevronDown } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
 import { BrandLogo } from "@web/components/brand-logo";
 import { BetaChip, NewChip } from "@web/components/chips";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { navLinks } from "@web/config/navigation";
+import { ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
 export const Header = (props: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -185,7 +185,7 @@ const DesktopHeader = () => {
         </UnreleasedFeature>
       </NavbarContent>
       <NavbarContent className="hidden lg:flex" justify="end">
-        <NavbarItem className="ml-2 !flex gap-2">
+        <NavbarItem className="!flex ml-2 gap-2">
           {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (
             <Button
               key={title}
@@ -196,7 +196,7 @@ const DesktopHeader = () => {
               isIconOnly
               variant="light"
               size="sm"
-              className="text-default-500 hover:text-primary transition-colors"
+              className="text-default-500 transition-colors hover:text-primary"
               aria-label={title}
             >
               <Icon className="size-4" />
@@ -221,13 +221,13 @@ const MobileHeader = ({
       />
       <NavbarMenu>
         <NavbarMenuItem>
-          <div className="text-default-600 py-2 text-sm font-medium">Cars</div>
+          <div className="py-2 font-medium text-default-600 text-sm">Cars</div>
         </NavbarMenuItem>
         {Object.values(navLinks.cars).map((item) => (
           <NavbarMenuItem key={item.title}>
             <Link
               href={item.url}
-              className={`text-default-700 w-full pl-4 ${
+              className={`w-full pl-4 text-default-700 ${
                 item.title === "Makes" ? "flex items-center gap-2" : ""
               }`}
               onClick={() => setIsMenuOpen(false)}
@@ -238,13 +238,13 @@ const MobileHeader = ({
           </NavbarMenuItem>
         ))}
         <NavbarMenuItem>
-          <div className="text-default-600 py-2 text-sm font-medium">COE</div>
+          <div className="py-2 font-medium text-default-600 text-sm">COE</div>
         </NavbarMenuItem>
         {navLinks.coe.map((item) => (
           <NavbarMenuItem key={item.title}>
             <Link
               href={item.url}
-              className="text-default-700 w-full pl-4"
+              className="w-full pl-4 text-default-700"
               onClick={() => setIsMenuOpen(false)}
             >
               {item.title}
