@@ -1,4 +1,4 @@
-import { deslugify, slugify } from "@sgcarstrends/utils";
+import { slugify } from "@sgcarstrends/utils";
 import { describe, expect, it } from "vitest";
 
 describe("slugify", () => {
@@ -30,31 +30,5 @@ describe("slugify", () => {
 
   it("should maintain correct order of words", () => {
     expect(slugify("First Second Third")).toBe("first-second-third");
-  });
-});
-
-describe("deslugify", () => {
-  it("should convert basic slug to readable string", () => {
-    expect(deslugify("hello-world")).toBe("Hello World");
-  });
-
-  it("should handle numbers in slug", () => {
-    expect(deslugify("article-123")).toBe("Article 123");
-  });
-
-  it("should handle single word", () => {
-    expect(deslugify("hello")).toBe("Hello");
-  });
-
-  it("should handle empty string", () => {
-    expect(deslugify("")).toBe("");
-  });
-
-  it("should handle multiple consecutive hyphens", () => {
-    expect(deslugify("multiple--hyphens")).toBe("Multiple Hyphens");
-  });
-
-  it("should maintain correct capitalization for each word", () => {
-    expect(deslugify("first-second-third")).toBe("First Second Third");
   });
 });

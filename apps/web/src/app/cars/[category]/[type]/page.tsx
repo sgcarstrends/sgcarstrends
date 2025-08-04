@@ -21,7 +21,6 @@ import redis from "@web/config/redis";
 import { fetchApi } from "@web/utils/fetch-api";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
-import { deslugify } from "@web/utils/slugify";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -174,7 +173,7 @@ const TypePage = async ({ params, searchParams }: Props) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <PageHeader
-          title={deslugify(type)}
+          title={type}
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector={true}
