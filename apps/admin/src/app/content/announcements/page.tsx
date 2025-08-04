@@ -213,8 +213,8 @@ const Page = () => {
           <div className="flex items-start gap-2">
             <span className="font-medium text-foreground">4.</span>
             <span>
-              Click "Save Changes" to apply the announcement to the live
-              website.
+              Click &quot;Save Changes&quot; to apply the announcement to the
+              live website.
             </span>
           </div>
           <div className="flex items-start gap-2">
