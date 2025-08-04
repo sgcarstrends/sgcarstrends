@@ -6,7 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@admin/components/ui/card";
-import { Activity, Database, RefreshCw, Server } from "lucide-react";
+import { Activity, Database, RefreshCw, Server, Wrench, Settings } from "lucide-react";
+import Link from "next/link";
 
 const Dashboard = () => {
   return (
@@ -35,6 +36,23 @@ const Dashboard = () => {
             </div>
             <p className="mt-2 text-muted-foreground text-xs">
               All systems running normally
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="font-medium text-sm">Maintenance Mode</CardTitle>
+            <Wrench className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center space-x-2">
+              <Badge variant="secondary">
+                Inactive
+              </Badge>
+            </div>
+            <p className="mt-2 text-muted-foreground text-xs">
+              Services running normally
             </p>
           </CardContent>
         </Card>
@@ -72,17 +90,6 @@ const Dashboard = () => {
             </p>
           </CardContent>
         </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="font-medium text-sm">Last Update</CardTitle>
-            <RefreshCw className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="font-bold text-2xl">2h ago</div>
-            <p className="text-muted-foreground text-xs">Data last updated</p>
-          </CardContent>
-        </Card>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
@@ -91,7 +98,7 @@ const Dashboard = () => {
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <Button
                 variant="outline"
                 className="flex h-20 flex-col space-y-2"
@@ -143,6 +150,36 @@ const Dashboard = () => {
                   </div>
                 </div>
               </Button>
+
+              <Link href="/settings/maintenance">
+                <Button
+                  variant="outline"
+                  className="flex h-20 w-full flex-col space-y-2"
+                >
+                  <Wrench className="h-6 w-6" />
+                  <div className="text-center">
+                    <div className="font-medium">Maintenance Mode</div>
+                    <div className="text-muted-foreground text-xs">
+                      Configure maintenance settings
+                    </div>
+                  </div>
+                </Button>
+              </Link>
+
+              <Link href="/settings">
+                <Button
+                  variant="outline"
+                  className="flex h-20 w-full flex-col space-y-2"
+                >
+                  <Settings className="h-6 w-6" />
+                  <div className="text-center">
+                    <div className="font-medium">Settings</div>
+                    <div className="text-muted-foreground text-xs">
+                      System configuration
+                    </div>
+                  </div>
+                </Button>
+              </Link>
             </div>
           </CardContent>
         </Card>

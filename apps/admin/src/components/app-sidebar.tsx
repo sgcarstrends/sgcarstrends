@@ -27,6 +27,7 @@ import {
   Settings,
   Users,
   Workflow,
+  Wrench,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -92,8 +93,19 @@ const data = {
     },
     {
       title: "Settings",
-      url: "/settings",
       icon: Settings,
+      items: [
+        {
+          title: "General",
+          url: "/settings",
+          icon: Settings,
+        },
+        {
+          title: "Maintenance",
+          url: "/settings/maintenance",
+          icon: Wrench,
+        },
+      ],
     },
   ],
 };
