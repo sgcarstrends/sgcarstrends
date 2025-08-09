@@ -16,6 +16,7 @@
     "lint": "biome check ."
   },
   "dependencies": {
+    "@google/genai": "^1.13.0",
     "@hono/trpc-server": "^0.4.0",
     "@hono/zod-openapi": "^0.19.8",
     "@hono/zod-validator": "^0.4.2",
@@ -24,6 +25,7 @@
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
+    "@sindresorhus/slugify": "^2.2.1",
     "@trpc/client": "^11.4.3",
     "@trpc/server": "^11.4.3",
     "@upstash/qstash": "^2.7.23",

@@ -23,10 +23,12 @@ const getCorsConfig = () => {
 export const api = new sst.aws.Function("Api", {
   link: Object.values(secrets),
   architecture: "arm64",
+  timeout: "120 seconds",
   runtime: "nodejs22.x",
   description: "API for SG Cars Trends",
   environment: {
     FEATURE_FLAG_RATE_LIMIT: process.env.FEATURE_FLAG_RATE_LIMIT ?? "",
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY as string,
     QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
   },
   handler: "apps/api/src/index.handler",
