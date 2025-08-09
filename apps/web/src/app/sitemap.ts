@@ -1,11 +1,13 @@
-import { API_URL, SITE_LINKS, SITE_URL } from "@web/config";
-import { fetchApi } from "@web/utils/fetch-api";
 import slugify from "@sindresorhus/slugify";
+import { API_URL, SITE_LINKS, SITE_URL } from "@web/config";
 import type { Make } from "@web/types";
+import { fetchApi } from "@web/utils/fetch-api";
+import { getAllPosts } from "@web/utils/post-actions";
 import type { MetadataRoute } from "next";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const makes = await fetchApi<Make[]>(`${API_URL}/cars/makes`);
+  const posts = await getAllPosts();
 
   return [
     // {
@@ -23,6 +25,11 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
     },
+    ...posts.map((post) => ({
+      url: `${SITE_URL}/blog/${post.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+    })),
     {
       url: `${SITE_URL}/cars`,
       lastModified: new Date(),
