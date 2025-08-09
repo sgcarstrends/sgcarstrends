@@ -55,7 +55,7 @@ The web application includes domain-based social media redirect routes that prov
 - **/instagram**: Redirects to Instagram profile with UTM tracking
 - **/linkedin**: Redirects to LinkedIn profile with UTM tracking
 - **/telegram**: Redirects to Telegram channel with UTM tracking
-- **/github**: Redirects to GitHub organization with UTM tracking
+- **/github**: Redirects to GitHub organisation with UTM tracking
 
 All redirects include standardized UTM parameters:
 - `utm_source=sgcarstrends`
@@ -108,7 +108,7 @@ All redirects include standardized UTM parameters:
 - TypeScript with strict type checking (noImplicitAny, strictNullChecks)
 - Use double quotes for strings (Biome enforced)
 - Use spaces for indentation (2 spaces, Biome enforced)
-- Organize imports automatically (Biome enforced)
+- Organise imports automatically (Biome enforced)
 - Function/variable naming: camelCase
 - Class naming: PascalCase
 - Constants: UPPER_CASE for true constants

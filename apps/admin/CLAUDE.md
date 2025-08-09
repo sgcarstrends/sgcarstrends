@@ -116,7 +116,7 @@ When working with components, use the existing shadcn/ui patterns:
 - Import from `@admin/components/ui/[component-name]`
 - Use proper TypeScript interfaces and ref forwarding
 - Follow shadcn/ui styling conventions with CSS variables
-- Utilize component variants and size props where available
+- Utilise component variants and size props where available
 - Use the cn() utility function for conditional classes
 
 ## Workspace Dependencies
