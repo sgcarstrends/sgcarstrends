@@ -27,12 +27,7 @@ export const Header = (props: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <Navbar
-      {...props}
-      shouldHideOnScroll={true}
-      isMenuOpen={isMenuOpen}
-      onMenuOpenChange={setIsMenuOpen}
-    >
+    <Navbar {...props} isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
       <DesktopHeader />
       <MobileHeader setIsMenuOpen={setIsMenuOpen} />
     </Navbar>

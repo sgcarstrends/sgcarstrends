@@ -2,6 +2,7 @@ import { Button } from "@heroui/button";
 import { Tooltip } from "@heroui/tooltip";
 import { getAllPosts, getPostBySlug, updatePostTags } from "@web/actions/blog";
 import { AIBadge } from "@web/components/ai-badge";
+import { ProgressBar } from "@web/components/blog/progress-bar";
 import { RelatedPosts } from "@web/components/blog/related-posts";
 import { ViewCounter } from "@web/components/blog/view-counter";
 import { StructuredData } from "@web/components/structured-data";
@@ -119,6 +120,7 @@ const BlogPostPage = async ({ params }: Props) => {
   return (
     <>
       <StructuredData data={structuredData} />
+      <ProgressBar />
       <div className="mx-auto flex max-w-4xl flex-col gap-8">
         <div className="flex items-center justify-center gap-2 text-muted-foreground">
           {metadata?.modelVersion && (
