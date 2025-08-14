@@ -40,16 +40,16 @@ const Page = async () => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="mx-auto max-w-4xl">
+      <div className="container mx-auto">
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
             <h1 className="font-bold text-4xl">Blog</h1>
             <p className="text-muted-foreground">{description}</p>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {posts.map((post) => {
-              return <BlogPost key={post.title} post={post} />;
-            })}
+            {posts.map((post, index) => (
+              <BlogPost key={post.title} post={post} index={index} />
+            ))}
           </div>
           {posts.length === 0 && (
             <div className="py-12 text-center">

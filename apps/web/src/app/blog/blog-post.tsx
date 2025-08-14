@@ -10,15 +10,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@web/components/ui/card";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
   post: SelectPost;
+  index: number;
 };
 
-export const BlogPost = ({ post }: Props) => {
+export const BlogPost = ({ post, index }: Props) => {
   const metadata = post.metadata as any;
   const publishedDate = post.publishedAt ?? post.createdAt;
 
@@ -29,11 +30,12 @@ export const BlogPost = ({ post }: Props) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{
         duration: 0.5,
+        delay: index * 0.1,
         ease: "easeOut",
       }}
     >
       <Link href={`/blog/${post.slug}`}>
-        <Card>
+        <Card className="h-full">
           {/* Cover Image */}
           <div className="-mt-6 relative hidden aspect-video w-full md:block">
             <Image
@@ -50,7 +52,7 @@ export const BlogPost = ({ post }: Props) => {
             </div>
             <CardTitle className="text-xl">{post.title}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1">
             <div className="flex flex-col gap-4">
               <p className="text-muted-foreground">{metadata?.excerpt}</p>
               <div className="flex gap-2">

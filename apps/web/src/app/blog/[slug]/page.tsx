@@ -121,7 +121,7 @@ const BlogPostPage = async ({ params }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <ProgressBar />
-      <div className="mx-auto flex max-w-4xl flex-col gap-8">
+      <div className="container mx-auto flex w-full flex-col gap-8">
         <div className="flex items-center justify-center gap-2 text-muted-foreground">
           {metadata?.modelVersion && (
             <Tooltip
@@ -146,7 +146,7 @@ const BlogPostPage = async ({ params }: Props) => {
           <ViewCounter postId={post.id} />
         </div>
 
-        <article className="prose dark:prose-invert max-w-4xl">
+        <article className="prose dark:prose-invert max-w-none">
           <MDXRemote
             source={post.content}
             options={{

@@ -27,7 +27,12 @@ export const Header = (props: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <Navbar {...props} isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
+    <Navbar
+      {...props}
+      maxWidth="2xl"
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+    >
       <DesktopHeader />
       <MobileHeader setIsMenuOpen={setIsMenuOpen} />
     </Navbar>
