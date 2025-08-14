@@ -1,6 +1,7 @@
 import { SITE_URL } from "@api/config";
 import { platforms } from "@api/config/platforms";
 import { options } from "@api/lib/workflows/options";
+import { generateCoePost } from "@api/lib/workflows/posts";
 import {
   getCoeLatestMonth,
   getLatestCoeResult,
@@ -12,6 +13,7 @@ import {
   type Task,
 } from "@api/lib/workflows/workflow";
 import { formatOrdinal } from "@sgcarstrends/utils";
+import slugify from "@sindresorhus/slugify";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const coeWorkflow = createWorkflow(
@@ -55,6 +57,26 @@ export const coeWorkflow = createWorkflow(
           publishToPlatform(context, platform, { message, link }),
         ),
       );
+    }
+
+    // Generate blog post only when both bidding exercises are complete (bidding_no = 2)
+    if (biddingNo === 2) {
+      const post = await generateCoePost(context, month);
+
+      // Announce new blog post on social media
+      if (post?.success && post?.title) {
+        const blogLink = `${SITE_URL}/blog/${slugify(post.title)}`;
+        const blogMessage = `📰 New Blog Post: ${post.title}`;
+
+        await Promise.all(
+          platforms.map((platform) =>
+            publishToPlatform(context, platform, {
+              message: blogMessage,
+              link: blogLink,
+            }),
+          ),
+        );
+      }
     }
 
     return {
