@@ -1,6 +1,6 @@
+import { getAllPosts } from "@web/actions/blog";
 import { BlogPost } from "@web/app/blog/blog-post";
 import { StructuredData } from "@web/components/structured-data";
-import { getAllPosts } from "@web/utils/post-actions";
 import type { Metadata } from "next";
 import type { Blog, WithContext } from "schema-dts";
 

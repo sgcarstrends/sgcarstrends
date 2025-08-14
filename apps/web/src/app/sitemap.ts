@@ -1,8 +1,8 @@
 import slugify from "@sindresorhus/slugify";
+import { getAllPosts } from "@web/actions/blog";
 import { API_URL, SITE_LINKS, SITE_URL } from "@web/config";
 import type { Make } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
-import { getAllPosts } from "@web/utils/post-actions";
 import type { MetadataRoute } from "next";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {

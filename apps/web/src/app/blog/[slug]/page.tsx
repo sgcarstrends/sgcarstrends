@@ -1,11 +1,13 @@
 import { Button } from "@heroui/button";
 import { Tooltip } from "@heroui/tooltip";
+import { getAllPosts, getPostBySlug, updatePostTags } from "@web/actions/blog";
 import { AIBadge } from "@web/components/ai-badge";
+import { RelatedPosts } from "@web/components/blog/related-posts";
+import { ViewCounter } from "@web/components/blog/view-counter";
 import { StructuredData } from "@web/components/structured-data";
 import { Separator } from "@web/components/ui/separator";
 import { SITE_URL } from "@web/config";
 import { calculateReadingTime } from "@web/utils/markdown";
-import { getAllPosts, getPostBySlug } from "@web/utils/post-actions";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -90,6 +92,11 @@ const BlogPostPage = async ({ params }: Props) => {
   const readingTime =
     metadata?.readingTime || calculateReadingTime(post.content);
 
+  // Update post tags in Redis for related posts functionality
+  if (metadata?.tags && metadata.tags.length > 0) {
+    updatePostTags(post.id, metadata.tags).catch(console.error);
+  }
+
   const structuredData: WithContext<BlogPosting> = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -133,6 +140,8 @@ const BlogPostPage = async ({ params }: Props) => {
           </span>
           <span>&middot;</span>
           <span>{readingTime} min read</span>
+          <span>&middot;</span>
+          <ViewCounter postId={post.id} />
         </div>
 
         <article className="prose dark:prose-invert max-w-4xl">
@@ -167,6 +176,9 @@ const BlogPostPage = async ({ params }: Props) => {
             }}
           />
         </article>
+
+        <RelatedPosts currentPostId={post.id} />
+
         <Separator className="my-2" />
         <div className="flex justify-center">
           <Button color="primary" variant="ghost">

@@ -2,7 +2,7 @@
 
 import { posts } from "@sgcarstrends/database";
 import { db } from "@web/config/db";
-import { desc, eq, isNotNull } from "drizzle-orm";
+import { desc, eq, inArray, isNotNull } from "drizzle-orm";
 
 export const getAllPosts = async () => {
   try {
@@ -28,5 +28,20 @@ export const getPostBySlug = async (slug: string) => {
     return post;
   } catch (error) {
     console.error("Error fetching post by slug:", error);
+  }
+};
+
+export const getPostsByIds = async (postIds: string[]) => {
+  try {
+    if (postIds.length === 0) return [];
+
+    return await db
+      .select()
+      .from(posts)
+      .where(inArray(posts.id, postIds))
+      .orderBy(desc(posts.publishedAt));
+  } catch (error) {
+    console.error("Error fetching posts by IDs:", error);
+    return [];
   }
 };
