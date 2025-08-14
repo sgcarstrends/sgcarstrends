@@ -1,7 +1,7 @@
 import { SITE_URL } from "@api/config";
 import { platforms } from "@api/config/platforms";
 import { options } from "@api/lib/workflows/options";
-import { generatePost } from "@api/lib/workflows/posts";
+import { generateCarPost } from "@api/lib/workflows/posts";
 import {
   getCarRegistrationsByMonth,
   getCarsLatestMonth,
@@ -62,7 +62,7 @@ export const carsWorkflow = createWorkflow(
       );
     }
 
-    const post = await generatePost(context, month);
+    const post = await generateCarPost(context, month);
 
     // Announce new blog post on social media
     if (post?.success && post?.title) {
