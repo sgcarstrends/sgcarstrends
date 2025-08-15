@@ -167,14 +167,12 @@ const DesktopHeader = () => {
             <NewChip />
           </Link>
         </NavbarItem>
-        <UnreleasedFeature>
-          <NavbarItem>
-            <Link href="/blog" className="flex items-center gap-2">
-              Blog
-              <NewChip />
-            </Link>
-          </NavbarItem>
-        </UnreleasedFeature>
+        <NavbarItem>
+          <Link href="/blog" className="flex items-center gap-2">
+            Blog
+            <NewChip />
+          </Link>
+        </NavbarItem>
         <UnreleasedFeature>
           <NavbarItem>
             <Link href="/visitors" className="flex items-center gap-2">

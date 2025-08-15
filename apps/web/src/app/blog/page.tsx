@@ -1,5 +1,6 @@
 import { getAllPosts } from "@web/actions/blog";
 import { BlogPost } from "@web/app/blog/blog-post";
+import { BetaChip } from "@web/components/chips";
 import { StructuredData } from "@web/components/structured-data";
 import type { Metadata } from "next";
 import type { Blog, WithContext } from "schema-dts";
@@ -43,6 +44,7 @@ const Page = async () => {
       <div className="container mx-auto">
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
+            <BetaChip />
             <h1 className="font-bold text-4xl">Blog</h1>
             <p className="text-muted-foreground">{description}</p>
           </div>
