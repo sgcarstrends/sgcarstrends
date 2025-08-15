@@ -147,6 +147,7 @@ export const navLinks: NavLinks = {
       url: "/blog",
       icon: FileText,
       description: "Insights and analysis on Singapore's car market",
+      show: true,
     },
     {
       title: "FAQ",

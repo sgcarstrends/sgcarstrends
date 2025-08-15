@@ -1,6 +1,7 @@
 import { SITE_URL } from "@api/config";
 import { platforms } from "@api/config/platforms";
 import { options } from "@api/lib/workflows/options";
+import { generateCarPost } from "@api/lib/workflows/posts";
 import {
   getCarRegistrationsByMonth,
   getCarsLatestMonth,
@@ -11,6 +12,7 @@ import {
   publishToPlatform,
   type Task,
 } from "@api/lib/workflows/workflow";
+import slugify from "@sindresorhus/slugify";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const carsWorkflow = createWorkflow(
@@ -52,7 +54,21 @@ export const carsWorkflow = createWorkflow(
 
     const link = `${SITE_URL}/cars?month=${month}`;
 
-    for (const _ of processedCarResults) {
+    // for (const _ of processedCarResults) {
+    //   await Promise.all(
+    //     platforms.map((platform) =>
+    //       publishToPlatform(context, platform, { message, link }),
+    //     ),
+    //   );
+    // }
+
+    const post = await generateCarPost(context, month);
+
+    // Announce new blog post on social media
+    if (post?.success && post?.title) {
+      const link = `${SITE_URL}/blog/${post.slug}`;
+      const message = `📰 New Blog Post: ${post.title}`;
+
       await Promise.all(
         platforms.map((platform) =>
           publishToPlatform(context, platform, { message, link }),

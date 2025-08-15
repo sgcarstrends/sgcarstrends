@@ -1,6 +1,16 @@
 import { db } from "@api/lib/workflows/db";
 import { cars } from "@sgcarstrends/database";
-import { and, desc, eq, ne, sum } from "drizzle-orm";
+import { and, asc, desc, eq, gt, ne, sum } from "drizzle-orm";
+
+export const getCarsByMonth = (month: string) =>
+  db.query.cars.findMany({
+    columns: {
+      id: false,
+      importer_type: false,
+    },
+    where: and(eq(cars.month, month), gt(cars.number, 0)),
+    orderBy: asc(cars.make),
+  });
 
 export const getCarsLatestMonth = async () =>
   await db.query.cars.findFirst({

@@ -29,7 +29,7 @@ export const Header = (props: NavbarProps) => {
   return (
     <Navbar
       {...props}
-      shouldHideOnScroll={true}
+      maxWidth="2xl"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
@@ -167,14 +167,12 @@ const DesktopHeader = () => {
             <NewChip />
           </Link>
         </NavbarItem>
-        <UnreleasedFeature>
-          <NavbarItem>
-            <Link href="/blog" className="flex items-center gap-2">
-              Blog
-              <NewChip />
-            </Link>
-          </NavbarItem>
-        </UnreleasedFeature>
+        <NavbarItem>
+          <Link href="/blog" className="flex items-center gap-2">
+            Blog
+            <NewChip />
+          </Link>
+        </NavbarItem>
         <UnreleasedFeature>
           <NavbarItem>
             <Link href="/visitors" className="flex items-center gap-2">
