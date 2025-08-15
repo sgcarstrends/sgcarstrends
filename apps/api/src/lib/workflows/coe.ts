@@ -60,24 +60,24 @@ export const coeWorkflow = createWorkflow(
     // }
 
     // Generate blog post only when both bidding exercises are complete (bidding_no = 2)
-    if (biddingNo === 2) {
-      const post = await generateCoePost(context, month);
-
-      // Announce new blog post on social media
-      if (post?.success && post?.title) {
-        const blogLink = `${SITE_URL}/blog/${slugify(post.title)}`;
-        const blogMessage = `📰 New Blog Post: ${post.title}`;
-
-        await Promise.all(
-          platforms.map((platform) =>
-            publishToPlatform(context, platform, {
-              message: blogMessage,
-              link: blogLink,
-            }),
-          ),
-        );
-      }
-    }
+    // if (biddingNo === 2) {
+    //   const post = await generateCoePost(context, month);
+    //
+    //   // Announce new blog post on social media
+    //   if (post?.success && post?.title) {
+    //     const blogLink = `${SITE_URL}/blog/${slugify(post.title)}`;
+    //     const blogMessage = `📰 New Blog Post: ${post.title}`;
+    //
+    //     await Promise.all(
+    //       platforms.map((platform) =>
+    //         publishToPlatform(context, platform, {
+    //           message: blogMessage,
+    //           link: blogLink,
+    //         }),
+    //       ),
+    //     );
+    //   }
+    // }
 
     return {
       message: "COE data processed and published successfully",
