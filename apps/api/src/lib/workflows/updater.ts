@@ -1,6 +1,6 @@
 import path from "node:path";
 import { AWS_LAMBDA_TEMP_DIR } from "@api/config";
-import { db } from "@api/lib/workflows/db";
+import { db } from "@api/config/db";
 import { calculateChecksum } from "@api/utils/calculateChecksum";
 import { downloadFile } from "@api/utils/downloadFile";
 import { type CSVTransformOptions, processCSV } from "@api/utils/processCSV";

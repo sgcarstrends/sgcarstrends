@@ -1,4 +1,4 @@
-import { db } from "@api/lib/workflows/db";
+import { db } from "@api/config/db";
 import { coe } from "@sgcarstrends/database";
 import { and, asc, desc, eq } from "drizzle-orm";
 
