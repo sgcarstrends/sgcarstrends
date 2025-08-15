@@ -66,7 +66,7 @@ export const carsWorkflow = createWorkflow(
 
     // Announce new blog post on social media
     if (post?.success && post?.title) {
-      const link = `${SITE_URL}/blog/${slugify(post.title)}`;
+      const link = `${SITE_URL}/blog/${post.slug}`;
       const message = `📰 New Blog Post: ${post.title}`;
 
       await Promise.all(

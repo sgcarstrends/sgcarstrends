@@ -65,7 +65,7 @@ export const coeWorkflow = createWorkflow(
     //
     //   // Announce new blog post on social media
     //   if (post?.success && post?.title) {
-    //     const blogLink = `${SITE_URL}/blog/${slugify(post.title)}`;
+    //     const blogLink = `${SITE_URL}/blog/${post.slug}`;
     //     const blogMessage = `📰 New Blog Post: ${post.title}`;
     //
     //     await Promise.all(

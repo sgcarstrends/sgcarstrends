@@ -100,6 +100,7 @@ export const generateCarPost = (context: WorkflowContext, month: string) => {
       month,
       postId: post.id,
       title: post.title,
+      slug: post.slug,
     };
   });
 };
@@ -198,6 +199,7 @@ export const generateCoePost = (context: WorkflowContext, month: string) => {
       month,
       postId: post.id,
       title: post.title,
+      slug: post.slug,
     };
   });
 };
