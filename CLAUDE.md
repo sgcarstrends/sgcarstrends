@@ -9,7 +9,8 @@ When working with external libraries or frameworks, use the Context7 MCP tools t
 1. Use `mcp__context7__resolve-library-id` to find the correct library ID for any package
 2. Use `mcp__context7__get-library-docs` to retrieve comprehensive documentation and examples
 
-This ensures you have access to the latest API documentation for dependencies like Hono, Next.js, Drizzle ORM, Vitest, and others used in this project.
+This ensures you have access to the latest API documentation for dependencies like Hono, Next.js, Drizzle ORM, Vitest,
+and others used in this project.
 
 # SG Cars Trends Backend - Developer Reference Guide
 
@@ -19,9 +20,11 @@ SG Cars Trends is a full-stack platform providing access to Singapore vehicle re
 Entitlement (COE) bidding results. The monorepo includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
-- **Web Application**: Next.js frontend with interactive charts and analytics
+- **Web Application**: Next.js frontend with interactive charts, analytics, and blog functionality
 - **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA
   DataMall (QStash workflows)
+- **LLM Blog Generation**: Automated blog post creation using Google Gemini AI to analyse market data and generate
+  insights
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available
 - **Documentation**: Comprehensive developer documentation using Mintlify
 
@@ -46,20 +49,28 @@ Entitlement (COE) bidding results. The monorepo includes:
 - Web build: `pnpm web:build`
 - Web start: `pnpm web:start`
 
+### Blog Commands
+
+- View all blog posts: Navigate to `/blog` on the web application
+- View specific blog post: Navigate to `/blog/[slug]` where slug is the post's URL slug
+- Blog posts are automatically generated via workflows when new data is processed
+- Blog posts include dynamic Open Graph images and SEO metadata
+
 ### Social Media Redirect Routes
 
 The web application includes domain-based social media redirect routes that provide trackable, SEO-friendly URLs:
 
 - **/discord**: Redirects to Discord server with UTM tracking
-- **/twitter**: Redirects to Twitter profile with UTM tracking  
+- **/twitter**: Redirects to Twitter profile with UTM tracking
 - **/instagram**: Redirects to Instagram profile with UTM tracking
 - **/linkedin**: Redirects to LinkedIn profile with UTM tracking
 - **/telegram**: Redirects to Telegram channel with UTM tracking
 - **/github**: Redirects to GitHub organization with UTM tracking
 
 All redirects include standardized UTM parameters:
+
 - `utm_source=sgcarstrends`
-- `utm_medium=social_redirect` 
+- `utm_medium=social_redirect`
 - `utm_campaign={platform}_profile`
 
 ### Documentation Commands
@@ -71,7 +82,6 @@ All redirects include standardized UTM parameters:
 
 - Run migrations: `pnpm migrate`
 - Check pending migrations: `pnpm migrate:check`
-
 
 ### Release Commands
 
@@ -85,7 +95,6 @@ All redirects include standardized UTM parameters:
 - Deploy web to dev: `pnpm web:deploy:dev`
 - Deploy web to staging: `pnpm web:deploy:staging`
 - Deploy web to production: `pnpm web:deploy:prod`
-
 
 ## Code Structure
 
@@ -118,11 +127,11 @@ All redirects include standardized UTM parameters:
 - Avoid using `any` type - prefer unknown with type guards
 - Group imports by: 1) built-in, 2) external, 3) internal
 - **Commit messages**: Use conventional commit format for semantic-release:
-  - `feat: add new feature` (minor version bump)
-  - `fix: resolve bug` (patch version bump)  
-  - `feat!: breaking change` or `feat: add feature\n\nBREAKING CHANGE: description` (major version bump)
-  - `chore:`, `docs:`, `style:`, `refactor:`, `test:` (no version bump)
-  - Max 72 characters for subject line
+    - `feat: add new feature` (minor version bump)
+    - `fix: resolve bug` (patch version bump)
+    - `feat!: breaking change` or `feat: add feature\n\nBREAKING CHANGE: description` (major version bump)
+    - `chore:`, `docs:`, `style:`, `refactor:`, `test:` (no version bump)
+    - Max 72 characters for subject line
 
 ## Testing
 
@@ -165,6 +174,7 @@ Required environment variables (store in .env.local for local development):
 - UPSTASH_REDIS_REST_TOKEN: Redis authentication token
 - UPDATER_API_TOKEN: Updater service token for scheduler
 - LTA_DATAMALL_API_KEY: API key for LTA DataMall (for updater service)
+- GEMINI_API_KEY: Google Gemini AI API key for blog post generation
 
 ## Deployment
 
@@ -211,6 +221,7 @@ SG Cars Trends uses a standardized domain convention across services:
 - **coePQP**: Prevailing Quota Premium rates
 - **months**: Available data months
 - **makes**: Vehicle manufacturers
+- **posts**: Blog posts with title, slug, content, metadata (including LLM generation details), and timestamps
 
 ## Workflow Architecture
 
@@ -218,10 +229,13 @@ The integrated updater service uses a workflow-based architecture with:
 
 ### Key Components
 
-- **Workflows** (`src/lib/workflows/`): Cars and COE data processing workflows
+- **Workflows** (`src/lib/workflows/`): Cars and COE data processing workflows with integrated blog generation
 - **Task Processing** (`src/lib/workflows/workflow.ts`): Common processing logic with Redis-based timestamp tracking
 - **Updater Core** (`src/lib/workflows/updater.ts`): File download, checksum verification, CSV processing, and database
   updates
+- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Google Gemini AI
+- **Post Management** (`src/lib/workflows/save-post.ts`): Blog post persistence with slug generation and duplicate
+  prevention
 - **Social Media** (`src/lib/social/*/`): Platform-specific posting functionality (Discord, LinkedIn, Telegram, Twitter)
 - **QStash Integration** (`src/config/qstash.ts`): Message queue functionality for workflow execution
 
@@ -231,7 +245,10 @@ The integrated updater service uses a workflow-based architecture with:
 2. Files downloaded and checksums verified to prevent redundant processing
 3. New data inserted into database in batches
 4. Updates published to configured social media platforms when data changes
-5. Comprehensive error handling with Discord notifications for failures
+5. **Blog Generation**: LLM analyzes processed data to create comprehensive blog posts with market insights
+6. **Blog Publication**: Generated posts saved to database with SEO-optimized slugs and metadata
+7. **Blog Promotion**: New blog posts automatically announced across social media platforms
+8. Comprehensive error handling with Discord notifications for failures
 
 ### Design Principles
 
@@ -239,6 +256,35 @@ The integrated updater service uses a workflow-based architecture with:
 - Checksum-based redundancy prevention
 - Batch database operations for efficiency
 - Conditional social media publishing based on environment and data changes
+
+## LLM Blog Generation
+
+The platform features automated blog post generation using Google Gemini AI to create market insights from processed
+data:
+
+### Blog Generation Process
+
+1. **Data Analysis**: LLM analyzes car registration or COE bidding data for the latest month
+2. **Content Creation**: AI generates comprehensive blog posts with market insights, trends, and analysis
+3. **Structured Output**: Posts include executive summaries, data tables, and professional market analysis
+4. **SEO Optimization**: Automatic generation of titles, descriptions, and structured data
+5. **Duplicate Prevention**: Slug-based system prevents duplicate blog posts for the same data period
+
+### Blog Content Features
+
+- **Cars Posts**: Analysis of registration trends, fuel type distribution, vehicle type breakdowns
+- **COE Posts**: Bidding results analysis, premium trends, market competition insights
+- **Data Tables**: Markdown tables for fuel type and vehicle type breakdowns
+- **Market Insights**: Professional analysis of trends and implications for car buyers
+- **Reading Time**: Automatic calculation of estimated reading time
+- **AI Attribution**: Clear labeling of AI-generated content with model version tracking
+
+### Blog Publication
+
+- **Automatic Scheduling**: Blog posts generated only when both COE bidding exercises are complete (for COE posts)
+- **Social Media Promotion**: New blog posts automatically announced across all configured platforms
+- **SEO Integration**: Dynamic Open Graph images, structured data, and canonical URLs
+- **Content Management**: Posts stored with metadata including generation details and data source month
 
 ## Release Process
 
