@@ -8,12 +8,12 @@ import { ViewCounter } from "@web/components/blog/view-counter";
 import { StructuredData } from "@web/components/structured-data";
 import { Separator } from "@web/components/ui/separator";
 import { SITE_URL } from "@web/config";
-import { calculateReadingTime } from "@web/utils/markdown";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import readingTime from "reading-time";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
@@ -90,8 +90,6 @@ const BlogPostPage = async ({ params }: Props) => {
     readingTime?: number;
   };
   const publishedDate = post.publishedAt || post.createdAt;
-  const readingTime =
-    metadata?.readingTime || calculateReadingTime(post.content);
 
   // Update post tags in Redis for related posts functionality
   if (metadata?.tags && metadata.tags.length > 0) {
@@ -108,7 +106,7 @@ const BlogPostPage = async ({ params }: Props) => {
     url: `${SITE_URL}/blog/${post.slug}`,
     mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
     wordCount: post.content.split(/\s+/).length,
-    timeRequired: `PT${readingTime}M`,
+    timeRequired: `PT${readingTime(post.content)}M`,
     inLanguage: "en-SG",
     isPartOf: {
       "@type": "Blog",
@@ -141,7 +139,7 @@ const BlogPostPage = async ({ params }: Props) => {
             })}
           </span>
           <span>&middot;</span>
-          <span>{readingTime} min read</span>
+          <span>{readingTime(post.content)} min read</span>
           <span>&middot;</span>
           <ViewCounter postId={post.id} />
         </div>

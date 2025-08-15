@@ -1,9 +1,9 @@
 import {
+  calculateReadingTime,
   getAllBlogPosts,
-  getFeaturedBlogPosts,
   getBlogPostBySlug,
   getBlogPostMetadata,
-  calculateReadingTime,
+  getFeaturedBlogPosts,
 } from "@web/utils/blog";
 
 describe("blog utilities", () => {
@@ -73,36 +73,6 @@ describe("blog utilities", () => {
         expect(meta).toHaveProperty("author");
         expect(meta).toHaveProperty("tags");
       });
-    });
-  });
-
-  describe("calculateReadingTime", () => {
-    it("should calculate reading time correctly for short content", () => {
-      const content =
-        "This is a short piece of content with exactly ten words here.";
-      const readingTime = calculateReadingTime(content);
-
-      expect(readingTime).toBe(1); // 10 words / 200 wpm = 0.05 minutes, rounded up to 1
-    });
-
-    it("should calculate reading time correctly for longer content", () => {
-      const content = "word ".repeat(400); // 400 words
-      const readingTime = calculateReadingTime(content);
-
-      expect(readingTime).toBe(2); // 400 words / 200 wpm = 2 minutes
-    });
-
-    it("should handle empty content", () => {
-      const readingTime = calculateReadingTime("");
-
-      expect(readingTime).toBe(1); // Math.ceil(0 / 200) = 1
-    });
-
-    it("should handle content with multiple spaces", () => {
-      const content = "word   with    multiple    spaces";
-      const readingTime = calculateReadingTime(content);
-
-      expect(readingTime).toBe(1); // 4 words after trimming and splitting
     });
   });
 });

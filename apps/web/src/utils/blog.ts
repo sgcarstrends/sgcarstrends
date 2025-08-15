@@ -1,4 +1,4 @@
-import type { BlogPost, BlogMetadata } from "@web/types";
+import type { BlogMetadata, BlogPost } from "@web/types";
 
 const blogPosts: BlogPost[] = [
   {
@@ -13,7 +13,7 @@ const blogPosts: BlogPost[] = [
 Electric vehicles have shown remarkable growth in 2024, with registrations increasing by 45% compared to 2023. This surge can be attributed to:
 
 - Enhanced charging infrastructure across Singapore
-- Government incentives for EV adoption
+- Government incentives for EV adoption 
 - Improved battery technology and range
 
 ## COE Premium Trends
@@ -75,9 +75,3 @@ export const getBlogPostBySlug = (slug: string): BlogPost | undefined =>
 
 export const getBlogPostMetadata = (): BlogMetadata[] =>
   blogPosts.map(({ slug, content, readingTime, ...metadata }) => metadata);
-
-export const calculateReadingTime = (content: string): number => {
-  const wordsPerMinute = 200;
-  const words = content.trim().split(/\s+/).length;
-  return Math.ceil(words / wordsPerMinute);
-};
