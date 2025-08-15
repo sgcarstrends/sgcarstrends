@@ -149,6 +149,25 @@ exports[`Navbar > should render correctly 1`] = `
             </div>
           </a>
         </li>
+        <li
+          class="text-medium whitespace-nowrap box-border list-none data-[active=true]:font-semibold"
+        >
+          <a
+            class="flex items-center gap-2"
+            href="/blog"
+          >
+            Blog
+            <div
+              class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-tiny rounded-full bg-transparent text-success"
+            >
+              <span
+                class="flex-1 text-inherit font-normal px-1"
+              >
+                New
+              </span>
+            </div>
+          </a>
+        </li>
       </ul>
       <ul
         class="gap-4 h-full flex-row flex-nowrap items-center data-[justify=start]:justify-start data-[justify=start]:flex-grow data-[justify=start]:basis-0 data-[justify=center]:justify-center data-[justify=end]:justify-end data-[justify=end]:flex-grow data-[justify=end]:basis-0 hidden lg:flex"
