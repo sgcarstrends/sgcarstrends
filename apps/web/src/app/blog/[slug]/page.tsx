@@ -106,7 +106,6 @@ const BlogPostPage = async ({ params }: Props) => {
     url: `${SITE_URL}/blog/${post.slug}`,
     mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
     wordCount: post.content.split(/\s+/).length,
-    timeRequired: `PT${readingTime(post.content)}M`,
     inLanguage: "en-SG",
     isPartOf: {
       "@type": "Blog",
@@ -139,7 +138,7 @@ const BlogPostPage = async ({ params }: Props) => {
             })}
           </span>
           <span>&middot;</span>
-          <span>{readingTime(post.content)} min read</span>
+          <span>{readingTime(post.content).text}</span>
           <span>&middot;</span>
           <ViewCounter postId={post.id} />
         </div>
