@@ -5,7 +5,6 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export const runtime = "edge";
 export const size = {
   width: 1200,
   height: 630,
