@@ -1,4 +1,4 @@
-import db from "@api/config/db";
+import { db } from "@api/config/db";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
 import {

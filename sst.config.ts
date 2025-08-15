@@ -29,10 +29,7 @@ export default $config({
     return {
       api: api.url,
       web: web.url,
-      router: {
-        distributionID: router.distributionID,
-        url: router.url,
-      },
+      router: router.distributionID,
     };
   },
 });

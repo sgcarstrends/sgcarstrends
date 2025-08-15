@@ -1,4 +1,4 @@
-import db from "@api/config/db";
+import { db } from "@api/config/db";
 import redis from "@api/config/redis";
 import {
   healthResponseSchema,
