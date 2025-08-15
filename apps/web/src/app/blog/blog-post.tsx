@@ -43,6 +43,7 @@ export const BlogPost = ({ post, index }: Props) => {
               alt={`Cover image for ${post.title}`}
               fill
               sizes="100vw"
+              unoptimized
             />
           </div>
 
