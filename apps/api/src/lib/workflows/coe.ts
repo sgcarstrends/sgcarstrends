@@ -51,13 +51,13 @@ export const coeWorkflow = createWorkflow(
 
     const link = `${SITE_URL}/coe`;
 
-    for (const _ of processedCOEResults) {
-      await Promise.all(
-        platforms.map((platform) =>
-          publishToPlatform(context, platform, { message, link }),
-        ),
-      );
-    }
+    // for (const _ of processedCOEResults) {
+    //   await Promise.all(
+    //     platforms.map((platform) =>
+    //       publishToPlatform(context, platform, { message, link }),
+    //     ),
+    //   );
+    // }
 
     // Generate blog post only when both bidding exercises are complete (bidding_no = 2)
     if (biddingNo === 2) {

@@ -54,13 +54,13 @@ export const carsWorkflow = createWorkflow(
 
     const link = `${SITE_URL}/cars?month=${month}`;
 
-    for (const _ of processedCarResults) {
-      await Promise.all(
-        platforms.map((platform) =>
-          publishToPlatform(context, platform, { message, link }),
-        ),
-      );
-    }
+    // for (const _ of processedCarResults) {
+    //   await Promise.all(
+    //     platforms.map((platform) =>
+    //       publishToPlatform(context, platform, { message, link }),
+    //     ),
+    //   );
+    // }
 
     const post = await generateCarPost(context, month);
 
