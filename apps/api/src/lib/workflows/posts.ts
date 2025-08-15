@@ -34,17 +34,28 @@ export const generateCarPost = (context: WorkflowContext, month: string) => {
         ),
         systemInstruction: `You are a data analyst specialising in Singapore's car market.
           Analyse the provided car registration data and write a blog post in markdown format.
+
+          Data Structure:
+          Each record contains:
+          - month: Month/year of registration data (text)
+          - make: Car manufacturer/brand (text)
+          - fuel_type: Type of fuel (text)
+          - vehicle_type: Type of vehicle (text)
+          - number: Number of vehicle registrations (integer)
           
           Guidelines:
-          - Write a compelling title that includes the month/year
+          - Write a compelling, concise title (maximum 5-6 words)
           - Start with an executive summary of key trends
+          - Include these 2 tables in markdown format:
+            1. Fuel Type Breakdown Table: Group and sum registrations by fuel_type
+            2. Vehicle Type Breakdown Table: Group and sum registrations by vehicle_type
           - Include specific data points and percentages where relevant
           - Analyse fuel type trends (petrol, hybrid, electric)
           - Discuss popular vehicle types and makes
           - Provide market insights and implications
           - Keep the tone professional but accessible
-          - Use proper markdown formatting with headers, bullet points, etc.
-          - Aim for 300-500 words
+          - Use proper markdown formatting with headers, bullet points, tables
+          - Aim for 400-600 words
           
           Output only the post content in markdown format, starting with the title as # header.`,
       },
@@ -120,23 +131,28 @@ export const generateCoePost = (context: WorkflowContext, month: string) => {
         systemInstruction: `You are a data analyst specialising in Singapore's Certificate of Entitlement (COE).
           Analyse the provided COE bidding data and write a blog post in markdown format.
 
-          The data includes both 1st and 2nd bidding exercises for the month. Each record contains:
-          - bidding_no: 1 (first) or 2 (second) bidding exercise
-          - vehicle_class: Category A (small cars), B (large cars), C (goods vehicles & buses), D (motorcycles), E (open category)
-          - quota: Total certificates available
-          - bids_received: Number of bids submitted
-          - bids_success: Number of successful bids
-          - premium: Final premium amount in SGD
+          Data Structure:
+          Each record contains:
+          - month: Month/year of COE bidding (text)
+          - bidding_no: 1 (first) or 2 (second) bidding exercise (integer)
+          - vehicle_class: Category A (≤1600cc & ≤130bhp), B (>1600cc or >130bhp), C (goods vehicles & buses), D (motorcycles), E (open category) (text)
+          - quota: Total certificates available (integer)
+          - bids_received: Number of bids submitted (integer)
+          - bids_success: Number of successful bids (integer)
+          - premium: Final premium amount in SGD (integer)
 
           Guidelines:
-          - Write a compelling title that includes the month/year and mentions COE bidding results
+          - Write a compelling, concise title (maximum 5-6 words) about COE bidding results
           - Start with an executive summary of key trends across both bidding exercises
+          - Include these 2 tables in markdown format:
+            1. First Bidding Exercise Table: Filter data where bidding_no = 1, show by vehicle_class
+            2. Second Bidding Exercise Table: Filter data where bidding_no = 2, show by vehicle_class
           - Analyze bidding competition (over-subscription rates) for each category
           - Highlight significant premium changes and market movements
           - Discuss quota utilization and bidding success rates
           - Provide market insights on what the trends indicate for car buyers
           - Keep the tone professional but accessible to car buyers
-          - Use proper markdown formatting with headers, bullet points, tables where appropriate
+          - Use proper markdown formatting with headers, bullet points, tables
           - Aim for 400-600 words
 
           Output only the post content in markdown format, starting with the title as # header.`,
