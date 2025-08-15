@@ -1,3 +1,21 @@
+## [4.3.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.2.1...v4.3.0) (2025-08-15)
+
+### Features
+
+* **api:** add blog post generation for COE ([76559f1](https://github.com/sgcarstrends/sgcarstrends/commit/76559f114b4622ab2c0f42396fca72f314c7e4f8))
+* **api:** integrate LLM blog post generation ([8ce5a8d](https://github.com/sgcarstrends/sgcarstrends/commit/8ce5a8d6695e2730deeeb970a42753a9fa101d7c))
+* **database:** add posts table ([ee44be3](https://github.com/sgcarstrends/sgcarstrends/commit/ee44be378c6e2f6ff5fa22b9089cf92b042828b6))
+* **web:** add blog posts ([06c8b5d](https://github.com/sgcarstrends/sgcarstrends/commit/06c8b5d82344c6bebbb89f20ee96772eed08d719))
+* **web:** add cover images to blog cards using OpenGraph images ([010dfd7](https://github.com/sgcarstrends/sgcarstrends/commit/010dfd7588bc83ff8dad479818c86939a85e2373))
+* **web:** add dynamic Open Graph images for blog posts ([6784b9f](https://github.com/sgcarstrends/sgcarstrends/commit/6784b9fd9b9f58e0681bda833960817291700796))
+* **web:** add progress bar to blog posts ([86d913d](https://github.com/sgcarstrends/sgcarstrends/commit/86d913dcda7525bba4a3cd734debf27bbbb98bd2))
+* **web:** add Redis-powered blog views and related posts ([8d124c0](https://github.com/sgcarstrends/sgcarstrends/commit/8d124c027ee25032c1d6306830e4ad7c80ebcf2c))
+
+### Bug Fixes
+
+* **web:** fix readingTime error ([ed2a703](https://github.com/sgcarstrends/sgcarstrends/commit/ed2a703b71bc851a1333cfbe6b2cdf5630636573))
+* **web:** opengraph image not loading on blog page ([2d96bfc](https://github.com/sgcarstrends/sgcarstrends/commit/2d96bfc0d5be781233ec6cb2f1e2a079b258ddd1))
+
 ## [4.2.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.2.0...v4.2.1) (2025-08-04)
 
 ### Bug Fixes
