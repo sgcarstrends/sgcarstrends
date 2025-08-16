@@ -12,7 +12,20 @@ When working with external libraries or frameworks, use the Context7 MCP tools t
 This ensures you have access to the latest API documentation for dependencies like Hono, Next.js, Drizzle ORM, Vitest,
 and others used in this project.
 
-# SG Cars Trends Backend - Developer Reference Guide
+# SG Cars Trends - Developer Reference Guide
+
+## Project-Specific CLAUDE.md Files
+
+This repository includes directory-specific CLAUDE.md files with detailed guidance for each component:
+
+- **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, tRPC, and social media integration
+- **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 15, HeroUI, blog features, and analytics
+- **[packages/database/CLAUDE.md](packages/database/CLAUDE.md)**: Database schema management with Drizzle ORM, migrations, and TypeScript integration
+- **[infra/CLAUDE.md](infra/CLAUDE.md)**: Infrastructure configuration with SST v3, AWS deployment, and domain management
+
+Refer to these files for component-specific development guidance and best practices.
+
+# SG Cars Trends Platform - Overview
 
 ## Project Overview
 
@@ -101,16 +114,22 @@ All redirects include standardized UTM parameters:
 - **apps/api**: Unified API service using Hono framework with integrated updater workflows
     - **src/v1**: API endpoints for data access
     - **src/lib/workflows**: Workflow-based data update system and social media integration
+    - **src/lib/gemini**: LLM blog generation using Google Gemini AI
     - **src/routes**: API route handlers including workflow endpoints
     - **src/config**: Database, Redis, QStash, and platform configurations
+    - **src/trpc**: Type-safe tRPC router with authentication
 - **apps/web**: Next.js frontend application
-    - **src/app**: Next.js App Router pages and layouts
-    - **src/components**: React components with tests
+    - **src/app**: Next.js App Router pages and layouts with blog functionality
+    - **src/components**: React components with comprehensive tests
+    - **src/actions**: Server actions for blog and analytics functionality
     - **src/utils**: Web-specific utility functions
 - **apps/docs**: Mintlify documentation site
 - **packages/database**: Database schema and migrations using Drizzle ORM
+    - **src/db**: Schema definitions for cars, COE, posts, and analytics tables
+    - **migrations**: Database migration files with version tracking
 - **packages/types**: Shared TypeScript type definitions
 - **packages/utils**: Shared utility functions
+- **infra**: SST v3 infrastructure configuration for AWS deployment
 
 ## Code Style
 
@@ -131,7 +150,8 @@ All redirects include standardized UTM parameters:
     - `fix: resolve bug` (patch version bump)
     - `feat!: breaking change` or `feat: add feature\n\nBREAKING CHANGE: description` (major version bump)
     - `chore:`, `docs:`, `style:`, `refactor:`, `test:` (no version bump)
-    - Max 72 characters for subject line
+    - Keep commit messages short and to 1 line (max 72 characters for subject line)
+- **Spelling**: Use English (Singapore) or English (UK) spellings throughout the entire project
 
 ## Testing
 
@@ -216,12 +236,15 @@ SG Cars Trends uses a standardized domain convention across services:
 
 ## Data Models
 
-- **cars**: Car registrations by make, fuel type, and vehicle type
+The platform uses PostgreSQL with Drizzle ORM for type-safe database operations:
+
+- **cars**: Car registrations by make, fuel type, and vehicle type with strategic indexing
 - **coe**: COE bidding results (quota, bids, premium by category)
 - **coePQP**: Prevailing Quota Premium rates
-- **months**: Available data months
-- **makes**: Vehicle manufacturers
-- **posts**: Blog posts with title, slug, content, metadata (including LLM generation details), and timestamps
+- **posts**: LLM-generated blog posts with metadata, tags, SEO information, and analytics
+- **analyticsTable**: Page views and visitor tracking for performance monitoring
+
+*See [packages/database/CLAUDE.md](packages/database/CLAUDE.md) for detailed schema definitions, migration workflows, and TypeScript integration patterns.*
 
 ## Workflow Architecture
 
@@ -299,7 +322,8 @@ Releases are automated using semantic-release based on conventional commits:
 ## Contribution Guidelines
 
 - Create feature branches from main branch
-- **Use conventional commit messages** following the format above
+- **Use conventional commit messages** following the format specified in Code Style section
 - Submit PRs with descriptive titles and summaries
 - Ensure CI passes (tests, lint, typecheck) before requesting review
 - Maintain backward compatibility for public APIs
+- Follow project spelling and commit message conventions as outlined in Code Style section
