@@ -45,9 +45,11 @@ Entitlement (COE) bidding results. The monorepo includes:
 
 ### Common Commands
 
+All commands use pnpm v10.13.1 as the package manager:
+
 - Build all: `pnpm build`
 - Develop: `pnpm dev`
-- Lint: `pnpm lint` (uses Biome)
+- Lint: `pnpm lint` (uses Biome with automatic formatting)
 - Test all: `pnpm test`
 - Test watch: `pnpm test:watch`
 - Test coverage: `pnpm test:coverage`
@@ -131,12 +133,36 @@ All redirects include standardized UTM parameters:
 - **packages/utils**: Shared utility functions
 - **infra**: SST v3 infrastructure configuration for AWS deployment
 
+## Monorepo Build System
+
+The project uses Turbo for efficient monorepo task orchestration:
+
+### Key Build Characteristics
+- **Dependency-aware**: Tasks automatically run in dependency order with `dependsOn: ["^build"]`
+- **Caching**: Build outputs cached with intelligent invalidation based on file inputs
+- **Parallel execution**: Independent tasks run concurrently for optimal performance
+- **Environment handling**: Global dependencies on `.env` files and `NODE_ENV`
+
+### Important Task Patterns
+- **Build tasks**: Generate `dist/**`, `.next/**` outputs (excluding `.next/cache/**`)
+- **Test tasks**: Monitor `src/**/*.ts`, `src/**/*.tsx`, `test/**/*.ts`, `tests/**/*.ts` inputs
+- **Development tasks**: `dev` and `test:watch` use `cache: false` and `persistent: true`
+- **Migration tasks**: Track `migrations/**/*.sql` files for database operations
+
+### Performance Optimization
+- Biome linting targets only `src/**/*.ts` and `src/**/*.tsx` files
+- Test coverage outputs to dedicated `coverage/**` directories
+- E2E tests output to `test-results/**` and `playwright-report/**`
+
 ## Code Style
 
 - TypeScript with strict type checking (noImplicitAny, strictNullChecks)
-- Use double quotes for strings (Biome enforced)
-- Use spaces for indentation (2 spaces, Biome enforced)
-- Organise imports automatically (Biome enforced)
+- **Biome**: Used for formatting, linting, and import organization
+    - Double quotes for strings (enforced)
+    - 2 spaces for indentation (enforced)
+    - Automatic import organization (enforced)
+    - Recommended linting rules enabled
+    - Excludes `.claude`, `.sst`, `coverage`, `migrations`, and `*.d.ts` files
 - Function/variable naming: camelCase
 - Class naming: PascalCase
 - Constants: UPPER_CASE for true constants
@@ -145,13 +171,36 @@ All redirects include standardized UTM parameters:
 - Path aliases: Use `@api/` for imports in API app
 - Avoid using `any` type - prefer unknown with type guards
 - Group imports by: 1) built-in, 2) external, 3) internal
-- **Commit messages**: Use conventional commit format for semantic-release:
+- **Commit messages**: Use conventional commit format enforced by commitlint:
     - `feat: add new feature` (minor version bump)
     - `fix: resolve bug` (patch version bump)
     - `feat!: breaking change` or `feat: add feature\n\nBREAKING CHANGE: description` (major version bump)
     - `chore:`, `docs:`, `style:`, `refactor:`, `test:` (no version bump)
     - Keep commit messages short and to 1 line (max 72 characters for subject line)
+    - **Optional scopes**: Use scopes for package-specific changes: `feat(api):`, `fix(web):`, `chore(database):`
+    - **Available scopes**: `api`, `web`, `docs`, `database`, `types`, `utils`, `infra`, `deps`, `release`
+    - Root-level changes (CI, workspace setup) can omit scopes: `chore: setup commitlint`
 - **Spelling**: Use English (Singapore) or English (UK) spellings throughout the entire project
+
+## Git Hooks and Development Workflow
+
+The project uses Husky v9+ with automated git hooks for code quality enforcement:
+
+### Pre-commit Hook
+- **lint-staged**: Automatically runs `pnpm biome check --write` on staged files
+- Formats code and fixes lint issues before commits
+- Only processes staged files for performance
+
+### Commit Message Hook
+- **commitlint**: Validates commit messages against conventional commit format
+- Enforces optional scope validation for monorepo consistency
+- Rejects commits with invalid format and provides helpful error messages
+
+### Development Workflow
+- Git hooks run automatically on `git commit`
+- Failed hooks prevent commits and display clear error messages
+- Use `git commit -n` to bypass hooks if needed (not recommended)
+- Hooks ensure consistent code style and commit message format across the team
 
 ## Testing
 
