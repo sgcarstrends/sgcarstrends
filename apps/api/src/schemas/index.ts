@@ -52,6 +52,44 @@ export const FuelTypeMakesSchema = z.object({
 
 export const TopMakesResponseSchema = z.array(FuelTypeMakesSchema);
 
+export const PopularMakesQuerySchema = z
+  .object({
+    year: z
+      .string()
+      .regex(/^\d{4}$/)
+      .optional()
+      .openapi({
+        description: "Year in YYYY format to get popular makes for",
+        example: "2024",
+      }),
+    limit: z.coerce
+      .number()
+      .int()
+      .min(1)
+      .max(20)
+      .optional()
+      .default(8)
+      .openapi({
+        description: "Maximum number of popular makes to return",
+        example: 8,
+      }),
+  })
+  .openapi({
+    description: "Query parameters for popular makes endpoint",
+  });
+
+export const PopularMakeSchema = z.object({
+  make: z.string(),
+  registrations: z.number(),
+  percentage: z.number(),
+});
+
+export const PopularMakesResponseSchema = z.object({
+  year: z.string(),
+  totalRegistrations: z.number(),
+  makes: z.array(PopularMakeSchema),
+});
+
 export const ComparisonQuerySchema = z
   .object({
     month: z.string().openapi({

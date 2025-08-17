@@ -1,40 +1,28 @@
 "use client";
 
 import { Chip, Input } from "@heroui/react";
-import { Search } from "lucide-react";
-import { useMemo, useState } from "react";
 import {
   MakesSearchResults,
   OtherMakesSection,
   PopularMakesSection,
 } from "@web/components/makes";
 import type { Make } from "@web/types";
+import { Search } from "lucide-react";
+import { useMemo, useState } from "react";
 
-interface PopularMakesProps {
+interface MakesListProps {
   makes: Make[];
+  popularMakes: Make[];
 }
 
-// TODO: Popular makes to pin at the top. This will come from an API later
-const POPULAR_MAKES = [
-  "AUDI",
-  "BMW",
-  "HONDA",
-  "HYUNDAI",
-  "KIA",
-  "MERCEDES BENZ",
-  "TOYOTA",
-  "VOLKSWAGEN",
-];
-
-export const MakesList = ({ makes }: PopularMakesProps) => {
+export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const { popular, others } = useMemo(() => {
-    const popular = POPULAR_MAKES.filter((make) => makes.includes(make));
-    const others = makes.filter((make) => !POPULAR_MAKES.includes(make));
-
+    const popular = popularMakes.filter((make) => makes.includes(make));
+    const others = makes.filter((make) => !popularMakes.includes(make));
     return { popular, others };
-  }, [makes]);
+  }, [makes, popularMakes]);
 
   const filteredMakes = useMemo(() => {
     if (!searchTerm) {
@@ -90,8 +78,8 @@ export const MakesList = ({ makes }: PopularMakesProps) => {
       {filteredMakes.length === 0 && (
         <div className="py-12 text-center">
           <div className="flex flex-col items-center gap-3">
-            <div className="bg-default-100 rounded-full p-4">
-              <Search className="text-default-400 size-8" />
+            <div className="rounded-full bg-default-100 p-4">
+              <Search className="size-8 text-default-400" />
             </div>
             <div className="text-default-500">
               No makes found matching &quot;{searchTerm}&quot;
