@@ -1,5 +1,4 @@
 import { getPopularMakes } from "@web/actions";
-import { BetaChip } from "@web/components/chips";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import {
@@ -76,7 +75,6 @@ const CarMakesPage = async () => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <BetaChip />
         <PageHeader
           title="Makes"
           subtitle="List of car makes registered in Singapore."

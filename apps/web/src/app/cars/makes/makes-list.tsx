@@ -1,6 +1,7 @@
 "use client";
 
-import { Chip, Input } from "@heroui/react";
+import { Chip } from "@heroui/chip";
+import { Input } from "@heroui/input";
 import {
   MakesSearchResults,
   OtherMakesSection,
