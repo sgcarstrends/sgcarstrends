@@ -1,3 +1,9 @@
+## [4.5.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.4.0...v4.5.0) (2025-08-30)
+
+### Features
+
+* add generic banner component ([ac3bf6d](https://github.com/sgcarstrends/sgcarstrends/commit/ac3bf6d5885384fa8b5ff1b6e462cd3cf301bd4a))
+
 ## [4.4.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.3.0...v4.4.0) (2025-08-30)
 
 ### Features
