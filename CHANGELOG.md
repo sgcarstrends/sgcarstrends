@@ -1,3 +1,9 @@
+## [4.6.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.5.0...v4.6.0) (2025-08-30)
+
+### Features
+
+* add COE quota premium banner ([08f3797](https://github.com/sgcarstrends/sgcarstrends/commit/08f3797d2f2d717e79d99243041d169bb2fa8abc))
+
 ## [4.5.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.4.0...v4.5.0) (2025-08-30)
 
 ### Features
