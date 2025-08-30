@@ -171,12 +171,14 @@ The project uses Turbo for efficient monorepo task orchestration:
 - Path aliases: Use `@api/` for imports in API app
 - Avoid using `any` type - prefer unknown with type guards
 - Group imports by: 1) built-in, 2) external, 3) internal
-- **Commit messages**: Use conventional commit format enforced by commitlint:
+- **Commit messages**: Use conventional commit format with SHORT, concise messages enforced by commitlint:
+    - **Preferred style**: Keep messages brief and direct (e.g., `feat: add user auth`, `fix: login error`)
     - `feat: add new feature` (minor version bump)
     - `fix: resolve bug` (patch version bump)
     - `feat!: breaking change` or `feat: add feature\n\nBREAKING CHANGE: description` (major version bump)
     - `chore:`, `docs:`, `style:`, `refactor:`, `test:` (no version bump)
-    - Keep commit messages short and to 1 line (max 72 characters for subject line)
+    - **IMPORTANT**: Keep commit messages SHORT - single line with max 50 characters preferred, 72 characters absolute maximum
+    - Avoid verbose descriptions - focus on what changed, not why or how
     - **Optional scopes**: Use scopes for package-specific changes: `feat(api):`, `fix(web):`, `chore(database):`
     - **Available scopes**: `api`, `web`, `docs`, `database`, `types`, `utils`, `infra`, `deps`, `release`
     - Root-level changes (CI, workspace setup) can omit scopes: `chore: setup commitlint`
