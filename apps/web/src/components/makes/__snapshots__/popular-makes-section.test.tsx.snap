@@ -9,7 +9,7 @@ exports[`PopularMakesSection > should render correctly 1`] = `
       class="flex items-center gap-2"
     >
       <h2
-        class="text-xl font-semibold"
+        class="font-semibold text-xl"
       >
         Popular Makes
       </h2>
@@ -27,7 +27,7 @@ exports[`PopularMakesSection > should render correctly 1`] = `
       class="grid grid-cols-2 gap-4 md:grid-cols-4"
     >
       <div
-        class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-hidden data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-primary-600 ring-2"
+        class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-hidden data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-2 ring-primary-600"
         tabindex="-1"
       >
         <div
@@ -46,10 +46,10 @@ exports[`PopularMakesSection > should render correctly 1`] = `
             width="512"
           />
           <div
-            class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+            class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
           >
             <svg
-              class="lucide lucide-car text-primary-600 size-8"
+              class="lucide lucide-car size-8 text-primary-600"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -80,7 +80,7 @@ exports[`PopularMakesSection > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+          class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
         >
           <p
             class="text-tiny"
@@ -99,7 +99,7 @@ exports[`PopularMakesSection > should render correctly 1`] = `
         </div>
       </div>
       <div
-        class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-hidden data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-primary-600 ring-2"
+        class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-hidden data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-2 ring-primary-600"
         tabindex="-1"
       >
         <div
@@ -118,10 +118,10 @@ exports[`PopularMakesSection > should render correctly 1`] = `
             width="512"
           />
           <div
-            class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+            class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
           >
             <svg
-              class="lucide lucide-car text-primary-600 size-8"
+              class="lucide lucide-car size-8 text-primary-600"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -152,7 +152,7 @@ exports[`PopularMakesSection > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+          class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
         >
           <p
             class="text-tiny"
@@ -171,7 +171,7 @@ exports[`PopularMakesSection > should render correctly 1`] = `
         </div>
       </div>
       <div
-        class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-hidden data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-primary-600 ring-2"
+        class="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-hidden data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large transition-transform-background motion-reduce:transition-none h-32 border-none ring-2 ring-primary-600"
         tabindex="-1"
       >
         <div
@@ -190,10 +190,10 @@ exports[`PopularMakesSection > should render correctly 1`] = `
             width="512"
           />
           <div
-            class="fallback-icon bg-primary-100 hidden h-20 w-20 items-center justify-center rounded-lg"
+            class="fallback-icon hidden h-20 w-20 items-center justify-center rounded-lg bg-primary-100"
           >
             <svg
-              class="lucide lucide-car text-primary-600 size-8"
+              class="lucide lucide-car size-8 text-primary-600"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -224,7 +224,7 @@ exports[`PopularMakesSection > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 rounded-large shadow-small absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden border-1 border-white/20 py-1 backdrop-blur before:rounded-xl before:bg-black/50"
+          class="p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-saturate-150 absolute bottom-1 z-10 ml-1 w-[calc(100%_-_8px)] justify-between overflow-hidden rounded-large border-1 border-white/20 py-1 shadow-small backdrop-blur before:rounded-xl before:bg-black/50"
         >
           <p
             class="text-tiny"
