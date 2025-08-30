@@ -1,3 +1,13 @@
+## [4.4.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.3.0...v4.4.0) (2025-08-30)
+
+### Features
+
+* **web:** remove hardcoded popular makes ([4f548a6](https://github.com/sgcarstrends/sgcarstrends/commit/4f548a61ca95a111b442c96b88c981e1af39bd70))
+
+### Bug Fixes
+
+* build error due to type issue ([a060589](https://github.com/sgcarstrends/sgcarstrends/commit/a0605897754b568a2ab7a0c54524920cdfc20c20))
+
 ## [4.3.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.2.1...v4.3.0) (2025-08-15)
 
 ### Features
