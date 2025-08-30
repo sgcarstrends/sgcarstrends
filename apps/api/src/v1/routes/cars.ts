@@ -10,7 +10,9 @@ import {
   getDistinctMakes,
   getDistinctVehicleTypes,
   getFuelTypeByMonth,
+  getLatestYear,
   getMake,
+  getPopularMakesByYear,
   getTopTypes,
   getVehicleTypeByMonth,
 } from "@api/queries/cars";
@@ -29,6 +31,8 @@ import {
   MakesResponseSchema,
   MonthsQuerySchema,
   MonthsResponseSchema,
+  PopularMakesQuerySchema,
+  PopularMakesResponseSchema,
   TopMakesQuerySchema,
   TopMakesResponseSchema,
   TopTypesQuerySchema,
@@ -474,6 +478,53 @@ app.openapi(
       total,
       data,
     });
+  },
+);
+
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/popular-makes",
+    summary: "Get popular car makes by annual registrations",
+    description:
+      "Get the most popular car makes based on total registration numbers for a given year",
+    tags: ["Cars"],
+    request: { query: PopularMakesQuerySchema },
+    responses: {
+      200: {
+        description: "Popular car makes data",
+        content: {
+          "application/json": {
+            schema: PopularMakesResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  }),
+  async (c) => {
+    const { year, limit } = c.req.query();
+
+    try {
+      const targetYear = year || (await getLatestYear());
+      const result = await getPopularMakesByYear(
+        targetYear,
+        limit ? parseInt(limit) : 8,
+      );
+
+      return c.json(result);
+    } catch (e) {
+      console.error("Error fetching popular makes:", e);
+      return c.json(
+        {
+          error: "An error occurred while fetching popular makes",
+          details: e.message,
+        },
+        500,
+      );
+    }
   },
 );
 
