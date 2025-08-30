@@ -13,7 +13,7 @@ export const QuotaPremiumTicker = ({ data = [] }: Props) => {
 
   setBannerContent(
     <div className="flex items-center justify-center gap-4">
-      {data.sort(sortByCategory).map(({ vehicle_class, premium }) => (
+      {data.toSorted(sortByCategory).map(({ vehicle_class, premium }) => (
         <div key={vehicle_class} className="flex items-center gap-2">
           <span className="font-semibold text-small">{vehicle_class}</span>
           <Chip color="primary" variant="bordered">
