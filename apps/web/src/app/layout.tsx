@@ -1,8 +1,3 @@
-import classNames from "classnames";
-import { Inter } from "next/font/google";
-import Script from "next/script";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
-import type { ReactNode } from "react";
 import LoadingIndicator from "@web/app/loading-indicator";
 import { Providers } from "@web/app/providers";
 import { Analytics } from "@web/components/analytics";
@@ -11,7 +6,13 @@ import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
 import { NotificationPrompt } from "@web/components/notification-prompt";
 import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@web/config";
+import classNames from "classnames";
+import { Inter } from "next/font/google";
+import Script from "next/script";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import type { ReactNode } from "react";
 import "./globals.css";
+import { Banner } from "@web/components/banner";
 import type { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -57,6 +58,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
           <NuqsAdapter>
             <LoadingIndicator />
             <Header />
+            <Banner />
             <main className="container mx-auto px-6 py-8">{children}</main>
             <Footer />
           </NuqsAdapter>
