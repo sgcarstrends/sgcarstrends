@@ -1,3 +1,9 @@
+## [4.8.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.2...v4.8.3) (2025-08-31)
+
+### Bug Fixes
+
+* **web:** temp fix to static site errors ([1cba664](https://github.com/sgcarstrends/sgcarstrends/commit/1cba664a928ac29b9663b7971eec4047d6ad32eb))
+
 ## [4.8.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.1...v4.8.2) (2025-08-31)
 
 ### Bug Fixes
