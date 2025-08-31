@@ -1,8 +1,8 @@
 import { CarRegistration } from "@web/app/cars/car-registration";
+import { CategoryTabs } from "@web/app/cars/category-tabs";
 import { loadSearchParams } from "@web/app/cars/search-params";
 import { MetricCard } from "@web/components/metric-card";
 import { PageHeader } from "@web/components/page-header";
-import { StatCard } from "@web/components/stat-card";
 import { StructuredData } from "@web/components/structured-data";
 import { TopMakes } from "@web/components/top-makes";
 import Typography from "@web/components/typography";
@@ -162,22 +162,7 @@ const CarsPage = async ({ searchParams }: Props) => {
                 }
               />
             </div>
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-              <StatCard
-                title="By Fuel Type"
-                description="Distribution of vehicles based on fuel type"
-                data={cars.fuelType}
-                total={cars.total}
-                linkPrefix="fuel-types"
-              />
-              <StatCard
-                title="By Vehicle Type"
-                description="Distribution of vehicles based on vehicle type"
-                data={cars.vehicleType}
-                total={cars.total}
-                linkPrefix="vehicle-types"
-              />
-            </div>
+            <CategoryTabs cars={cars} />
             <div className="flex items-center justify-between">
               <Typography.H2>Top Makes by Fuel Type</Typography.H2>
             </div>
