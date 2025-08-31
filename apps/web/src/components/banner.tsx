@@ -10,8 +10,8 @@ export const Banner = () => {
   }
 
   return (
-    <div className="flex items-center justify-center border-b bg-gray-50">
-      <div className="container mx-auto px-6 py-4">{bannerContent}</div>
+    <div className="flex items-center overflow-x-auto whitespace-nowrap border-t bg-gray-50 shadow-md">
+      <div className="px-6 py-4 lg:container lg:mx-auto">{bannerContent}</div>
     </div>
   );
 };
