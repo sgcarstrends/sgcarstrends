@@ -23,6 +23,8 @@
     "@heroui/button": "^2.2.24",
     "@heroui/chip": "^2.2.20",
     "@heroui/react": "^2.8.1",
+    "@heroui/spacer": "^2.2.18",
+    "@heroui/tabs": "^2.2.21",
     "@heroui/tooltip": "^2.2.21",
     "@icons-pack/react-simple-icons": "^10.2.0",
     "@neondatabase/serverless": "1.0.1",
