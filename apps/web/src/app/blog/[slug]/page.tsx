@@ -1,7 +1,5 @@
 import { Button } from "@heroui/button";
-import { Tooltip } from "@heroui/tooltip";
 import { getAllPosts, getPostBySlug, updatePostTags } from "@web/actions/blog";
-import { AIBadge } from "@web/components/ai-badge";
 import { ProgressBar } from "@web/components/blog/progress-bar";
 import { RelatedPosts } from "@web/components/blog/related-posts";
 import { ViewCounter } from "@web/components/blog/view-counter";
@@ -120,16 +118,6 @@ const BlogPostPage = async ({ params }: Props) => {
       <ProgressBar />
       <div className="container mx-auto flex w-full flex-col gap-8">
         <div className="flex items-center justify-center gap-2 text-muted-foreground">
-          {metadata?.modelVersion && (
-            <Tooltip
-              color="primary"
-              content={`Generated using ${metadata.modelVersion}`}
-              placement="bottom"
-            >
-              <AIBadge />
-            </Tooltip>
-          )}
-          <span>&middot;</span>
           <span>
             {new Date(publishedDate).toLocaleDateString("en-SG", {
               year: "numeric",

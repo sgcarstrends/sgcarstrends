@@ -1,7 +1,6 @@
 "use client";
 
 import type { SelectPost } from "@sgcarstrends/database";
-import { AIBadge } from "@web/components/ai-badge";
 import { Badge } from "@web/components/ui/badge";
 import {
   Card,
@@ -36,9 +35,6 @@ export const BlogPost = ({ post }: Props) => {
         </div>
 
         <CardHeader>
-          <div className="flex items-center">
-            {metadata?.modelVersion && <AIBadge />}
-          </div>
           <CardTitle className="text-xl">{post.title}</CardTitle>
         </CardHeader>
         <CardContent className="flex-1">
