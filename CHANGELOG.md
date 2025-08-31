@@ -1,3 +1,9 @@
+## [4.8.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.0...v4.8.1) (2025-08-31)
+
+### Bug Fixes
+
+* **web:** clear COE banner on navigation ([3462156](https://github.com/sgcarstrends/sgcarstrends/commit/3462156f81093b7e3983be682cd720bd06b4e136))
+
 ## [4.8.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.7.0...v4.8.0) (2025-08-31)
 
 ### Features
