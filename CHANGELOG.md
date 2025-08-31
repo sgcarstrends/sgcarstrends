@@ -1,3 +1,9 @@
+## [4.8.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.7.0...v4.8.0) (2025-08-31)
+
+### Features
+
+* **web:** add tabbed view for car stats by category ([85abe48](https://github.com/sgcarstrends/sgcarstrends/commit/85abe48f38108cc9104d15278b16c7f0a86ea811))
+
 ## [4.7.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.6.2...v4.7.0) (2025-08-31)
 
 ### Features
