@@ -143,13 +143,13 @@ const CarsPage = async ({ searchParams }: Props) => {
         {cars && (
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-              <Card className="bg-gradient-to-tr from-primary-600 to-primary text-white">
+              <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     Total Registrations
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="font-bold text-2xl">
+                <CardContent className="font-bold text-2xl text-primary">
                   <AnimatedNumber value={cars.total} />
                 </CardContent>
                 <CardFooter>
