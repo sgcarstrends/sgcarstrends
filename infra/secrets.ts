@@ -41,6 +41,7 @@ export const SECRET_KEYS = [
   ...TELEGRAM_SECRETS,
   ...TWITTER_SECRETS,
   ...UPSTASH_SECRETS,
+  "GEMINI_API_KEY",
 ] as const;
 
 export const secrets = Object.fromEntries(
