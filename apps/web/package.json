@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@heroui/button": "^2.2.24",
+    "@heroui/card": "^2.2.24",
     "@heroui/chip": "^2.2.20",
     "@heroui/react": "^2.8.1",
     "@heroui/spacer": "^2.2.18",

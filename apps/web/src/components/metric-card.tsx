@@ -1,12 +1,6 @@
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { MetricsComparison } from "@web/components/metrics-comparison";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@web/components/ui/card";
 
 interface Props {
   title: string;
@@ -19,11 +13,13 @@ export const MetricCard = ({ title, value, current, previousMonth }: Props) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">{title}</CardTitle>
+        <div className="font-bold text-lg">{title}</div>
       </CardHeader>
-      <CardContent className="font-bold text-2xl text-primary">
-        <AnimatedNumber value={value} />
-      </CardContent>
+      <CardBody>
+        <div className="font-bold text-4xl text-primary">
+          <AnimatedNumber value={value} />
+        </div>
+      </CardBody>
       <CardFooter>
         <MetricsComparison current={current} previousMonth={previousMonth} />
       </CardFooter>
