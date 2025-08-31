@@ -11,7 +11,7 @@ interface Props {
 
 export const MetricCard = ({ title, value, current, previousMonth }: Props) => {
   return (
-    <Card>
+    <Card className="p-4">
       <CardHeader>
         <div className="font-bold text-lg">{title}</div>
       </CardHeader>
