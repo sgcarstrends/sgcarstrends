@@ -67,6 +67,8 @@ export const generateMetadata = async ({
   };
 };
 
+export const dynamic = "force-dynamic";
+
 export const generateStaticParams = async () => {
   const posts = await getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
