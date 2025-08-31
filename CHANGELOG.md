@@ -1,3 +1,9 @@
+## [4.7.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.6.2...v4.7.0) (2025-08-31)
+
+### Features
+
+* **web:** add blog post tabs ([b6490a5](https://github.com/sgcarstrends/sgcarstrends/commit/b6490a50e941e6804ce013a09cdf5a21573d609f))
+
 ## [4.6.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.6.1...v4.6.2) (2025-08-31)
 
 ### Bug Fixes
