@@ -1,3 +1,9 @@
+## [4.8.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.1...v4.8.2) (2025-08-31)
+
+### Bug Fixes
+
+* **web:** add dynamic rendering to fix build errors ([21222bf](https://github.com/sgcarstrends/sgcarstrends/commit/21222bf53cfbf216e6b2ea045fe82ba4e3802a1a))
+
 ## [4.8.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.0...v4.8.1) (2025-08-31)
 
 ### Bug Fixes
