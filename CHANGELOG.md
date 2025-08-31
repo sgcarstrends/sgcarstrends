@@ -1,3 +1,9 @@
+## [4.6.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.6.0...v4.6.1) (2025-08-31)
+
+### Bug Fixes
+
+* **web:** banner not responsive on mobile ([4eace44](https://github.com/sgcarstrends/sgcarstrends/commit/4eace44ba761abe3f20d3ccb0a281770600ecf5d))
+
 ## [4.6.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.5.0...v4.6.0) (2025-08-30)
 
 ### Features
