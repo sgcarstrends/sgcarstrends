@@ -1,3 +1,9 @@
+## [4.6.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.6.1...v4.6.2) (2025-08-31)
+
+### Bug Fixes
+
+* **web:** consistent card style ([0b40806](https://github.com/sgcarstrends/sgcarstrends/commit/0b408066faa8e3ce187da315d4e47c293705a236))
+
 ## [4.6.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.6.0...v4.6.1) (2025-08-31)
 
 ### Bug Fixes
