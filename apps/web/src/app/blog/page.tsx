@@ -1,5 +1,5 @@
 import { getAllPosts } from "@web/actions/blog";
-import { BlogPost } from "@web/app/blog/blog-post";
+import { BlogList } from "@web/components/blog/blog-list";
 import { BetaChip } from "@web/components/chips";
 import { StructuredData } from "@web/components/structured-data";
 import type { Metadata } from "next";
@@ -48,10 +48,8 @@ const Page = async () => {
             <h1 className="font-bold text-4xl">Blog</h1>
             <p className="text-muted-foreground">{description}</p>
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {posts.map((post, index) => (
-              <BlogPost key={post.title} post={post} index={index} />
-            ))}
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <BlogList posts={posts} />
           </div>
           {posts.length === 0 && (
             <div className="py-12 text-center">
