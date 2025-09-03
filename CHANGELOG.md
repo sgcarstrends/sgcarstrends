@@ -1,3 +1,9 @@
+## [4.8.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.3...v4.8.4) (2025-09-03)
+
+### Bug Fixes
+
+* **web:** remove dots from charts in visitors ([6b981c4](https://github.com/sgcarstrends/sgcarstrends/commit/6b981c4aed791241a1f3e4bcc54533c878ae5caf))
+
 ## [4.8.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.2...v4.8.3) (2025-08-31)
 
 ### Bug Fixes
