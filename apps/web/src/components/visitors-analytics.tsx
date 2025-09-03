@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useState, useTransition } from "react";
 import {
   Card,
   CardContent,
@@ -9,6 +8,7 @@ import {
 } from "@web/components/ui/card";
 import { VisitorTrendsChart } from "@web/components/visitor-trends-chart";
 import type { AnalyticsData } from "@web/types/analytics";
+import { useCallback, useState, useTransition } from "react";
 
 interface VisitorsAnalyticsProps {
   initialData: AnalyticsData;
@@ -37,7 +37,7 @@ export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
         }
       });
     },
-    [startTransition],
+    [],
   );
 
   return (
@@ -55,7 +55,7 @@ export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="text-muted-foreground grid grid-cols-3 gap-4 border-b pb-2 text-sm font-medium">
+              <div className="grid grid-cols-3 gap-4 border-b pb-2 font-medium text-muted-foreground text-sm">
                 <span>Referrer</span>
                 <span className="text-right">Views</span>
                 <span className="text-right">%</span>
@@ -66,7 +66,7 @@ export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
                   <span className="text-right font-medium">
                     {data.totalViews}
                   </span>
-                  <span className="text-muted-foreground text-right">100</span>
+                  <span className="text-right text-muted-foreground">100</span>
                 </div>
               ) : (
                 <>
@@ -82,7 +82,7 @@ export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
                             0,
                           )}
                       </span>
-                      <span className="text-muted-foreground text-right">
+                      <span className="text-right text-muted-foreground">
                         {Math.round(
                           ((data.totalViews -
                             data.topReferrers.reduce(
@@ -104,7 +104,7 @@ export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
                       <span className="text-right font-medium">
                         {referrer.count}
                       </span>
-                      <span className="text-muted-foreground text-right">
+                      <span className="text-right text-muted-foreground">
                         {Math.round((referrer.count / data.totalViews) * 100)}
                       </span>
                     </div>
@@ -121,7 +121,7 @@ export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="text-muted-foreground grid grid-cols-3 gap-4 border-b pb-2 text-sm font-medium">
+              <div className="grid grid-cols-3 gap-4 border-b pb-2 font-medium text-muted-foreground text-sm">
                 <span>Page</span>
                 <span className="text-right">Views</span>
                 <span className="text-right">%</span>
@@ -133,7 +133,7 @@ export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
                 >
                   <span className="truncate">{page.pathname}</span>
                   <span className="text-right font-medium">{page.count}</span>
-                  <span className="text-muted-foreground text-right">
+                  <span className="text-right text-muted-foreground">
                     {Math.round((page.count / data.totalViews) * 100)}
                   </span>
                 </div>
@@ -148,7 +148,7 @@ export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="text-muted-foreground grid grid-cols-3 gap-4 border-b pb-2 text-sm font-medium">
+              <div className="grid grid-cols-3 gap-4 border-b pb-2 font-medium text-muted-foreground text-sm">
                 <span>Country</span>
                 <span className="text-right">Views</span>
                 <span className="text-right">%</span>
@@ -165,7 +165,7 @@ export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
                   <span className="text-right font-medium">
                     {country.count}
                   </span>
-                  <span className="text-muted-foreground text-right">
+                  <span className="text-right text-muted-foreground">
                     {Math.round((country.count / data.totalViews) * 100)}
                   </span>
                 </div>
@@ -180,7 +180,7 @@ export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="text-muted-foreground grid grid-cols-3 gap-4 border-b pb-2 text-sm font-medium">
+              <div className="grid grid-cols-3 gap-4 border-b pb-2 font-medium text-muted-foreground text-sm">
                 <span>City</span>
                 <span className="text-right">Views</span>
                 <span className="text-right">%</span>
@@ -197,7 +197,7 @@ export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
                     </span>
                   </div>
                   <span className="text-right font-medium">{city.count}</span>
-                  <span className="text-muted-foreground text-right">
+                  <span className="text-right text-muted-foreground">
                     {Math.round((city.count / data.totalViews) * 100)}
                   </span>
                 </div>

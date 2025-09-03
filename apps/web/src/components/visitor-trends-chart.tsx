@@ -1,10 +1,5 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
-import { format, startOfYear, subDays, subMonths, subYears } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -25,6 +20,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@web/components/ui/select";
+import { format, startOfYear, subDays, subMonths, subYears } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
+import { useCallback, useEffect } from "react";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 interface Props {
   data: Array<{
@@ -249,7 +249,7 @@ export const VisitorTrendsChart = ({
                 />
               }
             />
-            <Line dataKey="count" type="monotone" strokeWidth={2} dot={true} />
+            <Line dataKey="count" type="monotone" strokeWidth={2} dot={false} />
           </LineChart>
         </ChartContainer>
       </CardContent>
