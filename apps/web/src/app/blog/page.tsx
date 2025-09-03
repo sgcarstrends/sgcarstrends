@@ -39,6 +39,10 @@ export const metadata: Metadata = {
 const Page = async () => {
   const posts = await getAllPosts();
 
+  for (const post of posts) {
+    console.log(post.title);
+  }
+
   return (
     <>
       <StructuredData data={structuredData} />
