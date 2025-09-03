@@ -1,14 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { Button, Divider } from "@heroui/react";
 import { BrandLogo } from "@web/components/brand-logo";
-import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { BetaChip, NewChip } from "@web/components/chips";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { navLinks } from "@web/config/navigation";
+import Link from "next/link";
+import { version } from "../../package.json";
 
 export const Footer = () => (
-  <footer className="bg-content1 border-divider border-t">
+  <footer className="border-divider border-t bg-content1">
     <div className="container mx-auto px-6 py-12">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
         {/* Brand Section */}
@@ -29,7 +30,7 @@ export const Footer = () => (
                 isIconOnly
                 variant="light"
                 size="sm"
-                className="text-default-500 hover:text-primary transition-colors"
+                className="text-default-500 transition-colors hover:text-primary"
                 aria-label={title}
               >
                 <Icon className="size-4" />
@@ -40,29 +41,29 @@ export const Footer = () => (
 
         {/* Cars Section */}
         <div className="space-y-4">
-          <h3 className="text-default-900 text-lg font-semibold">Cars</h3>
+          <h3 className="font-semibold text-default-900 text-lg">Cars</h3>
           <div className="space-y-2">
             <Link
               href={navLinks.cars.overview.url}
-              className="text-default-600 hover:text-primary block text-sm transition-colors"
+              className="block text-default-600 text-sm transition-colors hover:text-primary"
             >
               {navLinks.cars.overview.title}
             </Link>
             <Link
               href={navLinks.cars.fuelTypes.url}
-              className="text-default-600 hover:text-primary block text-sm transition-colors"
+              className="block text-default-600 text-sm transition-colors hover:text-primary"
             >
               {navLinks.cars.fuelTypes.title}
             </Link>
             <Link
               href={navLinks.cars.vehicleTypes.url}
-              className="text-default-600 hover:text-primary block text-sm transition-colors"
+              className="block text-default-600 text-sm transition-colors hover:text-primary"
             >
               {navLinks.cars.vehicleTypes.title}
             </Link>
             <Link
               href={navLinks.cars.makes.url}
-              className="text-default-600 hover:text-primary flex items-center gap-2 text-sm transition-colors"
+              className="flex items-center gap-2 text-default-600 text-sm transition-colors hover:text-primary"
             >
               {navLinks.cars.makes.title}
               <BetaChip />
@@ -72,13 +73,13 @@ export const Footer = () => (
 
         {/* COE Section */}
         <div className="space-y-4">
-          <h3 className="text-default-900 text-lg font-semibold">COE</h3>
+          <h3 className="font-semibold text-default-900 text-lg">COE</h3>
           <div className="space-y-2">
             {navLinks.coe.map((item) => (
               <Link
                 key={item.title}
                 href={item.url}
-                className="text-default-600 hover:text-primary block text-sm transition-colors"
+                className="block text-default-600 text-sm transition-colors hover:text-primary"
               >
                 {item.title}
               </Link>
@@ -89,7 +90,7 @@ export const Footer = () => (
         {/* General Section */}
         <UnreleasedFeature>
           <div className="space-y-4">
-            <h3 className="text-default-900 text-lg font-semibold">General</h3>
+            <h3 className="font-semibold text-default-900 text-lg">General</h3>
             <div className="space-y-2">
               {navLinks.general.map((item) => {
                 const showNewChip = ["FAQ", "Blog", "Visitors"].includes(
@@ -99,7 +100,7 @@ export const Footer = () => (
                   <Link
                     key={item.title}
                     href={item.url}
-                    className={`text-default-600 hover:text-primary text-sm transition-colors ${
+                    className={`text-default-600 text-sm transition-colors hover:text-primary ${
                       showNewChip ? "flex items-center gap-2" : "block"
                     }`}
                   >
@@ -117,9 +118,10 @@ export const Footer = () => (
 
       {/* Bottom Section */}
       <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
-        <div className="text-default-600 text-center text-sm md:text-left">
+        <div className="text-center text-default-600 text-sm md:text-left">
           <p>
-            © {new Date().getFullYear()} SGCarsTrends. All rights reserved.
+            © {new Date().getFullYear()} SGCarsTrends. All rights reserved. • v
+            {version}
           </p>
           <p className="mt-1">
             Data provided by{" "}
@@ -137,13 +139,13 @@ export const Footer = () => (
         <div className="flex gap-4 text-sm">
           <Link
             href="/legal/privacy-policy"
-            className="text-default-600 hover:text-primary transition-colors"
+            className="text-default-600 transition-colors hover:text-primary"
           >
             Privacy Policy
           </Link>
           <Link
             href="/legal/terms-of-service"
-            className="text-default-600 hover:text-primary transition-colors"
+            className="text-default-600 transition-colors hover:text-primary"
           >
             Terms of Service
           </Link>
