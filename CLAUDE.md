@@ -9,9 +9,23 @@ When working with external libraries or frameworks, use the Context7 MCP tools t
 1. Use `mcp__context7__resolve-library-id` to find the correct library ID for any package
 2. Use `mcp__context7__get-library-docs` to retrieve comprehensive documentation and examples
 
-This ensures you have access to the latest API documentation for dependencies like Hono, Next.js, Drizzle ORM, Vitest, and others used in this project.
+This ensures you have access to the latest API documentation for dependencies like Hono, Next.js, Drizzle ORM, Vitest,
+and others used in this project.
 
-# SG Cars Trends Backend - Developer Reference Guide
+# SG Cars Trends - Developer Reference Guide
+
+## Project-Specific CLAUDE.md Files
+
+This repository includes directory-specific CLAUDE.md files with detailed guidance for each component:
+
+- **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, tRPC, and social media integration
+- **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 15, HeroUI, blog features, and analytics
+- **[packages/database/CLAUDE.md](packages/database/CLAUDE.md)**: Database schema management with Drizzle ORM, migrations, and TypeScript integration
+- **[infra/CLAUDE.md](infra/CLAUDE.md)**: Infrastructure configuration with SST v3, AWS deployment, and domain management
+
+Refer to these files for component-specific development guidance and best practices.
+
+# SG Cars Trends Platform - Overview
 
 ## Project Overview
 
@@ -19,9 +33,11 @@ SG Cars Trends is a full-stack platform providing access to Singapore vehicle re
 Entitlement (COE) bidding results. The monorepo includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
-- **Web Application**: Next.js frontend with interactive charts and analytics
+- **Web Application**: Next.js frontend with interactive charts, analytics, and blog functionality
 - **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA
   DataMall (QStash workflows)
+- **LLM Blog Generation**: Automated blog post creation using Google Gemini AI to analyse market data and generate
+  insights
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available
 - **Documentation**: Comprehensive developer documentation using Mintlify
 
@@ -29,9 +45,11 @@ Entitlement (COE) bidding results. The monorepo includes:
 
 ### Common Commands
 
+All commands use pnpm v10.13.1 as the package manager:
+
 - Build all: `pnpm build`
 - Develop: `pnpm dev`
-- Lint: `pnpm lint` (uses Biome)
+- Lint: `pnpm lint` (uses Biome with automatic formatting)
 - Test all: `pnpm test`
 - Test watch: `pnpm test:watch`
 - Test coverage: `pnpm test:coverage`
@@ -46,6 +64,30 @@ Entitlement (COE) bidding results. The monorepo includes:
 - Web build: `pnpm web:build`
 - Web start: `pnpm web:start`
 
+### Blog Commands
+
+- View all blog posts: Navigate to `/blog` on the web application
+- View specific blog post: Navigate to `/blog/[slug]` where slug is the post's URL slug
+- Blog posts are automatically generated via workflows when new data is processed
+- Blog posts include dynamic Open Graph images and SEO metadata
+
+### Social Media Redirect Routes
+
+The web application includes domain-based social media redirect routes that provide trackable, SEO-friendly URLs:
+
+- **/discord**: Redirects to Discord server with UTM tracking
+- **/twitter**: Redirects to Twitter profile with UTM tracking
+- **/instagram**: Redirects to Instagram profile with UTM tracking
+- **/linkedin**: Redirects to LinkedIn profile with UTM tracking
+- **/telegram**: Redirects to Telegram channel with UTM tracking
+- **/github**: Redirects to GitHub organisation with UTM tracking
+
+All redirects include standardized UTM parameters:
+
+- `utm_source=sgcarstrends`
+- `utm_medium=social_redirect`
+- `utm_campaign={platform}_profile`
+
 ### Documentation Commands
 
 - Docs dev server: `pnpm docs:dev`
@@ -55,7 +97,6 @@ Entitlement (COE) bidding results. The monorepo includes:
 
 - Run migrations: `pnpm migrate`
 - Check pending migrations: `pnpm migrate:check`
-
 
 ### Release Commands
 
@@ -70,29 +111,58 @@ Entitlement (COE) bidding results. The monorepo includes:
 - Deploy web to staging: `pnpm web:deploy:staging`
 - Deploy web to production: `pnpm web:deploy:prod`
 
-
 ## Code Structure
 
 - **apps/api**: Unified API service using Hono framework with integrated updater workflows
     - **src/v1**: API endpoints for data access
     - **src/lib/workflows**: Workflow-based data update system and social media integration
+    - **src/lib/gemini**: LLM blog generation using Google Gemini AI
     - **src/routes**: API route handlers including workflow endpoints
     - **src/config**: Database, Redis, QStash, and platform configurations
+    - **src/trpc**: Type-safe tRPC router with authentication
 - **apps/web**: Next.js frontend application
-    - **src/app**: Next.js App Router pages and layouts
-    - **src/components**: React components with tests
+    - **src/app**: Next.js App Router pages and layouts with blog functionality
+    - **src/components**: React components with comprehensive tests
+    - **src/actions**: Server actions for blog and analytics functionality
     - **src/utils**: Web-specific utility functions
 - **apps/docs**: Mintlify documentation site
 - **packages/database**: Database schema and migrations using Drizzle ORM
+    - **src/db**: Schema definitions for cars, COE, posts, and analytics tables
+    - **migrations**: Database migration files with version tracking
 - **packages/types**: Shared TypeScript type definitions
 - **packages/utils**: Shared utility functions
+- **infra**: SST v3 infrastructure configuration for AWS deployment
+
+## Monorepo Build System
+
+The project uses Turbo for efficient monorepo task orchestration:
+
+### Key Build Characteristics
+- **Dependency-aware**: Tasks automatically run in dependency order with `dependsOn: ["^build"]`
+- **Caching**: Build outputs cached with intelligent invalidation based on file inputs
+- **Parallel execution**: Independent tasks run concurrently for optimal performance
+- **Environment handling**: Global dependencies on `.env` files and `NODE_ENV`
+
+### Important Task Patterns
+- **Build tasks**: Generate `dist/**`, `.next/**` outputs (excluding `.next/cache/**`)
+- **Test tasks**: Monitor `src/**/*.ts`, `src/**/*.tsx`, `test/**/*.ts`, `tests/**/*.ts` inputs
+- **Development tasks**: `dev` and `test:watch` use `cache: false` and `persistent: true`
+- **Migration tasks**: Track `migrations/**/*.sql` files for database operations
+
+### Performance Optimization
+- Biome linting targets only `src/**/*.ts` and `src/**/*.tsx` files
+- Test coverage outputs to dedicated `coverage/**` directories
+- E2E tests output to `test-results/**` and `playwright-report/**`
 
 ## Code Style
 
 - TypeScript with strict type checking (noImplicitAny, strictNullChecks)
-- Use double quotes for strings (Biome enforced)
-- Use spaces for indentation (2 spaces, Biome enforced)
-- Organize imports automatically (Biome enforced)
+- **Biome**: Used for formatting, linting, and import organization
+    - Double quotes for strings (enforced)
+    - 2 spaces for indentation (enforced)
+    - Automatic import organization (enforced)
+    - Recommended linting rules enabled
+    - Excludes `.claude`, `.sst`, `coverage`, `migrations`, and `*.d.ts` files
 - Function/variable naming: camelCase
 - Class naming: PascalCase
 - Constants: UPPER_CASE for true constants
@@ -101,12 +171,38 @@ Entitlement (COE) bidding results. The monorepo includes:
 - Path aliases: Use `@api/` for imports in API app
 - Avoid using `any` type - prefer unknown with type guards
 - Group imports by: 1) built-in, 2) external, 3) internal
-- **Commit messages**: Use conventional commit format for semantic-release:
-  - `feat: add new feature` (minor version bump)
-  - `fix: resolve bug` (patch version bump)  
-  - `feat!: breaking change` or `feat: add feature\n\nBREAKING CHANGE: description` (major version bump)
-  - `chore:`, `docs:`, `style:`, `refactor:`, `test:` (no version bump)
-  - Max 72 characters for subject line
+- **Commit messages**: Use conventional commit format with SHORT, concise messages enforced by commitlint:
+    - **Preferred style**: Keep messages brief and direct (e.g., `feat: add user auth`, `fix: login error`)
+    - `feat: add new feature` (minor version bump)
+    - `fix: resolve bug` (patch version bump)
+    - `feat!: breaking change` or `feat: add feature\n\nBREAKING CHANGE: description` (major version bump)
+    - `chore:`, `docs:`, `style:`, `refactor:`, `test:` (no version bump)
+    - **IMPORTANT**: Keep commit messages SHORT - single line with max 50 characters preferred, 72 characters absolute maximum
+    - Avoid verbose descriptions - focus on what changed, not why or how
+    - **Optional scopes**: Use scopes for package-specific changes: `feat(api):`, `fix(web):`, `chore(database):`
+    - **Available scopes**: `api`, `web`, `docs`, `database`, `types`, `utils`, `infra`, `deps`, `release`
+    - Root-level changes (CI, workspace setup) can omit scopes: `chore: setup commitlint`
+- **Spelling**: Use English (Singapore) or English (UK) spellings throughout the entire project
+
+## Git Hooks and Development Workflow
+
+The project uses Husky v9+ with automated git hooks for code quality enforcement:
+
+### Pre-commit Hook
+- **lint-staged**: Automatically runs `pnpm biome check --write` on staged files
+- Formats code and fixes lint issues before commits
+- Only processes staged files for performance
+
+### Commit Message Hook
+- **commitlint**: Validates commit messages against conventional commit format
+- Enforces optional scope validation for monorepo consistency
+- Rejects commits with invalid format and provides helpful error messages
+
+### Development Workflow
+- Git hooks run automatically on `git commit`
+- Failed hooks prevent commits and display clear error messages
+- Use `git commit -n` to bypass hooks if needed (not recommended)
+- Hooks ensure consistent code style and commit message format across the team
 
 ## Testing
 
@@ -149,6 +245,7 @@ Required environment variables (store in .env.local for local development):
 - UPSTASH_REDIS_REST_TOKEN: Redis authentication token
 - UPDATER_API_TOKEN: Updater service token for scheduler
 - LTA_DATAMALL_API_KEY: API key for LTA DataMall (for updater service)
+- GEMINI_API_KEY: Google Gemini AI API key for blog post generation
 
 ## Deployment
 
@@ -190,11 +287,15 @@ SG Cars Trends uses a standardized domain convention across services:
 
 ## Data Models
 
-- **cars**: Car registrations by make, fuel type, and vehicle type
+The platform uses PostgreSQL with Drizzle ORM for type-safe database operations:
+
+- **cars**: Car registrations by make, fuel type, and vehicle type with strategic indexing
 - **coe**: COE bidding results (quota, bids, premium by category)
 - **coePQP**: Prevailing Quota Premium rates
-- **months**: Available data months
-- **makes**: Vehicle manufacturers
+- **posts**: LLM-generated blog posts with metadata, tags, SEO information, and analytics
+- **analyticsTable**: Page views and visitor tracking for performance monitoring
+
+*See [packages/database/CLAUDE.md](packages/database/CLAUDE.md) for detailed schema definitions, migration workflows, and TypeScript integration patterns.*
 
 ## Workflow Architecture
 
@@ -202,10 +303,13 @@ The integrated updater service uses a workflow-based architecture with:
 
 ### Key Components
 
-- **Workflows** (`src/lib/workflows/`): Cars and COE data processing workflows
+- **Workflows** (`src/lib/workflows/`): Cars and COE data processing workflows with integrated blog generation
 - **Task Processing** (`src/lib/workflows/workflow.ts`): Common processing logic with Redis-based timestamp tracking
 - **Updater Core** (`src/lib/workflows/updater.ts`): File download, checksum verification, CSV processing, and database
   updates
+- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Google Gemini AI
+- **Post Management** (`src/lib/workflows/save-post.ts`): Blog post persistence with slug generation and duplicate
+  prevention
 - **Social Media** (`src/lib/social/*/`): Platform-specific posting functionality (Discord, LinkedIn, Telegram, Twitter)
 - **QStash Integration** (`src/config/qstash.ts`): Message queue functionality for workflow execution
 
@@ -215,7 +319,10 @@ The integrated updater service uses a workflow-based architecture with:
 2. Files downloaded and checksums verified to prevent redundant processing
 3. New data inserted into database in batches
 4. Updates published to configured social media platforms when data changes
-5. Comprehensive error handling with Discord notifications for failures
+5. **Blog Generation**: LLM analyzes processed data to create comprehensive blog posts with market insights
+6. **Blog Publication**: Generated posts saved to database with SEO-optimized slugs and metadata
+7. **Blog Promotion**: New blog posts automatically announced across social media platforms
+8. Comprehensive error handling with Discord notifications for failures
 
 ### Design Principles
 
@@ -223,6 +330,35 @@ The integrated updater service uses a workflow-based architecture with:
 - Checksum-based redundancy prevention
 - Batch database operations for efficiency
 - Conditional social media publishing based on environment and data changes
+
+## LLM Blog Generation
+
+The platform features automated blog post generation using Google Gemini AI to create market insights from processed
+data:
+
+### Blog Generation Process
+
+1. **Data Analysis**: LLM analyzes car registration or COE bidding data for the latest month
+2. **Content Creation**: AI generates comprehensive blog posts with market insights, trends, and analysis
+3. **Structured Output**: Posts include executive summaries, data tables, and professional market analysis
+4. **SEO Optimization**: Automatic generation of titles, descriptions, and structured data
+5. **Duplicate Prevention**: Slug-based system prevents duplicate blog posts for the same data period
+
+### Blog Content Features
+
+- **Cars Posts**: Analysis of registration trends, fuel type distribution, vehicle type breakdowns
+- **COE Posts**: Bidding results analysis, premium trends, market competition insights
+- **Data Tables**: Markdown tables for fuel type and vehicle type breakdowns
+- **Market Insights**: Professional analysis of trends and implications for car buyers
+- **Reading Time**: Automatic calculation of estimated reading time
+- **AI Attribution**: Clear labeling of AI-generated content with model version tracking
+
+### Blog Publication
+
+- **Automatic Scheduling**: Blog posts generated only when both COE bidding exercises are complete (for COE posts)
+- **Social Media Promotion**: New blog posts automatically announced across all configured platforms
+- **SEO Integration**: Dynamic Open Graph images, structured data, and canonical URLs
+- **Content Management**: Posts stored with metadata including generation details and data source month
 
 ## Release Process
 
@@ -237,7 +373,8 @@ Releases are automated using semantic-release based on conventional commits:
 ## Contribution Guidelines
 
 - Create feature branches from main branch
-- **Use conventional commit messages** following the format above
+- **Use conventional commit messages** following the format specified in Code Style section
 - Submit PRs with descriptive titles and summaries
 - Ensure CI passes (tests, lint, typecheck) before requesting review
 - Maintain backward compatibility for public APIs
+- Follow project spelling and commit message conventions as outlined in Code Style section

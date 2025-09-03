@@ -47,9 +47,9 @@ Tests are organized in `__tests__` directories alongside source code:
 ```
 src/
 ├── utils/
-│   ├── slugify.ts
+│   ├── format-percentage.ts
 │   └── __tests__/
-│       └── slugify.test.ts
+│       └── format-percentage.test.ts
 ├── lib/
 │   ├── getLatestMonth.ts
 │   └── __tests__/
@@ -80,11 +80,11 @@ pnpm test:coverage
 ```
 
 ```bash Specific test file
-pnpm -F @sgcarstrends/api test -- src/utils/__tests__/slugify.test.ts
+pnpm -F @sgcarstrends/api test -- src/utils/__tests__/format-percentage.test.ts
 ```
 
 ```bash Pattern matching
-pnpm test -- --grep "slugify"
+pnpm test -- --grep "formatPercentage"
 ```
 
 </CodeGroup>
@@ -107,29 +107,29 @@ Test individual functions and utilities:
 
 <CodeGroup>
 
-```typescript src/utils/__tests__/slugify.test.ts
+```typescript src/utils/__tests__/format-percentage.test.ts
 import { describe, it, expect } from 'vitest';
-import { slugify } from '../slugify';
+import { formatPercentage } from '../format-percentage';
 
-describe('slugify', () => {
-  it('should convert string to lowercase slug', () => {
-    expect(slugify('Hello World')).toBe('hello-world');
+describe('formatPercentage', () => {
+  it('should format decimal to percentage', () => {
+    expect(formatPercentage(0.1234)).toBe('12.34%');
   });
 
-  it('should handle special characters', () => {
-    expect(slugify('Hello, World!')).toBe('hello-world');
+  it('should handle zero', () => {
+    expect(formatPercentage(0)).toBe('0.00%');
   });
 
-  it('should handle multiple spaces', () => {
-    expect(slugify('Hello    World')).toBe('hello-world');
+  it('should handle one', () => {
+    expect(formatPercentage(1)).toBe('100.00%');
   });
 
-  it('should handle empty string', () => {
-    expect(slugify('')).toBe('');
+  it('should handle small numbers', () => {
+    expect(formatPercentage(0.001)).toBe('0.10%');
   });
 
-  it('should handle unicode characters', () => {
-    expect(slugify('Café & Restaurant')).toBe('cafe-restaurant');
+  it('should round to two decimal places', () => {
+    expect(formatPercentage(0.12345)).toBe('12.35%');
   });
 });
 ```

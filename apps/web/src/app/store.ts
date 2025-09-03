@@ -1,5 +1,8 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import {
+  type BannerAction,
+  type BannerState,
+  createBannerSlice,
+} from "@web/app/store/banner-slice";
 import {
   type COEAction,
   type COEState,
@@ -15,9 +18,11 @@ import {
   type NotificationAction,
   type NotificationState,
 } from "@web/app/store/notification-slice";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-type State = DateState & COEState & NotificationState;
-type Action = DateAction & COEAction & NotificationAction;
+type State = DateState & COEState & NotificationState & BannerState;
+type Action = DateAction & COEAction & NotificationAction & BannerAction;
 
 const useStore = create<State & Action, [["zustand/persist", unknown]]>(
   persist(
@@ -25,6 +30,7 @@ const useStore = create<State & Action, [["zustand/persist", unknown]]>(
       ...createDateSlice(...a),
       ...createCoeSlice(...a),
       ...createNotificationSlice(...a),
+      ...createBannerSlice(...a),
     }),
     {
       name: "config",

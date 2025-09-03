@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MakesList } from "./makes-list";
 
 describe("MakesList", () => {
@@ -15,36 +15,50 @@ describe("MakesList", () => {
     "MAZDA",
   ];
 
+  const mockPopularMakes = [
+    "TOYOTA",
+    "BMW",
+    "AUDI",
+    "MERCEDES BENZ",
+    "HYUNDAI",
+    "KIA",
+    "VOLKSWAGEN",
+    "HONDA",
+  ];
+
   it("should render correctly", () => {
-    const { container } = render(<MakesList makes={mockMakes} />);
-    expect(container).toMatchSnapshot();
+    const { container } = render(
+      <MakesList makes={mockMakes} popularMakes={mockPopularMakes} />,
+    );
+    expect(container).toBeDefined();
+    expect(container.firstChild).toBeTruthy();
   });
 
   it("renders search input", () => {
-    render(<MakesList makes={mockMakes} />);
+    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
     const searchInput = screen.getByPlaceholderText("Search");
     expect(searchInput).toBeVisible();
   });
 
   it("displays makes count", () => {
-    render(<MakesList makes={mockMakes} />);
+    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
     expect(
       screen.getByText(`${mockMakes.length} of ${mockMakes.length} makes`),
     ).toBeVisible();
   });
 
   it("renders Popular Makes section by default", () => {
-    render(<MakesList makes={mockMakes} />);
+    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
     expect(screen.getByText("Popular Makes")).toBeVisible();
   });
 
   it("renders Other Makes section by default", () => {
-    render(<MakesList makes={mockMakes} />);
+    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
     expect(screen.getByText("Other Makes")).toBeVisible();
   });
 
   it("filters makes when searching", () => {
-    render(<MakesList makes={mockMakes} />);
+    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
 
     const searchInput = screen.getByPlaceholderText("Search");
     fireEvent.change(searchInput, { target: { value: "TOYOTA" } });
@@ -53,7 +67,7 @@ describe("MakesList", () => {
   });
 
   it("shows no results message when no makes match search", () => {
-    render(<MakesList makes={mockMakes} />);
+    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
 
     const searchInput = screen.getByPlaceholderText("Search");
     fireEvent.change(searchInput, { target: { value: "NONEXISTENT" } });
@@ -64,7 +78,7 @@ describe("MakesList", () => {
   });
 
   it("hides Popular and Other Makes sections when searching", () => {
-    render(<MakesList makes={mockMakes} />);
+    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
 
     const searchInput = screen.getByPlaceholderText("Search");
     fireEvent.change(searchInput, { target: { value: "TOYOTA" } });

@@ -1,6 +1,6 @@
-import db from "@api/config/db";
+import { db } from "@api/config/db";
 import { cars } from "@sgcarstrends/database";
-import { and, asc, desc, eq, gt, ilike, sql, sum } from "drizzle-orm";
+import { and, asc, desc, eq, gt, ilike, max, sql, sum } from "drizzle-orm";
 
 export const getCarsByMonth = (month: string) =>
   db.query.cars.findMany({
@@ -241,5 +241,62 @@ export const getMake = async (make: string, month: string) => {
   return {
     total: totalResult[0].total ?? 0,
     data,
+  };
+};
+
+export const getLatestYear = async (): Promise<string> => {
+  const [result] = await db
+    .select({
+      latestMonth: max(cars.month),
+    })
+    .from(cars);
+
+  const latestMonth = result.latestMonth;
+  if (!latestMonth) {
+    // Fallback to current year if no data
+    return new Date().getFullYear().toString();
+  }
+
+  return latestMonth.split("-")[0];
+};
+
+export const getPopularMakesByYear = async (
+  year: string,
+  limit: number = 8,
+) => {
+  const whereConditions = [ilike(cars.month, `${year}-%`), gt(cars.number, 0)];
+
+  const results = await db
+    .select({
+      make: cars.make,
+      totalRegistrations: sql<number>`cast(sum(${cars.number}) as integer)`,
+    })
+    .from(cars)
+    .where(and(...whereConditions))
+    .groupBy(cars.make)
+    .orderBy(desc(sum(cars.number)))
+    .limit(limit);
+
+  // Calculate total registrations for the year to compute market share
+  const [yearTotal] = await db
+    .select({
+      total: sql<number>`cast(sum(${cars.number}) as integer)`,
+    })
+    .from(cars)
+    .where(and(...whereConditions));
+
+  const totalRegistrations = yearTotal.total ?? 0;
+
+  return {
+    year,
+    totalRegistrations,
+    makes: results.map((result) => ({
+      make: result.make,
+      registrations: result.totalRegistrations,
+      percentage:
+        totalRegistrations > 0
+          ? (result.totalRegistrations / totalRegistrations) * 100
+          : 0,
+    })),
   };
 };

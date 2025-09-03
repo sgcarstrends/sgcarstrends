@@ -12,3 +12,4 @@ export {
   type SelectCOE,
   type SelectCOEPQP,
 } from "./coe";
+export { type InsertPost, posts, type SelectPost } from "./posts";

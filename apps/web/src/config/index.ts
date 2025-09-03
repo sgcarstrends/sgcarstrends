@@ -1,7 +1,7 @@
-import { Battery, Droplet, Fuel, Zap } from "lucide-react";
+import slugify from "@sindresorhus/slugify";
 import { VEHICLE_TYPE_MAP } from "@web/constants";
 import type { AppEnv, LinkItem, VehicleType } from "@web/types";
-import { slugify } from "@web/utils/slugify";
+import { Battery, Droplet, Fuel, Zap } from "lucide-react";
 
 export const DOMAIN_NAME = "sgcarstrends.com";
 const API_VERSION = "v1";
@@ -10,7 +10,7 @@ export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? `https://${DOMAIN_NAME}`;
 export const SITE_TITLE = "SG Cars Trends";
 
-export const APP_ENV = process.env.APP_ENV as AppEnv;
+export const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV as AppEnv;
 
 // Configure the API BASE URL
 const DEFAULT_API_URL = `https://api.${DOMAIN_NAME}`;

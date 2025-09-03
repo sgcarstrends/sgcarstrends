@@ -34,6 +34,7 @@ pnpm deploy:prod        # Deploy to production environment
 ## Architecture Overview
 
 ### Tech Stack
+
 - **Framework**: Next.js 15 with App Router and React 19
 - **Database**: PostgreSQL (Neon) with Drizzle ORM
 - **State Management**: Zustand with persistence
@@ -47,11 +48,15 @@ pnpm deploy:prod        # Deploy to production environment
 src/
 ├── app/               # Next.js App Router - pages, layouts, API routes
 │   ├── (home)/       # Home page route group
+│   ├── (social)/     # Social media redirect routes with UTM tracking
 │   ├── api/          # API routes (analytics, OG images, revalidation)
+│   ├── blog/         # Blog pages with dynamic routes and Open Graph images
 │   ├── cars/         # Car-related pages with parallel routes
 │   ├── coe/          # COE (Certificate of Entitlement) pages
 │   └── store/        # Zustand store slices
+├── actions/          # Server actions for blog functionality
 ├── components/       # React components with tests
+│   └── blog/         # Blog-specific components (progress bar, view counter, related posts)
 ├── config/          # App configuration (DB, Redis, navigation)
 ├── schema/          # Drizzle database schemas
 ├── types/           # TypeScript definitions
@@ -60,18 +65,32 @@ src/
 
 ### Data Architecture
 
-**Database**: Uses Drizzle ORM with PostgreSQL for car registration data and COE bidding results. Database connection configured in `src/config/db.ts`.
+**Database**: Uses Drizzle ORM with PostgreSQL for car registration data, COE bidding results, and blog posts. Database
+connection configured in `src/config/db.ts`.
 
 **State Management**: Zustand store with persistence in `src/app/store.ts` manages:
+
 - Date selection across components
 - COE category filters
 - Notification preferences
 
-**Caching**: Redis (Upstash) for API response caching and rate limiting.
+**Caching**: Redis (Upstash) for API response caching, rate limiting, and blog view tracking.
+
+**Blog Functionality**: Server actions in `src/actions/blog/` handle:
+
+- Blog post retrieval and filtering
+- View counting with Redis-based tracking
+- Related posts discovery using tag-based associations
+- SEO metadata and reading time calculations
+
+**Social Media Integration**: Implements domain-based redirect routes in `src/app/(social)/` that provide trackable,
+SEO-friendly URLs for all social media platforms. Each route includes standardized UTM parameters for analytics
+tracking.
 
 ### API Structure
 
 External API integration through `src/utils/api/` for:
+
 - Car comparison data
 - Market share analytics
 - Top performer statistics
@@ -82,7 +101,44 @@ External API integration through `src/utils/api/` for:
 
 **Charts**: Recharts-based components in `src/components/charts/` for data visualization.
 
-**Layout**: Shared layout components (Header, Footer) with responsive design.
+**Blog Components**: Specialized components in `src/components/blog/` including:
+
+- Progress bar for reading progress tracking
+- View counter with Redis-backed analytics
+- Related posts recommendations
+- AI content attribution badges
+
+**Layout**: Shared layout components (Header, Footer) with responsive design and blog navigation.
+
+### Blog Features
+
+**Content Management**:
+
+- AI-generated blog posts from LLM analysis of market data
+- MDX rendering with GitHub Flavored Markdown support
+- Dynamic Open Graph image generation for social sharing
+- SEO-optimized metadata with structured data
+
+**Reader Experience**:
+
+- Reading progress bar with smooth animations
+- Estimated reading time calculations
+- View counter with privacy-focused Redis tracking
+- Related posts based on content tags and topics
+
+**Technical Implementation**:
+
+- Static generation with ISR for optimal performance
+- Custom MDX components for enhanced formatting
+- Automatic table of contents generation
+- Responsive design with mobile-first approach
+
+**SEO & Social**:
+
+- Dynamic Open Graph images for each blog post
+- JSON-LD structured data for search engines
+- Canonical URLs and social media meta tags
+- Automatic sitemap integration
 
 ### Testing Strategy
 
@@ -95,6 +151,7 @@ External API integration through `src/utils/api/` for:
 ### Environment Configuration
 
 Environment variables managed through SST config:
+
 - `DATABASE_URL`: Neon PostgreSQL connection
 - `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
 - `SG_CARS_TRENDS_API_TOKEN`: External API authentication
@@ -103,8 +160,9 @@ Environment variables managed through SST config:
 ### Deployment
 
 Multi-stage deployment via SST:
+
 - **dev**: `dev.sgcarstrends.com`
-- **staging**: `staging.sgcarstrends.com` 
+- **staging**: `staging.sgcarstrends.com`
 - **prod**: `sgcarstrends.com`
 
 Infrastructure uses AWS Lambda with ARM64 architecture and CloudFlare DNS.
@@ -135,10 +193,11 @@ When Claude needs to refer to library documentation, use the Context7 MCP server
 1. **Resolve Library ID**: Use `mcp__context7__resolve-library-id` to find the correct library identifier
 2. **Fetch Documentation**: Use `mcp__context7__get-library-docs` with the resolved ID to get up-to-date documentation
 3. **Common Libraries**: For this project, frequently referenced libraries include:
-   - Next.js (`/vercel/next.js`)
-   - React (`/facebook/react`)
-   - Tailwind CSS (`/tailwindlabs/tailwindcss`)
-   - Drizzle ORM (`/drizzle-team/drizzle-orm`)
-   - Zustand (`/pmndrs/zustand`)
-   - Vitest (`/vitest-dev/vitest`)
-   - Playwright (`/microsoft/playwright`)
+    - Next.js (`/vercel/next.js`)
+    - React (`/facebook/react`)
+    - Tailwind CSS (`/tailwindlabs/tailwindcss`)
+    - Drizzle ORM (`/drizzle-team/drizzle-orm`)
+    - Zustand (`/pmndrs/zustand`)
+    - Vitest (`/vitest-dev/vitest`)
+    - Playwright (`/microsoft/playwright`)
+    - next-mdx-remote (for MDX blog content rendering)

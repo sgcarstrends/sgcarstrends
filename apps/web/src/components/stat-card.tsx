@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@web/components/ui/card";
 import { FUEL_TYPE } from "@web/config";
-import { slugify } from "@web/utils/slugify";
+import slugify from "@sindresorhus/slugify";
 import type { RegistrationStat } from "@web/types/cars";
 
 interface Props {

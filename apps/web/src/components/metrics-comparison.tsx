@@ -1,5 +1,6 @@
-import { TrendingDown, TrendingUp } from "lucide-react";
+import { Chip } from "@heroui/chip";
 import { formatPercent } from "@web/utils/format-percent";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 interface StatsCompareProps {
   current: number;
@@ -11,21 +12,26 @@ interface TrendIndicatorProps {
   label: string;
 }
 
-const TrendIndicator = ({ change, label }: TrendIndicatorProps) => (
-  <div className="flex items-center gap-1">
-    <span
-      className={`flex items-center gap-1 ${change >= 0 ? "text-green-600" : "text-red-600"}`}
-    >
-      {change >= 0 ? (
-        <TrendingUp className="size-4" />
-      ) : (
-        <TrendingDown className="size-4" />
-      )}
-      {formatPercent(Math.abs(change), { maximumFractionDigits: 1 })}
-    </span>
-    <span className="text-muted-foreground text-sm">{label}</span>
-  </div>
-);
+const TrendIndicator = ({ change, label }: TrendIndicatorProps) => {
+  return (
+    <div className="flex items-center gap-2">
+      <Chip
+        variant="flat"
+        color={change >= 0 ? "success" : "danger"}
+        startContent={
+          change >= 0 ? (
+            <ArrowUpRight className="size-4" />
+          ) : (
+            <ArrowDownRight className="size-4" />
+          )
+        }
+      >
+        {formatPercent(Math.abs(change), { maximumFractionDigits: 1 })}
+      </Chip>
+      <span className="text-muted-foreground text-sm">{label}</span>
+    </div>
+  );
+};
 
 export const MetricsComparison = ({
   current,
@@ -33,9 +39,5 @@ export const MetricsComparison = ({
 }: StatsCompareProps) => {
   const monthChange = (current - previousMonth) / previousMonth;
 
-  return (
-    <div className="flex flex-col gap-1">
-      <TrendIndicator change={monthChange} label="vs. Last Month" />
-    </div>
-  );
+  return <TrendIndicator change={monthChange} label="vs last month" />;
 };

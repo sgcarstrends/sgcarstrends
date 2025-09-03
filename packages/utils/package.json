@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/utils",
   "description": "Utility functions for SG Cars Trends",
-  "version": "4.0.3",
+  "version": "4.8.3",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -17,7 +17,5 @@
     "@sgcarstrends/types": "workspace:*",
     "date-fns": "^2.30.0"
   },
-  "devDependencies": {
-    "@biomejs/biome": "2.1.2"
-  }
+  "devDependencies": {}
 }

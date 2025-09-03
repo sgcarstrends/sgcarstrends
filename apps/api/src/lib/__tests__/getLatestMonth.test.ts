@@ -1,11 +1,10 @@
-import db from "@api/config/db";
+import { db } from "@api/config/db";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getLatestMonth } from "../getLatestMonth";
 
 vi.mock("@api/config/db", () => ({
-  default: {
-    select: vi.fn().mockReturnThis(),
-    from: vi.fn().mockReturnThis(),
+  db: {
+    select: vi.fn(),
   },
 }));
 
@@ -23,25 +22,32 @@ describe("getLatestMonth", () => {
   it("should return the latest month from the table", async () => {
     const mockMonth = "2023-12";
 
-    vi.mocked(db.select).mockReturnValue({
+    const mockQueryBuilder = {
       from: vi.fn().mockResolvedValue([{ month: mockMonth }]),
-    } as never);
+    };
+
+    vi.mocked(db.select).mockReturnValue(mockQueryBuilder as never);
 
     const result = await getLatestMonth(mockTable);
 
     expect(db.select).toHaveBeenCalled();
+    expect(mockQueryBuilder.from).toHaveBeenCalled();
     expect(result).toBe(mockMonth);
   });
 
   it("should return null when no data is found", async () => {
-    vi.mocked(db.select).mockReturnValue({
+    const mockQueryBuilder = {
       from: vi.fn().mockResolvedValue([{ month: null }]),
-    } as never);
+    };
+
+    vi.mocked(db.select).mockReturnValue(mockQueryBuilder as never);
 
     const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     const result = await getLatestMonth(mockTable);
 
+    expect(db.select).toHaveBeenCalled();
+    expect(mockQueryBuilder.from).toHaveBeenCalled();
     expect(consoleSpy).toHaveBeenCalled();
     expect(result).toBeNull();
 
@@ -51,14 +57,18 @@ describe("getLatestMonth", () => {
   it("should handle errors properly", async () => {
     const mockError = new Error("Database error");
 
-    vi.mocked(db.select).mockReturnValue({
+    const mockQueryBuilder = {
       from: vi.fn().mockRejectedValue(mockError),
-    } as never);
+    };
+
+    vi.mocked(db.select).mockReturnValue(mockQueryBuilder as never);
 
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     await expect(getLatestMonth(mockTable)).rejects.toThrow(mockError);
 
+    expect(db.select).toHaveBeenCalled();
+    expect(mockQueryBuilder.from).toHaveBeenCalled();
     expect(consoleSpy).toHaveBeenCalledWith(mockError);
 
     consoleSpy.mockRestore();
