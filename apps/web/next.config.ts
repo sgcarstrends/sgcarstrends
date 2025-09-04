@@ -17,6 +17,19 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "s-maxage=86400",
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return redirects;
   },
