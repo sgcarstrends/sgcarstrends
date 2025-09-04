@@ -1,3 +1,9 @@
+## [4.8.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.4...v4.8.5) (2025-09-04)
+
+### Performance Improvements
+
+* enhance caching headers and optimize config ([0f19123](https://github.com/sgcarstrends/sgcarstrends/commit/0f19123176f69efca96eb8ed8c7fde13459fcc23))
+
 ## [4.8.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.3...v4.8.4) (2025-09-03)
 
 ### Bug Fixes
