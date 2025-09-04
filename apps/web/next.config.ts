@@ -20,25 +20,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*\\.(png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|css|js))$",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/api/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, s-maxage=86400, stale-while-revalidate=604800",
-          },
-        ],
-      },
-      {
-        source: "/(.*)",
+        source: "/:path*",
         headers: [
           {
             key: "X-Content-Type-Options",
@@ -63,7 +45,7 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: "/(.*)",
+        source: "/:path*",
         headers: [
           {
             key: "Cache-Control",
