@@ -20,11 +20,54 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/(.*\\.(png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|css|js))$",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/api/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "origin-when-cross-origin",
+          },
+          {
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
+          },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+        ],
+      },
+      {
         source: "/(.*)",
         headers: [
           {
             key: "Cache-Control",
-            value: "s-maxage=86400",
+            value: "public, s-maxage=86400, stale-while-revalidate=604800",
           },
         ],
       },

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import { DOMAIN_NAME } from "@web/config";
+import { type NextRequest, NextResponse } from "next/server";
 
 export const middleware = (request: NextRequest) => {
   // TODO: Temporary method for now
@@ -17,7 +17,7 @@ export const middleware = (request: NextRequest) => {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const cspHeader = `
       default-src 'self';
-      script-src 'self' 'unsafe-eval' 'unsafe-inline' *.${DOMAIN_NAME} *.googletagmanager.com;
+      script-src 'self' 'unsafe-eval' 'unsafe-inline' *.${DOMAIN_NAME} *.googletagmanager.com; 
       style-src 'self' 'unsafe-inline';
       img-src 'self' blob: data:;
       connect-src *;
@@ -26,18 +26,10 @@ export const middleware = (request: NextRequest) => {
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-nonce", nonce);
-  requestHeaders.set("X-DNS-Prefetch-Control", "on");
-  requestHeaders.set(
-    "Strict-Transport-Security",
-    "max-age=63072000; includeSubDomains; preload",
-  );
-  requestHeaders.set("X-Frame-Options", "SAMEORIGIN");
   requestHeaders.set(
     "Permissions-Policy",
     "camera=(), microphone=(), geolocation=(), browsing-topics=()",
   );
-  requestHeaders.set("X-Content-Type-Options", "nosniff");
-  requestHeaders.set("Referrer-Policy", "origin-when-cross-origin");
 
   requestHeaders.set(
     "Content-Security-Policy",
