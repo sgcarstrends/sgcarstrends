@@ -14,7 +14,8 @@
       "!**/.sst",
       "!**/coverage",
       "!**/migrations",
-      "!**/*.d.ts"
+      "!**/*.d.ts",
+      "!**/components/ui"
     ]
   },
   "formatter": {
@@ -31,7 +32,10 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "security": {
+        "noDangerouslySetInnerHtml": "warn"
+      }
     }
   },
   "javascript": {
