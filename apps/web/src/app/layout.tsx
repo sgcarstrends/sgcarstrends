@@ -1,6 +1,6 @@
 import LoadingIndicator from "@web/app/loading-indicator";
 import { Providers } from "@web/app/providers";
-import { Analytics } from "@web/components/analytics";
+import { Analytics as InternalAnalytics } from "@web/components/analytics";
 import { Announcement } from "@web/components/announcement";
 import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
@@ -12,6 +12,7 @@ import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import { Banner } from "@web/components/banner";
 import type { Metadata } from "next";
 
@@ -62,8 +63,9 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
             <main className="container mx-auto px-6 py-8">{children}</main>
             <Footer />
           </NuqsAdapter>
-          {process.env.NODE_ENV === "production" && <Analytics />}
+          {process.env.NODE_ENV === "production" && <InternalAnalytics />}
         </Providers>
+        <Analytics />
       </body>
       <Script
         defer
