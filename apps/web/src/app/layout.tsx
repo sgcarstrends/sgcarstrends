@@ -13,6 +13,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Banner } from "@web/components/banner";
 import type { Metadata } from "next";
 
@@ -66,6 +67,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
           {process.env.NODE_ENV === "production" && <InternalAnalytics />}
         </Providers>
         <Analytics />
+        <SpeedInsights />
       </body>
       <Script
         defer
