@@ -1,6 +1,5 @@
 import { receiver } from "@api/config/qstash";
 import type { PublicServeOptions } from "@upstash/workflow";
-import { Resource } from "sst";
 
 export const options: PublicServeOptions = {
   receiver,
@@ -43,7 +42,9 @@ export const options: PublicServeOptions = {
     console.log(payload);
 
     try {
-      await fetch(Resource.DISCORD_WORKFLOW_WEBHOOK_URL.value, {
+      const webhookUrl = process.env.DISCORD_WORKFLOW_WEBHOOK_URL as string;
+
+      await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

@@ -1,19 +1,12 @@
 import { SITE_URL } from "@api/config";
-import { platforms } from "@api/config/platforms";
 import { options } from "@api/lib/workflows/options";
-import { generateCoePost } from "@api/lib/workflows/posts";
 import {
   getCoeLatestMonth,
   getLatestCoeResult,
 } from "@api/lib/workflows/queries/coe";
 import { updateCOE } from "@api/lib/workflows/update-COE";
-import {
-  processTask,
-  publishToPlatform,
-  type Task,
-} from "@api/lib/workflows/workflow";
+import { processTask, type Task } from "@api/lib/workflows/workflow";
 import { formatOrdinal } from "@sgcarstrends/utils";
-import slugify from "@sindresorhus/slugify";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const coeWorkflow = createWorkflow(

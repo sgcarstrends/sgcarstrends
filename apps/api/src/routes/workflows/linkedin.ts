@@ -1,6 +1,5 @@
 import { postToLinkedin } from "@api/lib/social/linkedin/post-to-linkedin";
 import { Hono } from "hono";
-import { Resource } from "sst";
 
 const linkedin = new Hono();
 
@@ -11,13 +10,7 @@ linkedin.post("/post", async (c) => {
       return c.json({ success: false, error: "Message is required" }, 400);
     }
 
-    const accessToken = Resource.LINKEDIN_ACCESS_TOKEN.value;
-    if (!accessToken) {
-      return c.json(
-        { success: false, error: "Access token and message are required" },
-        401,
-      );
-    }
+    const accessToken = process.env.LINKEDIN_ACCESS_TOKEN as string;
 
     const { message, link } = body;
     const createdEntityId = await postToLinkedin({ message, link });

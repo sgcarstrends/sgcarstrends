@@ -1,5 +1,4 @@
 import type { ResharePostParam } from "@api/types/social-media";
-import { Resource } from "sst";
 
 export const resharePost = async ({
   createdEntityId,
@@ -14,7 +13,7 @@ export const resharePost = async ({
         "LinkedIn-Version": "202504",
       },
       body: JSON.stringify({
-        author: `urn:li:person:${Resource.LINKEDIN_USER_ID.value}`,
+        author: `urn:li:person:${process.env.LINKEDIN_USER_ID as string}`,
         commentary: message ?? "",
         visibility: "PUBLIC",
         distribution: {

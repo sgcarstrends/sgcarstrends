@@ -75,7 +75,7 @@ describe("processCSV", () => {
 
     const customFields = {
       name: (value: string) => value.toUpperCase().trim(),
-      age: (value: string) => Number.parseInt(value) + 5,
+      age: (value: string) => Number.parseInt(value, 10) + 5,
     };
 
     await processCSV(filePath, { fields: customFields });

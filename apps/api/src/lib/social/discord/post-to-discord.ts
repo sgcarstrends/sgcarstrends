@@ -1,5 +1,4 @@
 import type { PostToDiscordParam } from "@api/types/social-media";
-import { Resource } from "sst";
 
 /**
  * Post a message to a Discord channel via webhook.
@@ -9,10 +8,7 @@ export const postToDiscord = async ({ message, link }: PostToDiscordParam) => {
     throw new Error("Discord message cannot be empty.");
   }
 
-  const webhookUrl = Resource.DISCORD_WEBHOOK_URL.value;
-  if (!webhookUrl) {
-    throw new Error("Discord webhook URL is required.");
-  }
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL as string;
 
   try {
     const response = await fetch(`${webhookUrl}?wait=true`, {

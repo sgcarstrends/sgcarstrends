@@ -1,18 +1,12 @@
-import { Resource } from "sst";
-
 /**
  * Refreshes LinkedIn access token using refresh token
  *
  * @returns Fresh access token
  */
 export const refreshLinkedInToken = async (): Promise<string> => {
-  const clientId = Resource.LINKEDIN_CLIENT_ID.value;
-  const clientSecret = Resource.LINKEDIN_CLIENT_SECRET.value;
-  const refreshToken = Resource.LINKEDIN_REFRESH_TOKEN.value;
-
-  if (!clientId || !clientSecret || !refreshToken) {
-    throw new Error("LinkedIn credentials not configured");
-  }
+  const clientId = process.env.LINKEDIN_CLIENT_ID as string;
+  const clientSecret = process.env.LINKEDIN_CLIENT_SECRET as string;
+  const refreshToken = process.env.LINKEDIN_REFRESH_TOKEN as string;
 
   const tokenResponse = await fetch(
     "https://www.linkedin.com/oauth/v2/accessToken",
