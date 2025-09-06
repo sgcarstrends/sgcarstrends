@@ -12,7 +12,6 @@ import {
   publishToPlatform,
   type Task,
 } from "@api/lib/workflows/workflow";
-import slugify from "@sindresorhus/slugify";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const carsWorkflow = createWorkflow(

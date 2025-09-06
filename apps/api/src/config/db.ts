@@ -3,13 +3,12 @@ import { neon } from "@neondatabase/serverless";
 import * as schema from "@sgcarstrends/database";
 import { upstashCache } from "drizzle-orm/cache/upstash";
 import { drizzle } from "drizzle-orm/neon-http";
-import { Resource } from "sst";
 
-const sql = neon(Resource.DATABASE_URL.value);
+const sql = neon(process.env.DATABASE_URL as string);
 export const db = drizzle(sql, {
   cache: upstashCache({
-    url: Resource.UPSTASH_REDIS_REST_URL.value,
-    token: Resource.UPSTASH_REDIS_REST_TOKEN.value,
+    url: process.env.UPSTASH_REDIS_REST_URL as string,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN as string,
     global: true,
     config: { ex: CACHE_TTL },
   }),

@@ -13,7 +13,6 @@ import { showRoutes } from "hono/dev";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
-import { Resource } from "sst";
 import packageJson from "../package.json";
 // import redis from "./config/redis";
 import v1 from "./v1";
@@ -97,7 +96,7 @@ app.get("/", Scalar({ url: "/docs" }));
 // Add tRPC middleware with authentication
 app.use(
   "/trpc/*",
-  bearerAuth({ token: Resource.SG_CARS_TRENDS_API_TOKEN.value }),
+  bearerAuth({ token: process.env.SG_CARS_TRENDS_API_TOKEN as string }),
   trpcServer({
     router: appRouter,
     createContext: (_, c) => createTRPCContext(c),

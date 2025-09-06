@@ -1,5 +1,4 @@
 import type { PostToTwitterParam } from "@api/types/social-media";
-import { Resource } from "sst";
 import { TwitterApi } from "twitter-api-v2";
 
 /**
@@ -11,15 +10,10 @@ export const postToTwitter = async ({ message, link }: PostToTwitterParam) => {
   }
 
   // Get Twitter API credentials
-  const appKey = Resource.TWITTER_APP_KEY.value;
-  const appSecret = Resource.TWITTER_APP_SECRET.value;
-  const accessToken = Resource.TWITTER_ACCESS_TOKEN.value;
-  const accessSecret = Resource.TWITTER_ACCESS_SECRET.value;
-
-  // Validate credentials
-  if (!appKey || !appSecret || !accessToken || !accessSecret) {
-    throw new Error("Twitter API credentials are required");
-  }
+  const appKey = process.env.TWITTER_APP_KEY as string;
+  const appSecret = process.env.TWITTER_APP_SECRET as string;
+  const accessToken = process.env.TWITTER_ACCESS_TOKEN as string;
+  const accessSecret = process.env.TWITTER_ACCESS_SECRET as string;
 
   try {
     const twitterClient = new TwitterApi({

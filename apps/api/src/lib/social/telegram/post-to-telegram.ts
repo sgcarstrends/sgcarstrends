@@ -1,8 +1,7 @@
 import type { PostToTelegramParam } from "@api/types/social-media";
-import { Resource } from "sst";
 
-const botToken = Resource.TELEGRAM_BOT_TOKEN.value;
-const channelId = Resource.TELEGRAM_CHANNEL_ID.value;
+const botToken = process.env.TELEGRAM_BOT_TOKEN as string;
+const channelId = process.env.TELEGRAM_CHANNEL_ID as string;
 
 type TelegramSendMessageResponse = {
   ok: boolean;
@@ -33,10 +32,6 @@ export const postToTelegram = async ({
 }: PostToTelegramParam) => {
   if (!message) {
     throw new Error("Telegram message cannot be empty.");
-  }
-
-  if (!botToken || !channelId) {
-    throw new Error("Telegram bot token and chat ID are required.");
   }
 
   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
