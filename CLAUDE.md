@@ -378,3 +378,4 @@ Releases are automated using semantic-release based on conventional commits:
 - Ensure CI passes (tests, lint, typecheck) before requesting review
 - Maintain backward compatibility for public APIs
 - Follow project spelling and commit message conventions as outlined in Code Style section
+- **Use GitHub issue templates** when available - always follow established templates when creating or managing GitHub issues
