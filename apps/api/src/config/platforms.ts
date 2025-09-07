@@ -14,9 +14,3 @@ export const socialMediaManager = new SocialMediaManager([
   new TwitterHandler(),
   new TelegramHandler(),
 ]);
-
-/**
- * Get the configured social media manager instance
- * @deprecated Use socialMediaManager directly
- */
-export const getSocialMediaManager = () => socialMediaManager;

@@ -93,6 +93,12 @@ export class TwitterHandler implements PlatformHandler {
     }
   }
 
+  validateConfiguration(): boolean {
+    return this.config.requiredEnvVars.every((envVar) =>
+      Boolean(process.env[envVar]),
+    );
+  }
+
   private createTwitterClient(): TwitterApi {
     return new TwitterApi({
       appKey: process.env.TWITTER_APP_KEY as string,
@@ -118,11 +124,5 @@ export class TwitterHandler implements PlatformHandler {
 
     // If link is too long, truncate the entire text
     return `${fullText.substring(0, TWITTER_CHAR_LIMIT - 3)}...`;
-  }
-
-  validateConfiguration(): boolean {
-    return this.config.requiredEnvVars.every((envVar) =>
-      Boolean(process.env[envVar]),
-    );
   }
 }

@@ -35,27 +35,6 @@ export class TelegramHandler implements PlatformHandler {
     requiredEnvVars: ["TELEGRAM_BOT_TOKEN", "TELEGRAM_CHANNEL_ID"],
   };
 
-  private async addFireReaction(messageId: number): Promise<void> {
-    const botToken = process.env.TELEGRAM_BOT_TOKEN as string;
-    const channelId = process.env.TELEGRAM_CHANNEL_ID as string;
-
-    try {
-      const reactionUrl = `https://api.telegram.org/bot${botToken}/setMessageReaction`;
-      await fetch(reactionUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: channelId,
-          message_id: messageId,
-          reaction: [{ type: "emoji", emoji: "🔥" }],
-        }),
-      });
-    } catch (reactionError) {
-      console.warn("Failed to add Telegram reaction:", reactionError);
-      // Don't throw - reaction failure shouldn't fail the entire post
-    }
-  }
-
   async publish({ message, link }: SocialMessage): Promise<PublishResult> {
     if (!message) {
       return {
@@ -144,7 +123,7 @@ export class TelegramHandler implements PlatformHandler {
         };
       }
 
-      const data = await response.json();
+      const data = (await response.json()) as TelegramSendMessageResponse;
 
       return {
         platform: this.platform,
@@ -166,5 +145,26 @@ export class TelegramHandler implements PlatformHandler {
     return this.config.requiredEnvVars.every((envVar) =>
       Boolean(process.env[envVar]),
     );
+  }
+
+  private async addFireReaction(messageId: number): Promise<void> {
+    const botToken = process.env.TELEGRAM_BOT_TOKEN as string;
+    const channelId = process.env.TELEGRAM_CHANNEL_ID as string;
+
+    try {
+      const reactionUrl = `https://api.telegram.org/bot${botToken}/setMessageReaction`;
+      await fetch(reactionUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: channelId,
+          message_id: messageId,
+          reaction: [{ type: "emoji", emoji: "🔥" }],
+        }),
+      });
+    } catch (reactionError) {
+      console.warn("Failed to add Telegram reaction:", reactionError);
+      // Don't throw - reaction failure shouldn't fail the entire post
+    }
   }
 }
