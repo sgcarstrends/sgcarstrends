@@ -1,3 +1,4 @@
+import { SITE_URL } from "@api/config";
 import { savePost } from "@api/lib/workflows/save-post";
 import {
   createPartFromText,
@@ -69,6 +70,28 @@ export const generatePost = async (
     });
 
     console.log(`${dataType} blog post generation completed`);
+
+    // Revalidate blog cache
+    try {
+      const revalidateResponse = await fetch(
+        `${SITE_URL}/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN}&tag=blog`,
+        {
+          method: "GET",
+          signal: AbortSignal.timeout(5000), // 5 second timeout
+        },
+      );
+
+      if (revalidateResponse.ok) {
+        console.log("Blog cache revalidated successfully");
+      } else {
+        console.warn(
+          `Blog cache revalidation failed with status: ${revalidateResponse.status}`,
+        );
+      }
+    } catch (error) {
+      console.error("Error revalidating blog cache:", error);
+      // Don't fail blog generation if revalidation fails
+    }
 
     return {
       success: true,

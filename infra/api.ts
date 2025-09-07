@@ -31,6 +31,8 @@ export const api = new sst.aws.Function("Api", {
     STAGE: $app.stage,
     DATABASE_URL: process.env.DATABASE_URL as string,
     SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN as string,
+    NEXT_PUBLIC_REVALIDATE_TOKEN: process.env
+      .NEXT_PUBLIC_REVALIDATE_TOKEN as string,
     UPDATER_API_TOKEN: process.env.UPDATER_API_TOKEN as string,
 
     // AI/LLM
