@@ -1,11 +1,17 @@
 import { SITE_URL } from "@api/config";
+import { socialMediaManager } from "@api/config/platforms";
 import { options } from "@api/lib/workflows/options";
+import { generateCoePost } from "@api/lib/workflows/posts";
 import {
   getCoeLatestMonth,
   getLatestCoeResult,
 } from "@api/lib/workflows/queries/coe";
 import { updateCOE } from "@api/lib/workflows/update-COE";
-import { processTask, type Task } from "@api/lib/workflows/workflow";
+import {
+  processTask,
+  publishToAllPlatforms,
+  type Task,
+} from "@api/lib/workflows/workflow";
 import { formatOrdinal } from "@sgcarstrends/utils";
 import { createWorkflow } from "@upstash/workflow/hono";
 

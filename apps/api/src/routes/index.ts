@@ -3,10 +3,6 @@ import { client } from "@api/config/qstash";
 import { WORKFLOWS_BASE_URL } from "@api/config/workflow";
 import { carsWorkflow } from "@api/lib/workflows/cars";
 import { coeWorkflow } from "@api/lib/workflows/coe";
-import { discord } from "@api/routes/workflows/discord";
-import { linkedin } from "@api/routes/workflows/linkedin";
-import { telegram } from "@api/routes/workflows/telegram";
-import { twitter } from "@api/routes/workflows/twitter";
 import { WorkflowTriggerResponseSchema } from "@api/schemas";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { serveMany } from "@upstash/workflow/hono";
@@ -94,10 +90,5 @@ app.post(
     coe: coeWorkflow,
   }),
 );
-
-app.route("/linkedin", linkedin);
-app.route("/twitter", twitter);
-app.route("/discord", discord);
-app.route("/telegram", telegram);
 
 export default app;
