@@ -3,7 +3,6 @@ import { client } from "@api/config/qstash";
 import { WORKFLOWS_BASE_URL } from "@api/config/workflow";
 import { carsWorkflow } from "@api/lib/workflows/cars";
 import { coeWorkflow } from "@api/lib/workflows/coe";
-import { social } from "@api/routes/workflows/social";
 import { WorkflowTriggerResponseSchema } from "@api/schemas";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { serveMany } from "@upstash/workflow/hono";
@@ -91,7 +90,5 @@ app.post(
     coe: coeWorkflow,
   }),
 );
-
-app.route("/social", social);
 
 export default app;
