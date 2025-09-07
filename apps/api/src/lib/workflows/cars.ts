@@ -2,16 +2,13 @@ import { SITE_URL } from "@api/config";
 import { socialMediaManager } from "@api/config/platforms";
 import { options } from "@api/lib/workflows/options";
 import { generateCarPost } from "@api/lib/workflows/posts";
-import {
-  getCarRegistrationsByMonth,
-  getCarsLatestMonth,
-} from "@api/lib/workflows/queries/cars";
 import { updateCars } from "@api/lib/workflows/updateCars";
 import {
   processTask,
   publishToAllPlatforms,
   type Task,
 } from "@api/lib/workflows/workflow";
+import { getCarRegistrationsByMonth, getCarsLatestMonth } from "@api/queries";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const carsWorkflow = createWorkflow(
