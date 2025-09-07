@@ -2,20 +2,28 @@
 
 import { posts } from "@sgcarstrends/database";
 import { db } from "@web/config/db";
+import { RevalidateTags } from "@web/types";
 import { desc, eq, inArray, isNotNull } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
 
-export const getAllPosts = async () => {
-  try {
-    return await db
-      .select()
-      .from(posts)
-      .where(isNotNull(posts.publishedAt))
-      .orderBy(desc(posts.publishedAt));
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-    return [];
-  }
-};
+export const getAllPosts = unstable_cache(
+  async () => {
+    try {
+      return await db
+        .select()
+        .from(posts)
+        .where(isNotNull(posts.publishedAt))
+        .orderBy(desc(posts.publishedAt));
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      return [];
+    }
+  },
+  ["posts"],
+  {
+    tags: [RevalidateTags.Blog],
+  },
+);
 
 export const getPostBySlug = async (slug: string) => {
   try {
