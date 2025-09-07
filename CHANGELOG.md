@@ -1,3 +1,9 @@
+## [4.9.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.0...v4.9.1) (2025-09-07)
+
+### Bug Fixes
+
+* no revalidate token passed to web ([cff675a](https://github.com/sgcarstrends/sgcarstrends/commit/cff675a735d7117157bac4930c557b5652d47c05))
+
 ## [4.9.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.5...v4.9.0) (2025-09-07)
 
 ### Features
