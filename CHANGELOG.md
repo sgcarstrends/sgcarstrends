@@ -1,3 +1,9 @@
+## [4.9.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.5...v4.9.0) (2025-09-07)
+
+### Features
+
+* add blog cache revalidation ([d8b704e](https://github.com/sgcarstrends/sgcarstrends/commit/d8b704e9950012fcbf20a7f49b2f4b3bbb3647c6))
+
 ## [4.8.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.4...v4.8.5) (2025-09-04)
 
 ### Performance Improvements
