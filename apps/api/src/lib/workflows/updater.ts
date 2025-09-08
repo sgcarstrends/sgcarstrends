@@ -1,10 +1,10 @@
 import path from "node:path";
 import { AWS_LAMBDA_TEMP_DIR } from "@api/config";
-import { db } from "@api/config/db";
 import { calculateChecksum } from "@api/utils/calculateChecksum";
 import { downloadFile } from "@api/utils/downloadFile";
 import { type CSVTransformOptions, processCSV } from "@api/utils/processCSV";
 import { RedisCache } from "@api/utils/redis-cache";
+import { db } from "@sgcarstrends/database";
 import { createUniqueKey } from "@sgcarstrends/utils";
 import { getTableName, type Table } from "drizzle-orm";
 

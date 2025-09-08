@@ -1,4 +1,4 @@
-import { db } from "@api/config/db";
+import { db } from "@sgcarstrends/database";
 import type { Context } from "hono";
 
 export type TRPCContext = {

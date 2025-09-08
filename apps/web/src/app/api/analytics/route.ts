@@ -1,7 +1,20 @@
-import { analyticsTable, type InsertAnalytics } from "@sgcarstrends/database";
-import { db } from "@web/config/db";
+import {
+  analyticsTable,
+  db,
+  type InsertAnalytics,
+} from "@sgcarstrends/database";
 import { geolocation } from "@web/functions/geolocation";
-import { and, count, desc, gte, isNotNull, lte, ne, sql } from "drizzle-orm";
+import {
+  and,
+  count,
+  desc,
+  gte,
+  isNotNull,
+  lte,
+  ne,
+  type SQL,
+  sql,
+} from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 
 interface RequestData {
@@ -39,7 +52,7 @@ export const GET = async (request: NextRequest) => {
     const end = searchParams.get("end");
 
     // Build date filter condition
-    let dateFilter;
+    let dateFilter: SQL | undefined;
     if (start && end) {
       dateFilter = and(
         gte(analyticsTable.date, sql`${start}::date`),

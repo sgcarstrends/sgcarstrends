@@ -1,5 +1,4 @@
-import { db } from "@api/config/db";
-import { coe } from "@sgcarstrends/database";
+import { coe, db } from "@sgcarstrends/database";
 import { and, asc, desc, eq } from "drizzle-orm";
 
 export const getCoeForMonth = async (month: string) =>
