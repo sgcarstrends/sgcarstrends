@@ -1,6 +1,6 @@
 import type { SocialMessage } from "@api/lib/social/interfaces/platform-handler";
 import type { SocialMediaManager } from "@api/lib/social/social-media-manager";
-import type { UpdaterResult } from "@api/lib/workflows/updater";
+import type { UpdaterResult } from "@api/lib/updater";
 import { redis } from "@sgcarstrends/utils";
 import type { WorkflowContext } from "@upstash/workflow";
 

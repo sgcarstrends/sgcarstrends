@@ -307,8 +307,8 @@ The integrated updater service uses a workflow-based architecture with:
 
 - **Workflows** (`src/lib/workflows/`): Cars and COE data processing workflows with integrated blog generation
 - **Task Processing** (`src/lib/workflows/workflow.ts`): Common processing logic with Redis-based timestamp tracking
-- **Updater Core** (`src/lib/workflows/updater.ts`): File download, checksum verification, CSV processing, and database
-  updates
+- **Updater Core** (`src/lib/updater/`): File download, checksum verification, CSV processing, and database
+  updates (with helpers under `src/lib/updater/services/`)
 - **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Google Gemini AI
 - **Post Management** (`src/lib/workflows/save-post.ts`): Blog post persistence with slug generation and duplicate
   prevention

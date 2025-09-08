@@ -4,19 +4,19 @@ import {
   Updater,
   type UpdaterConfig,
   type UpdaterOptions,
-} from "@api/lib/workflows/updater";
-import { calculateChecksum } from "@api/utils/calculateChecksum";
-import { downloadFile } from "@api/utils/downloadFile";
-import { processCSV } from "@api/utils/processCSV";
+} from "@api/lib/updater";
+import { calculateChecksum } from "@api/lib/updater/services/calculate-checksum";
+import { downloadFile } from "@api/lib/updater/services/download-file";
+import { processCsv } from "@api/lib/updater/services/process-csv";
 import type { RedisCache } from "@api/utils/redis-cache";
 import { db } from "@sgcarstrends/database";
 import { createUniqueKey } from "@sgcarstrends/utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock all dependencies
-vi.mock("@api/utils/downloadFile");
-vi.mock("@api/utils/calculateChecksum");
-vi.mock("@api/utils/processCSV");
+vi.mock("@api/lib/updater/services/download-file");
+vi.mock("@api/lib/updater/services/calculate-checksum");
+vi.mock("@api/lib/updater/services/process-csv");
 vi.mock("@api/utils/redis-cache");
 vi.mock("@sgcarstrends/database", () => ({
   db: {
@@ -80,7 +80,7 @@ describe("Updater", () => {
     // Default mock implementations
     vi.mocked(downloadFile).mockResolvedValue("test-file.csv");
     vi.mocked(calculateChecksum).mockResolvedValue("abc123");
-    vi.mocked(processCSV).mockResolvedValue(mockData);
+    vi.mocked(processCsv).mockResolvedValue(mockData);
     vi.mocked(createUniqueKey).mockImplementation((record, fields) =>
       fields.map((field) => record[field]).join("|"),
     );
@@ -164,7 +164,7 @@ describe("Updater", () => {
       });
 
       // Should not process data or insert records
-      expect(processCSV).not.toHaveBeenCalled();
+      expect(processCsv).not.toHaveBeenCalled();
       expect(db.insert).not.toHaveBeenCalled();
     });
 
@@ -203,7 +203,7 @@ describe("Updater", () => {
           fuel_type: "Petrol",
         }));
 
-      vi.mocked(processCSV).mockResolvedValue(largeDataSet);
+      vi.mocked(processCsv).mockResolvedValue(largeDataSet);
       vi.mocked(mockRedisCache.getCachedChecksum).mockResolvedValue(null);
 
       // Mock insert to return the batch
@@ -306,7 +306,7 @@ describe("Updater", () => {
       const updater = new Updater(configWithTransforms, updaterOptions);
       const result = await (updater as any).processData("/path/to/file.csv");
 
-      expect(processCSV).toHaveBeenCalledWith(
+      expect(processCsv).toHaveBeenCalledWith(
         "/path/to/file.csv",
         configWithTransforms.csvTransformOptions,
       );

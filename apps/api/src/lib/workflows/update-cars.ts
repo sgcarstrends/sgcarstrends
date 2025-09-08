@@ -1,8 +1,8 @@
 import { LTA_DATAMALL_BASE_URL } from "@api/config";
+import { Updater } from "@api/lib/updater";
 import { cars } from "@sgcarstrends/database";
 import type { Car } from "@sgcarstrends/types";
 import { cleanSpecialChars } from "@sgcarstrends/utils";
-import { Updater } from "./updater";
 
 export const updateCars = () => {
   const filename = "Monthly New Registration of Cars by Make.zip";

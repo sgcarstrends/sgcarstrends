@@ -1,8 +1,11 @@
 import path from "node:path";
 import { AWS_LAMBDA_TEMP_DIR } from "@api/config";
-import { calculateChecksum } from "@api/utils/calculateChecksum";
-import { downloadFile } from "@api/utils/downloadFile";
-import { type CSVTransformOptions, processCSV } from "@api/utils/processCSV";
+import { calculateChecksum } from "@api/lib/updater/services/calculate-checksum";
+import { downloadFile } from "@api/lib/updater/services/download-file";
+import {
+  type CSVTransformOptions,
+  processCsv,
+} from "@api/lib/updater/services/process-csv";
 import { RedisCache } from "@api/utils/redis-cache";
 import { db } from "@sgcarstrends/database";
 import { createUniqueKey } from "@sgcarstrends/utils";
@@ -117,7 +120,7 @@ export class Updater<T> {
     const { csvTransformOptions = {} } = this.config;
 
     // Process CSV with custom transformations
-    return await processCSV(filePath, csvTransformOptions);
+    return await processCsv(filePath, csvTransformOptions);
   }
 
   private async insertNewRecords(processedData: T[]): Promise<number> {

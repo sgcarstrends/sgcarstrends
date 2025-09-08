@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { calculateChecksum } from "@api/utils/calculateChecksum";
+import { calculateChecksum } from "@api/lib/updater/services/calculate-checksum";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 describe("calculateChecksum", () => {
