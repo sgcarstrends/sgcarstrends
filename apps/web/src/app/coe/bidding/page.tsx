@@ -1,8 +1,8 @@
-import { type SearchParams } from "nuqs/server";
+import { redis } from "@sgcarstrends/utils";
 import {
-  loadSearchParams,
-  getDefaultStartDate,
   getDefaultEndDate,
+  getDefaultStartDate,
+  loadSearchParams,
 } from "@web/app/coe/search-params";
 import { TrendTable } from "@web/app/coe/trend-table";
 import { PageHeader } from "@web/components/page-header";
@@ -21,10 +21,10 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import redis from "@web/config/redis";
 import { type COEResult, RevalidateTags } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
 import type { Metadata } from "next";
+import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
@@ -121,7 +121,7 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
             <CardContent>
               <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div className="text-center">
-                  <Typography.H3 className="text-2xl font-bold">
+                  <Typography.H3 className="font-bold text-2xl">
                     {Object.keys(biddingRounds).length}
                   </Typography.H3>
                   <Typography.P className="text-muted-foreground text-sm">
@@ -129,7 +129,7 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
                   </Typography.P>
                 </div>
                 <div className="text-center">
-                  <Typography.H3 className="text-2xl font-bold">
+                  <Typography.H3 className="font-bold text-2xl">
                     {coeResults.length}
                   </Typography.H3>
                   <Typography.P className="text-muted-foreground text-sm">
@@ -137,7 +137,7 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
                   </Typography.P>
                 </div>
                 <div className="text-center">
-                  <Typography.H3 className="text-2xl font-bold">
+                  <Typography.H3 className="font-bold text-2xl">
                     {coeResults
                       .reduce((sum, result) => sum + result.bids_received, 0)
                       .toLocaleString()}

@@ -1,8 +1,8 @@
-import { type SearchParams } from "nuqs/server";
+import { redis } from "@sgcarstrends/utils";
 import {
-  loadSearchParams,
-  getDefaultStartDate,
   getDefaultEndDate,
+  getDefaultStartDate,
+  loadSearchParams,
 } from "@web/app/coe/search-params";
 import { COEPremiumChart } from "@web/components/COE-premium-chart";
 import { COECategories } from "@web/components/coe-categories";
@@ -22,7 +22,6 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import redis from "@web/config/redis";
 import {
   type COEBiddingResult,
   type COEResult,
@@ -31,6 +30,7 @@ import {
 } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
 import type { Metadata } from "next";
+import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
@@ -235,7 +235,7 @@ const COETrendsPage = async ({ searchParams }: Props) => {
                     <Typography.P className="mb-1 font-medium">
                       {insight?.category}
                     </Typography.P>
-                    <div className="text-muted-foreground space-y-1 text-sm">
+                    <div className="space-y-1 text-muted-foreground text-sm">
                       <div className="flex justify-between">
                         <span>Average:</span>
                         <span>${insight?.average.toLocaleString()}</span>

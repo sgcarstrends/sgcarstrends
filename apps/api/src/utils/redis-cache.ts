@@ -1,4 +1,4 @@
-import redis from "@api/config/redis";
+import { redis } from "@sgcarstrends/utils";
 import type { Redis } from "@upstash/redis";
 
 export class RedisCache {

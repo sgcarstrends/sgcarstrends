@@ -1,3 +1,4 @@
+import { redis } from "@sgcarstrends/utils";
 import { StructuredData } from "@web/components/structured-data";
 import {
   API_URL,
@@ -5,12 +6,11 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import redis from "@web/config/redis";
 import { type COEResult, RevalidateTags } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
-import { LatestCOEClient } from "./latest-coe-client";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
+import { LatestCOEClient } from "./latest-coe-client";
 
 const title = "Latest COE Prices";
 const description =
