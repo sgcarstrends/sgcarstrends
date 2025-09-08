@@ -1,5 +1,5 @@
 import redis from "@api/config/redis";
-import { cacheChecksum, getCachedChecksum } from "@api/utils/redisCache";
+import { RedisCache } from "@api/utils/redis-cache";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock redis
@@ -10,7 +10,8 @@ vi.mock("@api/config/redis", () => ({
   },
 }));
 
-describe("redisCache", () => {
+describe("RedisCache", () => {
+  let redisCache: RedisCache;
   const fileName = "test-file.csv";
   const checksum = "abc123def456";
 
@@ -20,6 +21,8 @@ describe("redisCache", () => {
     // Default mock implementations
     vi.mocked(redis.set).mockResolvedValue(true);
     vi.mocked(redis.get).mockResolvedValue(checksum);
+
+    redisCache = new RedisCache();
   });
 
   afterEach(() => {
@@ -28,7 +31,7 @@ describe("redisCache", () => {
 
   describe("cacheChecksum", () => {
     it("should store a checksum in Redis", async () => {
-      const result = await cacheChecksum(fileName, checksum);
+      const result = await redisCache.cacheChecksum(fileName, checksum);
 
       expect(redis.set).toHaveBeenCalledWith(`checksum:${fileName}`, checksum);
       expect(result).toBe(true);
@@ -44,7 +47,7 @@ describe("redisCache", () => {
         .spyOn(console, "error")
         .mockImplementation(() => {});
 
-      const result = await cacheChecksum(fileName, checksum);
+      const result = await redisCache.cacheChecksum(fileName, checksum);
 
       expect(consoleSpy).toHaveBeenCalled();
       expect(result).toBeNull();
@@ -55,7 +58,7 @@ describe("redisCache", () => {
 
   describe("getCachedChecksum", () => {
     it("should retrieve a checksum from Redis", async () => {
-      const result = await getCachedChecksum(fileName);
+      const result = await redisCache.getCachedChecksum(fileName);
 
       expect(redis.get).toHaveBeenCalledWith(`checksum:${fileName}`);
       expect(result).toBe(checksum);
@@ -64,7 +67,7 @@ describe("redisCache", () => {
     it("should return null when the checksum is not found", async () => {
       vi.mocked(redis.get).mockResolvedValueOnce(null);
 
-      const result = await getCachedChecksum(fileName);
+      const result = await redisCache.getCachedChecksum(fileName);
 
       expect(result).toBeNull();
     });
@@ -79,12 +82,36 @@ describe("redisCache", () => {
         .spyOn(console, "error")
         .mockImplementation(() => {});
 
-      const result = await getCachedChecksum(fileName);
+      const result = await redisCache.getCachedChecksum(fileName);
 
       expect(consoleSpy).toHaveBeenCalled();
       expect(result).toBeNull();
 
       consoleSpy.mockRestore();
+    });
+  });
+
+  describe("custom Redis instance", () => {
+    it("should use custom Redis instance when provided", async () => {
+      const customRedis = {
+        set: vi.fn().mockResolvedValue("OK"),
+        get: vi.fn().mockResolvedValue("custom-checksum"),
+      };
+
+      const customCache = new RedisCache(customRedis as any);
+
+      await customCache.cacheChecksum(fileName, checksum);
+      await customCache.getCachedChecksum(fileName);
+
+      expect(customRedis.set).toHaveBeenCalledWith(
+        `checksum:${fileName}`,
+        checksum,
+      );
+      expect(customRedis.get).toHaveBeenCalledWith(`checksum:${fileName}`);
+
+      // Default redis instance should not have been called
+      expect(redis.set).not.toHaveBeenCalled();
+      expect(redis.get).not.toHaveBeenCalled();
     });
   });
 });

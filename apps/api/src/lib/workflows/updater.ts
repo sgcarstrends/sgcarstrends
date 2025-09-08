@@ -4,7 +4,7 @@ import { db } from "@api/config/db";
 import { calculateChecksum } from "@api/utils/calculateChecksum";
 import { downloadFile } from "@api/utils/downloadFile";
 import { type CSVTransformOptions, processCSV } from "@api/utils/processCSV";
-import { cacheChecksum, getCachedChecksum } from "@api/utils/redisCache";
+import { RedisCache } from "@api/utils/redis-cache";
 import { createUniqueKey } from "@sgcarstrends/utils";
 import { getTableName, type Table } from "drizzle-orm";
 
@@ -33,6 +33,8 @@ export const updater = async <T>({
   keyFields,
   csvTransformOptions = {},
 }: UpdaterConfig<T>): Promise<UpdaterResult> => {
+  const redisCache = new RedisCache();
+
   try {
     const tableName = getTableName(table);
 
@@ -46,13 +48,14 @@ export const updater = async <T>({
     console.log("Checksum:", checksum);
 
     // Get previously stored checksum
-    const cachedChecksum = await getCachedChecksum(extractedFileName);
+    const cachedChecksum =
+      await redisCache.getCachedChecksum(extractedFileName);
     console.log("Cached checksum:", cachedChecksum);
 
     if (!cachedChecksum) {
       console.log("No cached checksum found. This might be the first run.");
 
-      await cacheChecksum(extractedFileName, checksum);
+      await redisCache.cacheChecksum(extractedFileName, checksum);
     } else if (cachedChecksum === checksum) {
       const timestamp = new Date().toISOString();
       const message = `File has not changed since last update (Checksum: ${checksum})`;
@@ -68,7 +71,7 @@ export const updater = async <T>({
       };
     }
 
-    await cacheChecksum(extractedFileName, checksum);
+    await redisCache.cacheChecksum(extractedFileName, checksum);
     console.log("Checksum has been changed.");
 
     // Process CSV with custom transformations
@@ -120,7 +123,7 @@ export const updater = async <T>({
     }
     const end = performance.now();
 
-    await cacheChecksum(extractedFileName, checksum);
+    await redisCache.cacheChecksum(extractedFileName, checksum);
 
     // Invalidate the cache when the table is updated
     await db.$cache.invalidate({ tables: table });
