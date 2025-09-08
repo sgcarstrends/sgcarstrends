@@ -31,6 +31,11 @@ export class RedisCache {
    * @returns Promise resolving to the cached checksum string or null if not found/error
    */
   async getCachedChecksum(fileName: string) {
+    // Skip cache retrieval in local development mode
+    if (process.env.SST_DEV) {
+      return null;
+    }
+
     try {
       return this.redis.get<string>(`checksum:${fileName}`);
     } catch (error) {
