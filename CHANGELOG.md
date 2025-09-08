@@ -1,3 +1,9 @@
+## [4.9.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.1...v4.9.2) (2025-09-08)
+
+### Bug Fixes
+
+* **web:** type error at `dateOneYearAgo` ([0dac9d2](https://github.com/sgcarstrends/sgcarstrends/commit/0dac9d2614c7c617f025faeb7db3cc80eeec208e))
+
 ## [4.9.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.0...v4.9.1) (2025-09-07)
 
 ### Bug Fixes
