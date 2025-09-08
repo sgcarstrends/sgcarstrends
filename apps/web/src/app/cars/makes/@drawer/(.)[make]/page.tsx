@@ -1,10 +1,10 @@
+import { redis } from "@sgcarstrends/utils";
 import slugify from "@sindresorhus/slugify";
 import { CarMakeContent } from "@web/app/cars/makes/[make]/car-make-content";
 import { loadSearchParams } from "@web/app/cars/makes/[make]/search-params";
 import { MakeDrawer } from "@web/components/makes";
 import { API_URL, LAST_UPDATED_CARS_KEY } from "@web/config";
-import redis from "@web/config/redis";
-import { type Car, type Make } from "@web/types";
+import type { Car, Make } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
 import { getMonthOrLatest } from "@web/utils/month-utils";
 import type { SearchParams } from "nuqs/server";

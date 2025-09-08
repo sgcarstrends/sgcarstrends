@@ -1,9 +1,8 @@
-import { notFound } from "next/navigation";
-import { type SearchParams } from "nuqs/server";
+import { redis } from "@sgcarstrends/utils";
 import {
-  loadSearchParams,
-  getDefaultStartDate,
   getDefaultEndDate,
+  getDefaultStartDate,
+  loadSearchParams,
 } from "@web/app/coe/search-params";
 import { COEPremiumChart } from "@web/components/COE-premium-chart";
 import { PageHeader } from "@web/components/page-header";
@@ -22,7 +21,6 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import redis from "@web/config/redis";
 import {
   type COEBiddingResult,
   type COECategory,
@@ -32,6 +30,8 @@ import {
 } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
@@ -187,7 +187,7 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
           <CardContent>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div className="text-center">
-                <Typography.H3 className="text-2xl font-bold">
+                <Typography.H3 className="font-bold text-2xl">
                   {categoryResults.length}
                 </Typography.H3>
                 <Typography.P className="text-muted-foreground text-sm">
@@ -195,7 +195,7 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
                 </Typography.P>
               </div>
               <div className="text-center">
-                <Typography.H3 className="text-2xl font-bold">
+                <Typography.H3 className="font-bold text-2xl">
                   $
                   {Math.round(
                     categoryResults.reduce(
@@ -209,7 +209,7 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
                 </Typography.P>
               </div>
               <div className="text-center">
-                <Typography.H3 className="text-2xl font-bold">
+                <Typography.H3 className="font-bold text-2xl">
                   $
                   {Math.max(
                     ...categoryResults.map((item) => item.premium),

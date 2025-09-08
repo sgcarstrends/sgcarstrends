@@ -1,10 +1,10 @@
-import redis from "@api/config/redis";
 import { RedisCache } from "@api/utils/redis-cache";
+import { redis } from "@sgcarstrends/utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock redis
-vi.mock("@api/config/redis", () => ({
-  default: {
+vi.mock("@sgcarstrends/utils", () => ({
+  redis: {
     set: vi.fn().mockResolvedValue(true),
     get: vi.fn().mockResolvedValue("abc123def456"),
   },

@@ -1,3 +1,4 @@
+import { redis } from "@sgcarstrends/utils";
 import { CarRegistration } from "@web/app/cars/car-registration";
 import { CategoryTabs } from "@web/app/cars/category-tabs";
 import { loadSearchParams } from "@web/app/cars/search-params";
@@ -8,7 +9,6 @@ import { TopMakes } from "@web/components/top-makes";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import redis from "@web/config/redis";
 import { generateDatasetSchema } from "@web/lib/structured-data";
 import {
   getCarsComparison,

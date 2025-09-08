@@ -2,6 +2,8 @@ import Link from "next/link";
 
 // Enable ISR with 1-hour revalidation
 export const revalidate = 3600;
+
+import { redis } from "@sgcarstrends/utils";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { LatestCOEPrices } from "@web/components/latest-coe-prices";
 import { PageHeader } from "@web/components/page-header";
@@ -23,7 +25,6 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import redis from "@web/config/redis";
 import { type COEResult, type PQP, RevalidateTags } from "@web/types";
 import {
   getCOEResults,
@@ -169,7 +170,7 @@ const COEPricesPage = async () => {
                 <div className="text-muted-foreground">
                   <Progress value={categoryAPercentage * 100} className="h-4" />
                   <div className="mt-2 text-center">
-                    <span className="text-primary text-lg font-bold">
+                    <span className="font-bold text-lg text-primary">
                       {formatPercent(categoryAPercentage, {
                         maximumFractionDigits: 1,
                       })}
@@ -187,7 +188,7 @@ const COEPricesPage = async () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="text-muted-foreground grid grid-cols-1 gap-2">
+                    <div className="grid grid-cols-1 gap-2 text-muted-foreground">
                       <div>
                         <div className="text-red-600">
                           Record High:{" "}
@@ -238,7 +239,7 @@ const COEPricesPage = async () => {
                     className="flex items-center justify-between border-b pb-2 last-of-type:border-none"
                   >
                     <div className="font-bold">{category}</div>
-                    <Typography.Lead className="text-primary font-bold">
+                    <Typography.Lead className="font-bold text-primary">
                       S$
                       <AnimatedNumber value={rate} />
                     </Typography.Lead>

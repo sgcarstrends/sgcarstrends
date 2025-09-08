@@ -1,4 +1,4 @@
-import { AlertCircle } from "lucide-react";
+import { redis } from "@sgcarstrends/utils";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
@@ -10,11 +10,11 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import redis from "@web/config/redis";
-import { fetchApi } from "@web/utils/fetch-api";
-import { columns } from "./columns";
 import type { PQP } from "@web/types";
+import { fetchApi } from "@web/utils/fetch-api";
+import { AlertCircle } from "lucide-react";
 import type { WebPage, WithContext } from "schema-dts";
+import { columns } from "./columns";
 
 const title = "COE PQP Rates";
 const description =

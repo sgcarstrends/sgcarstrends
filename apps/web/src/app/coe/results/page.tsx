@@ -1,8 +1,8 @@
-import { type SearchParams } from "nuqs/server";
+import { redis } from "@sgcarstrends/utils";
 import {
-  loadSearchParams,
-  getDefaultStartDate,
   getDefaultEndDate,
+  getDefaultStartDate,
+  loadSearchParams,
 } from "@web/app/coe/search-params";
 import { TrendTable } from "@web/app/coe/trend-table";
 import { COEPremiumChart } from "@web/components/COE-premium-chart";
@@ -23,7 +23,6 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import redis from "@web/config/redis";
 import {
   type COEBiddingResult,
   type COEResult,
@@ -32,6 +31,7 @@ import {
 } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
 import type { Metadata } from "next";
+import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {

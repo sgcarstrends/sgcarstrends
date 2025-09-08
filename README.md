@@ -32,13 +32,14 @@ sgcarstrends/
 │   │   ├── src/components/  # React components with comprehensive tests
 │   │   ├── src/actions/     # Server actions for blog and analytics
 │   │   └── src/utils/       # Web-specific utility functions
+│   ├── admin/        # Administrative interface for content management
 │   └── docs/         # Mintlify documentation site
 ├── packages/
 │   ├── database/     # Database schema and migrations (Drizzle ORM)
 │   │   ├── src/db/          # Schema definitions for all tables
 │   │   └── migrations/      # Database migration files
 │   ├── types/        # Shared TypeScript types
-│   └── utils/        # Shared utility functions
+│   └── utils/        # Shared utility functions and Redis configuration
 ├── infra/            # SST v3 infrastructure configuration
 │   ├── api.ts              # API service configuration
 │   ├── web.ts              # Web application configuration

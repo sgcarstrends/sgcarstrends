@@ -125,12 +125,14 @@ All redirects include standardized UTM parameters:
     - **src/components**: React components with comprehensive tests
     - **src/actions**: Server actions for blog and analytics functionality
     - **src/utils**: Web-specific utility functions
+- **apps/admin**: Administrative interface for content management
 - **apps/docs**: Mintlify documentation site
 - **packages/database**: Database schema and migrations using Drizzle ORM
     - **src/db**: Schema definitions for cars, COE, posts, and analytics tables
     - **migrations**: Database migration files with version tracking
 - **packages/types**: Shared TypeScript type definitions
-- **packages/utils**: Shared utility functions
+- **packages/utils**: Shared utility functions and Redis configuration
+- **packages/config**: Shared configuration utilities (currently unused)
 - **infra**: SST v3 infrastructure configuration for AWS deployment
 
 ## Monorepo Build System
@@ -167,7 +169,7 @@ The project uses Turbo for efficient monorepo task orchestration:
 - Class naming: PascalCase
 - Constants: UPPER_CASE for true constants
 - Error handling: Use try/catch for async operations with specific error types
-- Use workspace imports for shared packages: `@sgcarstrends/utils`, etc.
+- Use workspace imports for shared packages: `@sgcarstrends/utils` (includes Redis), `@sgcarstrends/database`, etc.
 - Path aliases: Use `@api/` for imports in API app
 - Avoid using `any` type - prefer unknown with type guards
 - Group imports by: 1) built-in, 2) external, 3) internal
@@ -359,6 +361,27 @@ data:
 - **Social Media Promotion**: New blog posts automatically announced across all configured platforms
 - **SEO Integration**: Dynamic Open Graph images, structured data, and canonical URLs
 - **Content Management**: Posts stored with metadata including generation details and data source month
+
+## Shared Package Architecture
+
+The project uses shared packages for cross-application concerns:
+
+### Redis Configuration (`packages/utils`)
+
+Redis configuration is centralized in the `@sgcarstrends/utils` package to eliminate duplication:
+
+- **Shared Redis Instance**: Exported `redis` client configured with Upstash credentials
+- **Environment Variables**: Automatically reads `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`
+- **Usage Pattern**: Import via `import { redis } from "@sgcarstrends/utils"`
+- **Applications**: Used by both API service (caching, workflows) and web application (analytics, view tracking)
+
+This consolidation ensures consistent Redis configuration across all applications and simplifies environment management.
+
+### Other Shared Utilities
+
+- **Type Definitions**: `@sgcarstrends/types` for shared TypeScript interfaces
+- **Database Schema**: `@sgcarstrends/database` for Drizzle ORM schemas and migrations
+- **Utility Functions**: Date formatting, percentage calculations, and key generation utilities
 
 ## Release Process
 

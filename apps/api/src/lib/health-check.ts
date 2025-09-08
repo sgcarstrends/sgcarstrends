@@ -1,9 +1,9 @@
 import { db } from "@api/config/db";
-import redis from "@api/config/redis";
 import {
   healthResponseSchema,
   healthServicesSchema,
 } from "@api/schemas/health";
+import { redis } from "@sgcarstrends/utils";
 import packageJson from "../../package.json";
 
 export async function performHealthCheck() {
