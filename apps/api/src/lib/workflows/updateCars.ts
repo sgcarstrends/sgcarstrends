@@ -2,7 +2,7 @@ import { LTA_DATAMALL_BASE_URL } from "@api/config";
 import { cars } from "@sgcarstrends/database";
 import type { Car } from "@sgcarstrends/types";
 import { cleanSpecialChars } from "@sgcarstrends/utils";
-import { updater } from "./updater";
+import { Updater } from "./updater";
 
 export const updateCars = () => {
   const filename = "Monthly New Registration of Cars by Make.zip";
@@ -14,7 +14,7 @@ export const updateCars = () => {
     "vehicle_type",
   ];
 
-  return updater<Car>({
+  const updater = new Updater<Car>({
     table: cars,
     url,
     keyFields,
@@ -28,6 +28,8 @@ export const updateCars = () => {
       },
     },
   });
+
+  return updater.update();
 };
 
 export const handler = async () => {

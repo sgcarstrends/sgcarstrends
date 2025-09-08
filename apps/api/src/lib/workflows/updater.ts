@@ -24,19 +24,65 @@ export interface UpdaterResult {
   checksum?: string;
 }
 
-const BATCH_SIZE = 5000;
+export interface UpdaterOptions {
+  batchSize?: number;
+  redisCache?: RedisCache;
+}
 
-export const updater = async <T>({
-  table,
-  url,
-  csvFile,
-  keyFields,
-  csvTransformOptions = {},
-}: UpdaterConfig<T>): Promise<UpdaterResult> => {
-  const redisCache = new RedisCache();
+const DEFAULT_BATCH_SIZE = 5000;
 
-  try {
-    const tableName = getTableName(table);
+export class Updater<T> {
+  private readonly config: UpdaterConfig<T>;
+  private readonly redisCache: RedisCache;
+  private readonly batchSize: number;
+  private readonly tableName: string;
+
+  constructor(config: UpdaterConfig<T>, options: UpdaterOptions = {}) {
+    this.config = config;
+    this.redisCache = options.redisCache || new RedisCache();
+    this.batchSize = options.batchSize || DEFAULT_BATCH_SIZE;
+    this.tableName = getTableName(config.table);
+  }
+
+  async update(): Promise<UpdaterResult> {
+    try {
+      const { filePath, checksum } = await this.downloadAndVerify();
+
+      if (!checksum) {
+        return {
+          table: this.tableName,
+          recordsProcessed: 0,
+          message: `File has not changed since last update`,
+          timestamp: new Date().toISOString(),
+        };
+      }
+
+      const processedData = await this.processData(filePath);
+      const totalInserted = await this.insertNewRecords(processedData);
+
+      const response = {
+        table: this.tableName,
+        recordsProcessed: totalInserted,
+        message:
+          totalInserted > 0
+            ? `${totalInserted} record(s) inserted`
+            : "No new data to insert. The provided data matches the existing records.",
+        timestamp: new Date().toISOString(),
+      };
+
+      console.log(response);
+      return response;
+    } catch (e) {
+      console.error("Error in updater:", e);
+      throw e;
+    }
+  }
+
+  private async downloadAndVerify(): Promise<{
+    filePath: string;
+    checksum: string | null;
+  }> {
+    const { url, csvFile } = this.config;
 
     // Download and extract file
     const extractedFileName = await downloadFile(url, csvFile);
@@ -49,36 +95,33 @@ export const updater = async <T>({
 
     // Get previously stored checksum
     const cachedChecksum =
-      await redisCache.getCachedChecksum(extractedFileName);
+      await this.redisCache.getCachedChecksum(extractedFileName);
     console.log("Cached checksum:", cachedChecksum);
 
     if (!cachedChecksum) {
       console.log("No cached checksum found. This might be the first run.");
-
-      await redisCache.cacheChecksum(extractedFileName, checksum);
+      await this.redisCache.cacheChecksum(extractedFileName, checksum);
     } else if (cachedChecksum === checksum) {
-      const timestamp = new Date().toISOString();
       const message = `File has not changed since last update (Checksum: ${checksum})`;
-
       console.log(message);
-
-      return {
-        table: tableName,
-        recordsProcessed: 0,
-        message,
-        timestamp,
-        checksum,
-      };
+      return { filePath: destinationPath, checksum: null };
     }
 
-    await redisCache.cacheChecksum(extractedFileName, checksum);
+    await this.redisCache.cacheChecksum(extractedFileName, checksum);
     console.log("Checksum has been changed.");
 
+    return { filePath: destinationPath, checksum };
+  }
+
+  private async processData(filePath: string): Promise<T[]> {
+    const { csvTransformOptions = {} } = this.config;
+
     // Process CSV with custom transformations
-    const processedData = await processCSV(
-      destinationPath,
-      csvTransformOptions,
-    );
+    return await processCSV(filePath, csvTransformOptions);
+  }
+
+  private async insertNewRecords(processedData: T[]): Promise<number> {
+    const { table, keyFields } = this.config;
 
     // Create a query to check for existing records
     const existingKeysQuery = await db
@@ -100,21 +143,15 @@ export const updater = async <T>({
 
     // Return early when there are no new records to be added to the database
     if (newRecords.length === 0) {
-      return {
-        table: tableName,
-        recordsProcessed: 0,
-        message:
-          "No new data to insert. The provided data matches the existing records.",
-        timestamp: new Date().toISOString(),
-      };
+      return 0;
     }
 
     // Process in batches only if we have new records
     let totalInserted = 0;
 
     const start = performance.now();
-    for (let i = 0; i < newRecords.length; i += BATCH_SIZE) {
-      const batch = newRecords.slice(i, i + BATCH_SIZE);
+    for (let i = 0; i < newRecords.length; i += this.batchSize) {
+      const batch = newRecords.slice(i, i + this.batchSize);
       const inserted = await db.insert(table).values(batch).returning();
       totalInserted += inserted.length;
       console.log(
@@ -123,22 +160,13 @@ export const updater = async <T>({
     }
     const end = performance.now();
 
-    await redisCache.cacheChecksum(extractedFileName, checksum);
-
     // Invalidate the cache when the table is updated
     await db.$cache.invalidate({ tables: table });
 
-    const response = {
-      table: tableName,
-      recordsProcessed: totalInserted,
-      message: `${totalInserted} record(s) inserted in ${Math.round(end - start)}ms`,
-      timestamp: new Date().toISOString(),
-    };
-    console.log(response);
+    console.log(
+      `Inserted ${totalInserted} record(s) in ${Math.round(end - start)}ms`,
+    );
 
-    return response;
-  } catch (e) {
-    console.error("Error in updater:", e);
-    throw e;
+    return totalInserted;
   }
-};
+}
