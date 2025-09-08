@@ -1,5 +1,4 @@
-import { db } from "@api/config/db";
-import { cars } from "@sgcarstrends/database";
+import { cars, db } from "@sgcarstrends/database";
 import { and, asc, desc, eq, gt, ilike, max, ne, sql, sum } from "drizzle-orm";
 
 export const getCarsByMonth = (month: string) =>

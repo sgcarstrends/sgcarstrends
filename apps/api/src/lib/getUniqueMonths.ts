@@ -1,4 +1,4 @@
-import { db } from "@api/config/db";
+import { db } from "@sgcarstrends/database";
 import { desc } from "drizzle-orm";
 import type { PgTable } from "drizzle-orm/pg-core";
 

@@ -1,7 +1,6 @@
 "use server";
 
-import { cars } from "@sgcarstrends/database";
-import { db } from "@web/config/db";
+import { cars, db } from "@sgcarstrends/database";
 import { and, desc, gt, ilike, max, sql } from "drizzle-orm";
 import { cache } from "react";
 

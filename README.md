@@ -36,7 +36,7 @@ sgcarstrends/
 │   └── docs/         # Mintlify documentation site
 ├── packages/
 │   ├── database/     # Database schema and migrations (Drizzle ORM)
-│   │   ├── src/db/          # Schema definitions for all tables
+│   │   ├── src/schema/      # Schema definitions for all tables
 │   │   └── migrations/      # Database migration files
 │   ├── types/        # Shared TypeScript types
 │   └── utils/        # Shared utility functions and Redis configuration

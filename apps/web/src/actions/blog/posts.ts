@@ -1,7 +1,6 @@
 "use server";
 
-import { posts } from "@sgcarstrends/database";
-import { db } from "@web/config/db";
+import { db, posts } from "@sgcarstrends/database";
 import { RevalidateTags } from "@web/types";
 import { desc, eq, inArray, isNotNull } from "drizzle-orm";
 import { unstable_cache } from "next/cache";

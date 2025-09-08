@@ -1,6 +1,5 @@
-import { db } from "@api/config/db";
 import type { GenerateContentResponse } from "@google/genai";
-import { posts } from "@sgcarstrends/database";
+import { db, posts } from "@sgcarstrends/database";
 import slugify from "@sindresorhus/slugify";
 import { eq } from "drizzle-orm";
 

@@ -1,8 +1,8 @@
-import { db } from "@api/config/db";
+import { db } from "@sgcarstrends/database";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getLatestMonth } from "../getLatestMonth";
 
-vi.mock("@api/config/db", () => ({
+vi.mock("@sgcarstrends/database", () => ({
   db: {
     select: vi.fn(),
   },

@@ -1,8 +1,8 @@
-import { db } from "@api/config/db";
 import {
   healthResponseSchema,
   healthServicesSchema,
 } from "@api/schemas/health";
+import { db } from "@sgcarstrends/database";
 import { redis } from "@sgcarstrends/utils";
 import packageJson from "../../package.json";
 
