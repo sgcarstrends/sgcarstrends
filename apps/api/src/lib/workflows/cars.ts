@@ -2,7 +2,7 @@ import { SITE_URL } from "@api/config";
 import { socialMediaManager } from "@api/config/platforms";
 import { options } from "@api/lib/workflows/options";
 import { generateCarPost } from "@api/lib/workflows/posts";
-import { updateCars } from "@api/lib/workflows/updateCars";
+import { updateCars } from "@api/lib/workflows/update-cars";
 import {
   processTask,
   publishToAllPlatforms,

@@ -5,10 +5,10 @@ export interface CSVTransformOptions<T> {
   fields?: { [K in keyof T]?: unknown };
 }
 
-export const processCSV = async <T>(
+export const processCsv = async <T>(
   filePath: string,
   options: CSVTransformOptions<T> = {},
-): Promise<unknown[]> => {
+) => {
   const fileContent = fs.readFileSync(filePath, "utf-8");
 
   const { fields = {} } = options;

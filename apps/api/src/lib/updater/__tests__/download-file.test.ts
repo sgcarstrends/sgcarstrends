@@ -1,4 +1,4 @@
-import { downloadFile } from "@api/utils/downloadFile";
+import { downloadFile } from "@api/lib/updater/services/download-file";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@api/config", () => ({

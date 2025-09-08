@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { processCSV } from "@api/utils/processCSV";
+import { processCsv } from "@api/lib/updater/services/process-csv";
 import Papa from "papaparse";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -42,7 +42,7 @@ describe("processCSV", () => {
   });
 
   it("should read a CSV file and parse it", async () => {
-    const result = await processCSV<TestRecord>(filePath);
+    const result = await processCsv<TestRecord>(filePath);
 
     expect(fs.readFileSync).toHaveBeenCalledWith(filePath, "utf-8");
     expect(Papa.parse).toHaveBeenCalled();
@@ -50,7 +50,7 @@ describe("processCSV", () => {
   });
 
   it("should use Papa.parse with correct options", async () => {
-    await processCSV(filePath);
+    await processCsv(filePath);
 
     expect(Papa.parse).toHaveBeenCalledWith(
       expect.any(String),
@@ -78,7 +78,7 @@ describe("processCSV", () => {
       age: (value: string) => Number.parseInt(value, 10) + 5,
     };
 
-    await processCSV(filePath, { fields: customFields });
+    await processCsv(filePath, { fields: customFields });
 
     // Check that Papa.parse was called with the expected options
     expect(Papa.parse).toHaveBeenCalledWith(
@@ -95,7 +95,7 @@ describe("processCSV", () => {
       throw new Error(errorMsg);
     });
 
-    await expect(processCSV(filePath)).rejects.toThrow(errorMsg);
+    await expect(processCsv(filePath)).rejects.toThrow(errorMsg);
   });
 
   it("should handle parsing errors", async () => {
@@ -103,7 +103,7 @@ describe("processCSV", () => {
       throw new Error("Parse error");
     });
 
-    await expect(processCSV(filePath)).rejects.toThrow("Parse error");
+    await expect(processCsv(filePath)).rejects.toThrow("Parse error");
   });
 
   it("should return an empty array if no records are found", async () => {
@@ -111,7 +111,7 @@ describe("processCSV", () => {
       data: [],
     } as never);
 
-    const result = await processCSV(filePath);
+    const result = await processCsv(filePath);
 
     expect(result).toHaveLength(0);
   });
