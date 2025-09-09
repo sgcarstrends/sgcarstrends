@@ -81,7 +81,7 @@ describe("Updater", () => {
     vi.mocked(downloadFile).mockResolvedValue("test-file.csv");
     vi.mocked(calculateChecksum).mockResolvedValue("abc123");
     vi.mocked(processCsv).mockResolvedValue(mockData);
-    vi.mocked(createUniqueKey).mockImplementation((record, fields) =>
+    vi.mocked(createUniqueKey).mockImplementation((record, fields: []) =>
       fields.map((field) => record[field]).join("|"),
     );
 
@@ -124,7 +124,7 @@ describe("Updater", () => {
     it("should successfully process new data", async () => {
       // Mock no cached checksum (first run)
       vi.mocked(mockRedisCache.getCachedChecksum).mockResolvedValue(null);
-      vi.mocked(mockRedisCache.cacheChecksum).mockResolvedValue(true);
+      vi.mocked(mockRedisCache.cacheChecksum).mockResolvedValue("cached");
 
       const updater = new Updater(updaterConfig, updaterOptions);
       const result = await updater.update();
