@@ -233,4 +233,4 @@ pnpm web:deploy:prod                 # Deploy web to production
 
 ## License
 
-MIT
+[MIT](LICENSE)
