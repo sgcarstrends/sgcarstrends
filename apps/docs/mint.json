@@ -62,6 +62,17 @@
       ]
     },
     {
+      "group": "Architecture",
+      "pages": [
+        "architecture/system",
+        "architecture/workflows",
+        "architecture/database",
+        "architecture/api",
+        "architecture/infrastructure",
+        "architecture/social"
+      ]
+    },
+    {
       "group": "API Reference",
       "pages": [
         "api-reference/overview",

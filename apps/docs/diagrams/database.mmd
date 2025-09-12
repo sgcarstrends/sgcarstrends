@@ -1,0 +1,56 @@
+erDiagram
+    cars {
+        uuid id PK "Primary key (auto-generated)"
+        text month "Month in YYYY-MM format"
+        text make "Vehicle manufacturer"
+        text importer_type "Registration type"
+        text fuel_type "Petrol, Diesel, Electric, Hybrid"
+        text vehicle_type "Cars, Motor cycles, Buses, etc"
+        integer number "Number of registrations"
+    }
+
+    coe {
+        uuid id PK "Primary key (auto-generated)"
+        text month "Bidding month YYYY-MM"
+        integer bidding_no "Bidding exercise number (1 or 2)"
+        text vehicle_class "COE category"
+        integer quota "Available certificates"
+        integer bids_success "Successful bids"
+        integer bids_received "Total bids submitted"
+        integer premium "Winning premium in SGD"
+    }
+
+    coe_pqp {
+        uuid id PK "Primary key (auto-generated)"
+        text month "Month YYYY-MM"
+        text vehicle_class "COE category"
+        integer pqp "Prevailing Quota Premium rate"
+    }
+
+    posts {
+        uuid id PK "Primary key (auto-generated)"
+        text title "Blog post title"
+        text slug UK "URL-friendly identifier"
+        text content "Markdown content"
+        jsonb metadata "Post metadata (tags, reading_time, etc)"
+        timestamp published_at "Publication date"
+        timestamp created_at "Creation timestamp"
+        timestamp modified_at "Last modification timestamp"
+    }
+
+    analytics {
+        serial id PK "Auto-incrementing primary key"
+        timestamp date "Event timestamp with timezone"
+        text pathname "Page URL path"
+        text referrer "Referrer URL"
+        text country "Visitor country"
+        text flag "Country flag emoji"
+        text city "Visitor city"
+        text latitude "Geographic latitude"
+        text longitude "Geographic longitude"
+    }
+
+    %% Relationships (conceptual, not foreign keys)
+    posts ||--o{ cars : "generated from cars data"
+    posts ||--o{ coe : "generated from coe data"
+    coe ||--o{ coe_pqp : "related by month and vehicle_class"

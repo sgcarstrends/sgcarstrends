@@ -25,6 +25,22 @@ This repository includes directory-specific CLAUDE.md files with detailed guidan
 
 Refer to these files for component-specific development guidance and best practices.
 
+## Architecture Documentation
+
+Comprehensive system architecture documentation with visual diagrams is available in the Mintlify documentation site:
+
+- **[apps/docs/architecture/](apps/docs/architecture/)**: Complete architecture documentation with Mermaid diagrams
+  - **[system.md](apps/docs/architecture/system.md)**: System architecture overview and component relationships
+  - **[workflows.md](apps/docs/architecture/workflows.md)**: Data processing workflow sequence diagrams
+  - **[database.md](apps/docs/architecture/database.md)**: Database schema and entity relationships
+  - **[api.md](apps/docs/architecture/api.md)**: API architecture with Hono framework structure
+  - **[infrastructure.md](apps/docs/architecture/infrastructure.md)**: AWS deployment topology and domain strategy
+  - **[social.md](apps/docs/architecture/social.md)**: Social media integration workflows
+
+- **[apps/docs/diagrams/](apps/docs/diagrams/)**: Source Mermaid diagram files (`.mmd` format)
+
+These architectural resources provide visual understanding of system components, data flows, and integration patterns for effective development and maintenance.
+
 # SG Cars Trends Platform - Overview
 
 ## Project Overview
@@ -125,8 +141,10 @@ All redirects include standardized UTM parameters:
     - **src/components**: React components with comprehensive tests
     - **src/actions**: Server actions for blog and analytics functionality
     - **src/utils**: Web-specific utility functions
-- **apps/admin**: Administrative interface for content management
+- **apps/admin**: Administrative interface for content management (unreleased)
 - **apps/docs**: Mintlify documentation site
+    - **architecture/**: Complete system architecture documentation with Mermaid diagrams
+    - **diagrams/**: Source Mermaid diagram files for architecture documentation
 - **packages/database**: Database schema and migrations using Drizzle ORM
     - **src/db**: Schema definitions for cars, COE, posts, and analytics tables
     - **migrations**: Database migration files with version tracking
