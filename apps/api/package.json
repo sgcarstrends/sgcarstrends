@@ -35,7 +35,7 @@
     "adm-zip": "^0.5.16",
     "date-fns": "^2.30.0",
     "drizzle-orm": "0.44.3",
-    "hono": "^4.7.2",
+    "hono": "^4.9.7",
     "linkedin-api-client": "^0.3.0",
     "papaparse": "^5.4.1",
     "sst": "^3.17.10",
