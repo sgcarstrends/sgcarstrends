@@ -1,18 +1,18 @@
-import type { GenerateContentResponse } from "@google/genai";
+import type { GenerateContentConfig } from "@google/genai";
+
+export const GEMINI_MODEL = "gemini-2.5-flash";
+
+export const GEMINI_CONFIG: GenerateContentConfig = {
+  thinkingConfig: {
+    thinkingBudget: -1,
+  },
+  responseMimeType: "text/plain",
+};
 
 export interface BlogGenerationParams {
   data: string[];
   month: string;
   dataType: "cars" | "coe";
-}
-
-export interface BlogPost {
-  title: string;
-  content: string;
-  metadata: Partial<GenerateContentResponse> & {
-    month: string;
-    dataType: string;
-  };
 }
 
 export interface BlogResult {
@@ -22,15 +22,6 @@ export interface BlogResult {
   title: string;
   slug: string;
 }
-
-export const GEMINI_MODEL = "gemini-2.5-flash";
-
-export const GEMINI_CONFIG = {
-  thinkingConfig: {
-    thinkingBudget: -1,
-  },
-  responseMimeType: "text/plain",
-};
 
 export const SYSTEM_INSTRUCTIONS = {
   cars: `You are a data analyst specialising in Singapore's car market.
