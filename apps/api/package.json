@@ -36,7 +36,7 @@
     "date-fns": "^2.30.0",
     "drizzle-orm": "0.44.3",
     "hono": "^4.9.7",
-    "linkedin-api-client": "^0.3.0",
+    "linkedin-api-client": "npm:@ruchernchong/linkedin-api-client@^0.3.1",
     "papaparse": "^5.4.1",
     "sst": "^3.17.10",
     "twitter-api-v2": "^1.23.0",
