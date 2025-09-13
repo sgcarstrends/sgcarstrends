@@ -1,10 +1,6 @@
 import { SITE_URL } from "@api/config";
 import { savePost } from "@api/lib/workflows/save-post";
-import {
-  createPartFromText,
-  createUserContent,
-  GoogleGenAI,
-} from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import type { WorkflowContext } from "@upstash/workflow";
 import {
   type BlogGenerationParams,
@@ -26,24 +22,23 @@ export const generatePost = async (
 
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-    const cache = await ai.caches.create({
-      model: GEMINI_MODEL,
-      config: {
-        contents: createUserContent(
-          createPartFromText(
-            `${dataType.toUpperCase()} data for ${month}: ${data.join("\n")}`,
-          ),
-        ),
-        systemInstruction: SYSTEM_INSTRUCTIONS[dataType],
-      },
-    });
-
     const response = await ai.models.generateContent({
       model: GEMINI_MODEL,
-      contents: GENERATION_PROMPTS[dataType],
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: `${dataType.toUpperCase()} data for ${month}: ${data.join("\n")}\n\n${GENERATION_PROMPTS[dataType]}`,
+            },
+          ],
+        },
+      ],
       config: {
         ...GEMINI_CONFIG,
-        cachedContent: cache.name,
+        systemInstruction: {
+          parts: [{ text: SYSTEM_INSTRUCTIONS[dataType] }],
+        },
       },
     });
 
