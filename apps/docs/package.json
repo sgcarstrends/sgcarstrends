@@ -8,6 +8,6 @@
   "license": "MIT",
   "scripts": {},
   "devDependencies": {
-    "mint": "^4.2.3"
+    "mint": "^4.2.112"
   }
 }
