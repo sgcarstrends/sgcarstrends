@@ -1,3 +1,9 @@
+## [4.9.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.2...v4.9.3) (2025-09-13)
+
+### Performance Improvements
+
+* **api:** switch to gemini flash model ([112e24a](https://github.com/sgcarstrends/sgcarstrends/commit/112e24aa6473b0c515ac1419f9b6d4f00d846867))
+
 ## [4.9.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.1...v4.9.2) (2025-09-08)
 
 ### Bug Fixes

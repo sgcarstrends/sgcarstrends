@@ -1,6 +1,6 @@
 {
   "name": "@sgcarstrends/admin",
-  "version": "4.9.2",
+  "version": "4.9.3",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
