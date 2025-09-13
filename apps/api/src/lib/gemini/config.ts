@@ -23,11 +23,11 @@ export interface BlogResult {
   slug: string;
 }
 
-export const GEMINI_MODEL = "gemini-2.5-pro";
+export const GEMINI_MODEL = "gemini-2.5-flash";
 
 export const GEMINI_CONFIG = {
   thinkingConfig: {
-    thinkingBudget: 8192,
+    thinkingBudget: -1,
   },
   responseMimeType: "text/plain",
 };
