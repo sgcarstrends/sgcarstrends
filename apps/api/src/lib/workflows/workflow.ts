@@ -4,7 +4,7 @@ import type { UpdaterResult } from "@api/lib/updater";
 import { redis } from "@sgcarstrends/utils";
 import type { WorkflowContext } from "@upstash/workflow";
 
-export interface Task {
+export interface WorkflowStep {
   name: string;
   handler: () => Promise<UpdaterResult>;
 }

@@ -55,7 +55,8 @@ bidding results. Key features include:
 - **src/v1/**: Versioned API routes (cars, coe, months) with bearer authentication
 - **src/routes/**: Workflow endpoints and social media webhooks
 - **src/trpc/**: Type-safe tRPC router with context creation
-- **src/lib/workflows/**: QStash workflow implementations for data processing
+- **src/lib/workflows/**: QStash workflows (cars, coe, posts, save-post, update-cars, update-coe, workflow, options)
+- **src/lib/gemini/**: LLM-powered blog post generation using Google Gemini AI
 - **src/lib/social/**: Platform-specific social media posting logic
 - **src/config/**: Configuration for databases, Redis, QStash, and platforms
 - **src/utils/**: Utility functions for file processing, caching, and responses
@@ -64,9 +65,11 @@ bidding results. Key features include:
 
 The API uses a workflow-based system for data processing:
 
-- **Task Processing** (`src/lib/workflows/workflow.ts`): Common workflow patterns with Redis timestamps
-- **Data Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`): Automated data fetching and processing
-- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Google Gemini
+- **Workflow Runtime** (`src/lib/workflows/workflow.ts`): Common workflow helpers, step runner, Redis timestamps
+- **Data Updaters** (`src/lib/workflows/update-cars.ts`, `src/lib/workflows/update-coe.ts`): Automated data fetching and processing
+- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Google Gemini via `src/lib/gemini/generate-post.ts`
+- **Post Management** (`src/lib/workflows/save-post.ts`): Blog post persistence with idempotency support
+- **Main Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`): Main workflow orchestrators exposed as routes
 - **Social Publishing**: Automated posting to platforms when data updates occur
 
 ### Authentication & Security
