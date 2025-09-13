@@ -4,10 +4,6 @@
   "description": "Monorepo for SG Cars Trends",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
     "build": "turbo build --env-mode=loose",
     "deploy:dev": "sst deploy --stage dev",
