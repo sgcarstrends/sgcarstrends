@@ -1,3 +1,9 @@
+## [4.10.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.3...v4.10.0) (2025-09-13)
+
+### Features
+
+* **api:** implement blog post idempotency ([25991dc](https://github.com/sgcarstrends/sgcarstrends/commit/25991dc9c3b9435a5e1e8186058a8b7add85fe4d))
+
 ## [4.9.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.2...v4.9.3) (2025-09-13)
 
 ### Performance Improvements
