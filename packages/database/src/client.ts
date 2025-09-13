@@ -14,4 +14,5 @@ export const db = drizzle(sql, {
     config: { ex: CACHE_TTL },
   }),
   schema,
+  casing: "snake_case",
 });

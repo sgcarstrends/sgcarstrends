@@ -315,6 +315,10 @@ The platform uses PostgreSQL with Drizzle ORM for type-safe database operations:
 - **posts**: LLM-generated blog posts with metadata, tags, SEO information, and analytics
 - **analyticsTable**: Page views and visitor tracking for performance monitoring
 
+### Database Configuration
+
+The database uses **snake_case** column naming convention configured in both Drizzle config and client setup. This ensures consistent naming patterns between the database schema and TypeScript types.
+
 *See [packages/database/CLAUDE.md](packages/database/CLAUDE.md) for detailed schema definitions, migration workflows, and TypeScript integration patterns.*
 
 ## Workflow Architecture
