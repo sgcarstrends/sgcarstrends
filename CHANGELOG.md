@@ -1,3 +1,9 @@
+## [4.10.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.4...v4.10.5) (2025-09-14)
+
+### Bug Fixes
+
+* **web:** blog posts not revalidated correctly ([aea2d88](https://github.com/sgcarstrends/sgcarstrends/commit/aea2d888d6241f6dad8680465c75d23ad8c1173d))
+
 ## [4.10.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.3...v4.10.4) (2025-09-14)
 
 ### Reverts
