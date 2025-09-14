@@ -1,5 +1,5 @@
 {
-  "id": "13ce762e-58c4-4a41-b9eb-ee4c565f28f3",
+  "id": "15a2a7b1-41db-426f-aa50-76728394f79e",
   "prevId": "dd00b7c0-4872-4aca-b338-e1a0d68744ca",
   "version": "7",
   "dialect": "postgresql",
@@ -543,13 +543,13 @@
           "name": "month",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "data_type": {
           "name": "data_type",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",

@@ -15,16 +15,16 @@ export const posts = pgTable(
     slug: text("slug").notNull().unique(),
     content: text("content").notNull(),
     metadata: jsonb("metadata"),
-    month: text().notNull(),
-    dataType: text().notNull(),
+    month: text(),
+    dataType: text(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     modifiedAt: timestamp("modified_at").defaultNow().notNull(),
     publishedAt: timestamp("published_at"),
   },
-  (table) => ({
+  (table) => [
     // Composite unique constraint to prevent duplicate posts for same month + dataType
-    uniqueMonthCategory: unique().on(table.month, table.dataType),
-  }),
+    unique().on(table.month, table.dataType),
+  ],
 );
 
 export type InsertPost = typeof posts.$inferInsert;
