@@ -14,7 +14,7 @@ export const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV as AppEnv;
 
 // Configure the API BASE URL
 const DEFAULT_API_URL = `https://api.${DOMAIN_NAME}`;
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_API_URL;
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_API_URL;
 export const API_URL = `${API_BASE_URL}/${API_VERSION}`;
 
 export enum FUEL_TYPE {
