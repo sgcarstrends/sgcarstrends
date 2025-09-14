@@ -1,6 +1,6 @@
 import slugify from "@sindresorhus/slugify";
 import { VEHICLE_TYPE_MAP } from "@web/constants";
-import type { AppEnv, LinkItem, VehicleType } from "@web/types";
+import type { Announcement, AppEnv, LinkItem, VehicleType } from "@web/types";
 import { Battery, Droplet, Fuel, Zap } from "lucide-react";
 
 export const DOMAIN_NAME = "sgcarstrends.com";
@@ -30,10 +30,7 @@ export enum FUEL_TYPE {
 
 export const HYBRID_REGEX = /^(Diesel|Petrol)-(Electric)(\s\(Plug-In\))?$/;
 
-export const ANNOUNCEMENT = null;
-
-// export const ANNOUNCEMENT =
-//   "🌟 Big Updates Ahead! Our website is getting an upgrade with awesome new features rolling out soon. Stay tuned!";
+export const announcements: Announcement[] = [];
 
 export const MEDAL_MAPPING: Record<number, string> = {
   1: "🥇",
