@@ -45,7 +45,7 @@ These architectural resources provide visual understanding of system components,
 
 ## Project Overview
 
-SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data and Certificate of
+SG Cars Trends (v4.11.0) is a full-stack platform providing access to Singapore vehicle registration data and Certificate of
 Entitlement (COE) bidding results. The monorepo includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
@@ -106,8 +106,8 @@ All redirects include standardized UTM parameters:
 
 ### Documentation Commands
 
-- Docs dev server: `pnpm docs:dev`
-- Docs build: `pnpm docs:build`
+- Docs dev server: `cd apps/docs && pnpm mintlify dev`
+- Check broken links: `cd apps/docs && pnpm mintlify broken-links`
 
 ### Database Commands
 
@@ -118,6 +118,8 @@ All redirects include standardized UTM parameters:
 
 - Create release: `pnpm release` (runs semantic-release locally, not recommended for production)
 - Manual version check: `npx semantic-release --dry-run` (preview next version without releasing)
+
+**Note**: Semantic releases are now configured to use the "release" branch instead of "main" branch.
 
 ### Deployment Commands
 

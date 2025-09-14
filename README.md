@@ -128,7 +128,7 @@ sgcarstrends/
 - **Infrastructure**: SST v3 (Serverless Stack) on AWS
 - **Scheduling**: QStash Workflows for data processing
 - **LLM Integration**: Google Gemini AI for blog content generation
-- **Package Management**: pnpm workspace
+- **Package Management**: pnpm v10.13.1 workspace
 - **Build Tools**: Turbopack for fast development builds
 - **Testing**: Vitest (unit), Playwright (E2E) with comprehensive coverage
 - **Linting**: Biome for consistent code style
@@ -157,8 +157,8 @@ For developers working on this codebase, detailed component-specific guidance is
 
 ### Prerequisites
 
-- Node.js >= 18
-- pnpm
+- Node.js >= 22
+- pnpm v10.13.1
 
 ### Installation
 
@@ -178,9 +178,9 @@ pnpm install
 pnpm dev
 
 # Run specific applications
-pnpm -F @sgcarstrends/api dev    # API service only
-pnpm web:dev                     # Web application only
-pnpm docs:dev                    # Documentation site only
+pnpm -F @sgcarstrends/api dev                # API service only
+pnpm web:dev                                 # Web application only
+pnpm docs:dev                               # Documentation site only
 
 # Build all applications
 pnpm build
@@ -194,11 +194,14 @@ pnpm test:e2e:ui   # Run E2E tests with UI
 # Code quality
 pnpm lint          # Run linting on all packages
 
+# Database
+pnpm migrate       # Run database migrations
+pnpm migrate:check # Check migration status
+
 # Deployment
-pnpm -F @sgcarstrends/api deploy     # Deploy API service
-pnpm web:deploy:dev                  # Deploy web to dev
-pnpm web:deploy:staging              # Deploy web to staging
-pnpm web:deploy:prod                 # Deploy web to production
+pnpm deploy:dev    # Deploy to dev environment
+pnpm deploy:staging # Deploy to staging environment
+pnpm deploy:prod    # Deploy to production environment
 ```
 
 ## API Endpoints
@@ -229,7 +232,7 @@ pnpm web:deploy:prod                 # Deploy web to production
 
 ## Repo Activity
 
-![Alt](https://repobeats.axiom.co/api/embed/258928105d0fb955b3e6c42387ac59340df721e8.svg "Repobeats analytics image")
+![Alt](https://repobeats.axiom.co/api/embed/01e0d81ecb779bfb5be18d4c7f79a33d75db9e7b.svg "Repobeats analytics image")
 
 ## License
 

@@ -1,6 +1,6 @@
-# CLAUDE.md
+# CLAUDE.md - Web Application
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with the web application in this repository.
 
 ## Development Commands
 
@@ -20,10 +20,8 @@ pnpm test:e2e           # Run Playwright E2E tests
 pnpm test:e2e:ui        # Run E2E tests with Playwright UI
 
 # Code Quality
-pnpm lint               # Run ESLint
-
-# Database
-pnpm migrate            # Run Drizzle database migrations
+pnpm lint               # Run Next.js ESLint
+pnpm format             # Format code with Biome
 
 # Deployment
 pnpm deploy:dev         # Deploy to dev environment
@@ -35,7 +33,7 @@ pnpm deploy:prod        # Deploy to production environment
 
 ### Tech Stack
 
-- **Framework**: Next.js 15 with App Router and React 19
+- **Framework**: Next.js 15.4.7 with App Router and React 19.1.0
 - **Database**: PostgreSQL (Neon) with Drizzle ORM
 - **State Management**: Zustand with persistence
 - **Styling**: Tailwind CSS v4 with HeroUI components
@@ -156,6 +154,7 @@ Environment variables managed through SST config:
 - `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
 - `SG_CARS_TRENDS_API_TOKEN`: External API authentication
 - `APP_ENV`: Environment stage (dev/staging/prod)
+- `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`: Feature flag for unreleased features
 
 ### Deployment
 
@@ -163,13 +162,13 @@ Multi-stage deployment via SST:
 
 - **dev**: `dev.sgcarstrends.com`
 - **staging**: `staging.sgcarstrends.com`
-- **prod**: `sgcarstrends.com`
+- **prod**: `sgcarstrends.com` (apex domain)
 
-Infrastructure uses AWS Lambda with ARM64 architecture and CloudFlare DNS.
+Infrastructure uses AWS Lambda with ARM64 architecture and Cloudflare DNS.
 
 ## Development Notes
 
-- **Package Manager**: Uses pnpm (version 10.8.0)
+- **Package Manager**: Uses pnpm v10.13.1
 - **TypeScript**: Strict mode enabled
 - **Turbopack**: Enabled for faster builds and development
 - **Feature Flags**: Controlled via `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`

@@ -92,7 +92,7 @@ The API uses a workflow-based system for data processing:
 - **GET /v1/coe**: COE bidding results
 - **GET /v1/months**: Available data months
 - **POST /workflows/trigger**: Trigger data update workflows
-- **All /trpc/** endpoints**: Type-safe tRPC procedures
+- **All /trpc/** endpoints\*\*: Type-safe tRPC procedures
 
 ### Workflow Endpoints
 
@@ -105,7 +105,7 @@ The API uses a workflow-based system for data processing:
 
 ## Path Aliases
 
-- **@api/***: Maps to `src/*` for internal imports
+- **@api/\***: Maps to `src/*` for internal imports
 - Use workspace imports: `@sgcarstrends/database`, `@sgcarstrends/types`, `@sgcarstrends/utils`
 
 ## Testing Strategy
@@ -126,7 +126,7 @@ Required for local development (.env.local):
 - `UPSTASH_REDIS_REST_TOKEN`: Redis authentication
 - `UPSTASH_QSTASH_TOKEN`: QStash workflow token
 - `GEMINI_API_KEY`: Google Gemini AI for blog generation
-- Social media platform tokens for integrations
+- Social media platform tokens for integrations (Discord, LinkedIn, Twitter, Telegram)
 
 ## Code Style
 

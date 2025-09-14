@@ -1,4 +1,8 @@
-# Mintlify documentation
+# CLAUDE.md - Documentation Site
+
+## SG Cars Trends Documentation
+
+This directory contains the Mintlify documentation site for SG Cars Trends, available at [docs.sgcarstrends.com](https://docs.sgcarstrends.com).
 
 ## Working relationship
 
@@ -9,9 +13,19 @@
 
 ## Project context
 
-- Format: MDX files with YAML frontmatter
-- Config: docs.json for navigation, theme, settings
-- Components: Mintlify components
+- **Platform**: Mintlify documentation platform
+- **Format**: MDX files with YAML frontmatter
+- **Config**: docs.json for navigation, theme, settings
+- **Components**: Mintlify components and custom React components
+- **Deployment**: Automatic deployment on push to main branch
+- **URL**: https://docs.sgcarstrends.com
+
+## Content Structure
+
+- **API Reference**: Complete endpoint documentation with examples
+- **Architecture**: System diagrams and technical documentation
+- **Examples**: Code examples in multiple programming languages
+- **Guides**: Developer guides for data models and integration patterns
 
 ## Content strategy
 
@@ -46,9 +60,24 @@
 - Commit frequently throughout development
 - NEVER skip or disable pre-commit hooks
 
-## Do not
+## SG Cars Trends Specific Guidelines
+
+### Documentation Standards
+- Keep API examples current with actual endpoint responses
+- Update architecture diagrams when system changes occur
+- Verify all code examples work with the current API version (v4.11.0)
+- Include rate limiting and authentication information in all API docs
+
+### Mintlify Best Practices
 
 - Skip frontmatter on any MDX file
 - Use absolute URLs for internal links
 - Include untested code examples
 - Make assumptions - always ask for clarification
+
+### Available Commands
+
+- `pnpm docs:dev`: Start development server
+- `pnpm docs:build`: Build documentation
+- `pnpm mintlify dev`: Start Mintlify dev server (when in apps/docs directory)
+- `pnpm mintlify broken-links`: Check for broken links (when in apps/docs directory)

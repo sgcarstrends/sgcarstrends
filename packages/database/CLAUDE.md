@@ -15,8 +15,8 @@ This ensures you have access to the latest API documentation for Drizzle ORM fea
 
 ## Package Overview
 
-The `@sgcarstrends/database` package provides the database schema, types, and migration system for the SG Cars Trends
-platform. It uses Drizzle ORM with PostgreSQL to manage:
+The `@sgcarstrends/database` package (v4.11.0) provides the database schema, types, and migration system for the SG Cars Trends
+platform. It uses Drizzle ORM v0.44.3 with PostgreSQL to manage:
  
 - **Car Registration Data**: Monthly vehicle registration statistics by make, fuel type, and vehicle type
 - **COE Bidding Results**: Certificate of Entitlement bidding data and Prevailing Quota Premium rates
@@ -27,9 +27,11 @@ platform. It uses Drizzle ORM with PostgreSQL to manage:
 
 ### Schema Management
 
-- **Generate migrations**: `pnpm generate` (creates migration files from schema changes)
-- **Run migrations**: `pnpm migrate` (applies pending migrations to database)
-- **Check migrations**: `pnpm migrate:check` (validates migration consistency)
+- **Generate migrations**: `pnpm generate` (creates migration files from schema changes using drizzle-kit)
+- **Run migrations**: `pnpm migrate` (applies pending migrations to database using drizzle-kit)
+- **Check migrations**: `pnpm migrate:check` (validates migration consistency using drizzle-kit)
+- **Push schema**: `pnpm push` (push schema changes directly to database)
+- **Drop database**: `pnpm drop` (drop database objects)
 
 ### Development Workflow
 
@@ -239,11 +241,12 @@ DATABASE_URL="postgresql://user:password@host:port/database"
 
 ### Drizzle Configuration
 
-Configuration in `drizzle.config.ts`:
+Configuration in `drizzle.config.ts` using drizzle-kit v0.31.4:
 
 - **Schema**: Points to `./src/schema/index.ts`
 - **Output**: Migrations stored in `./migrations`
 - **Dialect**: PostgreSQL
+- **Driver**: Neon Serverless v1.0.1
 - **Credentials**: Uses `DATABASE_URL` environment variable
 
 ## Integration with Applications
