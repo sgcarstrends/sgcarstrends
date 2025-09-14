@@ -1,3 +1,81 @@
+## [4.11.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.5...v4.11.0) (2025-09-14)
+
+### Features
+
+* **web:** enhance Announcement component with path routing ([0a790e2](https://github.com/sgcarstrends/sgcarstrends/commit/0a790e2c074670944d46cde354d8fabbf5a2accc))
+
+## [4.10.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.4...v4.10.5) (2025-09-14)
+
+### Bug Fixes
+
+* **web:** blog posts not revalidated correctly ([aea2d88](https://github.com/sgcarstrends/sgcarstrends/commit/aea2d888d6241f6dad8680465c75d23ad8c1173d))
+
+## [4.10.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.3...v4.10.4) (2025-09-14)
+
+### Reverts
+
+* Revert "fix(web): use client for view counter component" ([f9d12a0](https://github.com/sgcarstrends/sgcarstrends/commit/f9d12a08144f32810536939bcb27da11464bb51f))
+
+## [4.10.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.2...v4.10.3) (2025-09-14)
+
+### Bug Fixes
+
+* **web:** use client for view counter component ([c9f0a9d](https://github.com/sgcarstrends/sgcarstrends/commit/c9f0a9df7daaa0349da17f9a3ea7e20019a8512f))
+
+## [4.10.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.1...v4.10.2) (2025-09-14)
+
+### Bug Fixes
+
+* **web:** revalidate new blog posts ([9e2034e](https://github.com/sgcarstrends/sgcarstrends/commit/9e2034e798c575efc590957a07081a7e03432c1c))
+
+## [4.10.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.0...v4.10.1) (2025-09-14)
+
+### Bug Fixes
+
+* **database:** migration failed due to not null ([82e3d09](https://github.com/sgcarstrends/sgcarstrends/commit/82e3d09c7b53260753880e607c33b7d8165a81b8))
+
+## [4.10.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.3...v4.10.0) (2025-09-13)
+
+### Features
+
+* **api:** implement blog post idempotency ([25991dc](https://github.com/sgcarstrends/sgcarstrends/commit/25991dc9c3b9435a5e1e8186058a8b7add85fe4d))
+
+## [4.9.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.2...v4.9.3) (2025-09-13)
+
+### Performance Improvements
+
+* **api:** switch to gemini flash model ([112e24a](https://github.com/sgcarstrends/sgcarstrends/commit/112e24aa6473b0c515ac1419f9b6d4f00d846867))
+
+## [4.9.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.1...v4.9.2) (2025-09-08)
+
+### Bug Fixes
+
+* **web:** type error at `dateOneYearAgo` ([0dac9d2](https://github.com/sgcarstrends/sgcarstrends/commit/0dac9d2614c7c617f025faeb7db3cc80eeec208e))
+
+## [4.9.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.0...v4.9.1) (2025-09-07)
+
+### Bug Fixes
+
+* no revalidate token passed to web ([cff675a](https://github.com/sgcarstrends/sgcarstrends/commit/cff675a735d7117157bac4930c557b5652d47c05))
+
+## [4.9.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.5...v4.9.0) (2025-09-07)
+
+### Features
+
+* add blog cache revalidation ([d8b704e](https://github.com/sgcarstrends/sgcarstrends/commit/d8b704e9950012fcbf20a7f49b2f4b3bbb3647c6))
+
+## [4.8.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.4...v4.8.5) (2025-09-04)
+
+### Performance Improvements
+
+* enhance caching headers and optimize config ([0f19123](https://github.com/sgcarstrends/sgcarstrends/commit/0f19123176f69efca96eb8ed8c7fde13459fcc23))
+
+## [4.8.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.3...v4.8.4) (2025-09-03)
+
+### Bug Fixes
+
+* **web:** remove dots from charts in visitors ([6b981c4](https://github.com/sgcarstrends/sgcarstrends/commit/6b981c4aed791241a1f3e4bcc54533c878ae5caf))
+
 ## [4.8.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.8.2...v4.8.3) (2025-08-31)
 
 ### Bug Fixes

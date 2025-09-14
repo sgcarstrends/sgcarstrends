@@ -1,18 +1,14 @@
 import { SITE_URL } from "@api/config";
-import { platforms } from "@api/config/platforms";
+import { socialMediaManager } from "@api/config/platforms";
 import { options } from "@api/lib/workflows/options";
 import { generateCarPost } from "@api/lib/workflows/posts";
-import {
-  getCarRegistrationsByMonth,
-  getCarsLatestMonth,
-} from "@api/lib/workflows/queries/cars";
-import { updateCars } from "@api/lib/workflows/updateCars";
+import { updateCars } from "@api/lib/workflows/update-cars";
 import {
   processTask,
-  publishToPlatform,
+  publishToAllPlatforms,
   type Task,
 } from "@api/lib/workflows/workflow";
-import slugify from "@sindresorhus/slugify";
+import { getCarRegistrationsByMonth, getCarsLatestMonth } from "@api/queries";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const carsWorkflow = createWorkflow(
@@ -69,11 +65,10 @@ export const carsWorkflow = createWorkflow(
       const link = `${SITE_URL}/blog/${post.slug}`;
       const message = `📰 New Blog Post: ${post.title}`;
 
-      await Promise.all(
-        platforms.map((platform) =>
-          publishToPlatform(context, platform, { message, link }),
-        ),
-      );
+      await publishToAllPlatforms(context, socialMediaManager, {
+        message,
+        link,
+      });
     }
 
     return {

@@ -1,24 +1,20 @@
 import { SITE_URL } from "@api/config";
-import { platforms } from "@api/config/platforms";
+import { socialMediaManager } from "@api/config/platforms";
 import { options } from "@api/lib/workflows/options";
 import { generateCoePost } from "@api/lib/workflows/posts";
-import {
-  getCoeLatestMonth,
-  getLatestCoeResult,
-} from "@api/lib/workflows/queries/coe";
-import { updateCOE } from "@api/lib/workflows/update-COE";
+import { updateCoe } from "@api/lib/workflows/update-coe";
 import {
   processTask,
-  publishToPlatform,
+  publishToAllPlatforms,
   type Task,
 } from "@api/lib/workflows/workflow";
+import { getCoeLatestMonth, getLatestCoeResult } from "@api/queries/coe";
 import { formatOrdinal } from "@sgcarstrends/utils";
-import slugify from "@sindresorhus/slugify";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const coeWorkflow = createWorkflow(
   async (context) => {
-    const coeTasks: Task[] = [{ name: "coe", handler: updateCOE }];
+    const coeTasks: Task[] = [{ name: "coe", handler: updateCoe }];
 
     const coeTaskResults = await Promise.all(
       coeTasks.map(({ name, handler }) => processTask(context, name, handler)),

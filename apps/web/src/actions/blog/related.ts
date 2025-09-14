@@ -1,6 +1,6 @@
 "use server";
 
-import redis from "@web/config/redis";
+import { redis } from "@sgcarstrends/utils";
 import { getPostsByIds } from "./posts";
 import { getPopularPosts } from "./views";
 

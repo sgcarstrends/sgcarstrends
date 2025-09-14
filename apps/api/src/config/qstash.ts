@@ -1,10 +1,9 @@
 import { Receiver } from "@upstash/qstash";
 import { Client } from "@upstash/workflow";
-import { Resource } from "sst";
 
-export const client = new Client({ token: process.env.QSTASH_TOKEN });
+export const client = new Client({ token: process.env.QSTASH_TOKEN as string });
 
 export const receiver = new Receiver({
-  currentSigningKey: Resource.QSTASH_CURRENT_SIGNING_KEY.value,
-  nextSigningKey: Resource.QSTASH_NEXT_SIGNING_KEY.value,
+  currentSigningKey: process.env.QSTASH_CURRENT_SIGNING_KEY as string,
+  nextSigningKey: process.env.QSTASH_NEXT_SIGNING_KEY as string,
 });

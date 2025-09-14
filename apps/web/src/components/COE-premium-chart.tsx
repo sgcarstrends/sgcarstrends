@@ -1,17 +1,6 @@
 "use client";
 
-import {
-  type CSSProperties,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
 import { numberFormat } from "@ruchernchong/number-format";
-import { addYears, format, parse, subMonths } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts";
 import useStore from "@web/app/store";
 import {
   Card,
@@ -34,8 +23,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@web/components/ui/select";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import type { COEBiddingResult, COECategory, Month } from "@web/types";
+import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { addYears, format, parse, subMonths } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
+import {
+  type CSSProperties,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts";
 
 interface Props {
   data: COEBiddingResult[];
@@ -65,7 +65,10 @@ export const COEPremiumChart = ({ data, months }: Props) => {
   const latestMonth = months[0];
   const earliestMonth = months[months.length - 1];
 
-  const dateOneYearAgo = format(addYears(latestMonth, -1), "yyyy-MM");
+  const dateOneYearAgo = format(
+    addYears(parseInt(latestMonth, 10), -1),
+    "yyyy-MM",
+  );
 
   const [, setStart] = useQueryState("start", {
     defaultValue: dateOneYearAgo,
@@ -207,7 +210,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
                         }
                       />
                       {name}
-                      <div className="text-foreground ml-auto flex items-baseline gap-0.5 font-medium tabular-nums">
+                      <div className="ml-auto flex items-baseline gap-0.5 font-medium text-foreground tabular-nums">
                         {new Intl.NumberFormat("en-SG", {
                           style: "currency",
                           currency: "SGD",
@@ -237,7 +240,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
         </ChartContainer>
         <div className="mt-4 space-y-3">
           <div className="text-muted-foreground text-sm">
-            <h4 className="text-foreground mb-2 font-semibold">
+            <h4 className="mb-2 font-semibold text-foreground">
               Chart Description
             </h4>
             <p>
@@ -252,21 +255,21 @@ export const COEPremiumChart = ({ data, months }: Props) => {
               availability.
             </p>
           </div>
-          <div className="bg-muted/30 grid grid-cols-1 gap-3 rounded-lg p-3 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 rounded-lg bg-muted/30 p-3 sm:grid-cols-3">
             <div className="text-center">
-              <div className="text-foreground text-lg font-semibold">
+              <div className="font-semibold text-foreground text-lg">
                 {filteredData.length > 0 ? filteredData.length : 0}
               </div>
               <div className="text-muted-foreground text-xs">Data Points</div>
             </div>
             <div className="text-center">
-              <div className="text-foreground text-lg font-semibold">
+              <div className="font-semibold text-foreground text-lg">
                 {Object.entries(categories).filter(([, value]) => value).length}
               </div>
               <div className="text-muted-foreground text-xs">Categories</div>
             </div>
             <div className="text-center">
-              <div className="text-foreground text-lg font-semibold">
+              <div className="font-semibold text-foreground text-lg">
                 {timeRange === "ALL"
                   ? "All Time"
                   : TIME_RANGES.find((range) => range.timeRange === timeRange)

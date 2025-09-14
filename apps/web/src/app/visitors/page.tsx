@@ -1,8 +1,11 @@
+import { AnimatedNumber } from "@web/components/animated-number";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
+import { Card, CardContent } from "@web/components/ui/card";
 import { VisitorsAnalytics } from "@web/components/visitors-analytics";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { AnalyticsData } from "@web/types/analytics";
+import { Users } from "lucide-react";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
@@ -92,10 +95,24 @@ const VisitorsPage = async ({ searchParams }: VisitorsPageProps) => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <Typography.H1>Visitor Analytics</Typography.H1>
-          <Typography.P className="text-muted-foreground">
+          <Typography.Lead>
             Website traffic and visitor statistics
-          </Typography.P>
+          </Typography.Lead>
         </div>
+
+        <Card>
+          <CardContent>
+            <div className="flex flex-col items-center justify-center gap-4">
+              <div className="font-semibold text-2xl">Total Visitors</div>
+              <div className="flex items-center gap-4">
+                <Users className="size-8" />
+                <div className="font-semibold text-4xl">
+                  <AnimatedNumber value={data.totalViews} />
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         <VisitorsAnalytics initialData={data} />
       </div>

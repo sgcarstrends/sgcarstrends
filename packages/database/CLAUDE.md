@@ -15,10 +15,11 @@ This ensures you have access to the latest API documentation for Drizzle ORM fea
 
 ## Package Overview
 
-The `@sgcarstrends/database` package provides the database schema, types, and migration system for the SG Cars Trends platform. It uses Drizzle ORM with PostgreSQL to manage:
-
+The `@sgcarstrends/database` package provides the database schema, types, and migration system for the SG Cars Trends
+platform. It uses Drizzle ORM with PostgreSQL to manage:
+ 
 - **Car Registration Data**: Monthly vehicle registration statistics by make, fuel type, and vehicle type
-- **COE Bidding Results**: Certificate of Entitlement bidding data and Prevailing Quota Premium rates  
+- **COE Bidding Results**: Certificate of Entitlement bidding data and Prevailing Quota Premium rates
 - **Blog Posts**: LLM-generated blog content with metadata and SEO information
 - **Analytics**: Page views and visitor tracking data
 
@@ -33,7 +34,7 @@ The `@sgcarstrends/database` package provides the database schema, types, and mi
 ### Development Workflow
 
 ```bash
-# 1. Modify schema files in src/db/
+# 1. Modify schema files in src/schema/
 # 2. Generate migration
 pnpm generate
 
@@ -49,13 +50,14 @@ pnpm migrate:check
 
 ```
 src/
-├── db/
-│   ├── schema.ts        # Main schema exports
+├── schema/
+│   ├── index.ts         # Main schema exports
 │   ├── cars.ts          # Car registration table schema
 │   ├── coe.ts           # COE bidding tables (coe, coePQP)
 │   ├── posts.ts         # Blog posts table schema
 │   └── analytics.ts     # Analytics tracking table schema
-├── index.ts             # Package entry point (re-exports schema)
+├── client.ts            # Drizzle client setup
+├── index.ts             # Package entry point (re-exports schema & client)
 ├── drizzle.config.ts    # Drizzle configuration
 └── migrations/          # Generated migration files
 ```
@@ -67,6 +69,7 @@ src/
 Stores monthly vehicle registration data from LTA DataMall.
 
 **Columns:**
+
 - `id`: UUID primary key (auto-generated)
 - `month`: Text (YYYY-MM format, e.g., "2024-01")
 - `make`: Text (vehicle manufacturer, e.g., "Toyota", "BMW")
@@ -76,9 +79,10 @@ Stores monthly vehicle registration data from LTA DataMall.
 - `number`: Integer (number of registrations)
 
 **Indexes:**
+
 - `month_make_idx`: Compound index for month + make queries
 - `month_idx`: Month-based filtering
-- `make_idx`: Make-based filtering  
+- `make_idx`: Make-based filtering
 - `fuel_type_idx`: Fuel type analysis
 - `make_fuel_type_idx`: Compound index for make + fuel type
 - `number_idx`: Registration volume sorting
@@ -90,6 +94,7 @@ Stores monthly vehicle registration data from LTA DataMall.
 Stores Certificate of Entitlement bidding exercise results.
 
 **Columns:**
+
 - `id`: UUID primary key
 - `month`: Text (bidding month)
 - `bidding_no`: Integer (exercise number, 1 or 2)
@@ -103,6 +108,7 @@ Stores Certificate of Entitlement bidding exercise results.
 Stores monthly PQP rates for immediate vehicle registration.
 
 **Columns:**
+
 - `id`: UUID primary key
 - `month`: Text (month)
 - `vehicle_class`: Text (COE category)
@@ -113,13 +119,14 @@ Stores monthly PQP rates for immediate vehicle registration.
 Stores LLM-generated blog content with comprehensive metadata.
 
 **Columns:**
+
 - `id`: UUID primary key
 - `title`: Text (blog post title)
 - `slug`: Text (URL-friendly identifier, unique)
 - `content`: Text (Markdown content)
 - `excerpt`: Text (short summary)
 - `published_at`: Timestamp (publication date)
-- `created_at`: Timestamp (creation date)  
+- `created_at`: Timestamp (creation date)
 - `updated_at`: Timestamp (last modification)
 - `tags`: Text array (content categorization)
 - `reading_time`: Integer (estimated minutes)
@@ -129,6 +136,7 @@ Stores LLM-generated blog content with comprehensive metadata.
 - `data_type`: Text ("cars" or "coe")
 
 **Indexes:**
+
 - `slug_idx`: Unique index for URL routing
 - `published_at_idx`: Chronological sorting
 - `tags_idx`: Tag-based filtering
@@ -139,6 +147,7 @@ Stores LLM-generated blog content with comprehensive metadata.
 Tracks page views and visitor metrics for performance monitoring.
 
 **Columns:**
+
 - `id`: UUID primary key
 - `pathname`: Text (page URL path)
 - `views`: Integer (view count)
@@ -146,6 +155,7 @@ Tracks page views and visitor metrics for performance monitoring.
 - `updated_at`: Timestamp (last update)
 
 **Indexes:**
+
 - `pathname_idx`: Path-based lookups
 - `updated_at_idx`: Temporal sorting
 
@@ -163,15 +173,15 @@ export type InsertPost = typeof posts.$inferInsert;
 
 // Select types (for query results)
 export type SelectCar = typeof cars.$inferSelect;
-export type SelectCOE = typeof coe.$inferSelect;  
+export type SelectCOE = typeof coe.$inferSelect;
 export type SelectPost = typeof posts.$inferSelect;
 ```
 
 ### Usage in Applications
 
 ```typescript
-import { cars, type SelectCar } from "@sgcarstrends/database";
-import { db } from "./config/db";
+import {cars, type SelectCar} from "@sgcarstrends/database";
+import {db} from "./config/db";
 
 // Type-safe database queries
 const carData: SelectCar[] = await db.select().from(cars);
@@ -181,7 +191,7 @@ const carData: SelectCar[] = await db.select().from(cars);
 
 ### Schema Changes
 
-1. **Modify schema files** in `src/db/` with new tables or columns
+1. **Modify schema files** in `src/schema/` with new tables or columns
 2. **Generate migration** using `pnpm generate` to create SQL migration files
 3. **Review migration** in `migrations/` directory for correctness
 4. **Apply migration** with `pnpm migrate` to update database schema
@@ -213,7 +223,7 @@ const carData: SelectCar[] = await db.select().from(cars);
 ### Performance Optimization
 
 - Create compound indexes for multi-column queries
-- Index foreign key columns for join performance  
+- Index foreign key columns for join performance
 - Consider partial indexes for filtered queries
 - Monitor query performance and add indexes as needed
 
@@ -230,7 +240,8 @@ DATABASE_URL="postgresql://user:password@host:port/database"
 ### Drizzle Configuration
 
 Configuration in `drizzle.config.ts`:
-- **Schema**: Points to `./src/db/schema.ts`
+
+- **Schema**: Points to `./src/schema/index.ts`
 - **Output**: Migrations stored in `./migrations`
 - **Dialect**: PostgreSQL
 - **Credentials**: Uses `DATABASE_URL` environment variable
@@ -242,12 +253,12 @@ Configuration in `drizzle.config.ts`:
 Applications should create their own database connection using this schema:
 
 ```typescript
-import { drizzle } from "drizzle-orm/postgres-js";
+import {drizzle} from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "@sgcarstrends/database";
 
 const client = postgres(process.env.DATABASE_URL!);
-export const db = drizzle(client, { schema });
+export const db = drizzle(client, {schema});
 ```
 
 ### Query Patterns
@@ -285,5 +296,5 @@ await db.select().from(posts).where(isNotNull(posts.published_at));
 
 - Add indexes based on actual query patterns
 - Monitor slow queries and optimize schema accordingly
-- Use appropriate data types for storage efficiency  
+- Use appropriate data types for storage efficiency
 - Consider partitioning for large historical datasets

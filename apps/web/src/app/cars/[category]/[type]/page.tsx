@@ -1,3 +1,4 @@
+import { redis } from "@sgcarstrends/utils";
 import slugify from "@sindresorhus/slugify";
 import { loadSearchParams } from "@web/app/cars/[category]/[type]/search-params";
 import { AnimatedNumber } from "@web/components/animated-number";
@@ -17,7 +18,6 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import redis from "@web/config/redis";
 import { fetchApi } from "@web/utils/fetch-api";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
@@ -185,7 +185,7 @@ const TypePage = async ({ params, searchParams }: Props) => {
                 <CardTitle>Registrations</CardTitle>
                 <Badge>{formattedMonth}</Badge>
               </CardHeader>
-              <CardContent className="text-primary text-4xl font-bold">
+              <CardContent className="font-bold text-4xl text-primary">
                 <AnimatedNumber value={cars.total} />
               </CardContent>
             </Card>

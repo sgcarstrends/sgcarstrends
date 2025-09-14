@@ -3,6 +3,7 @@ import { getAllPosts, getPostBySlug, updatePostTags } from "@web/actions/blog";
 import { ProgressBar } from "@web/components/blog/progress-bar";
 import { RelatedPosts } from "@web/components/blog/related-posts";
 import { ViewCounter } from "@web/components/blog/view-counter";
+import { BetaChip } from "@web/components/chips";
 import { StructuredData } from "@web/components/structured-data";
 import { Separator } from "@web/components/ui/separator";
 import { SITE_URL } from "@web/config";
@@ -67,13 +68,10 @@ export const generateMetadata = async ({
   };
 };
 
-export const dynamic = "force-dynamic";
-
-// TODO: Proper fix
-// export const generateStaticParams = async () => {
-//   const posts = await getAllPosts();
-//   return posts.map((post) => ({ slug: post.slug }));
-// };
+export const generateStaticParams = async () => {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({ slug: post.slug }));
+};
 
 const BlogPostPage = async ({ params }: Props) => {
   const { slug } = await params;
@@ -121,6 +119,8 @@ const BlogPostPage = async ({ params }: Props) => {
       <ProgressBar />
       <div className="container mx-auto flex w-full flex-col gap-8">
         <div className="flex items-center justify-center gap-2 text-muted-foreground">
+          <BetaChip />
+          <span>&middot;</span>
           <span>
             {new Date(publishedDate).toLocaleDateString("en-SG", {
               year: "numeric",

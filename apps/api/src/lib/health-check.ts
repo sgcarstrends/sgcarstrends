@@ -1,10 +1,10 @@
-import { db } from "@api/config/db";
-import redis from "@api/config/redis";
 import {
   healthResponseSchema,
   healthServicesSchema,
 } from "@api/schemas/health";
-import packageJson from "../../package.json";
+import { db } from "@sgcarstrends/database";
+import { redis } from "@sgcarstrends/utils";
+import packageJson from "../../package.json" with { type: "json" };
 
 export async function performHealthCheck() {
   const startTime = Date.now();

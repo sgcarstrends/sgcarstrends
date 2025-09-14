@@ -1,0 +1,148 @@
+graph TB
+    %% Client Layer
+    Client[API Clients]
+    WebApp[Web Application]
+    
+    %% API Gateway
+    subgraph "API Gateway Layer"
+        Gateway[AWS API Gateway]
+        Lambda[API Lambda Function]
+    end
+    
+    %% Hono Application
+    subgraph "Hono Framework Application"
+        subgraph "Core Middleware"
+            Logger[Logger Middleware]
+            Compress[Compression Middleware]
+            PrettyJSON[Pretty JSON Middleware]
+            RateLimit[Rate Limiting - Commented]
+            BearerAuth[Bearer Authentication]
+            ErrorHandler[Global Error Handler]
+        end
+        
+        subgraph "Public Endpoints"
+            Root[GET / - Scalar API Docs]
+            OpenAPI[GET /docs - OpenAPI Spec]
+            HealthCheck[GET /health - Health Check]
+        end
+        
+        subgraph "Authenticated API v1"
+            V1Router[/v1 Router - Bearer Auth Required]
+            
+            subgraph "Data Endpoints"
+                CarsAPI[GET /v1/cars - Car Registration Data]
+                COEAPI[GET /v1/coe - COE Bidding Results]
+                MonthsAPI[GET /v1/months - Available Data Months]
+            end
+        end
+        
+        subgraph "tRPC Integration"
+            TRPCRouter[/trpc/* - Type-safe API]
+            TRPCAuth[Bearer Auth Middleware]
+            TRPCContext[Context Creation]
+        end
+        
+        subgraph "Workflow System"
+            WorkflowRouter[/workflows Router]
+            
+            subgraph "Workflow Endpoints"
+                TriggerWorkflow[POST /workflows/trigger - Trigger Data Updates]
+                CarsWorkflow[POST /workflows/cars - Cars Data Processor]
+                COEWorkflow[POST /workflows/coe - COE Data Processor]
+            end
+            
+            subgraph "Social Media Webhooks"
+                LinkedInHook[POST /workflows/linkedin - LinkedIn Webhook]
+                TwitterHook[POST /workflows/twitter - Twitter Webhook]  
+                DiscordHook[POST /workflows/discord - Discord Webhook]
+                TelegramHook[POST /workflows/telegram - Telegram Webhook]
+            end
+        end
+    end
+    
+    %% External Services
+    subgraph "External Services"
+        QStash[QStash Workflow Orchestrator]
+        LTA[LTA DataMall APIs]
+        SocialPlatforms[Social Media Platforms]
+        GeminiAI[Google Gemini AI]
+    end
+    
+    %% Data Layer
+    subgraph "Data Layer"
+        PostgreSQL[(PostgreSQL Database)]
+        Redis[(Redis Cache)]
+    end
+    
+    %% Request Flow Connections
+    Client --> Gateway
+    WebApp --> Gateway
+    Gateway --> Lambda
+    Lambda --> Logger
+    
+    Logger --> Compress
+    Compress --> PrettyJSON
+    PrettyJSON --> BearerAuth
+    
+    %% Public endpoints (no auth required)
+    PrettyJSON --> Root
+    PrettyJSON --> OpenAPI
+    PrettyJSON --> HealthCheck
+    
+    %% Authenticated endpoints
+    BearerAuth --> V1Router
+    V1Router --> CarsAPI
+    V1Router --> COEAPI
+    V1Router --> MonthsAPI
+    
+    %% tRPC flow
+    TRPCAuth --> TRPCRouter
+    TRPCRouter --> TRPCContext
+    
+    %% Workflow system
+    BearerAuth --> WorkflowRouter
+    WorkflowRouter --> TriggerWorkflow
+    WorkflowRouter --> CarsWorkflow
+    WorkflowRouter --> COEWorkflow
+    WorkflowRouter --> LinkedInHook
+    WorkflowRouter --> TwitterHook
+    WorkflowRouter --> DiscordHook
+    WorkflowRouter --> TelegramHook
+    
+    %% External integrations
+    TriggerWorkflow --> QStash
+    CarsWorkflow --> LTA
+    COEWorkflow --> LTA
+    CarsWorkflow --> GeminiAI
+    COEWorkflow --> GeminiAI
+    
+    LinkedInHook --> SocialPlatforms
+    TwitterHook --> SocialPlatforms
+    DiscordHook --> SocialPlatforms
+    TelegramHook --> SocialPlatforms
+    
+    %% Data connections
+    CarsAPI --> Redis
+    COEAPI --> Redis
+    MonthsAPI --> Redis
+    Redis --> PostgreSQL
+    
+    CarsWorkflow --> PostgreSQL
+    COEWorkflow --> PostgreSQL
+    TRPCRouter --> PostgreSQL
+    
+    %% Error handling
+    ErrorHandler --> DiscordHook
+    
+    %% Styling
+    classDef middleware fill:#e1f5fe
+    classDef endpoint fill:#f3e5f5  
+    classDef external fill:#fff3e0
+    classDef database fill:#e8f5e8
+    classDef workflow fill:#fce4ec
+    
+    class Logger,Compress,PrettyJSON,BearerAuth,ErrorHandler,TRPCAuth middleware
+    class Root,OpenAPI,HealthCheck,CarsAPI,COEAPI,MonthsAPI,TRPCRouter endpoint
+    class QStash,LTA,SocialPlatforms,GeminiAI external
+    class PostgreSQL,Redis database
+    class TriggerWorkflow,CarsWorkflow,COEWorkflow,LinkedInHook,TwitterHook,DiscordHook,TelegramHook workflow

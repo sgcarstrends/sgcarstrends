@@ -32,7 +32,7 @@ export const router = isPermanentStage
         ...($app.stage === "prod" && { redirects: [`www.${DOMAIN_NAME}`] }),
       },
     })
-  : sst.aws.Router.get("SGCarsTrends", "E240KNMBV8N2BG");
+  : sst.aws.Router.get("SGCarsTrends", "E276L7UCINP9HN");
 
 export const url = router.url;
 

@@ -1,17 +1,12 @@
-import redis from "@api/config/redis";
-import type { UpdaterResult } from "@api/lib/workflows/updater";
-import type { Platform, PostToSocialMediaParam } from "@api/types/social-media";
+import type { SocialMessage } from "@api/lib/social/interfaces/platform-handler";
+import type { SocialMediaManager } from "@api/lib/social/social-media-manager";
+import type { UpdaterResult } from "@api/lib/updater";
+import { redis } from "@sgcarstrends/utils";
 import type { WorkflowContext } from "@upstash/workflow";
 
-export interface Task {
+export interface WorkflowStep {
   name: string;
   handler: () => Promise<UpdaterResult>;
-}
-
-export interface IPlatform {
-  platform: Platform;
-  handler: ({ message, link }: PostToSocialMediaParam) => Promise<unknown>;
-  enabled: boolean;
 }
 
 /**
@@ -44,24 +39,23 @@ export const processTask = async (
   });
 
 /**
- * Publish updates to a social media platform
+ * Publish updates to all enabled social media platforms
  */
-export const publishToPlatform = async (
+export const publishToAllPlatforms = async (
   context: WorkflowContext,
-  platform: IPlatform,
-  options: { message: string; link: string },
-): Promise<unknown | false> => {
-  if (!platform.enabled) {
-    return false;
-  }
+  socialMediaManager: SocialMediaManager,
+  message: SocialMessage,
+): Promise<boolean> => {
+  return context.run("Publish to social media", async () => {
+    console.log("Publishing to all enabled platforms");
 
-  return context.run(`Publish to ${platform.platform}`, async () => {
-    console.log(`Publishing to ${platform.platform}`);
+    const result = await socialMediaManager.publishToAll(message);
 
-    const result = await platform.handler(options);
+    console.log(
+      `Publishing complete: ${result.successCount} successful, ${result.errorCount} failed`,
+    );
 
-    console.log(`[${platform.platform}]`, result);
-
-    return result;
+    // Return true if at least one platform succeeded
+    return result.successCount > 0;
   });
 };

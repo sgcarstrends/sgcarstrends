@@ -1,0 +1,117 @@
+graph TB
+    %% External Services
+    LTA[LTA DataMall APIs]
+    Cloudflare[Cloudflare DNS]
+    
+    %% AI Services
+    Gemini[Google Gemini AI]
+    
+    %% Social Media Platforms
+    Discord[Discord]
+    LinkedIn[LinkedIn]
+    Telegram[Telegram]
+    Twitter[Twitter]
+    
+    %% Infrastructure Layer
+    subgraph "AWS Infrastructure"
+        subgraph "Compute"
+            APILambda[API Lambda Functions]
+            WebLambda[Web Lambda Functions]
+        end
+        
+        subgraph "Storage"
+            RDS[(PostgreSQL Database)]
+            Redis[(Redis Cache - Upstash)]
+        end
+        
+        subgraph "Networking"
+            CloudFront[CloudFront CDN]
+            APIGateway[API Gateway]
+        end
+    end
+    
+    %% Application Layer
+    subgraph "SG Cars Trends Platform"
+        subgraph "Apps"
+            API[API Service - Hono]
+            Web[Web Application - Next.js]
+            Docs[Documentation - Mintlify]
+        end
+        
+        subgraph "Packages"
+            Database[Database Package - Drizzle ORM]
+            Types[Types Package]
+            Utils[Utils Package + Redis Client]
+        end
+    end
+    
+    %% Workflow System
+    subgraph "Data Processing"
+        QStash[QStash Workflows]
+        CarsWorkflow[Cars Data Workflow]
+        COEWorkflow[COE Data Workflow]
+        BlogWorkflow[Blog Generation Workflow]
+        SocialWorkflow[Social Media Workflow]
+    end
+    
+    %% Connections
+    %% External to Infrastructure
+    Cloudflare --> CloudFront
+    
+    %% Infrastructure connections
+    CloudFront --> APIGateway
+    CloudFront --> WebLambda
+    APIGateway --> APILambda
+    
+    %% Application to Infrastructure
+    API --> APILambda
+    Web --> WebLambda
+    
+    %% Package dependencies
+    API --> Database
+    API --> Types
+    API --> Utils
+    Web --> Types
+    Web --> Utils
+    
+    %% Database connections
+    Database --> RDS
+    Utils --> Redis
+    API --> RDS
+    API --> Redis
+    Web --> Redis
+    
+    %% Workflow connections
+    API --> QStash
+    QStash --> CarsWorkflow
+    QStash --> COEWorkflow
+    QStash --> BlogWorkflow
+    QStash --> SocialWorkflow
+    
+    %% External API connections
+    CarsWorkflow --> LTA
+    COEWorkflow --> LTA
+    BlogWorkflow --> Gemini
+    
+    %% Social media connections
+    SocialWorkflow --> Discord
+    SocialWorkflow --> LinkedIn
+    SocialWorkflow --> Telegram
+    SocialWorkflow --> Twitter
+    
+    %% User interactions
+    Users[Users] --> CloudFront
+    Developers[Developers] --> Docs
+    
+    %% Styling
+    classDef app fill:#e1f5fe
+    classDef package fill:#f3e5f5
+    classDef infrastructure fill:#e8f5e8
+    classDef external fill:#fff3e0
+    classDef workflow fill:#fce4ec
+    
+    class API,Web,Docs app
+    class Database,Types,Utils package
+    class APILambda,WebLambda,RDS,Redis,CloudFront,APIGateway infrastructure
+    class LTA,Cloudflare,Gemini,Discord,LinkedIn,Telegram,Twitter external
+    class QStash,CarsWorkflow,COEWorkflow,BlogWorkflow,SocialWorkflow workflow

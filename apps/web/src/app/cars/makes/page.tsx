@@ -1,3 +1,4 @@
+import { redis } from "@sgcarstrends/utils";
 import { getPopularMakes } from "@web/actions";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
@@ -7,7 +8,6 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import redis from "@web/config/redis";
 import type { Make } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
 import { fetchMonthsForCars } from "@web/utils/month-utils";

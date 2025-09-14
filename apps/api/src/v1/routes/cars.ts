@@ -511,7 +511,7 @@ app.openapi(
       const targetYear = year || (await getLatestYear());
       const result = await getPopularMakesByYear(
         targetYear,
-        limit ? parseInt(limit) : 8,
+        limit ? parseInt(limit, 10) : 8,
       );
 
       return c.json(result);

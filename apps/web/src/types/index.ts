@@ -1,4 +1,4 @@
-import { FUEL_TYPE } from "@web/config";
+import type { FUEL_TYPE } from "@web/config";
 import type { LucideIcon } from "lucide-react";
 
 export type VehicleType =
@@ -85,6 +85,7 @@ export enum RevalidateTags {
 
   // Feature-based tags
   Analysis = "analysis",
+  Blog = "blog",
   Comparison = "comparison",
   MarketShare = "market-share",
   TopPerformers = "top-performers",
@@ -138,4 +139,9 @@ export interface MarketInsight {
   delta?: number;
   deltaType?: "increase" | "decrease" | "unchanged";
   description?: string;
+}
+
+export interface Announcement {
+  content: string;
+  paths?: string[];
 }

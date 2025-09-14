@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/database",
   "description": "Database schema and migrations for SG Cars Trends",
-  "version": "4.8.3",
+  "version": "4.11.0",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -14,12 +14,15 @@
     }
   },
   "scripts": {
+    "push": "drizzle-kit push",
+    "drop": "drizzle-kit drop",
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
     "migrate:check": "drizzle-kit check"
   },
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
+    "@neondatabase/serverless": "1.0.1",
     "drizzle-orm": "0.44.3"
   },
   "devDependencies": {

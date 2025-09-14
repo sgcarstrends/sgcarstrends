@@ -1,9 +1,6 @@
+import { SITE_URL } from "@api/config";
 import { savePost } from "@api/lib/workflows/save-post";
-import {
-  createPartFromText,
-  createUserContent,
-  GoogleGenAI,
-} from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import type { WorkflowContext } from "@upstash/workflow";
 import {
   type BlogGenerationParams,
@@ -25,24 +22,23 @@ export const generatePost = async (
 
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-    const cache = await ai.caches.create({
-      model: GEMINI_MODEL,
-      config: {
-        contents: createUserContent(
-          createPartFromText(
-            `${dataType.toUpperCase()} data for ${month}: ${data.join("\n")}`,
-          ),
-        ),
-        systemInstruction: SYSTEM_INSTRUCTIONS[dataType],
-      },
-    });
-
     const response = await ai.models.generateContent({
       model: GEMINI_MODEL,
-      contents: GENERATION_PROMPTS[dataType],
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: `${dataType.toUpperCase()} data for ${month}: ${data.join("\n")}\n\n${GENERATION_PROMPTS[dataType]}`,
+            },
+          ],
+        },
+      ],
       config: {
         ...GEMINI_CONFIG,
-        cachedContent: cache.name,
+        systemInstruction: {
+          parts: [{ text: SYSTEM_INSTRUCTIONS[dataType] }],
+        },
       },
     });
 
@@ -69,6 +65,31 @@ export const generatePost = async (
     });
 
     console.log(`${dataType} blog post generation completed`);
+
+    // Revalidate blog cache
+    try {
+      const revalidateUrl = `${SITE_URL}/api/revalidate`;
+      const revalidateResponse = await fetch(revalidateUrl, {
+        method: "POST",
+        headers: {
+          "x-revalidate-token": process.env.NEXT_PUBLIC_REVALIDATE_TOKEN,
+        },
+        body: JSON.stringify({ tag: "blog" }),
+        signal: AbortSignal.timeout(5000),
+      });
+
+      if (revalidateResponse.ok) {
+        console.log("Blog cache revalidated successfully");
+      } else {
+        const text = await revalidateResponse.text();
+        console.warn(
+          `Blog cache revalidation failed with status: ${revalidateResponse.status}, response: ${text}`,
+        );
+      }
+    } catch (error) {
+      console.error("Error revalidating blog cache:", error);
+      // Don't fail blog generation if revalidation fails
+    }
 
     return {
       success: true,

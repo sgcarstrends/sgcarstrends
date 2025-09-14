@@ -37,7 +37,6 @@ This directory contains the SST (Serverless Stack) infrastructure configuration 
 - **config.ts**: Shared configuration (permanent stages, cron schedules)
 - **qstash.ts**: QStash integration for workflow scheduling
 - **router.ts**: Domain routing and URL management
-- **secrets.ts**: Environment variable and secret management
 - **web.ts**: Next.js web application configuration
 
 ## Key Infrastructure Components
@@ -46,7 +45,7 @@ This directory contains the SST (Serverless Stack) infrastructure configuration 
 - Hono-based REST API
 - 120-second timeout
 - Stage-specific CORS configuration
-- Linked secrets for environment variables
+- Direct environment variable configuration
 
 ### Router (router.ts)
 - Cloudflare DNS integration
@@ -63,7 +62,7 @@ This directory contains the SST (Serverless Stack) infrastructure configuration 
 1. Follow the existing pattern of stage-specific configuration
 2. Use `isPermanentStage` to differentiate between permanent and ephemeral stages
 3. Leverage the shared router for domain management
-4. Add secrets to `secrets.ts` and link them in the appropriate service
+4. Add environment variables directly to the Lambda function configuration in `api.ts` or `web.ts`
 
 ### Stage Management
 - **Permanent stages** get full router instances with Cloudflare DNS
@@ -71,8 +70,9 @@ This directory contains the SST (Serverless Stack) infrastructure configuration 
 - Use `subDomain()` helper for consistent domain generation
 
 ### Environment Variables
-- Store sensitive values in `secrets.ts`
-- Link secrets to functions that need them
+- Set environment variables directly in Lambda function configuration
+- Use `process.env.VARIABLE_NAME as string` for required variables
+- Add validation in application code for critical environment variables
 - Use environment-specific defaults where appropriate
 
 ### CORS Configuration
@@ -91,5 +91,5 @@ This directory contains the SST (Serverless Stack) infrastructure configuration 
 1. **Stage Isolation**: Each stage is completely isolated with its own resources
 2. **Resource Cleanup**: Ephemeral stages should be removed after use (handled by GitHub Actions)
 3. **DNS Management**: Let SST handle DNS for permanent stages, reference existing for ephemeral
-4. **Security**: Use least-privilege IAM roles and secure secret management
+4. **Security**: Use least-privilege IAM roles and ensure environment variables are properly secured
 5. **Monitoring**: Each stage has its own CloudWatch logs and metrics

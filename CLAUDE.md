@@ -25,6 +25,22 @@ This repository includes directory-specific CLAUDE.md files with detailed guidan
 
 Refer to these files for component-specific development guidance and best practices.
 
+## Architecture Documentation
+
+Comprehensive system architecture documentation with visual diagrams is available in the Mintlify documentation site:
+
+- **[apps/docs/architecture/](apps/docs/architecture/)**: Complete architecture documentation with Mermaid diagrams
+  - **[system.md](apps/docs/architecture/system.md)**: System architecture overview and component relationships
+  - **[workflows.md](apps/docs/architecture/workflows.md)**: Data processing workflow sequence diagrams
+  - **[database.md](apps/docs/architecture/database.md)**: Database schema and entity relationships
+  - **[api.md](apps/docs/architecture/api.md)**: API architecture with Hono framework structure
+  - **[infrastructure.md](apps/docs/architecture/infrastructure.md)**: AWS deployment topology and domain strategy
+  - **[social.md](apps/docs/architecture/social.md)**: Social media integration workflows
+
+- **[apps/docs/diagrams/](apps/docs/diagrams/)**: Source Mermaid diagram files (`.mmd` format)
+
+These architectural resources provide visual understanding of system components, data flows, and integration patterns for effective development and maintenance.
+
 # SG Cars Trends Platform - Overview
 
 ## Project Overview
@@ -125,12 +141,16 @@ All redirects include standardized UTM parameters:
     - **src/components**: React components with comprehensive tests
     - **src/actions**: Server actions for blog and analytics functionality
     - **src/utils**: Web-specific utility functions
+- **apps/admin**: Administrative interface for content management (unreleased)
 - **apps/docs**: Mintlify documentation site
+    - **architecture/**: Complete system architecture documentation with Mermaid diagrams
+    - **diagrams/**: Source Mermaid diagram files for architecture documentation
 - **packages/database**: Database schema and migrations using Drizzle ORM
     - **src/db**: Schema definitions for cars, COE, posts, and analytics tables
     - **migrations**: Database migration files with version tracking
 - **packages/types**: Shared TypeScript type definitions
-- **packages/utils**: Shared utility functions
+- **packages/utils**: Shared utility functions and Redis configuration
+- **packages/config**: Shared configuration utilities (currently unused)
 - **infra**: SST v3 infrastructure configuration for AWS deployment
 
 ## Monorepo Build System
@@ -167,7 +187,7 @@ The project uses Turbo for efficient monorepo task orchestration:
 - Class naming: PascalCase
 - Constants: UPPER_CASE for true constants
 - Error handling: Use try/catch for async operations with specific error types
-- Use workspace imports for shared packages: `@sgcarstrends/utils`, etc.
+- Use workspace imports for shared packages: `@sgcarstrends/utils` (includes Redis), `@sgcarstrends/database`, etc.
 - Path aliases: Use `@api/` for imports in API app
 - Avoid using `any` type - prefer unknown with type guards
 - Group imports by: 1) built-in, 2) external, 3) internal
@@ -295,6 +315,10 @@ The platform uses PostgreSQL with Drizzle ORM for type-safe database operations:
 - **posts**: LLM-generated blog posts with metadata, tags, SEO information, and analytics
 - **analyticsTable**: Page views and visitor tracking for performance monitoring
 
+### Database Configuration
+
+The database uses **snake_case** column naming convention configured in both Drizzle config and client setup. This ensures consistent naming patterns between the database schema and TypeScript types.
+
 *See [packages/database/CLAUDE.md](packages/database/CLAUDE.md) for detailed schema definitions, migration workflows, and TypeScript integration patterns.*
 
 ## Workflow Architecture
@@ -305,8 +329,8 @@ The integrated updater service uses a workflow-based architecture with:
 
 - **Workflows** (`src/lib/workflows/`): Cars and COE data processing workflows with integrated blog generation
 - **Task Processing** (`src/lib/workflows/workflow.ts`): Common processing logic with Redis-based timestamp tracking
-- **Updater Core** (`src/lib/workflows/updater.ts`): File download, checksum verification, CSV processing, and database
-  updates
+- **Updater Core** (`src/lib/updater/`): File download, checksum verification, CSV processing, and database
+  updates (with helpers under `src/lib/updater/services/`)
 - **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Google Gemini AI
 - **Post Management** (`src/lib/workflows/save-post.ts`): Blog post persistence with slug generation and duplicate
   prevention
@@ -360,6 +384,27 @@ data:
 - **SEO Integration**: Dynamic Open Graph images, structured data, and canonical URLs
 - **Content Management**: Posts stored with metadata including generation details and data source month
 
+## Shared Package Architecture
+
+The project uses shared packages for cross-application concerns:
+
+### Redis Configuration (`packages/utils`)
+
+Redis configuration is centralized in the `@sgcarstrends/utils` package to eliminate duplication:
+
+- **Shared Redis Instance**: Exported `redis` client configured with Upstash credentials
+- **Environment Variables**: Automatically reads `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`
+- **Usage Pattern**: Import via `import { redis } from "@sgcarstrends/utils"`
+- **Applications**: Used by both API service (caching, workflows) and web application (analytics, view tracking)
+
+This consolidation ensures consistent Redis configuration across all applications and simplifies environment management.
+
+### Other Shared Utilities
+
+- **Type Definitions**: `@sgcarstrends/types` for shared TypeScript interfaces
+- **Database Schema**: `@sgcarstrends/database` for Drizzle ORM schemas and migrations
+- **Utility Functions**: Date formatting, percentage calculations, and key generation utilities
+
 ## Release Process
 
 Releases are automated using semantic-release based on conventional commits:
@@ -378,3 +423,4 @@ Releases are automated using semantic-release based on conventional commits:
 - Ensure CI passes (tests, lint, typecheck) before requesting review
 - Maintain backward compatibility for public APIs
 - Follow project spelling and commit message conventions as outlined in Code Style section
+- **Use GitHub issue templates** when available - always follow established templates when creating or managing GitHub issues

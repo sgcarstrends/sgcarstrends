@@ -14,6 +14,74 @@ This monorepo provides a complete platform for SG Cars Trends, tracking Singapor
 - **Infrastructure**: SST v3 serverless deployment on AWS with multi-stage environments
 - **Documentation**: Comprehensive developer documentation with Mintlify
 
+## System Overview
+
+```mermaid
+graph TB
+    subgraph "Frontend"
+        WEB[Web App<br/>Next.js 15]
+        BLOG[Blog Posts<br/>AI Generated]
+    end
+    
+    subgraph "Backend Services"
+        API[API Service<br/>Hono Framework]
+        WORKFLOWS[Data Workflows<br/>QStash]
+        LLM[Gemini AI<br/>Blog Generation]
+    end
+    
+    subgraph "Data Layer"
+        DB[(PostgreSQL<br/>Neon)]
+        REDIS[(Redis Cache<br/>Upstash)]
+    end
+    
+    subgraph "External APIs"
+        LTA[LTA DataMall<br/>Gov Data]
+    end
+    
+    subgraph "Social Platforms"
+        DISCORD[Discord]
+        LINKEDIN[LinkedIn]
+        TWITTER[Twitter]
+        TELEGRAM[Telegram]
+    end
+    
+    subgraph "Infrastructure"
+        AWS[AWS Lambda<br/>SST v3]
+    end
+    
+    WEB --> API
+    API --> DB
+    API --> REDIS
+    API --> WORKFLOWS
+    
+    WORKFLOWS --> LTA
+    WORKFLOWS --> DB
+    WORKFLOWS --> LLM
+    LLM --> BLOG
+    
+    WORKFLOWS --> DISCORD
+    WORKFLOWS --> LINKEDIN  
+    WORKFLOWS --> TWITTER
+    WORKFLOWS --> TELEGRAM
+    
+    API --> AWS
+    WEB --> AWS
+    
+    classDef frontend fill:#e1f5fe
+    classDef backend fill:#f3e5f5
+    classDef data fill:#e8f5e8
+    classDef external fill:#fff3e0
+    classDef social fill:#fce4ec
+    classDef infra fill:#f1f8e9
+    
+    class WEB,BLOG frontend
+    class API,WORKFLOWS,LLM backend
+    class DB,REDIS data
+    class LTA external
+    class DISCORD,LINKEDIN,TWITTER,TELEGRAM social
+    class AWS infra
+```
+
 ## Project Structure
 
 ```
@@ -32,13 +100,16 @@ sgcarstrends/
 │   │   ├── src/components/  # React components with comprehensive tests
 │   │   ├── src/actions/     # Server actions for blog and analytics
 │   │   └── src/utils/       # Web-specific utility functions
+│   ├── admin/        # Administrative interface for content management (unreleased)
 │   └── docs/         # Mintlify documentation site
+│       ├── architecture/     # System architecture documentation with Mermaid diagrams
+│       └── diagrams/         # Source Mermaid diagram files (.mmd)
 ├── packages/
 │   ├── database/     # Database schema and migrations (Drizzle ORM)
-│   │   ├── src/db/          # Schema definitions for all tables
+│   │   ├── src/schema/      # Schema definitions for all tables
 │   │   └── migrations/      # Database migration files
 │   ├── types/        # Shared TypeScript types
-│   └── utils/        # Shared utility functions
+│   └── utils/        # Shared utility functions and Redis configuration
 ├── infra/            # SST v3 infrastructure configuration
 │   ├── api.ts              # API service configuration
 │   ├── web.ts              # Web application configuration
@@ -70,6 +141,7 @@ sgcarstrends/
 - **[API Reference](https://docs.sgcarstrends.com/api-reference/overview)** - Complete endpoint documentation
 - **[Developer Guides](https://docs.sgcarstrends.com/guides/data-models)** - Data models, filtering, and analytics
 - **[Examples](https://docs.sgcarstrends.com/examples/javascript)** - Code examples in multiple languages
+- **[Architecture](https://docs.sgcarstrends.com/architecture/system)** - System architecture diagrams and documentation
 
 ### Development Documentation
 
@@ -161,4 +233,4 @@ pnpm web:deploy:prod                 # Deploy web to production
 
 ## License
 
-MIT
+[MIT](LICENSE)
