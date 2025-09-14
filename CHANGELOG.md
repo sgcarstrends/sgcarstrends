@@ -1,3 +1,9 @@
+## [4.10.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.2...v4.10.3) (2025-09-14)
+
+### Bug Fixes
+
+* **web:** use client for view counter component ([c9f0a9d](https://github.com/sgcarstrends/sgcarstrends/commit/c9f0a9df7daaa0349da17f9a3ea7e20019a8512f))
+
 ## [4.10.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.1...v4.10.2) (2025-09-14)
 
 ### Bug Fixes
