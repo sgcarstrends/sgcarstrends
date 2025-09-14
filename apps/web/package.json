@@ -2,6 +2,7 @@
   "name": "@sgcarstrends/web",
   "description": "Web application for SG Cars Trends",
   "version": "4.10.2",
+  "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
   "scripts": {
