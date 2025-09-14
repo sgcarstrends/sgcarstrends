@@ -138,15 +138,6 @@ exports[`Navbar > should render correctly 1`] = `
             href="/faq"
           >
             FAQ
-            <div
-              class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-tiny rounded-full bg-transparent text-success"
-            >
-              <span
-                class="flex-1 text-inherit font-normal px-1"
-              >
-                New
-              </span>
-            </div>
           </a>
         </li>
         <li
@@ -158,12 +149,12 @@ exports[`Navbar > should render correctly 1`] = `
           >
             Blog
             <div
-              class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-tiny rounded-full bg-transparent text-success"
+              class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap border-medium px-1 h-6 text-tiny rounded-full bg-transparent border-warning text-warning"
             >
               <span
                 class="flex-1 text-inherit font-normal px-1"
               >
-                New
+                Beta
               </span>
             </div>
           </a>

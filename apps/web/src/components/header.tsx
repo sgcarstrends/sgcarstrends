@@ -164,7 +164,6 @@ const DesktopHeader = () => {
         <NavbarItem>
           <Link href="/faq" className="flex items-center gap-2">
             FAQ
-            <NewChip />
           </Link>
         </NavbarItem>
         <NavbarItem>
