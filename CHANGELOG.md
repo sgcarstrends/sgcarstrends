@@ -1,3 +1,9 @@
+## [4.10.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.1...v4.10.2) (2025-09-14)
+
+### Bug Fixes
+
+* **web:** revalidate new blog posts ([9e2034e](https://github.com/sgcarstrends/sgcarstrends/commit/9e2034e798c575efc590957a07081a7e03432c1c))
+
 ## [4.10.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.0...v4.10.1) (2025-09-14)
 
 ### Bug Fixes
