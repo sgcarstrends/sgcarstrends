@@ -1,3 +1,9 @@
+## [4.11.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.5...v4.11.0) (2025-09-14)
+
+### Features
+
+* **web:** enhance Announcement component with path routing ([0a790e2](https://github.com/sgcarstrends/sgcarstrends/commit/0a790e2c074670944d46cde354d8fabbf5a2accc))
+
 ## [4.10.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.4...v4.10.5) (2025-09-14)
 
 ### Bug Fixes
