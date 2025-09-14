@@ -28,6 +28,7 @@ const Image = async ({ params }: Props) => {
         width: "100%",
         height: "100%",
         position: "relative",
+        background: "#ffffff",
       }}
     >
       {/* Visible background shapes */}
