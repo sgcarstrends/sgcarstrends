@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -19,9 +18,6 @@
         "name": "next"
       }
     ],
-    "paths": {
-      "@web/*": ["./src/*"]
-    },
     "target": "ESNext",
     "verbatimModuleSyntax": true,
     "types": ["vitest/globals"]
@@ -34,7 +30,5 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", ".sst",
-    "sst.config.ts.backup"
-  ]
+  "exclude": ["node_modules", ".sst", "sst.config.ts.backup"]
 }
