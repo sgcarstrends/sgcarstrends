@@ -1,6 +1,6 @@
 import slugify from "@sindresorhus/slugify";
-import { getAllPosts } from "@web/actions/blog";
 import { API_URL, SITE_LINKS, SITE_URL } from "@web/config";
+import { getAllPosts } from "@web/queries/blog/posts";
 import type { Make } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
 import type { MetadataRoute } from "next";

@@ -1,38 +1,25 @@
 "use server";
 
-import { db, posts } from "@sgcarstrends/database";
+import { posts } from "@web/queries";
 import { RevalidateTags } from "@web/types";
-import { desc, eq, inArray, isNotNull } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
 
 export const getAllPosts = unstable_cache(
   async () => {
     try {
-      return await db
-        .select()
-        .from(posts)
-        .where(isNotNull(posts.publishedAt))
-        .orderBy(desc(posts.publishedAt));
+      return await posts.getAllPosts();
     } catch (error) {
       console.error("Error fetching posts:", error);
       return [];
     }
   },
   ["posts"],
-  {
-    tags: [RevalidateTags.Blog],
-  },
+  { tags: [RevalidateTags.Blog] },
 );
 
 export const getPostBySlug = async (slug: string) => {
   try {
-    const [post] = await db
-      .select()
-      .from(posts)
-      .where(eq(posts.slug, slug))
-      .limit(1);
-
-    return post;
+    return await posts.getPostBySlug(slug);
   } catch (error) {
     console.error("Error fetching post by slug:", error);
   }
@@ -41,12 +28,7 @@ export const getPostBySlug = async (slug: string) => {
 export const getPostsByIds = async (postIds: string[]) => {
   try {
     if (postIds.length === 0) return [];
-
-    return await db
-      .select()
-      .from(posts)
-      .where(inArray(posts.id, postIds))
-      .orderBy(desc(posts.publishedAt));
+    return await posts.getPostByIds(postIds);
   } catch (error) {
     console.error("Error fetching posts by IDs:", error);
     return [];
