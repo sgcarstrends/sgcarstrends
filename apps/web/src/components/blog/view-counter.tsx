@@ -1,5 +1,3 @@
-"use client";
-
 import { incrementPostView } from "@web/actions/blog";
 
 interface ViewCounterProps {
