@@ -140,3 +140,8 @@ export interface MarketInsight {
   deltaType?: "increase" | "decrease" | "unchanged";
   description?: string;
 }
+
+export interface Announcement {
+  content: string;
+  paths?: string[];
+}

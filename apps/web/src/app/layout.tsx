@@ -5,7 +5,7 @@ import { Announcement } from "@web/components/announcement";
 import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
 import { NotificationPrompt } from "@web/components/notification-prompt";
-import { ANNOUNCEMENT, SITE_TITLE, SITE_URL } from "@web/config";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import classNames from "classnames";
 import { Inter } from "next/font/google";
 import Script from "next/script";
@@ -56,7 +56,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       <body className={classNames(inter.className, "bg-neutral-100")}>
         <Providers>
           <NotificationPrompt />
-          {ANNOUNCEMENT && <Announcement>{ANNOUNCEMENT}</Announcement>}
+          <Announcement />
           <NuqsAdapter>
             <LoadingIndicator />
             <Header />
