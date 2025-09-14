@@ -1,3 +1,9 @@
+## [4.10.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.0...v4.10.1) (2025-09-14)
+
+### Bug Fixes
+
+* **database:** migration failed due to not null ([82e3d09](https://github.com/sgcarstrends/sgcarstrends/commit/82e3d09c7b53260753880e607c33b7d8165a81b8))
+
 ## [4.10.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.9.3...v4.10.0) (2025-09-13)
 
 ### Features
