@@ -14,6 +14,8 @@
     }
   },
   "scripts": {
+    "push": "drizzle-kit push",
+    "drop": "drizzle-kit drop",
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
     "migrate:check": "drizzle-kit check"
