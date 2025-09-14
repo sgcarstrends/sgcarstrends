@@ -170,7 +170,7 @@ const DesktopHeader = () => {
         <NavbarItem>
           <Link href="/blog" className="flex items-center gap-2">
             Blog
-            <NewChip />
+            <BetaChip />
           </Link>
         </NavbarItem>
         <UnreleasedFeature>
@@ -251,7 +251,7 @@ const MobileHeader = ({
         ))}
         {navLinks.general.map((item) => {
           const menuItem = (
-            <NavbarMenuItem>
+            <NavbarMenuItem key={item.title}>
               <Link
                 href={item.url}
                 className="flex items-center gap-2"
