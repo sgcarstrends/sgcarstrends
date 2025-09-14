@@ -68,19 +68,22 @@ export const generatePost = async (
 
     // Revalidate blog cache
     try {
-      const revalidateResponse = await fetch(
-        `${SITE_URL}/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN}&tag=blog`,
-        {
-          method: "GET",
-          signal: AbortSignal.timeout(5000), // 5 second timeout
+      const revalidateUrl = `${SITE_URL}/api/revalidate`;
+      const revalidateResponse = await fetch(revalidateUrl, {
+        method: "POST",
+        headers: {
+          "x-revalidate-token": process.env.NEXT_PUBLIC_REVALIDATE_TOKEN,
         },
-      );
+        body: JSON.stringify({ tag: "blog" }),
+        signal: AbortSignal.timeout(5000),
+      });
 
       if (revalidateResponse.ok) {
         console.log("Blog cache revalidated successfully");
       } else {
+        const text = await revalidateResponse.text();
         console.warn(
-          `Blog cache revalidation failed with status: ${revalidateResponse.status}`,
+          `Blog cache revalidation failed with status: ${revalidateResponse.status}, response: ${text}`,
         );
       }
     } catch (error) {
