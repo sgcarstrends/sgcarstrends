@@ -63,22 +63,32 @@ Entitlement (COE) bidding results. The monorepo includes:
 
 All commands use pnpm v10.13.1 as the package manager:
 
+**Build Commands:**
 - Build all: `pnpm build`
-- Develop: `pnpm dev`
-- Lint: `pnpm lint` (uses Biome with automatic formatting)
+- Build web: `pnpm build:web`
+- Build admin: `pnpm build:admin`
+
+**Development Commands:**
+- Develop all: `pnpm dev`
+- API dev server: `pnpm dev:api`
+- Web dev server: `pnpm dev:web`
+- Admin dev server: `pnpm dev:admin`
+
+**Testing Commands:**
 - Test all: `pnpm test`
 - Test watch: `pnpm test:watch`
 - Test coverage: `pnpm test:coverage`
-- E2E tests: `pnpm test:e2e`
-- E2E tests with UI: `pnpm test:e2e:ui`
+- Test API: `pnpm test:api`
+- Test web: `pnpm test:web`
 - Run single test: `pnpm -F @sgcarstrends/api test -- src/utils/__tests__/slugify.test.ts`
-- Package-specific test: `pnpm -F @sgcarstrends/<package> test`
 
-### Web Application Commands
+**Linting Commands:**
+- Lint all: `pnpm lint` (uses Biome with automatic formatting)
+- Lint API: `pnpm lint:api`
+- Lint web: `pnpm lint:web`
 
-- Web dev server: `pnpm web:dev`
-- Web build: `pnpm web:build`
-- Web start: `pnpm web:start`
+**Start Commands:**
+- Start web: `pnpm start:web`
 
 ### Blog Commands
 
@@ -104,15 +114,19 @@ All redirects include standardized UTM parameters:
 - `utm_medium=social_redirect`
 - `utm_campaign={platform}_profile`
 
-### Documentation Commands
-
-- Docs dev server: `cd apps/docs && pnpm mintlify dev`
-- Check broken links: `cd apps/docs && pnpm mintlify broken-links`
-
 ### Database Commands
 
-- Run migrations: `pnpm migrate`
-- Check pending migrations: `pnpm migrate:check`
+- Run migrations: `pnpm db:migrate`
+- Check pending migrations: `pnpm db:migrate:check`
+- Generate migrations: `pnpm db:generate`
+- Push schema: `pnpm db:push`
+- Drop database: `pnpm db:drop`
+
+### Documentation Commands
+
+- Docs dev server: `pnpm docs:dev`
+- Docs build: `pnpm docs:build`
+- Check broken links: `cd apps/docs && pnpm mintlify broken-links`
 
 ### Release Commands
 
@@ -123,11 +137,20 @@ All redirects include standardized UTM parameters:
 
 ### Deployment Commands
 
-- Deploy API (includes updater functionality): `pnpm -F @sgcarstrends/api deploy`
-- Deploy to specific stage: `pnpm -F @sgcarstrends/api deploy --stage <stage-name>`
-- Deploy web to dev: `pnpm web:deploy:dev`
-- Deploy web to staging: `pnpm web:deploy:staging`
-- Deploy web to production: `pnpm web:deploy:prod`
+**Infrastructure Deployment:**
+- Deploy all to dev: `pnpm deploy:dev`
+- Deploy all to staging: `pnpm deploy:staging`
+- Deploy all to production: `pnpm deploy:prod`
+
+**API Deployment:**
+- Deploy API to dev: `pnpm deploy:api:dev`
+- Deploy API to staging: `pnpm deploy:api:staging`
+- Deploy API to production: `pnpm deploy:api:prod`
+
+**Web Deployment:**
+- Deploy web to dev: `pnpm deploy:web:dev`
+- Deploy web to staging: `pnpm deploy:web:staging`
+- Deploy web to production: `pnpm deploy:web:prod`
 
 ## Code Structure
 
@@ -160,21 +183,26 @@ All redirects include standardized UTM parameters:
 The project uses Turbo for efficient monorepo task orchestration:
 
 ### Key Build Characteristics
-- **Dependency-aware**: Tasks automatically run in dependency order with `dependsOn: ["^build"]`
+- **Dependency-aware**: Tasks automatically run in dependency order with `dependsOn: ["^build"]` and topological ordering
 - **Caching**: Build outputs cached with intelligent invalidation based on file inputs
 - **Parallel execution**: Independent tasks run concurrently for optimal performance
-- **Environment handling**: Global dependencies on `.env` files and `NODE_ENV`
+- **Environment handling**: Strict environment mode with global dependencies on `.env` files, `tsconfig.json`, and `NODE_ENV`
+- **CI Integration**: Global pass-through environment variables for GitHub and Vercel tokens
 
-### Important Task Patterns
-- **Build tasks**: Generate `dist/**`, `.next/**` outputs (excluding `.next/cache/**`)
-- **Test tasks**: Monitor `src/**/*.ts`, `src/**/*.tsx`, `test/**/*.ts`, `tests/**/*.ts` inputs
-- **Development tasks**: `dev` and `test:watch` use `cache: false` and `persistent: true`
-- **Migration tasks**: Track `migrations/**/*.sql` files for database operations
+### Enhanced Task Configuration
+- **Build tasks**: Generate `dist/**`, `.next/**` outputs with environment variable support
+- **Test tasks**: Comprehensive input tracking with topological dependencies
+- **Development tasks**: `dev` and `test:watch` use `cache: false`, `persistent: true`, and interactive mode
+- **Migration tasks**: Track `migrations/**/*.sql` files with environment variables for database operations
+- **Deployment tasks**: Cache-disabled with environment variable support for AWS and Vercel
+- **TypeScript checking**: Dedicated `typecheck` task with TypeScript configuration dependencies
 
 ### Performance Optimization
-- Biome linting targets only `src/**/*.ts` and `src/**/*.tsx` files
-- Test coverage outputs to dedicated `coverage/**` directories
-- E2E tests output to `test-results/**` and `playwright-report/**`
+- **TUI Interface**: Enhanced terminal user interface for better development experience
+- **Strict Environment Mode**: Improved security and reliability with explicit environment variable handling
+- **Input Optimization**: Uses `$TURBO_DEFAULT$` for standard file tracking patterns
+- **Coverage Outputs**: Dedicated `coverage/**` directories for test reports
+- **E2E Outputs**: `test-results/**` and `playwright-report/**` for end-to-end test artifacts
 
 ## Code Style
 

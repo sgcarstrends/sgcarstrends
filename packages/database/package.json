@@ -14,6 +14,7 @@
     }
   },
   "scripts": {
+    "build": "echo 'Database: No build step required for schema package'",
     "push": "drizzle-kit push",
     "drop": "drizzle-kit drop",
     "generate": "drizzle-kit generate",

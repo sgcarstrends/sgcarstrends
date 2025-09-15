@@ -1,19 +1,37 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env"],
-  "globalEnv": ["NODE_ENV"],
+  "ui": "tui",
+  "envMode": "strict",
+  "globalDependencies": ["**/.env", "tsconfig.json"],
+  "globalEnv": ["NODE_ENV", "CI"],
+  "globalPassThroughEnv": ["GITHUB_TOKEN", "VERCEL_TOKEN"],
   "tasks": {
+    "topo": {
+      "dependsOn": ["^topo"]
+    },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
+      "env": ["DATABASE_URL", "NEXT_PUBLIC_*"]
     },
     "lint": {
-      "inputs": ["src/**/*.ts", "src/**/*.tsx"],
-      "outputs": []
+      "dependsOn": ["topo"],
+      "inputs": ["$TURBO_DEFAULT$"]
+    },
+    "typecheck": {
+      "dependsOn": ["topo"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/tsconfig.json"]
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env": [
+        "DATABASE_URL",
+        "NEXT_PUBLIC_*",
+        "LTA_DATAMALL_API_KEY",
+        "GEMINI_API_KEY"
+      ]
     },
     "start": {
       "dependsOn": ["build"],
@@ -21,44 +39,58 @@
       "persistent": true
     },
     "test": {
-      "inputs": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        "test/**/*.ts",
-        "tests/**/*.ts"
-      ],
-      "outputs": []
+      "dependsOn": ["topo"],
+      "inputs": ["$TURBO_DEFAULT$", "test/**/*.ts", "tests/**/*.ts"]
     },
     "test:watch": {
-      "inputs": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        "test/**/*.ts",
-        "tests/**/*.ts"
-      ],
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "interactive": true
     },
     "test:coverage": {
-      "inputs": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        "test/**/*.ts",
-        "tests/**/*.ts"
-      ],
+      "dependsOn": ["topo"],
+      "inputs": ["$TURBO_DEFAULT$", "test/**/*.ts", "tests/**/*.ts"],
       "outputs": ["coverage/**"]
     },
     "test:e2e": {
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts"],
+      "dependsOn": ["topo"],
+      "inputs": ["$TURBO_DEFAULT$", "tests/**/*.ts"],
       "outputs": ["test-results/**", "playwright-report/**"]
     },
     "migrate": {
       "inputs": ["migrations/**/*.sql"],
-      "outputs": ["migrations/**"]
+      "outputs": ["migrations/**"],
+      "env": ["DATABASE_URL"]
     },
     "migrate:check": {
       "inputs": ["migrations/**/*.sql"],
-      "outputs": []
+      "env": ["DATABASE_URL"]
+    },
+    "deploy:dev": {
+      "cache": false,
+      "env": ["AWS_*", "VERCEL_*"]
+    },
+    "deploy:staging": {
+      "cache": false,
+      "env": ["AWS_*", "VERCEL_*"]
+    },
+    "deploy:prod": {
+      "cache": false,
+      "env": ["AWS_*", "VERCEL_*"]
+    },
+    "generate": {
+      "inputs": ["src/schema/**/*.ts", "drizzle.config.ts"],
+      "outputs": ["migrations/**"],
+      "env": ["DATABASE_URL"]
+    },
+    "push": {
+      "cache": false,
+      "inputs": ["src/schema/**/*.ts", "drizzle.config.ts"],
+      "env": ["DATABASE_URL"]
+    },
+    "drop": {
+      "cache": false,
+      "env": ["DATABASE_URL"]
     }
   }
 }

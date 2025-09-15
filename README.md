@@ -174,34 +174,46 @@ pnpm install
 ### Development
 
 ```bash
-# Run all applications in development mode
-pnpm dev
+# Development
+pnpm dev                    # Run all applications in development mode
+pnpm dev:api               # API service only
+pnpm dev:web               # Web application only
+pnpm docs:dev              # Documentation site only
 
-# Run specific applications
-pnpm -F @sgcarstrends/api dev                # API service only
-pnpm web:dev                                 # Web application only
-pnpm docs:dev                               # Documentation site only
-
-# Build all applications
-pnpm build
+# Build
+pnpm build                 # Build all applications
+pnpm build:web             # Build web application only
+pnpm build:admin           # Build admin interface only
 
 # Testing
-pnpm test          # Run all unit tests
-pnpm test:coverage # Run tests with coverage
-pnpm test:e2e      # Run E2E tests (web app)
-pnpm test:e2e:ui   # Run E2E tests with UI
+pnpm test                  # Run all unit tests
+pnpm test:watch            # Run tests in watch mode
+pnpm test:coverage         # Run tests with coverage
+pnpm test:api              # Run API tests only
+pnpm test:web              # Run web tests only
+pnpm test:e2e              # Run E2E tests (web app)
+pnpm test:e2e:ui           # Run E2E tests with UI
 
-# Code quality
-pnpm lint          # Run linting on all packages
+# Code Quality
+pnpm lint                  # Run linting on all packages
+pnpm lint:api              # Lint API service only
+pnpm lint:web              # Lint web application only
 
 # Database
-pnpm migrate       # Run database migrations
-pnpm migrate:check # Check migration status
+pnpm db:migrate            # Run database migrations
+pnpm db:migrate:check      # Check migration status
+pnpm db:generate           # Generate new migrations
+pnpm db:push               # Push schema changes
+pnpm db:drop               # Drop database
 
 # Deployment
-pnpm deploy:dev    # Deploy to dev environment
-pnpm deploy:staging # Deploy to staging environment
-pnpm deploy:prod    # Deploy to production environment
+pnpm deploy:dev            # Deploy all to dev environment
+pnpm deploy:staging        # Deploy all to staging environment
+pnpm deploy:prod           # Deploy all to production environment
+
+# Service-specific deployment
+pnpm deploy:api:dev        # Deploy API to dev
+pnpm deploy:web:dev        # Deploy web to dev
 ```
 
 ## API Endpoints
