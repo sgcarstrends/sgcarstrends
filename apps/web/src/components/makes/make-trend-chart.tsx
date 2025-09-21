@@ -1,18 +1,18 @@
 "use client";
 
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@web/components/ui/chart";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 interface Props {
   data: any[];
 }
 
-export const TrendChart = ({ data }: Props) => {
+export const MakeTrendChart = ({ data }: Props) => {
   const monthlyTotals: { [key: string]: number } = {};
   for (const { month, count } of data) {
     if (monthlyTotals[month]) {
@@ -63,7 +63,7 @@ export const TrendChart = ({ data }: Props) => {
       </ChartContainer>
       <div className="mt-4 space-y-3">
         <div className="text-muted-foreground text-sm">
-          <h4 className="text-foreground mb-2 font-semibold">
+          <h4 className="mb-2 font-semibold text-foreground">
             Registration Trends
           </h4>
           <p>
@@ -73,21 +73,21 @@ export const TrendChart = ({ data }: Props) => {
             , helping identify seasonal patterns and market performance.
           </p>
         </div>
-        <div className="bg-muted/30 grid grid-cols-1 gap-3 rounded-lg p-3 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 rounded-lg bg-muted/30 p-3 sm:grid-cols-3">
           <div className="text-center">
-            <div className="text-foreground text-lg font-semibold">
+            <div className="font-semibold text-foreground text-lg">
               {peakMonth?.month || "N/A"}
             </div>
             <div className="text-muted-foreground text-xs">Peak Month</div>
           </div>
           <div className="text-center">
-            <div className="text-foreground text-lg font-semibold">
+            <div className="font-semibold text-foreground text-lg">
               {totalRegistrations.toLocaleString()}
             </div>
             <div className="text-muted-foreground text-xs">Total Period</div>
           </div>
           <div className="text-center">
-            <div className="text-foreground text-lg font-semibold">
+            <div className="font-semibold text-foreground text-lg">
               {chartData.length}
             </div>
             <div className="text-muted-foreground text-xs">Months Tracked</div>

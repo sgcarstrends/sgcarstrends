@@ -2,11 +2,7 @@
 
 import { Chip } from "@heroui/chip";
 import { Input } from "@heroui/input";
-import {
-  AllMakesSection,
-  MakesSearchResults,
-  PopularMakesSection,
-} from "@web/components/makes";
+import { Makes, MakesSearchResults } from "@web/components/makes";
 import type { Make } from "@web/types";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -62,10 +58,18 @@ export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
       </div>
 
       {/* Popular Makes Section */}
-      {!searchTerm && <PopularMakesSection makes={popular} />}
+      {!searchTerm && (
+        <Makes title="Popular Makes" makes={popular} isPopular={true} />
+      )}
 
       {/* All Makes Section */}
-      {!searchTerm && <AllMakesSection makes={[...popular, ...others]} />}
+      {!searchTerm && (
+        <Makes
+          title="All Makes"
+          makes={[...popular, ...others]}
+          showLetterFilter={true}
+        />
+      )}
 
       {/* Search Results */}
       {searchTerm && (

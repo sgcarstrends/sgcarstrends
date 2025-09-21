@@ -1,7 +1,7 @@
 import { redis } from "@sgcarstrends/utils";
 import slugify from "@sindresorhus/slugify";
-import { CarMakeContent } from "@web/app/cars/makes/[make]/car-make-content";
 import { loadSearchParams } from "@web/app/cars/makes/[make]/search-params";
+import { MakeDetail } from "@web/components/makes";
 import { StructuredData } from "@web/components/structured-data";
 import {
   API_URL,
@@ -115,7 +115,7 @@ const CarMakePage = async ({ params }: Props) => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <CarMakeContent
+      <MakeDetail
         make={make}
         cars={cars}
         makes={makes}

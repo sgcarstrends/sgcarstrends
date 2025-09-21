@@ -1,5 +1,6 @@
 import { redis } from "@sgcarstrends/utils";
 import { getPopularMakes } from "@web/actions";
+import { MakesList } from "@web/components/makes";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import {
@@ -13,7 +14,6 @@ import { fetchApi } from "@web/utils/fetch-api";
 import { fetchMonthsForCars } from "@web/utils/month-utils";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
-import { MakesList } from "./makes-list";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const title = "Makes";

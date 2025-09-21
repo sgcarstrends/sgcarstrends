@@ -1,8 +1,8 @@
 import { redis } from "@sgcarstrends/utils";
 import slugify from "@sindresorhus/slugify";
-import { CarMakeContent } from "@web/app/cars/makes/[make]/car-make-content";
 import { loadSearchParams } from "@web/app/cars/makes/[make]/search-params";
 import { MakeDrawer } from "@web/components/makes";
+import { MakeDetail } from "@web/components/makes/make-detail";
 import { API_URL, LAST_UPDATED_CARS_KEY } from "@web/config";
 import type { Car, Make } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
@@ -32,7 +32,7 @@ const MakePage = async ({ params, searchParams }: Props) => {
 
   return (
     <MakeDrawer>
-      <CarMakeContent
+      <MakeDetail
         make={make}
         cars={cars}
         makes={makes}

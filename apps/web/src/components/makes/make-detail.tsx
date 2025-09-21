@@ -1,9 +1,8 @@
-import Image from "next/image";
 import { columns } from "@web/app/cars/makes/[make]/columns";
 import type { Logo } from "@web/app/cars/makes/[make]/page";
-import { TrendChart } from "@web/app/cars/makes/[make]/trend-chart";
 import { LastUpdated } from "@web/components/last-updated";
 import { MakeSelector } from "@web/components/make-selector";
+import { MakeTrendChart } from "@web/components/makes";
 import NoData from "@web/components/no-data";
 import Typography from "@web/components/typography";
 import {
@@ -16,8 +15,9 @@ import {
 import { DataTable } from "@web/components/ui/data-table";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import type { Car, Make } from "@web/types";
+import Image from "next/image";
 
-interface CarMakeContentProps {
+interface MakeDetailProps {
   make: string;
   cars: { make: string; total: number; data: Car[] };
   makes: Make[];
@@ -25,13 +25,13 @@ interface CarMakeContentProps {
   logo?: Logo; // TODO: Interim fix
 }
 
-export function CarMakeContent({
+export const MakeDetail = ({
   make,
   cars,
   makes,
   lastUpdated,
   logo,
-}: CarMakeContentProps) {
+}: MakeDetailProps) => {
   if (!cars) {
     return <NoData />;
   }
@@ -66,7 +66,7 @@ export function CarMakeContent({
           <CardDescription>Past registrations</CardDescription>
         </CardHeader>
         <CardContent>
-          <TrendChart data={cars.data.toReversed()} />
+          <MakeTrendChart data={cars.data.toReversed()} />
         </CardContent>
       </Card>
       <Card>
@@ -82,4 +82,4 @@ export function CarMakeContent({
       </Card>
     </div>
   );
-}
+};
