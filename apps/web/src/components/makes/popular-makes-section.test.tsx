@@ -2,38 +2,28 @@ import { render, screen } from "@testing-library/react";
 import { PopularMakesSection } from "./popular-makes-section";
 
 describe("PopularMakesSection", () => {
-  const mockMakes = ["TOYOTA", "HONDA", "BMW"];
+  const germanMakes = ["AUDI", "BMW", "MERCEDES BENZ", "VOLKSWAGEN"];
 
-  it("should render correctly", () => {
-    const { container } = render(<PopularMakesSection makes={mockMakes} />);
-    expect(container).toMatchSnapshot();
-  });
-
-  it("renders section title", () => {
-    render(<PopularMakesSection makes={mockMakes} />);
+  it("should render the section heading and count", () => {
+    render(<PopularMakesSection makes={germanMakes} />);
     expect(screen.getByText("Popular Makes")).toBeVisible();
+    expect(screen.getByText(germanMakes.length.toString())).toBeVisible();
   });
 
-  it("displays makes count", () => {
-    render(<PopularMakesSection makes={mockMakes} />);
-    expect(screen.getByText(mockMakes.length.toString())).toBeVisible();
-  });
-
-  it("renders make cards for each make", () => {
-    render(<PopularMakesSection makes={mockMakes} />);
-    mockMakes.forEach((make) => {
+  it("should render a card for each popular make", () => {
+    render(<PopularMakesSection makes={germanMakes} />);
+    germanMakes.forEach((make) => {
       expect(screen.getByText(make)).toBeVisible();
     });
   });
 
-  it("does not render when makes array is empty", () => {
-    const { container } = render(<PopularMakesSection makes={[]} />);
-    expect(container).toBeEmptyDOMElement();
+  it("should highlight each card as popular", () => {
+    render(<PopularMakesSection makes={germanMakes} />);
+    expect(screen.getAllByText("Popular")).toHaveLength(germanMakes.length);
   });
 
-  it("renders explore buttons for each make", () => {
-    render(<PopularMakesSection makes={mockMakes} />);
-    const exploreButtons = screen.getAllByRole("button", { name: "Explore" });
-    expect(exploreButtons).toHaveLength(mockMakes.length);
+  it("should render nothing when no popular makes exist", () => {
+    const { container } = render(<PopularMakesSection makes={[]} />);
+    expect(container).toBeEmptyDOMElement();
   });
 });

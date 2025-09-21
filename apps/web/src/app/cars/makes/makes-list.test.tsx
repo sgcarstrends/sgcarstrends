@@ -36,7 +36,7 @@ describe("MakesList", () => {
 
   it("renders search input", () => {
     render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
-    const searchInput = screen.getByPlaceholderText("Search");
+    const searchInput = screen.getByPlaceholderText("Search by make");
     expect(searchInput).toBeVisible();
   });
 
@@ -52,15 +52,15 @@ describe("MakesList", () => {
     expect(screen.getByText("Popular Makes")).toBeVisible();
   });
 
-  it("renders Other Makes section by default", () => {
+  it("renders All Makes section by default", () => {
     render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
-    expect(screen.getByText("Other Makes")).toBeVisible();
+    expect(screen.getByText("All Makes")).toBeVisible();
   });
 
   it("filters makes when searching", () => {
     render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
 
-    const searchInput = screen.getByPlaceholderText("Search");
+    const searchInput = screen.getByPlaceholderText("Search by make");
     fireEvent.change(searchInput, { target: { value: "TOYOTA" } });
 
     expect(screen.getByText("1 of 10 makes")).toBeVisible();
@@ -69,7 +69,7 @@ describe("MakesList", () => {
   it("shows no results message when no makes match search", () => {
     render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
 
-    const searchInput = screen.getByPlaceholderText("Search");
+    const searchInput = screen.getByPlaceholderText("Search by make");
     fireEvent.change(searchInput, { target: { value: "NONEXISTENT" } });
 
     expect(
@@ -77,13 +77,13 @@ describe("MakesList", () => {
     ).toBeVisible();
   });
 
-  it("hides Popular and Other Makes sections when searching", () => {
+  it("hides Popular and All Makes sections when searching", () => {
     render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
 
-    const searchInput = screen.getByPlaceholderText("Search");
+    const searchInput = screen.getByPlaceholderText("Search by make");
     fireEvent.change(searchInput, { target: { value: "TOYOTA" } });
 
     expect(screen.queryByText("Popular Makes")).not.toBeInTheDocument();
-    expect(screen.queryByText("Other Makes")).not.toBeInTheDocument();
+    expect(screen.queryByText("All Makes")).not.toBeInTheDocument();
   });
 });

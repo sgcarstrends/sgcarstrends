@@ -3,8 +3,8 @@
 import { Chip } from "@heroui/chip";
 import { Input } from "@heroui/input";
 import {
+  AllMakesSection,
   MakesSearchResults,
-  OtherMakesSection,
   PopularMakesSection,
 } from "@web/components/makes";
 import type { Make } from "@web/types";
@@ -49,7 +49,7 @@ export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <Input
             type="search"
-            placeholder="Search"
+            placeholder="Search by make"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             startContent={<Search className="size-4" />}
@@ -64,16 +64,12 @@ export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
       {/* Popular Makes Section */}
       {!searchTerm && <PopularMakesSection makes={popular} />}
 
-      {/* Other Makes Section */}
-      {!searchTerm && <OtherMakesSection makes={others} />}
+      {/* All Makes Section */}
+      {!searchTerm && <AllMakesSection makes={[...popular, ...others]} />}
 
       {/* Search Results */}
       {searchTerm && (
-        <MakesSearchResults
-          makes={filteredMakes}
-          popular={popular}
-          searchTerm={searchTerm}
-        />
+        <MakesSearchResults makes={filteredMakes} searchTerm={searchTerm} />
       )}
 
       {filteredMakes.length === 0 && (

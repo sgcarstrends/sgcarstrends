@@ -2,50 +2,26 @@ import { render, screen } from "@testing-library/react";
 import { MakeCard } from "./make-card";
 
 describe("MakeCard", () => {
-  const mockMake = "TOYOTA";
+  const germanMakes = ["AUDI", "BMW", "MERCEDES BENZ", "VOLKSWAGEN"];
+  const mockMake = germanMakes[1];
 
-  it("should render correctly", () => {
-    const { container } = render(<MakeCard make={mockMake} />);
-    expect(container).toMatchSnapshot();
-  });
-
-  it("renders the make name", () => {
+  it("should render the make name", () => {
     render(<MakeCard make={mockMake} />);
     expect(screen.getByText(mockMake)).toBeVisible();
   });
 
-  it("renders the Explore button", () => {
+  it("should render the logo with the correct alt text", () => {
     render(<MakeCard make={mockMake} />);
-    const exploreButton = screen.getByRole("button", { name: "Explore" });
-    expect(exploreButton).toBeVisible();
+    expect(screen.getByRole("img", { name: `${mockMake} Logo` })).toBeVisible();
   });
 
-  it("renders correct link for make", () => {
+  it("should show the popular badge when flagged", () => {
+    render(<MakeCard make={mockMake} isPopular />);
+    expect(screen.getByText("Popular")).toBeVisible();
+  });
+
+  it("should hide the badge when not flagged", () => {
     render(<MakeCard make={mockMake} />);
-    const exploreButton = screen.getByRole("button", { name: "Explore" });
-    expect(exploreButton.closest("a")).toHaveAttribute(
-      "href",
-      "/cars/makes/toyota",
-    );
-  });
-
-  it("applies popular styling when isPopular is true", () => {
-    const { container } = render(<MakeCard make={mockMake} isPopular={true} />);
-    expect(container.querySelector(".ring-primary-600")).toBeInTheDocument();
-  });
-
-  it("does not apply popular styling when isPopular is false", () => {
-    const { container } = render(
-      <MakeCard make={mockMake} isPopular={false} />,
-    );
-    expect(
-      container.querySelector(".ring-primary-600"),
-    ).not.toBeInTheDocument();
-  });
-
-  it("renders image with correct alt text", () => {
-    render(<MakeCard make={mockMake} />);
-    const image = screen.getByRole("img");
-    expect(image).toHaveAttribute("alt", "TOYOTA Logo");
+    expect(screen.queryByText("Popular")).not.toBeInTheDocument();
   });
 });

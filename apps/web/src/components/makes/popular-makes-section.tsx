@@ -4,13 +4,9 @@ import { MakeCard } from "./make-card";
 
 interface PopularMakesSectionProps {
   makes: Make[];
-  onMakePress?: (make: Make) => void;
 }
 
-export const PopularMakesSection = ({
-  makes,
-  onMakePress,
-}: PopularMakesSectionProps) => {
+export const PopularMakesSection = ({ makes }: PopularMakesSectionProps) => {
   if (makes.length === 0) {
     return null;
   }
@@ -23,14 +19,9 @@ export const PopularMakesSection = ({
           {makes.length}
         </Chip>
       </div>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-8">
         {makes.map((make) => (
-          <MakeCard
-            key={make}
-            make={make}
-            isPopular={true}
-            onMakePress={onMakePress}
-          />
+          <MakeCard key={make} make={make} isPopular={true} />
         ))}
       </div>
     </section>
