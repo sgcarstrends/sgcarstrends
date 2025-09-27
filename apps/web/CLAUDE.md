@@ -93,6 +93,14 @@ External API integration through `src/utils/api/` for:
 - Market share analytics
 - Top performer statistics
 
+### UTM Tracking
+
+**UTM Utilities** (`src/utils/utm.ts`):
+- **External Campaigns**: `createExternalCampaignURL()` for email newsletters and marketing campaigns
+- **Parameter Reading**: `useUTMParams()` React hook for future analytics implementation (currently unused)
+- **Best Practices**: Follows industry standards with no UTM tracking on internal navigation
+- **Type Safety**: Full TypeScript support with `UTMParams` interface and nuqs integration
+
 ### Component Patterns
 
 **UI Components**: Located in `src/components/ui/` following HeroUI patterns with professional design system.

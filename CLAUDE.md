@@ -114,6 +114,36 @@ All redirects include standardized UTM parameters:
 - `utm_medium=social_redirect`
 - `utm_campaign={platform}_profile`
 
+## UTM Tracking Implementation
+
+The platform implements comprehensive UTM (Urchin Tracking Module) tracking for campaign attribution and analytics, following industry best practices:
+
+### UTM Architecture
+
+**API UTM Tracking** (`apps/api/src/utils/utm.ts`):
+- **Social Media Posts**: Automatically adds UTM parameters to all blog links shared on social platforms
+- **Parameters**: `utm_source={platform}`, `utm_medium=social`, `utm_campaign=blog`, optional `utm_content` and `utm_term`
+- **Platform Integration**: Used by `SocialMediaManager` for LinkedIn, Twitter, Discord, and Telegram posts
+
+**Web UTM Utilities** (`apps/web/src/utils/utm.ts`):
+- **External Campaigns**: `createExternalCampaignURL()` for email newsletters and external marketing
+- **Parameter Reading**: `useUTMParams()` React hook for future analytics implementation
+- **Type Safety**: Full TypeScript support with `UTMParams` interface
+
+### UTM Best Practices
+
+**Follows Industry Standards**:
+- `utm_source`: Platform name (e.g., "linkedin", "twitter", "newsletter")
+- `utm_medium`: Traffic type (e.g., "social", "email", "referral")
+- `utm_campaign`: Campaign identifier (e.g., "blog", "monthly_report")
+- `utm_term`: Keywords or targeting criteria (optional)
+- `utm_content`: Content variant or placement (optional)
+
+**Internal Link Policy**:
+- **No UTM on internal links**: Follows best practices by not tracking internal navigation
+- **External campaigns only**: UTM parameters reserved for measuring external traffic sources
+- **Social media exceptions**: External social platform posts include UTM for attribution
+
 ### Database Commands
 
 - Run migrations: `pnpm db:migrate`
