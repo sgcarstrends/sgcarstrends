@@ -1,9 +1,11 @@
 import { redis } from "@sgcarstrends/utils";
+import { PQPCalculator } from "@web/components/coe/pqp-calculator";
+import { PQPTable } from "@web/components/coe/pqp-table";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { Alert, AlertDescription, AlertTitle } from "@web/components/ui/alert";
-import { DataTable } from "@web/components/ui/data-table";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import {
   API_URL,
   LAST_UPDATED_COE_KEY,
@@ -11,10 +13,10 @@ import {
   SITE_URL,
 } from "@web/config";
 import type { PQP } from "@web/types";
+import { getLatestCOEResults } from "@web/utils/api/coe";
 import { fetchApi } from "@web/utils/fetch-api";
 import { AlertCircle } from "lucide-react";
 import type { WebPage, WithContext } from "schema-dts";
-import { columns } from "./columns";
 
 const title = "COE PQP Rates";
 const description =
@@ -46,14 +48,26 @@ export const generateMetadata = () => {
 };
 
 const PQPRatesPage = async () => {
-  const pqpRates = await fetchApi<Record<string, PQP>>(`${API_URL}/coe/pqp`);
+  const [pqpRates, latestCOEResults] = await Promise.all([
+    fetchApi<Record<string, PQP>>(`${API_URL}/coe/pqp`),
+    getLatestCOEResults(),
+  ]);
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
 
-  const data = Object.entries(pqpRates).map(([month, pqpRates]) => ({
+  const rows = Object.entries(pqpRates).map(([month, pqpRates]) => ({
+    key: month,
     month,
     ...pqpRates,
   }));
+
+  const columns = [
+    { key: "month", label: "Month", sortable: true },
+    { key: "Category A", label: "Category A" },
+    { key: "Category B", label: "Category B" },
+    { key: "Category C", label: "Category C" },
+    { key: "Category D", label: "Category D" },
+  ];
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -93,7 +107,13 @@ const PQPRatesPage = async () => {
             </Typography.P>
           </AlertDescription>
         </Alert>
-        <DataTable columns={columns} data={data} />
+        <PQPTable rows={rows} columns={columns} />
+        <UnreleasedFeature>
+          <PQPCalculator
+            pqpData={pqpRates}
+            latestCOEResults={latestCOEResults}
+          />
+        </UnreleasedFeature>
       </div>
     </>
   );
