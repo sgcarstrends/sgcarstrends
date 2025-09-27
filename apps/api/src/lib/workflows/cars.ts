@@ -6,14 +6,14 @@ import { updateCars } from "@api/lib/workflows/update-cars";
 import {
   processTask,
   publishToAllPlatforms,
-  type Task,
+  type WorkflowStep,
 } from "@api/lib/workflows/workflow";
 import { getCarRegistrationsByMonth, getCarsLatestMonth } from "@api/queries";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const carsWorkflow = createWorkflow(
   async (context) => {
-    const carTasks: Task[] = [{ name: "cars", handler: updateCars }];
+    const carTasks: WorkflowStep[] = [{ name: "cars", handler: updateCars }];
 
     const carResults = await Promise.all(
       carTasks.map(({ name, handler }) => processTask(context, name, handler)),

@@ -6,7 +6,7 @@ import { updateCoe } from "@api/lib/workflows/update-coe";
 import {
   processTask,
   publishToAllPlatforms,
-  type Task,
+  type WorkflowStep,
 } from "@api/lib/workflows/workflow";
 import { getCoeLatestMonth, getLatestCoeResult } from "@api/queries/coe";
 import { formatOrdinal } from "@sgcarstrends/utils";
@@ -14,7 +14,7 @@ import { createWorkflow } from "@upstash/workflow/hono";
 
 export const coeWorkflow = createWorkflow(
   async (context) => {
-    const coeTasks: Task[] = [{ name: "coe", handler: updateCoe }];
+    const coeTasks: WorkflowStep[] = [{ name: "coe", handler: updateCoe }];
 
     const coeTaskResults = await Promise.all(
       coeTasks.map(({ name, handler }) => processTask(context, name, handler)),
