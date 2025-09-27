@@ -1,16 +1,17 @@
 import type { GenerateContentConfig } from "@google/genai";
 
-export const GEMINI_MODEL = "gemini-2.5-flash";
+export const GEMINI_MODEL = "gemini-flash-latest";
 
 export const GEMINI_CONFIG: GenerateContentConfig = {
   thinkingConfig: {
     thinkingBudget: -1,
   },
   responseMimeType: "text/plain",
+  tools: [{ codeExecution: {} }],
 };
 
 export interface BlogGenerationParams {
-  data: string[];
+  data: string;
   month: string;
   dataType: "cars" | "coe";
 }
@@ -28,7 +29,10 @@ export const SYSTEM_INSTRUCTIONS = {
     Analyse the provided car registration data and write a blog post in markdown format.
 
     Data Structure:
-    Each record contains:
+    The data is provided in pipe-delimited format with headers:
+    month|make|fuel_type|vehicle_type|number
+
+    Where:
     - month: Month/year of registration data (text)
     - make: Car manufacturer/brand (text)
     - fuel_type: Type of fuel (text)
@@ -39,8 +43,8 @@ export const SYSTEM_INSTRUCTIONS = {
     - Write a compelling, concise title (maximum 5-6 words)
     - Start with an executive summary of key trends
     - Include these 2 tables in markdown format:
-      1. Fuel Type Breakdown Table: Group and sum registrations by fuel_type
-      2. Vehicle Type Breakdown Table: Group and sum registrations by vehicle_type
+      1. Fuel Type Breakdown Table: Group and sum registrations by fuel_type, include total registrations
+      2. Vehicle Type Breakdown Table: Group and sum registrations by vehicle_type, include total registrations
     - Include specific data points and percentages where relevant
     - Analyse fuel type trends (petrol, hybrid, electric)
     - Discuss popular vehicle types and makes
@@ -55,7 +59,10 @@ export const SYSTEM_INSTRUCTIONS = {
     Analyse the provided COE bidding data and write a blog post in markdown format.
 
     Data Structure:
-    Each record contains:
+    The data is provided in pipe-delimited format with headers:
+    month|bidding_no|vehicle_class|quota|bids_received|bids_success|premium
+
+    Where:
     - month: Month/year of COE bidding (text)
     - bidding_no: 1 (first) or 2 (second) bidding exercise (integer)
     - vehicle_class: Category A (≤1600cc & ≤130bhp), B (>1600cc or >130bhp), C (goods vehicles & buses), D (motorcycles), E (open category) (text)

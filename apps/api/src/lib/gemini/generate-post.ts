@@ -29,7 +29,7 @@ export const generatePost = async (
           role: "user",
           parts: [
             {
-              text: `${dataType.toUpperCase()} data for ${month}: ${data.join("\n")}\n\n${GENERATION_PROMPTS[dataType]}`,
+              text: `${dataType.toUpperCase()} data for ${month}: ${data}\n\n${GENERATION_PROMPTS[dataType]}`,
             },
           ],
         },
