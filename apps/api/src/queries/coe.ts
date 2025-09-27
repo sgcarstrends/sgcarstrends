@@ -1,5 +1,5 @@
 import { coe, db } from "@sgcarstrends/database";
-import { and, asc, desc, eq } from "drizzle-orm";
+import { asc, desc, eq } from "drizzle-orm";
 
 export const getCoeForMonth = async (month: string) =>
   db.query.coe.findMany({
@@ -10,10 +10,3 @@ export const getCoeForMonth = async (month: string) =>
 
 export const getCoeLatestMonth = () =>
   db.query.coe.findFirst({ orderBy: desc(coe.month) });
-
-export const getLatestCoeResult = async ({ month, biddingNo }) =>
-  db
-    .select()
-    .from(coe)
-    .where(and(eq(coe.month, month), eq(coe.bidding_no, biddingNo)))
-    .orderBy(asc(coe.vehicle_class));

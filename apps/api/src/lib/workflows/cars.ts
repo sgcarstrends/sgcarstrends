@@ -8,7 +8,7 @@ import {
   publishToAllPlatforms,
   type WorkflowStep,
 } from "@api/lib/workflows/workflow";
-import { getCarRegistrationsByMonth, getCarsLatestMonth } from "@api/queries";
+import { getCarsLatestMonth } from "@api/queries";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const carsWorkflow = createWorkflow(
@@ -32,31 +32,6 @@ export const carsWorkflow = createWorkflow(
 
     // Get latest updated month for cars from the database
     const { month } = await getCarsLatestMonth();
-
-    const result = await getCarRegistrationsByMonth(month);
-
-    const message = [
-      `🚗 Updated car registration data for ${result.month}!`,
-      `\n📊 Total registrations: ${result.total.toLocaleString()}`,
-      "\n⚡ By Fuel Type:",
-      ...Object.entries(result.fuelType).map(
-        ([type, count]) => `${type}: ${count.toLocaleString()}`,
-      ),
-      "\n🚙 By Vehicle Type:",
-      ...Object.entries(result.vehicleType).map(
-        ([type, count]) => `${type}: ${count.toLocaleString()}`,
-      ),
-    ].join("\n");
-
-    const link = `${SITE_URL}/cars?month=${month}`;
-
-    // for (const _ of processedCarResults) {
-    //   await Promise.all(
-    //     platforms.map((platform) =>
-    //       publishToPlatform(context, platform, { message, link }),
-    //     ),
-    //   );
-    // }
 
     const post = await generateCarPost(context, month);
 

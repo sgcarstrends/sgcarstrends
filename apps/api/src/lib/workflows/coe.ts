@@ -8,8 +8,7 @@ import {
   publishToAllPlatforms,
   type WorkflowStep,
 } from "@api/lib/workflows/workflow";
-import { getCoeLatestMonth, getLatestCoeResult } from "@api/queries/coe";
-import { formatOrdinal } from "@sgcarstrends/utils";
+import { getCoeLatestMonth } from "@api/queries/coe";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const coeWorkflow = createWorkflow(
@@ -35,25 +34,6 @@ export const coeWorkflow = createWorkflow(
     }
 
     const { month, bidding_no: biddingNo } = await getCoeLatestMonth();
-    const result = await getLatestCoeResult({ month, biddingNo });
-
-    const message = [
-      `💰 Latest COE results for ${result[0]?.month} (${formatOrdinal(result[0]?.bidding_no)} Bidding)!`,
-      "\n💸 Premium rates by category:",
-      ...result.map(
-        (coe) => `${coe.vehicle_class}: $${coe.premium.toLocaleString()}`,
-      ),
-    ].join("\n");
-
-    const link = `${SITE_URL}/coe`;
-
-    // for (const _ of processedCOEResults) {
-    //   await Promise.all(
-    //     platforms.map((platform) =>
-    //       publishToPlatform(context, platform, { message, link }),
-    //     ),
-    //   );
-    // }
 
     // Generate blog post only when both bidding exercises are complete (bidding_no = 2)
     if (biddingNo === 2) {
