@@ -4,25 +4,23 @@ import { Alert } from "@heroui/alert";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Tab, Tabs } from "@heroui/tabs";
 import type { COEResult, PQP } from "@web/types";
-import { Bike, Calculator, Car, Truck } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Bike, Calculator, Car, type LucideIcon, Truck } from "lucide-react";
+import { useMemo, useState } from "react";
 
 interface CalculatorResult {
   pqpCost5Year: number;
   pqpCost10Year: number;
-  estimatedBiddingCost: number;
   pqpSavings5Year: number;
   pqpSavings10Year: number;
   recommendation: string;
-  currentPQPRate: number;
-  estimatedBiddingPrice: number;
-  estimatedBiddingCost5Year: number;
 }
 
 interface PQPCalculatorProps {
   pqpData: Record<string, PQP>;
   latestCOEResults: COEResult[];
 }
+
+type PQPEnabledCategory = keyof PQP;
 
 const coeCategories = [
   {
@@ -49,65 +47,73 @@ const coeCategories = [
     description: "Motorcycles",
     icon: Bike,
   },
-];
+] satisfies Array<{
+  key: PQPEnabledCategory;
+  label: string;
+  description: string;
+  icon: LucideIcon;
+}>;
+
+const pqpCategories = coeCategories.map(({ key }) => key);
+
+const isPQPEnabledCategory = (
+  category: COEResult["vehicle_class"],
+): category is PQPEnabledCategory =>
+  pqpCategories.includes(category as PQPEnabledCategory);
 
 export const PQPCalculator = ({
   pqpData,
   latestCOEResults,
 }: PQPCalculatorProps) => {
-  const [selectedCategory, setSelectedCategory] = useState("Category A");
-  const [result, setResult] = useState<CalculatorResult | null>(null);
+  const [selectedCategory, setSelectedCategory] =
+    useState<PQPEnabledCategory>("Category A");
 
-  // Get the latest PQP data (most recent month)
-  const latestPQPMonth = Object.keys(pqpData).sort().pop();
-  const latestPQP = latestPQPMonth ? pqpData[latestPQPMonth] : null;
-
-  // Get current COE premium for selected category
-  const getCurrentCOEPremium = (category: string) => {
-    const coeResult = latestCOEResults.find(
-      (result) => result.vehicle_class === category,
-    );
-    return coeResult?.premium || 0;
-  };
-
-  // Get current PQP rate for selected category
-  const getCurrentPQPRate = (category: string) => {
-    if (!latestPQP) return 0;
-
-    const categoryMap: Record<string, keyof PQP> = {
-      "Category A": "Category A",
-      "Category B": "Category B",
-      "Category C": "Category C",
-      "Category D": "Category D",
-    };
-
-    const pqpKey = categoryMap[category];
-    return pqpKey ? latestPQP[pqpKey] : 0;
-  };
-
-  const calculateCosts = () => {
-    if (!selectedCategory) {
-      setResult(null);
-      return;
+  const latestPQP = useMemo(() => {
+    const months = Object.keys(pqpData);
+    if (months.length === 0) {
+      return null;
     }
 
-    const currentPQPRate = getCurrentPQPRate(selectedCategory);
-    const estimatedBiddingPrice = getCurrentCOEPremium(selectedCategory);
+    const latestMonth = months.sort().pop();
+    return latestMonth ? pqpData[latestMonth] : null;
+  }, [pqpData]);
+
+  const latestCOEPremiums = useMemo(
+    () =>
+      latestCOEResults.reduce<Partial<Record<PQPEnabledCategory, number>>>(
+        (accumulator, entry) => {
+          if (isPQPEnabledCategory(entry.vehicle_class)) {
+            const category = entry.vehicle_class;
+
+            if (accumulator[category] === undefined) {
+              accumulator[category] = entry.premium;
+            }
+          }
+
+          return accumulator;
+        },
+        {},
+      ),
+    [latestCOEResults],
+  );
+
+  const calculatorResult = useMemo<CalculatorResult | null>(() => {
+    const currentPQPRate = latestPQP?.[selectedCategory] ?? 0;
+    const estimatedBiddingPrice = latestCOEPremiums[selectedCategory] ?? 0;
 
     if (!currentPQPRate || !estimatedBiddingPrice) {
-      setResult(null);
-      return;
+      return null;
     }
 
     const pqpCost5Year = currentPQPRate * 0.5;
     const pqpCost10Year = currentPQPRate;
-    const estimatedBiddingCost = estimatedBiddingPrice;
     const estimatedBiddingCost5Year = estimatedBiddingPrice * 0.5;
 
     const pqpSavings5Year = estimatedBiddingCost5Year - pqpCost5Year;
-    const pqpSavings10Year = estimatedBiddingCost - pqpCost10Year;
+    const pqpSavings10Year = estimatedBiddingPrice - pqpCost10Year;
 
     let recommendation = "";
+
     if (pqpSavings5Year > 0) {
       recommendation =
         "PQP renewal is currently more cost-effective than bidding. Consider the 5-year option for flexibility or 10-year for maximum value.";
@@ -119,22 +125,14 @@ export const PQPCalculator = ({
         "Current market bidding appears more cost-effective than PQP renewal. However, consider bidding uncertainty and your risk tolerance.";
     }
 
-    setResult({
+    return {
       pqpCost5Year,
       pqpCost10Year,
-      estimatedBiddingCost,
       pqpSavings5Year,
       pqpSavings10Year,
       recommendation,
-      currentPQPRate,
-      estimatedBiddingPrice,
-      estimatedBiddingCost5Year,
-    });
-  };
-
-  useEffect(() => {
-    calculateCosts();
-  }, [selectedCategory, pqpData, latestCOEResults]);
+    };
+  }, [latestCOEPremiums, latestPQP, selectedCategory]);
 
   return (
     <Card>
@@ -152,9 +150,14 @@ export const PQPCalculator = ({
           color="primary"
           radius="full"
           selectedKey={selectedCategory}
-          onSelectionChange={(key) => setSelectedCategory(key as string)}
+          onSelectionChange={(key) =>
+            setSelectedCategory(key as PQPEnabledCategory)
+          }
         >
           {coeCategories.map(({ key, icon: Icon, label }) => {
+            const currentPQPRate = latestPQP?.[key] ?? 0;
+            const currentCOEPremium = latestCOEPremiums[key] ?? 0;
+
             return (
               <Tab
                 key={key}
@@ -173,7 +176,7 @@ export const PQPCalculator = ({
                           Current PQP Rate
                         </h4>
                         <p className="font-bold text-xl">
-                          S${getCurrentPQPRate(key).toLocaleString()}
+                          S${currentPQPRate.toLocaleString()}
                         </p>
                         <p className="text-default-500 text-xs">
                           Latest available rate
@@ -188,7 +191,7 @@ export const PQPCalculator = ({
                         </h4>
                         <p className="font-bold text-xl">
                           S$
-                          {getCurrentCOEPremium(key).toLocaleString()}
+                          {currentCOEPremium.toLocaleString()}
                         </p>
                         <p className="text-default-500 text-xs">
                           Latest COE premium
@@ -202,7 +205,7 @@ export const PQPCalculator = ({
           })}
         </Tabs>
 
-        {result && (
+        {calculatorResult && (
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <Card className="border">
@@ -211,17 +214,20 @@ export const PQPCalculator = ({
                     PQP 5-Year Renewal (Estimate)
                   </h4>
                   <p className="font-bold text-2xl">
-                    S${result.pqpCost5Year.toLocaleString()}
+                    S${calculatorResult.pqpCost5Year.toLocaleString()}
                   </p>
                   <p
                     className={`text-sm ${
-                      result.pqpSavings5Year > 0
+                      calculatorResult.pqpSavings5Year > 0
                         ? "text-green-600"
                         : "text-red-600"
                     }`}
                   >
-                    {result.pqpSavings5Year > 0 ? "Saves" : "Costs"} S$
-                    {Math.abs(result.pqpSavings5Year).toLocaleString()}
+                    {calculatorResult.pqpSavings5Year > 0 ? "Saves" : "Costs"}{" "}
+                    S$
+                    {Math.abs(
+                      calculatorResult.pqpSavings5Year,
+                    ).toLocaleString()}
                   </p>
                 </CardBody>
               </Card>
@@ -232,17 +238,20 @@ export const PQPCalculator = ({
                     PQP 10-Year Renewal (Estimate)
                   </h4>
                   <p className="font-bold text-2xl">
-                    S${result.pqpCost10Year.toLocaleString()}
+                    S${calculatorResult.pqpCost10Year.toLocaleString()}
                   </p>
                   <p
                     className={`text-sm ${
-                      result.pqpSavings10Year > 0
+                      calculatorResult.pqpSavings10Year > 0
                         ? "text-green-600"
                         : "text-red-600"
                     }`}
                   >
-                    {result.pqpSavings10Year > 0 ? "Saves" : "Costs"} S$
-                    {Math.abs(result.pqpSavings10Year).toLocaleString()}
+                    {calculatorResult.pqpSavings10Year > 0 ? "Saves" : "Costs"}{" "}
+                    S$
+                    {Math.abs(
+                      calculatorResult.pqpSavings10Year,
+                    ).toLocaleString()}
                   </p>
                 </CardBody>
               </Card>
@@ -253,7 +262,7 @@ export const PQPCalculator = ({
               color="primary"
               variant="bordered"
               title="Note"
-              description={result.recommendation}
+              description={calculatorResult.recommendation}
             />
 
             <div className="flex flex-col gap-1 text-default-500 text-xs">
