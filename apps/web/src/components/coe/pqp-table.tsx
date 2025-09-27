@@ -2,7 +2,6 @@
 
 import { Pagination } from "@heroui/pagination";
 import {
-  getKeyValue,
   type SortDescriptor,
   Table,
   TableBody,
@@ -11,8 +10,10 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/table";
+import type { PqpRate } from "@web/app/coe/pqp/page";
+import { Currency } from "@web/components/currency";
 import { ArrowUpDown } from "lucide-react";
-import { useMemo, useState } from "react";
+import { type Key, useCallback, useMemo, useState } from "react";
 
 interface Column {
   key: string;
@@ -20,17 +21,13 @@ interface Column {
   sortable?: boolean;
 }
 
-interface Props<T = Record<string, string | number>> {
-  rows: T[];
+interface Props {
+  rows: PqpRate[];
   columns: Column[];
   rowsPerPage?: number;
 }
 
-export const PQPTable = <T extends Record<string, string | number>>({
-  rows,
-  columns,
-  rowsPerPage = 10,
-}: Props<T>) => {
+export const PQPTable = ({ rows, columns, rowsPerPage = 10 }: Props) => {
   const [page, setPage] = useState(1);
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "month",
@@ -71,6 +68,20 @@ export const PQPTable = <T extends Record<string, string | number>>({
     });
   }, [sortDescriptor, items]);
 
+  const renderCell = useCallback((row: PqpRate, columnKey: Key) => {
+    const cellValue = row[columnKey as keyof PqpRate];
+
+    switch (columnKey) {
+      case "Category A":
+      case "Category B":
+      case "Category C":
+      case "Category D":
+        return <Currency value={cellValue as number} />;
+      default:
+        return cellValue;
+    }
+  }, []);
+
   return (
     <Table
       sortDescriptor={sortDescriptor}
@@ -101,7 +112,7 @@ export const PQPTable = <T extends Record<string, string | number>>({
         {(item) => (
           <TableRow key={item.key}>
             {(columnKey) => (
-              <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+              <TableCell>{renderCell(item, columnKey)}</TableCell>
             )}
           </TableRow>
         )}

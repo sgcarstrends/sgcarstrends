@@ -17,6 +17,11 @@ import { fetchApi } from "@web/utils/fetch-api";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
+export interface PqpRate extends PQP {
+  key: string;
+  month: string;
+}
+
 const title = "COE PQP Rates";
 const description =
   "Latest Prevailing Quota Premium (PQP) rates for COE renewal in Singapore. These rates show the average COE prices over the last 3 months.";
@@ -54,7 +59,7 @@ const PQPRatesPage = async () => {
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
 
-  const rows = Object.entries(pqpRates).map(([month, pqpRates]) => ({
+  const rows: PqpRate[] = Object.entries(pqpRates).map(([month, pqpRates]) => ({
     key: month,
     month,
     ...pqpRates,
