@@ -1,3 +1,4 @@
+import { formatCurrency } from "@web/utils/format-currency";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 
 export const formatNumber = (value: number): string => {
@@ -6,15 +7,6 @@ export const formatNumber = (value: number): string => {
 
 export const formatPercentage = (value: number): string => {
   return `${value.toFixed(1)}%`;
-};
-
-export const formatCurrency = (value: number): string => {
-  return new Intl.NumberFormat("en-SG", {
-    style: "currency",
-    currency: "SGD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
 };
 
 export const formatCount = (value: number): string => {
