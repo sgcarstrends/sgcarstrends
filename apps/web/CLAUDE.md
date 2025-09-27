@@ -164,6 +164,13 @@ Environment variables managed through SST config:
 - `APP_ENV`: Environment stage (dev/staging/prod)
 - `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`: Feature flag for unreleased features
 
+#### VERCEL_URL Support
+
+The application supports Vercel's automatic URL environment variables:
+
+- `NEXT_PUBLIC_VERCEL_URL`: Client-side deployment URL (e.g., `my-site.vercel.app`) without `https://` protocol
+- `SITE_URL` configuration automatically uses `NEXT_PUBLIC_VERCEL_URL` when `NEXT_PUBLIC_SITE_URL` is not set
+
 ### Deployment
 
 Multi-stage deployment via SST:

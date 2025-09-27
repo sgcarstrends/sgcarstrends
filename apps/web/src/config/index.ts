@@ -7,7 +7,10 @@ export const DOMAIN_NAME = "sgcarstrends.com";
 const API_VERSION = "v1";
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? `https://${DOMAIN_NAME}`;
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    : `https://${DOMAIN_NAME}`);
 export const SITE_TITLE = "SG Cars Trends";
 
 export const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV as AppEnv;
