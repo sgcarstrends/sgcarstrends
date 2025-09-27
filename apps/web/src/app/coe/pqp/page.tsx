@@ -16,13 +16,14 @@ import type { PQP } from "@web/types";
 import { getLatestCOEResults } from "@web/utils/api/coe";
 import { fetchApi } from "@web/utils/fetch-api";
 import { AlertCircle } from "lucide-react";
+import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
 const title = "COE PQP Rates";
 const description =
   "Latest Prevailing Quota Premium (PQP) rates for COE renewal in Singapore. These rates show the average COE prices over the last 3 months.";
 
-export const generateMetadata = () => {
+export const generateMetadata = (): Metadata => {
   const canonical = "/coe/pqp";
 
   return {
