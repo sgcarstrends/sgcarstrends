@@ -28,9 +28,148 @@ import {
   YAxis,
 } from "recharts";
 
-interface Props {
-  data: { year: number; total: number }[];
+interface YearlyData {
+  year: number;
+  total: number;
 }
+
+interface Props {
+  data: YearlyData[];
+}
+
+interface YearOverYearChartProps {
+  data: YearlyData[];
+  numberFormatter: Intl.NumberFormat;
+}
+
+interface TrendChartProps {
+  data: YearlyData[];
+  chartColor: string;
+  ariaLabel: string;
+}
+
+const YearOverYearChart = ({
+  data,
+  numberFormatter,
+}: YearOverYearChartProps) => {
+  const yoySeries = useMemo(
+    () =>
+      data
+        .map((d, i) => {
+          const prev = data[i - 1];
+          if (!prev) return null;
+          return { year: d.year, change: d.total - prev.total };
+        })
+        .filter(Boolean) as { year: number; change: number }[],
+    [data],
+  );
+
+  const recent = useMemo(() => yoySeries.slice(-10), [yoySeries]);
+
+  if (recent.length === 0) return null;
+
+  const chartConfig = {
+    plus: { color: "var(--success)" },
+    minus: { color: "var(--destructive)" },
+  } as const;
+
+  return (
+    <div className="mt-3">
+      <ChartContainer
+        config={chartConfig}
+        className="h-[300px] w-full"
+        aria-label="YoY change bar chart last 10"
+      >
+        <BarChart data={recent} margin={{ left: 8, right: 8 }}>
+          <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey="year"
+            tickLine={false}
+            axisLine={false}
+            tickMargin={6}
+          />
+          <YAxis hide />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+          <ReferenceLine
+            y={0}
+            stroke="hsl(var(--muted-foreground))"
+            strokeDasharray="3 3"
+          />
+          <Bar dataKey="change">
+            {recent.map((d) => (
+              <Cell
+                key={d.year}
+                fill={
+                  d.change >= 0 ? "var(--color-plus)" : "var(--color-minus)"
+                }
+              />
+            ))}
+            <LabelList
+              dataKey="change"
+              position="top"
+              className="fill-foreground font-mono text-[10px]"
+              formatter={(v: number) => numberFormatter.format(v)}
+            />
+          </Bar>
+        </BarChart>
+      </ChartContainer>
+    </div>
+  );
+};
+
+const TrendChart = ({ data, chartColor, ariaLabel }: TrendChartProps) => {
+  const recent = useMemo(() => data.slice(-10), [data]);
+
+  if (recent.length < 2) {
+    return (
+      <div className="mt-3">
+        <p className="text-muted-foreground text-xs">
+          Not enough data to draw trend
+        </p>
+      </div>
+    );
+  }
+
+  const chartConfig = {
+    total: { label: "Total", color: "var(--primary)" },
+  } as const;
+
+  return (
+    <div className="mt-3">
+      <ChartContainer
+        config={chartConfig}
+        className="h-[300px] w-full"
+        aria-label={ariaLabel}
+      >
+        <AreaChart data={recent} margin={{ left: 8, right: 8 }}>
+          <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey="year"
+            tickLine={false}
+            axisLine={false}
+            tickMargin={6}
+          />
+          <YAxis hide />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+          <Area
+            dataKey="total"
+            type="monotone"
+            stroke={`var(--color-total, ${chartColor})`}
+            fill={`var(--color-total, ${chartColor})`}
+            fillOpacity={0.15}
+            strokeWidth={2}
+          />
+        </AreaChart>
+      </ChartContainer>
+    </div>
+  );
+};
 
 export const KeyStatistics = ({ data }: Props) => {
   const selectedYear = useStore(({ selectedYear }) => selectedYear);
@@ -57,7 +196,7 @@ export const KeyStatistics = ({ data }: Props) => {
     [data],
   );
 
-  const currentYear = new Date().getFullYear();
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
   const comparableAsc = useMemo(
     () => sortedByYearAsc.filter((d) => d.year !== currentYear),
     [sortedByYearAsc, currentYear],
@@ -67,35 +206,44 @@ export const KeyStatistics = ({ data }: Props) => {
     [comparableAsc],
   );
 
-  const selectedYearNumber = Number(selectedYear);
-  const selectedEntry = sortedByYearAsc.find(
-    (item) => item.year === selectedYearNumber,
+  const selectedYearNumber = useMemo(
+    () => Number(selectedYear),
+    [selectedYear],
   );
-  const previousEntry = sortedByYearAsc.find(
-    (item) => item.year === selectedYearNumber - 1,
+  const selectedEntry = useMemo(
+    () => sortedByYearAsc.find((item) => item.year === selectedYearNumber),
+    [sortedByYearAsc, selectedYearNumber],
+  );
+  const previousEntry = useMemo(
+    () => sortedByYearAsc.find((item) => item.year === selectedYearNumber - 1),
+    [sortedByYearAsc, selectedYearNumber],
   );
   const highestEntry = comparableTotalDesc[0];
   const lowestEntry = comparableTotalDesc[comparableTotalDesc.length - 1];
 
-  const yoyChange =
-    selectedEntry && previousEntry
-      ? selectedEntry.total - previousEntry.total
-      : null;
-  const yoyChangeRatio =
-    yoyChange !== null && previousEntry?.total
-      ? previousEntry.total === 0
-        ? null
-        : yoyChange / previousEntry.total
-      : null;
+  const yoyChange = useMemo(
+    () =>
+      selectedEntry && previousEntry
+        ? selectedEntry.total - previousEntry.total
+        : null,
+    [selectedEntry, previousEntry],
+  );
+  const yoyChangeRatio = useMemo(
+    () =>
+      yoyChange !== null && previousEntry?.total
+        ? previousEntry.total === 0
+          ? null
+          : yoyChange / previousEntry.total
+        : null,
+    [yoyChange, previousEntry],
+  );
 
-  const yoyToneClass =
-    yoyChangeRatio !== null
-      ? yoyChangeRatio > 0
-        ? "text-emerald-600"
-        : yoyChangeRatio < 0
-          ? "text-destructive"
-          : "text-muted-foreground"
-      : "text-muted-foreground";
+  const yoyToneClass = useMemo(() => {
+    if (yoyChangeRatio === null) return "text-muted-foreground";
+    if (yoyChangeRatio > 0) return "text-emerald-600";
+    if (yoyChangeRatio < 0) return "text-destructive";
+    return "text-muted-foreground";
+  }, [yoyChangeRatio]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -148,72 +296,12 @@ export const KeyStatistics = ({ data }: Props) => {
                     ? "Cannot calculate percentage change from a zero baseline"
                     : "No data for the previous year"}
               </p>
-              {comparableAsc.length > 1 ? (
-                <div className="mt-3">
-                  {(() => {
-                    const yoySeries = comparableAsc
-                      .map((d, i) => {
-                        const prev = comparableAsc[i - 1];
-                        if (!prev) return null;
-                        return { year: d.year, change: d.total - prev.total };
-                      })
-                      .filter(Boolean) as { year: number; change: number }[];
-                    const recent = yoySeries.slice(-10);
-                    if (recent.length === 0) return null;
-                    const chartConfig = {
-                      plus: { color: "var(--success)" },
-                      minus: { color: "var(--destructive)" },
-                    } as const;
-                    return (
-                      <ChartContainer
-                        config={chartConfig}
-                        className="h-[300px] w-full"
-                        aria-label="YoY change bar chart last 10"
-                      >
-                        <BarChart data={recent} margin={{ left: 8, right: 8 }}>
-                          <CartesianGrid vertical={false} />
-                          <XAxis
-                            dataKey="year"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={6}
-                          />
-                          <YAxis hide />
-                          <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent hideLabel />}
-                          />
-                          <ReferenceLine
-                            y={0}
-                            stroke="hsl(var(--muted-foreground))"
-                            strokeDasharray="3 3"
-                          />
-                          <Bar dataKey="change">
-                            {recent.map((d) => (
-                              <Cell
-                                key={d.year}
-                                fill={
-                                  d.change >= 0
-                                    ? "var(--color-plus)"
-                                    : "var(--color-minus)"
-                                }
-                              />
-                            ))}
-                            <LabelList
-                              dataKey="change"
-                              position="top"
-                              className="fill-foreground font-mono text-[10px]"
-                              formatter={(v: number) =>
-                                numberFormatter.format(v)
-                              }
-                            />
-                          </Bar>
-                        </BarChart>
-                      </ChartContainer>
-                    );
-                  })()}
-                </div>
-              ) : null}
+              {comparableAsc.length > 1 && (
+                <YearOverYearChart
+                  data={comparableAsc}
+                  numberFormatter={numberFormatter}
+                />
+              )}
             </CardBody>
           </Card>
 
@@ -228,53 +316,13 @@ export const KeyStatistics = ({ data }: Props) => {
               <p className="mt-1 text-muted-foreground text-xs">
                 {highestEntry ? `Set in ${highestEntry.year}` : "No data"}
               </p>
-              {comparableAsc.length > 1 ? (
-                <div className="mt-3">
-                  {(() => {
-                    const recent = comparableAsc.slice(-10);
-                    if (recent.length < 2) {
-                      return (
-                        <p className="text-muted-foreground text-xs">
-                          Not enough data to draw trend
-                        </p>
-                      );
-                    }
-                    const chartConfig = {
-                      total: { label: "Total", color: "var(--primary)" },
-                    } as const;
-                    return (
-                      <ChartContainer
-                        config={chartConfig}
-                        className="h-[300px] w-full"
-                        aria-label="Trend to highest year"
-                      >
-                        <AreaChart data={recent} margin={{ left: 8, right: 8 }}>
-                          <CartesianGrid vertical={false} />
-                          <XAxis
-                            dataKey="year"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={6}
-                          />
-                          <YAxis hide />
-                          <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent hideLabel />}
-                          />
-                          <Area
-                            dataKey="total"
-                            type="monotone"
-                            stroke="var(--color-total, hsl(var(--chart-1)))"
-                            fill="var(--color-total, hsl(var(--chart-1)))"
-                            fillOpacity={0.15}
-                            strokeWidth={2}
-                          />
-                        </AreaChart>
-                      </ChartContainer>
-                    );
-                  })()}
-                </div>
-              ) : null}
+              {comparableAsc.length > 1 && (
+                <TrendChart
+                  data={comparableAsc}
+                  chartColor="hsl(var(--chart-1))"
+                  ariaLabel="Trend to highest year"
+                />
+              )}
             </CardBody>
           </Card>
 
@@ -287,53 +335,13 @@ export const KeyStatistics = ({ data }: Props) => {
               <p className="mt-1 text-muted-foreground text-xs">
                 {lowestEntry ? `Set in ${lowestEntry.year}` : "No data"}
               </p>
-              {comparableAsc.length > 1 ? (
-                <div className="mt-3">
-                  {(() => {
-                    const recent = comparableAsc.slice(-10);
-                    if (recent.length < 2) {
-                      return (
-                        <p className="text-muted-foreground text-xs">
-                          Not enough data to draw trend
-                        </p>
-                      );
-                    }
-                    const chartConfig = {
-                      total: { label: "Total", color: "var(--primary)" },
-                    } as const;
-                    return (
-                      <ChartContainer
-                        config={chartConfig}
-                        className="h-[300px] w-full"
-                        aria-label="Trend to lowest year"
-                      >
-                        <AreaChart data={recent} margin={{ left: 8, right: 8 }}>
-                          <CartesianGrid vertical={false} />
-                          <XAxis
-                            dataKey="year"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={6}
-                          />
-                          <YAxis hide />
-                          <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent hideLabel />}
-                          />
-                          <Area
-                            dataKey="total"
-                            type="monotone"
-                            stroke="var(--color-total, hsl(var(--chart-3)))"
-                            fill="var(--color-total, hsl(var(--chart-3)))"
-                            fillOpacity={0.15}
-                            strokeWidth={2}
-                          />
-                        </AreaChart>
-                      </ChartContainer>
-                    );
-                  })()}
-                </div>
-              ) : null}
+              {comparableAsc.length > 1 && (
+                <TrendChart
+                  data={comparableAsc}
+                  chartColor="hsl(var(--chart-3))"
+                  ariaLabel="Trend to lowest year"
+                />
+              )}
             </CardBody>
           </Card>
         </div>
