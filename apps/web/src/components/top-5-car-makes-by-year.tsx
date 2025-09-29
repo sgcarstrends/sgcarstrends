@@ -1,6 +1,12 @@
 "use client";
 
 import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@web/components/ui/card";
+import {
   Bar,
   BarChart,
   CartesianGrid,
@@ -9,15 +15,14 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@web/components/ui/card";
+
+interface TopMakeData {
+  make: string;
+  value: number;
+}
 
 interface Top5CarMakesByYearProps {
-  topMakes2023: any;
+  topMakes2023: TopMakeData[];
 }
 
 export const Top5CarMakesByYear = ({
@@ -26,7 +31,7 @@ export const Top5CarMakesByYear = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Top 5 Car Makes in 2023</CardTitle>
+        <CardTitle>Top 5 Car Makes (Latest Month)</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
