@@ -1,7 +1,7 @@
 "use server";
 
 import { cars, db } from "@sgcarstrends/database";
-import { and, desc, gt, sql } from "drizzle-orm";
+import { and, desc, eq, gt, isNotNull, sql } from "drizzle-orm";
 import { cache } from "react";
 
 const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;
@@ -32,7 +32,7 @@ export const getYearlyRegistrations = cache(async () => {
 export const getTopMakesByYear = cache(async (year?: number, limit = 8) => {
   let targetYear = year;
 
-  if (targetYear === undefined) {
+  if (!targetYear) {
     const [latest] = await db
       .select({
         year: sql<string>`${yearExpr}`,
@@ -51,11 +51,13 @@ export const getTopMakesByYear = cache(async (year?: number, limit = 8) => {
 
   return db
     .select({
-      make: cars.make,
+      make: sql<string>`${cars.make}`,
       value: sql<number>`cast(${sumExpr} as integer)`,
     })
     .from(cars)
-    .where(and(sql`${yearExpr} = ${targetYear}`, gt(cars.number, 0)))
+    .where(
+      and(eq(yearExpr, targetYear), gt(cars.number, 0), isNotNull(cars.make)),
+    )
     .groupBy(cars.make)
     .orderBy(desc(sumExpr))
     .limit(limit);
