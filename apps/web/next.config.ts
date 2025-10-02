@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 import type { Redirect } from "next/dist/lib/load-custom-routes";
 
-const isProd = process.env.NODE_ENV === "production";
+const isProd =
+  process.env.VERCEL_ENV === "production" ||
+  process.env.NEXT_PUBLIC_APP_ENV === "prod";
 
 let redirects: Redirect[] | PromiseLike<Redirect[]> = [];
 if (isProd) {
