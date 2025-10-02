@@ -234,6 +234,68 @@ The project uses Turbo for efficient monorepo task orchestration:
 - **Coverage Outputs**: Dedicated `coverage/**` directories for test reports
 - **E2E Outputs**: `test-results/**` and `playwright-report/**` for end-to-end test artifacts
 
+## Dependency Management
+
+The project uses pnpm v10.13.1 with catalog for centralized dependency version management.
+
+### pnpm Catalog
+
+Centralized version definitions in `pnpm-workspace.yaml` ensure consistency across all workspace packages:
+
+```yaml
+catalog:
+  '@types/node': ^22.16.4
+  '@types/react': 19.1.0
+  '@types/react-dom': 19.1.0
+  '@vitest/coverage-v8': ^3.2.4
+  'date-fns': ^3.6.0
+  next: ^15.4.7
+  react: 19.1.0
+  'react-dom': 19.1.0
+  sst: ^3.17.10
+  typescript: ^5.8.3
+  vitest: ^3.2.4
+  zod: ^3.25.76
+```
+
+### Catalog Usage
+
+Workspace packages reference catalog versions using the `catalog:` protocol:
+
+```json
+{
+  "dependencies": {
+    "react": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
+```
+
+### Catalog Benefits
+
+- **Single source of truth**: All shared dependency versions defined in one place
+- **Version consistency**: Ensures all packages use the same versions
+- **Easier upgrades**: Update version once in catalog, applies everywhere
+- **Type safety**: TypeScript and types packages aligned across workspace
+- **Testing consistency**: Testing tools (vitest, typescript) use same versions
+
+### Root vs Catalog
+
+- **Root package.json dependencies**: Packages actually installed and used by root workspace (e.g., turbo, semantic-release, husky)
+- **Catalog entries**: Version definitions that workspace packages reference (e.g., react, next, typescript)
+- **Both can reference catalog**: Root can use `"sst": "catalog:"` to maintain version consistency
+
+### Workspace Binaries
+
+When packages are installed at the root level, their CLI binaries (in `node_modules/.bin`) are automatically available to all workspace packages. This means:
+- Root dependencies with CLIs (e.g., `sst`, `turbo`) can be used in any workspace package's scripts
+- No need to duplicate CLI tools in individual packages
+- Scripts in workspace packages can invoke binaries from root installation
+
 ## Code Style
 
 - TypeScript with strict type checking (noImplicitAny, strictNullChecks)

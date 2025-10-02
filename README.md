@@ -128,7 +128,7 @@ sgcarstrends/
 - **Infrastructure**: SST v3 (Serverless Stack) on AWS
 - **Scheduling**: QStash Workflows for data processing
 - **LLM Integration**: Google Gemini AI for blog content generation
-- **Package Management**: pnpm v10.13.1 workspace
+- **Package Management**: pnpm v10.13.1 workspace with catalog for centralized dependency management
 - **Build Tools**: Turbopack for fast development builds
 - **Testing**: Vitest (unit), Playwright (E2E) with comprehensive coverage
 - **Linting**: Biome for consistent code style
@@ -170,6 +170,18 @@ cd sgcarstrends
 # Install dependencies
 pnpm install
 ```
+
+#### Dependency Management
+
+This project uses **pnpm catalog** for centralized dependency version management. Shared dependencies (React, Next.js, TypeScript, testing tools, etc.) are defined in `pnpm-workspace.yaml` and referenced by workspace packages using the `catalog:` protocol.
+
+**Key catalog packages:**
+- React ecosystem: `react`, `react-dom`, `next`
+- TypeScript & types: `typescript`, `@types/node`, `@types/react`
+- Testing tools: `vitest`, `@vitest/coverage-v8`
+- Utilities: `date-fns`, `zod`, `sst`
+
+This ensures version consistency across all workspace packages and simplifies dependency upgrades.
 
 ### Development
 
