@@ -41,7 +41,9 @@ export const TopMakesByYear = ({ topMakes, year }: Top5CarMakesByYearProps) => {
   return (
     <Card>
       <CardHeader>
-        <h3>Top 5 Car Makes ({year})</h3>
+        <h3>
+          Top {topMakes.length} Car Makes ({year})
+        </h3>
       </CardHeader>
       <CardBody>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
