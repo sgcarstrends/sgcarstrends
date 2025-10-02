@@ -58,7 +58,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
           <NotificationPrompt />
           <Announcement />
           <NuqsAdapter>
-            <LoadingIndicator />
+            {/*<LoadingIndicator />*/}
             <Header />
             <Banner />
             <main className="container mx-auto px-6 py-8">{children}</main>

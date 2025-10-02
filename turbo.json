@@ -19,6 +19,10 @@
       "dependsOn": ["topo"],
       "inputs": ["$TURBO_DEFAULT$"]
     },
+    "format": {
+      "dependsOn": ["topo"],
+      "inputs": ["$TURBO_DEFAULT$"]
+    },
     "typecheck": {
       "dependsOn": ["topo"],
       "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/tsconfig.json"]

@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useLinkStatus } from "next/link";
 import { Progress } from "@heroui/react";
+import { useLinkStatus } from "next/link";
+import { useEffect, useState } from "react";
 
-export default function LoadingIndicator() {
+const LoadingIndicator = () => {
   const { pending } = useLinkStatus();
   const [progress, setProgress] = useState(0);
 
@@ -42,4 +42,6 @@ export default function LoadingIndicator() {
       />
     </div>
   );
-}
+};
+
+export default LoadingIndicator;

@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "lint": "next lint",
+    "lint": "biome check",
     "format": "biome format --write src",
     "start": "next start",
     "test": "vitest run",
