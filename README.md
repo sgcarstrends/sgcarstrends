@@ -6,7 +6,7 @@
 
 This monorepo provides a complete platform for SG Cars Trends, tracking Singapore's car registration statistics and Certificate of Entitlement (COE) data. The system includes:
 
-- **Web Application**: Next.js 15 frontend with interactive charts, analytics, and AI-generated blog content
+- **Web Application**: Next.js 15 frontend with enhanced homepage featuring latest COE results, interactive charts, analytics, and AI-generated blog content with responsive design
 - **REST API**: Hono-based API with type-safe endpoints for car registrations and COE results
 - **Integrated Data Updater**: QStash workflow-based system for fetching and processing LTA data
 - **LLM Blog Generation**: Automated blog post creation using Google Gemini AI for market insights

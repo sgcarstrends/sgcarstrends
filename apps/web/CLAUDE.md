@@ -45,7 +45,7 @@ pnpm deploy:prod        # Deploy to production environment
 ```
 src/
 ├── app/               # Next.js App Router - pages, layouts, API routes
-│   ├── (home)/       # Home page route group
+│   ├── (home)/       # Home page route group with COE results and blog sidebar
 │   ├── (social)/     # Social media redirect routes with UTM tracking
 │   ├── api/          # API routes (analytics, OG images, revalidation)
 │   ├── blog/         # Blog pages with dynamic routes and Open Graph images
@@ -54,7 +54,9 @@ src/
 │   └── store/        # Zustand store slices
 ├── actions/          # Server actions for blog functionality
 ├── components/       # React components with tests
-│   └── blog/         # Blog-specific components (progress bar, view counter, related posts)
+│   ├── blog/         # Blog-specific components (progress bar, view counter, related posts)
+│   ├── dashboard/    # Dashboard components (section tabs, sub-nav)
+│   └── [others]      # COE results, posts, charts, key statistics
 ├── config/          # App configuration (DB, Redis, navigation)
 ├── schema/          # Drizzle database schemas
 ├── types/           # TypeScript definitions
@@ -106,6 +108,13 @@ External API integration through `src/utils/api/` for:
 **UI Components**: Located in `src/components/ui/` following HeroUI patterns with professional design system.
 
 **Charts**: Recharts-based components in `src/components/charts/` for data visualization.
+
+**Dashboard Components**: Interactive components for the homepage including:
+
+- Section tabs with responsive overflow handling and dynamic font sizing
+- Latest COE results display with card-based layout
+- Recent posts sidebar with link navigation
+- Key statistics and yearly registration charts
 
 **Blog Components**: Specialized components in `src/components/blog/` including:
 
@@ -162,7 +171,17 @@ Environment variables managed through SST config:
 - `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
 - `SG_CARS_TRENDS_API_TOKEN`: External API authentication
 - `APP_ENV`: Environment stage (dev/staging/prod)
+- `NEXT_PUBLIC_APP_ENV`: Client-side environment stage
 - `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`: Feature flag for unreleased features
+- `VERCEL_ENV`: Vercel's automatic environment detection (production/preview/development)
+
+#### Production Environment Detection
+
+The application uses multiple environment variables to determine production status:
+
+- Social media redirects and production-only features activate when:
+  - `VERCEL_ENV === "production"` (Vercel deployment), OR
+  - `NEXT_PUBLIC_APP_ENV === "prod"` (SST production stage)
 
 #### VERCEL_URL Support
 
