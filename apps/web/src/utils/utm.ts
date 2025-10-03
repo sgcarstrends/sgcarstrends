@@ -17,7 +17,7 @@ export const UTM_PARSERS = {
 };
 
 export const useUTMParams = () => {
-  const params = useQueryStates(UTM_PARSERS);
+  const [params] = useQueryStates(UTM_PARSERS);
 
   return {
     utmSource: params.utm_source,
