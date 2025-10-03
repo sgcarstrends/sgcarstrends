@@ -1,6 +1,5 @@
-"use client";
-
-import { Button, Divider } from "@heroui/react";
+import { Button } from "@heroui/button";
+import { Divider } from "@heroui/divider";
 import { BrandLogo } from "@web/components/brand-logo";
 import { BetaChip, NewChip } from "@web/components/chips";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
