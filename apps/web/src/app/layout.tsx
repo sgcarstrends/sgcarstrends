@@ -8,8 +8,7 @@ import { Header } from "@web/components/header";
 import { NotificationPrompt } from "@web/components/notification-prompt";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { FEATURE_FLAG_UNRELEASED, SITE_TITLE, SITE_URL } from "@web/config";
-import classNames from "classnames";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
@@ -20,7 +19,15 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Banner } from "@web/components/banner";
 import type { Metadata } from "next";
 
-const inter = Inter({ subsets: ["latin"] });
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 const title = SITE_TITLE;
 const description: string = `Statistics for car trends in Singapore. Data provided by Land Transport Authority (LTA)`;
@@ -56,7 +63,9 @@ export const metadata: Metadata = {
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={classNames(inter.className, "bg-neutral-100")}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} bg-neutral-100 antialiased`}
+      >
         <Providers>
           <NotificationPrompt />
           <Announcement />
