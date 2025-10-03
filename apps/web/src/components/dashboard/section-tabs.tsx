@@ -32,7 +32,7 @@ export const SectionTabs = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex items-end gap-4 overflow-x-auto lg:gap-8">
+    <div className="mb-4 flex items-end gap-4 overflow-x-auto lg:mb-8 lg:gap-8">
       {LINKS.map(({ name, href }) => {
         const isActive =
           href === "/" ? pathname === "/" : pathname.startsWith(href);

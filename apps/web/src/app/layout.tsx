@@ -2,16 +2,19 @@ import LoadingIndicator from "@web/app/loading-indicator";
 import { Providers } from "@web/app/providers";
 import { Analytics as InternalAnalytics } from "@web/components/analytics";
 import { Announcement } from "@web/components/announcement";
+import { SectionTabs } from "@web/components/dashboard/section-tabs";
 import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
 import { NotificationPrompt } from "@web/components/notification-prompt";
-import { SITE_TITLE, SITE_URL } from "@web/config";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { FEATURE_FLAG_UNRELEASED, SITE_TITLE, SITE_URL } from "@web/config";
 import classNames from "classnames";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
 import "./globals.css";
+import { cn } from "@heroui/react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Banner } from "@web/components/banner";
@@ -58,10 +61,20 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
           <NotificationPrompt />
           <Announcement />
           <NuqsAdapter>
-            {/*<LoadingIndicator />*/}
+            <LoadingIndicator />
             <Header />
             <Banner />
-            <main className="container mx-auto px-6 py-8">{children}</main>
+            {/*TODO: Remove the condition after layout is fully migrated*/}
+            <main
+              className={cn("px-6 py-8", {
+                "container mx-auto": !FEATURE_FLAG_UNRELEASED,
+              })}
+            >
+              <UnreleasedFeature>
+                <SectionTabs />
+              </UnreleasedFeature>
+              {children}
+            </main>
             <Footer />
           </NuqsAdapter>
           {process.env.NODE_ENV === "production" && <InternalAnalytics />}

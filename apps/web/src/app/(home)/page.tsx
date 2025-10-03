@@ -3,7 +3,6 @@ import {
   getTopMakesByYear,
   getYearlyRegistrations,
 } from "@web/actions/cars/statistics";
-import { SectionTabs } from "@web/components/dashboard/section-tabs";
 import { SubNav } from "@web/components/dashboard/sub-nav";
 import { KeyStatistics } from "@web/components/key-statistics";
 import { LatestCOE } from "@web/components/latest-coe";
@@ -47,8 +46,6 @@ const HomePage = async () => {
     <>
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
-        {/*TODO: The SectionTabs will go into the Layout*/}
-        <SectionTabs />
         <SubNav items={items} />
         <LatestCOE results={latestCOE} />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
