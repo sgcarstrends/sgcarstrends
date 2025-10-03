@@ -1,4 +1,4 @@
-import { createSerializer, parseAsString, useQueryState } from "nuqs";
+import { createSerializer, parseAsString, useQueryStates } from "nuqs";
 
 export interface UTMParams {
   source?: string;
@@ -17,18 +17,14 @@ export const UTM_PARSERS = {
 };
 
 export const useUTMParams = () => {
-  const [utmSource] = useQueryState("utm_source", UTM_PARSERS.utm_source);
-  const [utmMedium] = useQueryState("utm_medium", UTM_PARSERS.utm_medium);
-  const [utmCampaign] = useQueryState("utm_campaign", UTM_PARSERS.utm_campaign);
-  const [utmTerm] = useQueryState("utm_term", UTM_PARSERS.utm_term);
-  const [utmContent] = useQueryState("utm_content", UTM_PARSERS.utm_content);
+  const params = useQueryStates(UTM_PARSERS);
 
   return {
-    utmSource,
-    utmMedium,
-    utmCampaign,
-    utmTerm,
-    utmContent,
+    utmSource: params.utm_source,
+    utmMedium: params.utm_medium,
+    utmCampaign: params.utm_campaign,
+    utmTerm: params.utm_term,
+    utmContent: params.utm_content,
   };
 };
 
