@@ -71,7 +71,7 @@ exports[`Navbar > should render correctly 1`] = `
             class="group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-hidden data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 min-w-20 h-10 text-small gap-2 rounded-small [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none text-default-foreground z-10 aria-expanded:scale-[0.97] aria-expanded:opacity-70 subpixel-antialiased bg-transparent p-0 data-[hover=true]:bg-transparent"
             data-react-aria-pressable="true"
             data-slot="trigger"
-            id="react-aria-«r0»"
+            id="react-aria-_r_0_"
             tabindex="0"
             type="button"
           >
@@ -105,7 +105,7 @@ exports[`Navbar > should render correctly 1`] = `
             class="group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-hidden data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 min-w-20 h-10 text-small gap-2 rounded-small [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none text-default-foreground z-10 aria-expanded:scale-[0.97] aria-expanded:opacity-70 subpixel-antialiased bg-transparent p-0 data-[hover=true]:bg-transparent"
             data-react-aria-pressable="true"
             data-slot="trigger"
-            id="react-aria-«r3»"
+            id="react-aria-_r_3_"
             tabindex="0"
             type="button"
           >
