@@ -12,7 +12,10 @@
     "paths": {
       "@admin/*": ["apps/admin/src/*"],
       "@api/*": ["apps/api/src/*"],
-      "@web/*": ["apps/web/src/*"]
+      "@web/*": ["apps/web/src/*"],
+      "@sgcarstrends/database/*": ["packages/database/src/*"],
+      "@sgcarstrends/types/*": ["packages/types/src/*"],
+      "@sgcarstrends/utils/*": ["packages/utils/src/*"]
     }
   }
 }
