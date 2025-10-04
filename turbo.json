@@ -1,8 +1,8 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "envMode": "strict",
-  "globalDependencies": ["**/.env", "tsconfig.json"],
+  "envMode": "loose",
+  "globalDependencies": ["**/.env*", "tsconfig.json"],
   "globalEnv": ["NODE_ENV", "CI"],
   "globalPassThroughEnv": ["GITHUB_TOKEN", "VERCEL_TOKEN"],
   "tasks": {
@@ -12,8 +12,7 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
-      "env": ["DATABASE_URL", "NEXT_PUBLIC_*"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {
       "dependsOn": ["topo"],
@@ -30,12 +29,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "env": [
-        "DATABASE_URL",
-        "NEXT_PUBLIC_*",
-        "LTA_DATAMALL_API_KEY",
-        "GEMINI_API_KEY"
-      ]
+      "inputs": ["*.env*"]
     },
     "start": {
       "dependsOn": ["build"],
