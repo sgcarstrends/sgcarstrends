@@ -1,6 +1,7 @@
 "use client";
 
-import { HeroUIProvider, ToastProvider } from "@heroui/react";
+import { HeroUIProvider } from "@heroui/react";
+import { ToastProvider } from "@heroui/toast";
 import { TRPCReactProvider } from "@web/trpc/client";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
