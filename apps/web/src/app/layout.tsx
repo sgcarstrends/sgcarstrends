@@ -7,13 +7,12 @@ import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
 import { NotificationPrompt } from "@web/components/notification-prompt";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import { FEATURE_FLAG_UNRELEASED, SITE_TITLE, SITE_URL } from "@web/config";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
 import "./globals.css";
-import { cn } from "@heroui/react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Banner } from "@web/components/banner";
@@ -73,12 +72,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
             <LoadingIndicator />
             <Header />
             <Banner />
-            {/*TODO: Remove the condition after layout is fully migrated*/}
-            <main
-              className={cn("px-6 py-8", {
-                "container mx-auto": !FEATURE_FLAG_UNRELEASED,
-              })}
-            >
+            <main className="container mx-auto px-6 py-8">
               <UnreleasedFeature>
                 <SectionTabs />
               </UnreleasedFeature>
