@@ -43,3 +43,6 @@
 
 # Claude
 .claude
+
+# Turborepo
+.turbo
