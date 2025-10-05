@@ -6,7 +6,6 @@
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
   "scripts": {
-    "build": "echo 'API: No build step required for SST Lambda functions'",
     "dev": "sst dev --stage dev",
     "deploy:dev": "sst deploy --stage dev",
     "deploy:staging": "sst deploy --stage staging",
