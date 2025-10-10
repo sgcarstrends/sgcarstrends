@@ -1,6 +1,7 @@
 "use server";
 
 import { redis } from "@sgcarstrends/utils";
+import { updateTag } from "next/cache";
 
 export const incrementPostView = async (postId: string): Promise<number> => {
   try {
@@ -9,6 +10,10 @@ export const incrementPostView = async (postId: string): Promise<number> => {
 
     // Update popular posts ranking
     await redis.zadd("blog:popular", { score: newCount, member: postId });
+
+    // Use updateTag for immediate cache refresh with read-your-writes semantics
+    // This ensures the view counter updates immediately in the same request
+    updateTag(`views-${postId}`);
 
     return newCount;
   } catch (error) {

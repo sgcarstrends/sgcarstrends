@@ -1,21 +1,21 @@
 "use server";
 
 import { posts } from "@web/queries";
-import { RevalidateTags } from "@web/types";
-import { unstable_cache } from "next/cache";
+import { refresh } from "next/cache";
 
-export const getAllPosts = unstable_cache(
-  async () => {
-    try {
-      return await posts.getAllPosts();
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-      return [];
-    }
-  },
-  ["posts"],
-  { tags: [RevalidateTags.Blog] },
-);
+export const getAllPosts = async () => {
+  try {
+    const result = await posts.getAllPosts();
+
+    // Refresh uncached data to ensure latest posts are shown
+    refresh();
+
+    return result;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return [];
+  }
+};
 
 export const getPostBySlug = async (slug: string) => {
   try {
