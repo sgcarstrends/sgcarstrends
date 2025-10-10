@@ -1,8 +1,4 @@
-import {
-  getResendAudienceId,
-  NEWSLETTER_FROM_EMAIL,
-  resendClient,
-} from "@api/config/resend";
+import { NEWSLETTER_FROM_EMAIL, resend } from "@api/config/resend";
 import { options } from "@api/lib/workflows/options";
 import { createWorkflow } from "@upstash/workflow/hono";
 import { createMonthlyNewsletterContent } from "./audience-service";
@@ -11,7 +7,7 @@ export const newsletterWorkflow = createWorkflow(
   async (context) => {
     return context.run("Send monthly newsletter", async () => {
       try {
-        const audienceId = getResendAudienceId();
+        const audienceId = process.env.RESEND_AUDIENCE_ID;
 
         if (!audienceId) {
           console.error(
@@ -30,7 +26,7 @@ export const newsletterWorkflow = createWorkflow(
           content.month,
         );
 
-        const createResponse = await resendClient.broadcasts.create({
+        const createResponse = await resend.broadcasts.create({
           audienceId,
           from: NEWSLETTER_FROM_EMAIL,
           subject: content.subject,
@@ -68,7 +64,7 @@ export const newsletterWorkflow = createWorkflow(
           `[NEWSLETTER_WORKFLOW] Broadcast created successfully - Broadcast ID: ${broadcastId}`,
         );
 
-        const sendResponse = await resendClient.broadcasts.send(broadcastId);
+        const sendResponse = await resend.broadcasts.send(broadcastId);
 
         if (sendResponse.error) {
           const errorMessage = sendResponse.error.message;

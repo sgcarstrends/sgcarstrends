@@ -1,4 +1,4 @@
-import { getResendAudienceId, resendClient } from "@api/config/resend";
+import { resend } from "@api/config/resend";
 import {
   NewsletterAlreadySubscribedError,
   NewsletterConfigError,
@@ -13,7 +13,7 @@ const isAlreadySubscribedError = (message?: string | null) => {
 export const subscribeToNewsletter = async (
   email: string,
 ): Promise<NewsletterSubscriptionResult> => {
-  const audienceId = getResendAudienceId();
+  const audienceId = process.env.RESEND_AUDIENCE_ID;
 
   if (!audienceId) {
     throw new NewsletterConfigError(
@@ -22,7 +22,7 @@ export const subscribeToNewsletter = async (
   }
 
   try {
-    const response = await resendClient.contacts.create({
+    const response = await resend.contacts.create({
       email,
       audienceId,
     });
