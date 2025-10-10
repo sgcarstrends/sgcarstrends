@@ -53,7 +53,7 @@ graph TB
         subgraph "Lambda Function Details"
             subgraph "API Lambda Environment"
                 CoreEnv[Core: STAGE, DATABASE_URL, API_TOKEN]
-                AIEnv[AI: GEMINI_API_KEY] 
+                AIEnv[AI: GOOGLE_GENERATIVE_AI_API_KEY] 
                 QStashEnv[QStash: QSTASH_TOKEN, SIGNING_KEYS]
                 RedisEnv[Redis: UPSTASH_REDIS_REST_*]
                 SocialEnv[Social: DISCORD, LINKEDIN, TELEGRAM, TWITTER]
@@ -74,7 +74,7 @@ graph TB
         %% Data Sources
         subgraph "Data Sources"
             LTA[LTA DataMall APIs]
-            GeminiAI[Google Gemini AI]
+            GeminiAI[Vercel AI SDK + Google Gemini]
         end
         
         %% Message Queue

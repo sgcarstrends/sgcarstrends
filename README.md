@@ -9,7 +9,7 @@ This monorepo provides a complete platform for SG Cars Trends, tracking Singapor
 - **Web Application**: Next.js 15 frontend with enhanced homepage featuring latest COE results, interactive charts, analytics, and AI-generated blog content with responsive design
 - **REST API**: Hono-based API with type-safe endpoints for car registrations and COE results
 - **Integrated Data Updater**: QStash workflow-based system for fetching and processing LTA data
-- **LLM Blog Generation**: Automated blog post creation using Google Gemini AI for market insights
+- **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini for market insights
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter with trackable redirect routes
 - **Infrastructure**: SST v3 serverless deployment on AWS with multi-stage environments
 - **Documentation**: Comprehensive developer documentation with Mintlify
@@ -26,7 +26,7 @@ graph TB
     subgraph "Backend Services"
         API[API Service<br/>Hono Framework]
         WORKFLOWS[Data Workflows<br/>QStash]
-        LLM[Gemini AI<br/>Blog Generation]
+        LLM[Vercel AI SDK<br/>Blog Generation]
     end
     
     subgraph "Data Layer"
@@ -127,7 +127,7 @@ sgcarstrends/
 - **Caching**: Upstash Redis for API responses and analytics
 - **Infrastructure**: SST v3 (Serverless Stack) on AWS
 - **Scheduling**: QStash Workflows for data processing
-- **LLM Integration**: Google Gemini AI for blog content generation
+- **LLM Integration**: Vercel AI SDK with Google Gemini for blog content generation
 - **Package Management**: pnpm v10.13.1 workspace with catalog for centralized dependency management
 - **Build Tools**: Turbopack for fast development builds
 - **Testing**: Vitest (unit), Playwright (E2E) with comprehensive coverage

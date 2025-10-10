@@ -1,12 +1,11 @@
+import { google } from "@ai-sdk/google";
 import { SITE_URL } from "@api/config";
 import { savePost } from "@api/lib/workflows/save-post";
-import { GoogleGenAI } from "@google/genai";
 import type { WorkflowContext } from "@upstash/workflow";
+import { generateText } from "ai";
 import {
   type BlogGenerationParams,
   type BlogResult,
-  GEMINI_CONFIG,
-  GEMINI_MODEL,
   GENERATION_PROMPTS,
   SYSTEM_INSTRUCTIONS,
 } from "./config";
@@ -20,47 +19,38 @@ export const generatePost = async (
   return context.run(`Generate blog post for ${dataType}`, async () => {
     console.log(`${dataType} blog post generation started...`);
 
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
-    const response = await ai.models.generateContent({
-      model: GEMINI_MODEL,
-      contents: [
-        {
-          role: "user",
-          parts: [
-            {
-              text: `${dataType.toUpperCase()} data for ${month}: ${data}\n\n${GENERATION_PROMPTS[dataType]}`,
-            },
-          ],
-        },
-      ],
-      config: {
-        ...GEMINI_CONFIG,
-        systemInstruction: {
-          parts: [{ text: SYSTEM_INSTRUCTIONS[dataType] }],
+    const { text, usage, response } = await generateText({
+      model: google("gemini-2.5-flash"),
+      system: SYSTEM_INSTRUCTIONS[dataType],
+      tools: { code_execution: google.tools.codeExecution({}) },
+      prompt: `${dataType.toUpperCase()} data for ${month}: ${data}\n\n${GENERATION_PROMPTS[dataType]}`,
+      providerOptions: {
+        google: {
+          thinkingConfig: {
+            thinkingBudget: -1,
+          },
         },
       },
     });
 
-    const blogContent = response.text;
     console.log(`${dataType} blog post generated, saving to database...`);
 
     // Extract title from the first line (assuming it starts with # Title)
-    const lines = blogContent.split("\n");
+    const lines = text.split("\n");
     const titleLine = lines[0];
     const title = titleLine.replace(/^#+\s*/, "");
 
     // Save to database
     const post = await savePost({
       title,
-      content: blogContent,
+      content: text,
       metadata: {
         month,
         dataType,
-        modelVersion: response.modelVersion,
-        responseId: response.responseId,
-        createTime: response.createTime,
-        usageMetadata: response.usageMetadata,
+        responseId: response.id,
+        modelId: response.modelId,
+        timestamp: response.timestamp,
+        usage,
       },
     });
 

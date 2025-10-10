@@ -13,7 +13,7 @@ sequenceDiagram
     participant Redis as Redis Cache
     participant LTA as LTA DataMall
     participant DB as PostgreSQL DB
-    participant Gemini as Google Gemini AI
+    participant Gemini as Vercel AI SDK + Google Gemini
     participant Social as Social Media Platforms
     participant Users as End Users
 
@@ -199,7 +199,7 @@ sequenceDiagram
 
 **Purpose**: Create AI-powered market insights from processed data
 
-**AI Integration**: Google Gemini API for content generation
+**AI Integration**: Vercel AI SDK with Google Gemini for content generation
 
 **Content Creation Process**:
 
@@ -265,7 +265,7 @@ sequenceDiagram
 - `UPSTASH_REDIS_REST_*`: Redis configuration
 
 **AI Integration**:
-- `GEMINI_API_KEY`: Google Gemini AI access
+- `GOOGLE_GENERATIVE_AI_API_KEY`: Google Gemini API key (used by Vercel AI SDK)
 
 **Social Media**:
 - `DISCORD_WEBHOOK_URL`: Error notifications

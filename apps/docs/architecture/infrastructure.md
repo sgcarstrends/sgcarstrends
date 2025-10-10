@@ -60,7 +60,7 @@ graph TB
         subgraph "Lambda Function Details"
             subgraph "API Lambda Environment"
                 CoreEnv[Core: STAGE, DATABASE_URL, API_TOKEN]
-                AIEnv[AI: GEMINI_API_KEY] 
+                AIEnv[AI: GOOGLE_GENERATIVE_AI_API_KEY] 
                 QStashEnv[QStash: QSTASH_TOKEN, SIGNING_KEYS]
                 RedisEnv[Redis: UPSTASH_REDIS_REST_*]
                 SocialEnv[Social: DISCORD, LINKEDIN, TELEGRAM, TWITTER]
@@ -81,7 +81,7 @@ graph TB
         %% Data Sources
         subgraph "Data Sources"
             LTA[LTA DataMall APIs]
-            GeminiAI[Google Gemini AI]
+            GeminiAI[Vercel AI SDK + Google Gemini]
         end
         
         %% Message Queue
@@ -287,7 +287,7 @@ graph TB
 
 **Environment Variables**:
 - **Core**: `STAGE`, `DATABASE_URL`, `SG_CARS_TRENDS_API_TOKEN`
-- **AI Integration**: `GEMINI_API_KEY`
+- **AI Integration**: `GOOGLE_GENERATIVE_AI_API_KEY`
 - **Workflow**: `QSTASH_TOKEN`, `QSTASH_*_SIGNING_KEY`
 - **Caching**: `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
 - **Social Media**: Platform-specific credentials and webhook URLs
@@ -362,8 +362,9 @@ graph TB
 - **Update Frequency**: Daily updates for vehicle registration and COE data
 - **Rate Limits**: Respect API quotas and throttling
 
-**Google Gemini AI**:
+**Vercel AI SDK + Google Gemini**:
 - **Purpose**: LLM-powered blog content generation
+- **SDK**: Vercel AI SDK with Google Gemini provider
 - **Authentication**: API key authentication
 - **Usage**: Market analysis and content creation
 - **Rate Limits**: API quota management

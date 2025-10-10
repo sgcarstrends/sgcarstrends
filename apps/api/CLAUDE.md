@@ -22,7 +22,7 @@ bidding results. Key features include:
 - **REST API**: OpenAPI-documented endpoints using Hono framework
 - **Workflow System**: QStash-powered data processing workflows for automated updates
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Twitter, and Telegram
-- **Blog Generation**: LLM-powered blog post creation using Google Gemini AI
+- **Blog Generation**: LLM-powered blog post creation using Vercel AI SDK with Google Gemini
 - **tRPC Support**: Type-safe API endpoints with authentication
 - **Multi-stage Deployment**: SST-powered deployment to dev, staging, and production
 
@@ -56,7 +56,7 @@ bidding results. Key features include:
 - **src/routes/**: Workflow endpoints and social media webhooks
 - **src/trpc/**: Type-safe tRPC router with context creation
 - **src/lib/workflows/**: QStash workflows (cars, coe, posts, save-post, update-cars, update-coe, workflow, options)
-- **src/lib/gemini/**: LLM-powered blog post generation using Google Gemini AI
+- **src/lib/gemini/**: LLM-powered blog post generation using Vercel AI SDK with Google Gemini
 - **src/lib/social/**: Platform-specific social media posting logic
 - **src/config/**: Configuration for databases, Redis, QStash, and platforms
 - **src/utils/**: Utility functions for file processing, caching, and responses
@@ -67,7 +67,7 @@ The API uses a workflow-based system for data processing:
 
 - **Workflow Runtime** (`src/lib/workflows/workflow.ts`): Common workflow helpers, step runner, Redis timestamps
 - **Data Updaters** (`src/lib/workflows/update-cars.ts`, `src/lib/workflows/update-coe.ts`): Automated data fetching and processing
-- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Google Gemini via `src/lib/gemini/generate-post.ts`
+- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Vercel AI SDK with Google Gemini via `src/lib/gemini/generate-post.ts`
 - **Post Management** (`src/lib/workflows/save-post.ts`): Blog post persistence with idempotency support
 - **Main Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`): Main workflow orchestrators exposed as routes
 - **Social Publishing**: Automated posting to platforms when data updates occur
@@ -125,7 +125,7 @@ Required for local development (.env.local):
 - `UPSTASH_REDIS_REST_URL`: Redis caching URL
 - `UPSTASH_REDIS_REST_TOKEN`: Redis authentication
 - `UPSTASH_QSTASH_TOKEN`: QStash workflow token
-- `GEMINI_API_KEY`: Google Gemini AI for blog generation
+- `GOOGLE_GENERATIVE_AI_API_KEY`: Google Gemini API key for blog generation (used by Vercel AI SDK)
 - Social media platform tokens for integrations (Discord, LinkedIn, Twitter, Telegram)
 
 ## Code Style
