@@ -10,7 +10,6 @@ import { Hono } from "hono";
 import { handle } from "hono/aws-lambda";
 import { bearerAuth } from "hono/bearer-auth";
 import { compress } from "hono/compress";
-import { showRoutes } from "hono/dev";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
@@ -108,8 +107,6 @@ api.use(
 api.route("/workflows", workflows);
 api.route("/health", health);
 api.route("/v1", v1);
-
-showRoutes(api);
 
 app.route("/", api);
 
