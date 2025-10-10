@@ -72,7 +72,7 @@ graph TB
         QStash[QStash Workflow Orchestrator]
         LTA[LTA DataMall APIs]
         SocialPlatforms[Social Media Platforms]
-        GeminiAI[Google Gemini AI]
+        GeminiAI[Vercel AI SDK + Google Gemini]
     end
     
     %% Data Layer

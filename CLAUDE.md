@@ -52,8 +52,7 @@ Entitlement (COE) bidding results. The monorepo includes:
 - **Web Application**: Next.js frontend with interactive charts, analytics, and blog functionality
 - **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA
   DataMall (QStash workflows)
-- **LLM Blog Generation**: Automated blog post creation using Google Gemini AI to analyse market data and generate
-  insights
+- **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini to analyse market data and generate insights
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available
 - **Documentation**: Comprehensive developer documentation using Mintlify
 
@@ -187,7 +186,7 @@ The platform implements comprehensive UTM (Urchin Tracking Module) tracking for 
 - **apps/api**: Unified API service using Hono framework with integrated updater workflows
     - **src/v1**: API endpoints for data access
     - **src/lib/workflows**: Workflow-based data update system and social media integration
-    - **src/lib/gemini**: LLM blog generation using Google Gemini AI
+    - **src/lib/gemini**: LLM blog generation using Vercel AI SDK with Google Gemini
     - **src/routes**: API route handlers including workflow endpoints
     - **src/config**: Database, Redis, QStash, and platform configurations
     - **src/trpc**: Type-safe tRPC router with authentication
@@ -387,7 +386,7 @@ Required environment variables (store in .env.local for local development):
 - UPSTASH_REDIS_REST_TOKEN: Redis authentication token
 - UPDATER_API_TOKEN: Updater service token for scheduler
 - LTA_DATAMALL_API_KEY: API key for LTA DataMall (for updater service)
-- GEMINI_API_KEY: Google Gemini AI API key for blog post generation
+- GOOGLE_GENERATIVE_AI_API_KEY: Google Gemini API key for blog post generation (used by Vercel AI SDK)
 
 ## Deployment
 
@@ -453,7 +452,7 @@ The integrated updater service uses a workflow-based architecture with:
 - **Task Processing** (`src/lib/workflows/workflow.ts`): Common processing logic with Redis-based timestamp tracking
 - **Updater Core** (`src/lib/updater/`): File download, checksum verification, CSV processing, and database
   updates (with helpers under `src/lib/updater/services/`)
-- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Google Gemini AI
+- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Vercel AI SDK with Google Gemini
 - **Post Management** (`src/lib/workflows/save-post.ts`): Blog post persistence with slug generation and duplicate
   prevention
 - **Social Media** (`src/lib/social/*/`): Platform-specific posting functionality (Discord, LinkedIn, Telegram, Twitter)
@@ -479,8 +478,7 @@ The integrated updater service uses a workflow-based architecture with:
 
 ## LLM Blog Generation
 
-The platform features automated blog post generation using Google Gemini AI to create market insights from processed
-data:
+The platform features automated blog post generation using Vercel AI SDK with Google Gemini to create market insights from processed data:
 
 ### Blog Generation Process
 
@@ -595,7 +593,7 @@ Update component-specific CLAUDE.md files (`apps/*/CLAUDE.md`, `packages/*/CLAUD
 - New or modified API endpoints
 - Changes to workflow architecture or QStash integration
 - Updates to social media integration or posting logic
-- New LLM features or Gemini AI configuration
+- New LLM features or Vercel AI SDK configuration
 - Changes to tRPC router or authentication
 - Updates to Redis caching or data processing
 

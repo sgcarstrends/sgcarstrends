@@ -11,7 +11,7 @@ graph TB
     Cloudflare[Cloudflare DNS]
     
     %% AI Services
-    Gemini[Google Gemini AI]
+    Gemini[Vercel AI SDK + Google Gemini]
     
     %% Social Media Platforms
     Discord[Discord]
@@ -196,7 +196,7 @@ graph TB
 - Conditional blog generation when bidding cycles complete
 
 **Blog Generation Workflow**
-- Google Gemini AI integration for content creation
+- Vercel AI SDK with Google Gemini for content creation
 - Market analysis and insights generation
 - SEO optimization and metadata creation
 
@@ -204,7 +204,7 @@ graph TB
 
 **Data Sources**
 - **LTA DataMall**: Official Singapore vehicle and COE data
-- **Google Gemini AI**: LLM for automated blog content generation
+- **Vercel AI SDK + Google Gemini**: LLM for automated blog content generation
 
 **Social Media Platforms**
 - **Discord**: Webhook-based notifications
