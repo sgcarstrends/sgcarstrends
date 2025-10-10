@@ -19,6 +19,9 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
+  experimental: {
+    turbopackFileSystemCacheForDev: true,
+  },
   async headers() {
     return [
       {
