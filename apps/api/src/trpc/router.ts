@@ -1,6 +1,6 @@
 import { router } from "@api/trpc";
+import { newsletterRouter } from "./newsletter/router";
 import { healthRouter } from "./routers/health";
-import { newsletterRouter } from "./routers/newsletter";
 
 export const appRouter = router({
   health: healthRouter,

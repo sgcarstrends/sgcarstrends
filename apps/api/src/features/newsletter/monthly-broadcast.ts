@@ -1,34 +1,17 @@
+import {
+  getResendAudienceId,
+  NEWSLETTER_FROM_EMAIL,
+  resendClient,
+} from "@api/config/resend";
 import { options } from "@api/lib/workflows/options";
 import { createWorkflow } from "@upstash/workflow/hono";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM_EMAIL = "Newsletter <newsletter@updates.sgcarstrends.com>";
-
-const newsletterContent = () => {
-  const month = new Date().toISOString().slice(0, 7);
-  const subject = `Monthly Newsletter ${month}`;
-
-  const text = `${subject}
-
----
-You're receiving this because you subscribed to SG Cars Trends newsletter.
-Unsubscribe: {{{RESEND_UNSUBSCRIBE_URL}}}
-`.trim();
-
-  return {
-    name: `Monthly Newsletter ${month}`,
-    subject,
-    text,
-    month,
-  };
-};
+import { createMonthlyNewsletterContent } from "./audience-service";
 
 export const newsletterWorkflow = createWorkflow(
   async (context) => {
     return context.run("Send monthly newsletter", async () => {
       try {
-        const audienceId = process.env.RESEND_AUDIENCE_ID;
+        const audienceId = getResendAudienceId();
 
         if (!audienceId) {
           console.error(
@@ -40,15 +23,16 @@ export const newsletterWorkflow = createWorkflow(
           };
         }
 
-        const content = newsletterContent();
+        const content = createMonthlyNewsletterContent();
+
         console.log(
           "[NEWSLETTER_WORKFLOW] Creating newsletter broadcast for month:",
           content.month,
         );
 
-        const createResponse = await resend.broadcasts.create({
+        const createResponse = await resendClient.broadcasts.create({
           audienceId,
-          from: FROM_EMAIL,
+          from: NEWSLETTER_FROM_EMAIL,
           subject: content.subject,
           text: content.text,
           name: content.name,
@@ -84,7 +68,7 @@ export const newsletterWorkflow = createWorkflow(
           `[NEWSLETTER_WORKFLOW] Broadcast created successfully - Broadcast ID: ${broadcastId}`,
         );
 
-        const sendResponse = await resend.broadcasts.send(broadcastId);
+        const sendResponse = await resendClient.broadcasts.send(broadcastId);
 
         if (sendResponse.error) {
           const errorMessage = sendResponse.error.message;
