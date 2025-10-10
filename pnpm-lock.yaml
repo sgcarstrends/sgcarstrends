@@ -30,6 +30,9 @@ catalogs:
     react-dom:
       specifier: ^19.2.0
       version: 19.2.0
+    resend:
+      specifier: ^6.1.2
+      version: 6.1.2
     sst:
       specifier: ^3.17.10
       version: 3.17.10
@@ -269,7 +272,7 @@ importers:
         specifier: ^5.4.1
         version: 5.5.2
       resend:
-        specifier: ^6.1.2
+        specifier: 'catalog:'
         version: 6.1.2(@react-email/render@1.3.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0))
       twitter-api-v2:
         specifier: ^1.23.0
@@ -465,7 +468,7 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0
       resend:
-        specifier: ^6.1.2
+        specifier: 'catalog:'
         version: 6.1.2(@react-email/render@1.3.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0))
       schema-dts:
         specifier: ^1.1.5
