@@ -1,8 +1,10 @@
 import crypto from "node:crypto";
 import { client } from "@api/config/qstash";
 import { WORKFLOWS_BASE_URL } from "@api/config/workflow";
+import { newsletterWorkflow } from "@api/features/newsletter";
 import { carsWorkflow } from "@api/lib/workflows/cars";
 import { coeWorkflow } from "@api/lib/workflows/coe";
+import { registerNewsletterRoutes } from "@api/rest/newsletter/routes";
 import { WorkflowTriggerResponseSchema } from "@api/schemas";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { serveMany } from "@upstash/workflow/hono";
@@ -83,11 +85,14 @@ app.openapi(
   },
 );
 
+registerNewsletterRoutes(app);
+
 app.post(
   "/*",
   serveMany({
     cars: carsWorkflow,
     coe: coeWorkflow,
+    newsletter: newsletterWorkflow,
   }),
 );
 

@@ -6,6 +6,7 @@ import months from "./routes/months";
 
 const app = new OpenAPIHono();
 
+// Protected routes (bearer token required)
 app.use(bearerAuth({ token: process.env.SG_CARS_TRENDS_API_TOKEN as string }));
 
 app.route("/cars", cars);

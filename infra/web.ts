@@ -14,6 +14,8 @@ export const web = new sst.aws.Nextjs("Web", {
     NEXT_PUBLIC_APP_ENV: $app.stage,
     NEXT_PUBLIC_REVALIDATE_TOKEN: process.env
       .NEXT_PUBLIC_REVALIDATE_TOKEN as string,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    RESEND_AUDIENCE_ID: process.env.RESEND_AUDIENCE_ID,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL as string,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN as string,
   },
