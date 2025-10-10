@@ -1,15 +1,3 @@
-import type { GenerateContentConfig } from "@google/genai";
-
-export const GEMINI_MODEL = "gemini-flash-latest";
-
-export const GEMINI_CONFIG: GenerateContentConfig = {
-  thinkingConfig: {
-    thinkingBudget: -1,
-  },
-  responseMimeType: "text/plain",
-  tools: [{ codeExecution: {} }],
-};
-
 export interface BlogGenerationParams {
   data: string;
   month: string;

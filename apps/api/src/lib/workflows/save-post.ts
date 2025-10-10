@@ -1,15 +1,21 @@
-import type { GenerateContentResponse } from "@google/genai";
 import { db, posts } from "@sgcarstrends/database";
 import slugify from "@sindresorhus/slugify";
+import type { LanguageModelResponseMetadata, LanguageModelUsage } from "ai";
 import { and, eq } from "drizzle-orm";
+
+export interface PostMetadata {
+  month: string;
+  dataType: "cars" | "coe";
+  responseId: LanguageModelResponseMetadata["id"];
+  modelId: LanguageModelResponseMetadata["modelId"];
+  timestamp: LanguageModelResponseMetadata["timestamp"];
+  usage: LanguageModelUsage;
+}
 
 export interface BlogPost {
   title: string;
   content: string;
-  metadata: Partial<GenerateContentResponse> & {
-    month: string;
-    dataType: string;
-  };
+  metadata: PostMetadata;
 }
 
 export const savePost = async (data: BlogPost) => {

@@ -36,7 +36,7 @@ export const api = new sst.aws.Function("Api", {
     UPDATER_API_TOKEN: process.env.UPDATER_API_TOKEN as string,
 
     // AI/LLM
-    GEMINI_API_KEY: process.env.GEMINI_API_KEY as string,
+    GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
 
     // QStash/Upstash
     QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
