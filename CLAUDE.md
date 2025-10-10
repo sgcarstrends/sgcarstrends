@@ -546,3 +546,124 @@ Releases are automated using semantic-release based on conventional commits:
 - Maintain backward compatibility for public APIs
 - Follow project spelling and commit message conventions as outlined in Code Style section
 - **Use GitHub issue templates** when available - always follow established templates when creating or managing GitHub issues
+
+## Documentation Maintenance
+
+This section defines when changes require updates to project documentation.
+
+### Documentation File Structure
+
+The monorepo contains multiple documentation files:
+
+- **Root CLAUDE.md**: Cross-cutting concerns, monorepo structure, shared commands
+- **Component CLAUDE.md files**: `apps/api/CLAUDE.md`, `apps/web/CLAUDE.md`, `packages/database/CLAUDE.md`, `infra/CLAUDE.md`
+- **README.md files**: Package-specific setup and usage instructions
+- **Architecture docs**: `apps/docs/architecture/*.md` for system design and diagrams
+
+### When to Update Root CLAUDE.md
+
+Update this file when making changes that affect the entire monorepo or cross-cutting concerns:
+
+**Monorepo Structure:**
+- New apps or packages added to workspace
+- Changes to pnpm catalog or dependency management
+- Updates to Turbo build configuration or task orchestration
+- New shared packages or workspace utilities
+
+**Cross-Cutting Commands:**
+- New pnpm scripts in root package.json
+- Changes to build, test, or deployment commands
+- Updates to database migration commands
+- New documentation or release commands
+
+**Shared Configuration:**
+- Changes to git hooks (Husky, lint-staged, commitlint)
+- Updates to Biome configuration or code style rules
+- New environment variables affecting multiple packages
+- Changes to release process or semantic-release configuration
+
+**Deployment & Infrastructure:**
+- Updates to domain convention or DNS strategy
+- Changes to AWS region, architecture, or deployment patterns
+- New deployment environments or commands
+
+### When to Update Component CLAUDE.md Files
+
+Update component-specific CLAUDE.md files (`apps/*/CLAUDE.md`, `packages/*/CLAUDE.md`) for changes affecting that component:
+
+**API Service (`apps/api/CLAUDE.md`):**
+- New or modified API endpoints
+- Changes to workflow architecture or QStash integration
+- Updates to social media integration or posting logic
+- New LLM features or Gemini AI configuration
+- Changes to tRPC router or authentication
+- Updates to Redis caching or data processing
+
+**Web Application (`apps/web/CLAUDE.md`):**
+- New pages or routes
+- Changes to blog functionality or analytics
+- Updates to HeroUI components or styling patterns
+- New server actions or client components
+- Changes to UTM tracking or social media redirects
+
+**Database (`packages/database/CLAUDE.md`):**
+- New tables or schema changes
+- Updates to migration workflow
+- Changes to Drizzle ORM configuration or naming conventions
+- New database utilities or helper functions
+
+**Infrastructure (`infra/CLAUDE.md`):**
+- Changes to SST configuration or AWS resources
+- Updates to domain management or SSL setup
+- New infrastructure components or services
+
+### When to Update README.md Files
+
+Update README.md files when making changes that affect setup, usage, or user-facing features:
+
+**User-Facing Features:**
+- New blog features or analytics capabilities
+- Changes to API endpoints or data access patterns
+- Updates to social media integration or redirect routes
+- New visualization or charting features
+
+**Setup & Installation:**
+- Changes to installation steps or prerequisites
+- New environment variables required for setup
+- Updates to API key requirements (LTA DataMall, Gemini, etc.)
+- Changes to database setup or migration process
+
+**Tech Stack:**
+- Major dependency changes or framework updates
+- New external services (Upstash, QStash, etc.)
+- Updates to AI models or providers
+- Changes to build tools or runtime requirements
+
+### When to Update Architecture Documentation
+
+Update architecture docs (`apps/docs/architecture/*.md`) for significant structural changes:
+
+**System Architecture:**
+- New services or major component additions
+- Changes to data flow or processing pipelines
+- Updates to integration patterns between components
+
+**Diagrams:**
+- Update corresponding Mermaid diagrams in `apps/docs/diagrams/` when architecture changes
+- Regenerate diagrams when entity relationships or workflows change
+
+### Quick Reference Checklist
+
+Before committing changes, ask:
+
+- [ ] Did I add a new package or app? → Update **root CLAUDE.md** Monorepo Structure
+- [ ] Did I add/modify API endpoints? → Update **apps/api/CLAUDE.md** and potentially **root CLAUDE.md** API Endpoints
+- [ ] Did I change database schema? → Update **packages/database/CLAUDE.md** and run migrations
+- [ ] Did I add environment variables? → Update **relevant CLAUDE.md** and **README.md** files
+- [ ] Did I modify workflows or social media integration? → Update **apps/api/CLAUDE.md**
+- [ ] Did I add user-facing features? → Update **apps/web/CLAUDE.md** and **README.md**
+- [ ] Did I change infrastructure? → Update **infra/CLAUDE.md**
+- [ ] Did I modify system architecture? → Update **apps/docs/architecture/** and diagrams
+- [ ] Did I add monorepo commands or change build process? → Update **root CLAUDE.md**
+
+**Rule of thumb**: If it changes behavior, configuration, structure, or developer workflow, update documentation. When in doubt, update it. Component-specific changes update component docs; cross-cutting changes update root docs.
