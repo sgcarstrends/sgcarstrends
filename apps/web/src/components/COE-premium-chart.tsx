@@ -1,7 +1,11 @@
 "use client";
 
-import { numberFormat } from "@ruchernchong/number-format";
 import useStore from "@web/app/store";
+import {
+  currencyTooltipFormatter,
+  MonthXAxis,
+  PriceYAxis,
+} from "@web/components/charts/shared-chart-components";
 import {
   Card,
   CardContent,
@@ -28,14 +32,8 @@ import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { addYears, format, parse, subMonths } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
-import {
-  type CSSProperties,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { CartesianGrid, Line, LineChart } from "recharts";
 
 interface Props {
   data: COEBiddingResult[];
@@ -172,53 +170,24 @@ export const COEPremiumChart = ({ data, months }: Props) => {
             aria-label={`COE premium trends chart showing ${TIME_RANGES.find((range) => range.timeRange === timeRange)?.label.toLowerCase()} data for selected categories`}
           >
             <CartesianGrid />
-            <XAxis
-              dataKey="month"
-              tickFormatter={formatDateToMonthYear}
-              axisLine={false}
-            />
-            <YAxis
-              domain={[
-                (dataMin: number) => Math.floor(dataMin / 10000) * 10000,
-                (dataMax: number) => Math.ceil(dataMax / 10000) * 10000,
-              ]}
-              tickFormatter={numberFormat}
-              axisLine={false}
-              hide
-            >
-              <Label
-                value="Quota Premium (S$)"
-                angle={-90}
-                position="insideLeft"
-                style={{ textAnchor: "middle" }}
-              />
-            </YAxis>
+            <MonthXAxis tickFormatter={formatDateToMonthYear} />
+            <PriceYAxis label="Quota Premium (S$)" hide />
             <ChartTooltip
               cursor={false}
               content={
                 <ChartTooltipContent
                   indicator="line"
                   labelFormatter={formatDateToMonthYear}
-                  formatter={(value: any, name, _, index) => (
-                    <>
-                      <div
-                        className="size-2.5 shrink-0 rounded-[2px] bg-(--colour-bg)"
-                        style={
-                          {
-                            "--colour-bg": `var(--chart-${index + 1})`,
-                          } as CSSProperties
-                        }
-                      />
-                      {name}
-                      <div className="ml-auto flex items-baseline gap-0.5 font-medium text-foreground tabular-nums">
-                        {new Intl.NumberFormat("en-SG", {
-                          style: "currency",
-                          currency: "SGD",
-                          minimumFractionDigits: 0,
-                        }).format(value)}
-                      </div>
-                    </>
-                  )}
+                  formatter={(value, name, _, index) =>
+                    currencyTooltipFormatter({
+                      value:
+                        typeof value === "number"
+                          ? value
+                          : Number.parseFloat(String(value)),
+                      name,
+                      index,
+                    })
+                  }
                 />
               }
             />

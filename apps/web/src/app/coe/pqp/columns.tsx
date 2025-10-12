@@ -1,16 +1,16 @@
 "use client";
 
-import { formatCurrency } from "@web/utils/format-currency";
-import type { PQP } from "@web/types";
 import type { ColumnDef } from "@tanstack/react-table";
+import type { Pqp } from "@web/types/coe";
+import { formatCurrency } from "@web/utils/format-currency";
 
-const createCategoryColumn = (category: string): ColumnDef<PQP> => ({
+const createCategoryColumn = (category: string): ColumnDef<Pqp.TableRow> => ({
   accessorKey: category,
   header: category,
   cell: ({ row }) => `S${formatCurrency(row.getValue<number>(category))}`,
 });
 
-export const columns: ColumnDef<PQP>[] = [
+export const columns: ColumnDef<Pqp.TableRow>[] = [
   {
     accessorKey: "month",
     header: "Month",

@@ -1,26 +1,20 @@
-import { Alert } from "@heroui/alert";
 import { redis } from "@sgcarstrends/utils";
-import { PQPCalculator } from "@web/components/coe/pqp-calculator";
-import { PQPTable } from "@web/components/coe/pqp-table";
+import { getPQPOverview } from "@web/actions";
+import {
+  AnimatedSection,
+  ComparisonMixedChart,
+  ComparisonSummaryCard,
+  DataTable,
+  RenewalCalculator,
+  TrendsChart,
+} from "@web/components/coe/pqp";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import {
-  API_URL,
-  LAST_UPDATED_COE_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import type { PQP } from "@web/types";
-import { getLatestCOEResults } from "@web/utils/api/coe";
-import { fetchApi } from "@web/utils/fetch-api";
+import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import type { Pqp } from "@web/types/coe";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
-
-export interface PqpRate extends PQP {
-  key: string;
-  month: string;
-}
 
 const title = "COE PQP Rates";
 const description =
@@ -52,20 +46,11 @@ export const generateMetadata = (): Metadata => {
 };
 
 const PQPRatesPage = async () => {
-  const [pqpRates, latestCOEResults] = await Promise.all([
-    fetchApi<Record<string, PQP>>(`${API_URL}/coe/pqp`),
-    getLatestCOEResults(),
-  ]);
+  const overview = await getPQPOverview();
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
 
-  const rows: PqpRate[] = Object.entries(pqpRates).map(([month, pqpRates]) => ({
-    key: month,
-    month,
-    ...pqpRates,
-  }));
-
-  const columns = [
+  const columns: Pqp.TableColumn[] = [
     { key: "month", label: "Month", sortable: true },
     { key: "Category A", label: "Category A" },
     { key: "Category B", label: "Category B" },
@@ -84,44 +69,31 @@ const PQPRatesPage = async () => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-y-4">
-        <PageHeader title="PQP RATES" lastUpdated={lastUpdated} />
-        <Alert
-          hideIconWrapper
-          color="primary"
-          variant="faded"
-          title="Understanding PQP Rates"
-          description={
-            <div className="flex flex-col gap-2">
-              <p>
-                Certificate of Entitlement (COE) Prevailing Quota Premium (PQP)
-                rates are specific to Singapore&apos;s vehicle ownership system.
-                They represent the average COE prices over the last 3 months,
-                which car owners must pay to renew their existing vehicle&apos;s
-                COE.
-              </p>
-              <p>
-                The PQP system allows car owners to extend their COE for another
-                5 or 10 years by paying the prevailing market rate rather than
-                bidding in the open market. This is particularly relevant for
-                owners who wish to keep their vehicles beyond the initial
-                10-year COE period.
-              </p>
-              <p>
-                The Land Transport Authority (LTA) calculates and updates these
-                rates monthly based on the moving average of COE prices in the
-                preceding three months.
-              </p>
-            </div>
-          }
-        />
-        <PQPTable rows={rows} columns={columns} />
-        <UnreleasedFeature>
-          <PQPCalculator
-            pqpData={pqpRates}
-            latestCOEResults={latestCOEResults}
-          />
-        </UnreleasedFeature>
+      <div className="flex flex-col gap-4">
+        <AnimatedSection order={0}>
+          <PageHeader title="PQP RATES" lastUpdated={lastUpdated} />
+        </AnimatedSection>
+
+        <AnimatedSection order={1}>
+          <ComparisonSummaryCard data={overview.comparison} />
+        </AnimatedSection>
+
+        <AnimatedSection order={2}>
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <TrendsChart data={overview.trendData} />
+            <ComparisonMixedChart data={overview.comparison} />
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection order={3}>
+          <DataTable rows={overview.tableRows} columns={columns} />
+        </AnimatedSection>
+
+        <AnimatedSection order={4}>
+          <UnreleasedFeature>
+            <RenewalCalculator data={overview.categorySummaries} />
+          </UnreleasedFeature>
+        </AnimatedSection>
       </div>
     </>
   );

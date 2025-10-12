@@ -25,7 +25,7 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import { type COEResult, type PQP, RevalidateTags } from "@web/types";
+import { type COEResult, RevalidateTags } from "@web/types";
 import {
   getCOEResults,
   getLatestCOEResults,

@@ -1,6 +1,7 @@
 import { API_URL } from "@web/config";
-import type { COEResult, PQP } from "@web/types";
+import type { COEResult } from "@web/types";
 import { RevalidateTags } from "@web/types";
+import type { Pqp } from "@web/types/coe";
 import { CACHE_DURATION, fetchApi } from "@web/utils/fetch-api";
 import { cache } from "react";
 
@@ -112,14 +113,16 @@ export const getCOEResultsByPeriod = cache(
 /**
  * Cached PQP (Prevailing Quota Premium) data fetcher
  */
-export const getPQPData = cache(async (): Promise<Record<string, PQP>> => {
-  return fetchApi<Record<string, PQP>>(`${API_URL}/coe/pqp`, {
-    next: {
-      tags: [RevalidateTags.COE, "pqp"],
-      revalidate: CACHE_DURATION,
-    },
-  });
-});
+export const getPQPData = cache(
+  async (): Promise<Record<string, Pqp.Rates>> => {
+    return fetchApi<Record<string, Pqp.Rates>>(`${API_URL}/coe/pqp`, {
+      next: {
+        tags: [RevalidateTags.COE, "pqp"],
+        revalidate: CACHE_DURATION,
+      },
+    });
+  },
+);
 
 /**
  * Cached latest month data fetcher for COE

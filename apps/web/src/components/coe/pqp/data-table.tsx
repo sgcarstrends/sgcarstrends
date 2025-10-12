@@ -10,24 +10,18 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/table";
-import type { PqpRate } from "@web/app/coe/pqp/page";
 import { Currency } from "@web/components/currency";
+import type { Pqp } from "@web/types/coe";
 import { ArrowUpDown } from "lucide-react";
 import { type Key, useCallback, useMemo, useState } from "react";
 
-interface Column {
-  key: string;
-  label: string;
-  sortable?: boolean;
-}
-
 interface Props {
-  rows: PqpRate[];
-  columns: Column[];
+  rows: Pqp.TableRow[];
+  columns: Pqp.TableColumn[];
   rowsPerPage?: number;
 }
 
-export const PQPTable = ({ rows, columns, rowsPerPage = 10 }: Props) => {
+export const DataTable = ({ rows, columns, rowsPerPage = 10 }: Props) => {
   const [page, setPage] = useState(1);
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "month",
@@ -68,8 +62,8 @@ export const PQPTable = ({ rows, columns, rowsPerPage = 10 }: Props) => {
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = useCallback((row: PqpRate, columnKey: Key) => {
-    const cellValue = row[columnKey as keyof PqpRate];
+  const renderCell = useCallback((row: Pqp.TableRow, columnKey: Key) => {
+    const cellValue = row[columnKey as keyof Pqp.TableRow];
 
     switch (columnKey) {
       case "Category A":
