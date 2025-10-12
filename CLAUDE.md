@@ -388,6 +388,12 @@ Required environment variables (store in .env.local for local development):
 - LTA_DATAMALL_API_KEY: API key for LTA DataMall (for updater service)
 - GOOGLE_GENERATIVE_AI_API_KEY: Google Gemini API key for blog post generation (used by Vercel AI SDK)
 
+Optional environment variables for LLM observability:
+
+- LANGFUSE_PUBLIC_KEY: Langfuse public key for LLM observability and analytics
+- LANGFUSE_SECRET_KEY: Langfuse secret key for LLM observability and analytics
+- LANGFUSE_HOST: Langfuse host URL (defaults to https://cloud.langfuse.com, use https://us.cloud.langfuse.com for US region)
+
 ## Deployment
 
 - AWS Region: ap-southeast-1 (Singapore)
@@ -503,6 +509,19 @@ The platform features automated blog post generation using Vercel AI SDK with Go
 - **Social Media Promotion**: New blog posts automatically announced across all configured platforms
 - **SEO Integration**: Dynamic Open Graph images, structured data, and canonical URLs
 - **Content Management**: Posts stored with metadata including generation details and data source month
+
+### LLM Observability with Langfuse
+
+The platform integrates **Langfuse** for comprehensive LLM observability and analytics on blog generation:
+
+- **Token Usage Tracking**: Monitor prompt tokens, completion tokens, and total usage per generation
+- **Cost Analysis**: Track API costs with model-specific pricing (Google Gemini 2.5 Flash)
+- **Performance Monitoring**: Measure latency, response times, and identify bottlenecks
+- **Prompt Optimization**: Analyze system instructions and prompt effectiveness for quality improvements
+- **Error Debugging**: Detailed traces for troubleshooting generation failures with full context
+- **Environment Tracking**: Automatic tagging with stage (dev/staging/prod) for environment-specific analysis
+
+Langfuse integration uses **OpenTelemetry** with Vercel AI SDK's experimental telemetry feature. The instrumentation is optional and automatically disabled if credentials are not provided. See [apps/api/CLAUDE.md](apps/api/CLAUDE.md) for detailed configuration instructions.
 
 ## Shared Package Architecture
 

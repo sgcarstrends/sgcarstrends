@@ -126,6 +126,9 @@ Required for local development (.env.local):
 - `UPSTASH_REDIS_REST_TOKEN`: Redis authentication
 - `UPSTASH_QSTASH_TOKEN`: QStash workflow token
 - `GOOGLE_GENERATIVE_AI_API_KEY`: Google Gemini API key for blog generation (used by Vercel AI SDK)
+- `LANGFUSE_PUBLIC_KEY`: Langfuse public key for LLM observability (optional)
+- `LANGFUSE_SECRET_KEY`: Langfuse secret key for LLM observability (optional)
+- `LANGFUSE_HOST`: Langfuse host URL, defaults to https://cloud.langfuse.com (optional)
 - Social media platform tokens for integrations (Discord, LinkedIn, Twitter, Telegram)
 
 ## Code Style
@@ -154,3 +157,74 @@ Each platform has dedicated posting logic in `src/lib/social/*/`:
 - **Conditional Publishing**: Environment-based platform enabling
 - **Error Notifications**: Discord notifications for posting failures
 - **Content Formatting**: Platform-appropriate message formatting and link handling
+
+## LLM Observability with Langfuse
+
+The API integrates Langfuse for comprehensive LLM observability and analytics:
+
+### Features
+
+- **Token Usage Tracking**: Monitor prompt tokens, completion tokens, and total tokens for each blog generation
+- **Cost Analysis**: Track API costs per generation with model-specific pricing (Gemini 2.5 Flash)
+- **Performance Monitoring**: Measure latency, response times, and identify bottlenecks
+- **Prompt Effectiveness**: Analyze system instructions and prompt performance
+- **Error Debugging**: Detailed traces for troubleshooting generation failures
+- **Environment Tracking**: Automatically tag traces with stage (dev/staging/prod)
+
+### Implementation
+
+- **Instrumentation**: `src/instrumentation.ts` - OpenTelemetry setup with Langfuse span processor
+- **Telemetry**: Enabled in `src/lib/gemini/generate-post.ts` via Vercel AI SDK's experimental telemetry
+- **Automatic Initialization**: Instrumentation starts on Lambda cold start before any imports
+- **Optional**: Langfuse credentials are optional - API works without them
+
+### Configuration
+
+Set the following environment variables to enable Langfuse:
+
+```bash
+LANGFUSE_PUBLIC_KEY=pk-lf-...
+LANGFUSE_SECRET_KEY=sk-lf-...
+LANGFUSE_HOST=https://cloud.langfuse.com  # Or https://us.cloud.langfuse.com for US region
+```
+
+### Trace Metadata
+
+Each blog post generation trace includes:
+
+- `functionId`: `post-generation/cars` or `post-generation/coe`
+- `month`: Data month being processed
+- `dataType`: Either "cars" or "coe"
+- `stage`: Environment (from `VERCEL_ENV` or `STAGE`)
+- Model usage: Prompt tokens, completion tokens, total tokens
+- Response metadata: Response ID, model ID, timestamp
+
+### Quality Scoring
+
+Automated quality scores are calculated and attached to each generation trace:
+
+#### Content Quality Score (0-1)
+Evaluates post structure and completeness:
+- **Word count** (400-600 words target): 0.3 points
+- **Title presence** (# header): 0.2 points
+- **Section headers** (## headers, 2+ required): 0.2 points
+- **Data tables** (markdown tables, 3+ rows): 0.2 points
+- **Bullet points** (list formatting): 0.1 points
+
+#### Token Efficiency Score (0-1)
+Measures output quality vs. tokens consumed:
+- **Optimal** (1.5-2.5 tokens/word): 1.0
+- **Too efficient** (<1.5 tokens/word): 0.8 (may indicate low quality)
+- **Acceptable** (2.5-3.5 tokens/word): 0.7
+- **Inefficient** (>3.5 tokens/word): 0.5
+
+#### Generation Success Score (0-1)
+Indicates completion status:
+- **Complete** (no errors, proper ending): 1.0
+- **Partial** (incomplete or truncated): 0.5
+- **Failed** (error occurred): 0.0
+
+#### Overall Score
+Average of all three scores, providing a single quality metric per generation.
+
+**Viewing Scores**: All scores are visible in Langfuse dashboard as span attributes (`score.content_quality`, `score.token_efficiency`, `score.generation_success`, `score.overall`).
