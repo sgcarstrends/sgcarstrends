@@ -4,8 +4,8 @@ import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { AnimatedNumber } from "@web/components/animated-number";
 import type { Pqp } from "@web/types/coe";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
 
 interface Props {
   data: Pqp.Comparison[];
