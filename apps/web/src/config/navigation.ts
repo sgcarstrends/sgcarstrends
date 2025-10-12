@@ -29,6 +29,8 @@ export interface NavigationItem {
   icon: LucideIcon;
   description: string;
   show?: boolean;
+  badge?: "beta" | "new";
+  iconColor?: string;
 }
 
 export interface SocialMedia {
@@ -38,12 +40,7 @@ export interface SocialMedia {
 }
 
 export interface NavLinks {
-  cars: {
-    overview: NavigationItem;
-    makes: NavigationItem;
-    fuelTypes: NavigationItem;
-    vehicleTypes: NavigationItem;
-  };
+  cars: NavigationItem[];
   coe: NavigationItem[];
   general: NavigationItem[];
   socialMedia: SocialMedia[];
@@ -83,32 +80,37 @@ const socialMedia: SocialMedia[] = [
 ];
 
 export const navLinks: NavLinks = {
-  cars: {
-    overview: {
+  cars: [
+    {
       title: "New Registrations",
       url: "/cars",
       icon: FilePlus,
       description: "Monthly car registration statistics and trends",
+      iconColor: "text-blue-500",
     },
-    makes: {
+    {
       title: "Makes",
       url: "/cars/makes",
       icon: CarFront,
       description: "Car makes statistics and market share analysis",
+      badge: "beta",
+      iconColor: "text-pink-500",
     },
-    fuelTypes: {
+    {
       title: "Fuel Types",
       url: "/cars/fuel-types",
       icon: Fuel,
       description: "Breakdown by petrol, diesel, hybrid and electric",
+      iconColor: "text-green-500",
     },
-    vehicleTypes: {
+    {
       title: "Vehicle Types",
       url: "/cars/vehicle-types",
       icon: Car,
       description: "Analysis of saloons, hatchbacks, SUVs and more",
+      iconColor: "text-purple-500",
     },
-  },
+  ],
   coe: [
     {
       title: "Overview",
