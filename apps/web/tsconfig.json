@@ -23,5 +23,5 @@
     "types": ["next", "vitest/globals"]
   },
   "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", ".sst"]
+  "exclude": ["node_modules", "**/components/ui/**"]
 }
