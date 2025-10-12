@@ -27,6 +27,7 @@
     "@heroui/chip": "^2.2.20",
     "@heroui/input": "^2.4.27",
     "@heroui/pagination": "^2.2.23",
+    "@heroui/popover": "^2.3.27",
     "@heroui/react": "^2.8.1",
     "@heroui/spacer": "^2.2.18",
     "@heroui/spinner": "^2.2.23",
