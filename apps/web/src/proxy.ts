@@ -1,7 +1,7 @@
 import { DOMAIN_NAME } from "@web/config";
 import { type NextRequest, NextResponse } from "next/server";
 
-export const middleware = (request: NextRequest) => {
+export const proxy = (request: NextRequest) => {
   // TODO: Temporary method for now
   const isMaintenanceMode = process.env.MAINTENANCE_MODE === "true";
 
