@@ -52,13 +52,6 @@ export interface COEResult {
   premium: number;
 }
 
-export type PQP = {
-  "Category A": number;
-  "Category B": number;
-  "Category C": number;
-  "Category D": number;
-};
-
 export interface LatestMonth {
   cars: string;
   coe: string;
@@ -127,21 +120,9 @@ export interface CategoryData {
   vehicleType: TypeItem[];
 }
 
-export interface TrendPoint {
-  month: string;
-  total: number;
-  [key: string]: number | string;
-}
-
-export interface MarketInsight {
-  title: string;
-  value: string | number;
-  delta?: number;
-  deltaType?: "increase" | "decrease" | "unchanged";
-  description?: string;
-}
-
 export interface Announcement {
   content: string;
   paths?: string[];
 }
+
+export type { Pqp } from "./coe";
