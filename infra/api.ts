@@ -38,6 +38,11 @@ export const api = new sst.aws.Function("Api", {
     // AI/LLM
     GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
 
+    // Langfuse (LLM Observability)
+    LANGFUSE_PUBLIC_KEY: process.env.LANGFUSE_PUBLIC_KEY,
+    LANGFUSE_SECRET_KEY: process.env.LANGFUSE_SECRET_KEY,
+    LANGFUSE_HOST: process.env.LANGFUSE_HOST,
+
     // QStash/Upstash
     QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
     QSTASH_CURRENT_SIGNING_KEY: process.env

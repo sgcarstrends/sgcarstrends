@@ -1,5 +1,6 @@
 import { google } from "@ai-sdk/google";
 import { SITE_URL } from "@api/config";
+import { shutdownTracing, startTracing } from "@api/instrumentation";
 import { savePost } from "@api/lib/workflows/save-post";
 import type { WorkflowContext } from "@upstash/workflow";
 import { generateText } from "ai";
@@ -17,6 +18,9 @@ export const generatePost = async (
   const { data, month, dataType } = params;
 
   return context.run(`Generate blog post for ${dataType}`, async () => {
+    // Initialize LangFuse tracing
+    startTracing();
+
     console.log(`${dataType} blog post generation started...`);
 
     const { text, usage, response } = await generateText({
@@ -29,6 +33,15 @@ export const generatePost = async (
           thinkingConfig: {
             thinkingBudget: -1,
           },
+        },
+      },
+      experimental_telemetry: {
+        isEnabled: true,
+        functionId: `post-generation/${dataType}`,
+        metadata: {
+          month,
+          dataType,
+          tags: [dataType, month, "post-generation"],
         },
       },
     });
@@ -80,6 +93,9 @@ export const generatePost = async (
       console.error("Error revalidating blog cache:", error);
       // Don't fail blog generation if revalidation fails
     }
+
+    // Shutdown tracing to flush remaining spans
+    await shutdownTracing();
 
     return {
       success: true,
