@@ -1,16 +1,10 @@
 "use server";
 
 import { posts } from "@web/queries";
-import { refresh } from "next/cache";
 
 export const getAllPosts = async () => {
   try {
-    const result = await posts.getAllPosts();
-
-    // Refresh uncached data to ensure latest posts are shown
-    refresh();
-
-    return result;
+    return await posts.getAllPosts();
   } catch (error) {
     console.error("Error fetching posts:", error);
     return [];
