@@ -1,12 +1,13 @@
 name: Deploy (Pull Request Preview)
 
 on:
-  pull_request:
-    types: [opened, synchronize]
-    paths:
-      - 'apps/api/**'
-      - 'apps/web/**'
-      - 'packages/**'
+  #  pull_request:
+  #    types: [opened, synchronize]
+  #    paths:
+  #      - 'apps/api/**'
+  #      - 'apps/web/**'
+  #      - 'packages/**'
+  workflow_dispatch:
 
 permissions:
   id-token: write
