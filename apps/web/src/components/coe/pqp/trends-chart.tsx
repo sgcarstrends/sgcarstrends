@@ -1,12 +1,8 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
-import {
-  ChartDescriptionSection,
-  currencyTooltipFormatter,
-  MonthXAxis,
-  PriceYAxis,
-} from "@web/components/charts/shared-chart-components";
+import { numberFormat } from "@ruchernchong/number-format";
+import { ChartDescriptionSection } from "@web/components/charts/shared-chart-components";
 import {
   type ChartConfig,
   ChartContainer,
@@ -16,7 +12,7 @@ import {
 } from "@web/components/ui/chart";
 import type { Pqp } from "@web/types/coe";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { CartesianGrid, Line, LineChart } from "recharts";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 interface Props {
   data: Pqp.TrendPoint[];
@@ -37,47 +33,33 @@ export const TrendsChart = ({ data }: Props) => {
       </CardHeader>
       <CardBody>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
-          <LineChart
-            data={data}
-            aria-label="COE PQP trends chart showing historical Prevailing Quota Premium rates"
-          >
+          <LineChart data={data}>
             <CartesianGrid />
-            <MonthXAxis tickFormatter={formatDateToMonthYear} />
-            <PriceYAxis label="PQP Rate (S$)" hide />
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  indicator="line"
-                  labelFormatter={formatDateToMonthYear}
-                  formatter={(value, name, _, index) =>
-                    currencyTooltipFormatter({
-                      value:
-                        typeof value === "number"
-                          ? value
-                          : Number.parseFloat(String(value)),
-                      name,
-                      index,
-                    })
-                  }
-                />
-              }
+            <XAxis
+              dataKey="month"
+              tickFormatter={(value) => formatDateToMonthYear(value)}
             />
+            <YAxis
+              domain={[
+                (dataMin: number) => Math.floor(dataMin / 10000) * 10000,
+                (dataMax: number) => Math.ceil(dataMax / 10000) * 10000,
+              ]}
+              tickFormatter={numberFormat}
+            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Line
               dataKey="Category A"
               name="Category A"
-              type="natural"
+              type="monotone"
               stroke="var(--chart-1)"
               strokeWidth={2}
-              dot={false}
             />
             <Line
               dataKey="Category B"
               name="Category B"
-              type="natural"
+              type="monotone"
               stroke="var(--chart-2)"
               strokeWidth={2}
-              dot={false}
             />
             <ChartLegend />
           </LineChart>
