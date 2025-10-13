@@ -1,15 +1,17 @@
+import {
+  MonthsQuerySchema,
+  MonthsResponseSchema,
+} from "@api/features/cars/schemas";
 import { getUniqueMonths } from "@api/lib/getUniqueMonths";
 import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
+import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { coe, coePQP, db } from "@sgcarstrends/database";
+import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
 import {
   COELatestResponseSchema,
   COEPQPResponseSchema,
   COEQuerySchema,
-  MonthsQuerySchema,
-  MonthsResponseSchema,
-} from "@api/schemas";
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
-import { coe, coePQP, db } from "@sgcarstrends/database";
-import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
+} from "./schemas";
 
 const app = new OpenAPIHono();
 
@@ -185,4 +187,4 @@ app.openapi(
   },
 );
 
-export default app;
+export const coeRoutes = app;

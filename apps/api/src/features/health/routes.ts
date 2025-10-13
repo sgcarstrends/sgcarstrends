@@ -1,6 +1,6 @@
 import { performHealthCheck } from "@api/lib/health-check";
-import { healthResponseSchema } from "@api/schemas/health";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { healthResponseSchema } from "./schemas";
 
 const app = new OpenAPIHono();
 
@@ -37,4 +37,4 @@ app.openapi(
   },
 );
 
-export default app;
+export const healthRoutes = app;

@@ -5,10 +5,10 @@ import { newsletterWorkflow } from "@api/features/newsletter";
 import { carsWorkflow } from "@api/lib/workflows/cars";
 import { coeWorkflow } from "@api/lib/workflows/coe";
 import { registerNewsletterRoutes } from "@api/rest/newsletter/routes";
-import { WorkflowTriggerResponseSchema } from "@api/schemas";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { serveMany } from "@upstash/workflow/hono";
 import { bearerAuth } from "hono/bearer-auth";
+import { WorkflowTriggerResponseSchema } from "./schemas";
 
 const app = new OpenAPIHono();
 
@@ -96,4 +96,4 @@ app.post(
   }),
 );
 
-export default app;
+export const workflowRoutes = app;

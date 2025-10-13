@@ -1,10 +1,7 @@
 import { getLatestMonth } from "@api/lib/getLatestMonth";
-import {
-  LatestMonthQuerySchema,
-  LatestMonthResponseSchema,
-} from "@api/schemas";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { cars, coe } from "@sgcarstrends/database";
+import { LatestMonthQuerySchema, LatestMonthResponseSchema } from "./schemas";
 
 const app = new OpenAPIHono();
 
@@ -55,4 +52,4 @@ app.openapi(
   },
 );
 
-export default app;
+export const monthsRoutes = app;
