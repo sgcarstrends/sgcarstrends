@@ -112,9 +112,12 @@ The API uses a workflow-based system for data processing:
 
 - **Framework**: Vitest with globals enabled
 - **Coverage**: V8 provider with text, JSON, and HTML reports
-- **Test Location**: `src/**/*.{test,spec}.{js,ts}`
+- **Test Location**: Co-located with code in `__tests__/` directories
+- **Test Pattern**: `feature/__tests__/component.test.ts` or `feature/__tests__/component.spec.ts`
+- **Test Discovery**: `src/**/*.{test,spec}.{js,ts}`
 - **Path Resolution**: Uses @api alias matching TypeScript configuration
 - **Coverage Targets**: All `src/**/*.{js,ts}` files except node_modules and type definitions
+- **Co-location Benefits**: Tests live next to implementation for better discoverability and maintainability
 
 ## Environment Variables
 
