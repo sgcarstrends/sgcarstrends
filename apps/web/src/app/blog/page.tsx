@@ -4,6 +4,7 @@ import { StructuredData } from "@web/components/structured-data";
 import { SubscribeForm } from "@web/components/subscribe-form";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import type { Metadata } from "next";
+import Script from "next/script";
 import type { Blog, WithContext } from "schema-dts";
 
 const title = "Blog";
@@ -41,6 +42,11 @@ const Page = async () => {
 
   return (
     <>
+      <Script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer
+      />
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
         <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">

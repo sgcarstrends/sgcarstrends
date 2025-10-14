@@ -87,6 +87,13 @@ connection configured in `src/config/db.ts`.
 SEO-friendly URLs for all social media platforms. Each route includes standardized UTM parameters for analytics
 tracking.
 
+**Bot Protection**: Newsletter subscription forms use Cloudflare Turnstile CAPTCHA protection with implicit rendering:
+
+- Simple `<div>` with `cf-turnstile` class and `data-sitekey` attribute
+- Turnstile automatically creates hidden `cf-turnstile-response` input field
+- Server-side token verification using Cloudflare Siteverify API (`src/utils/turnstile.ts`)
+- Script loaded via Next.js `Script` component in blog page
+
 ### API Structure
 
 External API integration through `src/utils/api/` for:
@@ -163,6 +170,8 @@ External API integration through `src/utils/api/` for:
 
 **Coverage**: Generate coverage reports with `pnpm test:coverage`.
 
+**Turnstile Testing**: Component tests verify Turnstile widget container presence with correct `data-*` attributes. No need to mock global API as widget rendering is handled automatically by Cloudflare.
+
 ### Environment Configuration
 
 Environment variables managed through SST config:
@@ -174,6 +183,8 @@ Environment variables managed through SST config:
 - `NEXT_PUBLIC_APP_ENV`: Client-side environment stage
 - `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`: Feature flag for unreleased features
 - `VERCEL_ENV`: Vercel's automatic environment detection (production/preview/development)
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: Cloudflare Turnstile site key (public, for client-side widget)
+- `TURNSTILE_SECRET_KEY`: Cloudflare Turnstile secret key (private, for server-side verification)
 
 #### Production Environment Detection
 
