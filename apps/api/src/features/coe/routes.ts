@@ -2,8 +2,8 @@ import {
   MonthsQuerySchema,
   MonthsResponseSchema,
 } from "@api/features/cars/schemas";
-import { getUniqueMonths } from "@api/lib/getUniqueMonths";
-import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
+import { getMonthsByYear } from "@api/lib/get-months-by-year";
+import { getUniqueMonths } from "@api/lib/get-unique-months";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { coe, coePQP, db } from "@sgcarstrends/database";
 import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
@@ -90,7 +90,7 @@ app.openapi(
 
     const months = await getUniqueMonths(coe);
     if (grouped) {
-      return c.json(groupMonthsByYear(months));
+      return c.json(getMonthsByYear(months));
     }
 
     return c.json(months);
