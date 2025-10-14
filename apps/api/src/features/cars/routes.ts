@@ -1,5 +1,4 @@
-import { getMonthsByYear } from "@api/lib/get-months-by-year";
-import { getUniqueMonths } from "@api/lib/get-unique-months";
+import { createMonthsRoute, withErrorHandling } from "@api/features/shared";
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { cars } from "@sgcarstrends/database";
 import { getCarMetricsForPeriod } from "./cars.service";
@@ -32,8 +31,6 @@ import {
   MakeQuerySchema,
   MakeResponseSchema,
   MakesResponseSchema,
-  MonthsQuerySchema,
-  MonthsResponseSchema,
   PopularMakesQuerySchema,
   PopularMakesResponseSchema,
   TopMakesQuerySchema,
@@ -70,11 +67,11 @@ app.openapi(
       },
     },
   }),
-  async (c) => {
-    const query = c.req.query();
-    const { month } = query;
+  withErrorHandling(
+    async (c) => {
+      const query = c.req.query();
+      const { month } = query;
 
-    try {
       if (month) {
         const [{ total }] = await getCarRegistrationByMonth(month);
         const fuelType = await getCarsByFuelType(month);
@@ -84,17 +81,9 @@ app.openapi(
       }
 
       return c.json(null);
-    } catch (e) {
-      console.error("Car query error:", e);
-      return c.json(
-        {
-          error: "An error occurred while fetching cars",
-          details: e.message,
-        },
-        500,
-      );
-    }
-  },
+    },
+    { operation: "fetching cars" },
+  ),
 );
 
 app.openapi(
@@ -271,17 +260,14 @@ app.openapi(
       },
     },
   }),
-  async (c) => {
-    const { month } = c.req.query();
-
-    try {
+  withErrorHandling(
+    async (c) => {
+      const { month } = c.req.query();
       const metrics = await getCarMetricsForPeriod(month);
       return c.json(metrics);
-    } catch (e) {
-      console.error("Error fetching car metrics:", e);
-      return c.json({ error: "Internal server error" }, 500);
-    }
-  },
+    },
+    { operation: "fetching car metrics" },
+  ),
 );
 
 app.openapi(
@@ -307,10 +293,9 @@ app.openapi(
       },
     },
   }),
-  async (c) => {
-    const { month } = c.req.query();
-
-    try {
+  withErrorHandling(
+    async (c) => {
+      const { month } = c.req.query();
       const [fuelTypeResult, vehicleTypeResult] = await getTopTypes(month);
 
       const topFuelType = {
@@ -328,11 +313,9 @@ app.openapi(
         topFuelType,
         topVehicleType,
       });
-    } catch (e) {
-      console.error("Error fetching top types:", e);
-      return c.json({ error: "Internal server error" }, 500);
-    }
-  },
+    },
+    { operation: "fetching top types" },
+  ),
 );
 
 app.openapi(
@@ -358,55 +341,18 @@ app.openapi(
       },
     },
   }),
-  async (c) => {
-    const { month } = c.req.query();
-
-    try {
+  withErrorHandling(
+    async (c) => {
+      const { month } = c.req.query();
       const result = await getCarsTopMakesByFuelType(month);
       return c.json(result);
-    } catch (e) {
-      console.error("Error fetching top makes:", e);
-      return c.json({ error: "Internal server error" }, 500);
-    }
-  },
+    },
+    { operation: "fetching top makes" },
+  ),
 );
 
-app.openapi(
-  createRoute({
-    method: "get",
-    path: "/months",
-    summary: "Get available months",
-    description:
-      "Get a list of all available months with car registration data, optionally grouped by year",
-    tags: ["Cars"],
-    request: {
-      query: MonthsQuerySchema,
-    },
-    responses: {
-      200: {
-        description: "List of available months",
-        content: {
-          "application/json": {
-            schema: MonthsResponseSchema,
-          },
-        },
-      },
-      500: {
-        description: "Internal server error",
-      },
-    },
-  }),
-  async (c) => {
-    const { grouped } = c.req.query();
-
-    const months = await getUniqueMonths(cars);
-    if (grouped) {
-      return c.json(getMonthsByYear(months));
-    }
-
-    return c.json(months);
-  },
-);
+// Mount months route using shared factory
+app.route("/", createMonthsRoute(cars, "Cars"));
 
 app.openapi(
   createRoute({
@@ -504,10 +450,9 @@ app.openapi(
       },
     },
   }),
-  async (c) => {
-    const { year, limit } = c.req.query();
-
-    try {
+  withErrorHandling(
+    async (c) => {
+      const { year, limit } = c.req.query();
       const targetYear = year || (await getLatestYear());
       const result = await getPopularMakesByYear(
         targetYear,
@@ -515,17 +460,9 @@ app.openapi(
       );
 
       return c.json(result);
-    } catch (e) {
-      console.error("Error fetching popular makes:", e);
-      return c.json(
-        {
-          error: "An error occurred while fetching popular makes",
-          details: e.message,
-        },
-        500,
-      );
-    }
-  },
+    },
+    { operation: "fetching popular makes" },
+  ),
 );
 
 export const carsRoutes = app;
