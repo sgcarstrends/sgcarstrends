@@ -17,11 +17,14 @@ export const proxy = (request: NextRequest) => {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const cspHeader = `
       default-src 'self';
-      script-src 'self' 'unsafe-eval' 'unsafe-inline' *.${DOMAIN_NAME} *.googletagmanager.com; 
+      script-src 'self' 'unsafe-eval' 'unsafe-inline' *.${DOMAIN_NAME} *.googletagmanager.com https://challenges.cloudflare.com;
+      frame-src 'self' https://challenges.cloudflare.com;
+      connect-src 'self' https://challenges.cloudflare.com;
+      img-src 'self' blob: data: https://challenges.cloudflare.com;
       style-src 'self' 'unsafe-inline';
-      img-src 'self' blob: data:;
-      connect-src *;
-      font-src 'self';
+      font-src 'self' data:;
+      object-src 'none';
+      base-uri 'self';
   `;
 
   const requestHeaders = new Headers(request.headers);
