@@ -1,7 +1,7 @@
 import {
   healthResponseSchema,
   healthServicesSchema,
-} from "@api/schemas/health";
+} from "@api/features/health/schemas";
 import { db } from "@sgcarstrends/database";
 import { redis } from "@sgcarstrends/utils";
 import packageJson from "../../package.json" with { type: "json" };

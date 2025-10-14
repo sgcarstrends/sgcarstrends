@@ -1,5 +1,6 @@
 import { SITE_URL } from "@api/config";
 import { socialMediaManager } from "@api/config/platforms";
+import { getCarsLatestMonth } from "@api/features/cars/queries";
 import { options } from "@api/lib/workflows/options";
 import { generateCarPost } from "@api/lib/workflows/posts";
 import { updateCars } from "@api/lib/workflows/update-cars";
@@ -8,7 +9,6 @@ import {
   publishToAllPlatforms,
   type WorkflowStep,
 } from "@api/lib/workflows/workflow";
-import { getCarsLatestMonth } from "@api/queries";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const carsWorkflow = createWorkflow(

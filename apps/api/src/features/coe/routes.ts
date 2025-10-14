@@ -1,15 +1,12 @@
-import { getUniqueMonths } from "@api/lib/getUniqueMonths";
-import { groupMonthsByYear } from "@api/lib/groupMonthsByYear";
+import { createMonthsRoute } from "@api/features/shared";
+import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { coe, coePQP, db } from "@sgcarstrends/database";
+import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
 import {
   COELatestResponseSchema,
   COEPQPResponseSchema,
   COEQuerySchema,
-  MonthsQuerySchema,
-  MonthsResponseSchema,
-} from "@api/schemas";
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
-import { coe, coePQP, db } from "@sgcarstrends/database";
-import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
+} from "./schemas";
 
 const app = new OpenAPIHono();
 
@@ -58,42 +55,8 @@ app.openapi(
   },
 );
 
-app.openapi(
-  createRoute({
-    method: "get",
-    path: "/months",
-    summary: "Get available COE months",
-    description:
-      "Get a list of all available months with COE bidding data, optionally grouped by year",
-    tags: ["COE"],
-    request: {
-      query: MonthsQuerySchema,
-    },
-    responses: {
-      200: {
-        description: "List of available months",
-        content: {
-          "application/json": {
-            schema: MonthsResponseSchema,
-          },
-        },
-      },
-      500: {
-        description: "Internal server error",
-      },
-    },
-  }),
-  async (c) => {
-    const { grouped } = c.req.query();
-
-    const months = await getUniqueMonths(coe);
-    if (grouped) {
-      return c.json(groupMonthsByYear(months));
-    }
-
-    return c.json(months);
-  },
-);
+// Mount months route using shared factory
+app.route("/", createMonthsRoute(coe, "COE"));
 
 app.openapi(
   createRoute({
@@ -185,4 +148,4 @@ app.openapi(
   },
 );
 
-export default app;
+export const coeRoutes = app;

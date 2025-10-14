@@ -1,7 +1,7 @@
-import workflows from "@api/routes";
+import { healthRoutes } from "@api/features/health";
+import { workflowRoutes } from "@api/features/workflows";
 import { createTRPCContext } from "@api/trpc/context";
 import { appRouter } from "@api/trpc/router";
-import health from "@api/v1/routes/health";
 import { trpcServer } from "@hono/trpc-server";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
@@ -104,8 +104,8 @@ api.use(
   }),
 );
 
-api.route("/workflows", workflows);
-api.route("/health", health);
+api.route("/workflows", workflowRoutes);
+api.route("/health", healthRoutes);
 api.route("/v1", v1);
 
 app.route("/", api);

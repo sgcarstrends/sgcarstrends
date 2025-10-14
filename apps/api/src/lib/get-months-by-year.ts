@@ -1,4 +1,4 @@
-export const groupMonthsByYear = (
+export const getMonthsByYear = (
   months: string[],
 ): { year: string; months: string[] }[] => {
   const groupedData: Record<string, string[]> = {};

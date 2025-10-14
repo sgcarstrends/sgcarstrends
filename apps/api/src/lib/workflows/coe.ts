@@ -1,5 +1,6 @@
 import { SITE_URL } from "@api/config";
 import { socialMediaManager } from "@api/config/platforms";
+import { getCoeLatestMonth } from "@api/features/coe/queries";
 import { options } from "@api/lib/workflows/options";
 import { generateCoePost } from "@api/lib/workflows/posts";
 import { updateCoe } from "@api/lib/workflows/update-coe";
@@ -8,7 +9,6 @@ import {
   publishToAllPlatforms,
   type WorkflowStep,
 } from "@api/lib/workflows/workflow";
-import { getCoeLatestMonth } from "@api/queries/coe";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const coeWorkflow = createWorkflow(
