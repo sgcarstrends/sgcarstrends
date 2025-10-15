@@ -52,7 +52,7 @@ export const CategoryInfo = ({
       <Icon className="size-6" />
       <div>
         <h4 className="font-semibold">{category}</h4>
-        <p className="text-sm text-gray-600">{description}</p>
+        <p className="text-gray-600 text-sm">{description}</p>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
-import Link from "next/link";
 import slugify from "@sindresorhus/slugify";
-import { TrendChart } from "@web/app/cars/trend-chart";
+import { TrendChart } from "@web/app/(dashboard)/cars/trend-chart";
 import { AnimatedNumber } from "@web/components/animated-number";
 import {
   Card,
@@ -9,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@web/components/ui/card";
+import Link from "next/link";
 
 interface Props {
   cars: any[];

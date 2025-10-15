@@ -1,6 +1,5 @@
 "use client";
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import {
   Card,
   CardContent,
@@ -14,6 +13,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@web/components/ui/chart";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 interface Props {
   data: Array<{
@@ -64,7 +64,7 @@ export const PageViewsChart = ({ data }: Props) => {
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  formatter={(value, name) => [`${value} views`, "Page Views"]}
+                  formatter={(value, _name) => [`${value} views`, "Page Views"]}
                   labelFormatter={(label) => {
                     const page = formattedData.find(
                       (item) => item.displayPath === label,

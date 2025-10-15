@@ -1,5 +1,5 @@
-import { columns } from "@web/app/cars/makes/[make]/columns";
-import type { Logo } from "@web/app/cars/makes/[make]/page";
+import { columns } from "@web/app/(dashboard)/cars/makes/[make]/columns";
+import type { Logo } from "@web/app/(dashboard)/cars/makes/[make]/page";
 import { LastUpdated } from "@web/components/last-updated";
 import { MakeSelector } from "@web/components/make-selector";
 import { MakeTrendChart } from "@web/components/makes";

@@ -1,6 +1,7 @@
 "use client";
 
 import { Tab, Tabs } from "@heroui/tabs";
+import { usePathname } from "next/navigation";
 
 interface NavItem {
   name: string;
@@ -12,8 +13,17 @@ interface DashboardSubMenuProps {
 }
 
 export const SubNav = ({ items }: DashboardSubMenuProps) => {
+  const pathname = usePathname();
+
   return (
-    <Tabs variant="light" color="primary" radius="full" items={items}>
+    <Tabs
+      variant="light"
+      color="primary"
+      radius="full"
+      items={items}
+      selectedKey={pathname}
+      className="mb-8"
+    >
       {items.map(({ name, href }) => {
         return <Tab key={href} href={href} title={name} />;
       })}

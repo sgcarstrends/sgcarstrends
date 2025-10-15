@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
-import { Alert, Button, cn, addToast } from "@heroui/react";
+import { Alert, addToast, Button, cn } from "@heroui/react";
 import useStore from "@web/app/store";
+import { useCallback, useEffect } from "react";
 
 export const NotificationPrompt = () => {
   const { notificationStatus, setNotificationStatus } = useStore();
@@ -68,9 +68,9 @@ export const NotificationPrompt = () => {
         isClosable
         onClose={handleClose}
         className={cn([
-          "bg-default-50 dark:bg-background shadow-sm",
+          "bg-default-50 shadow-sm dark:bg-background",
           "rounded-md rounded-l-none border border-l-8",
-          "border-primary-200 dark:border-primary-100 border-l-primary",
+          "border-primary-200 border-l-primary dark:border-primary-100",
         ])}
         endContent={
           <div className="mt-2 flex gap-2">

@@ -5,12 +5,12 @@ import {
   AutocompleteItem,
   AutocompleteSection,
 } from "@heroui/react";
-import { Calendar } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { useEffect, useMemo } from "react";
 import type { Month } from "@web/types";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { groupByYear } from "@web/utils/group-by-year";
+import { Calendar } from "lucide-react";
+import { useQueryState } from "nuqs";
+import { useEffect, useMemo } from "react";
 
 type Props = {
   months: Month[];

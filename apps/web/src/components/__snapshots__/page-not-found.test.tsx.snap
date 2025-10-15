@@ -12,17 +12,17 @@ exports[`PageNotFound > renders the 404 error message 1`] = `
         class="mb-8"
       >
         <div
-          class="text-primary mb-4 text-6xl font-bold"
+          class="mb-4 font-bold text-6xl text-primary"
         >
           404
         </div>
         <h1
-          class="text-foreground mb-2 text-3xl font-bold"
+          class="mb-2 font-bold text-3xl text-foreground"
         >
           Page Not Found
         </h1>
         <p
-          class="text-foreground-500 max-w-md text-lg"
+          class="max-w-md text-foreground-500 text-lg"
         >
           The page you're looking for doesn't exist or has been moved.
         </p>
@@ -91,7 +91,7 @@ exports[`PageNotFound > renders the 404 error message 1`] = `
         </button>
       </div>
       <div
-        class="text-foreground-500 mt-8 text-sm"
+        class="mt-8 text-foreground-500 text-sm"
       >
         Need help? Visit our
          

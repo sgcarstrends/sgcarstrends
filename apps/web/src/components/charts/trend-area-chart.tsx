@@ -1,8 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
-
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -22,6 +19,8 @@ import {
   formatMonthYear,
   formatNumber,
 } from "@web/utils/chart-formatters";
+import { useMemo } from "react";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 interface TrendData {
   month: string;
@@ -83,10 +82,10 @@ export const TrendAreaChart = ({
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900">
+          <CardTitle className="font-semibold text-gray-900 text-lg">
             {title}
           </CardTitle>
-          {subtitle && <p className="mt-1 text-sm text-gray-600">{subtitle}</p>}
+          {subtitle && <p className="mt-1 text-gray-600 text-sm">{subtitle}</p>}
         </CardHeader>
         <CardContent>
           <div
@@ -102,10 +101,10 @@ export const TrendAreaChart = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">
+        <CardTitle className="font-semibold text-gray-900 text-lg">
           {title}
         </CardTitle>
-        {subtitle && <p className="mt-1 text-sm text-gray-600">{subtitle}</p>}
+        {subtitle && <p className="mt-1 text-gray-600 text-sm">{subtitle}</p>}
       </CardHeader>
       <CardContent>
         <ChartContainer

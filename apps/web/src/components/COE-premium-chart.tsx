@@ -80,7 +80,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
   const updateRouterWithTimeRange = useCallback(() => {
     const formatMonth = (date: Date) => {
       const year = date.getFullYear();
-      const month = ("0" + (date.getMonth() + 1)).slice(-2); // Note: getMonth() returns 0-based month
+      const month = `0${date.getMonth() + 1}`.slice(-2); // Note: getMonth() returns 0-based month
       return `${year}-${month}`;
     };
 

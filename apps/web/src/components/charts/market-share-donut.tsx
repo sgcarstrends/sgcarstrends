@@ -1,7 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
-import { Cell, Pie, PieChart } from "recharts";
 import {
   Card,
   CardContent,
@@ -17,6 +15,8 @@ import {
   ChartTooltipContent,
 } from "@web/components/ui/chart";
 import { formatNumber, formatPercentage } from "@web/utils/chart-formatters";
+import { useMemo } from "react";
+import { Cell, Pie, PieChart } from "recharts";
 
 interface MarketShareData {
   name: string;
@@ -52,7 +52,7 @@ export const MarketShareDonut = ({
   }, [data]);
 
   const legendData = useMemo(() => {
-    return data.map((item, index) => ({
+    return data.map((item, _index) => ({
       name: item.name,
       colour: item.colour,
       value: formatNumber(item.count),
@@ -74,10 +74,10 @@ export const MarketShareDonut = ({
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900">
+          <CardTitle className="font-semibold text-gray-900 text-lg">
             {title}
           </CardTitle>
-          {subtitle && <p className="mt-1 text-sm text-gray-600">{subtitle}</p>}
+          {subtitle && <p className="mt-1 text-gray-600 text-sm">{subtitle}</p>}
         </CardHeader>
         <CardContent>
           <div className="flex h-60 items-center justify-center rounded-lg bg-gray-50">
@@ -91,10 +91,10 @@ export const MarketShareDonut = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">
+        <CardTitle className="font-semibold text-gray-900 text-lg">
           {title}
         </CardTitle>
-        {subtitle && <p className="mt-1 text-sm text-gray-600">{subtitle}</p>}
+        {subtitle && <p className="mt-1 text-gray-600 text-sm">{subtitle}</p>}
       </CardHeader>
       <CardContent>
         <div className="space-y-6">

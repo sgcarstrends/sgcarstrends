@@ -1,5 +1,5 @@
-import React from "react";
 import { cn } from "@web/lib/utils";
+import React from "react";
 
 const H1 = React.forwardRef<
   HTMLHeadingElement,
@@ -8,7 +8,7 @@ const H1 = React.forwardRef<
   <h1
     ref={ref}
     className={cn(
-      "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl",
+      "scroll-m-20 font-extrabold text-4xl tracking-tight lg:text-5xl",
       className,
     )}
     {...props}
@@ -23,7 +23,7 @@ const H2 = React.forwardRef<
   <h2
     ref={ref}
     className={cn(
-      "scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
+      "scroll-m-20 border-b pb-2 font-semibold text-3xl tracking-tight first:mt-0",
       className,
     )}
     {...props}
@@ -38,7 +38,7 @@ const H3 = React.forwardRef<
   <h3
     ref={ref}
     className={cn(
-      "scroll-m-20 text-2xl font-semibold tracking-tight",
+      "scroll-m-20 font-semibold text-2xl tracking-tight",
       className,
     )}
     {...props}
@@ -53,7 +53,7 @@ const H4 = React.forwardRef<
   <h4
     ref={ref}
     className={cn(
-      "scroll-m-20 text-xl font-semibold tracking-tight",
+      "scroll-m-20 font-semibold text-xl tracking-tight",
       className,
     )}
     {...props}
@@ -67,7 +67,7 @@ const P = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("leading-7 not-first:mt-6", className)}
+    className={cn("not-first:mt-6 leading-7", className)}
     {...props}
   />
 ));
@@ -104,7 +104,7 @@ const InlineCode = React.forwardRef<
   <code
     ref={ref}
     className={cn(
-      "bg-muted relative rounded-sm px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+      "relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono font-semibold text-sm",
       className,
     )}
     {...props}
@@ -128,7 +128,7 @@ const Small = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
   ({ className, ...props }, ref) => (
     <small
       ref={ref}
-      className={cn("text-sm leading-none font-medium", className)}
+      className={cn("font-medium text-sm leading-none", className)}
       {...props}
     />
   ),
