@@ -3,6 +3,14 @@ import { getUniqueMonths } from "@api/lib/get-unique-months";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createMonthsRoute } from "../months-route";
 
+// Mock database to prevent connection initialization
+vi.mock("@sgcarstrends/database", () => ({
+  db: {
+    select: vi.fn(),
+    selectDistinct: vi.fn(),
+  },
+}));
+
 // Mock the utility functions
 vi.mock("@api/lib/get-unique-months");
 vi.mock("@api/lib/get-months-by-year");
