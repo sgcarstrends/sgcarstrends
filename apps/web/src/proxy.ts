@@ -22,6 +22,7 @@ export const proxy = (request: NextRequest) => {
       img-src 'self' blob: data:;
       connect-src *;
       font-src 'self';
+      frame-src 'self' 'https://vercel.live';
   `;
 
   const requestHeaders = new Headers(request.headers);
