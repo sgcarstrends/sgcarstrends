@@ -190,6 +190,26 @@ The application supports Vercel's automatic URL environment variables:
 - `NEXT_PUBLIC_VERCEL_URL`: Client-side deployment URL (e.g., `my-site.vercel.app`) without `https://` protocol
 - `SITE_URL` configuration automatically uses `NEXT_PUBLIC_VERCEL_URL` when `NEXT_PUBLIC_SITE_URL` is not set
 
+#### Vercel Related Projects Integration
+
+The web application uses Vercel Related Projects for automatic API URL resolution:
+
+**Configuration:**
+- Located in `vercel.json` at the web app root
+- References API project ID: `prj_fyAvupEssH3LO4OQFDWplinVFlaI`
+- Uses `@vercel/related-projects` package for dynamic URL resolution
+
+**Implementation:**
+- API URL automatically resolved via `withRelatedProject()` in `src/config/index.ts`
+- Works across all environments: dev, staging, production, and preview deployments
+- Falls back to `NEXT_PUBLIC_API_URL` or default `https://api.sgcarstrends.com` if Related Projects unavailable
+
+**Benefits:**
+- No manual API URL configuration needed in Vercel deployments
+- Preview deployments automatically connect to correct API environment
+- Type-safe with full TypeScript support
+- Backward compatible with SST deployments
+
 ### Deployment
 
 Multi-stage deployment via SST:

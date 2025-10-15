@@ -134,6 +134,24 @@ Required for local development (.env.local):
 - `LANGFUSE_HOST`: Langfuse host URL, defaults to https://cloud.langfuse.com (optional)
 - Social media platform tokens for integrations (Discord, LinkedIn, Twitter, Telegram)
 
+## Vercel Related Projects
+
+The API service is configured as a related project for the web application:
+
+**Configuration:**
+- Located in `vercel.json` at the API app root
+- References web project ID: `prj_RE6GjplQ6imcQuHQ93BmqSBJp6Cg`
+- Enables bidirectional project communication
+
+**Purpose:**
+- Allows web application to automatically resolve API URLs across environments
+- Web app uses `@vercel/related-projects` to dynamically discover API endpoints
+- Supports seamless communication between API and web in preview deployments
+
+**Related Documentation:**
+- See root `CLAUDE.md` for complete Vercel Related Projects overview
+- See `apps/web/CLAUDE.md` for web app integration details
+
 ## Code Style
 
 - **TypeScript**: Strict mode with @api path aliases
