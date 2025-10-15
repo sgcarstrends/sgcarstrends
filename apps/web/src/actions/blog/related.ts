@@ -60,7 +60,9 @@ const getPopularPosts = async (
 ): Promise<Array<{ postId: string; viewCount: number }>> => {
   try {
     // Get top posts by view count (highest to lowest) using zrange with REV
-    const results = await redis.zrange("blog:popular", 0, limit - 1, {
+    const results = await redis.zrange<
+      Array<{ member: string; score: number }>
+    >("blog:popular", 0, limit - 1, {
       withScores: true,
       rev: true,
     });
@@ -68,10 +70,10 @@ const getPopularPosts = async (
     // Transform the results into a more usable format
     const popularPosts: Array<{ postId: string; viewCount: number }> = [];
 
-    for (let i = 0; i < results.length; i += 2) {
+    for (const entry of results) {
       popularPosts.push({
-        postId: results[i] as string,
-        viewCount: results[i + 1] as number,
+        postId: entry.member,
+        viewCount: Number(entry.score),
       });
     }
 
