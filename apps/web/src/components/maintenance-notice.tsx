@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardBody, Chip, Divider, Link } from "@heroui/react";
+import useMaintenance from "@web/hooks/use-maintenance";
 import { motion, type Variants } from "framer-motion";
 import {
   Clock,
@@ -12,7 +13,6 @@ import {
   Wrench,
   Zap,
 } from "lucide-react";
-import useMaintenance from "@web/hooks/use-maintenance";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -113,17 +113,17 @@ export const MaintenanceNotice = () => {
       >
         <motion.div className="mb-4" variants={iconVariants} animate="animate">
           <motion.div variants={spinVariants} animate="animate">
-            <Settings className="text-primary size-20" />
+            <Settings className="size-20 text-primary" />
           </motion.div>
         </motion.div>
         <motion.h1
-          className="text-foreground text-4xl font-bold"
+          className="font-bold text-4xl text-foreground"
           variants={textVariants}
         >
           🚗 Pit Stop in Progress
         </motion.h1>
         <motion.p
-          className="text-foreground-600 max-w-lg text-lg"
+          className="max-w-lg text-foreground-600 text-lg"
           variants={textVariants}
         >
           Just like a Formula 1 pit stop, we&apos;re fine-tuning our engines to
@@ -138,8 +138,8 @@ export const MaintenanceNotice = () => {
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Clock className="text-primary size-5" />
-                  <span className="text-foreground font-semibold">
+                  <Clock className="size-5 text-primary" />
+                  <span className="font-semibold text-foreground">
                     Estimated Completion
                   </span>
                 </div>
@@ -150,23 +150,23 @@ export const MaintenanceNotice = () => {
               <div className="flex items-center justify-center gap-2">
                 <div className="flex items-center gap-1">
                   <div
-                    className="bg-primary size-2 animate-pulse rounded-full"
+                    className="size-2 animate-pulse rounded-full bg-primary"
                     style={{ animationDelay: "0s" }}
                   />
                   <div
-                    className="bg-primary size-2 animate-pulse rounded-full"
+                    className="size-2 animate-pulse rounded-full bg-primary"
                     style={{ animationDelay: "0.2s" }}
                   />
                   <div
-                    className="bg-primary size-2 animate-pulse rounded-full"
+                    className="size-2 animate-pulse rounded-full bg-primary"
                     style={{ animationDelay: "0.4s" }}
                   />
                 </div>
-                <span className="text-foreground-600 text-sm font-medium">
+                <span className="font-medium text-foreground-600 text-sm">
                   Maintenance in progress
                 </span>
               </div>
-              <p className="text-foreground-600 text-center text-sm">
+              <p className="text-center text-foreground-600 text-sm">
                 We are upgrading our data processing systems for faster analysis
               </p>
             </div>
@@ -176,7 +176,7 @@ export const MaintenanceNotice = () => {
 
       {/* What We're Doing Section */}
       <motion.div className="space-y-4" variants={itemVariants}>
-        <h2 className="text-foreground text-center text-2xl font-semibold">
+        <h2 className="text-center font-semibold text-2xl text-foreground">
           What&apos;s Under the Hood? 🔧
         </h2>
         <motion.div
@@ -184,11 +184,11 @@ export const MaintenanceNotice = () => {
           variants={cardGridVariants}
         >
           <motion.div variants={cardVariants}>
-            <Card className="border-primary-200 border-1">
+            <Card className="border-1 border-primary-200">
               <CardBody className="flex flex-row items-start gap-3 p-4">
-                <Zap className="text-primary mt-1 size-6 flex-shrink-0" />
+                <Zap className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
-                  <h3 className="text-foreground font-semibold">
+                  <h3 className="font-semibold text-foreground">
                     Performance Boost
                   </h3>
                   <p className="text-foreground-600 text-sm">
@@ -200,11 +200,11 @@ export const MaintenanceNotice = () => {
             </Card>
           </motion.div>
           <motion.div variants={cardVariants}>
-            <Card className="border-primary-200 border-1">
+            <Card className="border-1 border-primary-200">
               <CardBody className="flex flex-row items-start gap-3 p-4">
-                <Shield className="text-primary mt-1 size-6 flex-shrink-0" />
+                <Shield className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
-                  <h3 className="text-foreground font-semibold">
+                  <h3 className="font-semibold text-foreground">
                     Security Updates
                   </h3>
                   <p className="text-foreground-600 text-sm">
@@ -215,11 +215,11 @@ export const MaintenanceNotice = () => {
             </Card>
           </motion.div>
           <motion.div variants={cardVariants}>
-            <Card className="border-primary-200 border-1">
+            <Card className="border-1 border-primary-200">
               <CardBody className="flex flex-row items-start gap-3 p-4">
-                <TrendingUp className="text-primary mt-1 size-6 flex-shrink-0" />
+                <TrendingUp className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
-                  <h3 className="text-foreground font-semibold">
+                  <h3 className="font-semibold text-foreground">
                     New Features
                   </h3>
                   <p className="text-foreground-600 text-sm">
@@ -230,11 +230,11 @@ export const MaintenanceNotice = () => {
             </Card>
           </motion.div>
           <motion.div variants={cardVariants}>
-            <Card className="border-primary-200 border-1">
+            <Card className="border-1 border-primary-200">
               <CardBody className="flex flex-row items-start gap-3 p-4">
-                <Wrench className="text-primary mt-1 size-6 flex-shrink-0" />
+                <Wrench className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
-                  <h3 className="text-foreground font-semibold">Bug Fixes</h3>
+                  <h3 className="font-semibold text-foreground">Bug Fixes</h3>
                   <p className="text-foreground-600 text-sm">
                     Fixing minor issues to ensure smooth sailing ahead
                   </p>
@@ -251,7 +251,7 @@ export const MaintenanceNotice = () => {
 
       {/* Contact Section */}
       <motion.div className="space-y-4 text-center" variants={itemVariants}>
-        <h3 className="text-foreground text-lg font-semibold">
+        <h3 className="font-semibold text-foreground text-lg">
           Need Immediate Assistance? 🚨
         </h3>
         <p className="text-foreground-600">
@@ -262,16 +262,16 @@ export const MaintenanceNotice = () => {
           <Link
             href="mailto:support@sgcarstrends.com"
             color="primary"
-            className="flex items-center gap-2 text-sm font-medium"
+            className="flex items-center gap-2 font-medium text-sm"
           >
             <Mail className="size-4" />
             support@sgcarstrends.com
           </Link>
-          <span className="text-foreground-400 hidden sm:inline">|</span>
+          <span className="hidden text-foreground-400 sm:inline">|</span>
           <Link
             href="https://twitter.com/sgcarstrends"
             color="primary"
-            className="flex items-center gap-2 text-sm font-medium"
+            className="flex items-center gap-2 font-medium text-sm"
             isExternal
           >
             <MessageCircle className="size-4" />
@@ -285,7 +285,7 @@ export const MaintenanceNotice = () => {
         <p className="text-foreground-500 text-sm">
           🏁 Thanks for your patience as we race towards a better experience!
         </p>
-        <p className="text-foreground-400 mt-2 text-xs">
+        <p className="mt-2 text-foreground-400 text-xs">
           This page will automatically refresh when maintenance is complete
         </p>
       </motion.div>

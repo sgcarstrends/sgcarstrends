@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Fragment } from "react";
 
 interface NavItem {
   name: string;
@@ -32,25 +31,23 @@ export const SectionTabs = () => {
   const pathname = usePathname();
 
   return (
-    <div className="mb-4 flex items-end gap-4 overflow-x-auto lg:mb-8 lg:gap-8">
+    <div className="mb-4 flex items-end gap-4 overflow-x-auto lg:gap-8">
       {LINKS.map(({ name, href }) => {
         const isActive =
           href === "/" ? pathname === "/" : pathname.startsWith(href);
 
         return (
-          <Fragment key={name}>
-            <Link
-              key={name}
-              href={href}
-              className={
-                isActive
-                  ? "font-semibold text-2xl text-black lg:text-4xl"
-                  : "text-gray-400 text-lg hover:text-gray-600 lg:text-2xl"
-              }
-            >
-              {name}
-            </Link>
-          </Fragment>
+          <Link
+            key={name}
+            href={href}
+            className={
+              isActive
+                ? "font-semibold text-2xl text-black lg:text-4xl"
+                : "text-gray-400 text-lg hover:text-gray-600 lg:text-2xl"
+            }
+          >
+            {name}
+          </Link>
         );
       })}
     </div>

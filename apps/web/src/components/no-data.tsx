@@ -1,9 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { AlertCircle, Home, RotateCcw } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@web/components/ui/alert";
 import { Button } from "@web/components/ui/button";
+import { AlertCircle, Home, RotateCcw } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const NoData = () => {
   const router = useRouter();

@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { BarChartByType } from "@web/app/cars/bar-chart-by-type";
+import slugify from "@sindresorhus/slugify";
+import { BarChartByType } from "@web/app/(dashboard)/cars/bar-chart-by-type";
 import {
   Card,
   CardContent,
@@ -10,8 +10,8 @@ import {
   CardTitle,
 } from "@web/components/ui/card";
 import { FUEL_TYPE } from "@web/config";
-import slugify from "@sindresorhus/slugify";
 import type { RegistrationStat } from "@web/types/cars";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   title: string;
@@ -33,11 +33,11 @@ export const StatCard = ({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleRowClick = (type: string) => {
+  const _handleRowClick = (type: string) => {
     router.push(`/cars/${linkPrefix}/${slugify(type)}?${searchParams}`);
   };
 
-  const getBadgeVariant = (value: number) => {
+  const _getBadgeVariant = (value: number) => {
     const percentage = (value / total) * 100;
     if (percentage > 30) return "default";
     if (percentage > 15) return "secondary";

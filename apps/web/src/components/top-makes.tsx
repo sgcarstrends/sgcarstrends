@@ -1,16 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import {
-  Progress,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
+  Progress,
 } from "@heroui/react";
 import slugify from "@sindresorhus/slugify";
-import { Battery, Droplet, Fuel, type LucideIcon, Zap } from "lucide-react";
 import type { FuelType } from "@web/types/cars";
+import Link from "next/link";
 
 // interface Category {
 //   title: string;
@@ -71,7 +70,7 @@ export const TopMakes = ({ data }: Props) => {
         return (
           <Card key={fuelType}>
             <CardHeader>
-              <h4 className="text-large font-bold">{fuelType}</h4>
+              <h4 className="font-bold text-large">{fuelType}</h4>
             </CardHeader>
             <CardBody>
               {makes.map(({ make, count }) => (

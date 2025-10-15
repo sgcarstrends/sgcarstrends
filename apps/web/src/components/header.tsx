@@ -1,12 +1,8 @@
 "use client";
 
+import { Button } from "@heroui/button";
 import type { NavbarProps } from "@heroui/navbar";
 import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -14,33 +10,13 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
-} from "@heroui/react";
+} from "@heroui/navbar";
 import { BrandLogo } from "@web/components/brand-logo";
 import { BetaChip, NewChip } from "@web/components/chips";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { navLinks } from "@web/config/navigation";
-import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-
-const CAR_ICON_COLORS = [
-  "text-blue-500",
-  "text-pink-500",
-  "text-green-500",
-  "text-purple-500",
-];
-
-const getBadgeContent = (badge?: "beta" | "new") => {
-  if (badge === "beta") {
-    return <BetaChip />;
-  }
-
-  if (badge === "new") {
-    return <NewChip />;
-  }
-
-  return undefined;
-};
 
 export const Header = (props: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -66,97 +42,12 @@ const DesktopHeader = () => {
           <BrandLogo />
         </Link>
       </NavbarBrand>
-      <NavbarContent className="hidden lg:flex" justify="center">
-        <Dropdown>
-          <NavbarItem>
-            <DropdownTrigger>
-              <Button
-                disableRipple
-                className="bg-transparent p-0 data-[hover=true]:bg-transparent"
-                endContent={<ChevronDown className="size-4" />}
-                radius="sm"
-                variant="light"
-              >
-                Cars
-              </Button>
-            </DropdownTrigger>
-          </NavbarItem>
-          <DropdownMenu
-            aria-label="Cars"
-            itemClasses={{
-              base: "gap-4",
-            }}
-          >
-            {navLinks.cars.map((item, index) => {
-              const iconColor =
-                item.iconColor ??
-                CAR_ICON_COLORS[index % CAR_ICON_COLORS.length];
-              const badgeContent = getBadgeContent(item.badge);
-              return (
-                <DropdownItem
-                  key={item.title}
-                  href={item.url}
-                  className="text-foreground hover:text-primary"
-                  startContent={<item.icon className={`size-6 ${iconColor}`} />}
-                  endContent={badgeContent}
-                  description={item.description}
-                >
-                  {item.title}
-                </DropdownItem>
-              );
-            })}
-          </DropdownMenu>
-        </Dropdown>
-        <Dropdown>
-          <NavbarItem>
-            <DropdownTrigger>
-              <Button
-                disableRipple
-                className="bg-transparent p-0 data-[hover=true]:bg-transparent"
-                endContent={<ChevronDown className="size-4" />}
-                radius="sm"
-                variant="light"
-              >
-                COE
-              </Button>
-            </DropdownTrigger>
-          </NavbarItem>
-          <DropdownMenu
-            aria-label="COE"
-            itemClasses={{
-              base: "gap-4",
-            }}
-          >
-            {navLinks.coe.map((item, index) => {
-              const colors = [
-                "text-orange-500",
-                "text-red-500",
-                "text-indigo-500",
-                "text-amber-500",
-                "text-teal-500",
-              ];
-              return (
-                <DropdownItem
-                  key={item.title}
-                  href={item.url}
-                  className="text-foreground hover:text-primary"
-                  startContent={
-                    <item.icon
-                      className={`size-6 ${colors[index % colors.length]}`}
-                    />
-                  }
-                  description={item.description}
-                >
-                  {item.title}
-                </DropdownItem>
-              );
-            })}
-          </DropdownMenu>
-        </Dropdown>
+      <NavbarContent className="hidden lg:flex lg:gap-8" justify="center">
         <NavbarItem>
-          <Link href="/faq" className="flex items-center gap-2">
-            FAQ
-          </Link>
+          <Link href="/">Dashboard</Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link href="/faq">FAQ</Link>
         </NavbarItem>
         <NavbarItem>
           <Link href="/blog" className="flex items-center gap-2">

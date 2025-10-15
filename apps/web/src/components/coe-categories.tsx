@@ -1,12 +1,5 @@
 "use client";
 
-import {
-  Bike,
-  Car,
-  CircleDollarSign,
-  HelpCircleIcon,
-  Truck,
-} from "lucide-react";
 import { CategoryInfo } from "@web/components/category-info";
 import {
   Card,
@@ -21,6 +14,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@web/components/ui/tooltip";
+import {
+  Bike,
+  Car,
+  CircleDollarSign,
+  HelpCircleIcon,
+  Truck,
+} from "lucide-react";
 
 export const COECategories = () => {
   return (
