@@ -402,6 +402,47 @@ Optional environment variables for LLM observability:
 - Cloudflare for DNS management
 - SST framework for infrastructure
 
+## Vercel Related Projects
+
+The monorepo uses Vercel Related Projects to enable automatic, environment-aware URL resolution between the API and web applications.
+
+### Configuration
+
+**Project IDs:**
+- API Project: `prj_fyAvupEssH3LO4OQFDWplinVFlaI`
+- Web Project: `prj_RE6GjplQ6imcQuHQ93BmqSBJp6Cg`
+- Team ID: `team_qV2SHJrecCAdJ3pvkjZSkJhL`
+
+**Configuration Files:**
+- `apps/web/vercel.json`: References API project for automatic URL resolution
+- `apps/api/vercel.json`: References web project for bidirectional communication
+
+### How It Works
+
+1. **Automatic Resolution**: The web app uses `@vercel/related-projects` to automatically resolve the API URL based on the deployment environment
+2. **Environment Detection**: Works seamlessly across dev, staging, production, and preview deployments
+3. **Fallback Strategy**: If Vercel Related Projects data is unavailable, falls back to `NEXT_PUBLIC_API_URL` or `https://api.sgcarstrends.com`
+4. **No Manual Configuration**: Eliminates the need for environment-specific API URL variables in Vercel deployments
+
+### Usage in Code
+
+```typescript
+import { withRelatedProject } from '@vercel/related-projects';
+
+const API_BASE_URL = withRelatedProject({
+  projectName: 'api',
+  defaultHost: 'https://api.sgcarstrends.com',
+});
+```
+
+### Benefits
+
+- ✅ Automatic URL resolution across all environments
+- ✅ Seamless preview deployment support
+- ✅ Type-safe with TypeScript
+- ✅ Backward compatible with SST deployments
+- ✅ Reduced configuration complexity
+
 ## Domain Convention
 
 SG Cars Trends uses a standardized domain convention across services:

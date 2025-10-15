@@ -1,4 +1,5 @@
 import slugify from "@sindresorhus/slugify";
+import { withRelatedProject } from "@vercel/related-projects";
 import { VEHICLE_TYPE_MAP } from "@web/constants";
 import type { Announcement, AppEnv, LinkItem, VehicleType } from "@web/types";
 import { Battery, Droplet, Fuel, Zap } from "lucide-react";
@@ -15,9 +16,15 @@ export const SITE_TITLE = "SG Cars Trends";
 
 export const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV as AppEnv;
 
-// Configure the API BASE URL
+// Configure the API BASE URL using Vercel Related Projects
+// This automatically resolves the correct API URL across all environments (dev, staging, prod, preview)
 const DEFAULT_API_URL = `https://api.${DOMAIN_NAME}`;
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_API_URL;
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ??
+  withRelatedProject({
+    projectName: "api",
+    defaultHost: DEFAULT_API_URL,
+  });
 export const API_URL = `${API_BASE_URL}/${API_VERSION}`;
 
 export enum FUEL_TYPE {
