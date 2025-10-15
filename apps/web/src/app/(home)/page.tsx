@@ -1,4 +1,3 @@
-import { getAllPosts } from "@web/actions/blog/posts";
 import {
   getTopMakesByYear,
   getYearlyRegistrations,
@@ -11,6 +10,7 @@ import { StructuredData } from "@web/components/structured-data";
 import { TopMakesByYear } from "@web/components/top-makes-by-year";
 import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-registrations-by-year";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { getQueryClient, trpc } from "@web/trpc/server";
 import { getLatestCOEResults } from "@web/utils/cached-api";
 import type { WebSite, WithContext } from "schema-dts";
 
@@ -27,10 +27,12 @@ const items = [
 ];
 
 const HomePage = async () => {
+  const queryClient = getQueryClient();
+
   const [yearlyData, latestTopMakes, allPosts, latestCOE] = await Promise.all([
     getYearlyRegistrations(),
     getTopMakesByYear(),
-    getAllPosts(),
+    queryClient.fetchQuery(trpc.blog.getAllPosts.queryOptions()),
     getLatestCOEResults(),
   ]);
   const latestYear = yearlyData.at(-1)?.year;

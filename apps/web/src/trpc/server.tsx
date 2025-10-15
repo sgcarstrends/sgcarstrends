@@ -7,6 +7,7 @@ import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query";
 import { API_BASE_URL } from "@web/config";
 import { createQueryClient } from "@web/trpc/query-client";
 import { cache, type ReactNode } from "react";
+import superjson from "superjson";
 
 export const getQueryClient = cache(createQueryClient);
 
@@ -16,6 +17,7 @@ export const trpc = createTRPCOptionsProxy<AppRouter>({
     links: [
       httpBatchLink({
         url: `${API_BASE_URL}/trpc`,
+        transformer: superjson,
         headers() {
           return {
             Authorization: `Bearer ${process.env.SG_CARS_TRENDS_API_TOKEN}`,

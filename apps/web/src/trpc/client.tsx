@@ -10,6 +10,7 @@ import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import { createTRPCContext } from "@trpc/tanstack-react-query";
 import { API_BASE_URL } from "@web/config";
 import type { ReactNode } from "react";
+import superjson from "superjson";
 import { createQueryClient } from "./query-client";
 
 export const { TRPCProvider } = createTRPCContext<AppRouter>();
@@ -33,6 +34,7 @@ export const TRPCReactProvider = ({ children }: { children: ReactNode }) => {
     links: [
       httpBatchLink({
         url: `${API_BASE_URL}/trpc`,
+        transformer: superjson,
         headers() {
           return {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_SG_CARS_TRENDS_API_TOKEN}`,

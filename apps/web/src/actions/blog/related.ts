@@ -1,33 +1,18 @@
 "use server";
 
+import { db, posts } from "@sgcarstrends/database";
 import { redis } from "@sgcarstrends/utils";
-import { getPostsByIds } from "./posts";
-import { getPopularPosts } from "./views";
+import { desc, inArray, isNotNull } from "drizzle-orm";
 
-export const updatePostTags = async (
-  postId: string,
-  tags: string[],
-): Promise<void> => {
-  try {
-    // Get current tags for this post
-    const currentTags = await redis.smembers(`blog:post:tags:${postId}`);
-
-    // Remove post from old tag sets
-    for (const tag of currentTags) {
-      await redis.srem(`blog:tags:${tag}`, postId);
-    }
-
-    // Clear the post's tag set
-    await redis.del(`blog:post:tags:${postId}`);
-
-    // Add post to new tag sets
-    for (const tag of tags) {
-      await redis.sadd(`blog:tags:${tag}`, postId);
-      await redis.sadd(`blog:post:tags:${postId}`, tag);
-    }
-  } catch (error) {
-    console.error("Error updating post tags:", error);
+const getPostByIds = async (postIds: string[]) => {
+  if (postIds.length === 0) {
+    return [];
   }
+
+  return db.query.posts.findMany({
+    where: inArray(posts.id, postIds),
+    orderBy: desc(posts.publishedAt),
+  });
 };
 
 const getTagSimilarPosts = async (
@@ -70,6 +55,35 @@ const getTagSimilarPosts = async (
   }
 };
 
+const getPopularPosts = async (
+  limit: number = 10,
+): Promise<Array<{ postId: string; viewCount: number }>> => {
+  try {
+    // Get top posts by view count (highest to lowest) using zrange with REV
+    const results = await redis.zrange<
+      Array<{ member: string; score: number }>
+    >("blog:popular", 0, limit - 1, {
+      withScores: true,
+      rev: true,
+    });
+
+    // Transform the results into a more usable format
+    const popularPosts: Array<{ postId: string; viewCount: number }> = [];
+
+    for (const entry of results) {
+      popularPosts.push({
+        postId: entry.member,
+        viewCount: Number(entry.score),
+      });
+    }
+
+    return popularPosts;
+  } catch (error) {
+    console.error("Error getting popular posts:", error);
+    return [];
+  }
+};
+
 export const getRelatedPosts = async (postId: string, limit: number = 3) => {
   try {
     const [tagRelated, popular] = await Promise.all([
@@ -105,16 +119,12 @@ export const getRelatedPosts = async (postId: string, limit: number = 3) => {
     }
 
     // Get full post data for the related posts
-    const posts = await getPostsByIds(relatedPostIds);
+    const posts = await getPostByIds(relatedPostIds);
 
     // Sort posts based on the related posts order
-    return relatedPostIds.reduce<typeof posts>((orderedPosts, id) => {
-      const post = posts.find((post) => post.id === id);
-      if (post) {
-        orderedPosts.push(post);
-      }
-      return orderedPosts;
-    }, []);
+    return relatedPostIds
+      .map((id) => posts.find((post) => post.id === id))
+      .filter((post) => post !== undefined);
   } catch (error) {
     console.error("Error getting related posts:", error);
     return [];

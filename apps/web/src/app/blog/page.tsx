@@ -1,8 +1,8 @@
-import { getAllPosts } from "@web/actions/blog";
 import { BlogList } from "@web/components/blog/blog-list";
 import { StructuredData } from "@web/components/structured-data";
 import { SubscribeForm } from "@web/components/subscribe-form";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { getQueryClient, trpc } from "@web/trpc/server";
 import type { Metadata } from "next";
 import type { Blog, WithContext } from "schema-dts";
 
@@ -37,7 +37,10 @@ export const metadata: Metadata = {
 };
 
 const Page = async () => {
-  const posts = await getAllPosts();
+  const queryClient = getQueryClient();
+  const posts = await queryClient.fetchQuery(
+    trpc.blog.getAllPosts.queryOptions(),
+  );
 
   return (
     <>
