@@ -31,6 +31,9 @@ jobs:
     environment: Staging
     concurrency:
       group: deploy-staging-${{ github.ref }}
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
     steps:
       - uses: actions/checkout@v4
