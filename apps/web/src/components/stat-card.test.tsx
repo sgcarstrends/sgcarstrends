@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import type { RegistrationStat } from "@web/types/cars";
-import { StatCard } from "./stat-card";
+import { StatCard } from "./shared/stat-card";
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({

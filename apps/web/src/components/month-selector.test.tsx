@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { MonthSelector } from "./month-selector";
+import { MonthSelector } from "./shared/month-selector";
 
 vi.mock("nuqs", () => ({
   useQueryState: vi.fn(() => [null, vi.fn()]),

@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import NoData from "./no-data";
+import NoData from "./shared/no-data";
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({

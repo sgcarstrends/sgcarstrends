@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { BetaChip, NewChip } from "./chips";
+import { BetaChip, NewChip } from "./shared/chips";
 
 describe("BetaChip", () => {
   it("should render with default props", () => {

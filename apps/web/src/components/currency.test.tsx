@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { Currency } from "./currency";
+import { Currency } from "./shared/currency";
 
 describe("Currency", () => {
   it("should render a formatted value", () => {
