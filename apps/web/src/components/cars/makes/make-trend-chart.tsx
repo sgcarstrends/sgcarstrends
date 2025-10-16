@@ -14,7 +14,9 @@ interface Props {
 
 export const MakeTrendChart = ({ data }: Props) => {
   const monthlyTotals: { [key: string]: number } = {};
-  for (const { month, count } of data) {
+  for (const item of data) {
+    const month = item.month;
+    const count = item.count ?? item.number ?? 0;
     if (monthlyTotals[month]) {
       monthlyTotals[month] += count;
     } else {

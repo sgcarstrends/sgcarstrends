@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import type { COEResult } from "@web/types";
-import { LatestCOE } from "./latest-coe";
+import { LatestCOE } from "./coe/latest-coe";
 
 vi.mock("@web/components/animated-number", () => ({
   AnimatedNumber: ({ value }: { value: number }) => <span>{value}</span>,
