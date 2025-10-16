@@ -1,9 +1,9 @@
-import { columns } from "@web/app/(dashboard)/cars/makes/[make]/columns";
 import type { Logo } from "@web/app/(dashboard)/cars/makes/[make]/page";
-import { LastUpdated } from "@web/components/last-updated";
-import { MakeSelector } from "@web/components/make-selector";
-import { MakeTrendChart } from "@web/components/makes";
-import NoData from "@web/components/no-data";
+import { MakeSelector } from "@web/components/cars/make-selector";
+import { MakeTrendChart } from "@web/components/cars/makes";
+import { LastUpdated } from "@web/components/shared/last-updated";
+import NoData from "@web/components/shared/no-data";
+import { columns } from "@web/components/tables/columns/cars-make-columns";
 import Typography from "@web/components/typography";
 import {
   Card,

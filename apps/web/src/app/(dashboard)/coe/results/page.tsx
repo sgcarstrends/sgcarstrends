@@ -4,11 +4,11 @@ import {
   getDefaultStartDate,
   loadSearchParams,
 } from "@web/app/(dashboard)/coe/search-params";
-import { TrendTable } from "@web/app/(dashboard)/coe/trend-table";
-import { COEPremiumChart } from "@web/components/COE-premium-chart";
-import { COECategories } from "@web/components/coe-categories";
+import { COECategories } from "@web/components/coe/coe-categories";
+import { COEPremiumChart } from "@web/components/coe/premium-chart";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
+import { TrendTable } from "@web/components/tables/coe-results-table";
 import {
   Card,
   CardContent,

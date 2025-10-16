@@ -10,7 +10,7 @@ import { type COEResult, RevalidateTags } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
-import { LatestCOEClient } from "./latest-coe-client";
+import { LatestCOEClient } from "./latest-coe-content";
 
 const title = "Latest COE Prices";
 const description =

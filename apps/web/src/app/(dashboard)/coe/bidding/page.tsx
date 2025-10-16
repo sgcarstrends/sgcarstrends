@@ -4,9 +4,9 @@ import {
   getDefaultStartDate,
   loadSearchParams,
 } from "@web/app/(dashboard)/coe/search-params";
-import { TrendTable } from "@web/app/(dashboard)/coe/trend-table";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
+import { TrendTable } from "@web/components/tables/coe-results-table";
 import Typography from "@web/components/typography";
 import {
   Card,

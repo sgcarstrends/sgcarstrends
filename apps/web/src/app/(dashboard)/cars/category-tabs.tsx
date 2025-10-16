@@ -1,7 +1,7 @@
 "use client";
 
 import { Tab, Tabs } from "@heroui/tabs";
-import { StatCard } from "@web/components/stat-card";
+import { StatCard } from "@web/components/shared/stat-card";
 import type { Registration } from "@web/types/cars";
 
 interface Props {

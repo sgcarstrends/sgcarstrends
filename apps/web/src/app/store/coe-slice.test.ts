@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { createCoeSlice, type COEState, type COEAction } from "./coe-slice";
+import { type COEAction, type COEState, createCoeSlice } from "./coe-slice";
 
 describe("COE Slice", () => {
   it("should initialize with default categories", () => {

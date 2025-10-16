@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, useDisclosure } from "@heroui/react";
-import { BetaChip } from "@web/components/chips";
+import { BetaChip } from "@web/components/shared/chips";
 import { TrendsComparisonBottomSheet } from "@web/components/trends-comparison-bottom-sheet";
 import { TrendingUp } from "lucide-react";
 

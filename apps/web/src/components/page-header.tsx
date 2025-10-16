@@ -1,5 +1,5 @@
-import { LastUpdated } from "@web/components/last-updated";
-import { MonthSelector } from "@web/components/month-selector";
+import { LastUpdated } from "@web/components/shared/last-updated";
+import { MonthSelector } from "@web/components/shared/month-selector";
 import Typography from "@web/components/typography";
 import { cn } from "@web/lib/utils";
 import type { Month } from "@web/types";

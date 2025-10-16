@@ -1,7 +1,7 @@
 import { redis } from "@sgcarstrends/utils";
 import slugify from "@sindresorhus/slugify";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/makes/[make]/search-params";
-import { MakeDetail } from "@web/components/makes";
+import { MakeDetail } from "@web/components/cars/makes";
 import { StructuredData } from "@web/components/structured-data";
 import {
   API_URL,
