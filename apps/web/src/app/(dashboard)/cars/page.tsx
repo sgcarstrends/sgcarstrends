@@ -1,11 +1,11 @@
 import { redis } from "@sgcarstrends/utils";
-import { CarRegistration } from "@web/app/(dashboard)/cars/car-registration";
 import { CategoryTabs } from "@web/app/(dashboard)/cars/category-tabs";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
-import { MetricCard } from "@web/components/metric-card";
+import { CarRegistration } from "@web/app/(dashboard)/cars/trends-compare-button";
+import { TopMakes } from "@web/components/cars/top-makes";
 import { PageHeader } from "@web/components/page-header";
+import { MetricCard } from "@web/components/shared/metric-card";
 import { StructuredData } from "@web/components/structured-data";
-import { TopMakes } from "@web/components/top-makes";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";

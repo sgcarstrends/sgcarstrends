@@ -1,7 +1,7 @@
 "use client";
 
-import { SectionTabs } from "@web/components/dashboard/section-tabs";
-import { SubNav } from "@web/components/dashboard/sub-nav";
+import { SectionTabs } from "@web/components/dashboard/navigation/section-tabs";
+import { SubNav } from "@web/components/dashboard/navigation/sub-nav";
 import { navLinks } from "@web/config/navigation";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";

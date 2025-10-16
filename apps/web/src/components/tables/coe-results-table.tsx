@@ -1,7 +1,7 @@
 "use client";
 
-import { columns } from "@web/app/(dashboard)/coe/columns";
 import useStore from "@web/app/store";
+import { columns } from "@web/components/tables/columns/coe-results-columns";
 import { DataTable } from "@web/components/ui/data-table";
 import type { COEResult } from "@web/types";
 import { useMemo } from "react";

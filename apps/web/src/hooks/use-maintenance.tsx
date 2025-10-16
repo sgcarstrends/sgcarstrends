@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 const useMaintenance = (pollingInterval = 5000) => {
   const router = useRouter();

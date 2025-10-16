@@ -4,7 +4,7 @@ import {
   getDefaultStartDate,
   loadSearchParams,
 } from "@web/app/(dashboard)/coe/search-params";
-import { COEPremiumChart } from "@web/components/COE-premium-chart";
+import { COEPremiumChart } from "@web/components/coe/premium-chart";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";

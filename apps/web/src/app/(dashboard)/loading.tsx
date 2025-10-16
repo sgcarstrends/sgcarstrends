@@ -3,7 +3,7 @@ import {
   ChartSkeleton,
   MetricCardSkeleton,
   PageHeaderSkeleton,
-} from "@web/components/skeletons";
+} from "@web/components/dashboard/skeletons";
 
 const DashboardLoading = () => {
   return (

@@ -1,7 +1,7 @@
 import { Button } from "@heroui/button";
 import { Divider } from "@heroui/divider";
 import { BrandLogo } from "@web/components/brand-logo";
-import { BetaChip, NewChip } from "@web/components/chips";
+import { BetaChip, NewChip } from "@web/components/shared/chips";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { navLinks } from "@web/config/navigation";
 import Link from "next/link";

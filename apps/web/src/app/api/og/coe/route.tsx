@@ -1,8 +1,8 @@
-import { ImageResponse } from "next/og";
-import { NextRequest } from "next/server";
 import { loadSearchParams } from "@web/app/api/og/coe/search-params";
 import { formatCurrency } from "@web/utils/format-currency";
 import { formatOrdinal } from "@web/utils/format-ordinal";
+import { ImageResponse } from "next/og";
+import type { NextRequest } from "next/server";
 
 export const GET = async (request: NextRequest) => {
   const { title, subtitle, biddingNo, categoryA, categoryB, categoryE } =

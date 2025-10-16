@@ -1,6 +1,6 @@
 "use client";
 
-import { CategoryInfo } from "@web/components/category-info";
+import { CategoryInfo } from "@web/components/cars/category-info";
 import {
   Card,
   CardContent,

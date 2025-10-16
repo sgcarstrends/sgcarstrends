@@ -5,7 +5,7 @@ export const revalidate = 3600;
 
 import { redis } from "@sgcarstrends/utils";
 import { AnimatedNumber } from "@web/components/animated-number";
-import { LatestCOEPrices } from "@web/components/latest-coe-prices";
+import { LatestCOEPrices } from "@web/components/coe/latest-coe-prices";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";

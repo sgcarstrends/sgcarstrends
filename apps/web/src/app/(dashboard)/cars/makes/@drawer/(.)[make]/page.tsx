@@ -1,8 +1,8 @@
 import { redis } from "@sgcarstrends/utils";
 import slugify from "@sindresorhus/slugify";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/makes/[make]/search-params";
-import { MakeDrawer } from "@web/components/makes";
-import { MakeDetail } from "@web/components/makes/make-detail";
+import { MakeDrawer } from "@web/components/cars/makes";
+import { MakeDetail } from "@web/components/cars/makes/make-detail";
 import { API_URL, LAST_UPDATED_CARS_KEY } from "@web/config";
 import type { Car, Make } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
