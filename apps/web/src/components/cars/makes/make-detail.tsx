@@ -54,7 +54,7 @@ export const MakeDetail = ({
             <Typography.H1>{cars.make}</Typography.H1>
           </div>
           <div className="flex flex-col items-start gap-2">
-            {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
+            {!!lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
             <MakeSelector makes={makes} selectedMake={make} />
           </div>
         </div>
