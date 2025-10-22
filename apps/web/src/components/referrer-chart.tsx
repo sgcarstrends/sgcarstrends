@@ -1,6 +1,5 @@
 "use client";
 
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import {
   Card,
   CardContent,
@@ -14,6 +13,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@web/components/ui/chart";
+import { Cell, Pie, PieChart } from "recharts";
 
 interface Props {
   data: Array<{

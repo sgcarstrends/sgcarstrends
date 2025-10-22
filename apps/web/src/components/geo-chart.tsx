@@ -1,14 +1,6 @@
 "use client";
 
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-} from "recharts";
-import {
   Card,
   CardContent,
   CardDescription,
@@ -21,6 +13,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@web/components/ui/chart";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 interface Props {
   data: Array<{
@@ -69,7 +62,10 @@ export const GeoChart = ({ data }: Props) => {
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  formatter={(value, name) => [`${value} visitors`, "Visitors"]}
+                  formatter={(value, _name) => [
+                    `${value} visitors`,
+                    "Visitors",
+                  ]}
                   labelFormatter={(label) => {
                     const country = formattedData.find(
                       (item) => item.displayName === label,
