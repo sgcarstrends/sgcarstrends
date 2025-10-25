@@ -19,7 +19,7 @@ This monorepo provides a complete platform for SG Cars Trends, tracking Singapor
 ```mermaid
 graph TB
     subgraph "Frontend"
-        WEB[Web App<br/>Next.js 15]
+        WEB[Web App<br/>Next.js 16]
         BLOG[Blog Posts<br/>AI Generated]
     end
     
@@ -93,7 +93,7 @@ sgcarstrends/
 │   │   ├── src/routes/      # Workflow endpoints and webhooks
 │   │   ├── src/trpc/        # Type-safe tRPC router with authentication
 │   │   └── src/config/      # Database, Redis, QStash configurations
-│   ├── web/          # Next.js 15 frontend application
+│   ├── web/          # Next.js 16 frontend application
 │   │   ├── src/app/         # Next.js App Router pages and layouts
 │   │   │   ├── (social)/    # Social media redirect routes with UTM tracking
 │   │   │   └── blog/        # Blog pages with AI-generated content
@@ -128,10 +128,10 @@ sgcarstrends/
 - **Infrastructure**: SST v3 (Serverless Stack) on AWS
 - **Scheduling**: QStash Workflows for data processing
 - **LLM Integration**: Vercel AI SDK with Google Gemini for blog content generation
-- **Package Management**: pnpm v10.13.1 workspace with catalog for centralized dependency management
+- **Package Management**: pnpm v10.13.1 workspace with catalog for centralised dependency management
 - **Build Tools**: Turbopack for fast development builds
 - **Testing**: Vitest (unit), Playwright (E2E) with comprehensive coverage
-- **Linting & Formatting**: Biome v2.3.0 for consistent code style, formatting, and import organization
+- **Linting & Formatting**: Biome v2.3.0 for consistent code style, formatting, and import organisation
 
 ## Documentation
 
@@ -173,7 +173,7 @@ pnpm install
 
 #### Dependency Management
 
-This project uses **pnpm catalog** for centralized dependency version management. Shared dependencies (React, Next.js, TypeScript, testing tools, etc.) are defined in `pnpm-workspace.yaml` and referenced by workspace packages using the `catalog:` protocol.
+This project uses **pnpm catalog** for centralised dependency version management. Shared dependencies (React, Next.js, TypeScript, testing tools, etc.) are defined in `pnpm-workspace.yaml` and referenced by workspace packages using the `catalog:` protocol.
 
 **Key catalog packages:**
 - React ecosystem: `react` (19.2.0), `react-dom` (19.2.0), `next` (16.0.0)
