@@ -78,8 +78,8 @@ export const InsightCards = ({ insights, columns = 3 }: InsightCardsProps) => {
 
   return (
     <div className={`grid gap-4 ${gridCols}`}>
-      {insights.map((insight, index) => (
-        <Card key={index}>
+      {insights.map((insight) => (
+        <Card key={insight.title}>
           <CardContent className="p-4 sm:p-6">
             <div className="flex items-start space-x-4">
               <div className="min-w-0 flex-1">

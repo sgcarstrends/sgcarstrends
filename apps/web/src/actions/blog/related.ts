@@ -2,7 +2,7 @@
 
 import { db, posts } from "@sgcarstrends/database";
 import { redis } from "@sgcarstrends/utils";
-import { desc, inArray, isNotNull } from "drizzle-orm";
+import { desc, inArray } from "drizzle-orm";
 
 const getPostByIds = async (postIds: string[]) => {
   if (postIds.length === 0) {

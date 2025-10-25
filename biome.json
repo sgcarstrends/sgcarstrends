@@ -7,11 +7,13 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": true
+    "ignoreUnknown": true,
+    "includes": ["**", "!!coverage"]
   },
   "formatter": {
     "enabled": true,
-    "indentStyle": "space"
+    "indentStyle": "space",
+    "lineEnding": "auto"
   },
   "assist": {
     "enabled": true,
@@ -25,10 +27,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
-      "security": {
-        "noDangerouslySetInnerHtml": "warn"
-      }
+      "recommended": true
     }
   }
 }

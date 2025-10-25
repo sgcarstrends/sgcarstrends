@@ -64,14 +64,14 @@ describe("useGroupedMakes", () => {
     const { result } = renderHook(() => useGroupedMakes(numberMakes));
 
     expect(result.current.groupedMakes["#"]).toEqual(["3M", "7-ELEVEN"]);
-    expect(result.current.groupedMakes["B"]).toEqual(["BMW"]);
+    expect(result.current.groupedMakes.B).toEqual(["BMW"]);
   });
 
   it("should handle whitespace in make names", () => {
     const whitespaceMakes = [" AUDI ", "BMW", "  MERCEDES BENZ  "];
     const { result } = renderHook(() => useGroupedMakes(whitespaceMakes));
 
-    expect(result.current.groupedMakes["A"]).toEqual([" AUDI "]);
-    expect(result.current.groupedMakes["M"]).toEqual(["  MERCEDES BENZ  "]);
+    expect(result.current.groupedMakes.A).toEqual([" AUDI "]);
+    expect(result.current.groupedMakes.M).toEqual(["  MERCEDES BENZ  "]);
   });
 });

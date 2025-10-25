@@ -56,7 +56,9 @@ const SettingsPage = () => {
                   <span className="text-green-600">Normal Operation</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Last Maintenance:</span>
+                  <span className="text-muted-foreground">
+                    Last Maintenance:
+                  </span>
                   <span>Never</span>
                 </div>
               </div>
@@ -97,8 +99,8 @@ const SettingsPage = () => {
               Database Settings
             </CardTitle>
             <CardDescription>
-              Configure database connections, backup schedules, and data retention
-              policies.
+              Configure database connections, backup schedules, and data
+              retention policies.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -123,7 +125,8 @@ const SettingsPage = () => {
               Security Settings
             </CardTitle>
             <CardDescription>
-              Manage authentication, API keys, rate limiting, and security policies.
+              Manage authentication, API keys, rate limiting, and security
+              policies.
             </CardDescription>
           </CardHeader>
           <CardContent>

@@ -108,8 +108,8 @@ export const MarketShareDonut = ({
                 dataKey="value"
                 onClick={onValueChange}
               >
-                {formattedData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.fill} />
+                {formattedData.map((entry) => (
+                  <Cell key={`cell-${entry.name}`} fill={entry.fill} />
                 ))}
               </Pie>
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
@@ -119,8 +119,8 @@ export const MarketShareDonut = ({
 
           {showLegend && (
             <div className="mt-4 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
-              {legendData.map((item, index) => (
-                <div key={index} className="flex items-center gap-2">
+              {legendData.map((item) => (
+                <div key={item.name} className="flex items-center gap-2">
                   <div
                     className="h-3 w-3 flex-shrink-0 rounded-full"
                     style={{ backgroundColor: item.colour }}

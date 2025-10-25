@@ -133,8 +133,8 @@ export const ReferrerChart = ({ data, totalViews }: Props) => {
               fill="#8884d8"
               dataKey="count"
             >
-              {formattedData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.fill} />
+              {formattedData.map((entry) => (
+                <Cell key={`cell-${entry.name}`} fill={entry.fill} />
               ))}
             </Pie>
             <ChartTooltip

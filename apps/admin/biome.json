@@ -2,13 +2,10 @@
   "$schema": "../../node_modules/@biomejs/biome/configuration_schema.json",
   "extends": "//",
   "files": {
-    "includes": ["**", "!src/components/ui"]
+    "includes": ["**", "!!src/components/ui"]
   },
   "linter": {
     "rules": {
-      "suspicious": {
-        "noUnknownAtRules": "off"
-      },
       "nursery": {
         "useSortedClasses": {
           "fix": "safe",
@@ -23,6 +20,11 @@
     "domains": {
       "next": "recommended",
       "react": "recommended"
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
     }
   }
 }

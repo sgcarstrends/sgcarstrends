@@ -6,7 +6,7 @@
 
 This monorepo provides a complete platform for SG Cars Trends, tracking Singapore's car registration statistics and Certificate of Entitlement (COE) data. The system includes:
 
-- **Web Application**: Next.js 15 frontend with enhanced homepage featuring latest COE results, interactive charts, analytics, and AI-generated blog content with responsive design
+- **Web Application**: Next.js 16 frontend with enhanced homepage featuring latest COE results, interactive charts, analytics, and AI-generated blog content with responsive design
 - **REST API**: Hono-based API with type-safe endpoints for car registrations and COE results
 - **Integrated Data Updater**: QStash workflow-based system for fetching and processing LTA data
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini for market insights
@@ -19,7 +19,7 @@ This monorepo provides a complete platform for SG Cars Trends, tracking Singapor
 ```mermaid
 graph TB
     subgraph "Frontend"
-        WEB[Web App<br/>Next.js 15]
+        WEB[Web App<br/>Next.js 16]
         BLOG[Blog Posts<br/>AI Generated]
     end
     
@@ -93,7 +93,7 @@ sgcarstrends/
 │   │   ├── src/routes/      # Workflow endpoints and webhooks
 │   │   ├── src/trpc/        # Type-safe tRPC router with authentication
 │   │   └── src/config/      # Database, Redis, QStash configurations
-│   ├── web/          # Next.js 15 frontend application
+│   ├── web/          # Next.js 16 frontend application
 │   │   ├── src/app/         # Next.js App Router pages and layouts
 │   │   │   ├── (social)/    # Social media redirect routes with UTM tracking
 │   │   │   └── blog/        # Blog pages with AI-generated content
@@ -118,7 +118,7 @@ sgcarstrends/
 
 ## Technologies
 
-- **Frontend**: Next.js 15, React 19, TypeScript
+- **Frontend**: Next.js 16, React 19, TypeScript
 - **UI Library**: HeroUI (NextUI successor) with professional design system
 - **Styling**: Tailwind CSS v4 with custom configuration
 - **Backend**: Node.js 22, TypeScript with strict mode
@@ -128,10 +128,10 @@ sgcarstrends/
 - **Infrastructure**: SST v3 (Serverless Stack) on AWS
 - **Scheduling**: QStash Workflows for data processing
 - **LLM Integration**: Vercel AI SDK with Google Gemini for blog content generation
-- **Package Management**: pnpm v10.13.1 workspace with catalog for centralized dependency management
+- **Package Management**: pnpm v10.13.1 workspace with catalog for centralised dependency management
 - **Build Tools**: Turbopack for fast development builds
 - **Testing**: Vitest (unit), Playwright (E2E) with comprehensive coverage
-- **Linting**: Biome for consistent code style
+- **Linting & Formatting**: Biome v2.3.0 for consistent code style, formatting, and import organisation
 
 ## Documentation
 
@@ -173,13 +173,13 @@ pnpm install
 
 #### Dependency Management
 
-This project uses **pnpm catalog** for centralized dependency version management. Shared dependencies (React, Next.js, TypeScript, testing tools, etc.) are defined in `pnpm-workspace.yaml` and referenced by workspace packages using the `catalog:` protocol.
+This project uses **pnpm catalog** for centralised dependency version management. Shared dependencies (React, Next.js, TypeScript, testing tools, etc.) are defined in `pnpm-workspace.yaml` and referenced by workspace packages using the `catalog:` protocol.
 
 **Key catalog packages:**
-- React ecosystem: `react`, `react-dom`, `next`
-- TypeScript & types: `typescript`, `@types/node`, `@types/react`
-- Testing tools: `vitest`, `@vitest/coverage-v8`
-- Utilities: `date-fns`, `zod`, `sst`
+- React ecosystem: `react` (19.2.0), `react-dom` (19.2.0), `next` (16.0.0)
+- TypeScript & types: `typescript` (5.8.3), `@types/node`, `@types/react` (19.2.0), `@types/react-dom` (19.2.0)
+- Testing tools: `vitest` (3.2.4), `@vitest/coverage-v8` (3.2.4)
+- Utilities: `date-fns` (3.6.0), `zod` (3.25.76), `sst` (3.17.10), `resend` (6.1.2), `superjson` (2.2.2)
 
 This ensures version consistency across all workspace packages and simplifies dependency upgrades.
 
@@ -203,13 +203,17 @@ pnpm test:watch            # Run tests in watch mode
 pnpm test:coverage         # Run tests with coverage
 pnpm test:api              # Run API tests only
 pnpm test:web              # Run web tests only
-pnpm test:e2e              # Run E2E tests (web app)
-pnpm test:e2e:ui           # Run E2E tests with UI
+
+# E2E Testing (Web App)
+pnpm -F @sgcarstrends/web test:e2e       # Run Playwright E2E tests
+pnpm -F @sgcarstrends/web test:e2e:ui    # Run E2E tests with Playwright UI
 
 # Code Quality
-pnpm lint                  # Run linting on all packages
+pnpm lint                  # Run Biome linting on all packages
+pnpm format                # Run Biome formatting on all packages
 pnpm lint:api              # Lint API service only
 pnpm lint:web              # Lint web application only
+pnpm lint:admin            # Lint admin application only
 
 # Database
 pnpm db:migrate            # Run database migrations

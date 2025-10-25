@@ -14,9 +14,6 @@ const robots = (): MetadataRoute.Robots => {
         { userAgent: "*", allow: "/api/og/" },
       ];
       break;
-
-    case AppEnv.STAGING:
-    case AppEnv.DEV:
     default:
       rules = [
         { userAgent: "*", disallow: "/" },

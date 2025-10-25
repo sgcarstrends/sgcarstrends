@@ -33,7 +33,7 @@ pnpm deploy:prod        # Deploy to production environment
 
 ### Tech Stack
 
-- **Framework**: Next.js 15.4.7 with App Router and React 19.1.0
+- **Framework**: Next.js 16.0.0 with App Router and React 19.2.0
 - **Database**: PostgreSQL (Neon) with Drizzle ORM
 - **State Management**: Zustand with persistence
 - **Styling**: Tailwind CSS v4 with HeroUI components
