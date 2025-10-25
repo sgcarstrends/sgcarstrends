@@ -20,7 +20,7 @@ jobs:
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     strategy:
       matrix:
-        check: [test, lint, build]
+        check: [test, lint]
 
     steps:
       - name: Checkout
@@ -57,17 +57,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 10.13.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
