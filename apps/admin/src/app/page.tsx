@@ -6,7 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@admin/components/ui/card";
-import { Activity, Database, RefreshCw, Server, Wrench, Settings } from "lucide-react";
+import {
+  Activity,
+  Database,
+  RefreshCw,
+  Server,
+  Settings,
+  Wrench,
+} from "lucide-react";
 import Link from "next/link";
 
 const Dashboard = () => {
@@ -42,14 +49,14 @@ const Dashboard = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="font-medium text-sm">Maintenance Mode</CardTitle>
+            <CardTitle className="font-medium text-sm">
+              Maintenance Mode
+            </CardTitle>
             <Wrench className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-2">
-              <Badge variant="secondary">
-                Inactive
-              </Badge>
+              <Badge variant="secondary">Inactive</Badge>
             </div>
             <p className="mt-2 text-muted-foreground text-xs">
               Services running normally

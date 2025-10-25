@@ -4,7 +4,7 @@ import useStore from "@web/app/store";
 import { columns } from "@web/components/tables/columns/coe-results-columns";
 import { DataTable } from "@web/components/ui/data-table";
 import type { COEResult } from "@web/types";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 interface Props {
   coeResults: COEResult[];
@@ -13,7 +13,7 @@ interface Props {
 export const TrendTable = ({ coeResults }: Props) => {
   const categories = useStore(({ categories }) => categories);
 
-  const sortCOEResults = (a: COEResult, b: COEResult) => {
+  const sortCOEResults = useCallback((a: COEResult, b: COEResult) => {
     if (a.month !== b.month) {
       return b.month.localeCompare(a.month);
     }
@@ -23,7 +23,7 @@ export const TrendTable = ({ coeResults }: Props) => {
     }
 
     return a.vehicle_class.localeCompare(b.vehicle_class);
-  };
+  }, []);
 
   const sortedData = useMemo(
     () =>

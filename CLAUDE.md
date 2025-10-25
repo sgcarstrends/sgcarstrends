@@ -49,7 +49,7 @@ SG Cars Trends (v4.11.0) is a full-stack platform providing access to Singapore 
 Entitlement (COE) bidding results. The monorepo includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
-- **Web Application**: Next.js frontend with interactive charts, analytics, and blog functionality
+- **Web Application**: Next.js 16 frontend with interactive charts, analytics, and blog functionality
 - **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA
   DataMall (QStash workflows)
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini to analyse market data and generate insights
@@ -82,9 +82,11 @@ All commands use pnpm v10.13.1 as the package manager:
 - Run single test: `pnpm -F @sgcarstrends/api test -- src/utils/__tests__/slugify.test.ts`
 
 **Linting Commands:**
-- Lint all: `pnpm lint` (uses Biome with automatic formatting)
-- Lint API: `pnpm lint:api`
-- Lint web: `pnpm lint:web`
+- Lint all: `pnpm lint` (runs Biome across all workspace packages)
+- Format all: `pnpm format` (runs Biome formatting)
+- Lint API: `pnpm lint:api` (Biome check on API package)
+- Lint web: `pnpm lint:web` (Biome check on web package)
+- Lint admin: `pnpm lint:admin` (Biome check on admin package)
 
 **Start Commands:**
 - Start web: `pnpm start:web`
@@ -244,16 +246,18 @@ Centralized version definitions in `pnpm-workspace.yaml` ensure consistency acro
 ```yaml
 catalog:
   '@types/node': ^22.16.4
-  '@types/react': 19.1.0
-  '@types/react-dom': 19.1.0
+  '@types/react': ^19.2.0
+  '@types/react-dom': ^19.2.0
   '@vitest/coverage-v8': ^3.2.4
   'date-fns': ^3.6.0
-  next: ^15.4.7
-  react: 19.1.0
-  'react-dom': 19.1.0
+  next: ^16.0.0
+  react: ^19.2.0
+  'react-dom': ^19.2.0
+  resend: ^6.1.2
   sst: ^3.17.10
+  superjson: ^2.2.2
   typescript: ^5.8.3
-  vitest: ^3.2.4
+  vitest: 3.2.4
   zod: ^3.25.76
 ```
 
@@ -298,12 +302,15 @@ When packages are installed at the root level, their CLI binaries (in `node_modu
 ## Code Style
 
 - TypeScript with strict type checking (noImplicitAny, strictNullChecks)
-- **Biome**: Used for formatting, linting, and import organization
-    - Double quotes for strings (enforced)
-    - 2 spaces for indentation (enforced)
-    - Automatic import organization (enforced)
-    - Recommended linting rules enabled
-    - Excludes `.claude`, `.sst`, `coverage`, `migrations`, and `*.d.ts` files
+- **Biome v2.3.0**: Used for formatting, linting, and import organization
+    - **Formatting**: 2 spaces for indentation, auto line endings
+    - **Import Organization**: Automatic import sorting via assist actions
+    - **Linting**: Recommended rules enabled across the monorepo
+    - **VCS Integration**: Git-aware file processing with `.gitignore` support
+    - **File Processing**: Uses `ignoreUnknown: true` with explicit includes pattern
+    - **Workspace Configs**: Individual apps extend root configuration with app-specific rules
+        - Web app: Next.js and React domain rules, Tailwind class sorting, shadcn/ui component exclusion
+        - API app: Inherits root configuration only
 - Function/variable naming: camelCase
 - Class naming: PascalCase
 - Constants: UPPER_CASE for true constants
@@ -330,9 +337,10 @@ When packages are installed at the root level, their CLI binaries (in `node_modu
 The project uses Husky v9+ with automated git hooks for code quality enforcement:
 
 ### Pre-commit Hook
-- **lint-staged**: Automatically runs `pnpm biome check --write` on staged files
-- Formats code and fixes lint issues before commits
+- **lint-staged**: Automatically runs `pnpm biome check --write` on staged `*.{js,ts,tsx,jsx,json}` files
+- Formats code, organizes imports, and fixes lint issues before commits
 - Only processes staged files for performance
+- Configured in root `package.json` lint-staged section
 
 ### Commit Message Hook
 - **commitlint**: Validates commit messages against conventional commit format

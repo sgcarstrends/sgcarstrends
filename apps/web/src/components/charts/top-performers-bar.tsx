@@ -46,7 +46,6 @@ export const TopPerformersBar = ({
   maxItems = 10,
   showRankings = true,
   showPercentages = true,
-  onValueChange,
 }: TopPerformersBarProps) => {
   const formattedData = useMemo(() => {
     return data.slice(0, maxItems).map((item, index) => ({
@@ -116,7 +115,7 @@ export const TopPerformersBar = ({
             <div className="flex flex-wrap gap-2">
               {formattedData.slice(0, 3).map((item, index) => (
                 <Badge
-                  key={index}
+                  key={item.name}
                   variant={index === 0 ? "default" : "secondary"}
                   className="flex items-center gap-1"
                 >

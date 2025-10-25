@@ -57,7 +57,7 @@ test.describe("Makes Page", () => {
 
   test("should navigate between car make pages", async ({ page }) => {
     const firstMake = carMakes[0];
-    const secondMake = carMakes[1];
+    const _secondMake = carMakes[1];
 
     await page.goto(`/cars/makes/${slugify(firstMake.title)}`);
     await expect(page.locator("h1")).toContainText(firstMake.title);
