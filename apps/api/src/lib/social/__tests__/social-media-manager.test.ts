@@ -93,11 +93,19 @@ describe("SocialMediaManager", () => {
       expect(result.errorCount).toBe(0);
       expect(result.results.size).toBe(4);
 
-      // Verify all handlers were called
-      expect(discordHandler.publish).toHaveBeenCalledWith(testMessage);
-      expect(linkedInHandler.publish).toHaveBeenCalledWith(testMessage);
-      expect(twitterHandler.publish).toHaveBeenCalledWith(testMessage);
-      expect(telegramHandler.publish).toHaveBeenCalledWith(testMessage);
+      const platforms = [
+        { handler: discordHandler, platform: "discord" },
+        { handler: linkedInHandler, platform: "linkedin" },
+        { handler: twitterHandler, platform: "twitter" },
+        { handler: telegramHandler, platform: "telegram" },
+      ];
+
+      platforms.forEach(({ handler, platform }) => {
+        expect(handler.publish).toHaveBeenCalledWith({
+          ...testMessage,
+          link: `https://test.com/?utm_source=${platform}&utm_medium=social&utm_campaign=blog`,
+        });
+      });
     });
 
     it("should handle mixed success and failure results", async () => {
@@ -221,7 +229,10 @@ describe("SocialMediaManager", () => {
 
       expect(result.success).toBe(true);
       expect(result.data).toEqual({ id: "123" });
-      expect(discordHandler.publish).toHaveBeenCalledWith(testMessage);
+      expect(discordHandler.publish).toHaveBeenCalledWith({
+        ...testMessage,
+        link: "https://test.com/?utm_source=discord&utm_medium=social&utm_campaign=blog",
+      });
     });
 
     it("should return error for non-existent platform", async () => {

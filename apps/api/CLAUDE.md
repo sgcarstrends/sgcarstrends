@@ -22,7 +22,7 @@ bidding results. Key features include:
 - **REST API**: OpenAPI-documented endpoints using Hono framework
 - **Workflow System**: QStash-powered data processing workflows for automated updates
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Twitter, and Telegram
-- **Blog Generation**: LLM-powered blog post creation using Google Gemini AI
+- **Blog Generation**: LLM-powered blog post creation using Vercel AI SDK with Google Gemini
 - **tRPC Support**: Type-safe API endpoints with authentication
 - **Multi-stage Deployment**: SST-powered deployment to dev, staging, and production
 
@@ -56,7 +56,7 @@ bidding results. Key features include:
 - **src/routes/**: Workflow endpoints and social media webhooks
 - **src/trpc/**: Type-safe tRPC router with context creation
 - **src/lib/workflows/**: QStash workflows (cars, coe, posts, save-post, update-cars, update-coe, workflow, options)
-- **src/lib/gemini/**: LLM-powered blog post generation using Google Gemini AI
+- **src/lib/gemini/**: LLM-powered blog post generation using Vercel AI SDK with Google Gemini
 - **src/lib/social/**: Platform-specific social media posting logic
 - **src/config/**: Configuration for databases, Redis, QStash, and platforms
 - **src/utils/**: Utility functions for file processing, caching, and responses
@@ -67,7 +67,7 @@ The API uses a workflow-based system for data processing:
 
 - **Workflow Runtime** (`src/lib/workflows/workflow.ts`): Common workflow helpers, step runner, Redis timestamps
 - **Data Updaters** (`src/lib/workflows/update-cars.ts`, `src/lib/workflows/update-coe.ts`): Automated data fetching and processing
-- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Google Gemini via `src/lib/gemini/generate-post.ts`
+- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Vercel AI SDK with Google Gemini via `src/lib/gemini/generate-post.ts`
 - **Post Management** (`src/lib/workflows/save-post.ts`): Blog post persistence with idempotency support
 - **Main Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`): Main workflow orchestrators exposed as routes
 - **Social Publishing**: Automated posting to platforms when data updates occur
@@ -92,7 +92,7 @@ The API uses a workflow-based system for data processing:
 - **GET /v1/coe**: COE bidding results
 - **GET /v1/months**: Available data months
 - **POST /workflows/trigger**: Trigger data update workflows
-- **All /trpc/** endpoints**: Type-safe tRPC procedures
+- **All /trpc/** endpoints\*\*: Type-safe tRPC procedures
 
 ### Workflow Endpoints
 
@@ -105,16 +105,19 @@ The API uses a workflow-based system for data processing:
 
 ## Path Aliases
 
-- **@api/***: Maps to `src/*` for internal imports
+- **@api/\***: Maps to `src/*` for internal imports
 - Use workspace imports: `@sgcarstrends/database`, `@sgcarstrends/types`, `@sgcarstrends/utils`
 
 ## Testing Strategy
 
 - **Framework**: Vitest with globals enabled
 - **Coverage**: V8 provider with text, JSON, and HTML reports
-- **Test Location**: `src/**/*.{test,spec}.{js,ts}`
+- **Test Location**: Co-located with code in `__tests__/` directories
+- **Test Pattern**: `feature/__tests__/component.test.ts` or `feature/__tests__/component.spec.ts`
+- **Test Discovery**: `src/**/*.{test,spec}.{js,ts}`
 - **Path Resolution**: Uses @api alias matching TypeScript configuration
 - **Coverage Targets**: All `src/**/*.{js,ts}` files except node_modules and type definitions
+- **Co-location Benefits**: Tests live next to implementation for better discoverability and maintainability
 
 ## Environment Variables
 
@@ -125,8 +128,29 @@ Required for local development (.env.local):
 - `UPSTASH_REDIS_REST_URL`: Redis caching URL
 - `UPSTASH_REDIS_REST_TOKEN`: Redis authentication
 - `UPSTASH_QSTASH_TOKEN`: QStash workflow token
-- `GEMINI_API_KEY`: Google Gemini AI for blog generation
-- Social media platform tokens for integrations
+- `GOOGLE_GENERATIVE_AI_API_KEY`: Google Gemini API key for blog generation (used by Vercel AI SDK)
+- `LANGFUSE_PUBLIC_KEY`: Langfuse public key for LLM observability (optional)
+- `LANGFUSE_SECRET_KEY`: Langfuse secret key for LLM observability (optional)
+- `LANGFUSE_HOST`: Langfuse host URL, defaults to https://cloud.langfuse.com (optional)
+- Social media platform tokens for integrations (Discord, LinkedIn, Twitter, Telegram)
+
+## Vercel Related Projects
+
+The API service is configured as a related project for the web application:
+
+**Configuration:**
+- Located in `vercel.json` at the API app root
+- References web project ID: `prj_RE6GjplQ6imcQuHQ93BmqSBJp6Cg`
+- Enables bidirectional project communication
+
+**Purpose:**
+- Allows web application to automatically resolve API URLs across environments
+- Web app uses `@vercel/related-projects` to dynamically discover API endpoints
+- Supports seamless communication between API and web in preview deployments
+
+**Related Documentation:**
+- See root `CLAUDE.md` for complete Vercel Related Projects overview
+- See `apps/web/CLAUDE.md` for web app integration details
 
 ## Code Style
 
@@ -154,3 +178,74 @@ Each platform has dedicated posting logic in `src/lib/social/*/`:
 - **Conditional Publishing**: Environment-based platform enabling
 - **Error Notifications**: Discord notifications for posting failures
 - **Content Formatting**: Platform-appropriate message formatting and link handling
+
+## LLM Observability with Langfuse
+
+The API integrates Langfuse for comprehensive LLM observability and analytics:
+
+### Features
+
+- **Token Usage Tracking**: Monitor prompt tokens, completion tokens, and total tokens for each blog generation
+- **Cost Analysis**: Track API costs per generation with model-specific pricing (Gemini 2.5 Flash)
+- **Performance Monitoring**: Measure latency, response times, and identify bottlenecks
+- **Prompt Effectiveness**: Analyze system instructions and prompt performance
+- **Error Debugging**: Detailed traces for troubleshooting generation failures
+- **Environment Tracking**: Automatically tag traces with stage (dev/staging/prod)
+
+### Implementation
+
+- **Instrumentation**: `src/instrumentation.ts` - OpenTelemetry setup with Langfuse span processor
+- **Telemetry**: Enabled in `src/lib/gemini/generate-post.ts` via Vercel AI SDK's experimental telemetry
+- **Automatic Initialization**: Instrumentation starts on Lambda cold start before any imports
+- **Optional**: Langfuse credentials are optional - API works without them
+
+### Configuration
+
+Set the following environment variables to enable Langfuse:
+
+```bash
+LANGFUSE_PUBLIC_KEY=pk-lf-...
+LANGFUSE_SECRET_KEY=sk-lf-...
+LANGFUSE_HOST=https://cloud.langfuse.com  # Or https://us.cloud.langfuse.com for US region
+```
+
+### Trace Metadata
+
+Each blog post generation trace includes:
+
+- `functionId`: `post-generation/cars` or `post-generation/coe`
+- `month`: Data month being processed
+- `dataType`: Either "cars" or "coe"
+- `stage`: Environment (from `VERCEL_ENV` or `STAGE`)
+- Model usage: Prompt tokens, completion tokens, total tokens
+- Response metadata: Response ID, model ID, timestamp
+
+### Quality Scoring
+
+Automated quality scores are calculated and attached to each generation trace:
+
+#### Content Quality Score (0-1)
+Evaluates post structure and completeness:
+- **Word count** (400-600 words target): 0.3 points
+- **Title presence** (# header): 0.2 points
+- **Section headers** (## headers, 2+ required): 0.2 points
+- **Data tables** (markdown tables, 3+ rows): 0.2 points
+- **Bullet points** (list formatting): 0.1 points
+
+#### Token Efficiency Score (0-1)
+Measures output quality vs. tokens consumed:
+- **Optimal** (1.5-2.5 tokens/word): 1.0
+- **Too efficient** (<1.5 tokens/word): 0.8 (may indicate low quality)
+- **Acceptable** (2.5-3.5 tokens/word): 0.7
+- **Inefficient** (>3.5 tokens/word): 0.5
+
+#### Generation Success Score (0-1)
+Indicates completion status:
+- **Complete** (no errors, proper ending): 1.0
+- **Partial** (incomplete or truncated): 0.5
+- **Failed** (error occurred): 0.0
+
+#### Overall Score
+Average of all three scores, providing a single quality metric per generation.
+
+**Viewing Scores**: All scores are visible in Langfuse dashboard as span attributes (`score.content_quality`, `score.token_efficiency`, `score.generation_success`, `score.overall`).

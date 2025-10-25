@@ -1,46 +1,54 @@
 "use client";
 
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Legend,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@web/components/ui/card";
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@web/components/ui/chart";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+
+interface YearTotal {
+  year: number;
+  total: number;
+}
 
 interface TotalNewCarRegistrationsByYearProps {
-  data: any;
+  data: YearTotal[];
 }
 
 export const TotalNewCarRegistrationsByYear = ({
   data,
 }: TotalNewCarRegistrationsByYearProps) => {
+  const chartConfig = {
+    total: {
+      label: "Total",
+      color: "var(--primary)",
+    },
+  } satisfies ChartConfig;
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Total New Car Registrations by Year</CardTitle>
+        <h3>Total New Car Registrations by Year</h3>
       </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="year" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="total" fill="#8884d8" />
-          </BarChart>
-        </ResponsiveContainer>
-      </CardContent>
+      <CardBody>
+        <ChartContainer config={chartConfig} className="h-[250px] w-full">
+          <LineChart accessibilityLayer data={data}>
+            <CartesianGrid vertical={false} />
+            <XAxis dataKey="year" tickLine={false} axisLine={false} />
+            <YAxis
+              dataKey="total"
+              type="number"
+              tickLine={false}
+              axisLine={false}
+            />
+            <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
+            <Line dataKey="total" fill="var(--primary)" />
+          </LineChart>
+        </ChartContainer>
+      </CardBody>
     </Card>
   );
 };

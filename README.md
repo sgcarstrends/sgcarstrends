@@ -6,10 +6,10 @@
 
 This monorepo provides a complete platform for SG Cars Trends, tracking Singapore's car registration statistics and Certificate of Entitlement (COE) data. The system includes:
 
-- **Web Application**: Next.js 15 frontend with interactive charts, analytics, and AI-generated blog content
+- **Web Application**: Next.js 15 frontend with enhanced homepage featuring latest COE results, interactive charts, analytics, and AI-generated blog content with responsive design
 - **REST API**: Hono-based API with type-safe endpoints for car registrations and COE results
 - **Integrated Data Updater**: QStash workflow-based system for fetching and processing LTA data
-- **LLM Blog Generation**: Automated blog post creation using Google Gemini AI for market insights
+- **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini for market insights
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter with trackable redirect routes
 - **Infrastructure**: SST v3 serverless deployment on AWS with multi-stage environments
 - **Documentation**: Comprehensive developer documentation with Mintlify
@@ -26,7 +26,7 @@ graph TB
     subgraph "Backend Services"
         API[API Service<br/>Hono Framework]
         WORKFLOWS[Data Workflows<br/>QStash]
-        LLM[Gemini AI<br/>Blog Generation]
+        LLM[Vercel AI SDK<br/>Blog Generation]
     end
     
     subgraph "Data Layer"
@@ -127,8 +127,8 @@ sgcarstrends/
 - **Caching**: Upstash Redis for API responses and analytics
 - **Infrastructure**: SST v3 (Serverless Stack) on AWS
 - **Scheduling**: QStash Workflows for data processing
-- **LLM Integration**: Google Gemini AI for blog content generation
-- **Package Management**: pnpm workspace
+- **LLM Integration**: Vercel AI SDK with Google Gemini for blog content generation
+- **Package Management**: pnpm v10.13.1 workspace with catalog for centralized dependency management
 - **Build Tools**: Turbopack for fast development builds
 - **Testing**: Vitest (unit), Playwright (E2E) with comprehensive coverage
 - **Linting**: Biome for consistent code style
@@ -157,8 +157,8 @@ For developers working on this codebase, detailed component-specific guidance is
 
 ### Prerequisites
 
-- Node.js >= 18
-- pnpm
+- Node.js >= 22
+- pnpm v10.13.1
 
 ### Installation
 
@@ -171,34 +171,61 @@ cd sgcarstrends
 pnpm install
 ```
 
+#### Dependency Management
+
+This project uses **pnpm catalog** for centralized dependency version management. Shared dependencies (React, Next.js, TypeScript, testing tools, etc.) are defined in `pnpm-workspace.yaml` and referenced by workspace packages using the `catalog:` protocol.
+
+**Key catalog packages:**
+- React ecosystem: `react`, `react-dom`, `next`
+- TypeScript & types: `typescript`, `@types/node`, `@types/react`
+- Testing tools: `vitest`, `@vitest/coverage-v8`
+- Utilities: `date-fns`, `zod`, `sst`
+
+This ensures version consistency across all workspace packages and simplifies dependency upgrades.
+
 ### Development
 
 ```bash
-# Run all applications in development mode
-pnpm dev
+# Development
+pnpm dev                    # Run all applications in development mode
+pnpm dev:api               # API service only
+pnpm dev:web               # Web application only
+pnpm docs:dev              # Documentation site only
 
-# Run specific applications
-pnpm -F @sgcarstrends/api dev    # API service only
-pnpm web:dev                     # Web application only
-pnpm docs:dev                    # Documentation site only
-
-# Build all applications
-pnpm build
+# Build
+pnpm build                 # Build all applications
+pnpm build:web             # Build web application only
+pnpm build:admin           # Build admin interface only
 
 # Testing
-pnpm test          # Run all unit tests
-pnpm test:coverage # Run tests with coverage
-pnpm test:e2e      # Run E2E tests (web app)
-pnpm test:e2e:ui   # Run E2E tests with UI
+pnpm test                  # Run all unit tests
+pnpm test:watch            # Run tests in watch mode
+pnpm test:coverage         # Run tests with coverage
+pnpm test:api              # Run API tests only
+pnpm test:web              # Run web tests only
+pnpm test:e2e              # Run E2E tests (web app)
+pnpm test:e2e:ui           # Run E2E tests with UI
 
-# Code quality
-pnpm lint          # Run linting on all packages
+# Code Quality
+pnpm lint                  # Run linting on all packages
+pnpm lint:api              # Lint API service only
+pnpm lint:web              # Lint web application only
+
+# Database
+pnpm db:migrate            # Run database migrations
+pnpm db:migrate:check      # Check migration status
+pnpm db:generate           # Generate new migrations
+pnpm db:push               # Push schema changes
+pnpm db:drop               # Drop database
 
 # Deployment
-pnpm -F @sgcarstrends/api deploy     # Deploy API service
-pnpm web:deploy:dev                  # Deploy web to dev
-pnpm web:deploy:staging              # Deploy web to staging
-pnpm web:deploy:prod                 # Deploy web to production
+pnpm deploy:dev            # Deploy all to dev environment
+pnpm deploy:staging        # Deploy all to staging environment
+pnpm deploy:prod           # Deploy all to production environment
+
+# Service-specific deployment
+pnpm deploy:api:dev        # Deploy API to dev
+pnpm deploy:web:dev        # Deploy web to dev
 ```
 
 ## API Endpoints
@@ -229,7 +256,7 @@ pnpm web:deploy:prod                 # Deploy web to production
 
 ## Repo Activity
 
-![Alt](https://repobeats.axiom.co/api/embed/258928105d0fb955b3e6c42387ac59340df721e8.svg "Repobeats analytics image")
+![Alt](https://repobeats.axiom.co/api/embed/01e0d81ecb779bfb5be18d4c7f79a33d75db9e7b.svg "Repobeats analytics image")
 
 ## License
 

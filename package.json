@@ -5,29 +5,56 @@
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
   "scripts": {
-    "build": "turbo build --env-mode=loose",
-    "deploy:dev": "sst deploy --stage dev",
-    "deploy:prod": "sst deploy --stage prod",
-    "deploy:staging": "sst deploy --stage staging",
+    "build": "turbo build",
     "dev": "sst dev --stage local",
-    "docs:build": "pnpm -F @sgcarstrends/docs build",
-    "docs:dev": "pnpm -F @sgcarstrends/docs dev",
     "lint": "turbo lint",
+    "format": "turbo format",
+    "test": "turbo test",
+    "test:coverage": "turbo test:coverage",
+    "test:watch": "turbo test:watch",
     "migrate": "turbo migrate",
     "migrate:check": "turbo migrate:check",
     "prepare": "husky",
     "release": "semantic-release",
-    "test": "turbo test",
-    "test:coverage": "turbo test:coverage",
-    "test:e2e": "pnpm -F @sgcarstrends/web test:e2e",
-    "test:e2e:ui": "pnpm -F @sgcarstrends/web test:e2e:ui",
-    "test:watch": "turbo test:watch",
-    "web:build": "pnpm -F @sgcarstrends/web build",
-    "web:dev": "pnpm -F @sgcarstrends/web dev",
-    "web:start": "pnpm -F @sgcarstrends/web start"
+
+    "build:web": "turbo run @sgcarstrends/web#build",
+    "build:admin": "turbo run @sgcarstrends/admin#build",
+
+    "dev:api": "turbo run @sgcarstrends/api#dev",
+    "dev:web": "turbo run @sgcarstrends/web#dev",
+    "dev:admin": "turbo run @sgcarstrends/admin#dev",
+
+    "test:api": "turbo run @sgcarstrends/api#test",
+    "test:web": "turbo run @sgcarstrends/web#test",
+
+    "lint:api": "turbo run @sgcarstrends/api#lint",
+    "lint:web": "turbo run @sgcarstrends/web#lint",
+
+    "start:web": "turbo run @sgcarstrends/web#start",
+
+    "deploy:dev": "sst deploy --stage dev",
+    "deploy:staging": "sst deploy --stage staging",
+    "deploy:prod": "sst deploy --stage prod",
+
+    "deploy:api:dev": "turbo run @sgcarstrends/api#deploy:dev",
+    "deploy:api:staging": "turbo run @sgcarstrends/api#deploy:staging",
+    "deploy:api:prod": "turbo run @sgcarstrends/api#deploy:prod",
+
+    "deploy:web:dev": "turbo run @sgcarstrends/web#deploy:dev",
+    "deploy:web:staging": "turbo run @sgcarstrends/web#deploy:staging",
+    "deploy:web:prod": "turbo run @sgcarstrends/web#deploy:prod",
+
+    "db:migrate": "turbo run @sgcarstrends/database#migrate",
+    "db:migrate:check": "turbo run @sgcarstrends/database#migrate:check",
+    "db:generate": "turbo run @sgcarstrends/database#generate",
+    "db:push": "turbo run @sgcarstrends/database#push",
+    "db:drop": "turbo run @sgcarstrends/database#drop",
+
+    "docs:build": "turbo run @sgcarstrends/docs#build",
+    "docs:dev": "turbo run @sgcarstrends/docs#dev"
   },
   "dependencies": {
-    "sst": "3.17.10"
+    "sst": "catalog:"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.2",
@@ -40,15 +67,15 @@
     "@semantic-release/github": "^11.0.0",
     "@semantic-release/release-notes-generator": "^14.0.1",
     "@types/aws-lambda": "8.10.152",
-    "@types/node": "^22.13.9",
-    "@vitest/coverage-v8": "^3.2.4",
+    "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "conventional-changelog-conventionalcommits": "^9.1.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
     "semantic-release": "^24.0.0",
     "turbo": "^2.5.6",
-    "typescript": "^5.4.5",
-    "vitest": "^3.2.4"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "packageManager": "pnpm@10.13.1",
   "lint-staged": {

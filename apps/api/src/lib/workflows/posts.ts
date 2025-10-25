@@ -1,6 +1,7 @@
+import { getCarsAggregatedByMonth } from "@api/features/cars/queries";
+import { getCoeForMonth } from "@api/features/coe/queries";
 import { generatePost } from "@api/lib/gemini/generate-post";
-import { getCarsAggregatedByMonth } from "@api/queries";
-import { getCoeForMonth } from "@api/queries/coe";
+import { tokeniser } from "@api/utils/tokeniser";
 import type { WorkflowContext } from "@upstash/workflow";
 
 export const generateCarPost = async (
@@ -9,7 +10,7 @@ export const generateCarPost = async (
 ) => {
   // Get car data from database
   const cars = await getCarsAggregatedByMonth(month);
-  const data = cars.map((row) => JSON.stringify(row));
+  const data = tokeniser(cars);
 
   return generatePost(context, {
     data,
@@ -24,7 +25,7 @@ export const generateCoePost = async (
 ) => {
   // Get COE data from database for both bidding exercises
   const coe = await getCoeForMonth(month);
-  const data = coe.map((row) => JSON.stringify(row));
+  const data = tokeniser(coe);
 
   return generatePost(context, {
     data,

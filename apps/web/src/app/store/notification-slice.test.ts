@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import {
   createNotificationSlice,
-  type NotificationState,
   type NotificationAction,
+  type NotificationState,
 } from "./notification-slice";
 
 describe("Notification Slice", () => {

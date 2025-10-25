@@ -1,8 +1,7 @@
-"use client";
-
-import { Button, Divider } from "@heroui/react";
+import { Button } from "@heroui/button";
+import { Divider } from "@heroui/divider";
 import { BrandLogo } from "@web/components/brand-logo";
-import { BetaChip, NewChip } from "@web/components/chips";
+import { BetaChip, NewChip } from "@web/components/shared/chips";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { navLinks } from "@web/config/navigation";
 import Link from "next/link";
@@ -43,31 +42,22 @@ export const Footer = () => (
         <div className="space-y-4">
           <h3 className="font-semibold text-default-900 text-lg">Cars</h3>
           <div className="space-y-2">
-            <Link
-              href={navLinks.cars.overview.url}
-              className="block text-default-600 text-sm transition-colors hover:text-primary"
-            >
-              {navLinks.cars.overview.title}
-            </Link>
-            <Link
-              href={navLinks.cars.fuelTypes.url}
-              className="block text-default-600 text-sm transition-colors hover:text-primary"
-            >
-              {navLinks.cars.fuelTypes.title}
-            </Link>
-            <Link
-              href={navLinks.cars.vehicleTypes.url}
-              className="block text-default-600 text-sm transition-colors hover:text-primary"
-            >
-              {navLinks.cars.vehicleTypes.title}
-            </Link>
-            <Link
-              href={navLinks.cars.makes.url}
-              className="flex items-center gap-2 text-default-600 text-sm transition-colors hover:text-primary"
-            >
-              {navLinks.cars.makes.title}
-              <BetaChip />
-            </Link>
+            {navLinks.cars.map((item) => {
+              const hasBadge = Boolean(item.badge);
+              return (
+                <Link
+                  key={item.title}
+                  href={item.url}
+                  className={`text-default-600 text-sm transition-colors hover:text-primary ${
+                    hasBadge ? "flex items-center gap-2" : "block"
+                  }`}
+                >
+                  {item.title}
+                  {item.badge === "beta" && <BetaChip />}
+                  {item.badge === "new" && <NewChip />}
+                </Link>
+              );
+            })}
           </div>
         </div>
 

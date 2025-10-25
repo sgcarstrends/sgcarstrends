@@ -1,12 +1,13 @@
 name: Cleanup PR Preview
 
 on:
-  pull_request:
-    types: [closed]
-    paths:
-      - 'apps/api/**'
-      - 'apps/web/**'
-      - 'packages/**'
+  #  pull_request:
+  #    types: [closed]
+  #    paths:
+  #      - 'apps/api/**'
+  #      - 'apps/web/**'
+  #      - 'packages/**'
+  workflow_dispatch:
 
 permissions:
   id-token: write

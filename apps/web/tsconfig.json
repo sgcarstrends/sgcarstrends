@@ -20,15 +20,8 @@
     ],
     "target": "ESNext",
     "verbatimModuleSyntax": true,
-    "types": ["vitest/globals"]
+    "types": ["next", "vitest/globals"]
   },
-  "include": [
-    "next-env.d.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": ["node_modules", ".sst", "sst.config.ts.backup"]
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "**/components/ui/**"]
 }

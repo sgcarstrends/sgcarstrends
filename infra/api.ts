@@ -36,7 +36,12 @@ export const api = new sst.aws.Function("Api", {
     UPDATER_API_TOKEN: process.env.UPDATER_API_TOKEN as string,
 
     // AI/LLM
-    GEMINI_API_KEY: process.env.GEMINI_API_KEY as string,
+    GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+
+    // Langfuse (LLM Observability)
+    LANGFUSE_PUBLIC_KEY: process.env.LANGFUSE_PUBLIC_KEY,
+    LANGFUSE_SECRET_KEY: process.env.LANGFUSE_SECRET_KEY,
+    LANGFUSE_HOST: process.env.LANGFUSE_HOST,
 
     // QStash/Upstash
     QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
@@ -58,6 +63,10 @@ export const api = new sst.aws.Function("Api", {
     LINKEDIN_REFRESH_TOKEN: process.env.LINKEDIN_REFRESH_TOKEN as string,
     LINKEDIN_ORGANISATION_ID: process.env.LINKEDIN_ORGANISATION_ID as string,
     LINKEDIN_USER_ID: process.env.LINKEDIN_USER_ID as string,
+
+    // Resend
+    RESEND_AUDIENCE_ID: process.env.RESEND_AUDIENCE_ID,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
 
     // Telegram
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN as string,

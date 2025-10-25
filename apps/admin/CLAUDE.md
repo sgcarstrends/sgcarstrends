@@ -16,30 +16,32 @@ other libraries used in this admin dashboard.
 
 ## Project Overview
 
-This is the admin dashboard for SG Cars Trends, built with Next.js 15 and shadcn/ui components. The dashboard provides
+This is the admin dashboard (v4.11.0) for SG Cars Trends, built with Next.js 15.4.7 and shadcn/ui components. The dashboard provides
 administrative functionality for managing the SG Cars Trends platform, including content management, data oversight, and
 system monitoring.
+
+**Note**: This is currently an unreleased application under development.
 
 ## Commands
 
 ### Development Commands
 
-- **Start development server**: `pnpm dev` (uses Turbopack for faster builds)
+- **Start development server**: `pnpm dev` (uses Next.js with Turbopack for faster builds)
 - **Build for production**: `pnpm build`
 - **Start production server**: `pnpm start`
-- **Lint code**: `pnpm lint`
+- **Lint code**: `pnpm lint` (Next.js ESLint)
 
 ## Architecture
 
 ### Tech Stack
 
-- **Framework**: Next.js 15 with App Router
+- **Framework**: Next.js 15.4.7 with App Router and React 19.1.0
 - **UI Framework**: shadcn/ui components built on Radix UI primitives
-- **Styling**: Tailwind CSS with shadcn/ui design system
-- **State Management**: Zustand for client-side state
-- **Data Fetching**: TanStack Query (React Query)
-- **Icons**: Lucide React
-- **Code Quality**: Biome for linting and formatting
+- **Styling**: Tailwind CSS v4.1.11 with shadcn/ui design system
+- **State Management**: Zustand v5.0.6 for client-side state
+- **Data Fetching**: TanStack Query v5.84.1 (React Query)
+- **Icons**: Lucide React v0.482.0
+- **Development**: Turbopack for faster builds
 
 ### Project Structure
 
@@ -125,4 +127,14 @@ This admin dashboard is part of the SG Cars Trends monorepo and uses shared pack
 
 - **@sgcarstrends/database**: Database schema and types
 - **@sgcarstrends/types**: Shared TypeScript definitions
-- **@sgcarstrends/utils**: Common utility functions
+- **@sgcarstrends/utils**: Common utility functions including Redis configuration
+
+## Current Status
+
+This application is currently under development and has not been released. It is intended to provide administrative functionality for:
+
+- Content management and moderation
+- Data monitoring and analytics
+- System health and performance tracking
+- User management and permissions
+- Workflow monitoring and debugging

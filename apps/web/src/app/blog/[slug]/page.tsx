@@ -1,12 +1,13 @@
 import { Button } from "@heroui/button";
-import { getAllPosts, getPostBySlug, updatePostTags } from "@web/actions/blog";
+import { updatePostTags } from "@web/actions/blog/tags";
 import { ProgressBar } from "@web/components/blog/progress-bar";
 import { RelatedPosts } from "@web/components/blog/related-posts";
 import { ViewCounter } from "@web/components/blog/view-counter";
-import { BetaChip } from "@web/components/chips";
+import { BetaChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
 import { Separator } from "@web/components/ui/separator";
 import { SITE_URL } from "@web/config";
+import { getQueryClient, trpc } from "@web/trpc/server";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -27,7 +28,10 @@ export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const queryClient = getQueryClient();
+  const post = await queryClient.fetchQuery(
+    trpc.blog.getPostBySlug.queryOptions({ slug }),
+  );
 
   if (!post) {
     return { title: "Post Not Found" };
@@ -44,6 +48,8 @@ export const generateMetadata = async ({
   };
   const excerpt = metadata?.excerpt || "";
 
+  const publishedDate = post.publishedAt ?? post.createdAt;
+
   return {
     title: post.title,
     description: excerpt,
@@ -51,8 +57,7 @@ export const generateMetadata = async ({
       title: post.title,
       description: excerpt,
       type: "article",
-      publishedTime:
-        post.publishedAt?.toISOString() ?? post.createdAt.toISOString(),
+      publishedTime: publishedDate.toISOString(),
       // authors: [author],
       tags: metadata?.tags ?? [],
       url: canonical,
@@ -69,13 +74,19 @@ export const generateMetadata = async ({
 };
 
 export const generateStaticParams = async () => {
-  const posts = await getAllPosts();
+  const queryClient = getQueryClient();
+  const posts = await queryClient.fetchQuery(
+    trpc.blog.getAllPosts.queryOptions(),
+  );
   return posts.map((post) => ({ slug: post.slug }));
 };
 
 const BlogPostPage = async ({ params }: Props) => {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const queryClient = getQueryClient();
+  const post = await queryClient.fetchQuery(
+    trpc.blog.getPostBySlug.queryOptions({ slug }),
+  );
 
   if (!post) {
     notFound();

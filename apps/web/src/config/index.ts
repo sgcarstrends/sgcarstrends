@@ -1,4 +1,5 @@
 import slugify from "@sindresorhus/slugify";
+import { withRelatedProject } from "@vercel/related-projects";
 import { VEHICLE_TYPE_MAP } from "@web/constants";
 import type { Announcement, AppEnv, LinkItem, VehicleType } from "@web/types";
 import { Battery, Droplet, Fuel, Zap } from "lucide-react";
@@ -7,14 +8,22 @@ export const DOMAIN_NAME = "sgcarstrends.com";
 const API_VERSION = "v1";
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? `https://${DOMAIN_NAME}`;
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    : `https://${DOMAIN_NAME}`);
 export const SITE_TITLE = "SG Cars Trends";
 
 export const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV as AppEnv;
 
-// Configure the API BASE URL
 const DEFAULT_API_URL = `https://api.${DOMAIN_NAME}`;
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_API_URL;
+export const API_BASE_URL =
+  // TODO: Remove this check once Hono is working on Vercel
+  process.env.NEXT_PUBLIC_API_URL ??
+  withRelatedProject({
+    projectName: "api",
+    defaultHost: process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_API_URL,
+  });
 export const API_URL = `${API_BASE_URL}/${API_VERSION}`;
 
 export enum FUEL_TYPE {

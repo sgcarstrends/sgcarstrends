@@ -1,6 +1,6 @@
-# CLAUDE.md
+# CLAUDE.md - Web Application
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with the web application in this repository.
 
 ## Development Commands
 
@@ -20,10 +20,8 @@ pnpm test:e2e           # Run Playwright E2E tests
 pnpm test:e2e:ui        # Run E2E tests with Playwright UI
 
 # Code Quality
-pnpm lint               # Run ESLint
-
-# Database
-pnpm migrate            # Run Drizzle database migrations
+pnpm lint               # Run Next.js ESLint
+pnpm format             # Format code with Biome
 
 # Deployment
 pnpm deploy:dev         # Deploy to dev environment
@@ -35,7 +33,7 @@ pnpm deploy:prod        # Deploy to production environment
 
 ### Tech Stack
 
-- **Framework**: Next.js 15 with App Router and React 19
+- **Framework**: Next.js 15.4.7 with App Router and React 19.1.0
 - **Database**: PostgreSQL (Neon) with Drizzle ORM
 - **State Management**: Zustand with persistence
 - **Styling**: Tailwind CSS v4 with HeroUI components
@@ -47,7 +45,7 @@ pnpm deploy:prod        # Deploy to production environment
 ```
 src/
 ├── app/               # Next.js App Router - pages, layouts, API routes
-│   ├── (home)/       # Home page route group
+│   ├── (home)/       # Home page route group with COE results and blog sidebar
 │   ├── (social)/     # Social media redirect routes with UTM tracking
 │   ├── api/          # API routes (analytics, OG images, revalidation)
 │   ├── blog/         # Blog pages with dynamic routes and Open Graph images
@@ -56,7 +54,9 @@ src/
 │   └── store/        # Zustand store slices
 ├── actions/          # Server actions for blog functionality
 ├── components/       # React components with tests
-│   └── blog/         # Blog-specific components (progress bar, view counter, related posts)
+│   ├── blog/         # Blog-specific components (progress bar, view counter, related posts)
+│   ├── dashboard/    # Dashboard components (section tabs, sub-nav)
+│   └── [others]      # COE results, posts, charts, key statistics
 ├── config/          # App configuration (DB, Redis, navigation)
 ├── schema/          # Drizzle database schemas
 ├── types/           # TypeScript definitions
@@ -95,11 +95,26 @@ External API integration through `src/utils/api/` for:
 - Market share analytics
 - Top performer statistics
 
+### UTM Tracking
+
+**UTM Utilities** (`src/utils/utm.ts`):
+- **External Campaigns**: `createExternalCampaignURL()` for email newsletters and marketing campaigns
+- **Parameter Reading**: `useUTMParams()` React hook for future analytics implementation (currently unused)
+- **Best Practices**: Follows industry standards with no UTM tracking on internal navigation
+- **Type Safety**: Full TypeScript support with `UTMParams` interface and nuqs integration
+
 ### Component Patterns
 
 **UI Components**: Located in `src/components/ui/` following HeroUI patterns with professional design system.
 
 **Charts**: Recharts-based components in `src/components/charts/` for data visualization.
+
+**Dashboard Components**: Interactive components for the homepage including:
+
+- Section tabs with responsive overflow handling and dynamic font sizing
+- Latest COE results display with card-based layout
+- Recent posts sidebar with link navigation
+- Key statistics and yearly registration charts
 
 **Blog Components**: Specialized components in `src/components/blog/` including:
 
@@ -156,6 +171,44 @@ Environment variables managed through SST config:
 - `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
 - `SG_CARS_TRENDS_API_TOKEN`: External API authentication
 - `APP_ENV`: Environment stage (dev/staging/prod)
+- `NEXT_PUBLIC_APP_ENV`: Client-side environment stage
+- `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`: Feature flag for unreleased features
+- `VERCEL_ENV`: Vercel's automatic environment detection (production/preview/development)
+
+#### Production Environment Detection
+
+The application uses multiple environment variables to determine production status:
+
+- Social media redirects and production-only features activate when:
+  - `VERCEL_ENV === "production"` (Vercel deployment), OR
+  - `NEXT_PUBLIC_APP_ENV === "prod"` (SST production stage)
+
+#### VERCEL_URL Support
+
+The application supports Vercel's automatic URL environment variables:
+
+- `NEXT_PUBLIC_VERCEL_URL`: Client-side deployment URL (e.g., `my-site.vercel.app`) without `https://` protocol
+- `SITE_URL` configuration automatically uses `NEXT_PUBLIC_VERCEL_URL` when `NEXT_PUBLIC_SITE_URL` is not set
+
+#### Vercel Related Projects Integration
+
+The web application uses Vercel Related Projects for automatic API URL resolution:
+
+**Configuration:**
+- Located in `vercel.json` at the web app root
+- References API project ID: `prj_fyAvupEssH3LO4OQFDWplinVFlaI`
+- Uses `@vercel/related-projects` package for dynamic URL resolution
+
+**Implementation:**
+- API URL automatically resolved via `withRelatedProject()` in `src/config/index.ts`
+- Works across all environments: dev, staging, production, and preview deployments
+- Falls back to `NEXT_PUBLIC_API_URL` or default `https://api.sgcarstrends.com` if Related Projects unavailable
+
+**Benefits:**
+- No manual API URL configuration needed in Vercel deployments
+- Preview deployments automatically connect to correct API environment
+- Type-safe with full TypeScript support
+- Backward compatible with SST deployments
 
 ### Deployment
 
@@ -163,13 +216,13 @@ Multi-stage deployment via SST:
 
 - **dev**: `dev.sgcarstrends.com`
 - **staging**: `staging.sgcarstrends.com`
-- **prod**: `sgcarstrends.com`
+- **prod**: `sgcarstrends.com` (apex domain)
 
-Infrastructure uses AWS Lambda with ARM64 architecture and CloudFlare DNS.
+Infrastructure uses AWS Lambda with ARM64 architecture and Cloudflare DNS.
 
 ## Development Notes
 
-- **Package Manager**: Uses pnpm (version 10.8.0)
+- **Package Manager**: Uses pnpm v10.13.1
 - **TypeScript**: Strict mode enabled
 - **Turbopack**: Enabled for faster builds and development
 - **Feature Flags**: Controlled via `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`

@@ -1,3 +1,3 @@
-export * from "./posts";
 export * from "./related";
+export * from "./tags";
 export * from "./views";

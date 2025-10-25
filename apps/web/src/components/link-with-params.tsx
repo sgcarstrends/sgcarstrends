@@ -1,8 +1,8 @@
 "use client";
 
-import { type ComponentType, type PropsWithChildren, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { type ComponentType, type PropsWithChildren, Suspense } from "react";
 
 interface Props extends PropsWithChildren {
   href: string;

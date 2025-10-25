@@ -1,4 +1,5 @@
 import type { Platform } from "@api/types/social-media";
+import { createSocialShareURL } from "@api/utils/utm";
 import type {
   PlatformHandler,
   PlatformHealth,
@@ -36,7 +37,11 @@ export class SocialMediaManager {
 
     const publishPromises = enabledPlatforms.map(async (handler) => {
       try {
-        const result = await handler.publish(message);
+        // Add platform-specific UTM tracking to the link
+        const result = await handler.publish({
+          ...message,
+          link: createSocialShareURL(message.link, handler.platform),
+        });
         results.set(handler.platform, result);
 
         if (result.success) {
@@ -113,7 +118,10 @@ export class SocialMediaManager {
 
     try {
       console.log(`📤 Publishing to ${platform}`);
-      const result = await handler.publish(message);
+      const result = await handler.publish({
+        ...message,
+        link: createSocialShareURL(message.link, platform),
+      });
 
       if (result.success) {
         console.log(`✅ Successfully published to ${platform}`);

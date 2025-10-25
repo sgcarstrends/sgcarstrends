@@ -1,15 +1,16 @@
 # CLAUDE.md - Infrastructure
 
-This directory contains the SST (Serverless Stack) infrastructure configuration for SG Cars Trends.
+This directory contains the SST (Serverless Stack) v3.17.10 infrastructure configuration for SG Cars Trends.
 
 ## Infrastructure Architecture
 
-- **Framework**: SST v3
+- **Framework**: SST v3.17.10
 - **Cloud Provider**: AWS (Singapore region: ap-southeast-1)
 - **Architecture**: arm64
 - **Runtime**: Node.js 22.x
 - **DNS**: Cloudflare
 - **Domain**: sgcarstrends.com
+- **Current Version**: v4.11.0
 
 ## Stage Configuration
 
@@ -84,7 +85,8 @@ This directory contains the SST (Serverless Stack) infrastructure configuration 
 
 - **Deploy to specific stage**: `sst deploy --stage {stage-name}`
 - **Remove stage**: `sst remove --stage {stage-name}`
-- **Local development**: `sst dev --stage dev`
+- **Local development**: `sst dev --stage local`
+- **Development deployment**: `sst dev --stage dev`
 
 ## Best Practices
 

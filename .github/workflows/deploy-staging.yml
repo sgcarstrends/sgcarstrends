@@ -9,6 +9,7 @@ on:
       - 'apps/web/**'
       - 'infra/**'
       - 'packages/**'
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -18,7 +19,7 @@ permissions:
 jobs:
   test:
     uses: ./.github/workflows/test.yml
-  
+
   run-migrations:
     uses: ./.github/workflows/run-migrations.yml
     with:
@@ -31,7 +32,10 @@ jobs:
     environment: Staging
     concurrency:
       group: deploy-staging-${{ github.ref }}
-    
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -65,7 +69,10 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DISCORD_WORKFLOW_WEBHOOK_URL: ${{ secrets.DISCORD_WORKFLOW_WEBHOOK_URL }}
           FEATURE_FLAG_RATE_LIMIT: ${{ vars.FEATURE_FLAG_RATE_LIMIT }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY }}
+          LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+          LANGFUSE_HOST: ${{ secrets.LANGFUSE_HOST }}
           LINKEDIN_CLIENT_ID: ${{ secrets.LINKEDIN_CLIENT_ID }}
           LINKEDIN_CLIENT_SECRET: ${{ secrets.LINKEDIN_CLIENT_SECRET }}
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
@@ -82,6 +89,8 @@ jobs:
           QSTASH_NEXT_SIGNING_KEY: ${{ secrets.QSTASH_NEXT_SIGNING_KEY }}
           QSTASH_TOKEN: ${{ secrets.QSTASH_TOKEN }}
           QSTASH_URL: ${{ secrets.QSTASH_URL }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           SG_CARS_TRENDS_API_TOKEN: ${{ secrets.SG_CARS_TRENDS_API_TOKEN }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
