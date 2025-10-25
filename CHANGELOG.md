@@ -1,3 +1,50 @@
+## [4.12.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.11.0...v4.12.0) (2025-10-25)
+
+### Features
+
+* add benchmarks for web and api utils ([1313f32](https://github.com/sgcarstrends/sgcarstrends/commit/1313f32500f031a0201bc7acdb00607fe55584da))
+* add newsletter subscription with Resend ([72a893c](https://github.com/sgcarstrends/sgcarstrends/commit/72a893c36eb4edd02cb583c3d2576ecfbf1a3ea3))
+* add Turbo remote caching to CI workflows ([a9b89a9](https://github.com/sgcarstrends/sgcarstrends/commit/a9b89a931f0d8751015f027925f37b9991a297eb))
+* add Vercel deployment support ([18dd431](https://github.com/sgcarstrends/sgcarstrends/commit/18dd4317648f015dead1b59d82eda63d1004fd4d))
+* add Vercel Related Projects for monorepo ([a0a7d56](https://github.com/sgcarstrends/sgcarstrends/commit/a0a7d566cf58826333a91d0924a72d7abde06841)), closes [#496](https://github.com/sgcarstrends/sgcarstrends/issues/496)
+* **api:** add langfuse observability ([d9596b1](https://github.com/sgcarstrends/sgcarstrends/commit/d9596b19b6e6d86834dc87adfd959507ab0d5076))
+* **api:** add newsletter broadcast workflow ([cbbd957](https://github.com/sgcarstrends/sgcarstrends/commit/cbbd95724837e996447dd145b525b55f857cbd6b))
+* **api:** add pipe-delimited data tokeniser utility ([61f468e](https://github.com/sgcarstrends/sgcarstrends/commit/61f468ec0d792fc9e4ee3fe0072136159e61004b))
+* **api:** add trpc newsletter subscription ([057ef7b](https://github.com/sgcarstrends/sgcarstrends/commit/057ef7b39c9c124a3de727a3a07a77aec3efd3e6))
+* **api:** add UTM tracking to social media links ([86a957d](https://github.com/sgcarstrends/sgcarstrends/commit/86a957d628227b7cf807c9a9993d1c43ba5a5f25))
+* **api:** enable COE blog post generation and social media ([1345d8e](https://github.com/sgcarstrends/sgcarstrends/commit/1345d8e609a8c8cd04f982f030898f98f57de89d))
+* **api:** integrate tokeniser in blog generation ([e1ff10a](https://github.com/sgcarstrends/sgcarstrends/commit/e1ff10a78a9d8e76a94ac33b076aa933ff237c56))
+* **api:** migrate to Vercel AI SDK ([342285f](https://github.com/sgcarstrends/sgcarstrends/commit/342285fa364bca68f9a1a11be45812570db4b35a))
+* enable Turbopack build cache ([ab2390e](https://github.com/sgcarstrends/sgcarstrends/commit/ab2390e38f4fde631381b1c8892ffe9e0716b65c))
+* **web:** add CodSpeed benchmarking support ([aa4cffa](https://github.com/sgcarstrends/sgcarstrends/commit/aa4cffa8aead857cb77330cc2592abcec4e82cfb))
+* **web:** add dashboard layout with navigation ([16520f8](https://github.com/sgcarstrends/sgcarstrends/commit/16520f861484b69761070c2d5bf100946e7a36ba))
+* **web:** add dashboard navigation components ([43dd949](https://github.com/sgcarstrends/sgcarstrends/commit/43dd949af1d7d2aea1fa562fc744493718ee3243))
+* **web:** add loading skeletons ([321e3a4](https://github.com/sgcarstrends/sgcarstrends/commit/321e3a466ee05f0460aab4ea7d85394efd6e9539))
+* **web:** add more features to PQP page ([c787b4e](https://github.com/sgcarstrends/sgcarstrends/commit/c787b4ecc5e70ef1b8638e919cf9584eef8747de))
+* **web:** add PQP charts and components ([e0896aa](https://github.com/sgcarstrends/sgcarstrends/commit/e0896aa24fd4edf4dd13d49257f9b769e3a1dd9a))
+* **web:** add PQP comparison feature ([470fe93](https://github.com/sgcarstrends/sgcarstrends/commit/470fe9334f005c352acd957ad67505b48cd011a9))
+* **web:** add reusable Currency component ([00a5f7e](https://github.com/sgcarstrends/sgcarstrends/commit/00a5f7e3a71c2c1790deef981909839d183ac033))
+* **web:** add UTM utilities for external campaigns ([0380fb2](https://github.com/sgcarstrends/sgcarstrends/commit/0380fb21cf9cce876d1a7ad3a4fb9d18b4cc38a0))
+* **web:** enable redirect only in prod ([08ab7dd](https://github.com/sgcarstrends/sgcarstrends/commit/08ab7dd56f69367ff9b88b50e08059ac3a1d3257))
+* **web:** enhance homepage with COE and blog ([4cb6580](https://github.com/sgcarstrends/sgcarstrends/commit/4cb65805a9c7e57167a01b53e329e8198ae2388e))
+* **web:** migrate from Inter to Geist fonts ([9d7c113](https://github.com/sgcarstrends/sgcarstrends/commit/9d7c113df1fec3cf2140fa34a2906812a4630451))
+* **web:** replace dummy data with real DB queries ([6171c7c](https://github.com/sgcarstrends/sgcarstrends/commit/6171c7cdf835afc3cf586246edd842c55b4bfb72)), closes [#249](https://github.com/sgcarstrends/sgcarstrends/issues/249)
+* **web:** simplify brand logo to icon only ([bc1716e](https://github.com/sgcarstrends/sgcarstrends/commit/bc1716eda25f77083931285c9b197b4afd267bcb))
+* **web:** update header with pill-shaped design ([3a65921](https://github.com/sgcarstrends/sgcarstrends/commit/3a65921682f92cf138fc9a0831d232156411437c))
+
+### Bug Fixes
+
+* **web:** allow vercel live csp ([4d294ce](https://github.com/sgcarstrends/sgcarstrends/commit/4d294ce77b99505adf600ea9ad8372da898fc81d))
+* **web:** destructure useQueryStates return ([8b500fc](https://github.com/sgcarstrends/sgcarstrends/commit/8b500fc20bccf7a262e3fe87f19481334ca30154))
+* **web:** handle redis.zrange object results ([b2f06fd](https://github.com/sgcarstrends/sgcarstrends/commit/b2f06fd828c978152b6f437459e7e43feb6f38f7))
+* **web:** improve section tabs responsiveness ([3ba6e4c](https://github.com/sgcarstrends/sgcarstrends/commit/3ba6e4cc8ca50a6e6b6525ebe445b0eea8ee4aef))
+* **web:** metadata types in PQP page ([879bc93](https://github.com/sgcarstrends/sgcarstrends/commit/879bc9345f29e98d2785c33d65ccb8a861943ca9))
+* **web:** page crashing when hover over charts in PQP page ([5c15af3](https://github.com/sgcarstrends/sgcarstrends/commit/5c15af356bcca1243243cdf142e08821e21be21e))
+* **web:** prevent leaked falsy value ([a085d05](https://github.com/sgcarstrends/sgcarstrends/commit/a085d0524b57574776b637d294577955d7fb7046))
+* **web:** resolve test failures and imports ([6164800](https://github.com/sgcarstrends/sgcarstrends/commit/6164800d30b0ea35b4bc774a26ca2c2e98707ac2))
+* **web:** types error during build ([c064110](https://github.com/sgcarstrends/sgcarstrends/commit/c06411098c538aaa2d5fb29c64e5ea25d44b253e))
+* **web:** types for COE and PQP ([66b3623](https://github.com/sgcarstrends/sgcarstrends/commit/66b36230a715005f493a636535e8934a6c8bc982))
+
 ## [4.11.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.10.5...v4.11.0) (2025-09-14)
 
 ### Features
