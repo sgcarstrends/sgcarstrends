@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - release
+      - main
 
 permissions:
   contents: write
@@ -49,15 +49,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm release
-
-      - name: Merge release back to main
-        if: success()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git checkout main
-          git merge release --no-ff -m "chore(release): merge version updates back to main [skip ci]"
-          git push origin main

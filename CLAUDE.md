@@ -182,7 +182,6 @@ following industry best practices:
 - Create release: `pnpm release` (runs semantic-release locally, not recommended for production)
 - Manual version check: `npx semantic-release --dry-run` (preview next version without releasing)
 
-**Note**: Semantic releases are now configured to use the "release" branch instead of "main" branch.
 
 ### Deployment Commands
 
