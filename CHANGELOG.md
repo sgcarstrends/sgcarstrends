@@ -1,3 +1,9 @@
+## [4.12.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.0...v4.12.1) (2025-10-26)
+
+### Bug Fixes
+
+* **web:** add horizontal scroll to sub-nav in mobile ([f061017](https://github.com/sgcarstrends/sgcarstrends/commit/f061017f1f0c85ca07503a5f4bf79d7236e75ff5))
+
 ## [4.12.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.11.0...v4.12.0) (2025-10-25)
 
 ### Features
