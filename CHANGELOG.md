@@ -1,3 +1,9 @@
+## [4.12.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.2...v4.12.3) (2025-10-26)
+
+### Bug Fixes
+
+* **web:** headers for opennext backward compatibility ([3431fd7](https://github.com/sgcarstrends/sgcarstrends/commit/3431fd7378d625b1ef6c3e2b9e09d03bc4a6a51b))
+
 ## [4.12.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.1...v4.12.2) (2025-10-26)
 
 ### Bug Fixes
