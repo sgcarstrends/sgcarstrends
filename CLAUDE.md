@@ -647,6 +647,27 @@ Releases are automated using semantic-release based on conventional commits:
 - **Changelog**: Automatically generated and updated
 - **GitHub releases**: Created automatically with release notes
 
+## GitHub Actions Workflows
+
+The repository contains several GitHub Actions workflows for CI/CD automation:
+
+### Active Workflows
+
+- **release.yml**: Automated releases on main branch (lint, test, semantic-release)
+- **deploy-staging.yml**: Deploy to staging environment on main branch push
+- **deploy-prod.yml**: Deploy to production environment on release branch push
+- **run-migrations.yml**: Reusable workflow for database migrations
+- **test.yml**: Reusable workflow for running tests with coverage
+
+### Disabled Workflows
+
+The following workflows are currently **disabled** (triggers commented out, only `workflow_dispatch` enabled):
+
+- **deploy-pr.yml**: PR preview deployments (disabled)
+- **cleanup-pr.yml**: PR preview cleanup (disabled)
+
+**Important**: When making changes to GitHub Actions workflows, skip the disabled workflows (`deploy-pr.yml` and `cleanup-pr.yml`) unless specifically re-enabling them. These workflows are intentionally disabled and do not require updates.
+
 ## Contribution Guidelines
 
 - Create feature branches from main branch
