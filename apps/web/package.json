@@ -23,7 +23,7 @@
   "dependencies": {
     "@heroui/alert": "^2.2.26",
     "@heroui/button": "^2.2.24",
-    "@heroui/card": "^2.2.24",
+    "@heroui/card": "^2.2.25",
     "@heroui/chip": "^2.2.20",
     "@heroui/input": "^2.4.27",
     "@heroui/pagination": "^2.2.23",
