@@ -16,17 +16,18 @@ export const SubNav = ({ items }: DashboardSubMenuProps) => {
   const pathname = usePathname();
 
   return (
-    <Tabs
-      variant="light"
-      color="primary"
-      radius="full"
-      items={items}
-      selectedKey={pathname}
-      className="mb-8"
-    >
-      {items.map(({ name, href }) => {
-        return <Tab key={href} href={href} title={name} />;
-      })}
-    </Tabs>
+    <div className="mb-8 overflow-x-auto">
+      <Tabs
+        variant="light"
+        color="primary"
+        radius="full"
+        items={items}
+        selectedKey={pathname}
+      >
+        {items.map(({ name, href }) => {
+          return <Tab key={href} href={href} title={name} />;
+        })}
+      </Tabs>
+    </div>
   );
 };
