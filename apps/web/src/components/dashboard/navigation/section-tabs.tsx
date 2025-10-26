@@ -21,10 +21,10 @@ const LINKS: NavItem[] = [
     name: "COE",
     href: "/coe",
   },
-  {
-    name: "Misc",
-    href: "/misc",
-  },
+  // {
+  //   name: "Misc",
+  //   href: "/misc",
+  // },
 ];
 
 export const SectionTabs = () => {
