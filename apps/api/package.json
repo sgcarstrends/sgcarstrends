@@ -28,7 +28,7 @@
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
     "@sindresorhus/slugify": "^2.2.1",
-    "@trpc/client": "^11.4.3",
+    "@trpc/client": "^11.7.0",
     "@trpc/server": "^11.4.3",
     "@upstash/qstash": "^2.7.23",
     "@upstash/ratelimit": "^2.0.3",
