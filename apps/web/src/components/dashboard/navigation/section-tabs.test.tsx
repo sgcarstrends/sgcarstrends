@@ -24,7 +24,7 @@ describe("SectionTabs", () => {
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
     expect(screen.getByText("Cars")).toBeInTheDocument();
     expect(screen.getByText("COE")).toBeInTheDocument();
-    expect(screen.getByText("Misc")).toBeInTheDocument();
+    // expect(screen.getByText("Misc")).toBeInTheDocument();
   });
 
   it("should mark home route as active when pathname is /", () => {
@@ -100,9 +100,9 @@ describe("SectionTabs", () => {
       "href",
       "/coe",
     );
-    expect(screen.getByText("Misc").closest("a")).toHaveAttribute(
-      "href",
-      "/misc",
-    );
+    // expect(screen.getByText("Misc").closest("a")).toHaveAttribute(
+    //   "href",
+    //   "/misc",
+    // );
   });
 });

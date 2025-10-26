@@ -23,6 +23,11 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+export interface MainSection {
+  name: string;
+  href: string;
+}
+
 export interface NavigationItem {
   title: string;
   url: string;
@@ -45,6 +50,25 @@ export interface NavLinks {
   general: NavigationItem[];
   socialMedia: SocialMedia[];
 }
+
+export const mainSections: MainSection[] = [
+  {
+    name: "Dashboard",
+    href: "/",
+  },
+  {
+    name: "Cars",
+    href: "/cars",
+  },
+  {
+    name: "COE",
+    href: "/coe",
+  },
+  // {
+  //   name: "Misc",
+  //   href: "/misc",
+  // },
+];
 
 const socialMedia: SocialMedia[] = [
   {
