@@ -8,8 +8,8 @@ import type { ReactNode } from "react";
 
 const dashboardItems = [
   { name: "Overview", href: "/" },
-  { name: "Annual", href: "/annual" },
-  { name: "Monthly", href: "/monthly" },
+  // { name: "Annual", href: "/annual" },
+  // { name: "Monthly", href: "/monthly" },
 ];
 
 const DashboardLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
