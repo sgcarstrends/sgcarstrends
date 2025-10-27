@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/web",
   "description": "Web application for SG Cars Trends",
-  "version": "4.12.1",
+  "version": "4.12.3",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -23,7 +23,7 @@
   "dependencies": {
     "@heroui/alert": "^2.2.26",
     "@heroui/button": "^2.2.24",
-    "@heroui/card": "^2.2.24",
+    "@heroui/card": "^2.2.25",
     "@heroui/chip": "^2.2.20",
     "@heroui/input": "^2.4.27",
     "@heroui/pagination": "^2.2.23",
@@ -88,7 +88,7 @@
     "zustand": "^5.0.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.0",
+    "@babel/core": "^7.28.5",
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",
     "@playwright/test": "^1.54.1",
@@ -110,7 +110,7 @@
     "jsdom": "^26.1.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.6.14",
+    "prettier-plugin-tailwindcss": "^0.7.1",
     "tailwindcss": "^4.1.11",
     "typescript": "catalog:",
     "vite-tsconfig-paths": "^5.1.4",

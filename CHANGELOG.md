@@ -1,3 +1,15 @@
+## [4.12.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.2...v4.12.3) (2025-10-26)
+
+### Bug Fixes
+
+* **web:** headers for opennext backward compatibility ([3431fd7](https://github.com/sgcarstrends/sgcarstrends/commit/3431fd7378d625b1ef6c3e2b9e09d03bc4a6a51b))
+
+## [4.12.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.1...v4.12.2) (2025-10-26)
+
+### Bug Fixes
+
+* **web:** middleware invocation failed on Vercel ([fd91f80](https://github.com/sgcarstrends/sgcarstrends/commit/fd91f80d0a18b358eeb770f998d3f551cdd8fcf3))
+
 ## [4.12.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.0...v4.12.1) (2025-10-26)
 
 ### Bug Fixes
