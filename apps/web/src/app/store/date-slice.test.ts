@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { createDateSlice, type DateState, type DateAction } from "./date-slice";
+import { createDateSlice, type DateAction, type DateState } from "./date-slice";
 
 describe("Date Slice", () => {
   it("should initialize with correct default values", () => {

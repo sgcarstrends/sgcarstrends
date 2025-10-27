@@ -1,7 +1,7 @@
-import { ImageResponse } from "next/og";
-import type { NextRequest } from "next/server";
 import { loadSearchParams } from "@web/app/api/og/search-params";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { ImageResponse } from "next/og";
+import type { NextRequest } from "next/server";
 
 export const GET = async (request: NextRequest) => {
   const { month, title, subtitle, total, topFuelType, topVehicleType } =
@@ -34,6 +34,7 @@ export const GET = async (request: NextRequest) => {
         }}
       />
       <div tw="absolute bottom-8 left-8 flex items-center">
+        {/** biome-ignore lint/a11y/noSvgWithoutTitle: TODO: to be updated */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

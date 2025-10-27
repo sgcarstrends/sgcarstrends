@@ -1,7 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
-import { Cell, Pie, PieChart } from "recharts";
 import {
   Card,
   CardContent,
@@ -17,6 +15,8 @@ import {
   ChartTooltipContent,
 } from "@web/components/ui/chart";
 import { formatNumber, formatPercentage } from "@web/utils/chart-formatters";
+import { useMemo } from "react";
+import { Cell, Pie, PieChart } from "recharts";
 
 interface MarketShareData {
   name: string;
@@ -52,7 +52,7 @@ export const MarketShareDonut = ({
   }, [data]);
 
   const legendData = useMemo(() => {
-    return data.map((item, index) => ({
+    return data.map((item, _index) => ({
       name: item.name,
       colour: item.colour,
       value: formatNumber(item.count),
@@ -74,10 +74,10 @@ export const MarketShareDonut = ({
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900">
+          <CardTitle className="font-semibold text-gray-900 text-lg">
             {title}
           </CardTitle>
-          {subtitle && <p className="mt-1 text-sm text-gray-600">{subtitle}</p>}
+          {subtitle && <p className="mt-1 text-gray-600 text-sm">{subtitle}</p>}
         </CardHeader>
         <CardContent>
           <div className="flex h-60 items-center justify-center rounded-lg bg-gray-50">
@@ -91,10 +91,10 @@ export const MarketShareDonut = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">
+        <CardTitle className="font-semibold text-gray-900 text-lg">
           {title}
         </CardTitle>
-        {subtitle && <p className="mt-1 text-sm text-gray-600">{subtitle}</p>}
+        {subtitle && <p className="mt-1 text-gray-600 text-sm">{subtitle}</p>}
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
@@ -108,8 +108,8 @@ export const MarketShareDonut = ({
                 dataKey="value"
                 onClick={onValueChange}
               >
-                {formattedData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.fill} />
+                {formattedData.map((entry) => (
+                  <Cell key={`cell-${entry.name}`} fill={entry.fill} />
                 ))}
               </Pie>
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
@@ -119,8 +119,8 @@ export const MarketShareDonut = ({
 
           {showLegend && (
             <div className="mt-4 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
-              {legendData.map((item, index) => (
-                <div key={index} className="flex items-center gap-2">
+              {legendData.map((item) => (
+                <div key={item.name} className="flex items-center gap-2">
                   <div
                     className="h-3 w-3 flex-shrink-0 rounded-full"
                     style={{ backgroundColor: item.colour }}

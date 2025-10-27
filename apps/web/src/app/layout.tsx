@@ -2,11 +2,9 @@ import LoadingIndicator from "@web/app/loading-indicator";
 import { Providers } from "@web/app/providers";
 import { Analytics as InternalAnalytics } from "@web/components/analytics";
 import { Announcement } from "@web/components/announcement";
-import { SectionTabs } from "@web/components/dashboard/section-tabs";
 import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
 import { NotificationPrompt } from "@web/components/notification-prompt";
-import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
@@ -72,12 +70,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
             <LoadingIndicator />
             <Header />
             <Banner />
-            <main className="container mx-auto px-6 py-8">
-              <UnreleasedFeature>
-                <SectionTabs />
-              </UnreleasedFeature>
-              {children}
-            </main>
+            <main className="container mx-auto px-6 py-8">{children}</main>
             <Footer />
           </NuqsAdapter>
           {process.env.NODE_ENV === "production" && <InternalAnalytics />}

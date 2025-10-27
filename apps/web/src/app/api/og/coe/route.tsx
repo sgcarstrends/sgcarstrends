@@ -1,8 +1,8 @@
-import { ImageResponse } from "next/og";
-import { NextRequest } from "next/server";
 import { loadSearchParams } from "@web/app/api/og/coe/search-params";
 import { formatCurrency } from "@web/utils/format-currency";
 import { formatOrdinal } from "@web/utils/format-ordinal";
+import { ImageResponse } from "next/og";
+import type { NextRequest } from "next/server";
 
 export const GET = async (request: NextRequest) => {
   const { title, subtitle, biddingNo, categoryA, categoryB, categoryE } =
@@ -30,6 +30,7 @@ export const GET = async (request: NextRequest) => {
         }}
       />
       <div tw="absolute bottom-8 left-8 flex items-center">
+        {/** biome-ignore lint/a11y/noSvgWithoutTitle: TODO: to be updated */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

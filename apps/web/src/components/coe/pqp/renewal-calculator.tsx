@@ -3,7 +3,7 @@
 import { Alert } from "@heroui/alert";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Tab, Tabs } from "@heroui/tabs";
-import { Currency } from "@web/components/currency";
+import { Currency } from "@web/components/shared/currency";
 import type { Pqp } from "@web/types/coe";
 import { Bike, Calculator, Car, type LucideIcon, Truck } from "lucide-react";
 import { useMemo, useState } from "react";

@@ -112,8 +112,14 @@ const MaintenancePage = () => {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             Current Status
-            <Badge variant={currentMaintenanceStatus.isActive ? "destructive" : "default"}>
-              {currentMaintenanceStatus.isActive ? "Under Maintenance" : "Normal Operation"}
+            <Badge
+              variant={
+                currentMaintenanceStatus.isActive ? "destructive" : "default"
+              }
+            >
+              {currentMaintenanceStatus.isActive
+                ? "Under Maintenance"
+                : "Normal Operation"}
             </Badge>
           </CardTitle>
           <CardDescription>
@@ -125,10 +131,13 @@ const MaintenancePage = () => {
             <div className="text-center">
               <div className="mb-2 flex items-center justify-center gap-2">
                 <Globe className="h-6 w-6" />
-                <Server className="h-6 w-6" />  
+                <Server className="h-6 w-6" />
               </div>
               <div className="font-medium text-lg">All Services</div>
-              <Badge variant="outline" className="mt-2 bg-green-50 text-green-700">
+              <Badge
+                variant="outline"
+                className="mt-2 bg-green-50 text-green-700"
+              >
                 Online & Operational
               </Badge>
             </div>
@@ -136,7 +145,8 @@ const MaintenancePage = () => {
           {currentMaintenanceStatus.isActive && (
             <div className="mt-4 rounded-md border border-orange-200 bg-orange-50 p-3">
               <p className="text-orange-800 text-sm">
-                <strong>Active Message:</strong> {currentMaintenanceStatus.message}
+                <strong>Active Message:</strong>{" "}
+                {currentMaintenanceStatus.message}
               </p>
             </div>
           )}
@@ -157,7 +167,10 @@ const MaintenancePage = () => {
           {/* Enable/Disable Toggle */}
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="maintenance-toggle" className="font-medium text-base">
+              <Label
+                htmlFor="maintenance-toggle"
+                className="font-medium text-base"
+              >
                 Enable Maintenance Mode
               </Label>
               <p className="text-muted-foreground text-sm">
@@ -184,21 +197,22 @@ const MaintenancePage = () => {
                   className="text-base"
                 />
                 <p className="text-muted-foreground text-sm">
-                  This message will be displayed to users when they try to access
-                  services under maintenance.
+                  This message will be displayed to users when they try to
+                  access services under maintenance.
                 </p>
               </div>
 
               {/* Service Scope Info */}
               <div className="rounded-lg border bg-muted/50 p-4">
-                <div className="flex items-center gap-2 mb-2">
+                <div className="mb-2 flex items-center gap-2">
                   <Globe className="h-4 w-4" />
                   <Server className="h-4 w-4" />
                   <Label className="font-medium text-base">Service Scope</Label>
                 </div>
                 <p className="text-muted-foreground text-sm">
-                  Maintenance mode will affect all services including the main website 
-                  (sgcarstrends.com) and all API endpoints (api.sgcarstrends.com).
+                  Maintenance mode will affect all services including the main
+                  website (sgcarstrends.com) and all API endpoints
+                  (api.sgcarstrends.com).
                 </p>
               </div>
 
@@ -206,7 +220,10 @@ const MaintenancePage = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <Label htmlFor="scheduled-toggle" className="font-medium text-base">
+                    <Label
+                      htmlFor="scheduled-toggle"
+                      className="font-medium text-base"
+                    >
                       Schedule Maintenance
                     </Label>
                     <p className="text-muted-foreground text-sm">
@@ -269,20 +286,23 @@ const MaintenancePage = () => {
                 <div className="flex items-center gap-2 rounded-md border border-red-200 bg-red-50 p-3 text-red-800">
                   <AlertCircle className="h-4 w-4" />
                   <span className="text-sm">
-                    Maintenance message is required when maintenance mode is enabled.
+                    Maintenance message is required when maintenance mode is
+                    enabled.
                   </span>
                 </div>
               )}
 
-
-              {isScheduled && startTime && endTime && new Date(startTime) >= new Date(endTime) && (
-                <div className="flex items-center gap-2 rounded-md border border-red-200 bg-red-50 p-3 text-red-800">
-                  <AlertCircle className="h-4 w-4" />
-                  <span className="text-sm">
-                    End time must be after start time.
-                  </span>
-                </div>
-              )}
+              {isScheduled &&
+                startTime &&
+                endTime &&
+                new Date(startTime) >= new Date(endTime) && (
+                  <div className="flex items-center gap-2 rounded-md border border-red-200 bg-red-50 p-3 text-red-800">
+                    <AlertCircle className="h-4 w-4" />
+                    <span className="text-sm">
+                      End time must be after start time.
+                    </span>
+                  </div>
+                )}
             </>
           )}
 
@@ -323,15 +343,15 @@ const MaintenancePage = () => {
           <div className="flex items-start gap-2">
             <span className="font-medium text-foreground">🔌</span>
             <span>
-              <strong>API Maintenance:</strong> All API endpoints return 503 Service 
-              Unavailable responses with maintenance headers.
+              <strong>API Maintenance:</strong> All API endpoints return 503
+              Service Unavailable responses with maintenance headers.
             </span>
           </div>
           <div className="flex items-start gap-2">
             <span className="font-medium text-foreground">⏰</span>
             <span>
-              <strong>Scheduled Maintenance:</strong> Automatically activates and
-              deactivates at the specified times.
+              <strong>Scheduled Maintenance:</strong> Automatically activates
+              and deactivates at the specified times.
             </span>
           </div>
           <div className="flex items-start gap-2">

@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/table";
-import { Currency } from "@web/components/currency";
+import { Currency } from "@web/components/shared/currency";
 import type { Pqp } from "@web/types/coe";
 import { ArrowUpDown } from "lucide-react";
 import { type Key, useCallback, useMemo, useState } from "react";

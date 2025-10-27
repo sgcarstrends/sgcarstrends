@@ -18,10 +18,14 @@ and others used in this project.
 
 This repository includes directory-specific CLAUDE.md files with detailed guidance for each component:
 
-- **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, tRPC, and social media integration
-- **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 15, HeroUI, blog features, and analytics
-- **[packages/database/CLAUDE.md](packages/database/CLAUDE.md)**: Database schema management with Drizzle ORM, migrations, and TypeScript integration
-- **[infra/CLAUDE.md](infra/CLAUDE.md)**: Infrastructure configuration with SST v3, AWS deployment, and domain management
+- **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, tRPC, and social media
+  integration
+- **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 15, HeroUI, blog features, and
+  analytics
+- **[packages/database/CLAUDE.md](packages/database/CLAUDE.md)**: Database schema management with Drizzle ORM,
+  migrations, and TypeScript integration
+- **[infra/CLAUDE.md](infra/CLAUDE.md)**: Infrastructure configuration with SST v3, AWS deployment, and domain
+  management
 
 Refer to these files for component-specific development guidance and best practices.
 
@@ -30,29 +34,32 @@ Refer to these files for component-specific development guidance and best practi
 Comprehensive system architecture documentation with visual diagrams is available in the Mintlify documentation site:
 
 - **[apps/docs/architecture/](apps/docs/architecture/)**: Complete architecture documentation with Mermaid diagrams
-  - **[system.md](apps/docs/architecture/system.md)**: System architecture overview and component relationships
-  - **[workflows.md](apps/docs/architecture/workflows.md)**: Data processing workflow sequence diagrams
-  - **[database.md](apps/docs/architecture/database.md)**: Database schema and entity relationships
-  - **[api.md](apps/docs/architecture/api.md)**: API architecture with Hono framework structure
-  - **[infrastructure.md](apps/docs/architecture/infrastructure.md)**: AWS deployment topology and domain strategy
-  - **[social.md](apps/docs/architecture/social.md)**: Social media integration workflows
+    - **[system.md](apps/docs/architecture/system.md)**: System architecture overview and component relationships
+    - **[workflows.md](apps/docs/architecture/workflows.md)**: Data processing workflow sequence diagrams
+    - **[database.md](apps/docs/architecture/database.md)**: Database schema and entity relationships
+    - **[api.md](apps/docs/architecture/api.md)**: API architecture with Hono framework structure
+    - **[infrastructure.md](apps/docs/architecture/infrastructure.md)**: AWS deployment topology and domain strategy
+    - **[social.md](apps/docs/architecture/social.md)**: Social media integration workflows
 
 - **[apps/docs/diagrams/](apps/docs/diagrams/)**: Source Mermaid diagram files (`.mmd` format)
 
-These architectural resources provide visual understanding of system components, data flows, and integration patterns for effective development and maintenance.
+These architectural resources provide visual understanding of system components, data flows, and integration patterns
+for effective development and maintenance.
 
 # SG Cars Trends Platform - Overview
 
 ## Project Overview
 
-SG Cars Trends (v4.11.0) is a full-stack platform providing access to Singapore vehicle registration data and Certificate of
+SG Cars Trends (v4.11.0) is a full-stack platform providing access to Singapore vehicle registration data and
+Certificate of
 Entitlement (COE) bidding results. The monorepo includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
-- **Web Application**: Next.js frontend with interactive charts, analytics, and blog functionality
+- **Web Application**: Next.js 16 frontend with interactive charts, analytics, and blog functionality
 - **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA
   DataMall (QStash workflows)
-- **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini to analyse market data and generate insights
+- **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini to analyse market data
+  and generate insights
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available
 - **Documentation**: Comprehensive developer documentation using Mintlify
 
@@ -63,17 +70,20 @@ Entitlement (COE) bidding results. The monorepo includes:
 All commands use pnpm v10.13.1 as the package manager:
 
 **Build Commands:**
+
 - Build all: `pnpm build`
 - Build web: `pnpm build:web`
 - Build admin: `pnpm build:admin`
 
 **Development Commands:**
+
 - Develop all: `pnpm dev`
 - API dev server: `pnpm dev:api`
 - Web dev server: `pnpm dev:web`
 - Admin dev server: `pnpm dev:admin`
 
 **Testing Commands:**
+
 - Test all: `pnpm test`
 - Test watch: `pnpm test:watch`
 - Test coverage: `pnpm test:coverage`
@@ -82,11 +92,15 @@ All commands use pnpm v10.13.1 as the package manager:
 - Run single test: `pnpm -F @sgcarstrends/api test -- src/utils/__tests__/slugify.test.ts`
 
 **Linting Commands:**
-- Lint all: `pnpm lint` (uses Biome with automatic formatting)
-- Lint API: `pnpm lint:api`
-- Lint web: `pnpm lint:web`
+
+- Lint all: `pnpm lint` (runs Biome across all workspace packages)
+- Format all: `pnpm format` (runs Biome formatting)
+- Lint API: `pnpm lint:api` (Biome check on API package)
+- Lint web: `pnpm lint:web` (Biome check on web package)
+- Lint admin: `pnpm lint:admin` (Biome check on admin package)
 
 **Start Commands:**
+
 - Start web: `pnpm start:web`
 
 ### Blog Commands
@@ -115,16 +129,20 @@ All redirects include standardized UTM parameters:
 
 ## UTM Tracking Implementation
 
-The platform implements comprehensive UTM (Urchin Tracking Module) tracking for campaign attribution and analytics, following industry best practices:
+The platform implements comprehensive UTM (Urchin Tracking Module) tracking for campaign attribution and analytics,
+following industry best practices:
 
 ### UTM Architecture
 
 **API UTM Tracking** (`apps/api/src/utils/utm.ts`):
+
 - **Social Media Posts**: Automatically adds UTM parameters to all blog links shared on social platforms
-- **Parameters**: `utm_source={platform}`, `utm_medium=social`, `utm_campaign=blog`, optional `utm_content` and `utm_term`
+- **Parameters**: `utm_source={platform}`, `utm_medium=social`, `utm_campaign=blog`, optional `utm_content` and
+  `utm_term`
 - **Platform Integration**: Used by `SocialMediaManager` for LinkedIn, Twitter, Discord, and Telegram posts
 
 **Web UTM Utilities** (`apps/web/src/utils/utm.ts`):
+
 - **External Campaigns**: `createExternalCampaignURL()` for email newsletters and external marketing
 - **Parameter Reading**: `useUTMParams()` React hook for future analytics implementation
 - **Type Safety**: Full TypeScript support with `UTMParams` interface
@@ -132,6 +150,7 @@ The platform implements comprehensive UTM (Urchin Tracking Module) tracking for 
 ### UTM Best Practices
 
 **Follows Industry Standards**:
+
 - `utm_source`: Platform name (e.g., "linkedin", "twitter", "newsletter")
 - `utm_medium`: Traffic type (e.g., "social", "email", "referral")
 - `utm_campaign`: Campaign identifier (e.g., "blog", "monthly_report")
@@ -139,6 +158,7 @@ The platform implements comprehensive UTM (Urchin Tracking Module) tracking for 
 - `utm_content`: Content variant or placement (optional)
 
 **Internal Link Policy**:
+
 - **No UTM on internal links**: Follows best practices by not tracking internal navigation
 - **External campaigns only**: UTM parameters reserved for measuring external traffic sources
 - **Social media exceptions**: External social platform posts include UTM for attribution
@@ -162,21 +182,23 @@ The platform implements comprehensive UTM (Urchin Tracking Module) tracking for 
 - Create release: `pnpm release` (runs semantic-release locally, not recommended for production)
 - Manual version check: `npx semantic-release --dry-run` (preview next version without releasing)
 
-**Note**: Semantic releases are now configured to use the "release" branch instead of "main" branch.
 
 ### Deployment Commands
 
 **Infrastructure Deployment:**
+
 - Deploy all to dev: `pnpm deploy:dev`
 - Deploy all to staging: `pnpm deploy:staging`
 - Deploy all to production: `pnpm deploy:prod`
 
 **API Deployment:**
+
 - Deploy API to dev: `pnpm deploy:api:dev`
 - Deploy API to staging: `pnpm deploy:api:staging`
 - Deploy API to production: `pnpm deploy:api:prod`
 
 **Web Deployment:**
+
 - Deploy web to dev: `pnpm deploy:web:dev`
 - Deploy web to staging: `pnpm deploy:web:staging`
 - Deploy web to production: `pnpm deploy:web:prod`
@@ -212,13 +234,17 @@ The platform implements comprehensive UTM (Urchin Tracking Module) tracking for 
 The project uses Turbo for efficient monorepo task orchestration:
 
 ### Key Build Characteristics
-- **Dependency-aware**: Tasks automatically run in dependency order with `dependsOn: ["^build"]` and topological ordering
+
+- **Dependency-aware**: Tasks automatically run in dependency order with `dependsOn: ["^build"]` and topological
+  ordering
 - **Caching**: Build outputs cached with intelligent invalidation based on file inputs
 - **Parallel execution**: Independent tasks run concurrently for optimal performance
-- **Environment handling**: Strict environment mode with global dependencies on `.env` files, `tsconfig.json`, and `NODE_ENV`
+- **Environment handling**: Strict environment mode with global dependencies on `.env` files, `tsconfig.json`, and
+  `NODE_ENV`
 - **CI Integration**: Global pass-through environment variables for GitHub and Vercel tokens
 
 ### Enhanced Task Configuration
+
 - **Build tasks**: Generate `dist/**`, `.next/**` outputs with environment variable support
 - **Test tasks**: Comprehensive input tracking with topological dependencies
 - **Development tasks**: `dev` and `test:watch` use `cache: false`, `persistent: true`, and interactive mode
@@ -226,34 +252,37 @@ The project uses Turbo for efficient monorepo task orchestration:
 - **Deployment tasks**: Cache-disabled with environment variable support for AWS and Vercel
 - **TypeScript checking**: Dedicated `typecheck` task with TypeScript configuration dependencies
 
-### Performance Optimization
+### Performance Optimisation
+
 - **TUI Interface**: Enhanced terminal user interface for better development experience
 - **Strict Environment Mode**: Improved security and reliability with explicit environment variable handling
-- **Input Optimization**: Uses `$TURBO_DEFAULT$` for standard file tracking patterns
+- **Input Optimisation**: Uses `$TURBO_DEFAULT$` for standard file tracking patterns
 - **Coverage Outputs**: Dedicated `coverage/**` directories for test reports
 - **E2E Outputs**: `test-results/**` and `playwright-report/**` for end-to-end test artifacts
 
 ## Dependency Management
 
-The project uses pnpm v10.13.1 with catalog for centralized dependency version management.
+The project uses pnpm v10.13.1 with catalog for centralised dependency version management.
 
 ### pnpm Catalog
 
-Centralized version definitions in `pnpm-workspace.yaml` ensure consistency across all workspace packages:
+Centralised version definitions in `pnpm-workspace.yaml` ensure consistency across all workspace packages:
 
 ```yaml
 catalog:
   '@types/node': ^22.16.4
-  '@types/react': 19.1.0
-  '@types/react-dom': 19.1.0
+  '@types/react': ^19.2.0
+  '@types/react-dom': ^19.2.0
   '@vitest/coverage-v8': ^3.2.4
   'date-fns': ^3.6.0
-  next: ^15.4.7
-  react: 19.1.0
-  'react-dom': 19.1.0
+  next: ^16.0.0
+  react: ^19.2.0
+  'react-dom': ^19.2.0
+  resend: ^6.1.2
   sst: ^3.17.10
+  superjson: ^2.2.2
   typescript: ^5.8.3
-  vitest: ^3.2.4
+  vitest: 3.2.4
   zod: ^3.25.76
 ```
 
@@ -284,13 +313,16 @@ Workspace packages reference catalog versions using the `catalog:` protocol:
 
 ### Root vs Catalog
 
-- **Root package.json dependencies**: Packages actually installed and used by root workspace (e.g., turbo, semantic-release, husky)
+- **Root package.json dependencies**: Packages actually installed and used by root workspace (e.g., turbo,
+  semantic-release, husky)
 - **Catalog entries**: Version definitions that workspace packages reference (e.g., react, next, typescript)
 - **Both can reference catalog**: Root can use `"sst": "catalog:"` to maintain version consistency
 
 ### Workspace Binaries
 
-When packages are installed at the root level, their CLI binaries (in `node_modules/.bin`) are automatically available to all workspace packages. This means:
+When packages are installed at the root level, their CLI binaries (in `node_modules/.bin`) are automatically available
+to all workspace packages. This means:
+
 - Root dependencies with CLIs (e.g., `sst`, `turbo`) can be used in any workspace package's scripts
 - No need to duplicate CLI tools in individual packages
 - Scripts in workspace packages can invoke binaries from root installation
@@ -298,12 +330,15 @@ When packages are installed at the root level, their CLI binaries (in `node_modu
 ## Code Style
 
 - TypeScript with strict type checking (noImplicitAny, strictNullChecks)
-- **Biome**: Used for formatting, linting, and import organization
-    - Double quotes for strings (enforced)
-    - 2 spaces for indentation (enforced)
-    - Automatic import organization (enforced)
-    - Recommended linting rules enabled
-    - Excludes `.claude`, `.sst`, `coverage`, `migrations`, and `*.d.ts` files
+- **Biome v2.3.0**: Used for formatting, linting, and import organisation
+    - **Formatting**: 2 spaces for indentation, auto line endings
+    - **Import Organisation**: Automatic import sorting via assist actions
+    - **Linting**: Recommended rules enabled across the monorepo
+    - **VCS Integration**: Git-aware file processing with `.gitignore` support
+    - **File Processing**: Uses `ignoreUnknown: true` with explicit includes pattern
+    - **Workspace Configs**: Individual apps extend root configuration with app-specific rules
+        - Web app: Next.js and React domain rules, Tailwind class sorting, shadcn/ui component exclusion
+        - API app: Inherits root configuration only
 - Function/variable naming: camelCase
 - Class naming: PascalCase
 - Constants: UPPER_CASE for true constants
@@ -318,7 +353,8 @@ When packages are installed at the root level, their CLI binaries (in `node_modu
     - `fix: resolve bug` (patch version bump)
     - `feat!: breaking change` or `feat: add feature\n\nBREAKING CHANGE: description` (major version bump)
     - `chore:`, `docs:`, `style:`, `refactor:`, `test:` (no version bump)
-    - **IMPORTANT**: Keep commit messages SHORT - single line with max 50 characters preferred, 72 characters absolute maximum
+    - **IMPORTANT**: Keep commit messages SHORT - single line with max 50 characters preferred, 72 characters absolute
+      maximum
     - Avoid verbose descriptions - focus on what changed, not why or how
     - **Optional scopes**: Use scopes for package-specific changes: `feat(api):`, `fix(web):`, `chore(database):`
     - **Available scopes**: `api`, `web`, `docs`, `database`, `types`, `utils`, `infra`, `deps`, `release`
@@ -330,16 +366,20 @@ When packages are installed at the root level, their CLI binaries (in `node_modu
 The project uses Husky v9+ with automated git hooks for code quality enforcement:
 
 ### Pre-commit Hook
-- **lint-staged**: Automatically runs `pnpm biome check --write` on staged files
-- Formats code and fixes lint issues before commits
+
+- **lint-staged**: Automatically runs `pnpm biome check --write` on staged `*.{js,ts,tsx,jsx,json}` files
+- Formats code, organises imports, and fixes lint issues before commits
 - Only processes staged files for performance
+- Configured in root `package.json` lint-staged section
 
 ### Commit Message Hook
+
 - **commitlint**: Validates commit messages against conventional commit format
 - Enforces optional scope validation for monorepo consistency
 - Rejects commits with invalid format and provides helpful error messages
 
 ### Development Workflow
+
 - Git hooks run automatically on `git commit`
 - Failed hooks prevent commits and display clear error messages
 - Use `git commit -n` to bypass hooks if needed (not recommended)
@@ -392,7 +432,8 @@ Optional environment variables for LLM observability:
 
 - LANGFUSE_PUBLIC_KEY: Langfuse public key for LLM observability and analytics
 - LANGFUSE_SECRET_KEY: Langfuse secret key for LLM observability and analytics
-- LANGFUSE_HOST: Langfuse host URL (defaults to https://cloud.langfuse.com, use https://us.cloud.langfuse.com for US region)
+- LANGFUSE_HOST: Langfuse host URL (defaults to https://cloud.langfuse.com, use https://us.cloud.langfuse.com for US
+  region)
 
 ## Deployment
 
@@ -404,34 +445,39 @@ Optional environment variables for LLM observability:
 
 ## Vercel Related Projects
 
-The monorepo uses Vercel Related Projects to enable automatic, environment-aware URL resolution between the API and web applications.
+The monorepo uses Vercel Related Projects to enable automatic, environment-aware URL resolution between the API and web
+applications.
 
 ### Configuration
 
 **Project IDs:**
+
 - API Project: `prj_fyAvupEssH3LO4OQFDWplinVFlaI`
 - Web Project: `prj_RE6GjplQ6imcQuHQ93BmqSBJp6Cg`
 - Team ID: `team_qV2SHJrecCAdJ3pvkjZSkJhL`
 
 **Configuration Files:**
+
 - `apps/web/vercel.json`: References API project for automatic URL resolution
 - `apps/api/vercel.json`: References web project for bidirectional communication
 
 ### How It Works
 
-1. **Automatic Resolution**: The web app uses `@vercel/related-projects` to automatically resolve the API URL based on the deployment environment
+1. **Automatic Resolution**: The web app uses `@vercel/related-projects` to automatically resolve the API URL based on
+   the deployment environment
 2. **Environment Detection**: Works seamlessly across dev, staging, production, and preview deployments
-3. **Fallback Strategy**: If Vercel Related Projects data is unavailable, falls back to `NEXT_PUBLIC_API_URL` or `https://api.sgcarstrends.com`
+3. **Fallback Strategy**: If Vercel Related Projects data is unavailable, falls back to `NEXT_PUBLIC_API_URL` or
+   `https://api.sgcarstrends.com`
 4. **No Manual Configuration**: Eliminates the need for environment-specific API URL variables in Vercel deployments
 
 ### Usage in Code
 
 ```typescript
-import { withRelatedProject } from '@vercel/related-projects';
+import {withRelatedProject} from '@vercel/related-projects';
 
 const API_BASE_URL = withRelatedProject({
-  projectName: 'api',
-  defaultHost: 'https://api.sgcarstrends.com',
+    projectName: 'api',
+    defaultHost: 'https://api.sgcarstrends.com',
 });
 ```
 
@@ -485,9 +531,11 @@ The platform uses PostgreSQL with Drizzle ORM for type-safe database operations:
 
 ### Database Configuration
 
-The database uses **snake_case** column naming convention configured in both Drizzle config and client setup. This ensures consistent naming patterns between the database schema and TypeScript types.
+The database uses **snake_case** column naming convention configured in both Drizzle config and client setup. This
+ensures consistent naming patterns between the database schema and TypeScript types.
 
-*See [packages/database/CLAUDE.md](packages/database/CLAUDE.md) for detailed schema definitions, migration workflows, and TypeScript integration patterns.*
+*See [packages/database/CLAUDE.md](packages/database/CLAUDE.md) for detailed schema definitions, migration workflows,
+and TypeScript integration patterns.*
 
 ## Workflow Architecture
 
@@ -499,7 +547,8 @@ The integrated updater service uses a workflow-based architecture with:
 - **Task Processing** (`src/lib/workflows/workflow.ts`): Common processing logic with Redis-based timestamp tracking
 - **Updater Core** (`src/lib/updater/`): File download, checksum verification, CSV processing, and database
   updates (with helpers under `src/lib/updater/services/`)
-- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Vercel AI SDK with Google Gemini
+- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Vercel AI SDK with Google
+  Gemini
 - **Post Management** (`src/lib/workflows/save-post.ts`): Blog post persistence with slug generation and duplicate
   prevention
 - **Social Media** (`src/lib/social/*/`): Platform-specific posting functionality (Discord, LinkedIn, Telegram, Twitter)
@@ -511,8 +560,8 @@ The integrated updater service uses a workflow-based architecture with:
 2. Files downloaded and checksums verified to prevent redundant processing
 3. New data inserted into database in batches
 4. Updates published to configured social media platforms when data changes
-5. **Blog Generation**: LLM analyzes processed data to create comprehensive blog posts with market insights
-6. **Blog Publication**: Generated posts saved to database with SEO-optimized slugs and metadata
+5. **Blog Generation**: LLM analyses processed data to create comprehensive blog posts with market insights
+6. **Blog Publication**: Generated posts saved to database with SEO-optimised slugs and metadata
 7. **Blog Promotion**: New blog posts automatically announced across social media platforms
 8. Comprehensive error handling with Discord notifications for failures
 
@@ -525,14 +574,15 @@ The integrated updater service uses a workflow-based architecture with:
 
 ## LLM Blog Generation
 
-The platform features automated blog post generation using Vercel AI SDK with Google Gemini to create market insights from processed data:
+The platform features automated blog post generation using Vercel AI SDK with Google Gemini to create market insights
+from processed data:
 
 ### Blog Generation Process
 
-1. **Data Analysis**: LLM analyzes car registration or COE bidding data for the latest month
+1. **Data Analysis**: LLM analyses car registration or COE bidding data for the latest month
 2. **Content Creation**: AI generates comprehensive blog posts with market insights, trends, and analysis
 3. **Structured Output**: Posts include executive summaries, data tables, and professional market analysis
-4. **SEO Optimization**: Automatic generation of titles, descriptions, and structured data
+4. **SEO Optimisation**: Automatic generation of titles, descriptions, and structured data
 5. **Duplicate Prevention**: Slug-based system prevents duplicate blog posts for the same data period
 
 ### Blog Content Features
@@ -558,11 +608,13 @@ The platform integrates **Langfuse** for comprehensive LLM observability and ana
 - **Token Usage Tracking**: Monitor prompt tokens, completion tokens, and total usage per generation
 - **Cost Analysis**: Track API costs with model-specific pricing (Google Gemini 2.5 Flash)
 - **Performance Monitoring**: Measure latency, response times, and identify bottlenecks
-- **Prompt Optimization**: Analyze system instructions and prompt effectiveness for quality improvements
+- **Prompt Optimisation**: Analyze system instructions and prompt effectiveness for quality improvements
 - **Error Debugging**: Detailed traces for troubleshooting generation failures with full context
 - **Environment Tracking**: Automatic tagging with stage (dev/staging/prod) for environment-specific analysis
 
-Langfuse integration uses **OpenTelemetry** with Vercel AI SDK's experimental telemetry feature. The instrumentation is optional and automatically disabled if credentials are not provided. See [apps/api/CLAUDE.md](apps/api/CLAUDE.md) for detailed configuration instructions.
+Langfuse integration uses **OpenTelemetry** with Vercel AI SDK's experimental telemetry feature. The instrumentation is
+optional and automatically disabled if credentials are not provided. See [apps/api/CLAUDE.md](apps/api/CLAUDE.md) for
+detailed configuration instructions.
 
 ## Shared Package Architecture
 
@@ -570,7 +622,7 @@ The project uses shared packages for cross-application concerns:
 
 ### Redis Configuration (`packages/utils`)
 
-Redis configuration is centralized in the `@sgcarstrends/utils` package to eliminate duplication:
+Redis configuration is centralised in the `@sgcarstrends/utils` package to eliminate duplication:
 
 - **Shared Redis Instance**: Exported `redis` client configured with Upstash credentials
 - **Environment Variables**: Automatically reads `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`
@@ -595,6 +647,27 @@ Releases are automated using semantic-release based on conventional commits:
 - **Changelog**: Automatically generated and updated
 - **GitHub releases**: Created automatically with release notes
 
+## GitHub Actions Workflows
+
+The repository contains several GitHub Actions workflows for CI/CD automation:
+
+### Active Workflows
+
+- **release.yml**: Automated releases on main branch (lint, test, semantic-release)
+- **deploy-staging.yml**: Deploy to staging environment on main branch push
+- **deploy-prod.yml**: Deploy to production environment on release branch push
+- **run-migrations.yml**: Reusable workflow for database migrations
+- **test.yml**: Reusable workflow for running tests with coverage
+
+### Disabled Workflows
+
+The following workflows are currently **disabled** (triggers commented out, only `workflow_dispatch` enabled):
+
+- **deploy-pr.yml**: PR preview deployments (disabled)
+- **cleanup-pr.yml**: PR preview cleanup (disabled)
+
+**Important**: When making changes to GitHub Actions workflows, skip the disabled workflows (`deploy-pr.yml` and `cleanup-pr.yml`) unless specifically re-enabling them. These workflows are intentionally disabled and do not require updates.
+
 ## Contribution Guidelines
 
 - Create feature branches from main branch
@@ -603,7 +676,8 @@ Releases are automated using semantic-release based on conventional commits:
 - Ensure CI passes (tests, lint, typecheck) before requesting review
 - Maintain backward compatibility for public APIs
 - Follow project spelling and commit message conventions as outlined in Code Style section
-- **Use GitHub issue templates** when available - always follow established templates when creating or managing GitHub issues
+- **Use GitHub issue templates** when available - always follow established templates when creating or managing GitHub
+  issues
 
 ## Documentation Maintenance
 
@@ -614,7 +688,8 @@ This section defines when changes require updates to project documentation.
 The monorepo contains multiple documentation files:
 
 - **Root CLAUDE.md**: Cross-cutting concerns, monorepo structure, shared commands
-- **Component CLAUDE.md files**: `apps/api/CLAUDE.md`, `apps/web/CLAUDE.md`, `packages/database/CLAUDE.md`, `infra/CLAUDE.md`
+- **Component CLAUDE.md files**: `apps/api/CLAUDE.md`, `apps/web/CLAUDE.md`, `packages/database/CLAUDE.md`,
+  `infra/CLAUDE.md`
 - **README.md files**: Package-specific setup and usage instructions
 - **Architecture docs**: `apps/docs/architecture/*.md` for system design and diagrams
 
@@ -623,33 +698,39 @@ The monorepo contains multiple documentation files:
 Update this file when making changes that affect the entire monorepo or cross-cutting concerns:
 
 **Monorepo Structure:**
+
 - New apps or packages added to workspace
 - Changes to pnpm catalog or dependency management
 - Updates to Turbo build configuration or task orchestration
 - New shared packages or workspace utilities
 
 **Cross-Cutting Commands:**
+
 - New pnpm scripts in root package.json
 - Changes to build, test, or deployment commands
 - Updates to database migration commands
 - New documentation or release commands
 
 **Shared Configuration:**
+
 - Changes to git hooks (Husky, lint-staged, commitlint)
 - Updates to Biome configuration or code style rules
 - New environment variables affecting multiple packages
 - Changes to release process or semantic-release configuration
 
 **Deployment & Infrastructure:**
+
 - Updates to domain convention or DNS strategy
 - Changes to AWS region, architecture, or deployment patterns
 - New deployment environments or commands
 
 ### When to Update Component CLAUDE.md Files
 
-Update component-specific CLAUDE.md files (`apps/*/CLAUDE.md`, `packages/*/CLAUDE.md`) for changes affecting that component:
+Update component-specific CLAUDE.md files (`apps/*/CLAUDE.md`, `packages/*/CLAUDE.md`) for changes affecting that
+component:
 
 **API Service (`apps/api/CLAUDE.md`):**
+
 - New or modified API endpoints
 - Changes to workflow architecture or QStash integration
 - Updates to social media integration or posting logic
@@ -658,6 +739,7 @@ Update component-specific CLAUDE.md files (`apps/*/CLAUDE.md`, `packages/*/CLAUD
 - Updates to Redis caching or data processing
 
 **Web Application (`apps/web/CLAUDE.md`):**
+
 - New pages or routes
 - Changes to blog functionality or analytics
 - Updates to HeroUI components or styling patterns
@@ -665,12 +747,14 @@ Update component-specific CLAUDE.md files (`apps/*/CLAUDE.md`, `packages/*/CLAUD
 - Changes to UTM tracking or social media redirects
 
 **Database (`packages/database/CLAUDE.md`):**
+
 - New tables or schema changes
 - Updates to migration workflow
 - Changes to Drizzle ORM configuration or naming conventions
 - New database utilities or helper functions
 
 **Infrastructure (`infra/CLAUDE.md`):**
+
 - Changes to SST configuration or AWS resources
 - Updates to domain management or SSL setup
 - New infrastructure components or services
@@ -680,18 +764,21 @@ Update component-specific CLAUDE.md files (`apps/*/CLAUDE.md`, `packages/*/CLAUD
 Update README.md files when making changes that affect setup, usage, or user-facing features:
 
 **User-Facing Features:**
+
 - New blog features or analytics capabilities
 - Changes to API endpoints or data access patterns
 - Updates to social media integration or redirect routes
 - New visualization or charting features
 
 **Setup & Installation:**
+
 - Changes to installation steps or prerequisites
 - New environment variables required for setup
 - Updates to API key requirements (LTA DataMall, Gemini, etc.)
 - Changes to database setup or migration process
 
 **Tech Stack:**
+
 - Major dependency changes or framework updates
 - New external services (Upstash, QStash, etc.)
 - Updates to AI models or providers
@@ -702,11 +789,13 @@ Update README.md files when making changes that affect setup, usage, or user-fac
 Update architecture docs (`apps/docs/architecture/*.md`) for significant structural changes:
 
 **System Architecture:**
+
 - New services or major component additions
 - Changes to data flow or processing pipelines
 - Updates to integration patterns between components
 
 **Diagrams:**
+
 - Update corresponding Mermaid diagrams in `apps/docs/diagrams/` when architecture changes
 - Regenerate diagrams when entity relationships or workflows change
 
@@ -724,4 +813,5 @@ Before committing changes, ask:
 - [ ] Did I modify system architecture? → Update **apps/docs/architecture/** and diagrams
 - [ ] Did I add monorepo commands or change build process? → Update **root CLAUDE.md**
 
-**Rule of thumb**: If it changes behavior, configuration, structure, or developer workflow, update documentation. When in doubt, update it. Component-specific changes update component docs; cross-cutting changes update root docs.
+**Rule of thumb**: If it changes behaviour, configuration, structure, or developer workflow, update documentation. When
+in doubt, update it. Component-specific changes update component docs; cross-cutting changes update root docs.

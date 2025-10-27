@@ -14,13 +14,13 @@ jobs:
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
         with:
           version: '10.13.1'
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
           cache: "pnpm"
@@ -31,6 +31,6 @@ jobs:
       - name: Run tests
         run: pnpm test:coverage
 
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

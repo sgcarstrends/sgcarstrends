@@ -1,6 +1,5 @@
 "use client";
 
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import {
   Card,
   CardContent,
@@ -14,6 +13,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@web/components/ui/chart";
+import { Cell, Pie, PieChart } from "recharts";
 
 interface Props {
   data: Array<{
@@ -133,8 +133,8 @@ export const ReferrerChart = ({ data, totalViews }: Props) => {
               fill="#8884d8"
               dataKey="count"
             >
-              {formattedData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.fill} />
+              {formattedData.map((entry) => (
+                <Cell key={`cell-${entry.name}`} fill={entry.fill} />
               ))}
             </Pie>
             <ChartTooltip

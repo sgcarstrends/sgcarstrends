@@ -3,7 +3,7 @@ import { updatePostTags } from "@web/actions/blog/tags";
 import { ProgressBar } from "@web/components/blog/progress-bar";
 import { RelatedPosts } from "@web/components/blog/related-posts";
 import { ViewCounter } from "@web/components/blog/view-counter";
-import { BetaChip } from "@web/components/chips";
+import { BetaChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
 import { Separator } from "@web/components/ui/separator";
 import { SITE_URL } from "@web/config";

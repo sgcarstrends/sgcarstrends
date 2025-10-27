@@ -30,11 +30,11 @@ jobs:
       group: deploy-prod-${{ github.ref }}
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
         with:
           version: '10.13.1'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
           cache: "pnpm"
@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - uses: aws-actions/configure-aws-credentials@v4
+      - uses: aws-actions/configure-aws-credentials@00943011d9042930efac3dcd3a170e4273319bc8
         with:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
           aws-region: ${{ vars.AWS_REGION }}
@@ -57,6 +57,9 @@ jobs:
           DISCORD_WORKFLOW_WEBHOOK_URL: ${{ secrets.DISCORD_WORKFLOW_WEBHOOK_URL }}
           FEATURE_FLAG_RATE_LIMIT: ${{ vars.FEATURE_FLAG_RATE_LIMIT }}
           GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY }}
+          LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+          LANGFUSE_HOST: ${{ secrets.LANGFUSE_HOST }}
           LINKEDIN_CLIENT_ID: ${{ secrets.LINKEDIN_CLIENT_ID }}
           LINKEDIN_CLIENT_SECRET: ${{ secrets.LINKEDIN_CLIENT_SECRET }}
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}

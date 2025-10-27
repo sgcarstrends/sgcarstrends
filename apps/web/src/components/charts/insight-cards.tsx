@@ -1,6 +1,10 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { AnimatedNumber } from "@web/components/animated-number";
+import { Badge } from "@web/components/ui/badge";
+import { Card, CardContent } from "@web/components/ui/card";
+import { cn } from "@web/lib/utils";
+import { formatGrowthRate } from "@web/utils/chart-formatters";
 import {
   Award,
   BarChart3,
@@ -8,11 +12,7 @@ import {
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
-import { AnimatedNumber } from "@web/components/animated-number";
-import { Badge } from "@web/components/ui/badge";
-import { Card, CardContent } from "@web/components/ui/card";
-import { cn } from "@web/lib/utils";
-import { formatGrowthRate } from "@web/utils/chart-formatters";
+import type { ReactNode } from "react";
 
 interface InsightData {
   title: string;
@@ -78,19 +78,19 @@ export const InsightCards = ({ insights, columns = 3 }: InsightCardsProps) => {
 
   return (
     <div className={`grid gap-4 ${gridCols}`}>
-      {insights.map((insight, index) => (
-        <Card key={index}>
+      {insights.map((insight) => (
+        <Card key={insight.title}>
           <CardContent className="p-4 sm:p-6">
             <div className="flex items-start space-x-4">
               <div className="min-w-0 flex-1">
-                <p className="mb-1 text-sm font-medium text-gray-600">
+                <p className="mb-1 font-medium text-gray-600 text-sm">
                   {insight.title}
                 </p>
-                <p className="text-xl font-bold break-words text-gray-900 sm:text-2xl">
+                <p className="break-words font-bold text-gray-900 text-xl sm:text-2xl">
                   {renderValue(insight.value)}
                 </p>
                 {insight.subtitle && (
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-gray-500 text-xs">
                     {insight.subtitle}
                   </p>
                 )}
@@ -123,7 +123,7 @@ export const InsightCards = ({ insights, columns = 3 }: InsightCardsProps) => {
                   {getDeltaIcon(insight.deltaType)}
                   <span>{formatGrowthRate(insight.delta)}</span>
                 </Badge>
-                <p className="text-xs text-gray-500">from previous month</p>
+                <p className="text-gray-500 text-xs">from previous month</p>
               </div>
             )}
           </CardContent>

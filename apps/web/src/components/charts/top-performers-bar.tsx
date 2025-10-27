@@ -1,8 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
-
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Badge } from "@web/components/ui/badge";
 import {
   Card,
@@ -22,6 +19,8 @@ import {
   formatPercentage,
   getColorForIndex,
 } from "@web/utils/chart-formatters";
+import { useMemo } from "react";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 interface TopPerformerData {
   name: string;
@@ -47,7 +46,6 @@ export const TopPerformersBar = ({
   maxItems = 10,
   showRankings = true,
   showPercentages = true,
-  onValueChange,
 }: TopPerformersBarProps) => {
   const formattedData = useMemo(() => {
     return data.slice(0, maxItems).map((item, index) => ({
@@ -89,10 +87,10 @@ export const TopPerformersBar = ({
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900">
+          <CardTitle className="font-semibold text-gray-900 text-lg">
             {title}
           </CardTitle>
-          {subtitle && <p className="mt-1 text-sm text-gray-600">{subtitle}</p>}
+          {subtitle && <p className="mt-1 text-gray-600 text-sm">{subtitle}</p>}
         </CardHeader>
         <CardContent>
           <div className="flex h-64 items-center justify-center rounded-lg bg-gray-50">
@@ -106,10 +104,10 @@ export const TopPerformersBar = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">
+        <CardTitle className="font-semibold text-gray-900 text-lg">
           {title}
         </CardTitle>
-        {subtitle && <p className="mt-1 text-sm text-gray-600">{subtitle}</p>}
+        {subtitle && <p className="mt-1 text-gray-600 text-sm">{subtitle}</p>}
       </CardHeader>
       <CardContent>
         {showRankings && formattedData.length > 0 && (
@@ -117,7 +115,7 @@ export const TopPerformersBar = ({
             <div className="flex flex-wrap gap-2">
               {formattedData.slice(0, 3).map((item, index) => (
                 <Badge
-                  key={index}
+                  key={item.name}
                   variant={index === 0 ? "default" : "secondary"}
                   className="flex items-center gap-1"
                 >
@@ -168,7 +166,7 @@ export const TopPerformersBar = ({
 
         {data.length > maxItems && (
           <div className="mt-4 text-center">
-            <p className="text-sm text-gray-500">
+            <p className="text-gray-500 text-sm">
               Showing top {maxItems} of {data.length} items
             </p>
           </div>
