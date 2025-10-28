@@ -1,4 +1,4 @@
-import { getPostBySlug } from "@web/utils/blog-queries";
+import { getPostBySlug } from "@web/lib/data/posts";
 import { ImageResponse } from "next/og";
 
 type Props = {

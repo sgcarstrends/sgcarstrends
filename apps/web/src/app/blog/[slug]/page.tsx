@@ -7,7 +7,7 @@ import { BetaChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
 import { Separator } from "@web/components/ui/separator";
 import { SITE_URL } from "@web/config";
-import { getAllPosts, getPostBySlug } from "@web/utils/blog-queries";
+import { getAllPosts, getPostBySlug } from "@web/lib/data/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";

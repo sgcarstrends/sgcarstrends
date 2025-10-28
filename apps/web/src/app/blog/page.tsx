@@ -2,7 +2,7 @@ import { BlogList } from "@web/components/blog/blog-list";
 import { StructuredData } from "@web/components/structured-data";
 import { SubscribeForm } from "@web/components/subscribe-form";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import { getAllPosts } from "@web/utils/blog-queries";
+import { getAllPosts } from "@web/lib/data/posts";
 import type { Metadata } from "next";
 import type { Blog, WithContext } from "schema-dts";
 
