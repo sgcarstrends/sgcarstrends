@@ -7,7 +7,7 @@ import { BetaChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
 import { Separator } from "@web/components/ui/separator";
 import { SITE_URL } from "@web/config";
-import { getQueryClient, trpc } from "@web/trpc/server";
+import { getAllPosts, getPostBySlug } from "@web/utils/blog-queries";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -28,10 +28,7 @@ export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
   const { slug } = await params;
-  const queryClient = getQueryClient();
-  const post = await queryClient.fetchQuery(
-    trpc.blog.getPostBySlug.queryOptions({ slug }),
-  );
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return { title: "Post Not Found" };
@@ -74,19 +71,13 @@ export const generateMetadata = async ({
 };
 
 export const generateStaticParams = async () => {
-  const queryClient = getQueryClient();
-  const posts = await queryClient.fetchQuery(
-    trpc.blog.getAllPosts.queryOptions(),
-  );
+  const posts = await getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
 };
 
 const BlogPostPage = async ({ params }: Props) => {
   const { slug } = await params;
-  const queryClient = getQueryClient();
-  const post = await queryClient.fetchQuery(
-    trpc.blog.getPostBySlug.queryOptions({ slug }),
-  );
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();
