@@ -45,7 +45,7 @@
     "docs:dev": "turbo run @sgcarstrends/docs#dev"
   },
   "dependencies": {
-    "sst": "catalog:"
+    "sst": "3.17.21"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.0",

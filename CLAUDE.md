@@ -316,7 +316,7 @@ Workspace packages reference catalog versions using the `catalog:` protocol:
 - **Root package.json dependencies**: Packages actually installed and used by root workspace (e.g., turbo,
   semantic-release, husky)
 - **Catalog entries**: Version definitions that workspace packages reference (e.g., react, next, typescript)
-- **Both can reference catalog**: Root can use `"sst": "catalog:"` to maintain version consistency
+- **Both can reference catalog**: Root packages can point at catalog entries where useful, while CLI tooling such as `sst` stays pinned directly in `package.json`
 
 ### Workspace Binaries
 
