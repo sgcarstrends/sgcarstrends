@@ -1,5 +1,5 @@
 import { db, posts } from "@sgcarstrends/database";
-import { desc, eq, inArray, isNotNull } from "drizzle-orm";
+import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
 
 export const getAllPosts = () => {
   return db.query.posts.findMany({
@@ -9,7 +9,9 @@ export const getAllPosts = () => {
 };
 
 export const getPostBySlug = (slug: string) => {
-  return db.query.posts.findFirst({ where: eq(posts.slug, slug) });
+  return db.query.posts.findFirst({
+    where: and(eq(posts.slug, slug), isNotNull(posts.publishedAt)),
+  });
 };
 
 export const getPostsByIds = (postIds: string[]) => {
@@ -18,7 +20,7 @@ export const getPostsByIds = (postIds: string[]) => {
   }
 
   return db.query.posts.findMany({
-    where: inArray(posts.id, postIds),
+    where: and(inArray(posts.id, postIds), isNotNull(posts.publishedAt)),
     orderBy: desc(posts.publishedAt),
   });
 };
