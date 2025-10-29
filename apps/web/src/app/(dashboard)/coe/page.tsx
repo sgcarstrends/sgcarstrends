@@ -24,7 +24,7 @@ import {
   getCOEResults,
   getLatestCOEResults,
   getPQPData,
-} from "@web/utils/cached-api";
+} from "@web/lib/data/coe";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { formatPercent } from "@web/utils/format-percent";
 import type { Metadata } from "next";

@@ -9,13 +9,13 @@ import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { generateDatasetSchema } from "@web/lib/structured-data";
 import {
   getCarsComparison,
   getCarsData,
   getTopMakes,
   getTopTypes,
-} from "@web/utils/cached-api";
+} from "@web/lib/data/cars";
+import { generateDatasetSchema } from "@web/lib/structured-data";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
 import type { Metadata } from "next";

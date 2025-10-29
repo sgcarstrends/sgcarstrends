@@ -1,7 +1,6 @@
 "use server";
 
 import { API_URL } from "@web/config";
-import { CAR_CHART_COLOURS } from "@web/lib/utils/cars";
 import { RevalidateTags } from "@web/types";
 import type {
   Comparison,
@@ -11,7 +10,6 @@ import type {
 } from "@web/types/cars";
 import { CACHE_DURATION, fetchApi } from "@web/utils/fetch-api";
 
-// Cars-specific types
 export interface CarMarketShareData {
   name: string;
   count: number;
@@ -52,34 +50,6 @@ export interface CarTopPerformersData {
   topFuelTypes: CarTopTypeData[];
   topVehicleTypes: CarTopTypeData[];
   topMakes: CarTopMakeData[];
-}
-
-export interface CarComparisonData {
-  month: string;
-  total: number;
-  fuelType: Array<{ name: string; count: number }>;
-  vehicleType: Array<{ name: string; count: number }>;
-}
-
-export interface CarComparisonMetrics {
-  currentMonth: CarComparisonData;
-  previousMonth: CarComparisonData;
-  growthRate: number;
-  monthOverMonth: {
-    total: number;
-    fuelTypes: Array<{
-      name: string;
-      current: number;
-      previous: number;
-      growth: number;
-    }>;
-    vehicleTypes: Array<{
-      name: string;
-      current: number;
-      previous: number;
-      growth: number;
-    }>;
-  };
 }
 
 export const getCarsData = async (month: string): Promise<Registration> => {
@@ -125,33 +95,6 @@ export const getTopMakes = async (month: string): Promise<FuelType[]> => {
         RevalidateTags.TopPerformers,
         RevalidateTags.Cars,
       ],
-      revalidate: CACHE_DURATION,
-    },
-  });
-};
-
-export const getMakesList = async (): Promise<string[]> => {
-  return fetchApi<string[]>(`${API_URL}/cars/makes`, {
-    next: {
-      tags: [RevalidateTags.Reference, RevalidateTags.Cars],
-      revalidate: CACHE_DURATION,
-    },
-  });
-};
-
-export const getLatestCarMonth = async (): Promise<{ month: string }> => {
-  return fetchApi<{ month: string }>(`${API_URL}/cars/months/latest`, {
-    next: {
-      tags: [RevalidateTags.Latest, RevalidateTags.Reference, "cars"],
-      revalidate: CACHE_DURATION,
-    },
-  });
-};
-
-export const getCarMonthsList = async (): Promise<string[]> => {
-  return fetchApi<string[]>(`${API_URL}/cars/months`, {
-    next: {
-      tags: [RevalidateTags.Reference, "cars"],
       revalidate: CACHE_DURATION,
     },
   });
@@ -243,85 +186,4 @@ export const getCarTopPerformersData = async (
     topVehicleTypes,
     topMakes: topMakesData,
   };
-};
-
-export const getCarComparisonData = async (
-  currentMonth: string,
-  previousMonth: string,
-): Promise<CarComparisonMetrics> => {
-  const [current, previous] = await Promise.all([
-    getCarsData(currentMonth),
-    getCarsData(previousMonth),
-  ]);
-
-  const growthRate = ((current.total - previous.total) / previous.total) * 100;
-
-  const fuelTypesComparison = current.fuelType.map((fuel) => {
-    const previousFuel = previous.fuelType.find((f) => f.name === fuel.name);
-    const previousCount = previousFuel?.count || 0;
-    const growth =
-      previousCount > 0
-        ? ((fuel.count - previousCount) / previousCount) * 100
-        : 0;
-
-    return {
-      name: fuel.name,
-      current: fuel.count,
-      previous: previousCount,
-      growth,
-    };
-  });
-
-  const vehicleTypesComparison = current.vehicleType.map((vehicle) => {
-    const previousVehicle = previous.vehicleType.find(
-      (v) => v.name === vehicle.name,
-    );
-    const previousCount = previousVehicle?.count || 0;
-    const growth =
-      previousCount > 0
-        ? ((vehicle.count - previousCount) / previousCount) * 100
-        : 0;
-
-    return {
-      name: vehicle.name,
-      current: vehicle.count,
-      previous: previousCount,
-      growth,
-    };
-  });
-
-  return {
-    currentMonth: current,
-    previousMonth: previous,
-    growthRate,
-    monthOverMonth: {
-      total: growthRate,
-      fuelTypes: fuelTypesComparison,
-      vehicleTypes: vehicleTypesComparison,
-    },
-  };
-};
-
-export const getCarHistoricalTrends = async (
-  months: string[],
-  category: "fuelType" | "vehicleType" = "fuelType",
-) => {
-  const data = await Promise.all(months.map((month) => getCarsData(month)));
-
-  return data.map((monthData) => {
-    const result: {
-      month: string;
-      total: number;
-      [key: string]: number | string;
-    } = {
-      month: monthData.month,
-      total: monthData.total,
-    };
-
-    monthData[category].forEach((item) => {
-      result[item.name] = item.count;
-    });
-
-    return result;
-  });
 };
