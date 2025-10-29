@@ -3,7 +3,6 @@ import type { COEResult } from "@web/types";
 import { RevalidateTags } from "@web/types";
 import type { Pqp } from "@web/types/coe";
 import { CACHE_DURATION, fetchApi } from "@web/utils/fetch-api";
-import { cache } from "react";
 
 // COE-specific types
 export interface COEMarketShareData {
@@ -66,217 +65,72 @@ export const COE_CATEGORY_MAP = {
   E: "Category E (Open category)",
 } as const;
 
-// ========== CACHED API FUNCTIONS ==========
-
-/**
- * Cached COE results data fetcher
- */
-export const getCOEResults = cache(async (): Promise<COEResult[]> => {
+export const getCOEResults = async (): Promise<COEResult[]> => {
   return fetchApi<COEResult[]>(`${API_URL}/coe`, {
     next: {
       tags: [RevalidateTags.COE],
       revalidate: CACHE_DURATION,
     },
   });
-});
+};
 
-/**
- * Cached latest COE results data fetcher
- */
-export const getLatestCOEResults = cache(async (): Promise<COEResult[]> => {
+export const getLatestCOEResults = async (): Promise<COEResult[]> => {
   return fetchApi<COEResult[]>(`${API_URL}/coe/latest`, {
     next: {
       tags: [RevalidateTags.COE, RevalidateTags.Latest],
       revalidate: CACHE_DURATION,
     },
   });
-});
+};
 
-/**
- * Cached COE results by period fetcher
- */
-export const getCOEResultsByPeriod = cache(
-  async (period?: string): Promise<COEResult[]> => {
-    const url = period ? `${API_URL}/coe?period=${period}` : `${API_URL}/coe`;
-    return fetchApi<COEResult[]>(url, {
-      next: {
-        tags: [
-          RevalidateTags.COE,
-          ...(period ? [`${RevalidateTags.COE}:${period}`] : []),
-        ],
-        revalidate: CACHE_DURATION,
-      },
-    });
-  },
-);
+export const getCOEResultsByPeriod = async (
+  period?: string,
+): Promise<COEResult[]> => {
+  const url = period ? `${API_URL}/coe?period=${period}` : `${API_URL}/coe`;
+  return fetchApi<COEResult[]>(url, {
+    next: {
+      tags: [
+        RevalidateTags.COE,
+        ...(period ? [`${RevalidateTags.COE}:${period}`] : []),
+      ],
+      revalidate: CACHE_DURATION,
+    },
+  });
+};
 
-/**
- * Cached PQP (Prevailing Quota Premium) data fetcher
- */
-export const getPQPData = cache(
-  async (): Promise<Record<string, Pqp.Rates>> => {
-    return fetchApi<Record<string, Pqp.Rates>>(`${API_URL}/coe/pqp`, {
-      next: {
-        tags: [RevalidateTags.COE, "pqp"],
-        revalidate: CACHE_DURATION,
-      },
-    });
-  },
-);
+export const getPQPData = async (): Promise<Record<string, Pqp.Rates>> => {
+  return fetchApi<Record<string, Pqp.Rates>>(`${API_URL}/coe/pqp`, {
+    next: {
+      tags: [RevalidateTags.COE, "pqp"],
+      revalidate: CACHE_DURATION,
+    },
+  });
+};
 
-/**
- * Cached latest month data fetcher for COE
- */
-export const getLatestCOEMonth = cache(async (): Promise<{ month: string }> => {
+export const getLatestCOEMonth = async (): Promise<{ month: string }> => {
   return fetchApi<{ month: string }>(`${API_URL}/coe/months/latest`, {
     next: {
       tags: [RevalidateTags.Latest, RevalidateTags.Reference, "coe"],
       revalidate: CACHE_DURATION,
     },
   });
-});
+};
 
-/**
- * Cached months list fetcher for COE
- */
-export const getCOEMonthsList = cache(async (): Promise<string[]> => {
+export const getCOEMonthsList = async (): Promise<string[]> => {
   return fetchApi<string[]>(`${API_URL}/coe/months`, {
     next: {
       tags: [RevalidateTags.Reference, "coe"],
       revalidate: CACHE_DURATION,
     },
   });
-});
+};
 
-// ========== COMPUTED DATA FUNCTIONS ==========
-
-/**
- * Cached COE market share data processor
- */
-export const getCOEMarketShareData = cache(
-  async (period?: string): Promise<COEMarketShareResponse> => {
-    const results = await getCOEResultsByPeriod(period);
-
-    if (!results.length) {
-      throw new Error("No COE results available for the specified period");
-    }
-
-    const totalQuota = results.reduce((sum, result) => sum + result.quota, 0);
-
-    const marketShareData = results.map((result, index) => ({
-      category: result.vehicle_class,
-      premium: result.premium,
-      percentage: (result.quota / totalQuota) * 100,
-      quota: result.quota,
-      colour: COE_CHART_COLOURS[index % COE_CHART_COLOURS.length],
-    }));
-
-    const highestPremium = results.reduce((max, current) =>
-      current.premium > max.premium ? current : max,
-    );
-
-    return {
-      period: results[0].month,
-      totalQuota,
-      data: marketShareData,
-      highestPremium: {
-        category: highestPremium.vehicle_class,
-        premium: highestPremium.premium,
-      },
-    };
-  },
-);
-
-/**
- * Cached COE trend data processor
- */
-export const getCOETrendData = cache(async (): Promise<COETrendData[]> => {
-  const results = await getCOEResults();
-
-  // Group by month
-  const groupedByPeriod = results.reduce(
-    (acc, result) => {
-      const period = result.month;
-      if (!acc[period]) {
-        acc[period] = [];
-      }
-      acc[period].push(result);
-      return acc;
-    },
-    {} as Record<string, COEResult[]>,
-  );
-
-  return Object.entries(groupedByPeriod).map(([period, periodResults]) => ({
-    period,
-    categories: periodResults.map((result) => ({
-      category: result.vehicle_class,
-      premium: result.premium,
-      quota: result.quota,
-      bidsReceived: result.bids_received,
-    })),
-  }));
-});
-
-/**
- * Cached COE comparison data processor
- */
-export const getCOEComparisonData = cache(
-  async (
-    currentPeriod: string,
-    previousPeriod: string,
-  ): Promise<COEComparisonMetrics> => {
-    const [current, previous] = await Promise.all([
-      getCOEResultsByPeriod(currentPeriod),
-      getCOEResultsByPeriod(previousPeriod),
-    ]);
-
-    const currentAvg =
-      current.reduce((sum, r) => sum + r.premium, 0) / current.length;
-    const previousAvg =
-      previous.reduce((sum, r) => sum + r.premium, 0) / previous.length;
-    const averagePremiumChange = currentAvg - previousAvg;
-
-    const categoryChanges = current.map((currentResult) => {
-      const previousResult = previous.find(
-        (p) => p.vehicle_class === currentResult.vehicle_class,
-      );
-      const previousPremium = previousResult?.premium || 0;
-      const change = currentResult.premium - previousPremium;
-      const changePercent =
-        previousPremium > 0 ? (change / previousPremium) * 100 : 0;
-
-      return {
-        category: currentResult.vehicle_class,
-        current: currentResult.premium,
-        previous: previousPremium,
-        change,
-        changePercent,
-      };
-    });
-
-    return {
-      currentPeriod: current,
-      previousPeriod: previous,
-      averagePremiumChange,
-      categoryChanges,
-    };
-  },
-);
-
-// ========== UTILITY FUNCTIONS ==========
-
-/**
- * Format COE category name for display
- */
 export const formatCOECategory = (category: string): string => {
   return (
     COE_CATEGORY_MAP[category as keyof typeof COE_CATEGORY_MAP] || category
   );
 };
 
-/**
- * Calculate COE premium insights
- */
 export const calculateCOEPremiumInsights = (
   data: COEMarketShareData[],
 ): {
@@ -323,9 +177,6 @@ export const calculateCOEPremiumInsights = (
   };
 };
 
-/**
- * Format COE data for chart visualization
- */
 export const formatCOEDataForChart = (
   data: COEMarketShareData[],
 ): Array<{
@@ -342,9 +193,6 @@ export const formatCOEDataForChart = (
   }));
 };
 
-/**
- * Get COE category color
- */
 export const getCOECategoryColor = (category: string): string => {
   const categoryIndex = Object.keys(COE_CATEGORY_MAP).indexOf(
     category.toUpperCase(),

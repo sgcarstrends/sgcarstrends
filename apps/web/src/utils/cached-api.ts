@@ -5,6 +5,11 @@ export {
   getCarTopPerformersData,
 } from "@web/lib/data/cars";
 export {
+  getCOEComparisonData,
+  getCOEMarketShareData,
+  getCOETrendData,
+} from "@web/lib/data/coe";
+export {
   CAR_CHART_COLOURS,
   type CarComparisonData,
   type CarComparisonMetrics,
@@ -35,12 +40,9 @@ export {
   formatCOECategory,
   formatCOEDataForChart,
   getCOECategoryColor,
-  getCOEComparisonData,
-  getCOEMarketShareData,
   getCOEMonthsList,
   getCOEResults,
   getCOEResultsByPeriod,
-  getCOETrendData,
   getLatestCOEMonth,
   getLatestCOEResults,
   getPQPData,
