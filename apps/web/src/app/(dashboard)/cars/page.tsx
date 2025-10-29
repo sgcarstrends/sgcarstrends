@@ -12,7 +12,7 @@ import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import {
   getCarsComparison,
   getCarsData,
-  getTopMakes,
+  getTopMakesByFuelType,
   getTopTypes,
 } from "@web/lib/data/cars";
 import { generateDatasetSchema } from "@web/lib/structured-data";
@@ -96,7 +96,7 @@ const CarsPage = async ({ searchParams }: Props) => {
     getCarsData(month),
     getCarsComparison(month),
     getTopTypes(month),
-    getTopMakes(month),
+    getTopMakesByFuelType(month),
     fetchMonthsForCars(),
   ]);
 

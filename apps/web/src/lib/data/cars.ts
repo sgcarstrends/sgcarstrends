@@ -1,14 +1,12 @@
-"use server";
-
-import { API_URL } from "@web/config";
-import { RevalidateTags } from "@web/types";
+import { cars, db } from "@sgcarstrends/database";
 import type {
   Comparison,
   FuelType,
   Registration,
   TopType,
 } from "@web/types/cars";
-import { CACHE_DURATION, fetchApi } from "@web/utils/fetch-api";
+import { format, subMonths } from "date-fns";
+import { and, desc, eq, sql } from "drizzle-orm";
 
 export interface CarMarketShareData {
   name: string;
@@ -53,51 +51,227 @@ export interface CarTopPerformersData {
 }
 
 export const getCarsData = async (month: string): Promise<Registration> => {
-  return fetchApi<Registration>(`${API_URL}/cars?month=${month}`, {
-    next: {
-      tags: [RevalidateTags.Cars, `${RevalidateTags.Cars}:${month}`],
-      revalidate: CACHE_DURATION,
-    },
-  });
+  const fuelTypeQuery = db
+    .select({
+      name: cars.fuel_type,
+      count: sql<number>`sum(${cars.number})`.mapWith(Number),
+    })
+    .from(cars)
+    .where(eq(cars.month, month))
+    .groupBy(cars.fuel_type)
+    .orderBy(desc(sql<number>`sum(${cars.number})`));
+
+  const vehicleTypeQuery = db
+    .select({
+      name: cars.vehicle_type,
+      count: sql<number>`sum(${cars.number})`.mapWith(Number),
+    })
+    .from(cars)
+    .where(eq(cars.month, month))
+    .groupBy(cars.vehicle_type)
+    .orderBy(desc(sql<number>`sum(${cars.number})`));
+
+  const totalQuery = db
+    .select({
+      total: sql<number>`sum(${cars.number})`.mapWith(Number),
+    })
+    .from(cars)
+    .where(eq(cars.month, month));
+
+  const [fuelType, vehicleType, totalResult] = await Promise.all([
+    fuelTypeQuery,
+    vehicleTypeQuery,
+    totalQuery,
+  ]);
+
+  const total = totalResult[0]?.total ?? 0;
+
+  return {
+    month,
+    total,
+    fuelType: fuelType.map((type) => ({
+      ...type,
+      name: type.name ?? "Unknown",
+    })),
+    vehicleType: vehicleType.map((type) => ({
+      ...type,
+      name: type.name ?? "Unknown",
+    })),
+  };
 };
 
 export const getCarsComparison = async (month: string): Promise<Comparison> => {
-  return fetchApi<Comparison>(`${API_URL}/cars/compare?month=${month}`, {
-    next: {
-      tags: [
-        RevalidateTags.Analysis,
-        RevalidateTags.Comparison,
-        RevalidateTags.Cars,
-      ],
-      revalidate: CACHE_DURATION,
-    },
-  });
+  const currentDate = new Date(`${month}-01`);
+  const previousMonthDate = subMonths(currentDate, 1);
+  const previousMonthStr = format(previousMonthDate, "yyyy-MM");
+  const previousYearDate = subMonths(currentDate, 12);
+  const previousYearStr = format(previousYearDate, "yyyy-MM");
+
+  const getMonthData = async (m: string) => {
+    const fuelTypeQuery = db
+      .select({
+        label: cars.fuel_type,
+        count: sql<number>`sum(${cars.number})`.mapWith(Number),
+      })
+      .from(cars)
+      .where(eq(cars.month, m))
+      .groupBy(cars.fuel_type)
+      .orderBy(desc(sql<number>`sum(${cars.number})`));
+
+    const vehicleTypeQuery = db
+      .select({
+        label: cars.vehicle_type,
+        count: sql<number>`sum(${cars.number})`.mapWith(Number),
+      })
+      .from(cars)
+      .where(eq(cars.month, m))
+      .groupBy(cars.vehicle_type)
+      .orderBy(desc(sql<number>`sum(${cars.number})`));
+
+    const totalResult = await db
+      .select({
+        total: sql<number>`sum(${cars.number})`.mapWith(Number),
+      })
+      .from(cars)
+      .where(eq(cars.month, m));
+
+    const [fuelType, vehicleType] = await Promise.all([
+      fuelTypeQuery,
+      vehicleTypeQuery,
+    ]);
+
+    return {
+      period: m,
+      total: totalResult[0]?.total ?? 0,
+      fuelType: fuelType.map((ft) => ({
+        label: ft.label ?? "Unknown",
+        count: ft.count,
+      })),
+      vehicleType: vehicleType.map((vt) => ({
+        label: vt.label ?? "Unknown",
+        count: vt.count,
+      })),
+    };
+  };
+
+  const [currentMonthData, previousMonthData, previousYearData] =
+    await Promise.all([
+      getMonthData(month),
+      getMonthData(previousMonthStr),
+      getMonthData(previousYearStr),
+    ]);
+
+  return {
+    currentMonth: currentMonthData,
+    previousMonth: previousMonthData,
+    previousYear: previousYearData,
+  };
 };
 
 export const getTopTypes = async (month: string): Promise<TopType> => {
-  return fetchApi<TopType>(`${API_URL}/cars/top-types?month=${month}`, {
-    next: {
-      tags: [
-        RevalidateTags.Analysis,
-        RevalidateTags.TopPerformers,
-        RevalidateTags.Cars,
-      ],
-      revalidate: CACHE_DURATION,
+  const topFuelTypeQuery = db
+    .select({
+      name: cars.fuel_type,
+      total: sql<number>`sum(${cars.number})`.mapWith(Number),
+    })
+    .from(cars)
+    .where(eq(cars.month, month))
+    .groupBy(cars.fuel_type)
+    .orderBy(desc(sql<number>`sum(${cars.number})`))
+    .limit(1);
+
+  const topVehicleTypeQuery = db
+    .select({
+      name: cars.vehicle_type,
+      total: sql<number>`sum(${cars.number})`.mapWith(Number),
+    })
+    .from(cars)
+    .where(eq(cars.month, month))
+    .groupBy(cars.vehicle_type)
+    .orderBy(desc(sql<number>`sum(${cars.number})`))
+    .limit(1);
+
+  const [topFuelTypeResult, topVehicleTypeResult] = await Promise.all([
+    topFuelTypeQuery,
+    topVehicleTypeQuery,
+  ]);
+
+  const topFuelType = topFuelTypeResult[0] ?? { name: "N/A", total: 0 };
+  const topVehicleType = topVehicleTypeResult[0] ?? { name: "N/A", total: 0 };
+
+  return {
+    month,
+    topFuelType: { ...topFuelType, name: topFuelType.name ?? "Unknown" },
+    topVehicleType: {
+      ...topVehicleType,
+      name: topVehicleType.name ?? "Unknown",
     },
-  });
+  };
 };
 
-export const getTopMakes = async (month: string): Promise<FuelType[]> => {
-  return fetchApi<FuelType[]>(`${API_URL}/cars/top-makes?month=${month}`, {
-    next: {
-      tags: [
-        RevalidateTags.Analysis,
-        RevalidateTags.TopPerformers,
-        RevalidateTags.Cars,
-      ],
-      revalidate: CACHE_DURATION,
-    },
-  });
+interface TopMake {
+  make: string;
+  total: number;
+}
+
+export const getTopMakes = async (month: string): Promise<TopMake[]> => {
+  const results = await db
+    .select({
+      make: cars.make,
+      total: sql<number>`sum(${cars.number})`.mapWith(Number),
+    })
+    .from(cars)
+    .where(eq(cars.month, month))
+    .groupBy(cars.make)
+    .orderBy(desc(sql<number>`sum(${cars.number})`))
+    .limit(10);
+
+  return results.map((r) => ({ ...r, make: r.make ?? "Unknown" }));
+};
+
+export const getTopMakesByFuelType = async (
+  month: string,
+): Promise<FuelType[]> => {
+  const fuelTypeResults = await db
+    .select({
+      fuelType: cars.fuel_type,
+      total: sql<number>`sum(${cars.number})`.mapWith(Number),
+    })
+    .from(cars)
+    .where(eq(cars.month, month))
+    .groupBy(cars.fuel_type)
+    .orderBy(desc(sql<number>`sum(${cars.number})`));
+
+  const topMakesByFuelType: FuelType[] = [];
+
+  for (const fuelTypeRow of fuelTypeResults) {
+    const topMakes = await db
+      .select({
+        make: cars.make,
+        count: sql<number>`sum(${cars.number})`.mapWith(Number),
+      })
+      .from(cars)
+      .where(
+        and(
+          eq(cars.month, month),
+          eq(cars.fuel_type, fuelTypeRow.fuelType ?? ""),
+        ),
+      )
+      .groupBy(cars.make)
+      .orderBy(desc(sql<number>`sum(${cars.number})`))
+      .limit(5);
+
+    topMakesByFuelType.push({
+      fuelType: fuelTypeRow.fuelType ?? "Unknown",
+      total: fuelTypeRow.total,
+      makes: topMakes.map((m) => ({
+        make: m.make ?? "Unknown",
+        count: m.count,
+      })),
+    });
+  }
+
+  return topMakesByFuelType;
 };
 
 export const getCarMarketShareData = async (
@@ -173,7 +347,7 @@ export const getCarTopPerformersData = async (
   ];
 
   const topMakesData = topMakes.map((make, index) => ({
-    make: make.fuelType || "Unknown",
+    make: make.make,
     count: make.total,
     percentage: (make.total / total) * 100,
     rank: index + 1,
