@@ -1,16 +1,113 @@
 "use server";
 
+import { API_URL } from "@web/config";
+import { COE_CHART_COLOURS } from "@web/lib/utils/coe";
 import type { COEResult } from "@web/types";
-import type {
-  COEComparisonMetrics,
-  COEMarketShareResponse,
-  COETrendData,
-} from "@web/utils/api/coe";
-import {
-  COE_CHART_COLOURS,
-  getCOEResults,
-  getCOEResultsByPeriod,
-} from "@web/utils/api/coe";
+import { RevalidateTags } from "@web/types";
+import type { Pqp } from "@web/types/coe";
+import { CACHE_DURATION, fetchApi } from "@web/utils/fetch-api";
+
+// COE-specific types
+export interface COEMarketShareData {
+  category: string;
+  premium: number;
+  percentage: number;
+  quota: number;
+  colour: string;
+}
+
+export interface COEMarketShareResponse {
+  period: string;
+  totalQuota: number;
+  data: COEMarketShareData[];
+  highestPremium: {
+    category: string;
+    premium: number;
+  };
+}
+
+export interface COETrendData {
+  period: string;
+  categories: Array<{
+    category: string;
+    premium: number;
+    quota: number;
+    bidsReceived: number;
+  }>;
+}
+
+export interface COEComparisonMetrics {
+  currentPeriod: COEResult[];
+  previousPeriod: COEResult[];
+  averagePremiumChange: number;
+  categoryChanges: Array<{
+    category: string;
+    current: number;
+    previous: number;
+    change: number;
+    changePercent: number;
+  }>;
+}
+
+export const getCOEResults = async (): Promise<COEResult[]> => {
+  return fetchApi<COEResult[]>(`${API_URL}/coe`, {
+    next: {
+      tags: [RevalidateTags.COE],
+      revalidate: CACHE_DURATION,
+    },
+  });
+};
+
+export const getLatestCOEResults = async (): Promise<COEResult[]> => {
+  return fetchApi<COEResult[]>(`${API_URL}/coe/latest`, {
+    next: {
+      tags: [RevalidateTags.COE, RevalidateTags.Latest],
+      revalidate: CACHE_DURATION,
+    },
+  });
+};
+
+export const getCOEResultsByPeriod = async (
+  period?: string,
+): Promise<COEResult[]> => {
+  const url = period ? `${API_URL}/coe?period=${period}` : `${API_URL}/coe`;
+  return fetchApi<COEResult[]>(url, {
+    next: {
+      tags: [
+        RevalidateTags.COE,
+        ...(period ? [`${RevalidateTags.COE}:${period}`] : []),
+      ],
+      revalidate: CACHE_DURATION,
+    },
+  });
+};
+
+export const getPQPData = async (): Promise<Record<string, Pqp.Rates>> => {
+  return fetchApi<Record<string, Pqp.Rates>>(`${API_URL}/coe/pqp`, {
+    next: {
+      tags: [RevalidateTags.COE, "pqp"],
+      revalidate: CACHE_DURATION,
+    },
+  });
+};
+
+export const getLatestCOEMonth = async (): Promise<{ month: string }> => {
+  return fetchApi<{ month: string }>(`${API_URL}/coe/months/latest`, {
+    next: {
+      tags: [RevalidateTags.Latest, RevalidateTags.Reference, "coe"],
+      revalidate: CACHE_DURATION,
+    },
+  });
+};
+
+export const getCOEMonthsList = async (): Promise<string[]> => {
+  return fetchApi<string[]>(`${API_URL}/coe/months`, {
+    next: {
+      tags: [RevalidateTags.Reference, "coe"],
+      revalidate: CACHE_DURATION,
+    },
+  });
+};
 
 export const getCOEMarketShareData = async (
   period?: string,
