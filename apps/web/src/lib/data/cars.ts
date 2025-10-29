@@ -361,3 +361,257 @@ export const getCarTopPerformersData = async (
     topMakes: topMakesData,
   };
 };
+
+/**
+ * Get all distinct car makes ordered alphabetically
+ */
+export const getDistinctMakes = async (): Promise<{ make: string }[]> => {
+  const results = await db
+    .selectDistinct({ make: cars.make })
+    .from(cars)
+    .orderBy(cars.make);
+
+  return results.map((r) => ({ make: r.make ?? "Unknown" }));
+};
+
+/**
+ * Check if a car make exists in the database
+ * Uses case-insensitive pattern matching with support for URL-encoded dashes
+ */
+export const checkMakeIfExist = async (
+  make: string,
+): Promise<{ make: string } | undefined> => {
+  const pattern = make.replaceAll("-", "%");
+  const result = await db.query.cars.findFirst({
+    where: sql`lower(${cars.make}) LIKE lower(${pattern})`,
+    columns: { make: true },
+  });
+
+  return result ? { make: result.make ?? "Unknown" } : undefined;
+};
+
+interface MakeDetails {
+  total: number;
+  data: Array<{
+    month: string;
+    fuelType: string;
+    vehicleType: string;
+    count: number;
+  }>;
+}
+
+/**
+ * Get detailed information about a specific car make
+ * Optionally filter by month
+ */
+export const getMakeDetails = async (
+  make: string,
+  month?: string,
+): Promise<MakeDetails> => {
+  const pattern = make.replaceAll("-", "%");
+  const whereConditions = [sql`lower(${cars.make}) LIKE lower(${pattern})`];
+
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  const [totalResult, data] = await Promise.all([
+    db
+      .select({
+        total: sql<number>`sum(${cars.number})`.mapWith(Number),
+      })
+      .from(cars)
+      .where(and(...whereConditions)),
+    db
+      .select({
+        month: cars.month,
+        fuelType: cars.fuel_type,
+        vehicleType: cars.vehicle_type,
+        count: sql<number>`sum(${cars.number})`.mapWith(Number),
+      })
+      .from(cars)
+      .where(and(...whereConditions))
+      .groupBy(cars.month, cars.fuel_type, cars.vehicle_type)
+      .orderBy(desc(cars.month)),
+  ]);
+
+  return {
+    total: totalResult[0]?.total ?? 0,
+    data: data.map((d) => ({
+      month: d.month ?? "",
+      fuelType: d.fuelType ?? "Unknown",
+      vehicleType: d.vehicleType ?? "Unknown",
+      count: d.count,
+    })),
+  };
+};
+
+/**
+ * Get all distinct fuel types, optionally filtered by month
+ */
+export const getDistinctFuelTypes = async (
+  month?: string,
+): Promise<{ fuelType: string }[]> => {
+  const whereConditions = [];
+
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  const results = await db
+    .selectDistinct({ fuelType: cars.fuel_type })
+    .from(cars)
+    .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
+    .orderBy(cars.fuel_type);
+
+  return results.map((r) => ({ fuelType: r.fuelType ?? "Unknown" }));
+};
+
+/**
+ * Get all distinct vehicle types, optionally filtered by month
+ */
+export const getDistinctVehicleTypes = async (
+  month?: string,
+): Promise<{ vehicleType: string }[]> => {
+  const whereConditions = [];
+
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  const results = await db
+    .selectDistinct({ vehicleType: cars.vehicle_type })
+    .from(cars)
+    .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
+    .orderBy(cars.vehicle_type);
+
+  return results.map((r) => ({ vehicleType: r.vehicleType ?? "Unknown" }));
+};
+
+interface FuelTypeData {
+  total: number;
+  data: Array<{
+    month: string;
+    make: string;
+    fuelType: string;
+    count: number;
+  }>;
+}
+
+/**
+ * Get detailed data for a specific fuel type
+ * Optionally filter by month
+ */
+export const getFuelTypeData = async (
+  fuelType: string,
+  month?: string,
+): Promise<FuelTypeData> => {
+  const pattern = fuelType.replaceAll("-", "%");
+  const whereConditions = [
+    sql`lower(${cars.fuel_type}) LIKE lower(${pattern})`,
+  ];
+
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  const [totalResult, data] = await Promise.all([
+    db
+      .select({
+        total: sql<number>`sum(${cars.number})`.mapWith(Number),
+      })
+      .from(cars)
+      .where(and(...whereConditions)),
+    db
+      .select({
+        month: cars.month,
+        make: cars.make,
+        fuelType: cars.fuel_type,
+        count: sql<number>`sum(${cars.number})`.mapWith(Number),
+      })
+      .from(cars)
+      .where(and(...whereConditions))
+      .groupBy(cars.month, cars.make, cars.fuel_type)
+      .orderBy(desc(sql<number>`sum(${cars.number})`)),
+  ]);
+
+  return {
+    total: totalResult[0]?.total ?? 0,
+    data: data.map((d) => ({
+      month: d.month ?? "",
+      make: d.make ?? "Unknown",
+      fuelType: d.fuelType ?? "Unknown",
+      count: d.count,
+    })),
+  };
+};
+
+interface VehicleTypeData {
+  total: number;
+  data: Array<{
+    month: string;
+    make: string;
+    vehicleType: string;
+    count: number;
+  }>;
+}
+
+/**
+ * Get detailed data for a specific vehicle type
+ * Optionally filter by month
+ */
+export const getVehicleTypeData = async (
+  vehicleType: string,
+  month?: string,
+): Promise<VehicleTypeData> => {
+  const pattern = vehicleType.replaceAll("-", "%");
+  const whereConditions = [
+    sql`lower(${cars.vehicle_type}) LIKE lower(${pattern})`,
+  ];
+
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  const [totalResult, data] = await Promise.all([
+    db
+      .select({
+        total: sql<number>`sum(${cars.number})`.mapWith(Number),
+      })
+      .from(cars)
+      .where(and(...whereConditions)),
+    db
+      .select({
+        month: cars.month,
+        make: cars.make,
+        vehicleType: cars.vehicle_type,
+        count: sql<number>`sum(${cars.number})`.mapWith(Number),
+      })
+      .from(cars)
+      .where(and(...whereConditions))
+      .groupBy(cars.month, cars.make, cars.vehicle_type)
+      .orderBy(desc(sql<number>`sum(${cars.number})`)),
+  ]);
+
+  return {
+    total: totalResult[0]?.total ?? 0,
+    data: data.map((d) => ({
+      month: d.month ?? "",
+      make: d.make ?? "Unknown",
+      vehicleType: d.vehicleType ?? "Unknown",
+      count: d.count,
+    })),
+  };
+};
+
+/**
+ * Get list of available months with car data
+ */
+export const getCarsMonths = async (): Promise<{ month: string }[]> => {
+  const results = await db
+    .selectDistinct({ month: cars.month })
+    .from(cars)
+    .orderBy(desc(cars.month));
+
+  return results.map((r) => ({ month: r.month ?? "" }));
+};
