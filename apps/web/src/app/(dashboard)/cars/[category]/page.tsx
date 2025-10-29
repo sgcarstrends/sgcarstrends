@@ -8,11 +8,11 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import type { CategoryData } from "@web/types";
 import {
   getCarMarketShareData,
   getCarTopPerformersData,
-} from "@web/utils/api/cars";
+} from "@web/lib/data/cars";
+import type { CategoryData } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";

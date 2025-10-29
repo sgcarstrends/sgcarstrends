@@ -1,4 +1,10 @@
 export {
+  getCarComparisonData,
+  getCarHistoricalTrends,
+  getCarMarketShareData,
+  getCarTopPerformersData,
+} from "@web/lib/data/cars";
+export {
   CAR_CHART_COLOURS,
   type CarComparisonData,
   type CarComparisonMetrics,
@@ -9,13 +15,9 @@ export {
   type CarTopTypeData,
   calculateCarMarketShareInsights,
   formatCarMarketShareForChart,
-  getCarComparisonData,
-  getCarHistoricalTrends,
-  getCarMarketShareData,
   getCarMonthsList,
   getCarsComparison,
   getCarsData,
-  getCarTopPerformersData,
   getLatestCarMonth,
   getMakesList,
   getRankingEmoji,
