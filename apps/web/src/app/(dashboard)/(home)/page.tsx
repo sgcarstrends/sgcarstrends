@@ -11,7 +11,31 @@ import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-re
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { getAllPosts } from "@web/lib/data/posts";
 import { getLatestCOEResults } from "@web/utils/cached-api";
+import type { Metadata } from "next";
 import type { WebSite, WithContext } from "schema-dts";
+
+export const metadata: Metadata = {
+  title: "Singapore Car Registration & COE Trends | Latest Statistics",
+  description:
+    "Track Singapore car registration trends, COE bidding results, and automotive market insights. Latest data from Land Transport Authority (LTA) with interactive charts and analysis.",
+  keywords: [
+    "Singapore car statistics",
+    "latest COE results",
+    "car registration trends",
+    "automotive market analysis",
+    "LTA Singapore data",
+    "vehicle statistics dashboard",
+  ],
+  openGraph: {
+    title: "Singapore Car Registration & COE Trends",
+    description:
+      "Track Singapore car registration trends and COE bidding results with interactive charts and latest market insights.",
+    type: "website",
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
 
 const HomePage = async () => {
   const [yearlyData, latestTopMakes, allPosts, latestCOE] = await Promise.all([

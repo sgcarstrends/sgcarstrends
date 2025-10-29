@@ -46,23 +46,43 @@ export const generateMetadata = async ({
   const excerpt = metadata?.excerpt || "";
 
   const publishedDate = post.publishedAt ?? post.createdAt;
+  const modifiedDate = post.modifiedAt;
+
+  // Generate Open Graph image URL
+  const ogImageUrl = `${SITE_URL}/api/og?title=${encodeURIComponent(post.title)}`;
 
   return {
     title: post.title,
     description: excerpt,
+    keywords: metadata?.tags ?? [],
+    authors: [{ name: "SG Cars Trends AI", url: SITE_URL }],
+    creator: "SG Cars Trends",
+    publisher: "SG Cars Trends",
     openGraph: {
       title: post.title,
       description: excerpt,
       type: "article",
       publishedTime: publishedDate.toISOString(),
-      // authors: [author],
+      modifiedTime: modifiedDate.toISOString(),
+      authors: ["SG Cars Trends"],
       tags: metadata?.tags ?? [],
-      url: canonical,
+      url: `${SITE_URL}${canonical}`,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: excerpt,
+      images: [ogImageUrl],
+      creator: "@sgcarstrends",
+      site: "@sgcarstrends",
     },
     alternates: {
       canonical,

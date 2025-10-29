@@ -12,7 +12,13 @@ if (isProd) {
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [new URL("https://assets.sgcarstrends.com/logos/**")],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "assets.sgcarstrends.com",
+        pathname: "/logos/**",
+      },
+    ],
   },
   logging: {
     fetches: {
