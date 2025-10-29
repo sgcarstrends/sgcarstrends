@@ -20,7 +20,7 @@ import {
 } from "@web/config";
 import { fetchApi } from "@web/utils/fetch-api";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";

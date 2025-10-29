@@ -11,7 +11,7 @@ import {
 } from "@web/config";
 import type { Car, Make } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
-import { getMonthOrLatest } from "@web/utils/month-utils";
+import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";

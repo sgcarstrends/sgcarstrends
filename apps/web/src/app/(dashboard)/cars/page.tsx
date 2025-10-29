@@ -17,7 +17,7 @@ import {
 } from "@web/lib/data/cars";
 import { generateDatasetSchema } from "@web/lib/structured-data";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";

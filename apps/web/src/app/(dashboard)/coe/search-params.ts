@@ -1,4 +1,4 @@
-import { getLatestMonth } from "@web/utils/month-utils";
+import { getLatestMonth } from "@web/utils/months";
 import { addYears, format } from "date-fns";
 import { createLoader, parseAsString } from "nuqs/server";
 

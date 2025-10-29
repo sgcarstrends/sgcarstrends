@@ -6,7 +6,7 @@ import { MakeDetail } from "@web/components/cars/makes/make-detail";
 import { API_URL, LAST_UPDATED_CARS_KEY } from "@web/config";
 import type { Car, Make } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
-import { getMonthOrLatest } from "@web/utils/month-utils";
+import { getMonthOrLatest } from "@web/utils/months";
 import type { SearchParams } from "nuqs/server";
 
 interface Props {

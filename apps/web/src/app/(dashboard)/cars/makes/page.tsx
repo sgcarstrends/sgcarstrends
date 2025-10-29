@@ -11,7 +11,7 @@ import {
 } from "@web/config";
 import type { Make } from "@web/types";
 import { fetchApi } from "@web/utils/fetch-api";
-import { fetchMonthsForCars } from "@web/utils/month-utils";
+import { fetchMonthsForCars } from "@web/utils/months";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
