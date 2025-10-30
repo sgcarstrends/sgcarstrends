@@ -12,13 +12,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@web/components/ui/card";
+import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import {
-  API_URL,
-  LAST_UPDATED_CARS_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import { fetchApi } from "@web/utils/fetch-api";
+  getDistinctFuelTypes,
+  getDistinctVehicleTypes,
+  getFuelTypeData,
+  getVehicleTypeData,
+} from "@web/lib/data/cars";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
@@ -98,15 +98,15 @@ export const generateMetadata = async ({
 };
 
 export const generateStaticParams = async () => {
-  const [fuelTypes, vehicleTypes] = await Promise.all([
-    fetchApi<string[]>(`${API_URL}/cars/fuel-types`),
-    fetchApi<string[]>(`${API_URL}/cars/vehicle-types`),
+  const [fuelTypesResult, vehicleTypesResult] = await Promise.all([
+    getDistinctFuelTypes(),
+    getDistinctVehicleTypes(),
   ]);
 
   const params: { category: string; type: string }[] = [];
 
   // Add fuel-types params
-  fuelTypes.forEach((fuelType) => {
+  fuelTypesResult.forEach(({ fuelType }) => {
     params.push({
       category: "fuel-types",
       type: slugify(fuelType),
@@ -114,7 +114,7 @@ export const generateStaticParams = async () => {
   });
 
   // Add vehicle-types params
-  vehicleTypes.forEach((vehicleType) => {
+  vehicleTypesResult.forEach(({ vehicleType }) => {
     params.push({
       category: "vehicle-types",
       type: slugify(vehicleType),
@@ -139,11 +139,13 @@ const TypePage = async ({ params, searchParams }: Props) => {
 
   month = await getMonthOrLatest(month, "cars");
 
-  const [cars, months] = await Promise.all([
-    fetchApi<TypeData>(`${API_URL}/cars/${category}/${type}?month=${month}`),
+  const [cars, months, lastUpdated] = (await Promise.all([
+    category === "fuel-types"
+      ? getFuelTypeData(type, month)
+      : getVehicleTypeData(type, month),
     fetchMonthsForCars(),
-  ]);
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
+    redis.get<number>(LAST_UPDATED_CARS_KEY),
+  ])) as [TypeData, string[], number | null];
 
   const formattedMonth = formatDateToMonthYear(month);
 
