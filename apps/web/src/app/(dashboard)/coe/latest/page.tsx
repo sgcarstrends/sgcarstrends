@@ -1,13 +1,8 @@
 import { redis } from "@sgcarstrends/utils";
 import { StructuredData } from "@web/components/structured-data";
-import {
-  API_URL,
-  LAST_UPDATED_COE_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import { type COEResult, RevalidateTags } from "@web/types";
-import { fetchApi } from "@web/utils/fetch-api";
+import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { getLatestCOEResults } from "@web/lib/data/coe";
+import type { COEResult } from "@web/types";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 import { LatestCOEClient } from "./latest-coe-content";
@@ -17,7 +12,7 @@ const description =
   "Latest Certificate of Entitlement (COE) bidding results for all categories. View the most recent COE premiums and bidding information for Singapore vehicle registration.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const results = await fetchApi<COEResult[]>(`${API_URL}/coe/latest`);
+  const results = await getLatestCOEResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
       category[current.vehicle_class] = current.premium;
@@ -52,10 +47,10 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const LatestCOEPage = async () => {
-  const latestResults = await fetchApi<COEResult[]>(`${API_URL}/coe/latest`, {
-    next: { tags: [RevalidateTags.COE] },
-  });
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
+  const [latestResults, lastUpdated] = await Promise.all([
+    getLatestCOEResults(),
+    redis.get<number>(LAST_UPDATED_COE_KEY),
+  ]);
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",

@@ -16,19 +16,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@web/components/ui/card";
+import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import {
-  API_URL,
-  LAST_UPDATED_COE_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import {
-  type COEBiddingResult,
-  type COEResult,
-  type Month,
-  RevalidateTags,
-} from "@web/types";
-import { fetchApi } from "@web/utils/fetch-api";
+  getCOEMonths,
+  getCOEResultsFiltered,
+  getLatestCOEResults,
+} from "@web/lib/data/coe";
+import type { COEBiddingResult } from "@web/types";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -42,8 +36,7 @@ const description =
   "Explore historical Certificate of Entitlement (COE) price trends and bidding results for car registrations in Singapore.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  // TODO: Refactor and clean up
-  const results = await fetchApi<COEResult[]>(`${API_URL}/coe/latest`);
+  const results = await getLatestCOEResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
       category[current.vehicle_class] = current.premium;
@@ -82,18 +75,16 @@ const COEResultsPage = async ({ searchParams }: Props) => {
   const defaultStart = await getDefaultStartDate();
   const defaultEnd = await getDefaultEndDate();
 
-  const params = new URLSearchParams({
-    start: start || defaultStart,
-    end: end || defaultEnd,
-  });
+  const startDate = start || defaultStart;
+  const endDate = end || defaultEnd;
 
-  const [coeResults, months]: [COEResult[], Month[]] = await Promise.all([
-    await fetchApi<COEResult[]>(`${API_URL}/coe?${params.toString()}`, {
-      next: { tags: [RevalidateTags.COE] },
-    }),
-    await fetchApi<Month[]>(`${API_URL}/coe/months`),
+  const [coeResults, monthsResult, lastUpdated] = await Promise.all([
+    getCOEResultsFiltered(undefined, startDate, endDate),
+    getCOEMonths(),
+    redis.get<number>(LAST_UPDATED_COE_KEY),
   ]);
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
+
+  const months = monthsResult.map(({ month }) => month);
 
   const groupedData = coeResults.reduce<COEBiddingResult[]>(
     (acc: any, item) => {
