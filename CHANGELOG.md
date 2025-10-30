@@ -1,3 +1,9 @@
+## [4.12.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.3...v4.12.4) (2025-10-30)
+
+### Bug Fixes
+
+* **web:** add initial value to reduce call ([08a3893](https://github.com/sgcarstrends/sgcarstrends/commit/08a3893c7e05b5900d710b236b2fa928b16f62e5))
+
 ## [4.12.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.2...v4.12.3) (2025-10-26)
 
 ### Bug Fixes
