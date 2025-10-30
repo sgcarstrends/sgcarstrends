@@ -45,29 +45,14 @@ export const generateMetadata = async (): Promise<Metadata> => {
     {},
   );
 
-  const canonical = "/coe/results";
   const images = `/api/og/coe?title=COE Results&subtitle=Historical Data&biddingNo=2&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
 
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      images,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      images,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: "/coe/results",
+    images,
+  });
 };
 
 const COEResultsPage = async ({ searchParams }: Props) => {

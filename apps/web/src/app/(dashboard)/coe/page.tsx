@@ -25,6 +25,7 @@ import {
   getLatestCOEResults,
   getPQPData,
 } from "@web/lib/data/coe";
+import { createPageMetadata } from "@web/lib/metadata";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { formatPercent } from "@web/utils/format-percent";
 import type { Metadata } from "next";
@@ -35,7 +36,6 @@ const description =
   "Certificate of Entitlement (COE) analysis hub for Singapore vehicle registration. Explore historical results, trends, bidding data, and category-specific insights.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  // TODO: Refactor and clean up
   const results = await getLatestCOEResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
@@ -45,12 +45,13 @@ export const generateMetadata = async (): Promise<Metadata> => {
     {},
   );
 
-  const canonical = "/coe";
   const images = `/api/og/coe?title=COE Results&subtitle=Overview&biddingNo=2&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
 
-  return {
+  return createPageMetadata({
     title,
     description,
+    canonical: "/coe",
+    images,
     keywords: [
       "COE bidding results",
       "Certificate of Entitlement Singapore",
@@ -61,30 +62,8 @@ export const generateMetadata = async (): Promise<Metadata> => {
       "Singapore COE analysis",
       "PQP rates",
     ],
-    authors: [{ name: "SG Cars Trends", url: SITE_URL }],
-    creator: "SG Cars Trends",
-    publisher: "SG Cars Trends",
-    openGraph: {
-      title,
-      description,
-      images,
-      url: `${SITE_URL}${canonical}`,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    includeAuthors: true,
+  });
 };
 
 const COEPricesPage = async () => {

@@ -15,6 +15,7 @@ import {
   getTopMakesByFuelType,
   getTopTypes,
 } from "@web/lib/data/cars";
+import { createPageMetadata } from "@web/lib/metadata";
 import { generateDatasetSchema } from "@web/lib/structured-data";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
@@ -48,11 +49,11 @@ export const generateMetadata = async ({
   ]);
   const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${carRegistration.total}&topFuelType=${topTypes.topFuelType.name}&topVehicleType=${topTypes.topVehicleType.name}`;
 
-  const canonical = `/cars?month=${month}`;
-
-  return {
+  return createPageMetadata({
     title,
     description,
+    canonical: `/cars?month=${month}`,
+    images,
     keywords: [
       "Singapore car registration",
       "fuel type statistics",
@@ -61,30 +62,8 @@ export const generateMetadata = async ({
       "new car registrations",
       "automotive statistics",
     ],
-    authors: [{ name: "SG Cars Trends", url: SITE_URL }],
-    creator: "SG Cars Trends",
-    publisher: "SG Cars Trends",
-    openGraph: {
-      title,
-      description,
-      images,
-      url: `${SITE_URL}${canonical}`,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    includeAuthors: true,
+  });
 };
 
 const CarsPage = async ({ searchParams }: Props) => {
