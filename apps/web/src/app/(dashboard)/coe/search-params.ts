@@ -13,8 +13,8 @@ export const getDefaultStartDate = async (): Promise<string> => {
 };
 
 export const coeSearchParams = {
-  start: parseAsString,
-  end: parseAsString,
+  start: parseAsString.withDefault(""),
+  end: parseAsString.withDefault(""),
 };
 
 export const loadSearchParams = createLoader(coeSearchParams);
