@@ -17,6 +17,7 @@ import {
 } from "@web/components/ui/card";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/data/coe";
+import { createPageMetadata } from "@web/lib/metadata";
 import { groupCOEResultsByBidding } from "@web/lib/utils/coe";
 import type { COECategory, COEResult } from "@web/types";
 import type { Metadata } from "next";
@@ -70,28 +71,12 @@ export const generateMetadata = async ({
 
   const title = `COE ${category} Analysis`;
   const description = `Detailed analysis of Certificate of Entitlement (COE) prices and trends for ${category} vehicles in Singapore.`;
-  const canonical = `/coe/categories/${categorySlug}`;
 
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: `/coe/categories/${categorySlug}`,
+  });
 };
 
 const COECategoryPage = async ({ params, searchParams }: Props) => {

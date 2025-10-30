@@ -18,6 +18,7 @@ import {
 } from "@web/components/ui/card";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/data/coe";
+import { createPageMetadata } from "@web/lib/metadata";
 import { groupCOEResultsByBidding } from "@web/lib/utils/coe";
 import type { COEBiddingResult, COEResult, Month } from "@web/types";
 import type { Metadata } from "next";
@@ -33,28 +34,11 @@ const description =
   "Comprehensive analysis of Certificate of Entitlement (COE) price trends, patterns, and market insights for Singapore vehicle registration.";
 
 export const generateMetadata = (): Metadata => {
-  const canonical = "/coe/trends";
-
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: "/coe/trends",
+  });
 };
 
 const COETrendsPage = async ({ searchParams }: Props) => {

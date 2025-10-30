@@ -8,6 +8,7 @@ import {
   getCarsData,
   getCarTopPerformersData,
 } from "@web/lib/data/cars";
+import { createPageMetadata } from "@web/lib/metadata";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
@@ -74,30 +75,11 @@ export const generateMetadata = async ({
   const title = `${formattedMonth} ${config.title} - Car Registrations`;
   const description = config.description.replace("{month}", formattedMonth);
 
-  const canonical = `${config.urlPath}?month=${month}`;
-
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: `${config.urlPath}?month=${month}`,
+  });
 };
 
 const CategoryPage = async ({ params, searchParams }: Props) => {

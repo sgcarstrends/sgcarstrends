@@ -22,6 +22,7 @@ import {
   getCOEResultsFiltered,
   getLatestCOEResults,
 } from "@web/lib/data/coe";
+import { createPageMetadata } from "@web/lib/metadata";
 import { groupCOEResultsByBidding } from "@web/lib/utils/coe";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";

@@ -17,6 +17,7 @@ import {
 } from "@web/components/ui/card";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { getCOEResultsFiltered } from "@web/lib/data/coe";
+import { createPageMetadata } from "@web/lib/metadata";
 import type { COEResult } from "@web/types";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -31,28 +32,11 @@ const description =
   "Latest Certificate of Entitlement (COE) bidding results and analysis for Singapore vehicle registration.";
 
 export const generateMetadata = (): Metadata => {
-  const canonical = "/coe/bidding";
-
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: "/coe/bidding",
+  });
 };
 
 const COEBiddingPage = async ({ searchParams }: Props) => {

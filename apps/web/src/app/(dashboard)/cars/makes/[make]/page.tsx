@@ -9,6 +9,7 @@ import {
   getDistinctMakes,
   getMakeDetails,
 } from "@web/lib/data/cars";
+import { createPageMetadata } from "@web/lib/metadata";
 import type { Car, Make } from "@web/types";
 import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
@@ -47,28 +48,13 @@ export const generateMetadata = async ({
   const description = `${makeName} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
 
   const images = `/api/og?title=${makeName.toUpperCase()}&subtitle=Stats by Make&month=${month}&total=${makeDetails.total}`;
-  const canonical = `/cars/makes/${make}?month=${month}`;
 
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      images,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      images,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: `/cars/makes/${make}?month=${month}`,
+    images,
+  });
 };
 
 export const generateStaticParams = async () => {
