@@ -1,8 +1,3 @@
-import Link from "next/link";
-
-// Enable ISR with 1-hour revalidation
-export const revalidate = 3600;
-
 import { redis } from "@sgcarstrends/utils";
 import { LatestCOEPrices } from "@web/app/(dashboard)/coe/_components/latest-coe-prices";
 import { AnimatedNumber } from "@web/components/animated-number";
@@ -30,6 +25,7 @@ import { createPageMetadata } from "@web/lib/metadata";
 import { formatPercent } from "@web/utils/chart-formatters";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import type { Metadata } from "next";
+import Link from "next/link";
 import type { WebPage, WithContext } from "schema-dts";
 
 const title = "COE Overview";

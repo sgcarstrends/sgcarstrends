@@ -28,9 +28,6 @@ interface Props {
   searchParams: Promise<SearchParams>;
 }
 
-// Enable ISR with 1-hour revalidation
-export const revalidate = 3600;
-
 export const generateMetadata = async ({
   searchParams,
 }: Props): Promise<Metadata> => {

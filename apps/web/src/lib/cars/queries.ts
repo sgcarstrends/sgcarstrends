@@ -7,6 +7,7 @@ import type {
 } from "@web/types/cars";
 import { format, subMonths } from "date-fns";
 import { and, desc, eq, sql } from "drizzle-orm";
+import { cacheLife, cacheTag } from "next/cache";
 
 export interface CarMarketShareData {
   name: string;
@@ -50,7 +51,11 @@ export interface CarTopPerformersData {
   topMakes: CarTopMakeData[];
 }
 
-export const getCarsData = async (month: string): Promise<Registration> => {
+export async function getCarsData(month: string): Promise<Registration> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("cars", `cars-${month}`);
+
   const fuelTypeQuery = db
     .select({
       name: cars.fuel_type,
@@ -98,9 +103,13 @@ export const getCarsData = async (month: string): Promise<Registration> => {
       name: type.name ?? "Unknown",
     })),
   };
-};
+}
 
-export const getCarsComparison = async (month: string): Promise<Comparison> => {
+export async function getCarsComparison(month: string): Promise<Comparison> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("cars", `cars-comparison-${month}`);
+
   const currentDate = new Date(`${month}-01`);
   const previousMonthDate = subMonths(currentDate, 1);
   const previousMonthStr = format(previousMonthDate, "yyyy-MM");
@@ -166,9 +175,13 @@ export const getCarsComparison = async (month: string): Promise<Comparison> => {
     previousMonth: previousMonthData,
     previousYear: previousYearData,
   };
-};
+}
 
-export const getTopTypes = async (month: string): Promise<TopType> => {
+export async function getTopTypes(month: string): Promise<TopType> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("cars", `cars-types-${month}`);
+
   const topFuelTypeQuery = db
     .select({
       name: cars.fuel_type,
@@ -207,7 +220,7 @@ export const getTopTypes = async (month: string): Promise<TopType> => {
       name: topVehicleType.name ?? "Unknown",
     },
   };
-};
+}
 
 interface TopMake {
   make: string;
@@ -229,9 +242,13 @@ export const getTopMakes = async (month: string): Promise<TopMake[]> => {
   return results.map((r) => ({ ...r, make: r.make ?? "Unknown" }));
 };
 
-export const getTopMakesByFuelType = async (
+export async function getTopMakesByFuelType(
   month: string,
-): Promise<FuelType[]> => {
+): Promise<FuelType[]> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("cars", `cars-makes-${month}`);
+
   const fuelTypeResults = await db
     .select({
       fuelType: cars.fuel_type,
@@ -272,7 +289,7 @@ export const getTopMakesByFuelType = async (
   }
 
   return topMakesByFuelType;
-};
+}
 
 export const getCarMarketShareData = async (
   month: string,
@@ -613,11 +630,15 @@ export const getVehicleTypeData = async (
 /**
  * Get list of available months with car data
  */
-export const getCarsMonths = async (): Promise<{ month: string }[]> => {
+export async function getCarsMonths(): Promise<{ month: string }[]> {
+  "use cache";
+  cacheLife("statistics");
+  cacheTag("cars", "cars-months");
+
   const results = await db
     .selectDistinct({ month: cars.month })
     .from(cars)
     .orderBy(desc(cars.month));
 
   return results.map((r) => ({ month: r.month ?? "" }));
-};
+}
