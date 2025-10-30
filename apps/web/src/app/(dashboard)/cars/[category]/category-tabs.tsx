@@ -11,7 +11,7 @@ import {
 import type {
   CarMarketShareResponse,
   CarTopPerformersData,
-} from "@web/lib/data/cars";
+} from "@web/lib/cars/queries";
 import type { TypeItem } from "@web/types";
 import { formatPercentage } from "@web/utils/chart-formatters";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";

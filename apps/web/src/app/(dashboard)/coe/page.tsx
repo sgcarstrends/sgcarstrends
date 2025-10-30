@@ -20,11 +20,12 @@ import {
 } from "@web/components/ui/card";
 import { Progress } from "@web/components/ui/progress";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { calculateOverviewStats } from "@web/lib/coe/calculations";
 import {
   getCOEResults,
   getLatestCOEResults,
   getPQPData,
-} from "@web/lib/data/coe";
+} from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
 import { formatPercent } from "@web/utils/chart-formatters";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
@@ -88,43 +89,7 @@ const COEPricesPage = async () => {
   };
 
   const categories = ["Category A", "Category B", "Category E"];
-  const summaryStats = categories
-    .map((category) => {
-      const categoryData = allCoeResults
-        .filter((item) => item.vehicle_class === category)
-        .sort(
-          (a, b) => new Date(a.month).getTime() - new Date(b.month).getTime(),
-        );
-
-      if (categoryData.length === 0) return null;
-
-      const premiums = categoryData.map(({ premium }) => premium);
-      const highest = Math.max(...premiums);
-      const lowest = Math.min(...premiums);
-
-      // Find the records with dates
-      const highestRecord = categoryData.find(
-        ({ premium }) => premium === highest,
-      );
-      const lowestRecord = categoryData.find(
-        ({ premium }) => premium === lowest,
-      );
-
-      return {
-        category,
-        highest,
-        lowest,
-        highestRecord: {
-          date: highestRecord?.month,
-          amount: highest,
-        },
-        lowestRecord: {
-          date: lowestRecord?.month,
-          amount: lowest,
-        },
-      };
-    })
-    .filter(Boolean);
+  const summaryStats = calculateOverviewStats(allCoeResults, categories);
 
   // Get latest PQP rates
   const latestPqpData = Object.entries(pqpRates)[0];

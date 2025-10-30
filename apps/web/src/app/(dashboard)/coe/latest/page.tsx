@@ -1,7 +1,7 @@
 import { redis } from "@sgcarstrends/utils";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { getLatestCOEResults } from "@web/lib/data/coe";
+import { getLatestCOEResults } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
 import type { COEResult } from "@web/types";
 import type { Metadata } from "next";

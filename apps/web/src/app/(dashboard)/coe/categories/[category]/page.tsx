@@ -16,9 +16,12 @@ import {
   CardTitle,
 } from "@web/components/ui/card";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/data/coe";
+import {
+  calculateCategoryStats,
+  groupCOEResultsByBidding,
+} from "@web/lib/coe/calculations";
+import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
-import { groupCOEResultsByBidding } from "@web/lib/utils/coe";
 import type { COECategory, COEResult } from "@web/types";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -140,41 +143,37 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="text-center">
-                <Typography.H3 className="font-bold text-2xl">
-                  {categoryResults.length}
-                </Typography.H3>
-                <Typography.P className="text-muted-foreground text-sm">
-                  Total Bidding Rounds
-                </Typography.P>
-              </div>
-              <div className="text-center">
-                <Typography.H3 className="font-bold text-2xl">
-                  $
-                  {Math.round(
-                    categoryResults.reduce(
-                      (sum, item) => sum + item.premium,
-                      0,
-                    ) / categoryResults.length,
-                  ).toLocaleString()}
-                </Typography.H3>
-                <Typography.P className="text-muted-foreground text-sm">
-                  Average Premium
-                </Typography.P>
-              </div>
-              <div className="text-center">
-                <Typography.H3 className="font-bold text-2xl">
-                  $
-                  {Math.max(
-                    ...categoryResults.map((item) => item.premium),
-                  ).toLocaleString()}
-                </Typography.H3>
-                <Typography.P className="text-muted-foreground text-sm">
-                  Highest Premium
-                </Typography.P>
-              </div>
-            </div>
+            {(() => {
+              const stats = calculateCategoryStats(categoryResults);
+              return (
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                  <div className="text-center">
+                    <Typography.H3 className="font-bold text-2xl">
+                      {stats.totalRounds}
+                    </Typography.H3>
+                    <Typography.P className="text-muted-foreground text-sm">
+                      Total Bidding Rounds
+                    </Typography.P>
+                  </div>
+                  <div className="text-center">
+                    <Typography.H3 className="font-bold text-2xl">
+                      ${stats.averagePremium.toLocaleString()}
+                    </Typography.H3>
+                    <Typography.P className="text-muted-foreground text-sm">
+                      Average Premium
+                    </Typography.P>
+                  </div>
+                  <div className="text-center">
+                    <Typography.H3 className="font-bold text-2xl">
+                      ${stats.highestPremium.toLocaleString()}
+                    </Typography.H3>
+                    <Typography.P className="text-muted-foreground text-sm">
+                      Highest Premium
+                    </Typography.P>
+                  </div>
+                </div>
+              );
+            })()}
           </CardContent>
         </Card>
       </div>

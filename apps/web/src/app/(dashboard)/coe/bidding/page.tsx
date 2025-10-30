@@ -16,7 +16,7 @@ import {
   CardTitle,
 } from "@web/components/ui/card";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { getCOEResultsFiltered } from "@web/lib/data/coe";
+import { getCOEResultsFiltered } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
 import type { COEResult } from "@web/types";
 import type { Metadata } from "next";

@@ -1,5 +1,5 @@
-import { getCarsMonths } from "@web/lib/data/cars";
-import { getCOEMonths } from "@web/lib/data/coe";
+import { getCarsMonths } from "@web/lib/cars/queries";
+import { getCOEMonths } from "@web/lib/coe/queries";
 import { getCarsLatestMonth, getCOELatestMonth } from "@web/lib/data/months";
 import type { Month } from "@web/types";
 

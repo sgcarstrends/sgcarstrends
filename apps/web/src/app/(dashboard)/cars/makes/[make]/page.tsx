@@ -8,7 +8,7 @@ import {
   checkMakeIfExist,
   getDistinctMakes,
   getMakeDetails,
-} from "@web/lib/data/cars";
+} from "@web/lib/cars/queries";
 import { createPageMetadata } from "@web/lib/metadata";
 import type { Car, Make } from "@web/types";
 import { getMonthOrLatest } from "@web/utils/months";

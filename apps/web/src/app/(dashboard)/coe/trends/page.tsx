@@ -17,9 +17,12 @@ import {
   CardTitle,
 } from "@web/components/ui/card";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/data/coe";
+import {
+  calculateTrendInsights,
+  groupCOEResultsByBidding,
+} from "@web/lib/coe/calculations";
+import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
-import { groupCOEResultsByBidding } from "@web/lib/utils/coe";
 import type { COEBiddingResult, COEResult, Month } from "@web/types";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -57,54 +60,6 @@ const COETrendsPage = async ({ searchParams }: Props) => {
   const months = monthsResult.map(({ month }) => month);
 
   const data = groupCOEResultsByBidding(coeResults);
-
-  // Calculate trend insights
-  const calculateTrendInsights = (data: COEBiddingResult[]) => {
-    const categories = [
-      "Category A",
-      "Category B",
-      "Category C",
-      "Category D",
-      "Category E",
-    ];
-    const insights = categories
-      .map((category) => {
-        const categoryData = data
-          .filter((item) => item[category as keyof COEBiddingResult])
-          .map((item) => ({
-            month: item.month,
-            premium: item[category as keyof COEBiddingResult] as number,
-          }))
-          .sort((a, b) => a.month.localeCompare(b.month));
-
-        if (categoryData.length === 0) return null;
-
-        const latest = categoryData[categoryData.length - 1];
-        const previous = categoryData[categoryData.length - 2];
-        const change = previous
-          ? ((latest.premium - previous.premium) / previous.premium) * 100
-          : 0;
-
-        const highest = Math.max(...categoryData.map((d) => d.premium));
-        const lowest = Math.min(...categoryData.map((d) => d.premium));
-        const average =
-          categoryData.reduce((sum, d) => sum + d.premium, 0) /
-          categoryData.length;
-
-        return {
-          category,
-          latest: latest.premium,
-          change,
-          highest,
-          lowest,
-          average,
-        };
-      })
-      .filter(Boolean);
-
-    return insights;
-  };
-
   const trendInsights = calculateTrendInsights(data);
 
   const structuredData: WithContext<WebPage> = {

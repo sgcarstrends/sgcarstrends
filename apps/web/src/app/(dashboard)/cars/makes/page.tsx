@@ -4,7 +4,7 @@ import { MakesList } from "@web/components/cars/makes";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { getDistinctMakes } from "@web/lib/data/cars";
+import { getDistinctMakes } from "@web/lib/cars/queries";
 import { createPageMetadata } from "@web/lib/metadata";
 import type { Make } from "@web/types";
 import { fetchMonthsForCars } from "@web/utils/months";

@@ -1,6 +1,6 @@
 import slugify from "@sindresorhus/slugify";
 import { SITE_LINKS, SITE_URL } from "@web/config";
-import { getDistinctMakes } from "@web/lib/data/cars";
+import { getDistinctMakes } from "@web/lib/cars/queries";
 import { getAllPosts } from "@web/lib/data/posts";
 import type { MetadataRoute } from "next";
 

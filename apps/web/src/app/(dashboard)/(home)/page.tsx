@@ -9,7 +9,7 @@ import { StructuredData } from "@web/components/structured-data";
 import { TopMakesByYear } from "@web/components/top-makes-by-year";
 import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-registrations-by-year";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { getLatestCOEResults } from "@web/lib/data/coe";
+import { getLatestCOEResults } from "@web/lib/coe/queries";
 import { getAllPosts } from "@web/lib/data/posts";
 import type { Metadata } from "next";
 import type { WebSite, WithContext } from "schema-dts";

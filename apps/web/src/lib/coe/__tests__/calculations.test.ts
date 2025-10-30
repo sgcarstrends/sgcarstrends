@@ -1,8 +1,8 @@
 import type { COEResult } from "@web/types";
 import { describe, expect, it } from "vitest";
-import { groupCOEResultsByBidding } from "../coe";
+import { groupCOEResultsByBidding } from "../calculations";
 
-describe("COE Utilities", () => {
+describe("COE Calculations", () => {
   describe("groupCOEResultsByBidding", () => {
     it("should group COE results by month and bidding number", () => {
       const mockResults: COEResult[] = [

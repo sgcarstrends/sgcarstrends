@@ -7,7 +7,7 @@ import {
   checkMakeIfExist,
   getDistinctMakes,
   getMakeDetails,
-} from "@web/lib/data/cars";
+} from "@web/lib/cars/queries";
 import type { Car } from "@web/types";
 import { getMonthOrLatest } from "@web/utils/months";
 import type { SearchParams } from "nuqs/server";

@@ -13,7 +13,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@web/components/ui/chart";
-import { getRankingEmoji } from "@web/lib/utils/cars";
+import { getRankingEmoji } from "@web/lib/cars/calculations";
 import {
   formatNumber,
   formatPercentage,

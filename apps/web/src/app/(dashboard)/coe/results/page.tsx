@@ -17,13 +17,13 @@ import {
   CardTitle,
 } from "@web/components/ui/card";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { groupCOEResultsByBidding } from "@web/lib/coe/calculations";
 import {
   getCOEMonths,
   getCOEResultsFiltered,
   getLatestCOEResults,
-} from "@web/lib/data/coe";
+} from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
-import { groupCOEResultsByBidding } from "@web/lib/utils/coe";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";

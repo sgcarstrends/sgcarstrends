@@ -14,7 +14,7 @@ import {
   getCarsData,
   getTopMakesByFuelType,
   getTopTypes,
-} from "@web/lib/data/cars";
+} from "@web/lib/cars/queries";
 import { createPageMetadata } from "@web/lib/metadata";
 import { generateDatasetSchema } from "@web/lib/structured-data";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
