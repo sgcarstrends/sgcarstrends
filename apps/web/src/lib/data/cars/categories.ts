@@ -1,6 +1,6 @@
 /**
  * Generic type queries for fuel types and vehicle types
- * This module provides reusable query functions that work with both fuel_type and vehicle_type columns
+ * This module provides reusable query functions that work with both fuelType and vehicleType columns
  */
 
 import { cars, db } from "@sgcarstrends/database";
@@ -11,7 +11,7 @@ import { and, desc, eq, sql } from "drizzle-orm";
  * Allows parameterization of queries across different type columns
  */
 export interface TypeConfig {
-  column: typeof cars.fuel_type | typeof cars.vehicle_type;
+  column: typeof cars.fuelType | typeof cars.vehicleType;
   fieldName: "fuelType" | "vehicleType";
 }
 
@@ -19,7 +19,7 @@ export interface TypeConfig {
  * Predefined configuration for fuel type queries
  */
 export const FUEL_TYPE: TypeConfig = {
-  column: cars.fuel_type,
+  column: cars.fuelType,
   fieldName: "fuelType",
 };
 
@@ -27,7 +27,7 @@ export const FUEL_TYPE: TypeConfig = {
  * Predefined configuration for vehicle type queries
  */
 export const VEHICLE_TYPE: TypeConfig = {
-  column: cars.vehicle_type,
+  column: cars.vehicleType,
   fieldName: "vehicleType",
 };
 

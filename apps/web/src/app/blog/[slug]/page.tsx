@@ -96,6 +96,8 @@ export const generateStaticParams = async () => {
 };
 
 const BlogPostPage = async ({ params }: Props) => {
+  "use cache";
+
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 

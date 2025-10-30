@@ -1,13 +1,13 @@
 "use client";
 
+import type { SelectCar } from "@sgcarstrends/database";
 import slugify from "@sindresorhus/slugify";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@web/components/ui/button";
-import type { Car } from "@web/types";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
 
-export const columns: ColumnDef<Car>[] = [
+export const columns: ColumnDef<Partial<SelectCar>>[] = [
   {
     accessorKey: "month",
     header: ({ column }) => {
@@ -26,16 +26,22 @@ export const columns: ColumnDef<Car>[] = [
     accessorKey: "fuelType",
     header: "Fuel Type",
     cell: ({ row }) => {
-      const type: string = row.getValue("fuelType");
-      return <Link href={`/cars/fuel-types/${slugify(type)}`}>{type}</Link>;
+      const fuelType: string = row.getValue("fuelType");
+      return (
+        <Link href={`/cars/fuel-types/${slugify(fuelType)}`}>{fuelType}</Link>
+      );
     },
   },
   {
     accessorKey: "vehicleType",
     header: "Vehicle Type",
     cell: ({ row }) => {
-      const type: string = row.getValue("vehicleType");
-      return <Link href={`/cars/vehicle-types/${slugify(type)}`}>{type}</Link>;
+      const vehicleType: string = row.getValue("vehicleType");
+      return (
+        <Link href={`/cars/vehicle-types/${slugify(vehicleType)}`}>
+          {vehicleType}
+        </Link>
+      );
     },
   },
   {
