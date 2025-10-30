@@ -2,7 +2,7 @@
 
 import { Tab, Tabs } from "@heroui/tabs";
 import type { SelectPost } from "@sgcarstrends/database";
-import { BlogPost } from "@web/components/blog/blog-post";
+import { BlogPost } from "@web/app/blog/_components/blog-post";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 

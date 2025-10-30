@@ -1,8 +1,8 @@
 import { redis } from "@sgcarstrends/utils";
 import slugify from "@sindresorhus/slugify";
+import { CarOverviewTrends } from "@web/app/(dashboard)/cars/_components/overview-trends";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/[category]/[type]/search-params";
 import { AnimatedNumber } from "@web/components/animated-number";
-import { CarOverviewTrends } from "@web/components/cars/overview-trends";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { Badge } from "@web/components/ui/badge";

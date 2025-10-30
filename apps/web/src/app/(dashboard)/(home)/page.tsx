@@ -2,9 +2,9 @@ import {
   getTopMakesByYear,
   getYearlyRegistrations,
 } from "@web/actions/cars/statistics";
+import { KeyStatistics } from "@web/app/(dashboard)/(home)/_components/key-statistics";
+import { RecentPosts } from "@web/app/(dashboard)/(home)/_components/recent-posts";
 import { LatestCOE } from "@web/components/coe/latest-coe";
-import { KeyStatistics } from "@web/components/home/key-statistics";
-import { RecentPosts } from "@web/components/home/recent-posts";
 import { StructuredData } from "@web/components/structured-data";
 import { TopMakesByYear } from "@web/components/top-makes-by-year";
 import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-registrations-by-year";

@@ -1,4 +1,4 @@
-import { incrementPostView } from "@web/actions/blog/views";
+import { incrementPostView } from "@web/app/blog/_actions/views";
 
 interface ViewCounterProps {
   postId: string;

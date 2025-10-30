@@ -8,7 +8,7 @@ import {
   CardHeader,
   Chip,
 } from "@heroui/react";
-import { LatestCOEPrices } from "@web/components/coe/latest-coe-prices";
+import { LatestCOEPrices } from "@web/app/(dashboard)/coe/_components/latest-coe-prices";
 import { PageHeader } from "@web/components/page-header";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";

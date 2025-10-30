@@ -1,6 +1,6 @@
 import slugify from "@sindresorhus/slugify";
+import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/makes/[make]/search-params";
-import { MakeDetail } from "@web/components/cars/makes";
 import { StructuredData } from "@web/components/structured-data";
 import { fetchMakePageData } from "@web/lib/cars/make-data";
 import {

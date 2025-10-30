@@ -1,8 +1,8 @@
 import { Button } from "@heroui/button";
-import { updatePostTags } from "@web/actions/blog/tags";
-import { ProgressBar } from "@web/components/blog/progress-bar";
-import { RelatedPosts } from "@web/components/blog/related-posts";
-import { ViewCounter } from "@web/components/blog/view-counter";
+import { updatePostTags } from "@web/app/blog/_actions/tags";
+import { ProgressBar } from "@web/app/blog/_components/progress-bar";
+import { RelatedPosts } from "@web/app/blog/_components/related-posts";
+import { ViewCounter } from "@web/app/blog/_components/view-counter";
 import { BetaChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
 import { Separator } from "@web/components/ui/separator";

@@ -4,8 +4,8 @@ import Link from "next/link";
 export const revalidate = 3600;
 
 import { redis } from "@sgcarstrends/utils";
+import { LatestCOEPrices } from "@web/app/(dashboard)/coe/_components/latest-coe-prices";
 import { AnimatedNumber } from "@web/components/animated-number";
-import { LatestCOEPrices } from "@web/components/coe/latest-coe-prices";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";

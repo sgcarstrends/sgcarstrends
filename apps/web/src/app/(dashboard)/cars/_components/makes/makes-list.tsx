@@ -2,7 +2,10 @@
 
 import { Chip } from "@heroui/chip";
 import { Input } from "@heroui/input";
-import { Makes, MakesSearchResults } from "@web/components/cars/makes";
+import {
+  Makes,
+  MakesSearchResults,
+} from "@web/app/(dashboard)/cars/_components/makes";
 import type { Make } from "@web/types";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";

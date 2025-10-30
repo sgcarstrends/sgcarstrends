@@ -1,6 +1,6 @@
+import { MakeDrawer } from "@web/app/(dashboard)/cars/_components/makes";
+import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes/make-detail";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/makes/[make]/search-params";
-import { MakeDrawer } from "@web/components/cars/makes";
-import { MakeDetail } from "@web/components/cars/makes/make-detail";
 import { fetchMakePageData } from "@web/lib/cars/make-data";
 import { getMonthOrLatest } from "@web/utils/months";
 import type { SearchParams } from "nuqs/server";
