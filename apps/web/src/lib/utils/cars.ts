@@ -1,18 +1,5 @@
 import type { CarMarketShareData } from "@web/lib/data/cars";
 
-export const CAR_CHART_COLOURS = [
-  "#3b82f6",
-  "#10b981",
-  "#8b5cf6",
-  "#f59e0b",
-  "#ef4444",
-  "#06b6d4",
-  "#6366f1",
-  "#f97316",
-  "#14b8a6",
-  "#84cc16",
-] as const;
-
 export const calculateCarMarketShareInsights = (
   data: CarMarketShareData[],
 ): {
