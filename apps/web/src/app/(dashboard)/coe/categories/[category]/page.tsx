@@ -15,20 +15,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@web/components/ui/card";
-import {
-  API_URL,
-  LAST_UPDATED_COE_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import {
-  type COEBiddingResult,
-  type COECategory,
-  type COEResult,
-  type Month,
-  RevalidateTags,
-} from "@web/types";
-import { fetchApi } from "@web/utils/fetch-api";
+import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/data/coe";
+import type { COEBiddingResult, COECategory, COEResult } from "@web/types";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
@@ -115,24 +104,21 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
   const { start, end } = await loadSearchParams(searchParams);
   const defaultStart = await getDefaultStartDate();
   const defaultEnd = await getDefaultEndDate();
-  const urlParams = new URLSearchParams({
-    start: start || defaultStart,
-    end: end || defaultEnd,
-  });
+  const startDate = start || defaultStart;
+  const endDate = end || defaultEnd;
 
-  const [coeResults, months]: [COEResult[], Month[]] = await Promise.all([
-    fetchApi<COEResult[]>(`${API_URL}/coe?${urlParams.toString()}`, {
-      next: { tags: [RevalidateTags.COE] },
-    }),
-    fetchApi<Month[]>(`${API_URL}/coe/months`),
+  const [coeResults, monthsResult, lastUpdated] = await Promise.all([
+    getCOEResultsFiltered(undefined, startDate, endDate),
+    getCOEMonths(),
+    redis.get<number>(LAST_UPDATED_COE_KEY),
   ]);
+
+  const months = monthsResult.map(({ month }) => month);
 
   // Filter data for the specific category
   const categoryResults = coeResults.filter(
     (result) => result.vehicle_class === category,
   );
-
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
 
   const groupedData = categoryResults.reduce<COEBiddingResult[]>(
     (acc: any, item) => {
