@@ -19,7 +19,7 @@ import {
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/data/coe";
 import { groupCOEResultsByBidding } from "@web/lib/utils/coe";
-import type { COEResult, Month } from "@web/types";
+import type { COEBiddingResult, COEResult, Month } from "@web/types";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
