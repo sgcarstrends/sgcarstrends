@@ -301,8 +301,14 @@ export const getCarMarketShareData = async (
     ][index % 10],
   }));
 
-  const dominantType = marketShareData.reduce((max, current) =>
-    current.percentage > max.percentage ? current : max,
+  const dominantType = marketShareData.reduce(
+    (max, current) => (current.percentage > max.percentage ? current : max),
+    marketShareData[0] ?? {
+      name: "Unknown",
+      percentage: 0,
+      count: 0,
+      colour: "#000000",
+    },
   );
 
   return {
