@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Card,
   CardContent,
@@ -8,45 +6,15 @@ import {
 } from "@web/components/ui/card";
 import { VisitorTrendsChart } from "@web/components/visitor-trends-chart";
 import type { AnalyticsData } from "@web/types/analytics";
-import { useCallback, useState, useTransition } from "react";
 
 interface VisitorsAnalyticsProps {
-  initialData: AnalyticsData;
+  data: AnalyticsData;
 }
 
-export const VisitorsAnalytics = ({ initialData }: VisitorsAnalyticsProps) => {
-  const [data, setData] = useState<AnalyticsData>(initialData);
-  const [isPending, startTransition] = useTransition();
-
-  const handleDateRangeChange = useCallback(
-    async (start: string, end: string) => {
-      startTransition(async () => {
-        try {
-          const apiUrl = new URL("/api/analytics", window.location.origin);
-          if (start) apiUrl.searchParams.set("start", start);
-          if (end) apiUrl.searchParams.set("end", end);
-
-          const response = await fetch(apiUrl.toString());
-          if (!response.ok) {
-            throw new Error("Failed to fetch analytics data");
-          }
-          const newData: AnalyticsData = await response.json();
-          setData(newData);
-        } catch (error) {
-          console.error("Error fetching analytics data:", error);
-        }
-      });
-    },
-    [],
-  );
-
+export const VisitorsAnalytics = ({ data }: VisitorsAnalyticsProps) => {
   return (
     <div className="flex flex-col gap-4">
-      <VisitorTrendsChart
-        data={data.dailyViews}
-        onDateRangeChange={handleDateRangeChange}
-        isLoading={isPending}
-      />
+      <VisitorTrendsChart data={data.dailyViews} />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card>

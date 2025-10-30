@@ -20,7 +20,7 @@ This repository includes directory-specific CLAUDE.md files with detailed guidan
 
 - **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, tRPC, and social media
   integration
-- **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 15, HeroUI, blog features, and
+- **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 16, HeroUI, blog features, and
   analytics
 - **[packages/database/CLAUDE.md](packages/database/CLAUDE.md)**: Database schema management with Drizzle ORM,
   migrations, and TypeScript integration
@@ -50,12 +50,11 @@ for effective development and maintenance.
 
 ## Project Overview
 
-SG Cars Trends (v4.11.0) is a full-stack platform providing access to Singapore vehicle registration data and
-Certificate of
-Entitlement (COE) bidding results. The monorepo includes:
+SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data and
+Certificate of Entitlement (COE) bidding results. The monorepo includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
-- **Web Application**: Next.js 16 frontend with interactive charts, analytics, and blog functionality
+- **Web Application**: Next.js 16 frontend with Cache Components, component co-location, interactive charts, analytics, and blog functionality
 - **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA
   DataMall (QStash workflows)
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini to analyse market data
@@ -67,7 +66,7 @@ Entitlement (COE) bidding results. The monorepo includes:
 
 ### Common Commands
 
-All commands use pnpm v10.13.1 as the package manager:
+All commands use pnpm as the package manager:
 
 **Build Commands:**
 
@@ -226,7 +225,6 @@ following industry best practices:
     - **migrations**: Database migration files with version tracking
 - **packages/types**: Shared TypeScript type definitions
 - **packages/utils**: Shared utility functions and Redis configuration
-- **packages/config**: Shared configuration utilities (currently unused)
 - **infra**: SST v3 infrastructure configuration for AWS deployment
 
 ## Monorepo Build System
@@ -239,7 +237,7 @@ The project uses Turbo for efficient monorepo task orchestration:
   ordering
 - **Caching**: Build outputs cached with intelligent invalidation based on file inputs
 - **Parallel execution**: Independent tasks run concurrently for optimal performance
-- **Environment handling**: Strict environment mode with global dependencies on `.env` files, `tsconfig.json`, and
+- **Environment handling**: Loose environment mode with global dependencies on `.env` files, `tsconfig.json`, and
   `NODE_ENV`
 - **CI Integration**: Global pass-through environment variables for GitHub and Vercel tokens
 
@@ -255,68 +253,19 @@ The project uses Turbo for efficient monorepo task orchestration:
 ### Performance Optimisation
 
 - **TUI Interface**: Enhanced terminal user interface for better development experience
-- **Strict Environment Mode**: Improved security and reliability with explicit environment variable handling
+- **Loose Environment Mode**: Flexible environment variable handling for development workflows
 - **Input Optimisation**: Uses `$TURBO_DEFAULT$` for standard file tracking patterns
 - **Coverage Outputs**: Dedicated `coverage/**` directories for test reports
 - **E2E Outputs**: `test-results/**` and `playwright-report/**` for end-to-end test artifacts
 
 ## Dependency Management
 
-The project uses pnpm v10.13.1 with catalog for centralised dependency version management.
+The project uses **pnpm with catalog** for centralised dependency version management. Shared dependencies (React, Next.js, TypeScript, testing tools, etc.) are defined in `pnpm-workspace.yaml` and referenced by workspace packages using the `catalog:` protocol. This ensures version consistency across all workspace packages and simplifies dependency upgrades.
 
-### pnpm Catalog
-
-Centralised version definitions in `pnpm-workspace.yaml` ensure consistency across all workspace packages:
-
-```yaml
-catalog:
-  '@types/node': ^22.16.4
-  '@types/react': ^19.2.0
-  '@types/react-dom': ^19.2.0
-  '@vitest/coverage-v8': ^3.2.4
-  'date-fns': ^3.6.0
-  next: ^16.0.0
-  react: ^19.2.0
-  'react-dom': ^19.2.0
-  resend: ^6.1.2
-  sst: ^3.17.10
-  superjson: ^2.2.2
-  typescript: ^5.8.3
-  vitest: 3.2.4
-  zod: ^3.25.76
-```
-
-### Catalog Usage
-
-Workspace packages reference catalog versions using the `catalog:` protocol:
-
-```json
-{
-  "dependencies": {
-    "react": "catalog:",
-    "zod": "catalog:"
-  },
-  "devDependencies": {
-    "typescript": "catalog:",
-    "vitest": "catalog:"
-  }
-}
-```
-
-### Catalog Benefits
-
-- **Single source of truth**: All shared dependency versions defined in one place
-- **Version consistency**: Ensures all packages use the same versions
-- **Easier upgrades**: Update version once in catalog, applies everywhere
-- **Type safety**: TypeScript and types packages aligned across workspace
-- **Testing consistency**: Testing tools (vitest, typescript) use same versions
-
-### Root vs Catalog
-
-- **Root package.json dependencies**: Packages actually installed and used by root workspace (e.g., turbo,
-  semantic-release, husky)
-- **Catalog entries**: Version definitions that workspace packages reference (e.g., react, next, typescript)
-- **Both can reference catalog**: Root packages can point at catalog entries where useful, while CLI tooling such as `sst` stays pinned directly in `package.json`
+**Key points:**
+- Shared dependency versions defined in `pnpm-workspace.yaml`
+- Workspace packages reference with `"package": "catalog:"`
+- Root-level CLI tools (SST, Turbo, Biome) installed directly in root `package.json`
 
 ### Workspace Binaries
 
@@ -330,7 +279,7 @@ to all workspace packages. This means:
 ## Code Style
 
 - TypeScript with strict type checking (noImplicitAny, strictNullChecks)
-- **Biome v2.3.0**: Used for formatting, linting, and import organisation
+- **Biome**: Used for formatting, linting, and import organisation
     - **Formatting**: 2 spaces for indentation, auto line endings
     - **Import Organisation**: Automatic import sorting via assist actions
     - **Linting**: Recommended rules enabled across the monorepo

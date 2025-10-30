@@ -1,8 +1,8 @@
 import { redis } from "@sgcarstrends/utils";
+import { TopMakes } from "@web/app/(dashboard)/cars/_components/top-makes";
 import { CategoryTabs } from "@web/app/(dashboard)/cars/category-tabs";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
 import { CarRegistration } from "@web/app/(dashboard)/cars/trends-compare-button";
-import { TopMakes } from "@web/components/cars/top-makes";
 import { PageHeader } from "@web/components/page-header";
 import { MetricCard } from "@web/components/shared/metric-card";
 import { StructuredData } from "@web/components/structured-data";
@@ -27,9 +27,6 @@ import type { WebPage, WithContext } from "schema-dts";
 interface Props {
   searchParams: Promise<SearchParams>;
 }
-
-// Enable ISR with 1-hour revalidation
-export const revalidate = 3600;
 
 export const generateMetadata = async ({
   searchParams,

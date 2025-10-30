@@ -1,6 +1,7 @@
-import type { Logo } from "@web/app/(dashboard)/cars/makes/[make]/page";
-import { MakeSelector } from "@web/components/cars/make-selector";
-import { MakeTrendChart } from "@web/components/cars/makes";
+import type { SelectCar } from "@sgcarstrends/database";
+import { MakeSelector } from "@web/app/(dashboard)/cars/_components/make-selector";
+import { MakeTrendChart } from "@web/app/(dashboard)/cars/_components/makes";
+// import type { Logo } from "@web/app/(dashboard)/cars/makes/[make]/page";
 import { LastUpdated } from "@web/components/shared/last-updated";
 import NoData from "@web/components/shared/no-data";
 import { columns } from "@web/components/tables/columns/cars-make-columns";
@@ -13,16 +14,17 @@ import {
   CardTitle,
 } from "@web/components/ui/card";
 import { DataTable } from "@web/components/ui/data-table";
-import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import type { Car, Make } from "@web/types";
-import Image from "next/image";
+// import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import type { Make } from "@web/types";
+
+// import Image from "next/image";
 
 interface MakeDetailProps {
   make: string;
-  cars: { make: string; total: number; data: Car[] };
+  cars: { make: string; total: number; data: Partial<SelectCar>[] };
   makes: Make[];
   lastUpdated?: number | null;
-  logo?: Logo; // TODO: Interim fix
+  // logo?: Logo; // TODO: Interim fix
 }
 
 export const MakeDetail = ({
@@ -30,7 +32,7 @@ export const MakeDetail = ({
   cars,
   makes,
   lastUpdated,
-  logo,
+  // logo,
 }: MakeDetailProps) => {
   if (!cars) {
     return <NoData />;
@@ -41,16 +43,16 @@ export const MakeDetail = ({
       <div className="flex flex-col gap-2">
         <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">
           <div className="flex flex-col items-center">
-            {logo?.url && (
-              <UnreleasedFeature>
-                <Image
-                  alt={`${cars.make} logo`}
-                  src={logo.url}
-                  width={128}
-                  height={128}
-                />
-              </UnreleasedFeature>
-            )}
+            {/*{logo?.url && (*/}
+            {/*  <UnreleasedFeature>*/}
+            {/*    <Image*/}
+            {/*      alt={`${cars.make} logo`}*/}
+            {/*      src={logo.url}*/}
+            {/*      width={128}*/}
+            {/*      height={128}*/}
+            {/*    />*/}
+            {/*  </UnreleasedFeature>*/}
+            {/*)}*/}
             <Typography.H1>{cars.make}</Typography.H1>
           </div>
           <div className="flex flex-col items-start gap-2">

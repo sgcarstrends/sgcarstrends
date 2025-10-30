@@ -2,6 +2,7 @@ import { coe, coePQP, db } from "@sgcarstrends/database";
 import type { COEResult } from "@web/types";
 import type { Pqp } from "@web/types/coe";
 import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
+import { cacheLife, cacheTag } from "next/cache";
 
 export interface COEMarketShareData {
   category: string;
@@ -11,16 +12,24 @@ export interface COEMarketShareData {
   colour: string;
 }
 
-export const getCOEResults = async (): Promise<COEResult[]> => {
+export async function getCOEResults(): Promise<COEResult[]> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("coe", "coe-all");
+
   const results = await db
     .select()
     .from(coe)
     .orderBy(desc(coe.month), asc(coe.bidding_no), asc(coe.vehicle_class));
 
   return results as COEResult[];
-};
+}
 
-export const getLatestCOEResults = async (): Promise<COEResult[]> => {
+export async function getLatestCOEResults(): Promise<COEResult[]> {
+  "use cache";
+  cacheLife("latestData");
+  cacheTag("coe", "latest-coe");
+
   const [{ latestMonth }] = await db
     .select({ latestMonth: max(coe.month) })
     .from(coe);
@@ -47,9 +56,13 @@ export const getLatestCOEResults = async (): Promise<COEResult[]> => {
     .orderBy(desc(coe.bidding_no), asc(coe.vehicle_class));
 
   return results as COEResult[];
-};
+}
 
-export const getPQPData = async (): Promise<Record<string, Pqp.Rates>> => {
+export async function getPQPData(): Promise<Record<string, Pqp.Rates>> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("coe", "pqp-all");
+
   const results = await db
     .select()
     .from(coePQP)
@@ -67,7 +80,7 @@ export const getPQPData = async (): Promise<Record<string, Pqp.Rates>> => {
     },
     {},
   );
-};
+}
 
 /**
  * Get COE results with optional filtering by month or date range
@@ -75,11 +88,23 @@ export const getPQPData = async (): Promise<Record<string, Pqp.Rates>> => {
  * @param start - Filter by start date (inclusive, YYYY-MM format)
  * @param end - Filter by end date (inclusive, YYYY-MM format)
  */
-export const getCOEResultsFiltered = async (
+export async function getCOEResultsFiltered(
   month?: string,
   start?: string,
   end?: string,
-): Promise<COEResult[]> => {
+): Promise<COEResult[]> {
+  "use cache";
+  cacheLife("monthlyData");
+
+  // Generate dynamic cache tags based on filters
+  if (month) {
+    cacheTag("coe", `coe-${month}`);
+  } else if (start || end) {
+    cacheTag("coe", `coe-range-${start || "all"}-${end || "all"}`);
+  } else {
+    cacheTag("coe", "coe-all");
+  }
+
   const filters = [];
 
   if (month) {
@@ -101,16 +126,20 @@ export const getCOEResultsFiltered = async (
     .orderBy(desc(coe.month), asc(coe.bidding_no), asc(coe.vehicle_class));
 
   return results as COEResult[];
-};
+}
 
 /**
  * Get list of available months with COE data
  */
-export const getCOEMonths = async (): Promise<{ month: string }[]> => {
+export async function getCOEMonths(): Promise<{ month: string }[]> {
+  "use cache";
+  cacheLife("statistics");
+  cacheTag("coe", "coe-months");
+
   const results = await db
     .selectDistinct({ month: coe.month })
     .from(coe)
     .orderBy(desc(coe.month));
 
   return results.map((r) => ({ month: r.month ?? "" }));
-};
+}

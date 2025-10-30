@@ -1,4 +1,4 @@
-import { getRelatedPosts } from "@web/actions/blog";
+import { getRelatedPosts } from "@web/app/blog/_actions";
 import Link from "next/link";
 
 interface RelatedPostsProps {

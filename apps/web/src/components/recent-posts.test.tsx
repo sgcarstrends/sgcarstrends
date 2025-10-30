@@ -1,6 +1,6 @@
 import type { SelectPost } from "@sgcarstrends/database";
 import { render, screen } from "@testing-library/react";
-import { RecentPosts } from "./home/recent-posts";
+import { RecentPosts } from "@web/app/(dashboard)/(home)/_components/recent-posts";
 
 vi.mock("next/link", () => ({
   default: ({ href, children, ...props }: any) => (

@@ -21,29 +21,19 @@ export const generateMetadata = (): Metadata => {
   });
 };
 
-interface VisitorsPageProps {
-  searchParams: Promise<{
-    start?: string;
-    end?: string;
-  }>;
-}
-
-const VisitorsPage = async ({ searchParams }: VisitorsPageProps) => {
-  const params = await searchParams;
-  const { start, end } = params;
+const VisitorsPage = async () => {
+  "use cache";
 
   let data: AnalyticsData;
 
   try {
-    // Build API URL with search parameters
-    const apiUrl = new URL(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics`);
-    if (start) apiUrl.searchParams.set("start", start);
-    if (end) apiUrl.searchParams.set("end", end);
-
-    const response = await fetch(apiUrl.toString());
+    const response = await fetch(
+      new URL(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics`),
+    );
     if (!response.ok) {
       throw new Error("Failed to fetch analytics data");
     }
+
     data = await response.json();
   } catch (error) {
     console.error("Error fetching analytics data:", error);
@@ -58,9 +48,6 @@ const VisitorsPage = async ({ searchParams }: VisitorsPageProps) => {
       dailyViews: [],
     };
   }
-
-  const title = "Visitor Analytics";
-  const description = "Website visitor statistics and traffic data.";
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -100,7 +87,7 @@ const VisitorsPage = async ({ searchParams }: VisitorsPageProps) => {
           </CardContent>
         </Card>
 
-        <VisitorsAnalytics initialData={data} />
+        <VisitorsAnalytics data={data} />
       </div>
     </>
   );

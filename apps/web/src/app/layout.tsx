@@ -9,7 +9,7 @@ import { SITE_TITLE, SITE_URL } from "@web/config";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -101,15 +101,23 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       >
         <Providers>
           <NotificationPrompt />
-          <Announcement />
+          <Suspense fallback={null}>
+            <Announcement />
+          </Suspense>
           <NuqsAdapter>
             <LoadingIndicator />
-            <Header />
+            <Suspense fallback={null}>
+              <Header />
+            </Suspense>
             <Banner />
             <main className="container mx-auto px-6 py-8">{children}</main>
             <Footer />
           </NuqsAdapter>
-          {process.env.NODE_ENV === "production" && <InternalAnalytics />}
+          {process.env.NODE_ENV === "production" && (
+            <Suspense fallback={null}>
+              <InternalAnalytics />
+            </Suspense>
+          )}
         </Providers>
         <Analytics />
         <SpeedInsights />

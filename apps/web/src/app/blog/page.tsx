@@ -1,4 +1,4 @@
-import { BlogList } from "@web/components/blog/blog-list";
+import { BlogList } from "@web/app/blog/_components/blog-list";
 import { StructuredData } from "@web/components/structured-data";
 import { SubscribeForm } from "@web/components/subscribe-form";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";

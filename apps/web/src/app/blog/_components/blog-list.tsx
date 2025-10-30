@@ -2,13 +2,38 @@
 
 import { Tab, Tabs } from "@heroui/tabs";
 import type { SelectPost } from "@sgcarstrends/database";
-import { BlogPost } from "@web/components/blog/blog-post";
+import { BlogPost } from "@web/app/blog/_components/blog-post";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 
 interface Props {
   posts: SelectPost[];
 }
+
+interface PostsGridProps {
+  posts: SelectPost[];
+}
+
+const PostsGrid = ({ posts }: PostsGridProps) => {
+  return (
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      {posts.map((post, index) => (
+        <motion.div
+          key={post.id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: index * 0.1,
+            ease: "easeOut",
+          }}
+        >
+          <BlogPost post={post} />
+        </motion.div>
+      ))}
+    </div>
+  );
+};
 
 export const BlogList = ({ posts }: Props) => {
   const [selectedTab, setSelectedTab] = useState("all");
@@ -23,7 +48,7 @@ export const BlogList = ({ posts }: Props) => {
         tagSet.add(metadata.dataType);
       }
     });
-    return Array.from(tagSet).sort();
+    return Array.from(tagSet).sort((a, b) => a.localeCompare(b));
   }, [posts]);
 
   // Filter posts based on selected tab
@@ -53,41 +78,11 @@ export const BlogList = ({ posts }: Props) => {
       onSelectionChange={(key) => setSelectedTab(key as string)}
     >
       <Tab key="all" title="all">
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          {filteredPosts.map((post, index) => (
-            <motion.div
-              key={post.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.1,
-                ease: "easeOut",
-              }}
-            >
-              <BlogPost post={post} />
-            </motion.div>
-          ))}
-        </div>
+        <PostsGrid posts={filteredPosts} />
       </Tab>
       {availableTags.map((tag) => (
         <Tab key={tag} title={tag}>
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            {filteredPosts.map((post, index) => (
-              <motion.div
-                key={post.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.1,
-                  ease: "easeOut",
-                }}
-              >
-                <BlogPost post={post} />
-              </motion.div>
-            ))}
-          </div>
+          <PostsGrid posts={filteredPosts} />
         </Tab>
       ))}
     </Tabs>

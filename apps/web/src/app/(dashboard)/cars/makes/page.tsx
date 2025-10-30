@@ -1,6 +1,6 @@
 import { redis } from "@sgcarstrends/utils";
 import { getPopularMakes } from "@web/actions";
-import { MakesList } from "@web/components/cars/makes";
+import { MakesList } from "@web/app/(dashboard)/cars/_components/makes";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";

@@ -1,6 +1,6 @@
 import slugify from "@sindresorhus/slugify";
+import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/makes/[make]/search-params";
-import { MakeDetail } from "@web/components/cars/makes";
 import { StructuredData } from "@web/components/structured-data";
 import { fetchMakePageData } from "@web/lib/cars/make-data";
 import {
@@ -20,11 +20,11 @@ interface Props {
 }
 
 // TODO: Interim fix
-export type Logo = {
-  brand: string;
-  filename: string;
-  url: string;
-};
+// export type Logo = {
+//   brand: string;
+//   filename: string;
+//   url: string;
+// };
 
 export const generateMetadata = async ({
   params,
@@ -57,22 +57,28 @@ export const generateMetadata = async ({
 
 export const generateStaticParams = async () => {
   const makesResult = await getDistinctMakes();
-  await fetch(`https://car-logos.sgcarstrends.workers.dev/logos/sync`);
+  // await fetch(`https://car-logos.sgcarstrends.workers.dev/logos/sync`);
   return makesResult.map((m) => ({ make: slugify(m.make) }));
 };
 
 const CarMakePage = async ({ params }: Props) => {
   const { make } = await params;
 
-  const getLogo = (): Promise<Logo> =>
-    fetch(`https://car-logos.sgcarstrends.workers.dev/logos/${slugify(make)}`)
-      .then((res) => res.json())
-      .then((data) => data.logo)
-      .catch((e) => console.error(e));
+  // const getLogo = () =>
+  //   fetch(`https://car-logos.sgcarstrends.workers.dev/logos/${slugify(make)}`)
+  //     .then((res) => res.json())
+  //     .then((data) => data.logo)
+  //     .catch((e) => {
+  //       console.error(e);
+  //       return undefined; // Return undefined on error instead of swallowing promise rejection
+  //     });
 
-  const [{ cars, makes, lastUpdated, makeName }, logo] = await Promise.all([
+  const [
+    { cars, makes, lastUpdated, makeName },
+    // logo
+  ] = await Promise.all([
     fetchMakePageData(make),
-    getLogo(),
+    // getLogo(),
   ]);
 
   const title = `${makeName} Cars Overview: Registration Trends`;
@@ -91,7 +97,7 @@ const CarMakePage = async ({ params }: Props) => {
         cars={cars}
         makes={makes}
         lastUpdated={lastUpdated}
-        logo={logo}
+        // logo={logo}
       />
     </>
   );

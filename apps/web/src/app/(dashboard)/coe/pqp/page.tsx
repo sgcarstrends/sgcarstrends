@@ -7,7 +7,7 @@ import {
   DataTable,
   RenewalCalculator,
   TrendsChart,
-} from "@web/components/coe/pqp";
+} from "@web/app/(dashboard)/coe/_components/pqp";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";

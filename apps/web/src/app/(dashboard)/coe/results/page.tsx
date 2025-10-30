@@ -1,6 +1,6 @@
+import { COECategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
+import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
 import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
-import { COECategories } from "@web/components/coe/coe-categories";
-import { COEPremiumChart } from "@web/components/coe/premium-chart";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";

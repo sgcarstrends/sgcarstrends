@@ -44,24 +44,91 @@ pnpm deploy:prod        # Deploy to production environment
 
 ```
 src/
-├── app/               # Next.js App Router - pages, layouts, API routes
-│   ├── (home)/       # Home page route group with COE results and blog sidebar
-│   ├── (social)/     # Social media redirect routes with UTM tracking
-│   ├── api/          # API routes (analytics, OG images, revalidation)
-│   ├── blog/         # Blog pages with dynamic routes and Open Graph images
-│   ├── cars/         # Car-related pages with parallel routes
-│   ├── coe/          # COE (Certificate of Entitlement) pages
-│   └── store/        # Zustand store slices
-├── actions/          # Server actions for blog functionality
-├── components/       # React components with tests
-│   ├── blog/         # Blog-specific components (progress bar, view counter, related posts)
-│   ├── dashboard/    # Dashboard components (section tabs, sub-nav)
-│   └── [others]      # COE results, posts, charts, key statistics
-├── config/          # App configuration (DB, Redis, navigation)
-├── schema/          # Drizzle database schemas
-├── types/           # TypeScript definitions
-└── utils/           # Utility functions with comprehensive tests
+├── app/                           # Next.js App Router - pages, layouts, API routes
+│   ├── (dashboard)/
+│   │   ├── (home)/
+│   │   │   └── _components/       # Home page-specific components (co-located)
+│   │   ├── cars/
+│   │   │   └── _components/       # Cars route-specific components (co-located)
+│   │   └── coe/
+│   │       └── _components/       # COE route-specific components (co-located)
+│   ├── (social)/                  # Social media redirect routes with UTM tracking
+│   ├── api/                       # API routes (analytics, OG images, revalidation)
+│   ├── blog/
+│   │   ├── _actions/              # Blog-specific server actions (co-located)
+│   │   └── _components/           # Blog-specific components (co-located)
+│   └── store/                     # Zustand store slices
+├── actions/                       # Shared server actions (cars, COE)
+├── components/                    # Shared React components
+│   ├── coe/                       # Shared COE components (latest-coe.tsx for home page)
+│   ├── dashboard/                 # Shared dashboard components (navigation, skeletons)
+│   ├── shared/                    # Generic shared components (chips, currency, metric-card)
+│   ├── ui/                        # shadcn/ui base components (DO NOT MODIFY)
+│   └── [others]                   # Shared components used across multiple routes
+├── config/                        # App configuration (DB, Redis, navigation)
+├── lib/                           # Shared data fetching and business logic
+├── schema/                        # Drizzle database schemas
+├── types/                         # TypeScript definitions
+└── utils/                         # Utility functions with comprehensive tests
 ```
+
+### Component Co-location Strategy
+
+This application follows **Next.js 15/16 co-location best practices** using private folders (underscore prefix):
+
+#### Co-located Components (`_components/`)
+
+Route-specific components live alongside their consuming routes using private folders:
+
+- **Home**: `app/(dashboard)/(home)/_components/` - Key statistics, recent posts
+- **Blog**: `app/blog/_components/` - Progress bar, view counter, related posts, blog list
+- **Cars**: `app/(dashboard)/cars/_components/` - Category tabs, make selectors, trend charts
+- **COE**: `app/(dashboard)/coe/_components/` - COE categories, premium charts, PQP components
+
+#### Co-located Actions (`_actions/`)
+
+Route-specific server actions use private folders:
+
+- **Blog**: `app/blog/_actions/` - View counting, related posts, tag management
+
+#### Centralized vs Co-located
+
+**Keep Centralized When:**
+- Component used by 3+ different routes
+- Part of design system (`components/ui/` - shadcn/ui)
+- Shared business logic (`actions/`, `lib/`)
+- Generic utilities (`components/shared/`)
+
+**Co-locate When:**
+- Component only used by single route or route segment
+- Action/query specific to one feature area
+- Utility function only needed in one place
+
+#### Import Strategy
+
+**Always use path aliases** for imports:
+
+```typescript
+// ✅ Co-located components via path alias
+import { ProgressBar } from "@web/app/blog/_components/progress-bar";
+import { KeyStatistics } from "@web/app/(dashboard)/(home)/_components/key-statistics";
+
+// ✅ Shared components via existing alias
+import { MetricCard } from "@web/components/shared/metric-card";
+import { Button } from "@web/components/ui/button";
+
+// ❌ Avoid relative imports for co-located code
+import { ProgressBar } from "../_components/progress-bar"; // Don't use
+```
+
+#### Private Folder Convention
+
+All non-route folders in `app/` use underscore prefix to prevent routing conflicts:
+
+- `_components/` - React components
+- `_actions/` - Server actions
+- `_queries/` - Data fetching functions (if needed)
+- `_utils/` - Route-specific utilities (if needed)
 
 ### Data Architecture
 
@@ -76,7 +143,7 @@ connection configured in `src/config/db.ts`.
 
 **Caching**: Redis (Upstash) for API response caching, rate limiting, and blog view tracking.
 
-**Blog Functionality**: Server actions in `src/actions/blog/` handle:
+**Blog Functionality**: Server actions in `src/app/blog/_actions/` handle:
 
 - Blog post retrieval and filtering
 - View counting with Redis-based tracking
@@ -116,7 +183,7 @@ External API integration through `src/utils/api/` for:
 - Recent posts sidebar with link navigation
 - Key statistics and yearly registration charts
 
-**Blog Components**: Specialized components in `src/components/blog/` including:
+**Blog Components**: Co-located components in `src/app/blog/_components/` including:
 
 - Progress bar for reading progress tracking
 - View counter with Redis-backed analytics
