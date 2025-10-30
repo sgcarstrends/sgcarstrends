@@ -3,56 +3,34 @@ import { getPopularMakes } from "@web/actions";
 import { MakesList } from "@web/components/cars/makes";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
-import {
-  API_URL,
-  LAST_UPDATED_CARS_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import type { Make } from "@web/types";
-import { fetchApi } from "@web/utils/fetch-api";
-import { fetchMonthsForCars } from "@web/utils/month-utils";
+import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { getDistinctMakes } from "@web/lib/cars/queries";
+import { createPageMetadata } from "@web/lib/metadata";
+import { fetchMonthsForCars } from "@web/utils/months";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
-export const generateMetadata = async (): Promise<Metadata> => {
-  const title = "Makes";
-  const description =
-    "Comprehensive overview of car makes in Singapore. Explore popular brands, discover all available manufacturers, and view registration trends and market statistics.";
+const title = "Makes";
+const description =
+  "Comprehensive overview of car makes in Singapore. Explore popular brands, discover all available manufacturers, and view registration trends and market statistics.";
 
-  const canonical = `/cars/makes`;
-
-  return {
+export const generateMetadata = (): Metadata => {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: "/cars/makes",
+  });
 };
 
 const CarMakesPage = async () => {
-  const [makes, popularMakes, months, lastUpdated] = await Promise.all([
-    fetchApi<Make[]>(`${API_URL}/cars/makes`),
+  const [makesResult, popularMakes, months, lastUpdated] = await Promise.all([
+    getDistinctMakes(),
     getPopularMakes(),
     fetchMonthsForCars(),
     redis.get<number>(LAST_UPDATED_CARS_KEY),
   ]);
+
+  const makes = makesResult.map((m) => m.make);
 
   const title = "Car Makes Overview - Singapore Registration Trends";
   const description =

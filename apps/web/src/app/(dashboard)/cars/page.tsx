@@ -9,15 +9,16 @@ import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { generateDatasetSchema } from "@web/lib/structured-data";
 import {
   getCarsComparison,
   getCarsData,
-  getTopMakes,
+  getTopMakesByFuelType,
   getTopTypes,
-} from "@web/utils/cached-api";
+} from "@web/lib/cars/queries";
+import { createPageMetadata } from "@web/lib/metadata";
+import { generateDatasetSchema } from "@web/lib/structured-data";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
@@ -48,11 +49,11 @@ export const generateMetadata = async ({
   ]);
   const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${carRegistration.total}&topFuelType=${topTypes.topFuelType.name}&topVehicleType=${topTypes.topVehicleType.name}`;
 
-  const canonical = `/cars?month=${month}`;
-
-  return {
+  return createPageMetadata({
     title,
     description,
+    canonical: `/cars?month=${month}`,
+    images,
     keywords: [
       "Singapore car registration",
       "fuel type statistics",
@@ -61,30 +62,8 @@ export const generateMetadata = async ({
       "new car registrations",
       "automotive statistics",
     ],
-    authors: [{ name: "SG Cars Trends", url: SITE_URL }],
-    creator: "SG Cars Trends",
-    publisher: "SG Cars Trends",
-    openGraph: {
-      title,
-      description,
-      images,
-      url: `${SITE_URL}${canonical}`,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    includeAuthors: true,
+  });
 };
 
 const CarsPage = async ({ searchParams }: Props) => {
@@ -96,7 +75,7 @@ const CarsPage = async ({ searchParams }: Props) => {
     getCarsData(month),
     getCarsComparison(month),
     getTopTypes(month),
-    getTopMakes(month),
+    getTopMakesByFuelType(month),
     fetchMonthsForCars(),
   ]);
 

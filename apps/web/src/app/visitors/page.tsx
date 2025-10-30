@@ -4,35 +4,21 @@ import Typography from "@web/components/typography";
 import { Card, CardContent } from "@web/components/ui/card";
 import { VisitorsAnalytics } from "@web/components/visitors-analytics";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { createPageMetadata } from "@web/lib/metadata";
 import type { AnalyticsData } from "@web/types/analytics";
 import { Users } from "lucide-react";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
-export const generateMetadata = (): Metadata => {
-  const title = "Visitor Analytics";
-  const description = "Website visitor statistics and traffic data.";
+const title = "Visitor Analytics";
+const description = "Website visitor statistics and traffic data.";
 
-  return {
+export const generateMetadata = (): Metadata => {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: "/visitors",
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical: "/visitors",
-    },
-  };
+    canonical: "/visitors",
+  });
 };
 
 interface VisitorsPageProps {

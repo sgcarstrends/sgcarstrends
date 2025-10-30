@@ -1,20 +1,18 @@
-import { redis } from "@sgcarstrends/utils";
 import slugify from "@sindresorhus/slugify";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/makes/[make]/search-params";
 import { MakeDetail } from "@web/components/cars/makes";
 import { StructuredData } from "@web/components/structured-data";
+import { fetchMakePageData } from "@web/lib/cars/make-data";
 import {
-  API_URL,
-  LAST_UPDATED_CARS_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import type { Car, Make } from "@web/types";
-import { fetchApi } from "@web/utils/fetch-api";
-import { getMonthOrLatest } from "@web/utils/month-utils";
+  checkMakeIfExist,
+  getDistinctMakes,
+  getMakeDetails,
+} from "@web/lib/cars/queries";
+import { createPageMetadata } from "@web/lib/metadata";
+import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
+import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
-import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   params: Promise<{ make: string }>;
@@ -37,42 +35,30 @@ export const generateMetadata = async ({
 
   month = await getMonthOrLatest(month, "cars");
 
-  const cars = await fetchApi<{ make: string; total: number; data: Car[] }>(
-    `${API_URL}/cars/makes/${make}?month=${month}`,
-  );
+  const [makeExists, makeDetails] = await Promise.all([
+    checkMakeIfExist(make),
+    getMakeDetails(make, month),
+  ]);
 
-  const title = `${cars.make} Cars Overview: Registration Trends`;
-  const description = `${cars.make} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
+  const makeName = makeExists?.make ?? make.toUpperCase();
 
-  const images = `/api/og?title=${make.toUpperCase()}&subtitle=Stats by Make&month=${month}&total=${cars.total}`;
-  const canonical = `/cars/makes/${make}?month=${month}`;
+  const title = `${makeName} Cars Overview: Registration Trends`;
+  const description = `${makeName} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
 
-  return {
+  const images = `/api/og?title=${makeName.toUpperCase()}&subtitle=Stats by Make&month=${month}&total=${makeDetails.total}`;
+
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      images,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      images,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: `/cars/makes/${make}?month=${month}`,
+    images,
+  });
 };
 
 export const generateStaticParams = async () => {
-  const makes = await fetchApi<Make[]>(`${API_URL}/cars/makes`);
+  const makesResult = await getDistinctMakes();
   await fetch(`https://car-logos.sgcarstrends.workers.dev/logos/sync`);
-  return makes.map((make) => ({ make: slugify(make) }));
+  return makesResult.map((m) => ({ make: slugify(m.make) }));
 };
 
 const CarMakePage = async ({ params }: Props) => {
@@ -84,33 +70,18 @@ const CarMakePage = async ({ params }: Props) => {
       .then((data) => data.logo)
       .catch((e) => console.error(e));
 
-  const [cars, makes, logo]: [
-    { make: string; total: number; data: Car[] },
-    Make[],
-    Logo,
-  ] = await Promise.all([
-    fetchApi<{ make: string; total: number; data: Car[] }>(
-      `${API_URL}/cars/makes/${slugify(make)}`,
-    ),
-    fetchApi<Make[]>(`${API_URL}/cars/makes`),
+  const [{ cars, makes, lastUpdated, makeName }, logo] = await Promise.all([
+    fetchMakePageData(make),
     getLogo(),
   ]);
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
 
-  const title = `${cars.make} Cars Overview: Registration Trends`;
-  const description = `${cars.make} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
-  const structuredData: WithContext<WebPage> = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: title,
+  const title = `${makeName} Cars Overview: Registration Trends`;
+  const description = `${makeName} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
+  const structuredData = createWebPageStructuredData(
+    title,
     description,
-    url: `${SITE_URL}/cars/makes/${make}`,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_TITLE,
-      url: SITE_URL,
-    },
-  };
+    `/cars/makes/${make}`,
+  );
 
   return (
     <>

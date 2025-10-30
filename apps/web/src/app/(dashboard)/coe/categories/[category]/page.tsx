@@ -15,24 +15,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@web/components/ui/card";
+import { LAST_UPDATED_COE_KEY } from "@web/config";
 import {
-  API_URL,
-  LAST_UPDATED_COE_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import {
-  type COEBiddingResult,
-  type COECategory,
-  type COEResult,
-  type Month,
-  RevalidateTags,
-} from "@web/types";
-import { fetchApi } from "@web/utils/fetch-api";
+  calculateCategoryStats,
+  groupCOEResultsByBidding,
+} from "@web/lib/coe/calculations";
+import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/coe/queries";
+import { createPageMetadata } from "@web/lib/metadata";
+import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
+import type { COECategory } from "@web/types";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
-import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   params: Promise<{ category: string }>;
@@ -80,28 +74,12 @@ export const generateMetadata = async ({
 
   const title = `COE ${category} Analysis`;
   const description = `Detailed analysis of Certificate of Entitlement (COE) prices and trends for ${category} vehicles in Singapore.`;
-  const canonical = `/coe/categories/${categorySlug}`;
 
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: `/coe/categories/${categorySlug}`,
+  });
 };
 
 const COECategoryPage = async ({ params, searchParams }: Props) => {
@@ -115,59 +93,32 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
   const { start, end } = await loadSearchParams(searchParams);
   const defaultStart = await getDefaultStartDate();
   const defaultEnd = await getDefaultEndDate();
-  const urlParams = new URLSearchParams({
-    start: start || defaultStart,
-    end: end || defaultEnd,
-  });
+  const startDate = start || defaultStart;
+  const endDate = end || defaultEnd;
 
-  const [coeResults, months]: [COEResult[], Month[]] = await Promise.all([
-    fetchApi<COEResult[]>(`${API_URL}/coe?${urlParams.toString()}`, {
-      next: { tags: [RevalidateTags.COE] },
-    }),
-    fetchApi<Month[]>(`${API_URL}/coe/months`),
+  const [coeResults, monthsResult, lastUpdated] = await Promise.all([
+    getCOEResultsFiltered(undefined, startDate, endDate),
+    getCOEMonths(),
+    redis.get<number>(LAST_UPDATED_COE_KEY),
   ]);
+
+  const months = monthsResult.map(({ month }) => month);
 
   // Filter data for the specific category
   const categoryResults = coeResults.filter(
     (result) => result.vehicle_class === category,
   );
 
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
-
-  const groupedData = categoryResults.reduce<COEBiddingResult[]>(
-    (acc: any, item) => {
-      const key = `${item.month}-${item.bidding_no}`;
-
-      if (!acc[key]) {
-        acc[key] = {
-          month: item.month,
-          biddingNo: item.bidding_no,
-        };
-      }
-      acc[key][item.vehicle_class] = item.premium;
-
-      return acc;
-    },
-    [],
-  );
-
-  const data: COEBiddingResult[] = Object.values(groupedData);
+  const data = groupCOEResultsByBidding(categoryResults);
 
   const title = `COE ${category} Analysis`;
   const description = `Detailed analysis of Certificate of Entitlement (COE) prices and trends for ${category} vehicles in Singapore.`;
 
-  const structuredData: WithContext<WebPage> = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: title,
+  const structuredData = createWebPageStructuredData(
+    title,
     description,
-    url: `${SITE_URL}/coe/categories/${categorySlug}`,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_TITLE,
-      url: SITE_URL,
-    },
-  };
+    `/coe/categories/${categorySlug}`,
+  );
 
   return (
     <>
@@ -185,41 +136,37 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="text-center">
-                <Typography.H3 className="font-bold text-2xl">
-                  {categoryResults.length}
-                </Typography.H3>
-                <Typography.P className="text-muted-foreground text-sm">
-                  Total Bidding Rounds
-                </Typography.P>
-              </div>
-              <div className="text-center">
-                <Typography.H3 className="font-bold text-2xl">
-                  $
-                  {Math.round(
-                    categoryResults.reduce(
-                      (sum, item) => sum + item.premium,
-                      0,
-                    ) / categoryResults.length,
-                  ).toLocaleString()}
-                </Typography.H3>
-                <Typography.P className="text-muted-foreground text-sm">
-                  Average Premium
-                </Typography.P>
-              </div>
-              <div className="text-center">
-                <Typography.H3 className="font-bold text-2xl">
-                  $
-                  {Math.max(
-                    ...categoryResults.map((item) => item.premium),
-                  ).toLocaleString()}
-                </Typography.H3>
-                <Typography.P className="text-muted-foreground text-sm">
-                  Highest Premium
-                </Typography.P>
-              </div>
-            </div>
+            {(() => {
+              const stats = calculateCategoryStats(categoryResults);
+              return (
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                  <div className="text-center">
+                    <Typography.H3 className="font-bold text-2xl">
+                      {stats.totalRounds}
+                    </Typography.H3>
+                    <Typography.P className="text-muted-foreground text-sm">
+                      Total Bidding Rounds
+                    </Typography.P>
+                  </div>
+                  <div className="text-center">
+                    <Typography.H3 className="font-bold text-2xl">
+                      ${stats.averagePremium.toLocaleString()}
+                    </Typography.H3>
+                    <Typography.P className="text-muted-foreground text-sm">
+                      Average Premium
+                    </Typography.P>
+                  </div>
+                  <div className="text-center">
+                    <Typography.H3 className="font-bold text-2xl">
+                      ${stats.highestPremium.toLocaleString()}
+                    </Typography.H3>
+                    <Typography.P className="text-muted-foreground text-sm">
+                      Highest Premium
+                    </Typography.P>
+                  </div>
+                </div>
+              );
+            })()}
           </CardContent>
         </Card>
       </div>

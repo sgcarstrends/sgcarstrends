@@ -1,9 +1,4 @@
-import { redis } from "@sgcarstrends/utils";
-import {
-  getDefaultEndDate,
-  getDefaultStartDate,
-  loadSearchParams,
-} from "@web/app/(dashboard)/coe/search-params";
+import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
 import { COECategories } from "@web/components/coe/coe-categories";
 import { COEPremiumChart } from "@web/components/coe/premium-chart";
 import { PageHeader } from "@web/components/page-header";
@@ -16,22 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@web/components/ui/card";
-import {
-  API_URL,
-  LAST_UPDATED_COE_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import {
-  type COEBiddingResult,
-  type COEResult,
-  type Month,
-  RevalidateTags,
-} from "@web/types";
-import { fetchApi } from "@web/utils/fetch-api";
+import { fetchCOEPageData } from "@web/lib/coe/page-data";
+import { getLatestCOEResults } from "@web/lib/coe/queries";
+import { createPageMetadata } from "@web/lib/metadata";
+import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
-import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   searchParams: Promise<SearchParams>;
@@ -42,8 +27,7 @@ const description =
   "Explore historical Certificate of Entitlement (COE) price trends and bidding results for car registrations in Singapore.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  // TODO: Refactor and clean up
-  const results = await fetchApi<COEResult[]>(`${API_URL}/coe/latest`);
+  const results = await getLatestCOEResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
       category[current.vehicle_class] = current.premium;
@@ -52,80 +36,28 @@ export const generateMetadata = async (): Promise<Metadata> => {
     {},
   );
 
-  const canonical = "/coe/results";
   const images = `/api/og/coe?title=COE Results&subtitle=Historical Data&biddingNo=2&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
 
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      images,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      images,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: "/coe/results",
+    images,
+  });
 };
 
 const COEResultsPage = async ({ searchParams }: Props) => {
   const { start, end } = await loadSearchParams(searchParams);
-  const defaultStart = await getDefaultStartDate();
-  const defaultEnd = await getDefaultEndDate();
-
-  const params = new URLSearchParams({
-    start: start || defaultStart,
-    end: end || defaultEnd,
-  });
-
-  const [coeResults, months]: [COEResult[], Month[]] = await Promise.all([
-    await fetchApi<COEResult[]>(`${API_URL}/coe?${params.toString()}`, {
-      next: { tags: [RevalidateTags.COE] },
-    }),
-    await fetchApi<Month[]>(`${API_URL}/coe/months`),
-  ]);
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
-
-  const groupedData = coeResults.reduce<COEBiddingResult[]>(
-    (acc: any, item) => {
-      const key = `${item.month}-${item.bidding_no}`;
-
-      if (!acc[key]) {
-        acc[key] = {
-          month: item.month,
-          biddingNo: item.bidding_no,
-        };
-      }
-      acc[key][item.vehicle_class] = item.premium;
-
-      return acc;
-    },
-    [],
+  const { coeResults, months, lastUpdated, data } = await fetchCOEPageData(
+    start,
+    end,
   );
 
-  const data: COEBiddingResult[] = Object.values(groupedData);
-
-  const structuredData: WithContext<WebPage> = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: title,
+  const structuredData = createWebPageStructuredData(
+    title,
     description,
-    url: `${SITE_URL}/coe/results`,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_TITLE,
-      url: SITE_URL,
-    },
-  };
+    "/coe/results",
+  );
 
   return (
     <>

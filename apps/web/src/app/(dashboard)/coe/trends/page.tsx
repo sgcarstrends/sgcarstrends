@@ -1,9 +1,4 @@
-import { redis } from "@sgcarstrends/utils";
-import {
-  getDefaultEndDate,
-  getDefaultStartDate,
-  loadSearchParams,
-} from "@web/app/(dashboard)/coe/search-params";
+import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
 import { COECategories } from "@web/components/coe/coe-categories";
 import { COEPremiumChart } from "@web/components/coe/premium-chart";
 import { PageHeader } from "@web/components/page-header";
@@ -16,22 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@web/components/ui/card";
-import {
-  API_URL,
-  LAST_UPDATED_COE_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import {
-  type COEBiddingResult,
-  type COEResult,
-  type Month,
-  RevalidateTags,
-} from "@web/types";
-import { fetchApi } from "@web/utils/fetch-api";
+import { calculateTrendInsights } from "@web/lib/coe/calculations";
+import { fetchCOEPageData } from "@web/lib/coe/page-data";
+import { createPageMetadata } from "@web/lib/metadata";
+import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
-import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   searchParams: Promise<SearchParams>;
@@ -42,128 +27,23 @@ const description =
   "Comprehensive analysis of Certificate of Entitlement (COE) price trends, patterns, and market insights for Singapore vehicle registration.";
 
 export const generateMetadata = (): Metadata => {
-  const canonical = "/coe/trends";
-
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: "/coe/trends",
+  });
 };
 
 const COETrendsPage = async ({ searchParams }: Props) => {
   const { start, end } = await loadSearchParams(searchParams);
-  const defaultStart = await getDefaultStartDate();
-  const defaultEnd = await getDefaultEndDate();
-  const params = new URLSearchParams({
-    start: start || defaultStart,
-    end: end || defaultEnd,
-  });
-
-  const [coeResults, months]: [COEResult[], Month[]] = await Promise.all([
-    fetchApi<COEResult[]>(`${API_URL}/coe?${params.toString()}`, {
-      next: { tags: [RevalidateTags.COE] },
-    }),
-    fetchApi<Month[]>(`${API_URL}/coe/months`),
-  ]);
-
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
-
-  const groupedData = coeResults.reduce<COEBiddingResult[]>(
-    (acc: any, item) => {
-      const key = `${item.month}-${item.bidding_no}`;
-
-      if (!acc[key]) {
-        acc[key] = {
-          month: item.month,
-          biddingNo: item.bidding_no,
-        };
-      }
-      acc[key][item.vehicle_class] = item.premium;
-
-      return acc;
-    },
-    [],
-  );
-
-  const data: COEBiddingResult[] = Object.values(groupedData);
-
-  // Calculate trend insights
-  const calculateTrendInsights = (data: COEBiddingResult[]) => {
-    const categories = [
-      "Category A",
-      "Category B",
-      "Category C",
-      "Category D",
-      "Category E",
-    ];
-    const insights = categories
-      .map((category) => {
-        const categoryData = data
-          .filter((item) => item[category as keyof COEBiddingResult])
-          .map((item) => ({
-            month: item.month,
-            premium: item[category as keyof COEBiddingResult] as number,
-          }))
-          .sort((a, b) => a.month.localeCompare(b.month));
-
-        if (categoryData.length === 0) return null;
-
-        const latest = categoryData[categoryData.length - 1];
-        const previous = categoryData[categoryData.length - 2];
-        const change = previous
-          ? ((latest.premium - previous.premium) / previous.premium) * 100
-          : 0;
-
-        const highest = Math.max(...categoryData.map((d) => d.premium));
-        const lowest = Math.min(...categoryData.map((d) => d.premium));
-        const average =
-          categoryData.reduce((sum, d) => sum + d.premium, 0) /
-          categoryData.length;
-
-        return {
-          category,
-          latest: latest.premium,
-          change,
-          highest,
-          lowest,
-          average,
-        };
-      })
-      .filter(Boolean);
-
-    return insights;
-  };
-
+  const { months, lastUpdated, data } = await fetchCOEPageData(start, end);
   const trendInsights = calculateTrendInsights(data);
 
-  const structuredData: WithContext<WebPage> = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: title,
+  const structuredData = createWebPageStructuredData(
+    title,
     description,
-    url: `${SITE_URL}/coe/trends`,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_TITLE,
-      url: SITE_URL,
-    },
-  };
+    "/coe/trends",
+  );
 
   return (
     <>
