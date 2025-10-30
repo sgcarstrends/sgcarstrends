@@ -15,18 +15,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@web/components/ui/card";
-import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { LAST_UPDATED_COE_KEY } from "@web/config";
 import {
   calculateCategoryStats,
   groupCOEResultsByBidding,
 } from "@web/lib/coe/calculations";
 import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
-import type { COECategory, COEResult } from "@web/types";
+import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
+import type { COECategory } from "@web/types";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
-import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   params: Promise<{ category: string }>;
@@ -114,18 +114,11 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
   const title = `COE ${category} Analysis`;
   const description = `Detailed analysis of Certificate of Entitlement (COE) prices and trends for ${category} vehicles in Singapore.`;
 
-  const structuredData: WithContext<WebPage> = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: title,
+  const structuredData = createWebPageStructuredData(
+    title,
     description,
-    url: `${SITE_URL}/coe/categories/${categorySlug}`,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_TITLE,
-      url: SITE_URL,
-    },
-  };
+    `/coe/categories/${categorySlug}`,
+  );
 
   return (
     <>

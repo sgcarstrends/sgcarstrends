@@ -1,9 +1,4 @@
-import { redis } from "@sgcarstrends/utils";
-import {
-  getDefaultEndDate,
-  getDefaultStartDate,
-  loadSearchParams,
-} from "@web/app/(dashboard)/coe/search-params";
+import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
 import { COECategories } from "@web/components/coe/coe-categories";
 import { COEPremiumChart } from "@web/components/coe/premium-chart";
 import { PageHeader } from "@web/components/page-header";
@@ -16,17 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@web/components/ui/card";
-import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { groupCOEResultsByBidding } from "@web/lib/coe/calculations";
-import {
-  getCOEMonths,
-  getCOEResultsFiltered,
-  getLatestCOEResults,
-} from "@web/lib/coe/queries";
+import { fetchCOEPageData } from "@web/lib/coe/page-data";
+import { getLatestCOEResults } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
+import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
-import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   searchParams: Promise<SearchParams>;
@@ -58,34 +48,16 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 const COEResultsPage = async ({ searchParams }: Props) => {
   const { start, end } = await loadSearchParams(searchParams);
-  const defaultStart = await getDefaultStartDate();
-  const defaultEnd = await getDefaultEndDate();
+  const { coeResults, months, lastUpdated, data } = await fetchCOEPageData(
+    start,
+    end,
+  );
 
-  const startDate = start || defaultStart;
-  const endDate = end || defaultEnd;
-
-  const [coeResults, monthsResult, lastUpdated] = await Promise.all([
-    getCOEResultsFiltered(undefined, startDate, endDate),
-    getCOEMonths(),
-    redis.get<number>(LAST_UPDATED_COE_KEY),
-  ]);
-
-  const months = monthsResult.map(({ month }) => month);
-
-  const data = groupCOEResultsByBidding(coeResults);
-
-  const structuredData: WithContext<WebPage> = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: title,
+  const structuredData = createWebPageStructuredData(
+    title,
     description,
-    url: `${SITE_URL}/coe/results`,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_TITLE,
-      url: SITE_URL,
-    },
-  };
+    "/coe/results",
+  );
 
   return (
     <>
