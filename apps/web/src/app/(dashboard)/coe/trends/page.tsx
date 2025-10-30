@@ -18,7 +18,8 @@ import {
 } from "@web/components/ui/card";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/data/coe";
-import type { COEBiddingResult, COEResult, Month } from "@web/types";
+import { groupCOEResultsByBidding } from "@web/lib/utils/coe";
+import type { COEResult, Month } from "@web/types";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -71,24 +72,7 @@ const COETrendsPage = async ({ searchParams }: Props) => {
 
   const months = monthsResult.map(({ month }) => month);
 
-  const groupedData = coeResults.reduce<COEBiddingResult[]>(
-    (acc: any, item) => {
-      const key = `${item.month}-${item.bidding_no}`;
-
-      if (!acc[key]) {
-        acc[key] = {
-          month: item.month,
-          biddingNo: item.bidding_no,
-        };
-      }
-      acc[key][item.vehicle_class] = item.premium;
-
-      return acc;
-    },
-    [],
-  );
-
-  const data: COEBiddingResult[] = Object.values(groupedData);
+  const data = groupCOEResultsByBidding(coeResults);
 
   // Calculate trend insights
   const calculateTrendInsights = (data: COEBiddingResult[]) => {

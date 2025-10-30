@@ -17,7 +17,8 @@ import {
 } from "@web/components/ui/card";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/data/coe";
-import type { COEBiddingResult, COECategory, COEResult } from "@web/types";
+import { groupCOEResultsByBidding } from "@web/lib/utils/coe";
+import type { COECategory, COEResult } from "@web/types";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
@@ -120,24 +121,7 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
     (result) => result.vehicle_class === category,
   );
 
-  const groupedData = categoryResults.reduce<COEBiddingResult[]>(
-    (acc: any, item) => {
-      const key = `${item.month}-${item.bidding_no}`;
-
-      if (!acc[key]) {
-        acc[key] = {
-          month: item.month,
-          biddingNo: item.bidding_no,
-        };
-      }
-      acc[key][item.vehicle_class] = item.premium;
-
-      return acc;
-    },
-    [],
-  );
-
-  const data: COEBiddingResult[] = Object.values(groupedData);
+  const data = groupCOEResultsByBidding(categoryResults);
 
   const title = `COE ${category} Analysis`;
   const description = `Detailed analysis of Certificate of Entitlement (COE) prices and trends for ${category} vehicles in Singapore.`;

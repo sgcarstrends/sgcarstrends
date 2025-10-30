@@ -22,7 +22,7 @@ import {
   getCOEResultsFiltered,
   getLatestCOEResults,
 } from "@web/lib/data/coe";
-import type { COEBiddingResult } from "@web/types";
+import { groupCOEResultsByBidding } from "@web/lib/utils/coe";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -86,24 +86,7 @@ const COEResultsPage = async ({ searchParams }: Props) => {
 
   const months = monthsResult.map(({ month }) => month);
 
-  const groupedData = coeResults.reduce<COEBiddingResult[]>(
-    (acc: any, item) => {
-      const key = `${item.month}-${item.bidding_no}`;
-
-      if (!acc[key]) {
-        acc[key] = {
-          month: item.month,
-          biddingNo: item.bidding_no,
-        };
-      }
-      acc[key][item.vehicle_class] = item.premium;
-
-      return acc;
-    },
-    [],
-  );
-
-  const data: COEBiddingResult[] = Object.values(groupedData);
+  const data = groupCOEResultsByBidding(coeResults);
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",

@@ -1,4 +1,5 @@
 import type { COEMarketShareData } from "@web/lib/data/coe";
+import type { COEBiddingResult, COEResult } from "@web/types";
 
 export const COE_CHART_COLOURS = [
   "#dc2626", // red for Category A
@@ -92,4 +93,44 @@ export const getCOECategoryColor = (category: string): string => {
   return categoryIndex >= 0
     ? COE_CHART_COLOURS[categoryIndex]
     : COE_CHART_COLOURS[0];
+};
+
+/**
+ * Groups COE results by month and bidding number, transforming from
+ * separate records per vehicle class into a single record with all
+ * categories as fields.
+ *
+ * @param coeResults - Array of COE results with separate records per vehicle class
+ * @returns Array of bidding results with all categories in a single record
+ *
+ * @example
+ * ```ts
+ * const results = [
+ *   { month: "2024-01", bidding_no: 1, vehicle_class: "Category A", premium: 90000, ... },
+ *   { month: "2024-01", bidding_no: 1, vehicle_class: "Category B", premium: 100000, ... }
+ * ];
+ * const grouped = groupCOEResultsByBidding(results);
+ * // Returns: [{ month: "2024-01", biddingNo: 1, "Category A": 90000, "Category B": 100000, ... }]
+ * ```
+ */
+export const groupCOEResultsByBidding = (
+  coeResults: COEResult[],
+): COEBiddingResult[] => {
+  const groupedData = coeResults.reduce<
+    Record<string, Partial<COEBiddingResult>>
+  >((acc, item) => {
+    const key = `${item.month}-${item.bidding_no}`;
+
+    if (!acc[key]) {
+      acc[key] = {
+        month: item.month,
+        biddingNo: item.bidding_no,
+      };
+    }
+    acc[key][item.vehicle_class] = item.premium;
+
+    return acc;
+  }, {});
+
+  return Object.values(groupedData) as COEBiddingResult[];
 };
