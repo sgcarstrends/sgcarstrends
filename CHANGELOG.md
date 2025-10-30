@@ -1,3 +1,9 @@
+## [4.13.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.4...v4.13.0) (2025-10-30)
+
+### Features
+
+* **web:** add Next.js 16 cache components ([279a2cb](https://github.com/sgcarstrends/sgcarstrends/commit/279a2cb4f1276b2a754df72ec0185d4af70880c2))
+
 ## [4.12.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.3...v4.12.4) (2025-10-30)
 
 ### Bug Fixes
