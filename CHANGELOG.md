@@ -1,3 +1,9 @@
+## [4.14.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.13.0...v4.14.0) (2025-10-30)
+
+### Features
+
+* enable bun for Vercel ([0420b74](https://github.com/sgcarstrends/sgcarstrends/commit/0420b7425c84b87d7387a16a97b60747bf0eab67))
+
 ## [4.13.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.4...v4.13.0) (2025-10-30)
 
 ### Features
