@@ -53,9 +53,11 @@ export const StatCard = ({
       <CardContent className="flex-1">
         <BarChartByType data={data} />
         {Object.keys(data).includes(FUEL_TYPE.OTHERS) && (
-          <p className="text-muted-foreground text-sm italic">
-            Note: We do not know what is the Land Transport Authority&apos;s
-            exact definition of &quot;Others&quot;.
+          <p className="text-muted-foreground italic">
+            <Typography.BodySmall>
+              Note: We do not know what is the Land Transport Authority&apos;s
+              exact definition of &quot;Others&quot;.
+            </Typography.BodySmall>
           </p>
         )}
         {/*<Table>*/}

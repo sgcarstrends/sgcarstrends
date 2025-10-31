@@ -40,28 +40,44 @@ exports[`Navbar > should render correctly 1`] = `
         class="flex items-center gap-4"
       >
         <a
-          class="rounded-full px-2 py-1 font-medium text-sm transition-colors hover:text-primary-foreground bg-primary text-primary-foreground hover:bg-primary/90"
+          class="rounded-full px-2 py-1 transition-colors hover:text-primary-foreground bg-primary text-primary-foreground hover:bg-primary/90"
           href="/"
         >
-          Dashboard
+          <span
+            class="font-medium text-sm leading-none"
+          >
+            Dashboard
+          </span>
         </a>
         <a
-          class="rounded-full px-2 py-1 font-medium text-secondary-foreground text-sm transition-colors hover:bg-primary/75 hover:text-primary-foreground"
+          class="rounded-full px-2 py-1 text-secondary-foreground transition-colors hover:bg-primary/75 hover:text-primary-foreground"
           href="/blog"
         >
-          Blog
+          <span
+            class="font-medium text-sm leading-none"
+          >
+            Blog
+          </span>
         </a>
         <a
-          class="rounded-full px-2 py-1 font-medium text-secondary-foreground text-sm transition-colors hover:bg-primary/75 hover:text-primary-foreground"
+          class="rounded-full px-2 py-1 text-secondary-foreground transition-colors hover:bg-primary/75 hover:text-primary-foreground"
           href="/visitors"
         >
-          Visitors
+          <span
+            class="font-medium text-sm leading-none"
+          >
+            Visitors
+          </span>
         </a>
         <a
-          class="rounded-full px-2 py-1 font-medium text-secondary-foreground text-sm transition-colors hover:bg-primary/75 hover:text-primary-foreground"
+          class="rounded-full px-2 py-1 text-secondary-foreground transition-colors hover:bg-primary/75 hover:text-primary-foreground"
           href="/faq"
         >
-          FAQ
+          <span
+            class="font-medium text-sm leading-none"
+          >
+            FAQ
+          </span>
         </a>
       </nav>
     </div>

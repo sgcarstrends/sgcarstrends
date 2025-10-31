@@ -1,5 +1,6 @@
 import { Button } from "@heroui/button";
 import { updatePostTags } from "@web/app/blog/_actions/tags";
+import { mdxComponents } from "@web/app/blog/_components/mdx-components";
 import { ProgressBar } from "@web/app/blog/_components/progress-bar";
 import { RelatedPosts } from "@web/app/blog/_components/related-posts";
 import { ViewCounter } from "@web/app/blog/_components/view-counter";
@@ -161,6 +162,7 @@ const BlogPostPage = async ({ params }: Props) => {
         <article className="prose dark:prose-invert max-w-none">
           <MDXRemote
             source={post.content}
+            components={mdxComponents}
             options={{
               mdxOptions: {
                 remarkPlugins: [

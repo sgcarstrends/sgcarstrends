@@ -2,6 +2,7 @@
 
 import { Chip } from "@heroui/chip";
 import { Tab, Tabs } from "@heroui/tabs";
+import Typography from "@web/components/typography";
 import { useGroupedMakes } from "@web/hooks/use-grouped-makes";
 import type { Make } from "@web/types";
 import type { Key } from "react";
@@ -39,7 +40,7 @@ export const Makes = ({
   return (
     <section className={showLetterFilter ? "space-y-6" : "space-y-4"}>
       <div className="flex items-center gap-2">
-        <h2 className="font-semibold text-xl">{title}</h2>
+        <Typography.H2>{title}</Typography.H2>
         <Chip size="sm" variant="shadow" color="primary">
           {makes.length}
         </Chip>
@@ -70,12 +71,12 @@ export const Makes = ({
       {showLetterFilter ? (
         <div className="space-y-3">
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-full bg-default-100 px-2 font-semibold text-default-600 text-sm uppercase">
+            <Typography.Label className="inline-flex h-9 min-w-9 items-center justify-center rounded-full bg-default-100 px-2 text-default-600 uppercase">
               {selectedLetter === "#" ? "Other" : selectedLetter}
-            </span>
-            <span className="text-default-400 text-sm">
+            </Typography.Label>
+            <Typography.BodySmall className="text-default-400">
               {activeMakes.length} {activeMakes.length === 1 ? "make" : "makes"}
-            </span>
+            </Typography.BodySmall>
           </div>
           <div>
             <MakeGrid makes={activeMakes} isPopular={isPopular} />

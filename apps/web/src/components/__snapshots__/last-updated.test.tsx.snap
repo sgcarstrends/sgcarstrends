@@ -2,8 +2,8 @@
 
 exports[`LastUpdated > should render 1`] = `
 <div>
-  <div
-    class="text-muted-foreground text-xs"
+  <span
+    class="text-muted-foreground text-xs leading-tight"
   >
     Last updated:
      
@@ -12,6 +12,6 @@ exports[`LastUpdated > should render 1`] = `
     >
       1 Jan 2025, 00:00AM
     </span>
-  </div>
+  </span>
 </div>
 `;

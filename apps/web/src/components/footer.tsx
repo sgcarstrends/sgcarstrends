@@ -2,6 +2,7 @@ import { Button } from "@heroui/button";
 import { Divider } from "@heroui/divider";
 import { BrandLogo } from "@web/components/brand-logo";
 import { BetaChip, NewChip } from "@web/components/shared/chips";
+import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { navLinks } from "@web/config/navigation";
 import Link from "next/link";
@@ -17,10 +18,10 @@ export const Footer = async () => {
           {/* Brand Section */}
           <div className="space-y-4">
             <BrandLogo />
-            <p className="text-default-600 text-sm leading-relaxed">
+            <Typography.BodySmall className="text-default-600 leading-relaxed">
               Your go-to source for Singapore car market data and trends. We
               make sense of the numbers so you don&apos;t have to.
-            </p>
+            </Typography.BodySmall>
             <div className="flex gap-2">
               {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (
                 <Button
@@ -43,7 +44,7 @@ export const Footer = async () => {
 
           {/* Cars Section */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-default-900 text-lg">Cars</h3>
+            <Typography.H4 className="text-default-900">Cars</Typography.H4>
             <div className="space-y-2">
               {navLinks.cars.map((item) => {
                 const hasBadge = Boolean(item.badge);
@@ -51,11 +52,11 @@ export const Footer = async () => {
                   <Link
                     key={item.title}
                     href={item.url}
-                    className={`text-default-600 text-sm transition-colors hover:text-primary ${
+                    className={`text-default-600 transition-colors hover:text-primary ${
                       hasBadge ? "flex items-center gap-2" : "block"
                     }`}
                   >
-                    {item.title}
+                    <Typography.BodySmall>{item.title}</Typography.BodySmall>
                     {item.badge === "beta" && <BetaChip />}
                     {item.badge === "new" && <NewChip />}
                   </Link>
@@ -66,15 +67,15 @@ export const Footer = async () => {
 
           {/* COE Section */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-default-900 text-lg">COE</h3>
+            <Typography.H4 className="text-default-900">COE</Typography.H4>
             <div className="space-y-2">
               {navLinks.coe.map((item) => (
                 <Link
                   key={item.title}
                   href={item.url}
-                  className="block text-default-600 text-sm transition-colors hover:text-primary"
+                  className="block text-default-600 transition-colors hover:text-primary"
                 >
-                  {item.title}
+                  <Typography.BodySmall>{item.title}</Typography.BodySmall>
                 </Link>
               ))}
             </div>
@@ -83,9 +84,9 @@ export const Footer = async () => {
           {/* General Section */}
           <UnreleasedFeature>
             <div className="space-y-4">
-              <h3 className="font-semibold text-default-900 text-lg">
+              <Typography.H4 className="text-default-900">
                 General
-              </h3>
+              </Typography.H4>
               <div className="space-y-2">
                 {navLinks.general.map((item) => {
                   const showNewChip = ["FAQ", "Blog", "Visitors"].includes(
@@ -95,11 +96,11 @@ export const Footer = async () => {
                     <Link
                       key={item.title}
                       href={item.url}
-                      className={`text-default-600 text-sm transition-colors hover:text-primary ${
+                      className={`text-default-600 transition-colors hover:text-primary ${
                         showNewChip ? "flex items-center gap-2" : "block"
                       }`}
                     >
-                      {item.title}
+                      <Typography.BodySmall>{item.title}</Typography.BodySmall>
                       {showNewChip && <NewChip />}
                     </Link>
                   );
@@ -113,12 +114,12 @@ export const Footer = async () => {
 
         {/* Bottom Section */}
         <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
-          <div className="text-center text-default-600 text-sm md:text-left">
-            <p>
+          <div className="text-center text-default-600 md:text-left">
+            <Typography.BodySmall>
               © {new Date().getFullYear()} SGCarsTrends. All rights reserved. •
               v{version}
-            </p>
-            <p className="mt-1">
+            </Typography.BodySmall>
+            <Typography.BodySmall className="mt-1">
               Data provided by{" "}
               <Link
                 href="https://datamall.lta.gov.sg"
@@ -128,21 +129,21 @@ export const Footer = async () => {
               >
                 LTA DataMall
               </Link>
-            </p>
+            </Typography.BodySmall>
           </div>
 
-          <div className="flex gap-4 text-sm">
+          <div className="flex gap-4">
             <Link
               href="/legal/privacy-policy"
               className="text-default-600 transition-colors hover:text-primary"
             >
-              Privacy Policy
+              <Typography.BodySmall>Privacy Policy</Typography.BodySmall>
             </Link>
             <Link
               href="/legal/terms-of-service"
               className="text-default-600 transition-colors hover:text-primary"
             >
-              Terms of Service
+              <Typography.BodySmall>Terms of Service</Typography.BodySmall>
             </Link>
           </div>
         </div>

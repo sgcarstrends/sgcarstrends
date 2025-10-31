@@ -25,7 +25,7 @@ export const FAQSections = ({ sections }: FAQSectionsProps) => (
         <Accordion>
           {items.map(({ answer, question }) => (
             <AccordionItem key={question} title={question}>
-              {answer}
+              <Typography.Body>{answer}</Typography.Body>
             </AccordionItem>
           ))}
         </Accordion>

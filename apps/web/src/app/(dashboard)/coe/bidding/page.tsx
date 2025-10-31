@@ -94,30 +94,28 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
             <CardContent>
               <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div className="text-center">
-                  <Typography.H3 className="font-bold text-2xl">
+                  <Typography.H3>
                     {Object.keys(biddingRounds).length}
                   </Typography.H3>
-                  <Typography.P className="text-muted-foreground text-sm">
+                  <Typography.BodySmall className="text-muted-foreground">
                     Total Bidding Rounds
-                  </Typography.P>
+                  </Typography.BodySmall>
                 </div>
                 <div className="text-center">
-                  <Typography.H3 className="font-bold text-2xl">
-                    {coeResults.length}
-                  </Typography.H3>
-                  <Typography.P className="text-muted-foreground text-sm">
+                  <Typography.H3>{coeResults.length}</Typography.H3>
+                  <Typography.BodySmall className="text-muted-foreground">
                     Total Results
-                  </Typography.P>
+                  </Typography.BodySmall>
                 </div>
                 <div className="text-center">
-                  <Typography.H3 className="font-bold text-2xl">
+                  <Typography.H3>
                     {coeResults
                       .reduce((sum, result) => sum + result.bids_received, 0)
                       .toLocaleString()}
                   </Typography.H3>
-                  <Typography.P className="text-muted-foreground text-sm">
+                  <Typography.BodySmall className="text-muted-foreground">
                     Total Bids Received
-                  </Typography.P>
+                  </Typography.BodySmall>
                 </div>
               </div>
               <TrendTable coeResults={coeResults} />

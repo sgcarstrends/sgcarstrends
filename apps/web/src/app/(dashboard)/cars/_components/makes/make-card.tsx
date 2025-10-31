@@ -1,6 +1,7 @@
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import slugify from "@sindresorhus/slugify";
+import Typography from "@web/components/typography";
 import type { Make } from "@web/types";
 import { TrendingUp } from "lucide-react";
 import Image from "next/image";
@@ -41,7 +42,7 @@ export const MakeCard = ({ make, isPopular = false }: MakeCardProps) => {
         />
       </CardBody>
       <CardFooter>
-        <p className="w-full text-center">{make}</p>
+        <Typography.Body className="w-full text-center">{make}</Typography.Body>
       </CardFooter>
     </Card>
   );

@@ -76,7 +76,7 @@ const VisitorsPage = async () => {
         <Card>
           <CardContent>
             <div className="flex flex-col items-center justify-center gap-4">
-              <div className="font-semibold text-2xl">Total Visitors</div>
+              <Typography.H3>Total Visitors</Typography.H3>
               <div className="flex items-center gap-4">
                 <Users className="size-8" />
                 <div className="font-semibold text-4xl">

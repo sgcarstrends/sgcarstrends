@@ -8,6 +8,7 @@ import {
   Progress,
 } from "@heroui/react";
 import slugify from "@sindresorhus/slugify";
+import Typography from "@web/components/typography";
 import type { FuelType } from "@web/types/cars";
 import Link from "next/link";
 
@@ -70,7 +71,7 @@ export const TopMakes = ({ data }: Props) => {
         return (
           <Card key={fuelType}>
             <CardHeader>
-              <h4 className="font-bold text-large">{fuelType}</h4>
+              <Typography.H4>{fuelType}</Typography.H4>
             </CardHeader>
             <CardBody>
               {makes.map(({ make, count }) => (

@@ -3,6 +3,7 @@
 import { Card, CardBody, CardHeader } from "@heroui/react";
 import useStore from "@web/app/store";
 import { AnimatedNumber } from "@web/components/animated-number";
+import Typography from "@web/components/typography";
 import type { COEResult } from "@web/types";
 
 interface LatestCOEPricesProps {
@@ -26,9 +27,9 @@ export const LatestCOEPrices = ({ results }: LatestCOEPricesProps) => {
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-                <h4 className="font-semibold text-foreground text-lg">
+                <Typography.H4 className="text-foreground">
                   {result.vehicle_class}
-                </h4>
+                </Typography.H4>
               </div>
             </div>
           </CardHeader>

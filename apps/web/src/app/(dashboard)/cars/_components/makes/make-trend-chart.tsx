@@ -1,5 +1,6 @@
 "use client";
 
+import Typography from "@web/components/typography";
 import {
   type ChartConfig,
   ChartContainer,
@@ -64,35 +65,41 @@ export const MakeTrendChart = ({ data }: Props) => {
         </LineChart>
       </ChartContainer>
       <div className="mt-4 space-y-3">
-        <div className="text-muted-foreground text-sm">
-          <h4 className="mb-2 font-semibold text-foreground">
+        <div>
+          <Typography.H4 className="mb-2 text-foreground">
             Registration Trends
-          </h4>
-          <p>
+          </Typography.H4>
+          <Typography.BodySmall className="text-muted-foreground">
             This chart shows monthly registration trends over time.
             {peakMonth &&
               `Peak registrations occurred in ${peakMonth.month} with ${peakMonth.count.toLocaleString()} vehicles`}
             , helping identify seasonal patterns and market performance.
-          </p>
+          </Typography.BodySmall>
         </div>
         <div className="grid grid-cols-1 gap-3 rounded-lg bg-muted/30 p-3 sm:grid-cols-3">
           <div className="text-center">
-            <div className="font-semibold text-foreground text-lg">
+            <Typography.BodyLarge className="font-medium text-foreground">
               {peakMonth?.month || "N/A"}
-            </div>
-            <div className="text-muted-foreground text-xs">Peak Month</div>
+            </Typography.BodyLarge>
+            <Typography.Caption className="text-muted-foreground">
+              Peak Month
+            </Typography.Caption>
           </div>
           <div className="text-center">
-            <div className="font-semibold text-foreground text-lg">
+            <Typography.BodyLarge className="font-medium text-foreground">
               {totalRegistrations.toLocaleString()}
-            </div>
-            <div className="text-muted-foreground text-xs">Total Period</div>
+            </Typography.BodyLarge>
+            <Typography.Caption className="text-muted-foreground">
+              Total Period
+            </Typography.Caption>
           </div>
           <div className="text-center">
-            <div className="font-semibold text-foreground text-lg">
+            <Typography.BodyLarge className="font-medium text-foreground">
               {chartData.length}
-            </div>
-            <div className="text-muted-foreground text-xs">Months Tracked</div>
+            </Typography.BodyLarge>
+            <Typography.Caption className="text-muted-foreground">
+              Months Tracked
+            </Typography.Caption>
           </div>
         </div>
       </div>

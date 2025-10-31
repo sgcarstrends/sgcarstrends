@@ -1,6 +1,7 @@
 "use client";
 
 import type { SelectPost } from "@sgcarstrends/database";
+import Typography from "@web/components/typography";
 import { Badge } from "@web/components/ui/badge";
 import {
   Card,
@@ -39,7 +40,9 @@ export const BlogPost = ({ post }: Props) => {
         </CardHeader>
         <CardContent className="flex-1">
           <div className="flex flex-col gap-4">
-            <p className="text-muted-foreground">{metadata?.excerpt}</p>
+            <Typography.Body className="text-muted-foreground">
+              {metadata?.excerpt}
+            </Typography.Body>
             <div className="flex gap-2">
               {metadata?.tags?.map((tag: string) => (
                 <Badge key={tag} variant="outline" className="text-small">
@@ -51,13 +54,13 @@ export const BlogPost = ({ post }: Props) => {
         </CardContent>
         <CardFooter>
           <div className="flex items-center justify-between">
-            <span className="text-muted-foreground text-sm">
+            <Typography.BodySmall className="text-muted-foreground">
               {new Date(publishedDate).toLocaleDateString("en-SG", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
               })}
-            </span>
+            </Typography.BodySmall>
           </div>
         </CardFooter>
       </Card>

@@ -5,6 +5,7 @@ import { loadSearchParams } from "@web/app/(dashboard)/cars/[category]/[type]/se
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
 import { Badge } from "@web/components/ui/badge";
 import {
   Card,
@@ -114,7 +115,9 @@ const TypePage = async ({ params, searchParams }: Props) => {
   if (!config) {
     return (
       <div className="py-8 text-center">
-        <p className="text-gray-500">Category not found</p>
+        <Typography.Body className="text-gray-500">
+          Category not found
+        </Typography.Body>
       </div>
     );
   }
