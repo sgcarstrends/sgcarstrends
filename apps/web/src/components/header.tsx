@@ -2,6 +2,7 @@
 
 import { cn } from "@heroui/react";
 import { BrandLogo } from "@web/components/brand-logo";
+import Typography from "@web/components/typography";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -34,12 +35,12 @@ export const Header = () => {
               key={href}
               href={href}
               className={cn(
-                "rounded-full px-2 py-1 font-medium text-secondary-foreground text-sm transition-colors hover:bg-primary/75 hover:text-primary-foreground",
+                "rounded-full px-2 py-1 text-secondary-foreground transition-colors hover:bg-primary/75 hover:text-primary-foreground",
                 isActive(href) &&
                   "bg-primary text-primary-foreground hover:bg-primary/90",
               )}
             >
-              {label}
+              <Typography.Label>{label}</Typography.Label>
             </Link>
           ))}
         </nav>

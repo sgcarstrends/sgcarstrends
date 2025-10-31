@@ -2,6 +2,7 @@
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import useStore from "@web/app/store";
+import Typography from "@web/components/typography";
 import {
   ChartContainer,
   ChartTooltip,
@@ -126,9 +127,7 @@ const TrendChart = ({ data, chartColor, ariaLabel }: TrendChartProps) => {
   if (recent.length < 2) {
     return (
       <div className="mt-3">
-        <p className="text-muted-foreground text-xs">
-          Not enough data to draw trend
-        </p>
+        <Typography.Caption>Not enough data to draw trend</Typography.Caption>
       </div>
     );
   }
@@ -247,21 +246,21 @@ export const KeyStatistics = ({ data }: Props) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="font-semibold text-2xl">Key Statistics</h2>
+      <Typography.H2>Key Statistics</Typography.H2>
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="font-medium text-muted-foreground text-sm">
+            <Typography.TextSm>
               Explore the last {data.length} years of registrations
-            </p>
-            <p className="font-semibold text-xl">
+            </Typography.TextSm>
+            <div className="font-semibold text-xl">
               {selectedEntry
                 ? numberFormatter.format(selectedEntry.total)
                 : "—"}
-              <span className="ml-2 font-normal text-muted-foreground text-sm">
+              <Typography.TextSm>
                 total registrations in {selectedYear || "—"}
-              </span>
-            </p>
+              </Typography.TextSm>
+            </div>
           </div>
           <Select
             onValueChange={(year) => setSelectedYear(year)}
@@ -287,7 +286,9 @@ export const KeyStatistics = ({ data }: Props) => {
               <p className="mt-2 font-semibold text-2xl">
                 {yoyChange !== null ? numberFormatter.format(yoyChange) : "—"}
               </p>
-              <p className={`mt-1 font-medium text-xs ${yoyToneClass}`}>
+              <Typography.Caption
+                className={`mt-1 font-medium ${yoyToneClass}`}
+              >
                 {yoyChangeRatio !== null
                   ? `${percentFormatter.format(yoyChangeRatio)} vs ${
                       previousEntry?.year ?? "previous"
@@ -295,7 +296,7 @@ export const KeyStatistics = ({ data }: Props) => {
                   : previousEntry
                     ? "Cannot calculate percentage change from a zero baseline"
                     : "No data for the previous year"}
-              </p>
+              </Typography.Caption>
               {comparableAsc.length > 1 && (
                 <YearOverYearChart
                   data={comparableAsc}
@@ -313,9 +314,9 @@ export const KeyStatistics = ({ data }: Props) => {
                   ? numberFormatter.format(highestEntry.total)
                   : "—"}
               </p>
-              <p className="mt-1 text-muted-foreground text-xs">
+              <Typography.Caption>
                 {highestEntry ? `Set in ${highestEntry.year}` : "No data"}
-              </p>
+              </Typography.Caption>
               {comparableAsc.length > 1 && (
                 <TrendChart
                   data={comparableAsc}
@@ -332,9 +333,9 @@ export const KeyStatistics = ({ data }: Props) => {
               <p className="mt-2 font-semibold text-2xl">
                 {lowestEntry ? numberFormatter.format(lowestEntry.total) : "—"}
               </p>
-              <p className="mt-1 text-muted-foreground text-xs">
+              <Typography.Caption>
                 {lowestEntry ? `Set in ${lowestEntry.year}` : "No data"}
-              </p>
+              </Typography.Caption>
               {comparableAsc.length > 1 && (
                 <TrendChart
                   data={comparableAsc}

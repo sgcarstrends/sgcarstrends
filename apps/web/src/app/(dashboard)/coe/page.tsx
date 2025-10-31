@@ -143,26 +143,26 @@ const COEPricesPage = async () => {
                       <div>
                         <div className="text-red-600">
                           Record High:{" "}
-                          <span className="font-bold">
+                          <span className="font-semibold">
                             ${stat?.highest.toLocaleString()}
                           </span>
                         </div>
-                        <div className="text-xs">
+                        <Typography.Caption>
                           {stat?.highestRecord.date &&
                             formatDateToMonthYear(stat.highestRecord.date)}
-                        </div>
+                        </Typography.Caption>
                       </div>
                       <div>
                         <div className="text-green-600">
                           Record Low:{" "}
-                          <span className="font-bold">
+                          <span className="font-semibold">
                             ${stat?.lowest.toLocaleString()}
                           </span>
                         </div>
-                        <div className="text-xs">
+                        <Typography.Caption>
                           {stat?.lowestRecord.date &&
                             formatDateToMonthYear(stat.lowestRecord.date)}
-                        </div>
+                        </Typography.Caption>
                       </div>
                     </div>
                   </div>
@@ -189,8 +189,8 @@ const COEPricesPage = async () => {
                     key={category}
                     className="flex items-center justify-between border-b pb-2 last-of-type:border-none"
                   >
-                    <div className="font-bold">{category}</div>
-                    <Typography.Lead className="font-bold text-primary">
+                    <Typography.H4>{category}</Typography.H4>
+                    <Typography.Lead>
                       S$
                       <AnimatedNumber value={rate} />
                     </Typography.Lead>
@@ -200,9 +200,9 @@ const COEPricesPage = async () => {
           </CardContent>
           <CardFooter>
             <div className="flex w-full flex-col gap-2">
-              <div className="text-muted-foreground">
+              <Typography.TextSm>
                 Note: There is no PQP Premium for Category E
-              </div>
+              </Typography.TextSm>
               <Link href="/coe/pqp">
                 <Button className="w-full">View All PQP Rates</Button>
               </Link>

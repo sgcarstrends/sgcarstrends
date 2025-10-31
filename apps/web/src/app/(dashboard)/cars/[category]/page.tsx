@@ -2,6 +2,7 @@ import { redis } from "@sgcarstrends/utils";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import {
   getCarMarketShareData,
@@ -89,7 +90,7 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
   if (!config) {
     return (
       <div className="py-8 text-center">
-        <p className="text-gray-500">Category not found</p>
+        <Typography.Text>Category not found</Typography.Text>
       </div>
     );
   }
@@ -148,10 +149,10 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
           />
         ) : (
           <div className="py-8 text-center">
-            <p className="text-gray-500">
+            <Typography.Text>
               No {config.title.toLowerCase()} data available for{" "}
               {formattedMonth}
-            </p>
+            </Typography.Text>
           </div>
         )}
       </div>

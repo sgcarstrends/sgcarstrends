@@ -11,18 +11,18 @@ exports[`PageNotFound > renders the 404 error message 1`] = `
       <div
         class="mb-8"
       >
-        <div
-          class="mb-4 font-bold text-6xl text-primary"
+        <h1
+          class="scroll-m-20 font-semibold text-4xl tracking-tight lg:text-5xl"
         >
           404
-        </div>
-        <h1
-          class="mb-2 font-bold text-3xl text-foreground"
+        </h1>
+        <h2
+          class="scroll-m-20 font-semibold text-3xl tracking-tight first:mt-0"
         >
           Page Not Found
-        </h1>
+        </h2>
         <p
-          class="max-w-md text-foreground-500 text-lg"
+          class="text-lg leading-relaxed"
         >
           The page you're looking for doesn't exist or has been moved.
         </p>
@@ -31,7 +31,7 @@ exports[`PageNotFound > renders the 404 error message 1`] = `
         class="mb-12 flex flex-col gap-4 sm:flex-row"
       >
         <a
-          class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-hidden data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-6 min-w-24 h-12 text-medium gap-3 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary text-primary-foreground data-[hover=true]:opacity-hover"
+          class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-6 min-w-24 h-12 text-medium gap-3 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary text-primary-foreground data-[hover=true]:opacity-hover"
           data-react-aria-pressable="true"
           href="/"
           role="button"
@@ -61,7 +61,7 @@ exports[`PageNotFound > renders the 404 error message 1`] = `
           Go to Homepage
         </a>
         <button
-          class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-hidden data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 border-medium px-6 min-w-24 h-12 text-medium gap-3 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-transparent border-default text-foreground data-[hover=true]:opacity-hover"
+          class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 border-medium px-6 min-w-24 h-12 text-medium gap-3 rounded-large [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-transparent border-default text-foreground data-[hover=true]:opacity-hover"
           data-react-aria-pressable="true"
           tabindex="0"
           type="button"
@@ -90,8 +90,8 @@ exports[`PageNotFound > renders the 404 error message 1`] = `
           Go Back
         </button>
       </div>
-      <div
-        class="mt-8 text-foreground-500 text-sm"
+      <p
+        class="text-sm leading-6"
       >
         Need help? Visit our
          
@@ -111,7 +111,7 @@ exports[`PageNotFound > renders the 404 error message 1`] = `
           homepage
         </a>
         .
-      </div>
+      </p>
     </div>
   </div>
 </div>

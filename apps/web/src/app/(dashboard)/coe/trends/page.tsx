@@ -76,15 +76,13 @@ const COETrendsPage = async ({ searchParams }: Props) => {
                     className="flex items-center justify-between border-b pb-2"
                   >
                     <div>
-                      <Typography.P className="font-medium">
-                        {insight?.category}
-                      </Typography.P>
-                      <Typography.P className="text-muted-foreground text-sm">
+                      <Typography.Text>{insight?.category}</Typography.Text>
+                      <Typography.TextSm>
                         Latest: ${insight?.latest.toLocaleString()}
-                      </Typography.P>
+                      </Typography.TextSm>
                     </div>
                     <div className="text-right">
-                      <Typography.P
+                      <Typography.Text
                         className={`font-medium ${
                           (insight?.change || 0) >= 0
                             ? "text-green-600"
@@ -93,7 +91,7 @@ const COETrendsPage = async ({ searchParams }: Props) => {
                       >
                         {(insight?.change || 0) >= 0 ? "+" : ""}
                         {insight?.change.toFixed(1)}%
-                      </Typography.P>
+                      </Typography.Text>
                     </div>
                   </div>
                 ))}
@@ -112,22 +110,20 @@ const COETrendsPage = async ({ searchParams }: Props) => {
               <div className="space-y-4">
                 {trendInsights.map((insight) => (
                   <div key={insight?.category} className="border-b pb-2">
-                    <Typography.P className="mb-1 font-medium">
-                      {insight?.category}
-                    </Typography.P>
-                    <div className="space-y-1 text-muted-foreground text-sm">
-                      <div className="flex justify-between">
+                    <Typography.Text>{insight?.category}</Typography.Text>
+                    <div className="space-y-1">
+                      <Typography.TextSm>
                         <span>Average:</span>
                         <span>${insight?.average.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between">
+                      </Typography.TextSm>
+                      <Typography.TextSm>
                         <span>Highest:</span>
                         <span>${insight?.highest.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between">
+                      </Typography.TextSm>
+                      <Typography.TextSm>
                         <span>Lowest:</span>
                         <span>${insight?.lowest.toLocaleString()}</span>
-                      </div>
+                      </Typography.TextSm>
                     </div>
                   </div>
                 ))}

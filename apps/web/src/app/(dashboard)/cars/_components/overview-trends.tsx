@@ -1,6 +1,7 @@
 import slugify from "@sindresorhus/slugify";
 import { TrendChart } from "@web/app/(dashboard)/cars/trend-chart";
 import { AnimatedNumber } from "@web/components/animated-number";
+import Typography from "@web/components/typography";
 import {
   Card,
   CardContent,
@@ -31,7 +32,7 @@ export const CarOverviewTrends = ({ cars, total }: Props) => (
         <CardHeader>
           <CardTitle>Stats</CardTitle>
           <CardDescription>
-            <span className="font-bold">{total}</span> registrations
+            <Typography.Label>{total}</Typography.Label> registrations
           </CardDescription>
         </CardHeader>
         <CardContent>

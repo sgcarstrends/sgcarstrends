@@ -1,6 +1,7 @@
 import { BlogList } from "@web/app/blog/_components/blog-list";
 import { StructuredData } from "@web/components/structured-data";
 import { SubscribeForm } from "@web/components/subscribe-form";
+import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { getAllPosts } from "@web/lib/data/posts";
 import type { Metadata } from "next";
@@ -44,8 +45,8 @@ const Page = async () => {
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
         <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-          <h1 className="font-bold text-4xl">Blog</h1>
-          <h2 className="text-muted-foreground">{description}</h2>
+          <Typography.H1>Blog</Typography.H1>
+          <Typography.TextLg>{description}</Typography.TextLg>
         </div>
         <UnreleasedFeature>
           <SubscribeForm />

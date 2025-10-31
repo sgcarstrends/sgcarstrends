@@ -1,3 +1,4 @@
+import Typography from "@web/components/typography";
 import dayjs from "dayjs";
 
 interface Props {
@@ -5,10 +6,10 @@ interface Props {
 }
 
 export const LastUpdated = ({ lastUpdated }: Props) => (
-  <div className="text-muted-foreground text-xs">
+  <Typography.Caption>
     Last updated:{" "}
     <span className="underline">
       {dayjs(lastUpdated).format("DD MMM YYYY, h:mmA")}
     </span>
-  </div>
+  </Typography.Caption>
 );

@@ -1,6 +1,7 @@
 "use client";
 
 import useStore from "@web/app/store";
+import Typography from "@web/components/typography";
 import { cn } from "@web/lib/utils";
 import type { COECategory } from "@web/types";
 import type { LucideIcon } from "lucide-react";
@@ -52,8 +53,8 @@ export const CategoryInfo = ({
     >
       <Icon className="size-6" />
       <div>
-        <h4 className="font-semibold">{category}</h4>
-        <p className="text-gray-600 text-sm">{description}</p>
+        <Typography.H4>{category}</Typography.H4>
+        <Typography.TextSm>{description}</Typography.TextSm>
       </div>
     </div>
   );

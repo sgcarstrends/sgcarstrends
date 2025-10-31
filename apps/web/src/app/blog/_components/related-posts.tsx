@@ -1,4 +1,5 @@
 import { getRelatedPosts } from "@web/app/blog/_actions";
+import Typography from "@web/components/typography";
 import Link from "next/link";
 
 interface RelatedPostsProps {
@@ -18,7 +19,7 @@ export const RelatedPosts = async ({
 
   return (
     <div className="border-t pt-8">
-      <h3 className="mb-4 font-semibold text-xl">Related Posts</h3>
+      <Typography.H3>Related Posts</Typography.H3>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {relatedPosts.map((post) => (
           <Link
@@ -26,13 +27,11 @@ export const RelatedPosts = async ({
             href={`/blog/${post.slug}`}
             className="group block rounded-lg border border-border p-4 transition-colors hover:border-primary/50"
           >
-            <h4 className="line-clamp-2 font-medium transition-colors group-hover:text-primary">
-              {post.title}
-            </h4>
-            <p className="mt-2 line-clamp-2 text-muted-foreground text-sm">
+            <Typography.H4>{post.title}</Typography.H4>
+            <Typography.TextSm>
               {(post.metadata as any)?.excerpt ?? ""}
-            </p>
-            <time className="mt-2 block text-muted-foreground text-xs">
+            </Typography.TextSm>
+            <Typography.Caption>
               {new Date(post.publishedAt ?? post.createdAt).toLocaleDateString(
                 "en-SG",
                 {
@@ -41,7 +40,7 @@ export const RelatedPosts = async ({
                   day: "numeric",
                 },
               )}
-            </time>
+            </Typography.Caption>
           </Link>
         ))}
       </div>
