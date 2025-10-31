@@ -4,7 +4,7 @@ import { AnimatedNumber } from "@web/components/animated-number";
 import { Badge } from "@web/components/ui/badge";
 import { Card, CardContent } from "@web/components/ui/card";
 import { cn } from "@web/lib/utils";
-import { formatGrowthRate } from "@web/utils/chart-formatters";
+import { formatGrowthRate } from "@web/utils/charts";
 import {
   Award,
   BarChart3,
@@ -14,11 +14,13 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 
+type DeltaType = "increase" | "decrease" | "unchanged";
+
 interface InsightData {
   title: string;
-  value: string | number;
+  value: number;
   delta?: number;
-  deltaType?: "increase" | "decrease" | "unchanged";
+  deltaType?: DeltaType;
   icon?: ReactNode;
   colour?: string;
   subtitle?: string;
@@ -26,27 +28,10 @@ interface InsightData {
 
 interface InsightCardsProps {
   insights: InsightData[];
-  columns?: number;
 }
 
-export const InsightCards = ({ insights, columns = 3 }: InsightCardsProps) => {
-  const renderValue = (value: string | number): ReactNode => {
-    if (typeof value === "number") {
-      return <AnimatedNumber value={value} />;
-    }
-    return value;
-  };
-
-  const gridCols =
-    columns === 2
-      ? "grid-cols-1 md:grid-cols-2"
-      : columns === 3
-        ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-        : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4";
-
-  const getDeltaVariant = (
-    deltaType?: "increase" | "decrease" | "unchanged",
-  ) => {
+export const InsightCards = ({ insights }: InsightCardsProps) => {
+  const getDeltaVariant = (deltaType?: DeltaType) => {
     switch (deltaType) {
       case "increase":
         return "default";
@@ -57,7 +42,7 @@ export const InsightCards = ({ insights, columns = 3 }: InsightCardsProps) => {
     }
   };
 
-  const getDeltaIcon = (deltaType?: "increase" | "decrease" | "unchanged") => {
+  const getDeltaIcon = (deltaType?: DeltaType) => {
     switch (deltaType) {
       case "increase":
         return <TrendingUp className="h-3 w-3" />;
@@ -77,7 +62,7 @@ export const InsightCards = ({ insights, columns = 3 }: InsightCardsProps) => {
   }
 
   return (
-    <div className={`grid gap-4 ${gridCols}`}>
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
       {insights.map((insight) => (
         <Card key={insight.title}>
           <CardContent className="p-4 sm:p-6">
@@ -87,7 +72,7 @@ export const InsightCards = ({ insights, columns = 3 }: InsightCardsProps) => {
                   {insight.title}
                 </p>
                 <p className="break-words font-bold text-gray-900 text-xl sm:text-2xl">
-                  {renderValue(insight.value)}
+                  <AnimatedNumber value={insight.value} />
                 </p>
                 {insight.subtitle && (
                   <p className="mt-1 text-gray-500 text-xs">
@@ -135,10 +120,10 @@ export const InsightCards = ({ insights, columns = 3 }: InsightCardsProps) => {
 
 export const createInsightData = (
   title: string,
-  value: string | number,
+  value: number,
   options: {
     delta?: number;
-    deltaType?: "increase" | "decrease" | "unchanged";
+    deltaType?: DeltaType;
     icon?: ReactNode;
     colour?: string;
     subtitle?: string;
@@ -150,9 +135,9 @@ export const createInsightData = (
 });
 
 export const defaultIcons = {
-  award: <Award className="h-4 w-4" />,
-  barChart: <BarChart3 className="h-4 w-4" />,
-  pieChart: <PieChart className="h-4 w-4" />,
-  trendingUp: <TrendingUp className="h-4 w-4" />,
-  trendingDown: <TrendingDown className="h-4 w-4" />,
+  award: <Award className="size-4" />,
+  barChart: <BarChart3 className="size-4" />,
+  pieChart: <PieChart className="size-4" />,
+  trendingUp: <TrendingUp className="size-4" />,
+  trendingDown: <TrendingDown className="size-4" />,
 } as const;

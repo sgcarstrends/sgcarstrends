@@ -1,5 +1,5 @@
 import { Chip } from "@heroui/chip";
-import { formatPercent } from "@web/utils/chart-formatters";
+import { formatPercent } from "@web/utils/charts";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 interface StatsCompareProps {
