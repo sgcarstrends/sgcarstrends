@@ -124,11 +124,11 @@ export const MaintenanceNotice = () => {
           <Typography.H1>🚗 Pit Stop in Progress</Typography.H1>
         </motion.div>
         <motion.div variants={textVariants}>
-          <Typography.BodyLarge>
+          <Typography.TextLg>
             Just like a Formula 1 pit stop, we&apos;re fine-tuning our engines
             to deliver the fastest and most reliable Singapore car market
             insights!
-          </Typography.BodyLarge>
+          </Typography.TextLg>
         </motion.div>
       </motion.div>
 
@@ -140,7 +140,7 @@ export const MaintenanceNotice = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Clock className="size-5 text-primary" />
-                  <Typography.Body>Estimated Completion</Typography.Body>
+                  <Typography.Text>Estimated Completion</Typography.Text>
                 </div>
                 <Chip variant="shadow" color="primary" size="lg">
                   2 hours
@@ -161,13 +161,11 @@ export const MaintenanceNotice = () => {
                     style={{ animationDelay: "0.4s" }}
                   />
                 </div>
-                <Typography.BodySmall>
-                  Maintenance in progress
-                </Typography.BodySmall>
+                <Typography.TextSm>Maintenance in progress</Typography.TextSm>
               </div>
-              <Typography.BodySmall>
+              <Typography.TextSm>
                 We are upgrading our data processing systems for faster analysis
-              </Typography.BodySmall>
+              </Typography.TextSm>
             </div>
           </CardBody>
         </Card>
@@ -186,10 +184,10 @@ export const MaintenanceNotice = () => {
                 <Zap className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
                   <Typography.H3>Performance Boost</Typography.H3>
-                  <Typography.BodySmall>
+                  <Typography.TextSm>
                     Turbocharging our database for lightning-fast COE trend
                     analysis
-                  </Typography.BodySmall>
+                  </Typography.TextSm>
                 </div>
               </CardBody>
             </Card>
@@ -200,9 +198,9 @@ export const MaintenanceNotice = () => {
                 <Shield className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
                   <Typography.H3>Security Updates</Typography.H3>
-                  <Typography.BodySmall>
+                  <Typography.TextSm>
                     Installing the latest security patches to protect your data
-                  </Typography.BodySmall>
+                  </Typography.TextSm>
                 </div>
               </CardBody>
             </Card>
@@ -213,9 +211,9 @@ export const MaintenanceNotice = () => {
                 <TrendingUp className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
                   <Typography.H3>New Features</Typography.H3>
-                  <Typography.BodySmall>
+                  <Typography.TextSm>
                     Adding advanced analytics for better market predictions
-                  </Typography.BodySmall>
+                  </Typography.TextSm>
                 </div>
               </CardBody>
             </Card>
@@ -226,9 +224,9 @@ export const MaintenanceNotice = () => {
                 <Wrench className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
                   <Typography.H3>Bug Fixes</Typography.H3>
-                  <Typography.BodySmall>
+                  <Typography.TextSm>
                     Fixing minor issues to ensure smooth sailing ahead
-                  </Typography.BodySmall>
+                  </Typography.TextSm>
                 </div>
               </CardBody>
             </Card>
@@ -246,10 +244,10 @@ export const MaintenanceNotice = () => {
         variants={itemVariants}
       >
         <Typography.H3>Need Immediate Assistance? 🚨</Typography.H3>
-        <Typography.Body>
+        <Typography.Text>
           While we&apos;re upgrading, our support team is still available for
           urgent inquiries
-        </Typography.Body>
+        </Typography.Text>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href="mailto:support@sgcarstrends.com"
@@ -274,9 +272,9 @@ export const MaintenanceNotice = () => {
 
       {/* Footer Message */}
       <motion.div className="text-center" variants={itemVariants}>
-        <Typography.BodySmall>
+        <Typography.TextSm>
           🏁 Thanks for your patience as we race towards a better experience!
-        </Typography.BodySmall>
+        </Typography.TextSm>
         <Typography.Caption>
           This page will automatically refresh when maintenance is complete
         </Typography.Caption>

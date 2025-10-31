@@ -11,9 +11,9 @@ export const PageNotFound = () => (
       <div className="mb-8">
         <Typography.H1>404</Typography.H1>
         <Typography.H2>Page Not Found</Typography.H2>
-        <Typography.BodyLarge>
+        <Typography.TextLg>
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
-        </Typography.BodyLarge>
+        </Typography.TextLg>
       </div>
 
       <div className="mb-12 flex flex-col gap-4 sm:flex-row">
@@ -37,7 +37,7 @@ export const PageNotFound = () => (
         </Button>
       </div>
 
-      <Typography.BodySmall>
+      <Typography.TextSm>
         Need help? Visit our{" "}
         <Link href="/faq" className="text-primary hover:underline">
           FAQ page
@@ -47,7 +47,7 @@ export const PageNotFound = () => (
           homepage
         </Link>
         .
-      </Typography.BodySmall>
+      </Typography.TextSm>
     </div>
   </div>
 );

@@ -76,13 +76,13 @@ const COETrendsPage = async ({ searchParams }: Props) => {
                     className="flex items-center justify-between border-b pb-2"
                   >
                     <div>
-                      <Typography.Body>{insight?.category}</Typography.Body>
-                      <Typography.BodySmall>
+                      <Typography.Text>{insight?.category}</Typography.Text>
+                      <Typography.TextSm>
                         Latest: ${insight?.latest.toLocaleString()}
-                      </Typography.BodySmall>
+                      </Typography.TextSm>
                     </div>
                     <div className="text-right">
-                      <Typography.Body
+                      <Typography.Text
                         className={`font-medium ${
                           (insight?.change || 0) >= 0
                             ? "text-green-600"
@@ -91,7 +91,7 @@ const COETrendsPage = async ({ searchParams }: Props) => {
                       >
                         {(insight?.change || 0) >= 0 ? "+" : ""}
                         {insight?.change.toFixed(1)}%
-                      </Typography.Body>
+                      </Typography.Text>
                     </div>
                   </div>
                 ))}
@@ -110,20 +110,20 @@ const COETrendsPage = async ({ searchParams }: Props) => {
               <div className="space-y-4">
                 {trendInsights.map((insight) => (
                   <div key={insight?.category} className="border-b pb-2">
-                    <Typography.Body>{insight?.category}</Typography.Body>
+                    <Typography.Text>{insight?.category}</Typography.Text>
                     <div className="space-y-1">
-                      <Typography.BodySmall>
+                      <Typography.TextSm>
                         <span>Average:</span>
                         <span>${insight?.average.toLocaleString()}</span>
-                      </Typography.BodySmall>
-                      <Typography.BodySmall>
+                      </Typography.TextSm>
+                      <Typography.TextSm>
                         <span>Highest:</span>
                         <span>${insight?.highest.toLocaleString()}</span>
-                      </Typography.BodySmall>
-                      <Typography.BodySmall>
+                      </Typography.TextSm>
+                      <Typography.TextSm>
                         <span>Lowest:</span>
                         <span>${insight?.lowest.toLocaleString()}</span>
-                      </Typography.BodySmall>
+                      </Typography.TextSm>
                     </div>
                   </div>
                 ))}

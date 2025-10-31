@@ -250,16 +250,16 @@ export const KeyStatistics = ({ data }: Props) => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <Typography.BodySmall>
+            <Typography.TextSm>
               Explore the last {data.length} years of registrations
-            </Typography.BodySmall>
+            </Typography.TextSm>
             <div className="font-semibold text-xl">
               {selectedEntry
                 ? numberFormatter.format(selectedEntry.total)
                 : "—"}
-              <Typography.BodySmall>
+              <Typography.TextSm>
                 total registrations in {selectedYear || "—"}
-              </Typography.BodySmall>
+              </Typography.TextSm>
             </div>
           </div>
           <Select

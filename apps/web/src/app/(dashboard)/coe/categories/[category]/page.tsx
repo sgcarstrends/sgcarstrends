@@ -142,21 +142,19 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <div className="text-center">
                     <Typography.H3>{stats.totalRounds}</Typography.H3>
-                    <Typography.BodySmall>
-                      Total Bidding Rounds
-                    </Typography.BodySmall>
+                    <Typography.TextSm>Total Bidding Rounds</Typography.TextSm>
                   </div>
                   <div className="text-center">
                     <Typography.H3>
                       ${stats.averagePremium.toLocaleString()}
                     </Typography.H3>
-                    <Typography.BodySmall>Average Premium</Typography.BodySmall>
+                    <Typography.TextSm>Average Premium</Typography.TextSm>
                   </div>
                   <div className="text-center">
                     <Typography.H3>
                       ${stats.highestPremium.toLocaleString()}
                     </Typography.H3>
-                    <Typography.BodySmall>Highest Premium</Typography.BodySmall>
+                    <Typography.TextSm>Highest Premium</Typography.TextSm>
                   </div>
                 </div>
               );

@@ -18,10 +18,10 @@ export const Footer = async () => {
           {/* Brand Section */}
           <div className="space-y-4">
             <BrandLogo />
-            <Typography.BodySmall>
+            <Typography.TextSm>
               Your go-to source for Singapore car market data and trends. We
               make sense of the numbers so you don&apos;t have to.
-            </Typography.BodySmall>
+            </Typography.TextSm>
             <div className="flex gap-2">
               {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (
                 <Button
@@ -56,7 +56,7 @@ export const Footer = async () => {
                       hasBadge ? "flex items-center gap-2" : "block"
                     }`}
                   >
-                    <Typography.BodySmall>{item.title}</Typography.BodySmall>
+                    <Typography.TextSm>{item.title}</Typography.TextSm>
                     {item.badge === "beta" && <BetaChip />}
                     {item.badge === "new" && <NewChip />}
                   </Link>
@@ -75,7 +75,7 @@ export const Footer = async () => {
                   href={item.url}
                   className="block text-default-600 transition-colors hover:text-primary"
                 >
-                  <Typography.BodySmall>{item.title}</Typography.BodySmall>
+                  <Typography.TextSm>{item.title}</Typography.TextSm>
                 </Link>
               ))}
             </div>
@@ -98,7 +98,7 @@ export const Footer = async () => {
                         showNewChip ? "flex items-center gap-2" : "block"
                       }`}
                     >
-                      <Typography.BodySmall>{item.title}</Typography.BodySmall>
+                      <Typography.TextSm>{item.title}</Typography.TextSm>
                       {showNewChip && <NewChip />}
                     </Link>
                   );
@@ -113,11 +113,11 @@ export const Footer = async () => {
         {/* Bottom Section */}
         <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
           <div className="text-center text-default-600 md:text-left">
-            <Typography.BodySmall>
+            <Typography.TextSm>
               © {new Date().getFullYear()} SGCarsTrends. All rights reserved. •
               v{version}
-            </Typography.BodySmall>
-            <Typography.BodySmall>
+            </Typography.TextSm>
+            <Typography.TextSm>
               Data provided by{" "}
               <Link
                 href="https://datamall.lta.gov.sg"
@@ -127,7 +127,7 @@ export const Footer = async () => {
               >
                 LTA DataMall
               </Link>
-            </Typography.BodySmall>
+            </Typography.TextSm>
           </div>
 
           <div className="flex gap-4">
@@ -135,13 +135,13 @@ export const Footer = async () => {
               href="/legal/privacy-policy"
               className="text-default-600 transition-colors hover:text-primary"
             >
-              <Typography.BodySmall>Privacy Policy</Typography.BodySmall>
+              <Typography.TextSm>Privacy Policy</Typography.TextSm>
             </Link>
             <Link
               href="/legal/terms-of-service"
               className="text-default-600 transition-colors hover:text-primary"
             >
-              <Typography.BodySmall>Terms of Service</Typography.BodySmall>
+              <Typography.TextSm>Terms of Service</Typography.TextSm>
             </Link>
           </div>
         </div>

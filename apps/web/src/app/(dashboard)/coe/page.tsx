@@ -200,9 +200,9 @@ const COEPricesPage = async () => {
           </CardContent>
           <CardFooter>
             <div className="flex w-full flex-col gap-2">
-              <Typography.BodySmall>
+              <Typography.TextSm>
                 Note: There is no PQP Premium for Category E
-              </Typography.BodySmall>
+              </Typography.TextSm>
               <Link href="/coe/pqp">
                 <Button className="w-full">View All PQP Rates</Button>
               </Link>

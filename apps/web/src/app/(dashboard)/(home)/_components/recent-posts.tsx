@@ -13,7 +13,7 @@ export const RecentPosts = ({ posts }: RecentPostsProps) => {
       <div className="flex items-center justify-between">
         <Typography.H3>Recent Posts</Typography.H3>
         <Link href="/blog" className="text-primary hover:underline">
-          <Typography.BodySmall>View all</Typography.BodySmall>
+          <Typography.TextSm>View all</Typography.TextSm>
         </Link>
       </div>
       {posts.map((post) => {

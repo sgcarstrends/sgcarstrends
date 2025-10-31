@@ -28,9 +28,9 @@ export const RelatedPosts = async ({
             className="group block rounded-lg border border-border p-4 transition-colors hover:border-primary/50"
           >
             <Typography.H4>{post.title}</Typography.H4>
-            <Typography.BodySmall>
+            <Typography.TextSm>
               {(post.metadata as any)?.excerpt ?? ""}
-            </Typography.BodySmall>
+            </Typography.TextSm>
             <Typography.Caption>
               {new Date(post.publishedAt ?? post.createdAt).toLocaleDateString(
                 "en-SG",

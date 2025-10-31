@@ -67,28 +67,26 @@ export const MakeTrendChart = ({ data }: Props) => {
       <div className="mt-4 space-y-3">
         <div>
           <Typography.H4>Registration Trends</Typography.H4>
-          <Typography.BodySmall>
+          <Typography.TextSm>
             This chart shows monthly registration trends over time.
             {peakMonth &&
               `Peak registrations occurred in ${peakMonth.month} with ${peakMonth.count.toLocaleString()} vehicles`}
             , helping identify seasonal patterns and market performance.
-          </Typography.BodySmall>
+          </Typography.TextSm>
         </div>
         <div className="grid grid-cols-1 gap-3 rounded-lg bg-muted/30 p-3 sm:grid-cols-3">
           <div className="text-center">
-            <Typography.BodyLarge>
-              {peakMonth?.month || "N/A"}
-            </Typography.BodyLarge>
+            <Typography.TextLg>{peakMonth?.month || "N/A"}</Typography.TextLg>
             <Typography.Caption>Peak Month</Typography.Caption>
           </div>
           <div className="text-center">
-            <Typography.BodyLarge>
+            <Typography.TextLg>
               {totalRegistrations.toLocaleString()}
-            </Typography.BodyLarge>
+            </Typography.TextLg>
             <Typography.Caption>Total Period</Typography.Caption>
           </div>
           <div className="text-center">
-            <Typography.BodyLarge>{chartData.length}</Typography.BodyLarge>
+            <Typography.TextLg>{chartData.length}</Typography.TextLg>
             <Typography.Caption>Months Tracked</Typography.Caption>
           </div>
         </div>

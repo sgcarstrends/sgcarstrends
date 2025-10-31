@@ -42,7 +42,7 @@ export const MakeCard = ({ make, isPopular = false }: MakeCardProps) => {
         />
       </CardBody>
       <CardFooter>
-        <Typography.Body>{make}</Typography.Body>
+        <Typography.Text>{make}</Typography.Text>
       </CardFooter>
     </Card>
   );

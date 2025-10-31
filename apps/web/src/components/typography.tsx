@@ -105,15 +105,16 @@ const H4 = React.forwardRef<
 H4.displayName = "H4";
 
 /**
- * BodyLarge - Emphasized body text
+ * TextLg - Large body text
  *
- * Use for: Introductions, lead paragraphs
+ * Use for: Introductions, lead paragraphs, emphasized content
+ * Font size: 18px (text-lg)
  * Weight: Normal (400)
  *
  * @example
- * <Typography.BodyLarge>Explore COE trends and analysis.</Typography.BodyLarge>
+ * <Typography.TextLg>Explore COE trends and analysis.</Typography.TextLg>
  */
-const BodyLarge = React.forwardRef<
+const TextLg = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
@@ -123,41 +124,43 @@ const BodyLarge = React.forwardRef<
     {...props}
   />
 ));
-BodyLarge.displayName = "BodyLarge";
+TextLg.displayName = "TextLg";
 
 /**
- * Body - Standard body text
+ * Text - Standard body text
  *
  * Use for: Paragraphs, descriptions, general content
+ * Font size: 16px (text-base)
  * Weight: Normal (400)
  *
  * @example
- * <Typography.Body>The latest COE results show...</Typography.Body>
+ * <Typography.Text>The latest COE results show...</Typography.Text>
  */
-const Body = React.forwardRef<
+const Text = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
   <p ref={ref} className={cn("text-base leading-7", className)} {...props} />
 ));
-Body.displayName = "Body";
+Text.displayName = "Text";
 
 /**
- * BodySmall - Smaller body text
+ * TextSm - Small body text
  *
  * Use for: Secondary descriptions, helper text
+ * Font size: 14px (text-sm)
  * Weight: Normal (400)
  *
  * @example
- * <Typography.BodySmall>Updated daily from LTA</Typography.BodySmall>
+ * <Typography.TextSm>Updated daily from LTA</Typography.TextSm>
  */
-const BodySmall = React.forwardRef<
+const TextSm = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
   <p ref={ref} className={cn("text-sm leading-6", className)} {...props} />
 ));
-BodySmall.displayName = "BodySmall";
+TextSm.displayName = "TextSm";
 
 /**
  * Label - UI labels
@@ -265,48 +268,25 @@ const Lead = React.forwardRef<
 ));
 Lead.displayName = "Lead";
 
-const Small = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
-  ({ className, ...props }, ref) => (
-    <small
-      ref={ref}
-      className={cn("font-medium text-sm leading-none", className)}
-      {...props}
-    />
-  ),
-);
-Small.displayName = "Small";
-
-const Muted = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-muted-foreground text-sm", className)}
-    {...props}
-  />
-));
-Muted.displayName = "Muted";
-
 const Typography = {
-  // Modern variants
+  // Headings
   H1,
   H2,
   H3,
   H4,
-  BodyLarge,
-  Body,
-  BodySmall,
+  // Body Text
+  TextLg,
+  Text,
+  TextSm,
+  // UI Labels
   Label,
   Caption,
-  // Legacy variants
+  // Content Elements
   P,
   Blockquote,
   List,
   InlineCode,
   Lead,
-  Small,
-  Muted,
 };
 
 export default Typography;

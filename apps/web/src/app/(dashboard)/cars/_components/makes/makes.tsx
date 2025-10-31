@@ -74,9 +74,9 @@ export const Makes = ({
             <Typography.Label>
               {selectedLetter === "#" ? "Other" : selectedLetter}
             </Typography.Label>
-            <Typography.BodySmall>
+            <Typography.TextSm>
               {activeMakes.length} {activeMakes.length === 1 ? "make" : "makes"}
-            </Typography.BodySmall>
+            </Typography.TextSm>
           </div>
           <div>
             <MakeGrid makes={activeMakes} isPopular={isPopular} />

@@ -54,7 +54,7 @@ export const CategoryInfo = ({
       <Icon className="size-6" />
       <div>
         <Typography.H4>{category}</Typography.H4>
-        <Typography.BodySmall>{description}</Typography.BodySmall>
+        <Typography.TextSm>{description}</Typography.TextSm>
       </div>
     </div>
   );

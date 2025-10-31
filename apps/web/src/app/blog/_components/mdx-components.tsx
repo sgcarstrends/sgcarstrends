@@ -17,7 +17,7 @@ export const mdxComponents = {
   h4: (props: ComponentPropsWithoutRef<"h4">) => <Typography.H4 {...props} />,
 
   // Body text
-  p: (props: ComponentPropsWithoutRef<"p">) => <Typography.Body {...props} />,
+  p: (props: ComponentPropsWithoutRef<"p">) => <Typography.Text {...props} />,
 
   // Blockquotes and lists (use legacy components for markdown compatibility)
   blockquote: (props: ComponentPropsWithoutRef<"blockquote">) => (
@@ -46,6 +46,7 @@ export const mdxComponents = {
   ),
   th: (props: ComponentPropsWithoutRef<"th">) => (
     <th
+      scope="col"
       className="border border-border px-4 py-2 text-left font-semibold [&[align=center]]:text-center [&[align=right]]:text-right"
       {...props}
     />
