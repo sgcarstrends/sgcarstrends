@@ -6,23 +6,18 @@ import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
 import { NotificationPrompt } from "@web/components/notification-prompt";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { type ReactNode, Suspense } from "react";
 import "./globals.css";
+import { cn } from "@heroui/react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Banner } from "@web/components/banner";
 import type { Metadata } from "next";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -95,10 +90,11 @@ export const metadata: Metadata = {
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-neutral-100 antialiased`}
-      >
+    <html
+      lang="en"
+      className={cn("scroll-smooth antialiased", geistSans.className)}
+    >
+      <body className="bg-neutral-100">
         <Providers>
           <NotificationPrompt />
           <Suspense fallback={null}>
