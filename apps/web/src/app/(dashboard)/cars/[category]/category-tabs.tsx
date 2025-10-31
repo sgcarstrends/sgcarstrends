@@ -46,7 +46,7 @@ export const CategoryTypesTabsView = ({
       colour: "emerald",
       subtitle: `Active ${title.toLowerCase()} categories`,
     }),
-    createInsightData("Top Performer", marketShare.dominantType.count, {
+    createInsightData("Top Performer", marketShare.dominantType.percentage, {
       icon: defaultIcons.award,
       colour: "amber",
       subtitle: `${marketShare.dominantType.name} - ${formatPercentage(marketShare.dominantType.percentage)} market share`,
