@@ -27,9 +27,7 @@ export const LatestCOEPrices = ({ results }: LatestCOEPricesProps) => {
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-                <Typography.H4 className="text-foreground">
-                  {result.vehicle_class}
-                </Typography.H4>
+                <Typography.H4>{result.vehicle_class}</Typography.H4>
               </div>
             </div>
           </CardHeader>

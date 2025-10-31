@@ -97,15 +97,13 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
                   <Typography.H3>
                     {Object.keys(biddingRounds).length}
                   </Typography.H3>
-                  <Typography.BodySmall className="text-muted-foreground">
+                  <Typography.BodySmall>
                     Total Bidding Rounds
                   </Typography.BodySmall>
                 </div>
                 <div className="text-center">
                   <Typography.H3>{coeResults.length}</Typography.H3>
-                  <Typography.BodySmall className="text-muted-foreground">
-                    Total Results
-                  </Typography.BodySmall>
+                  <Typography.BodySmall>Total Results</Typography.BodySmall>
                 </div>
                 <div className="text-center">
                   <Typography.H3>
@@ -113,7 +111,7 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
                       .reduce((sum, result) => sum + result.bids_received, 0)
                       .toLocaleString()}
                   </Typography.H3>
-                  <Typography.BodySmall className="text-muted-foreground">
+                  <Typography.BodySmall>
                     Total Bids Received
                   </Typography.BodySmall>
                 </div>

@@ -190,7 +190,7 @@ const COEPricesPage = async () => {
                     className="flex items-center justify-between border-b pb-2 last-of-type:border-none"
                   >
                     <Typography.H4>{category}</Typography.H4>
-                    <Typography.Lead className="font-semibold text-primary">
+                    <Typography.Lead>
                       S$
                       <AnimatedNumber value={rate} />
                     </Typography.Lead>
@@ -200,7 +200,7 @@ const COEPricesPage = async () => {
           </CardContent>
           <CardFooter>
             <div className="flex w-full flex-col gap-2">
-              <Typography.BodySmall className="text-muted-foreground">
+              <Typography.BodySmall>
                 Note: There is no PQP Premium for Category E
               </Typography.BodySmall>
               <Link href="/coe/pqp">

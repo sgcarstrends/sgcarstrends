@@ -90,9 +90,7 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
   if (!config) {
     return (
       <div className="py-8 text-center">
-        <Typography.Body className="text-gray-500">
-          Category not found
-        </Typography.Body>
+        <Typography.Body>Category not found</Typography.Body>
       </div>
     );
   }
@@ -151,7 +149,7 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
           />
         ) : (
           <div className="py-8 text-center">
-            <Typography.Body className="text-gray-500">
+            <Typography.Body>
               No {config.title.toLowerCase()} data available for{" "}
               {formattedMonth}
             </Typography.Body>

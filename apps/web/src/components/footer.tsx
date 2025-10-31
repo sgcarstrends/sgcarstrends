@@ -18,7 +18,7 @@ export const Footer = async () => {
           {/* Brand Section */}
           <div className="space-y-4">
             <BrandLogo />
-            <Typography.BodySmall className="text-default-600 leading-relaxed">
+            <Typography.BodySmall>
               Your go-to source for Singapore car market data and trends. We
               make sense of the numbers so you don&apos;t have to.
             </Typography.BodySmall>
@@ -44,7 +44,7 @@ export const Footer = async () => {
 
           {/* Cars Section */}
           <div className="space-y-4">
-            <Typography.H4 className="text-default-900">Cars</Typography.H4>
+            <Typography.H4>Cars</Typography.H4>
             <div className="space-y-2">
               {navLinks.cars.map((item) => {
                 const hasBadge = Boolean(item.badge);
@@ -67,7 +67,7 @@ export const Footer = async () => {
 
           {/* COE Section */}
           <div className="space-y-4">
-            <Typography.H4 className="text-default-900">COE</Typography.H4>
+            <Typography.H4>COE</Typography.H4>
             <div className="space-y-2">
               {navLinks.coe.map((item) => (
                 <Link
@@ -84,9 +84,7 @@ export const Footer = async () => {
           {/* General Section */}
           <UnreleasedFeature>
             <div className="space-y-4">
-              <Typography.H4 className="text-default-900">
-                General
-              </Typography.H4>
+              <Typography.H4>General</Typography.H4>
               <div className="space-y-2">
                 {navLinks.general.map((item) => {
                   const showNewChip = ["FAQ", "Blog", "Visitors"].includes(
@@ -119,7 +117,7 @@ export const Footer = async () => {
               © {new Date().getFullYear()} SGCarsTrends. All rights reserved. •
               v{version}
             </Typography.BodySmall>
-            <Typography.BodySmall className="mt-1">
+            <Typography.BodySmall>
               Data provided by{" "}
               <Link
                 href="https://datamall.lta.gov.sg"

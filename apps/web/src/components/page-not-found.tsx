@@ -9,11 +9,9 @@ export const PageNotFound = () => (
   <div className="container mx-auto px-4 py-16">
     <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
       <div className="mb-8">
-        <Typography.Display className="mb-4 text-primary">
-          404
-        </Typography.Display>
-        <Typography.H1 className="mb-2">Page Not Found</Typography.H1>
-        <Typography.BodyLarge className="max-w-md text-foreground-500">
+        <Typography.Display>404</Typography.Display>
+        <Typography.H1>Page Not Found</Typography.H1>
+        <Typography.BodyLarge>
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </Typography.BodyLarge>
       </div>
@@ -39,7 +37,7 @@ export const PageNotFound = () => (
         </Button>
       </div>
 
-      <Typography.BodySmall className="mt-8 text-foreground-500">
+      <Typography.BodySmall>
         Need help? Visit our{" "}
         <Link href="/faq" className="text-primary hover:underline">
           FAQ page

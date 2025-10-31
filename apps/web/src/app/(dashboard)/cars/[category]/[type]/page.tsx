@@ -115,9 +115,7 @@ const TypePage = async ({ params, searchParams }: Props) => {
   if (!config) {
     return (
       <div className="py-8 text-center">
-        <Typography.Body className="text-gray-500">
-          Category not found
-        </Typography.Body>
+        <Typography.Body>Category not found</Typography.Body>
       </div>
     );
   }

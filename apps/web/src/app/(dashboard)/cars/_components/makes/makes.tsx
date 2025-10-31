@@ -71,10 +71,10 @@ export const Makes = ({
       {showLetterFilter ? (
         <div className="space-y-3">
           <div className="flex items-center gap-3">
-            <Typography.Label className="inline-flex h-9 min-w-9 items-center justify-center rounded-full bg-default-100 px-2 text-default-600 uppercase">
+            <Typography.Label>
               {selectedLetter === "#" ? "Other" : selectedLetter}
             </Typography.Label>
-            <Typography.BodySmall className="text-default-400">
+            <Typography.BodySmall>
               {activeMakes.length} {activeMakes.length === 1 ? "make" : "makes"}
             </Typography.BodySmall>
           </div>

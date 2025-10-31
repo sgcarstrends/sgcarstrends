@@ -66,10 +66,8 @@ export const MakeTrendChart = ({ data }: Props) => {
       </ChartContainer>
       <div className="mt-4 space-y-3">
         <div>
-          <Typography.H4 className="mb-2 text-foreground">
-            Registration Trends
-          </Typography.H4>
-          <Typography.BodySmall className="text-muted-foreground">
+          <Typography.H4>Registration Trends</Typography.H4>
+          <Typography.BodySmall>
             This chart shows monthly registration trends over time.
             {peakMonth &&
               `Peak registrations occurred in ${peakMonth.month} with ${peakMonth.count.toLocaleString()} vehicles`}
@@ -78,28 +76,20 @@ export const MakeTrendChart = ({ data }: Props) => {
         </div>
         <div className="grid grid-cols-1 gap-3 rounded-lg bg-muted/30 p-3 sm:grid-cols-3">
           <div className="text-center">
-            <Typography.BodyLarge className="font-medium text-foreground">
+            <Typography.BodyLarge>
               {peakMonth?.month || "N/A"}
             </Typography.BodyLarge>
-            <Typography.Caption className="text-muted-foreground">
-              Peak Month
-            </Typography.Caption>
+            <Typography.Caption>Peak Month</Typography.Caption>
           </div>
           <div className="text-center">
-            <Typography.BodyLarge className="font-medium text-foreground">
+            <Typography.BodyLarge>
               {totalRegistrations.toLocaleString()}
             </Typography.BodyLarge>
-            <Typography.Caption className="text-muted-foreground">
-              Total Period
-            </Typography.Caption>
+            <Typography.Caption>Total Period</Typography.Caption>
           </div>
           <div className="text-center">
-            <Typography.BodyLarge className="font-medium text-foreground">
-              {chartData.length}
-            </Typography.BodyLarge>
-            <Typography.Caption className="text-muted-foreground">
-              Months Tracked
-            </Typography.Caption>
+            <Typography.BodyLarge>{chartData.length}</Typography.BodyLarge>
+            <Typography.Caption>Months Tracked</Typography.Caption>
           </div>
         </div>
       </div>

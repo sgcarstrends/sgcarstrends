@@ -40,9 +40,7 @@ export const BlogPost = ({ post }: Props) => {
         </CardHeader>
         <CardContent className="flex-1">
           <div className="flex flex-col gap-4">
-            <Typography.Body className="text-muted-foreground">
-              {metadata?.excerpt}
-            </Typography.Body>
+            <Typography.Body>{metadata?.excerpt}</Typography.Body>
             <div className="flex gap-2">
               {metadata?.tags?.map((tag: string) => (
                 <Badge key={tag} variant="outline" className="text-small">
@@ -54,7 +52,7 @@ export const BlogPost = ({ post }: Props) => {
         </CardContent>
         <CardFooter>
           <div className="flex items-center justify-between">
-            <Typography.BodySmall className="text-muted-foreground">
+            <Typography.BodySmall>
               {new Date(publishedDate).toLocaleDateString("en-SG", {
                 year: "numeric",
                 month: "long",

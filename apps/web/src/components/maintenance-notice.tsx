@@ -121,12 +121,10 @@ export const MaintenanceNotice = () => {
           </motion.div>
         </motion.div>
         <motion.div variants={textVariants}>
-          <Typography.H1 className="text-foreground">
-            🚗 Pit Stop in Progress
-          </Typography.H1>
+          <Typography.H1>🚗 Pit Stop in Progress</Typography.H1>
         </motion.div>
         <motion.div variants={textVariants}>
-          <Typography.BodyLarge className="max-w-lg text-foreground-600">
+          <Typography.BodyLarge>
             Just like a Formula 1 pit stop, we&apos;re fine-tuning our engines
             to deliver the fastest and most reliable Singapore car market
             insights!
@@ -142,9 +140,7 @@ export const MaintenanceNotice = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Clock className="size-5 text-primary" />
-                  <Typography.Body className="font-medium text-foreground">
-                    Estimated Completion
-                  </Typography.Body>
+                  <Typography.Body>Estimated Completion</Typography.Body>
                 </div>
                 <Chip variant="shadow" color="primary" size="lg">
                   2 hours
@@ -165,11 +161,11 @@ export const MaintenanceNotice = () => {
                     style={{ animationDelay: "0.4s" }}
                   />
                 </div>
-                <Typography.BodySmall className="font-medium text-foreground-600">
+                <Typography.BodySmall>
                   Maintenance in progress
                 </Typography.BodySmall>
               </div>
-              <Typography.BodySmall className="text-center text-foreground-600">
+              <Typography.BodySmall>
                 We are upgrading our data processing systems for faster analysis
               </Typography.BodySmall>
             </div>
@@ -179,9 +175,7 @@ export const MaintenanceNotice = () => {
 
       {/* What We're Doing Section */}
       <motion.div className="flex flex-col gap-4" variants={itemVariants}>
-        <Typography.H2 className="text-center text-foreground">
-          What&apos;s Under the Hood? 🔧
-        </Typography.H2>
+        <Typography.H2>What&apos;s Under the Hood? 🔧</Typography.H2>
         <motion.div
           className="grid gap-4 md:grid-cols-2"
           variants={cardGridVariants}
@@ -191,10 +185,8 @@ export const MaintenanceNotice = () => {
               <CardBody className="flex flex-row items-start gap-3 p-4">
                 <Zap className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
-                  <Typography.H3 className="text-foreground">
-                    Performance Boost
-                  </Typography.H3>
-                  <Typography.BodySmall className="text-foreground-600">
+                  <Typography.H3>Performance Boost</Typography.H3>
+                  <Typography.BodySmall>
                     Turbocharging our database for lightning-fast COE trend
                     analysis
                   </Typography.BodySmall>
@@ -207,10 +199,8 @@ export const MaintenanceNotice = () => {
               <CardBody className="flex flex-row items-start gap-3 p-4">
                 <Shield className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
-                  <Typography.H3 className="text-foreground">
-                    Security Updates
-                  </Typography.H3>
-                  <Typography.BodySmall className="text-foreground-600">
+                  <Typography.H3>Security Updates</Typography.H3>
+                  <Typography.BodySmall>
                     Installing the latest security patches to protect your data
                   </Typography.BodySmall>
                 </div>
@@ -222,10 +212,8 @@ export const MaintenanceNotice = () => {
               <CardBody className="flex flex-row items-start gap-3 p-4">
                 <TrendingUp className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
-                  <Typography.H3 className="text-foreground">
-                    New Features
-                  </Typography.H3>
-                  <Typography.BodySmall className="text-foreground-600">
+                  <Typography.H3>New Features</Typography.H3>
+                  <Typography.BodySmall>
                     Adding advanced analytics for better market predictions
                   </Typography.BodySmall>
                 </div>
@@ -237,10 +225,8 @@ export const MaintenanceNotice = () => {
               <CardBody className="flex flex-row items-start gap-3 p-4">
                 <Wrench className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
-                  <Typography.H3 className="text-foreground">
-                    Bug Fixes
-                  </Typography.H3>
-                  <Typography.BodySmall className="text-foreground-600">
+                  <Typography.H3>Bug Fixes</Typography.H3>
+                  <Typography.BodySmall>
                     Fixing minor issues to ensure smooth sailing ahead
                   </Typography.BodySmall>
                 </div>
@@ -259,10 +245,8 @@ export const MaintenanceNotice = () => {
         className="flex flex-col gap-4 text-center"
         variants={itemVariants}
       >
-        <Typography.H3 className="text-foreground">
-          Need Immediate Assistance? 🚨
-        </Typography.H3>
-        <Typography.Body className="text-foreground-600">
+        <Typography.H3>Need Immediate Assistance? 🚨</Typography.H3>
+        <Typography.Body>
           While we&apos;re upgrading, our support team is still available for
           urgent inquiries
         </Typography.Body>
@@ -290,10 +274,10 @@ export const MaintenanceNotice = () => {
 
       {/* Footer Message */}
       <motion.div className="text-center" variants={itemVariants}>
-        <Typography.BodySmall className="text-foreground-500">
+        <Typography.BodySmall>
           🏁 Thanks for your patience as we race towards a better experience!
         </Typography.BodySmall>
-        <Typography.Caption className="mt-2 text-foreground-400">
+        <Typography.Caption>
           This page will automatically refresh when maintenance is complete
         </Typography.Caption>
       </motion.div>

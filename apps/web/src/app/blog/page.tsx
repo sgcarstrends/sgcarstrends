@@ -46,9 +46,7 @@ const Page = async () => {
       <section className="flex flex-col gap-8">
         <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
           <Typography.H1>Blog</Typography.H1>
-          <Typography.BodyLarge className="text-muted-foreground">
-            {description}
-          </Typography.BodyLarge>
+          <Typography.BodyLarge>{description}</Typography.BodyLarge>
         </div>
         <UnreleasedFeature>
           <SubscribeForm />

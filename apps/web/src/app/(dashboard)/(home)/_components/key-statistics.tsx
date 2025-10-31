@@ -250,14 +250,14 @@ export const KeyStatistics = ({ data }: Props) => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <Typography.BodySmall className="font-medium text-muted-foreground">
+            <Typography.BodySmall>
               Explore the last {data.length} years of registrations
             </Typography.BodySmall>
             <div className="font-semibold text-xl">
               {selectedEntry
                 ? numberFormatter.format(selectedEntry.total)
                 : "—"}
-              <Typography.BodySmall className="ml-2 font-normal text-muted-foreground">
+              <Typography.BodySmall>
                 total registrations in {selectedYear || "—"}
               </Typography.BodySmall>
             </div>
@@ -314,7 +314,7 @@ export const KeyStatistics = ({ data }: Props) => {
                   ? numberFormatter.format(highestEntry.total)
                   : "—"}
               </p>
-              <Typography.Caption className="mt-1">
+              <Typography.Caption>
                 {highestEntry ? `Set in ${highestEntry.year}` : "No data"}
               </Typography.Caption>
               {comparableAsc.length > 1 && (
@@ -333,7 +333,7 @@ export const KeyStatistics = ({ data }: Props) => {
               <p className="mt-2 font-semibold text-2xl">
                 {lowestEntry ? numberFormatter.format(lowestEntry.total) : "—"}
               </p>
-              <Typography.Caption className="mt-1">
+              <Typography.Caption>
                 {lowestEntry ? `Set in ${lowestEntry.year}` : "No data"}
               </Typography.Caption>
               {comparableAsc.length > 1 && (

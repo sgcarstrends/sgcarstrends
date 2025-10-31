@@ -24,7 +24,7 @@ export const RecentPosts = ({ posts }: RecentPostsProps) => {
             <Card>
               <CardHeader>{post.title}</CardHeader>
               <CardBody>
-                <Typography.Caption className="text-default-500">
+                <Typography.Caption>
                   {new Date(publishedDate).toLocaleDateString("en-SG", {
                     month: "short",
                     day: "numeric",

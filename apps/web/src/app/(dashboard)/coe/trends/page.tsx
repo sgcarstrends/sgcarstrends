@@ -76,10 +76,8 @@ const COETrendsPage = async ({ searchParams }: Props) => {
                     className="flex items-center justify-between border-b pb-2"
                   >
                     <div>
-                      <Typography.Body className="font-medium">
-                        {insight?.category}
-                      </Typography.Body>
-                      <Typography.BodySmall className="text-muted-foreground">
+                      <Typography.Body>{insight?.category}</Typography.Body>
+                      <Typography.BodySmall>
                         Latest: ${insight?.latest.toLocaleString()}
                       </Typography.BodySmall>
                     </div>
@@ -112,19 +110,17 @@ const COETrendsPage = async ({ searchParams }: Props) => {
               <div className="space-y-4">
                 {trendInsights.map((insight) => (
                   <div key={insight?.category} className="border-b pb-2">
-                    <Typography.Body className="mb-1 font-medium">
-                      {insight?.category}
-                    </Typography.Body>
+                    <Typography.Body>{insight?.category}</Typography.Body>
                     <div className="space-y-1">
-                      <Typography.BodySmall className="flex justify-between text-muted-foreground">
+                      <Typography.BodySmall>
                         <span>Average:</span>
                         <span>${insight?.average.toLocaleString()}</span>
                       </Typography.BodySmall>
-                      <Typography.BodySmall className="flex justify-between text-muted-foreground">
+                      <Typography.BodySmall>
                         <span>Highest:</span>
                         <span>${insight?.highest.toLocaleString()}</span>
                       </Typography.BodySmall>
-                      <Typography.BodySmall className="flex justify-between text-muted-foreground">
+                      <Typography.BodySmall>
                         <span>Lowest:</span>
                         <span>${insight?.lowest.toLocaleString()}</span>
                       </Typography.BodySmall>

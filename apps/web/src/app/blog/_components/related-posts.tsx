@@ -19,7 +19,7 @@ export const RelatedPosts = async ({
 
   return (
     <div className="border-t pt-8">
-      <Typography.H3 className="mb-4">Related Posts</Typography.H3>
+      <Typography.H3>Related Posts</Typography.H3>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {relatedPosts.map((post) => (
           <Link
@@ -27,13 +27,11 @@ export const RelatedPosts = async ({
             href={`/blog/${post.slug}`}
             className="group block rounded-lg border border-border p-4 transition-colors hover:border-primary/50"
           >
-            <Typography.H4 className="line-clamp-2 transition-colors group-hover:text-primary">
-              {post.title}
-            </Typography.H4>
-            <Typography.BodySmall className="mt-2 line-clamp-2 text-muted-foreground">
+            <Typography.H4>{post.title}</Typography.H4>
+            <Typography.BodySmall>
               {(post.metadata as any)?.excerpt ?? ""}
             </Typography.BodySmall>
-            <Typography.Caption className="mt-2 block">
+            <Typography.Caption>
               {new Date(post.publishedAt ?? post.createdAt).toLocaleDateString(
                 "en-SG",
                 {

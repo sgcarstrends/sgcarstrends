@@ -32,10 +32,7 @@ export const CarOverviewTrends = ({ cars, total }: Props) => (
         <CardHeader>
           <CardTitle>Stats</CardTitle>
           <CardDescription>
-            <Typography.Body as="span" className="font-medium">
-              {total}
-            </Typography.Body>{" "}
-            registrations
+            <Typography.Body as="span">{total}</Typography.Body> registrations
           </CardDescription>
         </CardHeader>
         <CardContent>
