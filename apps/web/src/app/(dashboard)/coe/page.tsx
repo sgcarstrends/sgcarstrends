@@ -22,7 +22,7 @@ import {
   getPQPData,
 } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
-import { formatPercent } from "@web/utils/chart-formatters";
+import { formatPercent } from "@web/utils/charts";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import type { Metadata } from "next";
 import Link from "next/link";

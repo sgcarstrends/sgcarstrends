@@ -5,7 +5,7 @@ import {
   currencyTooltipFormatter,
   MonthXAxis,
   PriceYAxis,
-} from "@web/components/charts/shared-chart-components";
+} from "@web/components/charts/shared";
 import {
   Card,
   CardContent,

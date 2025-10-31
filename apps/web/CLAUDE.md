@@ -226,6 +226,17 @@ External API integration through `src/utils/api/` for:
 
 **Unit Tests**: Co-located with components using Vitest and Testing Library. Run tests before commits.
 
+**Test Naming Convention**: All test descriptions should start with "should" to describe expected behavior:
+```typescript
+// ✅ Good
+it("should render title and children", () => {});
+it("should display empty state when data is empty", () => {});
+
+// ❌ Avoid
+it("renders title and children", () => {});
+it("displays empty state when data is empty", () => {});
+```
+
 **E2E Tests**: Playwright tests in `tests/` directory covering critical user flows.
 
 **Coverage**: Generate coverage reports with `pnpm test:coverage`.

@@ -13,7 +13,7 @@ import type {
   CarTopPerformersData,
 } from "@web/lib/cars/queries";
 import type { TypeItem } from "@web/types";
-import { formatPercentage } from "@web/utils/chart-formatters";
+import { formatPercentage } from "@web/utils/charts";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { Suspense } from "react";
 

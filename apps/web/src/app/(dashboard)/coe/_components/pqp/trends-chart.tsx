@@ -2,7 +2,7 @@
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { numberFormat } from "@ruchernchong/number-format";
-import { ChartDescriptionSection } from "@web/components/charts/shared-chart-components";
+import { ChartDescriptionSection } from "@web/components/charts/shared";
 import {
   type ChartConfig,
   ChartContainer,
