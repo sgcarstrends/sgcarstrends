@@ -15,30 +15,6 @@ import React from "react";
  */
 
 /**
- * Display - Hero headlines
- *
- * Use for: Landing pages, hero sections, major announcements
- * Weight: Semibold (600) - elegant, not shouty
- *
- * @example
- * <Typography.Display>Welcome to SG Cars Trends</Typography.Display>
- */
-const Display = React.forwardRef<
-  HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h1
-    ref={ref}
-    className={cn(
-      "scroll-m-20 font-semibold text-5xl tracking-tight lg:text-6xl",
-      className,
-    )}
-    {...props}
-  />
-));
-Display.displayName = "Display";
-
-/**
  * H1 - Page titles
  *
  * Use for: Primary page heading (one per page)
@@ -314,7 +290,6 @@ Muted.displayName = "Muted";
 
 const Typography = {
   // Modern variants
-  Display,
   H1,
   H2,
   H3,

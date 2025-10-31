@@ -9,8 +9,8 @@ export const PageNotFound = () => (
   <div className="container mx-auto px-4 py-16">
     <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
       <div className="mb-8">
-        <Typography.Display>404</Typography.Display>
-        <Typography.H1>Page Not Found</Typography.H1>
+        <Typography.H1>404</Typography.H1>
+        <Typography.H2>Page Not Found</Typography.H2>
         <Typography.BodyLarge>
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </Typography.BodyLarge>
