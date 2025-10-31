@@ -172,6 +172,8 @@ External API integration through `src/utils/api/` for:
 
 ### Component Patterns
 
+**Typography System**: Semantic typography components in `src/components/typography.tsx` implementing a modern design philosophy inspired by Vercel, Linear, and Stripe. Uses lighter font weights (semibold for primary headings, medium for secondary headings/labels, normal for body text) with hierarchy driven by size and spacing. See [Typography System](#typography-system) section below.
+
 **UI Components**: Located in `src/components/ui/` following HeroUI patterns with professional design system.
 
 **Charts**: Recharts-based components in `src/components/charts/` for data visualization.
@@ -191,6 +193,89 @@ External API integration through `src/utils/api/` for:
 - AI content attribution badges
 
 **Layout**: Shared layout components (Header, Footer) with responsive design and blog navigation.
+
+### Typography System
+
+A modern, semantic typography system for consistent visual hierarchy across the application.
+
+**Design Philosophy**:
+- Lighter font weights relying on size and spacing for hierarchy
+- Inspired by Vercel, Linear, and Stripe design systems
+- Principles: Semibold (600) for primary headings, Medium (500) for secondary headings/labels, Normal (400) for body text
+- Bold reserved for data emphasis (numbers, metrics)
+
+**Component Reference**:
+
+**Headings**:
+- `Typography.H1`: Page titles, primary headings (font-semibold text-4xl lg:text-5xl)
+- `Typography.H2`: Section titles, major sections (font-semibold text-3xl)
+- `Typography.H3`: Subsection titles, card titles (font-medium text-2xl)
+- `Typography.H4`: Small headings, nested sections (font-medium text-xl)
+
+**Body Text**:
+- `Typography.TextLg`: Large body text, lead paragraphs (text-lg leading-relaxed)
+- `Typography.Text`: Standard body text, paragraphs (text-base leading-7)
+- `Typography.TextSm`: Small body text, secondary descriptions (text-sm leading-6)
+
+**UI Labels**:
+- `Typography.Label`: Form labels, navigation items, tabs (font-medium text-sm)
+- `Typography.Caption`: Metadata text, timestamps, footnotes (text-xs leading-tight)
+
+**Content Elements** (legacy, for backward compatibility):
+- `Typography.P`: Paragraphs with bottom margin (not-first:mt-6)
+- `Typography.Blockquote`: Quoted text with left border
+- `Typography.List`: Unordered lists with disc markers
+- `Typography.InlineCode`: Inline code snippets (font-medium monospace)
+- `Typography.Lead`: Lead paragraphs (text-xl text-muted-foreground)
+
+**Usage Examples**:
+
+```typescript
+import Typography from "@web/components/typography";
+
+// Page heading
+<Typography.H1>COE Overview</Typography.H1>
+
+// Section heading
+<Typography.H2>Fun Facts</Typography.H2>
+
+// Card title
+<Typography.H3>Category A vs B</Typography.H3>
+
+// Lead paragraph
+<Typography.TextLg>Explore COE trends and analysis.</Typography.TextLg>
+
+// Body text
+<Typography.Text>The latest COE results show...</Typography.Text>
+
+// Small helper text
+<Typography.TextSm>Updated daily from LTA</Typography.TextSm>
+
+// Form label
+<Typography.Label>Select Month</Typography.Label>
+
+// Metadata/timestamp
+<Typography.Caption>Last updated: 29 Oct 2025</Typography.Caption>
+```
+
+**When to Use Each Component**:
+
+- Use `H1` for exactly one primary page title
+- Use `H2` for major section groupings
+- Use `H3` for card titles and subsections
+- Use `H4` for nested section headers
+- Use `TextLg` for introductions and emphasized content
+- Use `Text` for standard body content and descriptions
+- Use `TextSm` for secondary info and helper text
+- Use `Label` for form fields and UI controls
+- Use `Caption` for timestamps, sources, and footnotes
+
+**Migration Notes**:
+
+- Legacy components (`Small`, `Muted`) have been replaced with semantic alternatives (`Label`, `Caption`)
+- Existing `P` component maintained for backward compatibility
+- Removed border-bottom from `H2` for cleaner appearance
+- Font weight reductions (H1/H2 remain semibold; H3/H4 changed to medium) for modern hierarchy
 
 ### Blog Features
 
