@@ -26,23 +26,15 @@ interface InsightData {
 
 interface InsightCardsProps {
   insights: InsightData[];
-  columns?: number;
 }
 
-export const InsightCards = ({ insights, columns = 3 }: InsightCardsProps) => {
+export const InsightCards = ({ insights }: InsightCardsProps) => {
   const renderValue = (value: string | number): ReactNode => {
     if (typeof value === "number") {
       return <AnimatedNumber value={value} />;
     }
     return value;
   };
-
-  const gridCols =
-    columns === 2
-      ? "grid-cols-1 md:grid-cols-2"
-      : columns === 3
-        ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-        : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4";
 
   const getDeltaVariant = (
     deltaType?: "increase" | "decrease" | "unchanged",
@@ -77,7 +69,7 @@ export const InsightCards = ({ insights, columns = 3 }: InsightCardsProps) => {
   }
 
   return (
-    <div className={`grid gap-4 ${gridCols}`}>
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
       {insights.map((insight) => (
         <Card key={insight.title}>
           <CardContent className="p-4 sm:p-6">
