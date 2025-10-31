@@ -291,6 +291,11 @@ to all workspace packages. This means:
 - Function/variable naming: camelCase
 - Class naming: PascalCase
 - Constants: UPPER_CASE for true constants
+- **File naming**: Avoid redundant prefixes when files are already scoped by directory structure
+    - Use folder structure for domain scoping instead of repeating the domain in filenames
+    - ❌ Avoid: `cars/cars-make.ts`, `cars/cars-trends.ts`, `utils/cars-utils.ts`
+    - ✅ Prefer: `cars/make.ts`, `cars/trends.ts`, `utils/cars.ts`
+    - Principle: Let the directory hierarchy provide context; keep filenames concise and descriptive
 - Error handling: Use try/catch for async operations with specific error types
 - Use workspace imports for shared packages: `@sgcarstrends/utils` (includes Redis), `@sgcarstrends/database`, etc.
 - Path aliases: Use `@api/` for imports in API app
