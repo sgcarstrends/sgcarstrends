@@ -3,7 +3,6 @@
 import { ChartWidget } from "@web/components/charts/widget";
 import { Badge } from "@web/components/ui/badge";
 import {
-  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -31,7 +30,6 @@ interface TopPerformersBarProps {
   maxItems?: number;
   showRankings?: boolean;
   showPercentages?: boolean;
-  onValueChange?: (value: any) => void;
 }
 
 export const TopPerformersBar = ({

@@ -2,7 +2,6 @@
 
 import { ChartWidget } from "@web/components/charts/widget";
 import {
-  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
@@ -50,8 +49,14 @@ export const TrendAreaChart = ({
   }));
 
   // Compute display values inline (cheap array operations)
-  const displayCategories = showTotal ? ["total", ...categories] : categories;
-  const displayColours = showTotal ? ["#6b7280", ...colours] : colours;
+  const displayCategories = useMemo(
+    () => (showTotal ? ["total", ...categories] : categories),
+    [showTotal, categories],
+  );
+  const displayColours = useMemo(
+    () => (showTotal ? ["#6b7280", ...colours] : colours),
+    [showTotal, colours],
+  );
 
   // Only memoize the expensive chart config object creation
   const chartConfig = useMemo(() => {

@@ -150,9 +150,9 @@ export const createInsightData = (
 });
 
 export const defaultIcons = {
-  award: <Award className="h-4 w-4" />,
-  barChart: <BarChart3 className="h-4 w-4" />,
-  pieChart: <PieChart className="h-4 w-4" />,
-  trendingUp: <TrendingUp className="h-4 w-4" />,
-  trendingDown: <TrendingDown className="h-4 w-4" />,
+  award: <Award className="size-4" />,
+  barChart: <BarChart3 className="size-4" />,
+  pieChart: <PieChart className="size-4" />,
+  trendingUp: <TrendingUp className="size-4" />,
+  trendingDown: <TrendingDown className="size-4" />,
 } as const;

@@ -2,7 +2,6 @@
 
 import { ChartWidget } from "@web/components/charts/widget";
 import {
-  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
