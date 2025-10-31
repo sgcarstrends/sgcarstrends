@@ -46,10 +46,10 @@ export const CategoryTypesTabsView = ({
       colour: "emerald",
       subtitle: `Active ${title.toLowerCase()} categories`,
     }),
-    createInsightData("Top Performer", marketShare.dominantType.name, {
+    createInsightData("Top Performer", marketShare.dominantType.count, {
       icon: defaultIcons.award,
       colour: "amber",
-      subtitle: `${formatPercentage(marketShare.dominantType.percentage)} market share`,
+      subtitle: `${marketShare.dominantType.name} - ${formatPercentage(marketShare.dominantType.percentage)} market share`,
     }),
   ];
 
@@ -106,16 +106,16 @@ export const CategoryTypesTabsView = ({
             }),
             createInsightData(
               "Market Share",
-              formatPercentage((type.count / totalRegistrations) * 100),
+              (type.count / totalRegistrations) * 100,
               {
                 icon: defaultIcons.pieChart,
                 colour: "emerald",
-                subtitle: `Of total ${title.toLowerCase()} registrations`,
+                subtitle: `${formatPercentage((type.count / totalRegistrations) * 100)} of total ${title.toLowerCase()} registrations`,
               },
             ),
             createInsightData(
               "Rank",
-              `#${types.findIndex((t) => t.name === type.name) + 1}`,
+              types.findIndex((t) => t.name === type.name) + 1,
               {
                 icon: defaultIcons.award,
                 colour: "amber",

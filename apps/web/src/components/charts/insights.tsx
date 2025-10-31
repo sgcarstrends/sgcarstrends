@@ -14,11 +14,13 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 
+type DeltaType = "increase" | "decrease" | "unchanged";
+
 interface InsightData {
   title: string;
-  value: string | number;
+  value: number;
   delta?: number;
-  deltaType?: "increase" | "decrease" | "unchanged";
+  deltaType?: DeltaType;
   icon?: ReactNode;
   colour?: string;
   subtitle?: string;
@@ -29,16 +31,7 @@ interface InsightCardsProps {
 }
 
 export const InsightCards = ({ insights }: InsightCardsProps) => {
-  const renderValue = (value: string | number): ReactNode => {
-    if (typeof value === "number") {
-      return <AnimatedNumber value={value} />;
-    }
-    return value;
-  };
-
-  const getDeltaVariant = (
-    deltaType?: "increase" | "decrease" | "unchanged",
-  ) => {
+  const getDeltaVariant = (deltaType?: DeltaType) => {
     switch (deltaType) {
       case "increase":
         return "default";
@@ -49,7 +42,7 @@ export const InsightCards = ({ insights }: InsightCardsProps) => {
     }
   };
 
-  const getDeltaIcon = (deltaType?: "increase" | "decrease" | "unchanged") => {
+  const getDeltaIcon = (deltaType?: DeltaType) => {
     switch (deltaType) {
       case "increase":
         return <TrendingUp className="h-3 w-3" />;
@@ -79,7 +72,7 @@ export const InsightCards = ({ insights }: InsightCardsProps) => {
                   {insight.title}
                 </p>
                 <p className="break-words font-bold text-gray-900 text-xl sm:text-2xl">
-                  {renderValue(insight.value)}
+                  <AnimatedNumber value={insight.value} />
                 </p>
                 {insight.subtitle && (
                   <p className="mt-1 text-gray-500 text-xs">
@@ -127,10 +120,10 @@ export const InsightCards = ({ insights }: InsightCardsProps) => {
 
 export const createInsightData = (
   title: string,
-  value: string | number,
+  value: number,
   options: {
     delta?: number;
-    deltaType?: "increase" | "decrease" | "unchanged";
+    deltaType?: DeltaType;
     icon?: ReactNode;
     colour?: string;
     subtitle?: string;
