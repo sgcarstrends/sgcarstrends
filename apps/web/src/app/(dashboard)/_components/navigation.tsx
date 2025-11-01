@@ -1,9 +1,71 @@
 "use client";
 
-import { SectionTabs } from "@web/components/dashboard/navigation/section-tabs";
-import { SubNav } from "@web/components/dashboard/navigation/sub-nav";
+import { Tab, Tabs } from "@heroui/tabs";
+import type { NavigationSection } from "@web/config/navigation";
 import { navigationSections } from "@web/config/navigation";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+interface NavItem {
+  name: string;
+  href: string;
+}
+
+interface SectionTabsProps {
+  sections: NavigationSection[];
+}
+
+interface SubNavProps {
+  items: NavItem[];
+}
+
+const SectionTabs = ({ sections }: SectionTabsProps) => {
+  const pathname = usePathname();
+
+  return (
+    <nav className="mb-4 flex items-end gap-4 overflow-x-auto lg:gap-8">
+      {sections.map(({ name, href }) => {
+        const isActive =
+          href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+        return (
+          <Link
+            key={name}
+            href={href}
+            className={
+              isActive
+                ? "font-semibold text-2xl text-black lg:text-4xl"
+                : "text-gray-400 text-lg hover:text-gray-600 lg:text-2xl"
+            }
+          >
+            {name}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+};
+
+const SubNav = ({ items }: SubNavProps) => {
+  const pathname = usePathname();
+
+  return (
+    <div className="mb-8 overflow-x-scroll">
+      <Tabs
+        color="primary"
+        radius="full"
+        size="lg"
+        variant="bordered"
+        items={items}
+        selectedKey={pathname}
+      >
+        {items.map(({ name, href }) => {
+          return <Tab key={href} href={href} title={name} />;
+        })}
+      </Tabs>
+    </div>
+  );
+};
 
 export const Navigation = () => {
   const pathname = usePathname();
