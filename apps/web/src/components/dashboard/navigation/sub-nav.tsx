@@ -16,10 +16,11 @@ export const SubNav = ({ items }: DashboardSubMenuProps) => {
   const pathname = usePathname();
 
   return (
-    <div className="mb-8 overflow-x-auto">
+    <div className="mb-8 overflow-x-scroll">
       <Tabs
         color="primary"
         radius="full"
+        size="lg"
         variant="bordered"
         items={items}
         selectedKey={pathname}
