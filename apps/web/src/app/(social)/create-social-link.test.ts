@@ -11,7 +11,7 @@ describe("Social Media Redirect Routes", () => {
     vi.clearAllMocks();
   });
 
-  const socialPlatforms = [
+  [
     {
       name: "Twitter",
       route: "./twitter/route",
@@ -42,9 +42,7 @@ describe("Social Media Redirect Routes", () => {
       route: "./discord/route",
       url: "https://discord.com/invite/xxtQueEqt6",
     },
-  ];
-
-  socialPlatforms.forEach(({ name, route, url }) => {
+  ].forEach(({ name, route, url }) => {
     it(`should redirect to ${name} profile with UTM parameters and 301 status`, async () => {
       const { GET } = await import(route);
       const mockRedirect = vi.mocked(NextResponse.redirect);
