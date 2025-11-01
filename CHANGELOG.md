@@ -1,3 +1,9 @@
+## [4.14.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.2...v4.14.3) (2025-11-01)
+
+### Bug Fixes
+
+* **web:** dashboard active links ([b7b0dc6](https://github.com/sgcarstrends/sgcarstrends/commit/b7b0dc6c9e10bdc95b82618fda2248ce7cf9716d))
+
 ## [4.14.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.1...v4.14.2) (2025-11-01)
 
 ### Bug Fixes
