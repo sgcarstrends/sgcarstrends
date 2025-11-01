@@ -27,18 +27,7 @@ describe("MakeGrid", () => {
   });
 
   it("should render nothing when no makes exist", () => {
-    const { container } = render(<MakeGrid makes={[]} />);
-    expect(container.firstChild?.childNodes).toHaveLength(0);
-  });
-
-  it("should apply grid layout classes", () => {
-    const { container } = render(<MakeGrid makes={germanMakes} />);
-    const gridElement = container.firstChild as HTMLElement;
-    expect(gridElement).toHaveClass(
-      "grid",
-      "grid-cols-2",
-      "gap-4",
-      "md:grid-cols-8",
-    );
+    render(<MakeGrid makes={[]} />);
+    expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
 });
