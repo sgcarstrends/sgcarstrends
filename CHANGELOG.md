@@ -1,3 +1,9 @@
+## [4.14.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.1...v4.14.2) (2025-11-01)
+
+### Bug Fixes
+
+* **web:** makes layout in mobile viewport ([a23b233](https://github.com/sgcarstrends/sgcarstrends/commit/a23b233045255f6b4716cabbde0e6ace115b47b6))
+
 ## [4.14.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.0...v4.14.1) (2025-11-01)
 
 ### Reverts
