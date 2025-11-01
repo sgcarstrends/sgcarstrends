@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { navigationSections } from "@web/config/navigation";
 import { SectionTabs } from "./section-tabs";
 
 vi.mock("next/navigation", () => ({
@@ -19,7 +20,7 @@ describe("SectionTabs", () => {
   it("should render all navigation items", () => {
     mockUsePathname.mockReturnValue("/");
 
-    render(<SectionTabs />);
+    render(<SectionTabs sections={navigationSections} />);
 
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
     expect(screen.getByText("Cars")).toBeInTheDocument();
@@ -30,7 +31,7 @@ describe("SectionTabs", () => {
   it("should mark home route as active when pathname is /", () => {
     mockUsePathname.mockReturnValue("/");
 
-    render(<SectionTabs />);
+    render(<SectionTabs sections={navigationSections} />);
 
     const dashboardLink = screen.getByText("Dashboard");
     expect(dashboardLink).toHaveClass(
@@ -44,7 +45,7 @@ describe("SectionTabs", () => {
   it("should mark cars route as active when pathname starts with /cars", () => {
     mockUsePathname.mockReturnValue("/cars");
 
-    render(<SectionTabs />);
+    render(<SectionTabs sections={navigationSections} />);
 
     const carsLink = screen.getByText("Cars");
     expect(carsLink).toHaveClass(
@@ -58,7 +59,7 @@ describe("SectionTabs", () => {
   it("should mark coe route as active when pathname starts with /coe", () => {
     mockUsePathname.mockReturnValue("/coe/results");
 
-    render(<SectionTabs />);
+    render(<SectionTabs sections={navigationSections} />);
 
     const coeLink = screen.getByText("COE");
     expect(coeLink).toHaveClass(
@@ -72,7 +73,7 @@ describe("SectionTabs", () => {
   it("should not mark home as active when on other routes", () => {
     mockUsePathname.mockReturnValue("/cars");
 
-    render(<SectionTabs />);
+    render(<SectionTabs sections={navigationSections} />);
 
     const dashboardLink = screen.getByText("Dashboard");
     expect(dashboardLink).toHaveClass(
@@ -86,7 +87,7 @@ describe("SectionTabs", () => {
   it("should render links with correct hrefs", () => {
     mockUsePathname.mockReturnValue("/");
 
-    render(<SectionTabs />);
+    render(<SectionTabs sections={navigationSections} />);
 
     expect(screen.getByText("Dashboard").closest("a")).toHaveAttribute(
       "href",

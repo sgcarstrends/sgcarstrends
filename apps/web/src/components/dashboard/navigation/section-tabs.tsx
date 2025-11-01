@@ -1,15 +1,19 @@
 "use client";
 
-import { mainSections } from "@web/config/navigation";
+import type { NavigationSection } from "@web/config/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export const SectionTabs = () => {
+interface SectionTabsProps {
+  sections: NavigationSection[];
+}
+
+export const SectionTabs = ({ sections }: SectionTabsProps) => {
   const pathname = usePathname();
 
   return (
     <nav className="mb-4 flex items-end gap-4 overflow-x-auto lg:gap-8">
-      {mainSections.map(({ name, href }) => {
+      {sections.map(({ name, href }) => {
         const isActive =
           href === "/" ? pathname === "/" : pathname.startsWith(href);
 
