@@ -35,9 +35,9 @@ export const Header = () => {
                 key={href}
                 href={href}
                 className={cn(
-                  "rounded-full px-2 py-1 text-secondary-foreground transition-colors hover:bg-primary/75 hover:text-primary-foreground",
+                  "hover:text-primary",
                   isActive(href) &&
-                    "bg-primary text-primary-foreground hover:bg-primary/90",
+                    "font-semibold text-primary underline decoration-2 underline-offset-4",
                 )}
               >
                 {label}

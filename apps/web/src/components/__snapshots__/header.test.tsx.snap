@@ -35,25 +35,25 @@ exports[`Navbar > should render correctly 1`] = `
         class="flex items-center gap-4"
       >
         <a
-          class="rounded-full px-2 py-1 transition-colors hover:text-primary-foreground bg-primary text-primary-foreground hover:bg-primary/90"
+          class="hover:text-primary font-semibold text-primary underline decoration-2 underline-offset-4"
           href="/"
         >
           Dashboard
         </a>
         <a
-          class="rounded-full px-2 py-1 text-secondary-foreground transition-colors hover:bg-primary/75 hover:text-primary-foreground"
+          class="hover:text-primary"
           href="/blog"
         >
           Blog
         </a>
         <a
-          class="rounded-full px-2 py-1 text-secondary-foreground transition-colors hover:bg-primary/75 hover:text-primary-foreground"
+          class="hover:text-primary"
           href="/visitors"
         >
           Visitors
         </a>
         <a
-          class="rounded-full px-2 py-1 text-secondary-foreground transition-colors hover:bg-primary/75 hover:text-primary-foreground"
+          class="hover:text-primary"
           href="/faq"
         >
           FAQ
