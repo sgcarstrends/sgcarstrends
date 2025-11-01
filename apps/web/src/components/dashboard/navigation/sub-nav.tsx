@@ -18,9 +18,9 @@ export const SubNav = ({ items }: DashboardSubMenuProps) => {
   return (
     <div className="mb-8 overflow-x-auto">
       <Tabs
-        variant="light"
         color="primary"
         radius="full"
+        variant="bordered"
         items={items}
         selectedKey={pathname}
       >
