@@ -1,12 +1,17 @@
 import { Button } from "@heroui/button";
 import { Divider } from "@heroui/divider";
 import { BrandLogo } from "@web/components/brand-logo";
-import { BetaChip, NewChip } from "@web/components/shared/chips";
 import Typography from "@web/components/typography";
-import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { navLinks } from "@web/config/navigation";
 import Link from "next/link";
 import { version } from "../../package.json";
+
+const NAV_ITEMS = [
+  { href: "/", label: "Dashboard" },
+  { href: "/blog", label: "Blog" },
+  { href: "/visitors", label: "Visitors" },
+  { href: "/faq", label: "FAQ" },
+];
 
 export const Footer = async () => {
   "use cache";
@@ -14,7 +19,7 @@ export const Footer = async () => {
   return (
     <footer className="border-divider border-t bg-content1">
       <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {/* Brand Section */}
           <div className="space-y-4">
             <BrandLogo />
@@ -42,70 +47,21 @@ export const Footer = async () => {
             </div>
           </div>
 
-          {/* Cars Section */}
+          {/* Navigation Section */}
           <div className="space-y-4">
-            <Typography.H4>Cars</Typography.H4>
+            <Typography.H4>Navigation</Typography.H4>
             <div className="space-y-2">
-              {navLinks.cars.map((item) => {
-                const hasBadge = Boolean(item.badge);
-                return (
-                  <Link
-                    key={item.title}
-                    href={item.url}
-                    className={`text-default-600 transition-colors hover:text-primary ${
-                      hasBadge ? "flex items-center gap-2" : "block"
-                    }`}
-                  >
-                    <Typography.TextSm>{item.title}</Typography.TextSm>
-                    {item.badge === "beta" && <BetaChip />}
-                    {item.badge === "new" && <NewChip />}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* COE Section */}
-          <div className="space-y-4">
-            <Typography.H4>COE</Typography.H4>
-            <div className="space-y-2">
-              {navLinks.coe.map((item) => (
+              {NAV_ITEMS.map((item) => (
                 <Link
-                  key={item.title}
-                  href={item.url}
+                  key={item.href}
+                  href={item.href}
                   className="block text-default-600 transition-colors hover:text-primary"
                 >
-                  <Typography.TextSm>{item.title}</Typography.TextSm>
+                  <Typography.TextSm>{item.label}</Typography.TextSm>
                 </Link>
               ))}
             </div>
           </div>
-
-          {/* General Section */}
-          <UnreleasedFeature>
-            <div className="space-y-4">
-              <Typography.H4>General</Typography.H4>
-              <div className="space-y-2">
-                {navLinks.general.map((item) => {
-                  const showNewChip = ["FAQ", "Blog", "Visitors"].includes(
-                    item.title,
-                  );
-                  return (
-                    <Link
-                      key={item.title}
-                      href={item.url}
-                      className={`text-default-600 transition-colors hover:text-primary ${
-                        showNewChip ? "flex items-center gap-2" : "block"
-                      }`}
-                    >
-                      <Typography.TextSm>{item.title}</Typography.TextSm>
-                      {showNewChip && <NewChip />}
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          </UnreleasedFeature>
         </div>
 
         <Divider className="my-8" />
