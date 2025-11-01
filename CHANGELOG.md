@@ -1,3 +1,9 @@
+## [4.14.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.0...v4.14.1) (2025-11-01)
+
+### Reverts
+
+* Revert "refactor(web): consolidate social redirects" ([fd40c4e](https://github.com/sgcarstrends/sgcarstrends/commit/fd40c4ea5bb31b5e9bd26a392c4ae5c43fd79f42))
+
 ## [4.14.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.13.0...v4.14.0) (2025-10-30)
 
 ### Features
