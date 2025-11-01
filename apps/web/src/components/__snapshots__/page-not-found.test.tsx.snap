@@ -12,7 +12,7 @@ exports[`PageNotFound > renders the 404 error message 1`] = `
         class="mb-8"
       >
         <h1
-          class="scroll-m-20 font-semibold text-4xl tracking-tight lg:text-5xl w-fit bg-gradient-to-r from-foreground to-foreground/50 bg-clip-text transition-opacity text-primary"
+          class="scroll-m-20 font-semibold text-4xl tracking-tight lg:text-5xl w-fit bg-gradient-to-r from-foreground to-foreground/50 bg-clip-text leading-normal transition-opacity text-primary"
         >
           404
         </h1>

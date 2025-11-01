@@ -52,6 +52,7 @@ export const Makes = ({
 
       {showLetterFilter && (
         <Tabs
+          disableAnimation
           aria-label="Makes A to Z filter"
           selectedKey={selectedLetter}
           onSelectionChange={handleSelectionChange}
@@ -61,7 +62,7 @@ export const Makes = ({
               "w-full rounded-full border border-default-200 bg-default-100/70 p-1",
             tab: "px-3 py-1 text-sm font-medium text-default-600 data-[selected=true]:bg-primary-600 data-[selected=true]:text-primary-foreground",
           }}
-          variant="solid"
+          variant="bordered"
           color="primary"
           radius="full"
           size="sm"

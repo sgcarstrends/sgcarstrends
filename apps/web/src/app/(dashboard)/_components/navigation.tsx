@@ -52,6 +52,7 @@ const Pages = ({ items }: PagesProps) => {
   return (
     <div className="mb-8 overflow-x-scroll">
       <Tabs
+        disableAnimation
         color="primary"
         radius="full"
         size="lg"
