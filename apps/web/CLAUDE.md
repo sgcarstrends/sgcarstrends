@@ -326,6 +326,92 @@ These defaults provide proper visual hierarchy while allowing override via `clas
 - Font weight reductions (H1/H2 remain semibold; H3/H4 changed to medium) for modern hierarchy
 - All components now include HeroUI semantic colour defaults for consistent theming
 
+### Layout & Spacing Conventions
+
+A standardized approach to spacing and layout for consistent, maintainable component design.
+
+**Design Philosophy**:
+
+- Modern flexbox/grid-based layouts with gap utilities
+- Predictable spacing without margin collapsing issues
+- Consistent even-numbered spacing scale
+- Avoid legacy margin-based spacing patterns
+
+**Vertical Spacing Best Practices**:
+
+- **Avoid `space-y-*`**: Use `flex flex-col gap-*` instead for better layout control
+- **Avoid `margin-top`**: Use `gap-*` or `padding` for spacing between elements
+- **Prefer even gap values**: `gap-2`, `gap-4`, `gap-6`, `gap-8` (odd values like `gap-1` only sparingly for specific cases)
+
+**Guidelines**:
+
+- ✅ Use `flex flex-col gap-*` for vertical spacing in containers
+- ✅ Use `gap-*` for both horizontal and vertical spacing in flex/grid layouts
+- ✅ Use `padding` for internal component spacing
+- ✅ Prefer even gap values for consistency: `gap-2` (0.5rem), `gap-4` (1rem), `gap-6` (1.5rem), `gap-8` (2rem)
+- ❌ Avoid `space-y-*` utilities (creates margin-based spacing with potential collapsing issues)
+- ❌ Avoid `mt-*`/`margin-top` for spacing between sibling elements (use `gap-*` instead)
+- ⚠️ Exception: `mt-*` acceptable only for icon alignment with text (e.g., `mt-1` for small icons)
+
+**Rationale**: `gap-*` provides more predictable spacing in modern layouts, works consistently with flexbox/grid, and avoids margin collapsing issues that can occur with `space-y-*` and `margin-top`.
+
+**Examples**:
+
+```typescript
+// ✅ Preferred: flex with gap for vertical spacing
+<div className="flex flex-col gap-4">
+  <CardComponent />
+  <CardComponent />
+  <CardComponent />
+</div>
+
+// ✅ Grid with even gap values
+<div className="grid grid-cols-2 gap-6">
+  <Item />
+  <Item />
+</div>
+
+// ✅ Horizontal flex with gap
+<div className="flex items-center gap-2">
+  <Icon className="size-4" />
+  <span>Text content</span>
+</div>
+
+// ❌ Avoid: space-y utilities (legacy pattern)
+<div className="space-y-4">
+  <CardComponent />
+  <CardComponent />
+</div>
+
+// ❌ Avoid: margin-top for sibling spacing
+<div>
+  <CardComponent />
+  <CardComponent className="mt-4" />
+</div>
+
+// ⚠️ Acceptable exception: icon vertical alignment
+<div className="flex items-center gap-2">
+  <Icon className="mt-1 size-4" />
+  <span className="text-sm">Aligned text</span>
+</div>
+```
+
+**Spacing Scale Reference**:
+
+- `gap-1` (0.25rem / 4px) - Tight spacing, use sparingly
+- `gap-2` (0.5rem / 8px) - Small spacing, compact lists
+- `gap-4` (1rem / 16px) - Standard spacing, most common use
+- `gap-6` (1.5rem / 24px) - Medium spacing, section groups
+- `gap-8` (2rem / 32px) - Large spacing, major sections
+
+**Migration from Legacy Patterns**:
+
+When refactoring existing code:
+1. Replace `<div className="space-y-4">` with `<div className="flex flex-col gap-4">`
+2. Remove `mt-*` from child elements when parent uses `gap-*`
+3. Convert `space-y-*` values to equivalent `gap-*` (space-y-2 → gap-2, space-y-4 → gap-4, etc.)
+4. Keep only icon alignment `mt-*` cases (document with comments if needed)
+
 ### Blog Features
 
 **Content Management**:
