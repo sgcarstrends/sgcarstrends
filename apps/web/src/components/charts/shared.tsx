@@ -82,7 +82,7 @@ interface ChartDescriptionSectionProps {
 export const ChartDescriptionSection = ({
   title = "Chart Description",
   description,
-  className = "mt-4",
+  className = "",
 }: ChartDescriptionSectionProps) => (
   <div className={className}>
     <div className="text-default-500 text-sm">

@@ -65,19 +65,17 @@ export const InsightCards = ({ insights }: InsightCardsProps) => {
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
       {insights.map((insight) => (
         <Card key={insight.title}>
-          <CardContent className="p-4 sm:p-6">
+          <CardContent className="flex flex-col gap-4 p-4 sm:p-6">
             <div className="flex items-start space-x-4">
-              <div className="min-w-0 flex-1">
-                <p className="mb-1 font-medium text-gray-600 text-sm">
+              <div className="flex min-w-0 flex-1 flex-col gap-1">
+                <p className="font-medium text-gray-600 text-sm">
                   {insight.title}
                 </p>
                 <p className="break-words font-bold text-gray-900 text-xl sm:text-2xl">
                   <AnimatedNumber value={insight.value} />
                 </p>
                 {insight.subtitle && (
-                  <p className="mt-1 text-gray-500 text-xs">
-                    {insight.subtitle}
-                  </p>
+                  <p className="text-gray-500 text-xs">{insight.subtitle}</p>
                 )}
               </div>
               {insight.icon && (
@@ -100,7 +98,7 @@ export const InsightCards = ({ insights }: InsightCardsProps) => {
             </div>
 
             {insight.delta !== undefined && (
-              <div className="mt-4 flex items-center space-x-2">
+              <div className="flex items-center space-x-2">
                 <Badge
                   variant={getDeltaVariant(insight.deltaType)}
                   className="flex items-center space-x-1"

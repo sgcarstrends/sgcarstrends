@@ -119,7 +119,7 @@ export const RenewalCalculator = ({ data }: PQPCalculatorProps) => {
                   </div>
                 }
               >
-                <div className="mt-4 flex flex-col gap-4">
+                <div className="flex flex-col gap-4">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <Card className="border bg-default-50">
                       <CardBody className="text-center">

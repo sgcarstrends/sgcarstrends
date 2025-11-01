@@ -69,7 +69,7 @@ const COETrendsPage = async ({ searchParams }: Props) => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 {trendInsights.map((insight) => (
                   <div
                     key={insight?.category}
@@ -107,11 +107,11 @@ const COETrendsPage = async ({ searchParams }: Props) => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 {trendInsights.map((insight) => (
                   <div key={insight?.category} className="border-b pb-2">
                     <Typography.Text>{insight?.category}</Typography.Text>
-                    <div className="space-y-1">
+                    <div className="flex flex-col gap-2">
                       <Typography.TextSm>
                         <span>Average:</span>
                         <span>${insight?.average.toLocaleString()}</span>

@@ -65,7 +65,7 @@ export const LatestCOEClient = ({
             <CardHeader>
               <Typography.H3>Explore COE Data</Typography.H3>
             </CardHeader>
-            <CardBody className="space-y-3">
+            <CardBody className="flex flex-col gap-4">
               <Link href="/coe/trends">
                 <Button variant="bordered" className="w-full">
                   View COE Trends
@@ -83,7 +83,7 @@ export const LatestCOEClient = ({
             <CardHeader>
               <Typography.H3>COE Categories</Typography.H3>
             </CardHeader>
-            <CardBody className="space-y-3">
+            <CardBody className="flex flex-col gap-4">
               <Link href="/coe/categories/category-a">
                 <Button variant="bordered" className="w-full">
                   Category A Analysis

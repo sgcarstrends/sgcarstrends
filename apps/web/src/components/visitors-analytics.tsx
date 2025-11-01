@@ -22,7 +22,7 @@ export const VisitorsAnalytics = ({ data }: VisitorsAnalyticsProps) => {
             <CardTitle>Top Sources</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className="flex flex-col gap-4">
               <div className="grid grid-cols-3 gap-4 border-b pb-2 font-medium text-muted-foreground text-sm">
                 <span>Referrer</span>
                 <span className="text-right">Views</span>
@@ -88,7 +88,7 @@ export const VisitorsAnalytics = ({ data }: VisitorsAnalyticsProps) => {
             <CardTitle>Top Pages</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className="flex flex-col gap-4">
               <div className="grid grid-cols-3 gap-4 border-b pb-2 font-medium text-muted-foreground text-sm">
                 <span>Page</span>
                 <span className="text-right">Views</span>
@@ -115,7 +115,7 @@ export const VisitorsAnalytics = ({ data }: VisitorsAnalyticsProps) => {
             <CardTitle>Top Countries</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className="flex flex-col gap-4">
               <div className="grid grid-cols-3 gap-4 border-b pb-2 font-medium text-muted-foreground text-sm">
                 <span>Country</span>
                 <span className="text-right">Views</span>
@@ -147,7 +147,7 @@ export const VisitorsAnalytics = ({ data }: VisitorsAnalyticsProps) => {
             <CardTitle>Top Cities</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className="flex flex-col gap-4">
               <div className="grid grid-cols-3 gap-4 border-b pb-2 font-medium text-muted-foreground text-sm">
                 <span>City</span>
                 <span className="text-right">Views</span>

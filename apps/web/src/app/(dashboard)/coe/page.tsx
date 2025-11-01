@@ -107,7 +107,7 @@ const COEPricesPage = async () => {
 
         <LatestCOEPrices results={latestResults} />
 
-        <div className="space-y-4">
+        <div className="flex flex-col gap-4">
           <Typography.H2>Fun Facts</Typography.H2>
           <Card>
             <CardHeader>
@@ -117,10 +117,10 @@ const COEPricesPage = async () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="text-muted-foreground">
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2 text-muted-foreground">
                   <Progress value={categoryAPercentage * 100} className="h-4" />
-                  <div className="mt-2 text-center">
+                  <div className="text-center">
                     <span className="font-bold text-lg text-primary">
                       {formatPercent(categoryAPercentage, {
                         maximumFractionDigits: 1,
@@ -138,7 +138,7 @@ const COEPricesPage = async () => {
                   <CardTitle>{stat?.category}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className="flex flex-col gap-4">
                     <div className="grid grid-cols-1 gap-2 text-muted-foreground">
                       <div>
                         <div className="text-red-600">

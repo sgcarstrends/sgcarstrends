@@ -38,7 +38,11 @@ export const Makes = ({
   if (makes.length === 0) return null;
 
   return (
-    <section className={showLetterFilter ? "space-y-6" : "space-y-4"}>
+    <section
+      className={
+        showLetterFilter ? "flex flex-col gap-6" : "flex flex-col gap-4"
+      }
+    >
       <div className="flex items-center gap-2">
         <Typography.H2>{title}</Typography.H2>
         <Chip size="sm" variant="shadow" color="primary">
@@ -69,7 +73,7 @@ export const Makes = ({
       )}
 
       {showLetterFilter ? (
-        <div className="space-y-3">
+        <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
             <Typography.Label>
               {selectedLetter === "#" ? "Other" : selectedLetter}

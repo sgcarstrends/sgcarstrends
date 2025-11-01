@@ -21,7 +21,7 @@ export const Footer = async () => {
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {/* Brand Section */}
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             <BrandLogo />
             <Typography.TextSm>
               Your go-to source for Singapore car market data and trends. We
@@ -48,9 +48,9 @@ export const Footer = async () => {
           </div>
 
           {/* Navigation Section */}
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             <Typography.H4>Navigation</Typography.H4>
-            <div className="space-y-2">
+            <div className="flex flex-col gap-2">
               {NAV_ITEMS.map((item) => (
                 <Link
                   key={item.href}
@@ -67,7 +67,7 @@ export const Footer = async () => {
         <Divider className="my-8" />
 
         {/* Bottom Section */}
-        <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:gap-0">
           <div className="text-center text-default-600 md:text-left">
             <Typography.TextSm>
               © {new Date().getFullYear()} SGCarsTrends. All rights reserved. •

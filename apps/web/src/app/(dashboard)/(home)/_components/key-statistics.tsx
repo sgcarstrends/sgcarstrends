@@ -75,7 +75,7 @@ const YearOverYearChart = ({
   } as const;
 
   return (
-    <div className="mt-3">
+    <div>
       <ChartContainer
         config={chartConfig}
         className="h-[300px] w-full"
@@ -126,7 +126,7 @@ const TrendChart = ({ data, chartColor, ariaLabel }: TrendChartProps) => {
 
   if (recent.length < 2) {
     return (
-      <div className="mt-3">
+      <div>
         <Typography.Caption>Not enough data to draw trend</Typography.Caption>
       </div>
     );
@@ -137,7 +137,7 @@ const TrendChart = ({ data, chartColor, ariaLabel }: TrendChartProps) => {
   } as const;
 
   return (
-    <div className="mt-3">
+    <div>
       <ChartContainer
         config={chartConfig}
         className="h-[300px] w-full"
@@ -282,13 +282,11 @@ export const KeyStatistics = ({ data }: Props) => {
         <div className="grid gap-4 sm:grid-cols-2">
           <Card>
             <CardHeader>Year-over-year change</CardHeader>
-            <CardBody>
-              <p className="mt-2 font-semibold text-2xl">
+            <CardBody className="flex flex-col gap-2">
+              <p className="font-semibold text-2xl">
                 {yoyChange !== null ? numberFormatter.format(yoyChange) : "—"}
               </p>
-              <Typography.Caption
-                className={`mt-1 font-medium ${yoyToneClass}`}
-              >
+              <Typography.Caption className={`font-medium ${yoyToneClass}`}>
                 {yoyChangeRatio !== null
                   ? `${percentFormatter.format(yoyChangeRatio)} vs ${
                       previousEntry?.year ?? "previous"
@@ -308,8 +306,8 @@ export const KeyStatistics = ({ data }: Props) => {
 
           <Card>
             <CardHeader>Highest year on record</CardHeader>
-            <CardBody>
-              <p className="mt-2 font-semibold text-2xl">
+            <CardBody className="flex flex-col gap-2">
+              <p className="font-semibold text-2xl">
                 {highestEntry
                   ? numberFormatter.format(highestEntry.total)
                   : "—"}
@@ -329,8 +327,8 @@ export const KeyStatistics = ({ data }: Props) => {
 
           <Card>
             <CardHeader>Lowest year on record</CardHeader>
-            <CardBody>
-              <p className="mt-2 font-semibold text-2xl">
+            <CardBody className="flex flex-col gap-2">
+              <p className="font-semibold text-2xl">
                 {lowestEntry ? numberFormatter.format(lowestEntry.total) : "—"}
               </p>
               <Typography.Caption>

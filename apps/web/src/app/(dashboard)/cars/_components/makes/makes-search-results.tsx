@@ -12,7 +12,7 @@ export const MakesSearchResults = ({ makes }: MakesSearchResultsProps) => {
   }
 
   return (
-    <section className="space-y-4">
+    <section className="flex flex-col gap-4">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-8">
         {makes.map((make) => {
           return <MakeCard key={make} make={make} />;

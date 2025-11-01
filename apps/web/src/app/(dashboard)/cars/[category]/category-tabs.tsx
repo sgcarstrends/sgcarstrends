@@ -61,7 +61,7 @@ export const CategoryTypesTabsView = ({
         className="w-full"
       >
         <Tab key="overview" title="Overview">
-          <div className="space-y-6 py-4">
+          <div className="flex flex-col gap-6 py-4">
             <InsightCards insights={overviewInsights} />
 
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -126,7 +126,7 @@ export const CategoryTypesTabsView = ({
 
           return (
             <Tab key={type.name} title={type.name}>
-              <div className="space-y-6 py-4">
+              <div className="flex flex-col gap-6 py-4">
                 <InsightCards insights={typeInsights} />
 
                 <div className="text-center text-gray-500 text-sm">

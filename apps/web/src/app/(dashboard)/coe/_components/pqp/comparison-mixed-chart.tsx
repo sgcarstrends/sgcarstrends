@@ -38,7 +38,7 @@ export const ComparisonMixedChart = ({ data }: Props) => {
           </p>
         </div>
       </CardHeader>
-      <CardBody>
+      <CardBody className="flex flex-col gap-4">
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <ComposedChart data={data}>
             <CartesianGrid vertical={false} />
@@ -69,7 +69,7 @@ export const ComparisonMixedChart = ({ data }: Props) => {
             <ChartLegend />
           </ComposedChart>
         </ChartContainer>
-        <div className="mt-4">
+        <div>
           <div className="text-default-500 text-sm">
             <h4 className="mb-2 font-semibold text-foreground">
               Chart Description

@@ -43,7 +43,7 @@ export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
   }, [makes, searchTerm, popular, others]);
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <Input

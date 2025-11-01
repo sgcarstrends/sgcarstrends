@@ -43,7 +43,7 @@ export const MakeTrendChart = ({ data }: Props) => {
   );
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <ChartContainer config={chartConfig} className="h-[250px] w-full">
         <LineChart
           accessibilityLayer
@@ -64,7 +64,7 @@ export const MakeTrendChart = ({ data }: Props) => {
           />
         </LineChart>
       </ChartContainer>
-      <div className="mt-4 space-y-3">
+      <div className="flex flex-col gap-4">
         <div>
           <Typography.H4>Registration Trends</Typography.H4>
           <Typography.TextSm>
@@ -91,7 +91,7 @@ export const MakeTrendChart = ({ data }: Props) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

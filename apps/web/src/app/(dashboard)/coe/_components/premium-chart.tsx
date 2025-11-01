@@ -163,7 +163,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
           </Select>
         </div>
       </CardHeader>
-      <CardContent className="p-6">
+      <CardContent className="flex flex-col gap-4 p-6">
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <LineChart
             data={filteredData}
@@ -207,7 +207,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
             <ChartLegend />
           </LineChart>
         </ChartContainer>
-        <div className="mt-4 space-y-3">
+        <div className="flex flex-col gap-4">
           <div className="text-muted-foreground text-sm">
             <h4 className="mb-2 font-semibold text-foreground">
               Chart Description
