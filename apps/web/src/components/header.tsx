@@ -17,7 +17,9 @@ export const Header = () => {
 
   const isActive = (path: string) => {
     if (path === "/") {
-      return pathname === "/";
+      // Dashboard is active when pathname doesn't match any other nav item
+      const otherNavItems = NAV_ITEMS.filter((item) => item.href !== "/");
+      return !otherNavItems.some((item) => pathname.startsWith(item.href));
     }
     return pathname.startsWith(path);
   };
