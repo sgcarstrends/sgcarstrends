@@ -9,7 +9,7 @@ import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 
 const Page = () => (
-  <div className="space-y-6">
+  <div className="flex flex-col gap-6">
     <div>
       <h1 className="font-bold text-3xl tracking-tight">Content Management</h1>
       <p className="text-muted-foreground">

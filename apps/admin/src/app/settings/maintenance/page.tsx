@@ -84,7 +84,7 @@ const MaintenancePage = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       {/* Header */}
       <div className="flex items-center gap-4">
         <Link
@@ -163,10 +163,10 @@ const MaintenancePage = () => {
             Configure when and how maintenance mode will be activated
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="flex flex-col gap-6">
           {/* Enable/Disable Toggle */}
           <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
+            <div className="flex flex-col gap-1">
               <Label
                 htmlFor="maintenance-toggle"
                 className="font-medium text-base"
@@ -187,7 +187,7 @@ const MaintenancePage = () => {
           {isMaintenanceEnabled && (
             <>
               {/* Maintenance Message */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <Label htmlFor="maintenance-message">Maintenance Message</Label>
                 <Input
                   id="maintenance-message"
@@ -217,9 +217,9 @@ const MaintenancePage = () => {
               </div>
 
               {/* Scheduled Maintenance */}
-              <div className="space-y-3">
+              <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
+                  <div className="flex flex-col gap-1">
                     <Label
                       htmlFor="scheduled-toggle"
                       className="font-medium text-base"
@@ -239,7 +239,7 @@ const MaintenancePage = () => {
 
                 {isScheduled && (
                   <div className="grid gap-4 md:grid-cols-2">
-                    <div className="space-y-2">
+                    <div className="flex flex-col gap-2">
                       <Label htmlFor="start-time">
                         <Calendar className="mr-1 inline h-4 w-4" />
                         Start Time
@@ -251,7 +251,7 @@ const MaintenancePage = () => {
                         onChange={(e) => setStartTime(e.target.value)}
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="flex flex-col gap-2">
                       <Label htmlFor="end-time">
                         <Clock className="mr-1 inline h-4 w-4" />
                         End Time
@@ -269,7 +269,7 @@ const MaintenancePage = () => {
 
               {/* Preview */}
               {maintenanceMessage.trim() && (
-                <div className="space-y-2">
+                <div className="flex flex-col gap-2">
                   <Label>Preview</Label>
                   <div className="rounded-md border border-orange-200 bg-orange-50 p-4 text-center">
                     <div className="flex items-center justify-center gap-2 text-orange-800">
@@ -325,7 +325,7 @@ const MaintenancePage = () => {
         <CardHeader>
           <CardTitle>Instructions & Important Notes</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3 text-muted-foreground text-sm">
+        <CardContent className="flex flex-col gap-4 text-muted-foreground text-sm">
           <div className="flex items-start gap-2">
             <span className="font-medium text-foreground">⚠️</span>
             <span>

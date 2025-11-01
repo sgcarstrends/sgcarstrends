@@ -18,7 +18,7 @@ import Link from "next/link";
 
 const Dashboard = () => {
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="font-bold text-3xl tracking-tight">Admin Dashboard</h1>
         <div className="flex items-center space-x-2">
@@ -104,12 +104,9 @@ const Dashboard = () => {
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="flex flex-col gap-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <Button
-                variant="outline"
-                className="flex h-20 flex-col space-y-2"
-              >
+              <Button variant="outline" className="flex h-20 flex-col gap-2">
                 <RefreshCw className="h-6 w-6" />
                 <div className="text-center">
                   <div className="font-medium">Trigger Data Update</div>
@@ -119,10 +116,7 @@ const Dashboard = () => {
                 </div>
               </Button>
 
-              <Button
-                variant="outline"
-                className="flex h-20 flex-col space-y-2"
-              >
+              <Button variant="outline" className="flex h-20 flex-col gap-2">
                 <Database className="h-6 w-6" />
                 <div className="text-center">
                   <div className="font-medium">Manage Data</div>
@@ -132,10 +126,7 @@ const Dashboard = () => {
                 </div>
               </Button>
 
-              <Button
-                variant="outline"
-                className="flex h-20 flex-col space-y-2"
-              >
+              <Button variant="outline" className="flex h-20 flex-col gap-2">
                 <Activity className="h-6 w-6" />
                 <div className="text-center">
                   <div className="font-medium">View Workflows</div>
@@ -145,10 +136,7 @@ const Dashboard = () => {
                 </div>
               </Button>
 
-              <Button
-                variant="outline"
-                className="flex h-20 flex-col space-y-2"
-              >
+              <Button variant="outline" className="flex h-20 flex-col gap-2">
                 <Server className="h-6 w-6" />
                 <div className="text-center">
                   <div className="font-medium">System Logs</div>
@@ -161,7 +149,7 @@ const Dashboard = () => {
               <Link href="/settings/maintenance">
                 <Button
                   variant="outline"
-                  className="flex h-20 w-full flex-col space-y-2"
+                  className="flex h-20 w-full flex-col gap-2"
                 >
                   <Wrench className="h-6 w-6" />
                   <div className="text-center">
@@ -176,7 +164,7 @@ const Dashboard = () => {
               <Link href="/settings">
                 <Button
                   variant="outline"
-                  className="flex h-20 w-full flex-col space-y-2"
+                  className="flex h-20 w-full flex-col gap-2"
                 >
                   <Settings className="h-6 w-6" />
                   <div className="text-center">
@@ -196,7 +184,7 @@ const Dashboard = () => {
             <CardTitle>Recent Activity</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
               <div className="flex items-center space-x-4">
                 <div className="h-2 w-2 rounded-full bg-green-500"></div>
                 <div className="flex-1">

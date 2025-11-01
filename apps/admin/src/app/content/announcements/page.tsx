@@ -56,7 +56,7 @@ const Page = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       {/* Header */}
       <div className="flex items-center gap-4">
         <Link
@@ -114,7 +114,7 @@ const Page = () => {
             Create or modify the announcement that will be displayed to users
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="flex flex-col gap-6">
           {/* Enable/Disable Toggle */}
           <div className="flex items-center justify-between">
             <Label
@@ -139,7 +139,7 @@ const Page = () => {
           </div>
 
           {/* Announcement Text Input */}
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             <Label htmlFor="announcement-text">Announcement Text</Label>
             <Input
               id="announcement-text"
@@ -157,7 +157,7 @@ const Page = () => {
 
           {/* Preview */}
           {isEnabled && announcementText && (
-            <div className="space-y-2">
+            <div className="flex flex-col gap-2">
               <Label>Preview</Label>
               <div className="rounded-md border bg-primary p-4 text-center text-primary-foreground">
                 {announcementText}
@@ -195,7 +195,7 @@ const Page = () => {
         <CardHeader>
           <CardTitle>Instructions</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3 text-muted-foreground text-sm">
+        <CardContent className="flex flex-col gap-4 text-muted-foreground text-sm">
           <div className="flex items-start gap-2">
             <span className="font-medium text-foreground">1.</span>
             <span>
