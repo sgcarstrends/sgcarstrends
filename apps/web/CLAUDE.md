@@ -203,23 +203,24 @@ A modern, semantic typography system for consistent visual hierarchy across the 
 - Inspired by Vercel, Linear, and Stripe design systems
 - Principles: Semibold (600) for primary headings, Medium (500) for secondary headings/labels, Normal (400) for body text
 - Bold reserved for data emphasis (numbers, metrics)
+- **HeroUI Semantic Colours**: All components include default theme-adaptive colours that can be overridden via `className`
 
 **Component Reference**:
 
 **Headings**:
-- `Typography.H1`: Page titles, primary headings (font-semibold text-4xl lg:text-5xl)
-- `Typography.H2`: Section titles, major sections (font-semibold text-3xl)
-- `Typography.H3`: Subsection titles, card titles (font-medium text-2xl)
-- `Typography.H4`: Small headings, nested sections (font-medium text-xl)
+- `Typography.H1`: Page titles, primary headings (font-semibold text-4xl text-foreground lg:text-5xl)
+- `Typography.H2`: Section titles, major sections (font-semibold text-3xl text-foreground)
+- `Typography.H3`: Subsection titles, card titles (font-medium text-2xl text-foreground)
+- `Typography.H4`: Small headings, nested sections (font-medium text-xl text-default-900)
 
 **Body Text**:
-- `Typography.TextLg`: Large body text, lead paragraphs (text-lg leading-relaxed)
-- `Typography.Text`: Standard body text, paragraphs (text-base leading-7)
-- `Typography.TextSm`: Small body text, secondary descriptions (text-sm leading-6)
+- `Typography.TextLg`: Large body text, lead paragraphs (text-lg text-foreground leading-relaxed)
+- `Typography.Text`: Standard body text, paragraphs (text-base text-foreground leading-7)
+- `Typography.TextSm`: Small body text, secondary descriptions (text-sm text-default-600 leading-6)
 
 **UI Labels**:
-- `Typography.Label`: Form labels, navigation items, tabs (font-medium text-sm)
-- `Typography.Caption`: Metadata text, timestamps, footnotes (text-xs leading-tight)
+- `Typography.Label`: Form labels, navigation items, tabs (font-medium text-sm text-foreground)
+- `Typography.Caption`: Metadata text, timestamps, footnotes (text-xs text-muted-foreground leading-tight)
 
 **Content Elements** (legacy, for backward compatibility):
 - `Typography.P`: Paragraphs with bottom margin (not-first:mt-6)
@@ -270,12 +271,23 @@ import Typography from "@web/components/typography";
 - Use `Label` for form fields and UI controls
 - Use `Caption` for timestamps, sources, and footnotes
 
+**HeroUI Semantic Colour System**:
+
+All Typography components include default colours from HeroUI's semantic colour palette:
+- `text-foreground`: Theme-adaptive primary text colour (auto-adjusts for light/dark mode)
+- `text-default-900`: Darkest shade for strong emphasis (H4 headings)
+- `text-default-600`: Medium shade for secondary text (TextSm for links, footer text)
+- `text-muted-foreground`: Muted colour for metadata and captions (Caption, Lead components)
+
+These defaults provide proper visual hierarchy while allowing override via `className` prop when specific colours like `text-primary` are needed for emphasis.
+
 **Migration Notes**:
 
 - Legacy components (`Small`, `Muted`) have been replaced with semantic alternatives (`Label`, `Caption`)
 - Existing `P` component maintained for backward compatibility
 - Removed border-bottom from `H2` for cleaner appearance
 - Font weight reductions (H1/H2 remain semibold; H3/H4 changed to medium) for modern hierarchy
+- All components now include HeroUI semantic colour defaults for consistent theming
 
 ### Blog Features
 

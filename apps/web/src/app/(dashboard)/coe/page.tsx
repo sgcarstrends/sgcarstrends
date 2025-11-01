@@ -190,7 +190,7 @@ const COEPricesPage = async () => {
                     className="flex items-center justify-between border-b pb-2 last-of-type:border-none"
                   >
                     <Typography.H4>{category}</Typography.H4>
-                    <Typography.Lead>
+                    <Typography.Lead className="text-primary">
                       S$
                       <AnimatedNumber value={rate} />
                     </Typography.Lead>

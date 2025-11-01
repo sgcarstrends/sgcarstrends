@@ -27,7 +27,9 @@ export const RelatedPosts = async ({
             href={`/blog/${post.slug}`}
             className="group block rounded-lg border border-border p-4 transition-colors hover:border-primary/50"
           >
-            <Typography.H4>{post.title}</Typography.H4>
+            <Typography.H4 className="line-clamp-2 transition-colors group-hover:text-primary">
+              {post.title}
+            </Typography.H4>
             <Typography.TextSm>
               {(post.metadata as any)?.excerpt ?? ""}
             </Typography.TextSm>

@@ -30,7 +30,7 @@ const H1 = React.forwardRef<
   <h1
     ref={ref}
     className={cn(
-      "scroll-m-20 font-semibold text-4xl tracking-tight lg:text-5xl",
+      "scroll-m-20 font-semibold text-4xl text-foreground tracking-tight lg:text-5xl",
       className,
     )}
     {...props}
@@ -54,7 +54,7 @@ const H2 = React.forwardRef<
   <h2
     ref={ref}
     className={cn(
-      "scroll-m-20 font-semibold text-3xl tracking-tight first:mt-0",
+      "scroll-m-20 font-semibold text-3xl text-foreground tracking-tight first:mt-0",
       className,
     )}
     {...props}
@@ -77,7 +77,10 @@ const H3 = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h3
     ref={ref}
-    className={cn("scroll-m-20 font-medium text-2xl tracking-tight", className)}
+    className={cn(
+      "scroll-m-20 font-medium text-2xl text-foreground tracking-tight",
+      className,
+    )}
     {...props}
   />
 ));
@@ -98,7 +101,10 @@ const H4 = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h4
     ref={ref}
-    className={cn("scroll-m-20 font-medium text-xl tracking-tight", className)}
+    className={cn(
+      "scroll-m-20 font-medium text-default-900 text-xl tracking-tight",
+      className,
+    )}
     {...props}
   />
 ));
@@ -120,7 +126,7 @@ const TextLg = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-lg leading-relaxed", className)}
+    className={cn("text-foreground text-lg leading-relaxed", className)}
     {...props}
   />
 ));
@@ -140,7 +146,11 @@ const Text = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <p ref={ref} className={cn("text-base leading-7", className)} {...props} />
+  <p
+    ref={ref}
+    className={cn("text-base text-foreground leading-7", className)}
+    {...props}
+  />
 ));
 Text.displayName = "Text";
 
@@ -158,7 +168,11 @@ const TextSm = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <p ref={ref} className={cn("text-sm leading-6", className)} {...props} />
+  <p
+    ref={ref}
+    className={cn("text-default-600 text-sm leading-6", className)}
+    {...props}
+  />
 ));
 TextSm.displayName = "TextSm";
 
@@ -177,7 +191,10 @@ const Label = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <span
     ref={ref}
-    className={cn("font-medium text-sm leading-none", className)}
+    className={cn(
+      "font-medium text-foreground text-sm leading-none",
+      className,
+    )}
     {...props}
   />
 ));
