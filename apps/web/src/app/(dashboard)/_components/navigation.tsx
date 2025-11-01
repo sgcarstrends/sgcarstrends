@@ -11,15 +11,15 @@ interface NavItem {
   href: string;
 }
 
-interface SectionTabsProps {
+interface SectionsProps {
   sections: NavigationSection[];
 }
 
-interface SubNavProps {
+interface PagesProps {
   items: NavItem[];
 }
 
-const SectionTabs = ({ sections }: SectionTabsProps) => {
+const Sections = ({ sections }: SectionsProps) => {
   const pathname = usePathname();
 
   return (
@@ -46,7 +46,7 @@ const SectionTabs = ({ sections }: SectionTabsProps) => {
   );
 };
 
-const SubNav = ({ items }: SubNavProps) => {
+const Pages = ({ items }: PagesProps) => {
   const pathname = usePathname();
 
   return (
@@ -75,8 +75,8 @@ export const Navigation = () => {
     section.href === "/" ? pathname === "/" : pathname.startsWith(section.href),
   );
 
-  // Map children to SubNav items format
-  const subNavItems =
+  // Map children to Pages items format
+  const pageItems =
     activeSection?.children.map((item) => ({
       name: item.title,
       href: item.url,
@@ -84,8 +84,8 @@ export const Navigation = () => {
 
   return (
     <>
-      <SectionTabs sections={navigationSections} />
-      {subNavItems.length > 0 && <SubNav items={subNavItems} />}
+      <Sections sections={navigationSections} />
+      {pageItems.length > 0 && <Pages items={pageItems} />}
     </>
   );
 };
