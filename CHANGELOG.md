@@ -1,3 +1,9 @@
+## [4.14.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.3...v4.14.4) (2025-11-01)
+
+### Bug Fixes
+
+* **web:** tabs glitching on load ([08fdbae](https://github.com/sgcarstrends/sgcarstrends/commit/08fdbaef0e61c3c65c9fe3376492a9f742b7e86a))
+
 ## [4.14.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.2...v4.14.3) (2025-11-01)
 
 ### Bug Fixes
