@@ -2,7 +2,8 @@
 
 ## SG Cars Trends Documentation
 
-This directory contains the Mintlify documentation site for SG Cars Trends, available at [docs.sgcarstrends.com](https://docs.sgcarstrends.com).
+This directory contains the Mintlify documentation site for SG Cars Trends, available
+at [docs.sgcarstrends.com](https://docs.sgcarstrends.com).
 
 ## Working relationship
 
@@ -30,7 +31,7 @@ This directory contains the Mintlify documentation site for SG Cars Trends, avai
 ## Content strategy
 
 - Document just enough for user success - not too much, not too little
-- Prioritize accuracy and usability of information
+- Prioritise accuracy and usability of information
 - Make content evergreen when possible
 - Search for existing information before adding new content. Avoid duplication unless it is done for a strategic reason
 - Check existing patterns for consistency
@@ -63,6 +64,7 @@ This directory contains the Mintlify documentation site for SG Cars Trends, avai
 ## SG Cars Trends Specific Guidelines
 
 ### Documentation Standards
+
 - Keep API examples current with actual endpoint responses
 - Update architecture diagrams when system changes occur
 - Verify all code examples work with the current API version (v4.11.0)

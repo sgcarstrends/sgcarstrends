@@ -91,15 +91,17 @@ Route-specific server actions use private folders:
 
 - **Blog**: `app/blog/_actions/` - View counting, related posts, tag management
 
-#### Centralized vs Co-located
+#### Centralised vs Co-located
 
-**Keep Centralized When:**
+**Keep Centralised When:**
+
 - Component used by 3+ different routes
 - Part of design system (`components/ui/` - shadcn/ui)
 - Shared business logic (`actions/`, `lib/`)
 - Generic utilities (`components/shared/`)
 
 **Co-locate When:**
+
 - Component only used by single route or route segment
 - Action/query specific to one feature area
 - Utility function only needed in one place
@@ -110,15 +112,15 @@ Route-specific server actions use private folders:
 
 ```typescript
 // ✅ Co-located components via path alias
-import { ProgressBar } from "@web/app/blog/_components/progress-bar";
-import { KeyStatistics } from "@web/app/(dashboard)/(home)/_components/key-statistics";
+import {ProgressBar} from "@web/app/blog/_components/progress-bar";
+import {KeyStatistics} from "@web/app/(dashboard)/(home)/_components/key-statistics";
 
 // ✅ Shared components via existing alias
-import { MetricCard } from "@web/components/shared/metric-card";
-import { Button } from "@web/components/ui/button";
+import {MetricCard} from "@web/components/shared/metric-card";
+import {Button} from "@web/components/ui/button";
 
 // ❌ Avoid relative imports for co-located code
-import { ProgressBar } from "../_components/progress-bar"; // Don't use
+import {ProgressBar} from "../_components/progress-bar"; // Don't use
 ```
 
 #### Private Folder Convention
@@ -151,7 +153,7 @@ connection configured in `src/config/db.ts`.
 - SEO metadata and reading time calculations
 
 **Social Media Integration**: Implements domain-based redirect routes in `src/app/(social)/` that provide trackable,
-SEO-friendly URLs for all social media platforms. Each route includes standardized UTM parameters for analytics
+SEO-friendly URLs for all social media platforms. Each route includes standardised UTM parameters for analytics
 tracking.
 
 ### API Structure
@@ -165,6 +167,7 @@ External API integration through `src/utils/api/` for:
 ### UTM Tracking
 
 **UTM Utilities** (`src/utils/utm.ts`):
+
 - **External Campaigns**: `createExternalCampaignURL()` for email newsletters and marketing campaigns
 - **Parameter Reading**: `useUTMParams()` React hook for future analytics implementation (currently unused)
 - **Best Practices**: Follows industry standards with no UTM tracking on internal navigation
@@ -172,7 +175,10 @@ External API integration through `src/utils/api/` for:
 
 ### Component Patterns
 
-**Typography System**: Semantic typography components in `src/components/typography.tsx` implementing a modern design philosophy inspired by Vercel, Linear, and Stripe. Uses lighter font weights (semibold for primary headings, medium for secondary headings/labels, normal for body text) with hierarchy driven by size and spacing. See [Typography System](#typography-system) section below.
+**Typography System**: Semantic typography components in `src/components/typography.tsx` implementing a modern design
+philosophy inspired by Vercel, Linear, and Stripe. Uses lighter font weights (semibold for primary headings, medium for
+secondary headings/labels, normal for body text) with hierarchy driven by size and spacing.
+See [Typography System](#typography-system) section below.
 
 **UI Components**: Located in `src/components/ui/` following HeroUI patterns with professional design system.
 
@@ -199,30 +205,37 @@ External API integration through `src/utils/api/` for:
 A modern, semantic typography system for consistent visual hierarchy across the application.
 
 **Design Philosophy**:
+
 - Lighter font weights relying on size and spacing for hierarchy
 - Inspired by Vercel, Linear, and Stripe design systems
-- Principles: Semibold (600) for primary headings, Medium (500) for secondary headings/labels, Normal (400) for body text
+- Principles: Semibold (600) for primary headings, Medium (500) for secondary headings/labels, Normal (400) for body
+  text
 - Bold reserved for data emphasis (numbers, metrics)
-- **HeroUI Semantic Colours**: All components include default theme-adaptive colours that can be overridden via `className`
+- **HeroUI Semantic Colours**: All components include default theme-adaptive colours that can be overridden via
+  `className`
 
 **Component Reference**:
 
 **Headings**:
+
 - `Typography.H1`: Page titles, primary headings (font-semibold text-4xl text-foreground lg:text-5xl)
 - `Typography.H2`: Section titles, major sections (font-semibold text-3xl text-foreground)
 - `Typography.H3`: Subsection titles, card titles (font-medium text-2xl text-foreground)
 - `Typography.H4`: Small headings, nested sections (font-medium text-xl text-default-900)
 
 **Body Text**:
+
 - `Typography.TextLg`: Large body text, lead paragraphs (text-lg text-foreground leading-relaxed)
 - `Typography.Text`: Standard body text, paragraphs (text-base text-foreground leading-7)
 - `Typography.TextSm`: Small body text, secondary descriptions (text-sm text-default-600 leading-6)
 
 **UI Labels**:
+
 - `Typography.Label`: Form labels, navigation items, tabs (font-medium text-sm text-foreground)
 - `Typography.Caption`: Metadata text, timestamps, footnotes (text-xs text-muted-foreground leading-tight)
 
 **Content Elements** (legacy, for backward compatibility):
+
 - `Typography.P`: Paragraphs with bottom margin (not-first:mt-6)
 - `Typography.Blockquote`: Quoted text with left border
 - `Typography.List`: Unordered lists with disc markers
@@ -235,28 +248,50 @@ A modern, semantic typography system for consistent visual hierarchy across the 
 import Typography from "@web/components/typography";
 
 // Page heading
-<Typography.H1>COE Overview</Typography.H1>
+<Typography.H1>COE
+Overview < /Typography.H1>
 
 // Section heading
-<Typography.H2>Fun Facts</Typography.H2>
+< Typography.H2 > Fun
+Facts < /Typography.H2>
 
 // Card title
-<Typography.H3>Category A vs B</Typography.H3>
+< Typography.H3 > Category
+A
+vs
+B < /Typography.H3>
 
 // Lead paragraph
-<Typography.TextLg>Explore COE trends and analysis.</Typography.TextLg>
+< Typography.TextLg > Explore
+COE
+trends
+and
+analysis. < /Typography.TextLg>
 
 // Body text
-<Typography.Text>The latest COE results show...</Typography.Text>
+< Typography.Text > The
+latest
+COE
+results
+show
+...
+</Typography.Text>
 
 // Small helper text
-<Typography.TextSm>Updated daily from LTA</Typography.TextSm>
+< Typography.TextSm > Updated
+daily
+from
+LTA < /Typography.TextSm>
 
 // Form label
-<Typography.Label>Select Month</Typography.Label>
+< Typography.Label > Select
+Month < /Typography.Label>
 
 // Metadata/timestamp
-<Typography.Caption>Last updated: 29 Oct 2025</Typography.Caption>
+< Typography.Caption > Last
+updated: 29
+Oct
+2025 < /Typography.Caption>
 ```
 
 **When to Use Each Component**:
@@ -265,7 +300,7 @@ import Typography from "@web/components/typography";
 - Use `H2` for major section groupings
 - Use `H3` for card titles and subsections
 - Use `H4` for nested section headers
-- Use `TextLg` for introductions and emphasized content
+- Use `TextLg` for introductions and emphasised content
 - Use `Text` for standard body content and descriptions
 - Use `TextSm` for secondary info and helper text
 - Use `Label` for form fields and UI controls
@@ -274,12 +309,14 @@ import Typography from "@web/components/typography";
 **HeroUI Semantic Colour System**:
 
 All Typography components include default colours from HeroUI's semantic colour palette:
+
 - `text-foreground`: Theme-adaptive primary text colour (auto-adjusts for light/dark mode)
 - `text-default-900`: Darkest shade for strong emphasis (H4 headings)
 - `text-default-600`: Medium shade for secondary text (TextSm for links, footer text)
 - `text-muted-foreground`: Muted colour for metadata and captions (Caption, Lead components)
 
-These defaults provide proper visual hierarchy while allowing override via `className` prop when specific colours like `text-primary` are needed for emphasis.
+These defaults provide proper visual hierarchy while allowing override via `className` prop when specific colours like
+`text-primary` are needed for emphasis.
 
 **Migration Notes**:
 
@@ -296,7 +333,7 @@ These defaults provide proper visual hierarchy while allowing override via `clas
 - AI-generated blog posts from LLM analysis of market data
 - MDX rendering with GitHub Flavored Markdown support
 - Dynamic Open Graph image generation for social sharing
-- SEO-optimized metadata with structured data
+- SEO-optimised metadata with structured data
 
 **Reader Experience**:
 
@@ -324,14 +361,19 @@ These defaults provide proper visual hierarchy while allowing override via `clas
 **Unit Tests**: Co-located with components using Vitest and Testing Library. Run tests before commits.
 
 **Test Naming Convention**: All test descriptions should start with "should" to describe expected behavior:
+
 ```typescript
 // ✅ Good
-it("should render title and children", () => {});
-it("should display empty state when data is empty", () => {});
+it("should render title and children", () => {
+});
+it("should display empty state when data is empty", () => {
+});
 
 // ❌ Avoid
-it("renders title and children", () => {});
-it("displays empty state when data is empty", () => {});
+it("renders title and children", () => {
+});
+it("displays empty state when data is empty", () => {
+});
 ```
 
 **E2E Tests**: Playwright tests in `tests/` directory covering critical user flows.
@@ -355,8 +397,8 @@ Environment variables managed through SST config:
 The application uses multiple environment variables to determine production status:
 
 - Social media redirects and production-only features activate when:
-  - `VERCEL_ENV === "production"` (Vercel deployment), OR
-  - `NEXT_PUBLIC_APP_ENV === "prod"` (SST production stage)
+    - `VERCEL_ENV === "production"` (Vercel deployment), OR
+    - `NEXT_PUBLIC_APP_ENV === "prod"` (SST production stage)
 
 #### VERCEL_URL Support
 
@@ -370,16 +412,19 @@ The application supports Vercel's automatic URL environment variables:
 The web application uses Vercel Related Projects for automatic API URL resolution:
 
 **Configuration:**
+
 - Located in `vercel.json` at the web app root
 - References API project ID: `prj_fyAvupEssH3LO4OQFDWplinVFlaI`
 - Uses `@vercel/related-projects` package for dynamic URL resolution
 
 **Implementation:**
+
 - API URL automatically resolved via `withRelatedProject()` in `src/config/index.ts`
 - Works across all environments: dev, staging, production, and preview deployments
 - Falls back to `NEXT_PUBLIC_API_URL` or default `https://api.sgcarstrends.com` if Related Projects unavailable
 
 **Benefits:**
+
 - No manual API URL configuration needed in Vercel deployments
 - Preview deployments automatically connect to correct API environment
 - Type-safe with full TypeScript support
