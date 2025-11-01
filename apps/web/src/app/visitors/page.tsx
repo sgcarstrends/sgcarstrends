@@ -1,4 +1,5 @@
 import { AnimatedNumber } from "@web/components/animated-number";
+import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { Card, CardContent } from "@web/components/ui/card";
@@ -66,13 +67,10 @@ const VisitorsPage = async () => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <Typography.H1>Visitor Analytics</Typography.H1>
-          <Typography.Lead>
-            Website traffic and visitor statistics
-          </Typography.Lead>
-        </div>
-
+        <PageHeader
+          title="Visitor Analytics"
+          subtitle="Website traffic and visitor statistics"
+        />
         <Card>
           <CardContent>
             <div className="flex flex-col items-center justify-center gap-4">
