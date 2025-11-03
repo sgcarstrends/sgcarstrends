@@ -1,3 +1,9 @@
+## [4.15.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.4...v4.15.0) (2025-11-03)
+
+### Features
+
+* **web:** add llms.txt route with dynamic data ([4656848](https://github.com/sgcarstrends/sgcarstrends/commit/465684854e69dcffa74e5472b90bcacab45f3b30))
+
 ## [4.14.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.3...v4.14.4) (2025-11-01)
 
 ### Bug Fixes
