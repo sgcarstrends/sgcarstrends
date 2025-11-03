@@ -1,89 +1,59 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MakesList } from "./makes-list";
 
 describe("MakesList", () => {
   const mockMakes = [
-    "TOYOTA",
-    "HONDA",
+    "Toyota",
     "BMW",
-    "AUDI",
-    "MERCEDES BENZ",
-    "HYUNDAI",
-    "KIA",
-    "VOLKSWAGEN",
-    "NISSAN",
-    "MAZDA",
+    "Mercedes-Benz",
+    "Honda",
+    "Audi",
+    "Volkswagen",
+    "Lexus",
+    "Nissan",
+    "Mazda",
+    "Hyundai",
   ];
 
-  const mockPopularMakes = [
-    "TOYOTA",
-    "BMW",
-    "AUDI",
-    "MERCEDES BENZ",
-    "HYUNDAI",
-    "KIA",
-    "VOLKSWAGEN",
-    "HONDA",
-  ];
+  const mockPopularMakes = ["Toyota", "BMW", "Mercedes-Benz", "Honda"];
 
-  it("should render correctly", () => {
-    const { container } = render(
-      <MakesList makes={mockMakes} popularMakes={mockPopularMakes} />,
-    );
-    expect(container).toBeDefined();
-    expect(container.firstChild).toBeTruthy();
-  });
-
-  it("renders search input", () => {
+  it("should render all makes when no search term is provided", () => {
     render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
-    const searchInput = screen.getByPlaceholderText("Search by make");
-    expect(searchInput).toBeVisible();
+
+    expect(screen.getByText("10 of 10 makes")).toBeInTheDocument();
+    expect(screen.getByText("Popular Makes")).toBeInTheDocument();
+    expect(screen.getByText("All Makes")).toBeInTheDocument();
   });
 
-  it("displays makes count", () => {
-    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
-    expect(
-      screen.getByText(`${mockMakes.length} of ${mockMakes.length} makes`),
-    ).toBeVisible();
-  });
-
-  it("renders Popular Makes section by default", () => {
-    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
-    expect(screen.getByText("Popular Makes")).toBeVisible();
-  });
-
-  it("renders All Makes section by default", () => {
-    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
-    expect(screen.getByText("All Makes")).toBeVisible();
-  });
-
-  it("filters makes when searching", () => {
+  it("should filter and display search results", async () => {
     render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
 
     const searchInput = screen.getByPlaceholderText("Search by make");
-    fireEvent.change(searchInput, { target: { value: "TOYOTA" } });
+    await userEvent.type(searchInput, "BMW");
 
-    expect(screen.getByText("1 of 10 makes")).toBeVisible();
+    await waitFor(() => {
+      expect(screen.getByText("1 of 10 makes")).toBeInTheDocument();
+      expect(screen.queryByText("Popular Makes")).not.toBeInTheDocument();
+      expect(screen.queryByText("All Makes")).not.toBeInTheDocument();
+    });
   });
 
-  it("shows no results message when no makes match search", () => {
+  it("should show empty state when no matches found", async () => {
     render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
 
     const searchInput = screen.getByPlaceholderText("Search by make");
-    fireEvent.change(searchInput, { target: { value: "NONEXISTENT" } });
+    await userEvent.type(searchInput, "xyzabc");
 
-    expect(
-      screen.getByText('No makes found matching "NONEXISTENT"'),
-    ).toBeVisible();
-  });
-
-  it("hides Popular and All Makes sections when searching", () => {
-    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
-
-    const searchInput = screen.getByPlaceholderText("Search by make");
-    fireEvent.change(searchInput, { target: { value: "TOYOTA" } });
-
-    expect(screen.queryByText("Popular Makes")).not.toBeInTheDocument();
-    expect(screen.queryByText("All Makes")).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByText(/No makes found matching "xyzabc"/),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          /Try adjusting your search term or browse all available makes/,
+        ),
+      ).toBeInTheDocument();
+    });
   });
 });

@@ -8,6 +8,7 @@ import {
 } from "@web/app/(dashboard)/cars/_components/makes";
 import type { Make } from "@web/types";
 import { Search } from "lucide-react";
+import { matchSorter } from "match-sorter";
 import { useMemo, useState } from "react";
 
 interface MakesListProps {
@@ -29,15 +30,12 @@ export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
       return [...popular, ...others];
     }
 
-    const filtered = makes.filter((make) =>
-      make.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+    // Use match-sorter for fuzzy matching with ranking
+    const sorted = matchSorter(makes, searchTerm);
 
-    // Maintain popular makes order even in search
-    const filteredPopular = popular.filter((make) =>
-      make.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
-    const filteredOthers = filtered.filter((make) => !popular.includes(make));
+    // Maintain popular makes order even in search results
+    const filteredPopular = sorted.filter((make) => popular.includes(make));
+    const filteredOthers = sorted.filter((make) => !popular.includes(make));
 
     return [...filteredPopular, ...filteredOthers];
   }, [makes, searchTerm, popular, others]);
