@@ -1,3 +1,9 @@
+## [4.16.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.15.0...v4.16.0) (2025-11-03)
+
+### Features
+
+* **web:** add fuzzy search to car makes list ([5e9ef90](https://github.com/sgcarstrends/sgcarstrends/commit/5e9ef9086a2adecd67e16b992c23bf525e204779))
+
 ## [4.15.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.4...v4.15.0) (2025-11-03)
 
 ### Features
