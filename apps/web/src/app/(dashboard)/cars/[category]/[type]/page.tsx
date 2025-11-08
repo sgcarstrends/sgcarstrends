@@ -15,6 +15,8 @@ import {
 } from "@web/components/ui/card";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import {
+  checkFuelTypeIfExist,
+  checkVehicleTypeIfExist,
   getDistinctFuelTypes,
   getDistinctVehicleTypes,
   getFuelTypeData,
@@ -24,6 +26,7 @@ import { createPageMetadata } from "@web/lib/metadata";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
@@ -113,11 +116,17 @@ const TypePage = async ({ params, searchParams }: Props) => {
 
   const config = categoryConfigs[category as keyof typeof categoryConfigs];
   if (!config) {
-    return (
-      <div className="py-8 text-center">
-        <Typography.Text>Category not found</Typography.Text>
-      </div>
-    );
+    notFound();
+  }
+
+  // Validate type parameter
+  const typeExists =
+    category === "fuel-types"
+      ? await checkFuelTypeIfExist(type)
+      : await checkVehicleTypeIfExist(type);
+
+  if (!typeExists) {
+    notFound();
   }
 
   month = await getMonthOrLatest(month, "cars");
