@@ -18,14 +18,6 @@ export const metadata: Metadata = {
   title: "Singapore Car Registration & COE Trends | Latest Statistics",
   description:
     "Track Singapore car registration trends, COE bidding results, and automotive market insights. Latest data from Land Transport Authority (LTA) with interactive charts and analysis.",
-  keywords: [
-    "Singapore car statistics",
-    "latest COE results",
-    "car registration trends",
-    "automotive market analysis",
-    "LTA Singapore data",
-    "vehicle statistics dashboard",
-  ],
   openGraph: {
     title: "Singapore Car Registration & COE Trends",
     description:

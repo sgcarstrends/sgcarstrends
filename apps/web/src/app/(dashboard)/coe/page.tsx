@@ -49,16 +49,6 @@ export const generateMetadata = async (): Promise<Metadata> => {
     description,
     canonical: "/coe",
     images,
-    keywords: [
-      "COE bidding results",
-      "Certificate of Entitlement Singapore",
-      "COE prices",
-      "vehicle quota premium",
-      "COE trends",
-      "COE categories",
-      "Singapore COE analysis",
-      "PQP rates",
-    ],
     includeAuthors: true,
   });
 };

@@ -51,14 +51,6 @@ export const generateMetadata = async ({
     description,
     canonical: `/cars?month=${month}`,
     images,
-    keywords: [
-      "Singapore car registration",
-      "fuel type statistics",
-      "vehicle type trends",
-      "top car brands Singapore",
-      "new car registrations",
-      "automotive statistics",
-    ],
     includeAuthors: true,
   });
 };
