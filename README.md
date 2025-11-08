@@ -6,7 +6,7 @@
 
 This monorepo provides a complete platform for SG Cars Trends, tracking Singapore's car registration statistics and Certificate of Entitlement (COE) data. The system includes:
 
-- **Web Application**: Next.js 16 frontend with enhanced homepage featuring latest COE results, interactive charts, analytics, and AI-generated blog content with responsive design
+- **Web Application**: Next.js 16 frontend with Cache Components, co-located route components, enhanced homepage featuring latest COE results, interactive charts, analytics, and AI-generated blog content with responsive design
 - **REST API**: Hono-based API with type-safe endpoints for car registrations and COE results
 - **Integrated Data Updater**: QStash workflow-based system for fetching and processing LTA data
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini for market insights
@@ -118,7 +118,7 @@ sgcarstrends/
 
 ## Technologies
 
-- **Frontend**: Next.js 16, React 19, TypeScript
+- **Frontend**: Next.js 16 with Cache Components, React 19, TypeScript
 - **UI Library**: HeroUI (NextUI successor) with professional design system
 - **Styling**: Tailwind CSS v4 with custom configuration
 - **Backend**: Node.js 22, TypeScript with strict mode
@@ -179,7 +179,12 @@ This project uses **pnpm catalog** for centralised dependency version management
 - React ecosystem: `react` (19.2.0), `react-dom` (19.2.0), `next` (16.0.0)
 - TypeScript & types: `typescript` (5.8.3), `@types/node`, `@types/react` (19.2.0), `@types/react-dom` (19.2.0)
 - Testing tools: `vitest` (3.2.4), `@vitest/coverage-v8` (3.2.4)
-- Utilities: `date-fns` (3.6.0), `zod` (3.25.76), `sst` (3.17.10), `resend` (6.1.2), `superjson` (2.2.2)
+- Utilities: `date-fns` (3.6.0), `zod` (3.25.76), `resend` (6.1.2), `superjson` (2.2.2)
+
+**Root-level dependencies** (not in catalog):
+- Build tools: `sst` (3.17.21), `turbo` (2.5.8)
+- Code quality: `@biomejs/biome` (2.3.0), `husky` (9.1.7), `lint-staged` (16.1.5)
+- Release management: `semantic-release` (24.0.0)
 
 This ensures version consistency across all workspace packages and simplifies dependency upgrades.
 

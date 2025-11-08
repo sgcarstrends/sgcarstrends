@@ -28,7 +28,7 @@ export const TrendChart = ({ data }: Props) => {
   } satisfies ChartConfig;
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <ChartContainer config={chartConfig} className="h-[250px] w-full">
         <BarChart
           accessibilityLayer
@@ -64,7 +64,7 @@ export const TrendChart = ({ data }: Props) => {
           </Bar>
         </BarChart>
       </ChartContainer>
-      <div className="mt-4 space-y-3">
+      <div className="flex flex-col gap-4">
         <div className="text-muted-foreground text-sm">
           <h4 className="mb-2 font-semibold text-foreground">Market Leaders</h4>
           <p>
@@ -96,6 +96,6 @@ export const TrendChart = ({ data }: Props) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

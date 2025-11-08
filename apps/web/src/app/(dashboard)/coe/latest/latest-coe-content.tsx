@@ -8,7 +8,7 @@ import {
   CardHeader,
   Chip,
 } from "@heroui/react";
-import { LatestCOEPrices } from "@web/components/coe/latest-coe-prices";
+import { LatestCOEPrices } from "@web/app/(dashboard)/coe/_components/latest-coe-prices";
 import { PageHeader } from "@web/components/page-header";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
@@ -51,9 +51,9 @@ export const LatestCOEClient = ({
                 </Chip>
               </div>
             )}
-            <h3 className="font-bold text-xl">
+            <Typography.H3>
               {biddingMonth && formatDateToMonthYear(biddingMonth)} COE Result
-            </h3>
+            </Typography.H3>
           </div>
         </div>
         <LatestCOEPrices results={results} />
@@ -63,9 +63,9 @@ export const LatestCOEClient = ({
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Card>
             <CardHeader>
-              <h3 className="font-semibold text-lg">Explore COE Data</h3>
+              <Typography.H3>Explore COE Data</Typography.H3>
             </CardHeader>
-            <CardBody className="space-y-3">
+            <CardBody className="flex flex-col gap-4">
               <Link href="/coe/trends">
                 <Button variant="bordered" className="w-full">
                   View COE Trends
@@ -81,9 +81,9 @@ export const LatestCOEClient = ({
 
           <Card>
             <CardHeader>
-              <h3 className="font-semibold text-lg">COE Categories</h3>
+              <Typography.H3>COE Categories</Typography.H3>
             </CardHeader>
-            <CardBody className="space-y-3">
+            <CardBody className="flex flex-col gap-4">
               <Link href="/coe/categories/category-a">
                 <Button variant="bordered" className="w-full">
                   Category A Analysis
@@ -101,7 +101,7 @@ export const LatestCOEClient = ({
 
       <Card>
         <CardHeader>
-          <h3 className="font-semibold text-lg">About COE</h3>
+          <Typography.H3>About COE</Typography.H3>
         </CardHeader>
         <CardBody>
           <Typography.P>

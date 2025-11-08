@@ -7,6 +7,7 @@ import { updateCoe } from "@api/lib/workflows/update-coe";
 import {
   processTask,
   publishToAllPlatforms,
+  revalidateWebCache,
   type WorkflowStep,
 } from "@api/lib/workflows/workflow";
 import { createWorkflow } from "@upstash/workflow/hono";
@@ -34,6 +35,17 @@ export const coeWorkflow = createWorkflow(
     }
 
     const { month, bidding_no: biddingNo } = await getCoeLatestMonth();
+
+    // Invalidate cache for updated COE data
+    await revalidateWebCache(context, [
+      "coe",
+      `coe-${month}`,
+      "coe-all",
+      "pqp-all",
+      "coe-months",
+      "latest-coe",
+      "latest-coe-month",
+    ]);
 
     // Generate blog post only when both bidding exercises are complete (bidding_no = 2)
     if (biddingNo === 2) {

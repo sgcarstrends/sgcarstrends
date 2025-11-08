@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { DOMAIN_NAME } from "@web/config";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -14,7 +15,7 @@ export const proxy = (request: NextRequest) => {
     return NextResponse.redirect(maintenanceUrl);
   }
 
-  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
+  const nonce = crypto.randomBytes(16).toString("base64");
   const cspHeader = `
       default-src 'self';
       script-src 'self' 'unsafe-eval' 'unsafe-inline' *.${DOMAIN_NAME} *.googletagmanager.com https://vercel.live;
@@ -40,7 +41,7 @@ export const proxy = (request: NextRequest) => {
   requestHeaders.set("X-Robots-Tag", "all");
 
   return NextResponse.next({
-    headers: requestHeaders,
+    ...(!process.env.VERCEL && { headers: requestHeaders }),
     request: {
       headers: requestHeaders,
     },

@@ -31,11 +31,17 @@ export interface MainSection {
 export interface NavigationItem {
   title: string;
   url: string;
-  icon: LucideIcon;
-  description: string;
+  icon?: LucideIcon;
+  description?: string;
   show?: boolean;
   badge?: "beta" | "new";
   iconColor?: string;
+}
+
+export interface NavigationSection {
+  name: string;
+  href: string;
+  children: NavigationItem[];
 }
 
 export interface SocialMedia {
@@ -68,6 +74,13 @@ export const mainSections: MainSection[] = [
   //   name: "Misc",
   //   href: "/misc",
   // },
+];
+
+const dashboardItems: NavigationItem[] = [
+  {
+    title: "Overview",
+    url: "/",
+  },
 ];
 
 const socialMedia: SocialMedia[] = [
@@ -191,3 +204,21 @@ export const navLinks: NavLinks = {
   ],
   socialMedia: sortByName(socialMedia, { sortKey: "title" }),
 };
+
+export const navigationSections: NavigationSection[] = [
+  {
+    name: "Dashboard",
+    href: "/",
+    children: dashboardItems,
+  },
+  {
+    name: "Cars",
+    href: "/cars",
+    children: navLinks.cars,
+  },
+  {
+    name: "COE",
+    href: "/coe",
+    children: navLinks.coe,
+  },
+];

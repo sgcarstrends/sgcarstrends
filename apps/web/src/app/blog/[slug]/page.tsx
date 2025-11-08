@@ -1,13 +1,14 @@
 import { Button } from "@heroui/button";
-import { updatePostTags } from "@web/actions/blog/tags";
-import { ProgressBar } from "@web/components/blog/progress-bar";
-import { RelatedPosts } from "@web/components/blog/related-posts";
-import { ViewCounter } from "@web/components/blog/view-counter";
+import { updatePostTags } from "@web/app/blog/_actions/tags";
+import { mdxComponents } from "@web/app/blog/_components/mdx-components";
+import { ProgressBar } from "@web/app/blog/_components/progress-bar";
+import { RelatedPosts } from "@web/app/blog/_components/related-posts";
+import { ViewCounter } from "@web/app/blog/_components/view-counter";
 import { BetaChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
 import { Separator } from "@web/components/ui/separator";
 import { SITE_URL } from "@web/config";
-import { getQueryClient, trpc } from "@web/trpc/server";
+import { getAllPosts, getPostBySlug } from "@web/lib/data/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -28,10 +29,7 @@ export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
   const { slug } = await params;
-  const queryClient = getQueryClient();
-  const post = await queryClient.fetchQuery(
-    trpc.blog.getPostBySlug.queryOptions({ slug }),
-  );
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return { title: "Post Not Found" };
@@ -49,23 +47,43 @@ export const generateMetadata = async ({
   const excerpt = metadata?.excerpt || "";
 
   const publishedDate = post.publishedAt ?? post.createdAt;
+  const modifiedDate = post.modifiedAt;
+
+  // Generate Open Graph image URL
+  const ogImageUrl = `${SITE_URL}/api/og?title=${encodeURIComponent(post.title)}`;
 
   return {
     title: post.title,
     description: excerpt,
+    keywords: metadata?.tags ?? [],
+    authors: [{ name: "SG Cars Trends AI", url: SITE_URL }],
+    creator: "SG Cars Trends",
+    publisher: "SG Cars Trends",
     openGraph: {
       title: post.title,
       description: excerpt,
       type: "article",
       publishedTime: publishedDate.toISOString(),
-      // authors: [author],
+      modifiedTime: modifiedDate.toISOString(),
+      authors: ["SG Cars Trends"],
       tags: metadata?.tags ?? [],
-      url: canonical,
+      url: `${SITE_URL}${canonical}`,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: excerpt,
+      images: [ogImageUrl],
+      creator: "@sgcarstrends",
+      site: "@sgcarstrends",
     },
     alternates: {
       canonical,
@@ -74,19 +92,15 @@ export const generateMetadata = async ({
 };
 
 export const generateStaticParams = async () => {
-  const queryClient = getQueryClient();
-  const posts = await queryClient.fetchQuery(
-    trpc.blog.getAllPosts.queryOptions(),
-  );
+  const posts = await getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
 };
 
 const BlogPostPage = async ({ params }: Props) => {
+  "use cache";
+
   const { slug } = await params;
-  const queryClient = getQueryClient();
-  const post = await queryClient.fetchQuery(
-    trpc.blog.getPostBySlug.queryOptions({ slug }),
-  );
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -148,6 +162,7 @@ const BlogPostPage = async ({ params }: Props) => {
         <article className="prose dark:prose-invert max-w-none">
           <MDXRemote
             source={post.content}
+            components={mdxComponents}
             options={{
               mdxOptions: {
                 remarkPlugins: [

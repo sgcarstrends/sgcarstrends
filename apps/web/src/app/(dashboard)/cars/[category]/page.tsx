@@ -2,21 +2,18 @@ import { redis } from "@sgcarstrends/utils";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
-import {
-  API_URL,
-  LAST_UPDATED_CARS_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import type { CategoryData } from "@web/types";
+import Typography from "@web/components/typography";
+import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import {
   getCarMarketShareData,
+  getCarsData,
   getCarTopPerformersData,
-} from "@web/utils/api/cars";
-import { fetchApi } from "@web/utils/fetch-api";
+} from "@web/lib/cars/queries";
+import { createPageMetadata } from "@web/lib/metadata";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 import { CategoryTypesTabsView } from "./category-tabs";
@@ -80,30 +77,11 @@ export const generateMetadata = async ({
   const title = `${formattedMonth} ${config.title} - Car Registrations`;
   const description = config.description.replace("{month}", formattedMonth);
 
-  const canonical = `${config.urlPath}?month=${month}`;
-
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: `${config.urlPath}?month=${month}`,
+  });
 };
 
 const CategoryPage = async ({ params, searchParams }: Props) => {
@@ -111,22 +89,17 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
   const config = categoryConfigs[category];
 
   if (!config) {
-    return (
-      <div className="py-8 text-center">
-        <p className="text-gray-500">Category not found</p>
-      </div>
-    );
+    return notFound();
   }
 
   let { month } = await loadSearchParams(searchParams);
   month = await getMonthOrLatest(month, "cars");
 
-  const getCars = fetchApi<CategoryData>(`${API_URL}/cars?month=${month}`);
   const months = await fetchMonthsForCars();
 
   const [lastUpdated, cars, topPerformers, marketShare] = await Promise.all([
     redis.get<number>(LAST_UPDATED_CARS_KEY),
-    getCars,
+    getCarsData(month),
     getCarTopPerformersData(month),
     getCarMarketShareData(month, config.apiDataField),
   ]);
@@ -173,10 +146,10 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
           />
         ) : (
           <div className="py-8 text-center">
-            <p className="text-gray-500">
+            <Typography.Text>
               No {config.title.toLowerCase()} data available for{" "}
               {formattedMonth}
-            </p>
+            </Typography.Text>
           </div>
         )}
       </div>

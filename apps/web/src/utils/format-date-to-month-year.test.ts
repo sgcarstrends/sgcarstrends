@@ -6,4 +6,10 @@ describe("formatDateToMonthYear", () => {
     expect(formatDateToMonthYear("2023-12")).toBe("Dec 2023");
     expect(formatDateToMonthYear("2025-06")).toBe("Jun 2025");
   });
+
+  it("should handle undefined or empty inputs", () => {
+    expect(formatDateToMonthYear("")).toBe("");
+    expect(formatDateToMonthYear(undefined as any)).toBe("");
+    expect(formatDateToMonthYear(null as any)).toBe("");
+  });
 });

@@ -6,23 +6,18 @@ import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
 import { NotificationPrompt } from "@web/components/notification-prompt";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 import "./globals.css";
+import { cn } from "@heroui/react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Banner } from "@web/components/banner";
 import type { Metadata } from "next";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -37,11 +32,32 @@ export const metadata: Metadata = {
     default: title,
   },
   description,
-  robots: { index: true, follow: true },
+  authors: [{ name: "SG Cars Trends", url: SITE_URL }],
+  creator: "SG Cars Trends",
+  publisher: "SG Cars Trends",
+  category: "Automotive Statistics",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     title,
     description,
-    images: `${SITE_URL}/opengraph-image.png`,
+    images: [
+      {
+        url: `${SITE_URL}/opengraph-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "SG Cars Trends - Singapore Car Registration Statistics",
+      },
+    ],
     url,
     siteName: title,
     locale: "en_SG",
@@ -51,29 +67,41 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: `${SITE_URL}/twitter-image.png`,
+    images: [`${SITE_URL}/twitter-image.png`],
     site: "@sgcarstrends",
     creator: "@sgcarstrends",
+  },
+  alternates: {
+    canonical: SITE_URL,
   },
 };
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-neutral-100 antialiased`}
-      >
+    <html
+      lang="en"
+      className={cn("scroll-smooth antialiased", geistSans.className)}
+    >
+      <body className="bg-neutral-100">
         <Providers>
           <NotificationPrompt />
-          <Announcement />
+          <Suspense fallback={null}>
+            <Announcement />
+          </Suspense>
           <NuqsAdapter>
             <LoadingIndicator />
-            <Header />
+            <Suspense fallback={null}>
+              <Header />
+            </Suspense>
             <Banner />
             <main className="container mx-auto px-6 py-8">{children}</main>
             <Footer />
           </NuqsAdapter>
-          {process.env.NODE_ENV === "production" && <InternalAnalytics />}
+          {process.env.NODE_ENV === "production" && (
+            <Suspense fallback={null}>
+              <InternalAnalytics />
+            </Suspense>
+          )}
         </Providers>
         <Analytics />
         <SpeedInsights />

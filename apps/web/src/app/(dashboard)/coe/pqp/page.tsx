@@ -7,11 +7,12 @@ import {
   DataTable,
   RenewalCalculator,
   TrendsChart,
-} from "@web/components/coe/pqp";
+} from "@web/app/(dashboard)/coe/_components/pqp";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { createPageMetadata } from "@web/lib/metadata";
 import type { Pqp } from "@web/types/coe";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
@@ -21,28 +22,12 @@ const description =
   "Latest Prevailing Quota Premium (PQP) rates for COE renewal in Singapore. These rates show the average COE prices over the last 3 months.";
 
 export const generateMetadata = (): Metadata => {
-  const canonical = "/coe/pqp";
-
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      images: `${SITE_URL}/opengraph-image.png`,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      images: `${SITE_URL}/twitter-image.png`,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: "/coe/pqp",
+    images: `${SITE_URL}/opengraph-image.png`,
+  });
 };
 
 const PQPRatesPage = async () => {

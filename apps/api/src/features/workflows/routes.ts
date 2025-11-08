@@ -1,10 +1,13 @@
 import crypto from "node:crypto";
 import { client } from "@api/config/qstash";
 import { WORKFLOWS_BASE_URL } from "@api/config/workflow";
-import { newsletterWorkflow } from "@api/features/newsletter";
+import {
+  NewsletterBroadcastError,
+  newsletterWorkflow,
+  triggerNewsletterWorkflow,
+} from "@api/features/newsletter";
 import { carsWorkflow } from "@api/lib/workflows/cars";
 import { coeWorkflow } from "@api/lib/workflows/coe";
-import { registerNewsletterRoutes } from "@api/rest/newsletter/routes";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { serveMany } from "@upstash/workflow/hono";
 import { bearerAuth } from "hono/bearer-auth";
@@ -85,7 +88,33 @@ app.openapi(
   },
 );
 
-registerNewsletterRoutes(app);
+app.post("/newsletter/trigger", async (c) => {
+  try {
+    const { workflowRunId } = await triggerNewsletterWorkflow();
+
+    return c.json({
+      success: true,
+      message: "Newsletter workflow triggered successfully",
+      workflowRunIds: [workflowRunId],
+    });
+  } catch (error) {
+    const message =
+      error instanceof NewsletterBroadcastError
+        ? error.message
+        : error instanceof Error
+          ? error.message
+          : "Unknown workflow error";
+
+    return c.json(
+      {
+        success: false,
+        message: "Failed to trigger newsletter workflow",
+        error: message,
+      },
+      500,
+    );
+  }
+});
 
 app.post(
   "/*",

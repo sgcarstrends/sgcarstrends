@@ -1,12 +1,8 @@
-import { redis } from "@sgcarstrends/utils";
-import slugify from "@sindresorhus/slugify";
+import { MakeDrawer } from "@web/app/(dashboard)/cars/_components/makes";
+import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes/make-detail";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/makes/[make]/search-params";
-import { MakeDrawer } from "@web/components/cars/makes";
-import { MakeDetail } from "@web/components/cars/makes/make-detail";
-import { API_URL, LAST_UPDATED_CARS_KEY } from "@web/config";
-import type { Car, Make } from "@web/types";
-import { fetchApi } from "@web/utils/fetch-api";
-import { getMonthOrLatest } from "@web/utils/month-utils";
+import { fetchMakePageData } from "@web/lib/cars/make-data";
+import { getMonthOrLatest } from "@web/utils/months";
 import type { SearchParams } from "nuqs/server";
 
 interface Props {
@@ -15,20 +11,14 @@ interface Props {
 }
 
 const MakePage = async ({ params, searchParams }: Props) => {
+  "use cache";
+
   const { make } = await params;
   let { month } = await loadSearchParams(searchParams);
 
   month = await getMonthOrLatest(month, "cars");
 
-  const [cars, makes]: [{ make: string; total: number; data: Car[] }, Make[]] =
-    await Promise.all([
-      fetchApi<{ make: string; total: number; data: Car[] }>(
-        `${API_URL}/cars/makes/${slugify(make)}`,
-      ),
-      fetchApi<Make[]>(`${API_URL}/cars/makes`),
-    ]);
-
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
+  const { cars, makes, lastUpdated } = await fetchMakePageData(make, month);
 
   return (
     <MakeDrawer>

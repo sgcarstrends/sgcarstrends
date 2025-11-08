@@ -51,4 +51,22 @@ test.describe("Fuel Types Pages", () => {
     await expect(page.locator("h1")).toContainText("Petrol");
     await page.waitForLoadState("networkidle");
   });
+
+  test("should return 404 for invalid fuel type", async ({ page }) => {
+    const response = await page.goto("/cars/fuel-types/invalid-fuel-type");
+
+    expect(response?.status()).toBe(404);
+  });
+
+  test("should return 404 for robots.txt as fuel type", async ({ page }) => {
+    const response = await page.goto("/cars/fuel-types/robots.txt");
+
+    expect(response?.status()).toBe(404);
+  });
+
+  test("should return 404 for sitemap.xml as fuel type", async ({ page }) => {
+    const response = await page.goto("/cars/fuel-types/sitemap.xml");
+
+    expect(response?.status()).toBe(404);
+  });
 });

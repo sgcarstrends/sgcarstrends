@@ -2,24 +2,38 @@ import {
   getTopMakesByYear,
   getYearlyRegistrations,
 } from "@web/actions/cars/statistics";
+import { KeyStatistics } from "@web/app/(dashboard)/(home)/_components/key-statistics";
+import { RecentPosts } from "@web/app/(dashboard)/(home)/_components/recent-posts";
 import { LatestCOE } from "@web/components/coe/latest-coe";
-import { KeyStatistics } from "@web/components/home/key-statistics";
-import { RecentPosts } from "@web/components/home/recent-posts";
 import { StructuredData } from "@web/components/structured-data";
 import { TopMakesByYear } from "@web/components/top-makes-by-year";
 import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-registrations-by-year";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { getQueryClient, trpc } from "@web/trpc/server";
-import { getLatestCOEResults } from "@web/utils/cached-api";
+import { getLatestCOEResults } from "@web/lib/coe/queries";
+import { getAllPosts } from "@web/lib/data/posts";
+import type { Metadata } from "next";
 import type { WebSite, WithContext } from "schema-dts";
 
-const HomePage = async () => {
-  const queryClient = getQueryClient();
+export const metadata: Metadata = {
+  title: "Singapore Car Registration & COE Trends | Latest Statistics",
+  description:
+    "Track Singapore car registration trends, COE bidding results, and automotive market insights. Latest data from Land Transport Authority (LTA) with interactive charts and analysis.",
+  openGraph: {
+    title: "Singapore Car Registration & COE Trends",
+    description:
+      "Track Singapore car registration trends and COE bidding results with interactive charts and latest market insights.",
+    type: "website",
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
 
+const HomePage = async () => {
   const [yearlyData, latestTopMakes, allPosts, latestCOE] = await Promise.all([
     getYearlyRegistrations(),
     getTopMakesByYear(),
-    queryClient.fetchQuery(trpc.blog.getAllPosts.queryOptions()),
+    getAllPosts(),
     getLatestCOEResults(),
   ]);
   const latestYear = yearlyData.at(-1)?.year;

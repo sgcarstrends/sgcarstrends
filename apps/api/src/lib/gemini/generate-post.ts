@@ -27,7 +27,7 @@ export const generatePost = async (
       model: google("gemini-2.5-flash"),
       system: SYSTEM_INSTRUCTIONS[dataType],
       tools: { code_execution: google.tools.codeExecution({}) },
-      prompt: `${dataType.toUpperCase()} data for ${month}: ${data}\n\n${GENERATION_PROMPTS[dataType]}`,
+      prompt: `${dataType.toUpperCase()} data for ${month}:\n${data}\n\n${GENERATION_PROMPTS[dataType]}`,
       providerOptions: {
         google: {
           thinkingConfig: {

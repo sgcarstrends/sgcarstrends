@@ -88,6 +88,33 @@ The admin dashboard uses shadcn/ui Sidebar components and includes:
 - **File Naming**: kebab-case for files, PascalCase for components
 - **Styling**: Tailwind CSS classes with cn() utility for conditional styling
 
+### Layout & Spacing
+
+The admin dashboard follows modern spacing conventions for consistent, maintainable layouts:
+
+- **Avoid `space-y-*`**: Use `flex flex-col gap-*` instead for better layout control
+- **Avoid `margin-top`**: Use `gap-*` or `padding` for spacing between elements
+- **Prefer even gap values**: `gap-2`, `gap-4`, `gap-6`, `gap-8` (odd values only sparingly for specific cases)
+- **Exception**: `mt-*` acceptable only for icon alignment with text (e.g., `mt-1` for small icons)
+
+**Quick Reference**:
+
+```typescript
+// ✅ Preferred
+<div className="flex flex-col gap-4">
+  <Card />
+  <Card />
+</div>
+
+// ❌ Avoid
+<div className="space-y-4">
+  <Card />
+  <Card />
+</div>
+```
+
+For detailed spacing conventions, examples, and rationale, see [apps/web/CLAUDE.md - Layout & Spacing Conventions](../web/CLAUDE.md#layout--spacing-conventions).
+
 ## Key Features
 
 ### Dashboard Overview

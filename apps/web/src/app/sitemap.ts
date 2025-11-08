@@ -1,16 +1,13 @@
 import slugify from "@sindresorhus/slugify";
-import { API_URL, SITE_LINKS, SITE_URL } from "@web/config";
-import { getQueryClient, trpc } from "@web/trpc/server";
-import type { Make } from "@web/types";
-import { fetchApi } from "@web/utils/fetch-api";
+import { SITE_LINKS, SITE_URL } from "@web/config";
+import { getDistinctMakes } from "@web/lib/cars/queries";
+import { getAllPosts } from "@web/lib/data/posts";
 import type { MetadataRoute } from "next";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const makes = await fetchApi<Make[]>(`${API_URL}/cars/makes`);
-  const queryClient = getQueryClient();
-  const posts = await queryClient.fetchQuery(
-    trpc.blog.getAllPosts.queryOptions(),
-  );
+  const makesResult = await getDistinctMakes();
+  const makes = makesResult.map((m) => m.make);
+  const posts = await getAllPosts();
 
   return [
     // {

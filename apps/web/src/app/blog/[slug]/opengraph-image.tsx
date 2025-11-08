@@ -1,4 +1,4 @@
-import { getQueryClient, trpc } from "@web/trpc/server";
+import { getPostBySlug } from "@web/lib/data/posts";
 import { ImageResponse } from "next/og";
 
 type Props = {
@@ -12,10 +12,7 @@ export const size = {
 
 const Image = async ({ params }: Props) => {
   const { slug } = await params;
-  const queryClient = getQueryClient();
-  const post = await queryClient.fetchQuery(
-    trpc.blog.getPostBySlug.queryOptions({ slug }),
-  );
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return new Response("Not found", { status: 404 });

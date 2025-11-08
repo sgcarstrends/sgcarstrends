@@ -1,11 +1,6 @@
-import Link from "next/link";
-
-// Enable ISR with 1-hour revalidation
-export const revalidate = 3600;
-
 import { redis } from "@sgcarstrends/utils";
+import { LatestCOEPrices } from "@web/app/(dashboard)/coe/_components/latest-coe-prices";
 import { AnimatedNumber } from "@web/components/animated-number";
-import { LatestCOEPrices } from "@web/components/coe/latest-coe-prices";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
@@ -20,14 +15,17 @@ import {
 } from "@web/components/ui/card";
 import { Progress } from "@web/components/ui/progress";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { calculateOverviewStats } from "@web/lib/coe/calculations";
 import {
   getCOEResults,
   getLatestCOEResults,
   getPQPData,
-} from "@web/utils/cached-api";
+} from "@web/lib/coe/queries";
+import { createPageMetadata } from "@web/lib/metadata";
+import { formatPercent } from "@web/utils/charts";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { formatPercent } from "@web/utils/format-percent";
 import type { Metadata } from "next";
+import Link from "next/link";
 import type { WebPage, WithContext } from "schema-dts";
 
 const title = "COE Overview";
@@ -35,7 +33,6 @@ const description =
   "Certificate of Entitlement (COE) analysis hub for Singapore vehicle registration. Explore historical results, trends, bidding data, and category-specific insights.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  // TODO: Refactor and clean up
   const results = await getLatestCOEResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
@@ -45,29 +42,15 @@ export const generateMetadata = async (): Promise<Metadata> => {
     {},
   );
 
-  const canonical = "/coe";
   const images = `/api/og/coe?title=COE Results&subtitle=Overview&biddingNo=2&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
 
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      images,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      images,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: "/coe",
+    images,
+    includeAuthors: true,
+  });
 };
 
 const COEPricesPage = async () => {
@@ -92,43 +75,7 @@ const COEPricesPage = async () => {
   };
 
   const categories = ["Category A", "Category B", "Category E"];
-  const summaryStats = categories
-    .map((category) => {
-      const categoryData = allCoeResults
-        .filter((item) => item.vehicle_class === category)
-        .sort(
-          (a, b) => new Date(a.month).getTime() - new Date(b.month).getTime(),
-        );
-
-      if (categoryData.length === 0) return null;
-
-      const premiums = categoryData.map(({ premium }) => premium);
-      const highest = Math.max(...premiums);
-      const lowest = Math.min(...premiums);
-
-      // Find the records with dates
-      const highestRecord = categoryData.find(
-        ({ premium }) => premium === highest,
-      );
-      const lowestRecord = categoryData.find(
-        ({ premium }) => premium === lowest,
-      );
-
-      return {
-        category,
-        highest,
-        lowest,
-        highestRecord: {
-          date: highestRecord?.month,
-          amount: highest,
-        },
-        lowestRecord: {
-          date: lowestRecord?.month,
-          amount: lowest,
-        },
-      };
-    })
-    .filter(Boolean);
+  const summaryStats = calculateOverviewStats(allCoeResults, categories);
 
   // Get latest PQP rates
   const latestPqpData = Object.entries(pqpRates)[0];
@@ -150,7 +97,7 @@ const COEPricesPage = async () => {
 
         <LatestCOEPrices results={latestResults} />
 
-        <div className="space-y-4">
+        <div className="flex flex-col gap-4">
           <Typography.H2>Fun Facts</Typography.H2>
           <Card>
             <CardHeader>
@@ -160,10 +107,10 @@ const COEPricesPage = async () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="text-muted-foreground">
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2 text-muted-foreground">
                   <Progress value={categoryAPercentage * 100} className="h-4" />
-                  <div className="mt-2 text-center">
+                  <div className="text-center">
                     <span className="font-bold text-lg text-primary">
                       {formatPercent(categoryAPercentage, {
                         maximumFractionDigits: 1,
@@ -181,31 +128,31 @@ const COEPricesPage = async () => {
                   <CardTitle>{stat?.category}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className="flex flex-col gap-4">
                     <div className="grid grid-cols-1 gap-2 text-muted-foreground">
                       <div>
                         <div className="text-red-600">
                           Record High:{" "}
-                          <span className="font-bold">
+                          <span className="font-semibold">
                             ${stat?.highest.toLocaleString()}
                           </span>
                         </div>
-                        <div className="text-xs">
+                        <Typography.Caption>
                           {stat?.highestRecord.date &&
                             formatDateToMonthYear(stat.highestRecord.date)}
-                        </div>
+                        </Typography.Caption>
                       </div>
                       <div>
                         <div className="text-green-600">
                           Record Low:{" "}
-                          <span className="font-bold">
+                          <span className="font-semibold">
                             ${stat?.lowest.toLocaleString()}
                           </span>
                         </div>
-                        <div className="text-xs">
+                        <Typography.Caption>
                           {stat?.lowestRecord.date &&
                             formatDateToMonthYear(stat.lowestRecord.date)}
-                        </div>
+                        </Typography.Caption>
                       </div>
                     </div>
                   </div>
@@ -232,8 +179,8 @@ const COEPricesPage = async () => {
                     key={category}
                     className="flex items-center justify-between border-b pb-2 last-of-type:border-none"
                   >
-                    <div className="font-bold">{category}</div>
-                    <Typography.Lead className="font-bold text-primary">
+                    <Typography.H4>{category}</Typography.H4>
+                    <Typography.Lead className="text-primary">
                       S$
                       <AnimatedNumber value={rate} />
                     </Typography.Lead>
@@ -243,9 +190,9 @@ const COEPricesPage = async () => {
           </CardContent>
           <CardFooter>
             <div className="flex w-full flex-col gap-2">
-              <div className="text-muted-foreground">
+              <Typography.TextSm>
                 Note: There is no PQP Premium for Category E
-              </div>
+              </Typography.TextSm>
               <Link href="/coe/pqp">
                 <Button className="w-full">View All PQP Rates</Button>
               </Link>

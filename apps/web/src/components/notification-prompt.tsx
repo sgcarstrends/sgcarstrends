@@ -73,7 +73,7 @@ export const NotificationPrompt = () => {
           "border-primary-200 border-l-primary dark:border-primary-100",
         ])}
         endContent={
-          <div className="mt-2 flex gap-2">
+          <div className="flex gap-2">
             <Button
               onPress={handleGranted}
               color="primary"

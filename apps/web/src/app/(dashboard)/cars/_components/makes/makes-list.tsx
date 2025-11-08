@@ -1,0 +1,97 @@
+"use client";
+
+import { Chip } from "@heroui/chip";
+import { Input } from "@heroui/input";
+import {
+  Makes,
+  MakesSearchResults,
+} from "@web/app/(dashboard)/cars/_components/makes";
+import type { Make } from "@web/types";
+import { Search } from "lucide-react";
+import { matchSorter } from "match-sorter";
+import { useMemo, useState } from "react";
+
+interface MakesListProps {
+  makes: Make[];
+  popularMakes: Make[];
+}
+
+export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { popular, others } = useMemo(() => {
+    const popular = popularMakes.filter((make) => makes.includes(make));
+    const others = makes.filter((make) => !popularMakes.includes(make));
+    return { popular, others };
+  }, [makes, popularMakes]);
+
+  const filteredMakes = useMemo(() => {
+    if (!searchTerm) {
+      return [...popular, ...others];
+    }
+
+    // Use match-sorter for fuzzy matching with ranking
+    const sorted = matchSorter(makes, searchTerm);
+
+    // Maintain popular makes order even in search results
+    const filteredPopular = sorted.filter((make) => popular.includes(make));
+    const filteredOthers = sorted.filter((make) => !popular.includes(make));
+
+    return [...filteredPopular, ...filteredOthers];
+  }, [makes, searchTerm, popular, others]);
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <Input
+            type="search"
+            placeholder="Search by make"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            startContent={<Search className="size-4" />}
+            variant="bordered"
+          />
+          <Chip variant="shadow" color="primary">
+            {filteredMakes.length} of {makes.length} makes
+          </Chip>
+        </div>
+      </div>
+
+      {/* Popular Makes Section */}
+      {!searchTerm && (
+        <Makes title="Popular Makes" makes={popular} isPopular={true} />
+      )}
+
+      {/* All Makes Section */}
+      {!searchTerm && (
+        <Makes
+          title="All Makes"
+          makes={[...popular, ...others]}
+          showLetterFilter={true}
+        />
+      )}
+
+      {/* Search Results */}
+      {searchTerm && (
+        <MakesSearchResults makes={filteredMakes} searchTerm={searchTerm} />
+      )}
+
+      {filteredMakes.length === 0 && (
+        <div className="py-12 text-center">
+          <div className="flex flex-col items-center gap-3">
+            <div className="rounded-full bg-default-100 p-4">
+              <Search className="size-8 text-default-400" />
+            </div>
+            <div className="text-default-500">
+              No makes found matching &quot;{searchTerm}&quot;
+            </div>
+            <p className="text-default-400">
+              Try adjusting your search term or browse all available makes
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};

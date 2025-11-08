@@ -1,4 +1,4 @@
-import { getLatestMonth } from "@web/utils/month-utils";
+import { getLatestMonth } from "@web/utils/months";
 import { addYears, format } from "date-fns";
 import { createLoader, parseAsString } from "nuqs/server";
 
@@ -13,8 +13,8 @@ export const getDefaultStartDate = async (): Promise<string> => {
 };
 
 export const coeSearchParams = {
-  start: parseAsString,
-  end: parseAsString,
+  start: parseAsString.withDefault(""),
+  end: parseAsString.withDefault(""),
 };
 
 export const loadSearchParams = createLoader(coeSearchParams);

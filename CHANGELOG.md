@@ -1,3 +1,88 @@
+## [4.16.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.2...v4.16.3) (2025-11-08)
+
+### Bug Fixes
+
+* **api:** column names ([d7bf90a](https://github.com/sgcarstrends/sgcarstrends/commit/d7bf90a7663b56fb7547ec28f014533b12c59f3c))
+* **web:** handle undefined date in COE chart ([b8a18ba](https://github.com/sgcarstrends/sgcarstrends/commit/b8a18bac594a6b9adb3a63e44f817451e09fa584))
+
+## [4.16.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.1...v4.16.2) (2025-11-08)
+
+### Bug Fixes
+
+* **web:** handle invalid fuel and vehicle types ([d8dcc1c](https://github.com/sgcarstrends/sgcarstrends/commit/d8dcc1c3a9517dbd0bd5729c5226d1f948bb2b37))
+
+## [4.16.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.0...v4.16.1) (2025-11-08)
+
+### Bug Fixes
+
+* **api:** convert cars schema to camelCase ([3f911ca](https://github.com/sgcarstrends/sgcarstrends/commit/3f911ca884e4be1c6bcc6a43c69c2d3d4a4a9e4d))
+
+## [4.16.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.15.0...v4.16.0) (2025-11-03)
+
+### Features
+
+* **web:** add fuzzy search to car makes list ([5e9ef90](https://github.com/sgcarstrends/sgcarstrends/commit/5e9ef9086a2adecd67e16b992c23bf525e204779))
+
+## [4.15.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.4...v4.15.0) (2025-11-03)
+
+### Features
+
+* **web:** add llms.txt route with dynamic data ([4656848](https://github.com/sgcarstrends/sgcarstrends/commit/465684854e69dcffa74e5472b90bcacab45f3b30))
+
+## [4.14.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.3...v4.14.4) (2025-11-01)
+
+### Bug Fixes
+
+* **web:** tabs glitching on load ([08fdbae](https://github.com/sgcarstrends/sgcarstrends/commit/08fdbaef0e61c3c65c9fe3376492a9f742b7e86a))
+
+## [4.14.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.2...v4.14.3) (2025-11-01)
+
+### Bug Fixes
+
+* **web:** dashboard active links ([b7b0dc6](https://github.com/sgcarstrends/sgcarstrends/commit/b7b0dc6c9e10bdc95b82618fda2248ce7cf9716d))
+
+## [4.14.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.1...v4.14.2) (2025-11-01)
+
+### Bug Fixes
+
+* **web:** makes layout in mobile viewport ([a23b233](https://github.com/sgcarstrends/sgcarstrends/commit/a23b233045255f6b4716cabbde0e6ace115b47b6))
+
+## [4.14.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.14.0...v4.14.1) (2025-11-01)
+
+### Reverts
+
+* Revert "refactor(web): consolidate social redirects" ([fd40c4e](https://github.com/sgcarstrends/sgcarstrends/commit/fd40c4ea5bb31b5e9bd26a392c4ae5c43fd79f42))
+
+## [4.14.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.13.0...v4.14.0) (2025-10-30)
+
+### Features
+
+* enable bun for Vercel ([0420b74](https://github.com/sgcarstrends/sgcarstrends/commit/0420b7425c84b87d7387a16a97b60747bf0eab67))
+
+## [4.13.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.4...v4.13.0) (2025-10-30)
+
+### Features
+
+* **web:** add Next.js 16 cache components ([279a2cb](https://github.com/sgcarstrends/sgcarstrends/commit/279a2cb4f1276b2a754df72ec0185d4af70880c2))
+
+## [4.12.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.3...v4.12.4) (2025-10-30)
+
+### Bug Fixes
+
+* **web:** add initial value to reduce call ([08a3893](https://github.com/sgcarstrends/sgcarstrends/commit/08a3893c7e05b5900d710b236b2fa928b16f62e5))
+
+## [4.12.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.2...v4.12.3) (2025-10-26)
+
+### Bug Fixes
+
+* **web:** headers for opennext backward compatibility ([3431fd7](https://github.com/sgcarstrends/sgcarstrends/commit/3431fd7378d625b1ef6c3e2b9e09d03bc4a6a51b))
+
+## [4.12.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.1...v4.12.2) (2025-10-26)
+
+### Bug Fixes
+
+* **web:** middleware invocation failed on Vercel ([fd91f80](https://github.com/sgcarstrends/sgcarstrends/commit/fd91f80d0a18b358eeb770f998d3f551cdd8fcf3))
+
 ## [4.12.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.12.0...v4.12.1) (2025-10-26)
 
 ### Bug Fixes

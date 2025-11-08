@@ -33,6 +33,3 @@ sst-env.d.ts
 
 # Changesets
 .changeset/pre.json
-
-# Claude
-.claude

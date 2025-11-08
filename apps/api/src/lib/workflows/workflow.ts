@@ -59,3 +59,57 @@ export const publishToAllPlatforms = async (
     return result.successCount > 0;
   });
 };
+
+/**
+ * Revalidates web app cache for updated data
+ */
+export const revalidateWebCache = async (
+  context: WorkflowContext,
+  tags: string[],
+): Promise<void> => {
+  return context.run("Revalidate web cache", async () => {
+    try {
+      const stage = process.env.STAGE || "dev";
+      const webUrl =
+        stage === "prod"
+          ? "https://sgcarstrends.com"
+          : `https://${stage}.sgcarstrends.com`;
+
+      const revalidateToken = process.env.NEXT_PUBLIC_REVALIDATE_TOKEN;
+
+      if (!revalidateToken) {
+        console.warn(
+          "[WORKFLOW] NEXT_PUBLIC_REVALIDATE_TOKEN not set, skipping cache invalidation",
+        );
+        return;
+      }
+
+      const response = await fetch(`${webUrl}/api/revalidate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-revalidate-token": revalidateToken,
+        },
+        body: JSON.stringify({ tags }),
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error(
+          `[WORKFLOW] Cache invalidation failed: ${response.status} ${error}`,
+        );
+      } else {
+        const result = await response.json();
+        console.log(
+          `[WORKFLOW] Cache invalidated successfully for tags: ${tags.join(", ")}`,
+          result,
+        );
+      }
+    } catch (error) {
+      console.error(
+        "[WORKFLOW] Error invalidating cache:",
+        error instanceof Error ? error.message : String(error),
+      );
+    }
+  });
+};

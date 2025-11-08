@@ -1,10 +1,11 @@
 import { redis } from "@sgcarstrends/utils";
 import slugify from "@sindresorhus/slugify";
+import { CarOverviewTrends } from "@web/app/(dashboard)/cars/_components/overview-trends";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/[category]/[type]/search-params";
 import { AnimatedNumber } from "@web/components/animated-number";
-import { CarOverviewTrends } from "@web/components/cars/overview-trends";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
 import { Badge } from "@web/components/ui/badge";
 import {
   Card,
@@ -12,16 +13,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@web/components/ui/card";
+import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import {
-  API_URL,
-  LAST_UPDATED_CARS_KEY,
-  SITE_TITLE,
-  SITE_URL,
-} from "@web/config";
-import { fetchApi } from "@web/utils/fetch-api";
+  checkFuelTypeIfExist,
+  checkVehicleTypeIfExist,
+  getDistinctFuelTypes,
+  getDistinctVehicleTypes,
+  getFuelTypeData,
+  getVehicleTypeData,
+} from "@web/lib/cars/queries";
+import { createPageMetadata } from "@web/lib/metadata";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
@@ -69,44 +74,25 @@ export const generateMetadata = async ({
 
   const title = "Cars in Singapore";
   const description = config.description;
-  const canonical = `/cars/${category}/${type}?month=${month}`;
 
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      images: `${SITE_URL}/opengraph-image.png`,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: `${SITE_URL}/twitter-image.png`,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: `/cars/${category}/${type}?month=${month}`,
+    images: `${SITE_URL}/opengraph-image.png`,
+  });
 };
 
 export const generateStaticParams = async () => {
-  const [fuelTypes, vehicleTypes] = await Promise.all([
-    fetchApi<string[]>(`${API_URL}/cars/fuel-types`),
-    fetchApi<string[]>(`${API_URL}/cars/vehicle-types`),
+  const [fuelTypesResult, vehicleTypesResult] = await Promise.all([
+    getDistinctFuelTypes(),
+    getDistinctVehicleTypes(),
   ]);
 
   const params: { category: string; type: string }[] = [];
 
   // Add fuel-types params
-  fuelTypes.forEach((fuelType) => {
+  fuelTypesResult.forEach(({ fuelType }) => {
     params.push({
       category: "fuel-types",
       type: slugify(fuelType),
@@ -114,7 +100,7 @@ export const generateStaticParams = async () => {
   });
 
   // Add vehicle-types params
-  vehicleTypes.forEach((vehicleType) => {
+  vehicleTypesResult.forEach(({ vehicleType }) => {
     params.push({
       category: "vehicle-types",
       type: slugify(vehicleType),
@@ -130,20 +116,28 @@ const TypePage = async ({ params, searchParams }: Props) => {
 
   const config = categoryConfigs[category as keyof typeof categoryConfigs];
   if (!config) {
-    return (
-      <div className="py-8 text-center">
-        <p className="text-gray-500">Category not found</p>
-      </div>
-    );
+    notFound();
+  }
+
+  // Validate type parameter
+  const typeExists =
+    category === "fuel-types"
+      ? await checkFuelTypeIfExist(type)
+      : await checkVehicleTypeIfExist(type);
+
+  if (!typeExists) {
+    notFound();
   }
 
   month = await getMonthOrLatest(month, "cars");
 
-  const [cars, months] = await Promise.all([
-    fetchApi<TypeData>(`${API_URL}/cars/${category}/${type}?month=${month}`),
+  const [cars, months, lastUpdated] = (await Promise.all([
+    category === "fuel-types"
+      ? getFuelTypeData(type, month)
+      : getVehicleTypeData(type, month),
     fetchMonthsForCars(),
-  ]);
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
+    redis.get<number>(LAST_UPDATED_CARS_KEY),
+  ])) as [TypeData, string[], number | null];
 
   const formattedMonth = formatDateToMonthYear(month);
 

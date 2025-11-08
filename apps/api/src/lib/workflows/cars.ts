@@ -7,6 +7,7 @@ import { updateCars } from "@api/lib/workflows/update-cars";
 import {
   processTask,
   publishToAllPlatforms,
+  revalidateWebCache,
   type WorkflowStep,
 } from "@api/lib/workflows/workflow";
 import { createWorkflow } from "@upstash/workflow/hono";
@@ -32,6 +33,18 @@ export const carsWorkflow = createWorkflow(
 
     // Get latest updated month for cars from the database
     const { month } = await getCarsLatestMonth();
+
+    // Invalidate cache for updated car data
+    await revalidateWebCache(context, [
+      "cars",
+      `cars-${month}`,
+      `cars-comparison-${month}`,
+      `cars-types-${month}`,
+      `cars-makes-${month}`,
+      "cars-months",
+      "stats-yearly",
+      "latest-cars-month",
+    ]);
 
     const post = await generateCarPost(context, month);
 

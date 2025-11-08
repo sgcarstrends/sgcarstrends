@@ -1,7 +1,9 @@
+import Typography from "@web/components/typography";
+
 const AboutPage = () => {
   return (
     <div>
-      <h1>About Page</h1>
+      <Typography.H1>About Page</Typography.H1>
     </div>
   );
 };

@@ -30,11 +30,7 @@ export const PageHeader = ({
       <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">
         <div className="flex flex-col">
           <Typography.H1>{title}</Typography.H1>
-          {subtitle && (
-            <Typography.H2 className="text-muted-foreground">
-              {subtitle}
-            </Typography.H2>
-          )}
+          {subtitle && <Typography.Lead>{subtitle}</Typography.Lead>}
         </div>
         <div className="flex flex-col items-start gap-2">
           {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}

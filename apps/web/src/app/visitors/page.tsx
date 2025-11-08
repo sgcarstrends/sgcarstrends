@@ -1,63 +1,40 @@
 import { AnimatedNumber } from "@web/components/animated-number";
+import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { Card, CardContent } from "@web/components/ui/card";
 import { VisitorsAnalytics } from "@web/components/visitors-analytics";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { createPageMetadata } from "@web/lib/metadata";
 import type { AnalyticsData } from "@web/types/analytics";
 import { Users } from "lucide-react";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
-export const generateMetadata = (): Metadata => {
-  const title = "Visitor Analytics";
-  const description = "Website visitor statistics and traffic data.";
+const title = "Visitor Analytics";
+const description = "Website visitor statistics and traffic data.";
 
-  return {
+export const generateMetadata = (): Metadata => {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: "/visitors",
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical: "/visitors",
-    },
-  };
+    canonical: "/visitors",
+  });
 };
 
-interface VisitorsPageProps {
-  searchParams: Promise<{
-    start?: string;
-    end?: string;
-  }>;
-}
-
-const VisitorsPage = async ({ searchParams }: VisitorsPageProps) => {
-  const params = await searchParams;
-  const { start, end } = params;
+const VisitorsPage = async () => {
+  "use cache";
 
   let data: AnalyticsData;
 
   try {
-    // Build API URL with search parameters
-    const apiUrl = new URL(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics`);
-    if (start) apiUrl.searchParams.set("start", start);
-    if (end) apiUrl.searchParams.set("end", end);
-
-    const response = await fetch(apiUrl.toString());
+    const response = await fetch(
+      new URL(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics`),
+    );
     if (!response.ok) {
       throw new Error("Failed to fetch analytics data");
     }
+
     data = await response.json();
   } catch (error) {
     console.error("Error fetching analytics data:", error);
@@ -72,9 +49,6 @@ const VisitorsPage = async ({ searchParams }: VisitorsPageProps) => {
       dailyViews: [],
     };
   }
-
-  const title = "Visitor Analytics";
-  const description = "Website visitor statistics and traffic data.";
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -93,17 +67,14 @@ const VisitorsPage = async ({ searchParams }: VisitorsPageProps) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <Typography.H1>Visitor Analytics</Typography.H1>
-          <Typography.Lead>
-            Website traffic and visitor statistics
-          </Typography.Lead>
-        </div>
-
+        <PageHeader
+          title="Visitor Analytics"
+          subtitle="Website traffic and visitor statistics"
+        />
         <Card>
           <CardContent>
             <div className="flex flex-col items-center justify-center gap-4">
-              <div className="font-semibold text-2xl">Total Visitors</div>
+              <Typography.H3>Total Visitors</Typography.H3>
               <div className="flex items-center gap-4">
                 <Users className="size-8" />
                 <div className="font-semibold text-4xl">
@@ -114,7 +85,7 @@ const VisitorsPage = async ({ searchParams }: VisitorsPageProps) => {
           </CardContent>
         </Card>
 
-        <VisitorsAnalytics initialData={data} />
+        <VisitorsAnalytics data={data} />
       </div>
     </>
   );

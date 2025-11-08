@@ -1,7 +1,9 @@
+import Typography from "@web/components/typography";
+
 const ContactPage = () => {
   return (
     <div>
-      <h1>Contact Page</h1>
+      <Typography.H1>Contact Page</Typography.H1>
     </div>
   );
 };

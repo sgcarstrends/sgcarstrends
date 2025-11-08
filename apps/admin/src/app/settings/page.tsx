@@ -21,7 +21,7 @@ import Link from "next/link";
 
 const SettingsPage = () => {
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <div>
         <h1 className="flex items-center gap-2 font-bold text-3xl tracking-tight">
           <Settings className="h-8 w-8" />
@@ -50,7 +50,7 @@ const SettingsPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2 text-sm">
+              <div className="flex flex-col gap-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Status:</span>
                   <span className="text-green-600">Normal Operation</span>
@@ -78,7 +78,7 @@ const SettingsPage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2 text-sm">
+            <div className="flex flex-col gap-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Environment:</span>
                 <span>Production</span>
@@ -104,7 +104,7 @@ const SettingsPage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2 text-sm">
+            <div className="flex flex-col gap-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Connection:</span>
                 <span className="text-green-600">Active</span>
@@ -130,7 +130,7 @@ const SettingsPage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2 text-sm">
+            <div className="flex flex-col gap-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">2FA Required:</span>
                 <span className="text-green-600">Enabled</span>
@@ -155,7 +155,7 @@ const SettingsPage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2 text-sm">
+            <div className="flex flex-col gap-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Total Users:</span>
                 <span>3</span>
@@ -180,7 +180,7 @@ const SettingsPage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2 text-sm">
+            <div className="flex flex-col gap-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Email Alerts:</span>
                 <span className="text-green-600">Enabled</span>
@@ -203,7 +203,7 @@ const SettingsPage = () => {
             Important Notes
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3 text-muted-foreground text-sm">
+        <CardContent className="flex flex-col gap-4 text-muted-foreground text-sm">
           <div className="flex items-start gap-2">
             <span className="font-medium text-foreground">⚠️</span>
             <span>

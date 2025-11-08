@@ -42,7 +42,9 @@
 .changeset/pre.json
 
 # Claude
-.claude
+**/.claude/*
+!**/.claude/skills/
+!**/.claude/commands/
 
 # Turborepo
 .turbo

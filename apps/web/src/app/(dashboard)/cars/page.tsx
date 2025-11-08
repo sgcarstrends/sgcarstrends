@@ -1,23 +1,24 @@
 import { redis } from "@sgcarstrends/utils";
+import { TopMakes } from "@web/app/(dashboard)/cars/_components/top-makes";
 import { CategoryTabs } from "@web/app/(dashboard)/cars/category-tabs";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
 import { CarRegistration } from "@web/app/(dashboard)/cars/trends-compare-button";
-import { TopMakes } from "@web/components/cars/top-makes";
 import { PageHeader } from "@web/components/page-header";
 import { MetricCard } from "@web/components/shared/metric-card";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { generateDatasetSchema } from "@web/lib/structured-data";
 import {
   getCarsComparison,
   getCarsData,
-  getTopMakes,
+  getTopMakesByFuelType,
   getTopTypes,
-} from "@web/utils/cached-api";
+} from "@web/lib/cars/queries";
+import { createPageMetadata } from "@web/lib/metadata";
+import { generateDatasetSchema } from "@web/lib/structured-data";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/month-utils";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
@@ -26,9 +27,6 @@ import type { WebPage, WithContext } from "schema-dts";
 interface Props {
   searchParams: Promise<SearchParams>;
 }
-
-// Enable ISR with 1-hour revalidation
-export const revalidate = 3600;
 
 export const generateMetadata = async ({
   searchParams,
@@ -48,28 +46,13 @@ export const generateMetadata = async ({
   ]);
   const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${carRegistration.total}&topFuelType=${topTypes.topFuelType.name}&topVehicleType=${topTypes.topVehicleType.name}`;
 
-  const canonical = `/cars?month=${month}`;
-
-  return {
+  return createPageMetadata({
     title,
     description,
-    openGraph: {
-      images,
-      url: canonical,
-      siteName: SITE_TITLE,
-      locale: "en_SG",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      images,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
-    },
-    alternates: {
-      canonical,
-    },
-  };
+    canonical: `/cars?month=${month}`,
+    images,
+    includeAuthors: true,
+  });
 };
 
 const CarsPage = async ({ searchParams }: Props) => {
@@ -81,7 +64,7 @@ const CarsPage = async ({ searchParams }: Props) => {
     getCarsData(month),
     getCarsComparison(month),
     getTopTypes(month),
-    getTopMakes(month),
+    getTopMakesByFuelType(month),
     fetchMonthsForCars(),
   ]);
 

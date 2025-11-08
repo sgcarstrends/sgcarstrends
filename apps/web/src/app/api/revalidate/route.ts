@@ -1,4 +1,4 @@
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import type { NextRequest } from "next/server";
 
 export const POST = async (req: NextRequest) => {
@@ -15,11 +15,48 @@ export const POST = async (req: NextRequest) => {
     return Response.json({ message: "Invalid token" }, { status: 401 });
   }
 
-  const body = await req.json();
+  try {
+    const body = await req.json();
 
-  const tag = body.tag;
-  if (tag) {
-    revalidateTag(tag, "max");
-    return Response.json({ revalidated: true, tag, now: Date.now() });
+    // Support single tag or array of tags
+    const tags = body.tags || (body.tag ? [body.tag] : []);
+    const path = body.path;
+
+    const revalidated: { tags?: string[]; path?: string } = {};
+
+    // Revalidate tags
+    if (tags.length > 0) {
+      for (const tag of tags) {
+        revalidateTag(tag, "max");
+      }
+      revalidated.tags = tags;
+    }
+
+    // Revalidate path
+    if (path) {
+      revalidatePath(path);
+      revalidated.path = path;
+    }
+
+    if (!tags.length && !path) {
+      return Response.json(
+        { message: "No tags or path provided" },
+        { status: 400 },
+      );
+    }
+
+    return Response.json({
+      revalidated: true,
+      ...revalidated,
+      now: Date.now(),
+    });
+  } catch (error) {
+    return Response.json(
+      {
+        message: "Failed to revalidate",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    );
   }
 };
