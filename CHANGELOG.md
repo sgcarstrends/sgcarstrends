@@ -1,3 +1,9 @@
+## [4.16.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.1...v4.16.2) (2025-11-08)
+
+### Bug Fixes
+
+* **web:** handle invalid fuel and vehicle types ([d8dcc1c](https://github.com/sgcarstrends/sgcarstrends/commit/d8dcc1c3a9517dbd0bd5729c5226d1f948bb2b37))
+
 ## [4.16.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.0...v4.16.1) (2025-11-08)
 
 ### Bug Fixes
