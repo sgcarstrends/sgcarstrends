@@ -70,8 +70,8 @@
   },
   "packageManager": "pnpm@10.13.1",
   "lint-staged": {
-    "*.{js,ts,tsx,jsx,json}": [
-      "pnpm biome check --write"
+    "*.{js,ts,tsx,jsx,json,jsonc}": [
+      "pnpm biome check --write --no-errors-on-unmatched"
     ]
   }
 }
