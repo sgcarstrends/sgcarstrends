@@ -124,14 +124,12 @@ describe("Metadata Utilities", () => {
         description: "Singapore car registration statistics",
         canonical: "/cars?month=2024-01",
         images: "/api/og?title=Cars",
-        keywords: ["car registration", "Singapore", "statistics"],
         includeAuthors: true,
       });
 
       expect(result).toMatchObject({
         title: "Car Registrations",
         description: "Singapore car registration statistics",
-        keywords: ["car registration", "Singapore", "statistics"],
         authors: [{ name: "SG Cars Trends", url: SITE_URL }],
         creator: "SG Cars Trends",
         publisher: "SG Cars Trends",

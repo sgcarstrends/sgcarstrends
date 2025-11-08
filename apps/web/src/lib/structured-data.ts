@@ -9,16 +9,6 @@ export const generateDatasetSchema = (): Dataset => ({
   name: "Singapore Car Registration Data",
   description:
     "Comprehensive monthly vehicle registration statistics for Singapore, including breakdowns by manufacturer, fuel type, and vehicle category. Data sourced from Singapore's Land Transport Authority (LTA).",
-  keywords: [
-    "Singapore",
-    "car registration",
-    "vehicle statistics",
-    "COE",
-    "automotive market",
-    "LTA data",
-    "transport statistics",
-    "motor vehicle trends",
-  ],
   url: `${SITE_URL}/cars`,
   creator: {
     "@type": "Organization",
