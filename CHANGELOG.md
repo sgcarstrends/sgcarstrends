@@ -1,3 +1,10 @@
+## [4.16.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.2...v4.16.3) (2025-11-08)
+
+### Bug Fixes
+
+* **api:** column names ([d7bf90a](https://github.com/sgcarstrends/sgcarstrends/commit/d7bf90a7663b56fb7547ec28f014533b12c59f3c))
+* **web:** handle undefined date in COE chart ([b8a18ba](https://github.com/sgcarstrends/sgcarstrends/commit/b8a18bac594a6b9adb3a63e44f817451e09fa584))
+
 ## [4.16.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.1...v4.16.2) (2025-11-08)
 
 ### Bug Fixes
