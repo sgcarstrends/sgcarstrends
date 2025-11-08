@@ -1,3 +1,9 @@
+## [4.16.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.0...v4.16.1) (2025-11-08)
+
+### Bug Fixes
+
+* **api:** convert cars schema to camelCase ([3f911ca](https://github.com/sgcarstrends/sgcarstrends/commit/3f911ca884e4be1c6bcc6a43c69c2d3d4a4a9e4d))
+
 ## [4.16.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.15.0...v4.16.0) (2025-11-03)
 
 ### Features
