@@ -13,6 +13,7 @@ import { createPageMetadata } from "@web/lib/metadata";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 import { CategoryTypesTabsView } from "./category-tabs";
@@ -88,11 +89,7 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
   const config = categoryConfigs[category];
 
   if (!config) {
-    return (
-      <div className="py-8 text-center">
-        <Typography.Text>Category not found</Typography.Text>
-      </div>
-    );
+    return notFound();
   }
 
   let { month } = await loadSearchParams(searchParams);

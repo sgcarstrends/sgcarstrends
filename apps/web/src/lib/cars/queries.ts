@@ -413,6 +413,38 @@ export const checkMakeIfExist = async (
   return result ? { make: result.make ?? "Unknown" } : undefined;
 };
 
+/**
+ * Check if a fuel type exists in the database
+ * Uses case-insensitive pattern matching with support for URL-encoded dashes
+ */
+export const checkFuelTypeIfExist = async (
+  fuelType: string,
+): Promise<{ fuelType: string } | undefined> => {
+  const pattern = fuelType.replaceAll("-", "%");
+  const result = await db.query.cars.findFirst({
+    where: sql`lower(${cars.fuelType}) LIKE lower(${pattern})`,
+    columns: { fuelType: true },
+  });
+
+  return result ? { fuelType: result.fuelType ?? "Unknown" } : undefined;
+};
+
+/**
+ * Check if a vehicle type exists in the database
+ * Uses case-insensitive pattern matching with support for URL-encoded dashes
+ */
+export const checkVehicleTypeIfExist = async (
+  vehicleType: string,
+): Promise<{ vehicleType: string } | undefined> => {
+  const pattern = vehicleType.replaceAll("-", "%");
+  const result = await db.query.cars.findFirst({
+    where: sql`lower(${cars.vehicleType}) LIKE lower(${pattern})`,
+    columns: { vehicleType: true },
+  });
+
+  return result ? { vehicleType: result.vehicleType ?? "Unknown" } : undefined;
+};
+
 export interface MakeDetails {
   total: number;
   data: Partial<SelectCar>[];
