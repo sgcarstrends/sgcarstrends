@@ -6,10 +6,10 @@ exports[`PageNotFound > renders the 404 error message 1`] = `
     class="container mx-auto px-4 py-16"
   >
     <div
-      class="flex min-h-[60vh] flex-col items-center justify-center text-center"
+      class="flex min-h-[60vh] flex-col items-center justify-center"
     >
       <div
-        class="mb-8"
+        class="mb-8 flex flex-col items-center"
       >
         <h1
           class="scroll-m-20 font-semibold text-4xl tracking-tight lg:text-5xl w-fit bg-gradient-to-r from-foreground to-foreground/50 bg-clip-text leading-normal transition-opacity text-primary"
