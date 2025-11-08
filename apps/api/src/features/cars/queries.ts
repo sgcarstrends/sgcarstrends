@@ -6,8 +6,8 @@ export const getCarsByMonth = (month: string) =>
     where: eq(cars.month, month),
     columns: {
       number: true,
-      fuel_type: true,
-      vehicle_type: true,
+      fuelType: true,
+      vehicleType: true,
     },
   });
 
