@@ -20,24 +20,24 @@ export const getCarRegistrationByMonth = (month: string) =>
 export const getCarsByFuelType = (month: string) =>
   db
     .select({
-      name: cars.fuel_type,
+      name: cars.fuelType,
       count: sql<number>`cast(sum(${cars.number}) as integer)`,
     })
     .from(cars)
     .where(eq(cars.month, month))
-    .groupBy(cars.fuel_type)
+    .groupBy(cars.fuelType)
     .orderBy(desc(sum(cars.number)))
     .having(gt(sum(cars.number), 0));
 
 export const getCarsByVehicleType = (month: string) =>
   db
     .select({
-      name: cars.vehicle_type,
+      name: cars.vehicleType,
       count: sql<number>`cast(sum(${cars.number}) as integer)`,
     })
     .from(cars)
     .where(eq(cars.month, month))
-    .groupBy(cars.vehicle_type)
+    .groupBy(cars.vehicleType)
     .orderBy(desc(sum(cars.number)))
     .having(gt(sum(cars.number), 0));
 
@@ -52,26 +52,26 @@ export const getCarsAggregatedByMonth = (month: string) =>
     .select({
       month: cars.month,
       make: cars.make,
-      fuel_type: cars.fuel_type,
-      vehicle_type: cars.vehicle_type,
+      fuel_type: cars.fuelType,
+      vehicle_type: cars.vehicleType,
       number: sql<number>`cast(sum(${cars.number}) as integer)`,
     })
     .from(cars)
     .where(and(eq(cars.month, month), gt(cars.number, 0)))
-    .groupBy(cars.month, cars.make, cars.fuel_type, cars.vehicle_type)
+    .groupBy(cars.month, cars.make, cars.fuelType, cars.vehicleType)
     .orderBy(asc(cars.make));
 
 export const getCarsTopMakesByFuelType = async (month: string) => {
   // First get all fuel types with their totals
   const fuelTypes = await db
     .select({
-      fuelType: cars.fuel_type,
+      fuelType: cars.fuelType,
       total: sql<number>`cast(sum(${cars.number}) as integer)`,
     })
     .from(cars)
     .where(eq(cars.month, month))
-    .groupBy(cars.fuel_type)
-    .orderBy(asc(cars.fuel_type))
+    .groupBy(cars.fuelType)
+    .orderBy(asc(cars.fuelType))
     .having(gt(sum(cars.number), 0));
 
   // Get top 3 makes for each fuel type
@@ -79,7 +79,7 @@ export const getCarsTopMakesByFuelType = async (month: string) => {
     fuelTypes.map(async ({ fuelType, total }) => {
       const whereConditions = [
         eq(cars.month, month),
-        eq(cars.fuel_type, fuelType),
+        eq(cars.fuelType, fuelType),
       ];
 
       const topMakes = await db
@@ -89,7 +89,7 @@ export const getCarsTopMakesByFuelType = async (month: string) => {
         })
         .from(cars)
         .where(and(...whereConditions))
-        .groupBy(cars.make, cars.fuel_type)
+        .groupBy(cars.make, cars.fuelType)
         .having(gt(sum(cars.number), 0))
         .orderBy(desc(sum(cars.number)))
         .limit(3);
@@ -107,22 +107,22 @@ export const getTopTypes = (month: string) =>
   db.batch([
     db
       .select({
-        name: cars.fuel_type,
+        name: cars.fuelType,
         total: sql<number>`cast(sum(${cars.number}) as integer)`,
       })
       .from(cars)
       .where(eq(cars.month, month))
-      .groupBy(cars.fuel_type)
+      .groupBy(cars.fuelType)
       .orderBy(desc(sum(cars.number)))
       .limit(1),
     db
       .select({
-        name: cars.vehicle_type,
+        name: cars.vehicleType,
         total: sql<number>`cast(sum(${cars.number}) as integer)`,
       })
       .from(cars)
       .where(eq(cars.month, month))
-      .groupBy(cars.vehicle_type)
+      .groupBy(cars.vehicleType)
       .orderBy(desc(sum(cars.number)))
       .limit(1),
   ]);
@@ -135,16 +135,14 @@ export const getDistinctFuelTypes = (month: string) => {
   }
 
   return db
-    .selectDistinct({ fuelType: cars.fuel_type })
+    .selectDistinct({ fuelType: cars.fuelType })
     .from(cars)
     .where(and(...whereConditions))
-    .orderBy(asc(cars.fuel_type));
+    .orderBy(asc(cars.fuelType));
 };
 
 export const getFuelTypeByMonth = (fuelType: string, month: string) => {
-  const whereConditions = [
-    ilike(cars.fuel_type, fuelType.replaceAll("-", "%")),
-  ];
+  const whereConditions = [ilike(cars.fuelType, fuelType.replaceAll("-", "%"))];
 
   if (month) {
     whereConditions.push(eq(cars.month, month));
@@ -159,12 +157,12 @@ export const getFuelTypeByMonth = (fuelType: string, month: string) => {
       .select({
         month: cars.month,
         make: cars.make,
-        fuel_type: cars.fuel_type,
+        fuel_type: cars.fuelType,
         count: sql<number>`cast(sum(${cars.number}) as integer)`,
       })
       .from(cars)
       .where(and(...whereConditions))
-      .groupBy(cars.month, cars.make, cars.fuel_type)
+      .groupBy(cars.month, cars.make, cars.fuelType)
       .orderBy(desc(sum(cars.number)))
       .having(gt(sum(cars.number), 0)),
   ]);
@@ -178,15 +176,15 @@ export const getDistinctVehicleTypes = (month: string) => {
   }
 
   return db
-    .selectDistinct({ vehicleType: cars.vehicle_type })
+    .selectDistinct({ vehicleType: cars.vehicleType })
     .from(cars)
     .where(and(...whereConditions))
-    .orderBy(asc(cars.vehicle_type));
+    .orderBy(asc(cars.vehicleType));
 };
 
 export const getVehicleTypeByMonth = (vehicleType: string, month: string) => {
   const whereConditions = [
-    ilike(cars.vehicle_type, vehicleType.replaceAll("-", "%")),
+    ilike(cars.vehicleType, vehicleType.replaceAll("-", "%")),
   ];
 
   if (month) {
@@ -202,12 +200,12 @@ export const getVehicleTypeByMonth = (vehicleType: string, month: string) => {
       .select({
         month: cars.month,
         make: cars.make,
-        vehicle_type: cars.vehicle_type,
+        vehicle_type: cars.vehicleType,
         count: sql<number>`cast(sum(${cars.number}) as integer)`,
       })
       .from(cars)
       .where(and(...whereConditions))
-      .groupBy(cars.month, cars.make, cars.vehicle_type)
+      .groupBy(cars.month, cars.make, cars.vehicleType)
       .orderBy(desc(sum(cars.number)))
       .having(gt(sum(cars.number), 0)),
   ]);
@@ -247,13 +245,13 @@ export const getMake = async (make: string, month: string) => {
     db
       .select({
         month: cars.month,
-        fuelType: cars.fuel_type,
-        vehicleType: cars.vehicle_type,
+        fuelType: cars.fuelType,
+        vehicleType: cars.vehicleType,
         count: sql<number>`cast(sum(${cars.number}) as integer)`,
       })
       .from(cars)
       .where(and(...whereConditions))
-      .groupBy(cars.month, cars.fuel_type, cars.vehicle_type)
+      .groupBy(cars.month, cars.fuelType, cars.vehicleType)
       .orderBy(desc(cars.month)),
   ]);
 
