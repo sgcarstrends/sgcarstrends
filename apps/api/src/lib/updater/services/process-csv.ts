@@ -3,6 +3,7 @@ import Papa from "papaparse";
 
 export interface CSVTransformOptions<T> {
   fields?: { [K in keyof T]?: unknown };
+  columnMapping?: Record<string, string>;
 }
 
 export const processCsv = async <T>(
@@ -11,7 +12,7 @@ export const processCsv = async <T>(
 ) => {
   const fileContent = fs.readFileSync(filePath, "utf-8");
 
-  const { fields = {} } = options;
+  const { fields = {}, columnMapping = {} } = options;
 
   const { data } = Papa.parse<T>(fileContent, {
     header: true,
@@ -27,6 +28,19 @@ export const processCsv = async <T>(
       return typeof value === "string" ? value.trim() : value;
     },
   });
+
+  // Apply column name mapping if provided
+  if (Object.keys(columnMapping).length > 0) {
+    return data.map((row) => {
+      const mappedRow: Record<string, unknown> = {};
+
+      for (const [key, value] of Object.entries(row)) {
+        const mappedKey = columnMapping[key] || key;
+        mappedRow[mappedKey] = value;
+      }
+      return mappedRow as T;
+    });
+  }
 
   return data;
 };

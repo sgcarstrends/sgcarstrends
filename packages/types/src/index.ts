@@ -38,9 +38,9 @@ export type Stage = "dev" | "staging" | "prod";
 export interface Car {
   month: string;
   make: string;
-  importer_type: string;
-  fuel_type: string;
-  vehicle_type: string;
+  importerType: string;
+  fuelType: string;
+  vehicleType: string;
   number: number;
 }
 

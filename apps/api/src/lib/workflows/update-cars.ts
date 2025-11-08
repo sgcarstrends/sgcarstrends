@@ -10,8 +10,8 @@ export const updateCars = () => {
   const keyFields: Array<keyof Car> = [
     "month",
     "make",
-    "fuel_type",
-    "vehicle_type",
+    "fuelType",
+    "vehicleType",
   ];
 
   const updater = new Updater<Car>({
@@ -19,10 +19,15 @@ export const updateCars = () => {
     url,
     keyFields,
     csvTransformOptions: {
+      columnMapping: {
+        fuel_type: "fuelType",
+        vehicle_type: "vehicleType",
+        importer_type: "importerType",
+      },
       fields: {
         make: (value: string) =>
           cleanSpecialChars(value, { separator: "." }).toUpperCase(),
-        vehicle_type: (value: string) =>
+        vehicleType: (value: string) =>
           cleanSpecialChars(value, { separator: "/", joinSeparator: "/" }),
         number: (value: string | number) => (value === "" ? 0 : Number(value)),
       },
