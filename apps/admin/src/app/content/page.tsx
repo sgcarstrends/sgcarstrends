@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@admin/components/ui/card";
+} from "@sgcarstrends/ui/components/card";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 

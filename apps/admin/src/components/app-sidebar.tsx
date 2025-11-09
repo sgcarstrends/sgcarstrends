@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@admin/components/ui/sidebar";
+} from "@sgcarstrends/ui/components/sidebar";
 import {
   Activity,
   BarChart3,

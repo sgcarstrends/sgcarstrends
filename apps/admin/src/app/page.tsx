@@ -1,11 +1,11 @@
-import { Badge } from "@admin/components/ui/badge";
-import { Button } from "@admin/components/ui/button";
+import { Badge } from "@sgcarstrends/ui/components/badge";
+import { Button } from "@sgcarstrends/ui/components/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@admin/components/ui/card";
+} from "@sgcarstrends/ui/components/card";
 import {
   Activity,
   Database,

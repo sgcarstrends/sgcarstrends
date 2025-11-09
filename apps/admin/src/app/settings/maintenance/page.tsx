@@ -1,18 +1,18 @@
 "use client";
 
-import { Badge } from "@admin/components/ui/badge";
-import { Button } from "@admin/components/ui/button";
+import { Badge } from "@sgcarstrends/ui/components/badge";
+import { Button } from "@sgcarstrends/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@admin/components/ui/card";
-import { Input } from "@admin/components/ui/input";
-import { Label } from "@admin/components/ui/label";
-import { Separator } from "@admin/components/ui/separator";
-import { Switch } from "@admin/components/ui/switch";
+} from "@sgcarstrends/ui/components/card";
+import { Input } from "@sgcarstrends/ui/components/input";
+import { Label } from "@sgcarstrends/ui/components/label";
+import { Separator } from "@sgcarstrends/ui/components/separator";
+import { Switch } from "@sgcarstrends/ui/components/switch";
 import {
   AlertCircle,
   ArrowLeft,
