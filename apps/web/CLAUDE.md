@@ -63,7 +63,6 @@ src/
 │   ├── coe/                       # Shared COE components (latest-coe.tsx for home page)
 │   ├── dashboard/                 # Shared dashboard components (navigation, skeletons)
 │   ├── shared/                    # Generic shared components (chips, currency, metric-card)
-│   ├── ui/                        # shadcn/ui base components (DO NOT MODIFY)
 │   └── [others]                   # Shared components used across multiple routes
 ├── config/                        # App configuration (DB, Redis, navigation)
 ├── lib/                           # Shared data fetching and business logic
@@ -96,7 +95,7 @@ Route-specific server actions use private folders:
 **Keep Centralised When:**
 
 - Component used by 3+ different routes
-- Part of design system (`components/ui/` - shadcn/ui)
+- Part of design system (use `@sgcarstrends/ui` shared package for shadcn/ui components)
 - Shared business logic (`actions/`, `lib/`)
 - Generic utilities (`components/shared/`)
 
@@ -117,7 +116,7 @@ import {KeyStatistics} from "@web/app/(dashboard)/(home)/_components/key-statist
 
 // ✅ Shared components via existing alias
 import {MetricCard} from "@web/components/shared/metric-card";
-import {Button} from "@web/components/ui/button";
+import {Button} from "@sgcarstrends/ui/components/button";
 
 // ❌ Avoid relative imports for co-located code
 import {ProgressBar} from "../_components/progress-bar"; // Don't use
@@ -180,7 +179,7 @@ philosophy inspired by Vercel, Linear, and Stripe. Uses lighter font weights (se
 secondary headings/labels, normal for body text) with hierarchy driven by size and spacing.
 See [Typography System](#typography-system) section below.
 
-**UI Components**: Located in `src/components/ui/` following HeroUI patterns with professional design system.
+**UI Components**: Base UI components (shadcn/ui) are imported from the shared `@sgcarstrends/ui` package. HeroUI components are also used throughout the application for professional design system integration.
 
 **Charts**: Recharts-based components in `src/components/charts/` for data visualization.
 
