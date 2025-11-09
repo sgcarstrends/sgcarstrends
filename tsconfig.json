@@ -12,7 +12,8 @@
     "paths": {
       "@admin/*": ["apps/admin/src/*"],
       "@api/*": ["apps/api/src/*"],
-      "@web/*": ["apps/web/src/*"]
+      "@web/*": ["apps/web/src/*"],
+      "@sgcarstrends/ui/*": ["packages/ui/src/*"]
     }
   }
 }
