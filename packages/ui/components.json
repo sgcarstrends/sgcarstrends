@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/styles/globals.css",
+    "baseColor": "zinc",
+    "cssVariables": true
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@sgcarstrends/ui/components",
+    "utils": "@sgcarstrends/ui/lib/utils",
+    "hooks": "@sgcarstrends/ui/hooks",
+    "lib": "@sgcarstrends/ui/lib",
+    "ui": "@sgcarstrends/ui/components"
+  }
+}
