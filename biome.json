@@ -8,7 +8,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!!coverage", "!!packages/ui"]
+    "includes": ["**", "!!coverage"]
   },
   "formatter": {
     "enabled": true,

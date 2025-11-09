@@ -14,7 +14,7 @@ export interface ErrorContext {
  * @param errorContext - Context information for error logging
  * @returns Wrapped handler with error handling
  */
-export const withErrorHandling = <T>(
+export const withErrorHandling = (
   handler: (c: Context) => Promise<Response>,
   errorContext: ErrorContext,
 ) => {

@@ -5,7 +5,6 @@ import {
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
 import { Button } from "@sgcarstrends/ui/components/button";
-import { Input } from "@sgcarstrends/ui/components/input";
 import {
   Select,
   SelectContent,

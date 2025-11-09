@@ -48,6 +48,7 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
+  transpilePackages: ["@sgcarstrends/ui"],
   experimental: {
     turbopackFileSystemCacheForDev: true,
   },

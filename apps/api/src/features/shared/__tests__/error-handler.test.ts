@@ -36,7 +36,7 @@ describe("withErrorHandling", () => {
       details: { id: 123 },
     });
 
-    const result = await wrappedHandler(mockContext);
+    await wrappedHandler(mockContext);
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       "Error in fetching data:",

@@ -12,7 +12,6 @@ import { loadSearchParams } from "@web/app/(dashboard)/cars/[category]/[type]/se
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
-import Typography from "@web/components/typography";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import {
   checkFuelTypeIfExist,
