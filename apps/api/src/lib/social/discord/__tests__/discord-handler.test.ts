@@ -1,6 +1,6 @@
+import { DiscordHandler } from "@api/lib/social/discord/discord-handler";
 import { Platform } from "@api/types/social-media";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { DiscordHandler } from "../discord-handler";
 
 // Mock fetch globally
 const mockFetch = vi.fn();

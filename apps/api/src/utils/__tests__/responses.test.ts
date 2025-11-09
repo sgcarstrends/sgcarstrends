@@ -1,6 +1,6 @@
+import { successResponse } from "@api/utils/responses";
 import type { Context } from "hono";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { successResponse } from "../responses";
 
 describe("successResponse", () => {
   const mockJson = vi.fn();

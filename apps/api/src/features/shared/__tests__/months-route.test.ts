@@ -1,7 +1,7 @@
+import { createMonthsRoute } from "@api/features/shared/months-route";
 import { getMonthsByYear } from "@api/lib/get-months-by-year";
 import { getUniqueMonths } from "@api/lib/get-unique-months";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { createMonthsRoute } from "../months-route";
 
 // Mock database to prevent connection initialization
 vi.mock("@sgcarstrends/database", () => ({

@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { client } from "@api/config/qstash";
 import { WORKFLOWS_BASE_URL } from "@api/config/workflow";
-import { NewsletterBroadcastError } from "./models";
+import { NewsletterBroadcastError } from "@api/features/newsletter/models";
 
 interface TriggerNewsletterResult {
   workflowRunId: string;

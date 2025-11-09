@@ -1,15 +1,15 @@
-import { Stage } from "@api/types";
-import { Platform } from "@api/types/social-media";
-import { refreshLinkedInToken } from "@api/utils/linkedin";
-import { RestliClient } from "linkedin-api-client";
 import type {
   PlatformConfig,
   PlatformHandler,
   PlatformHealth,
   PublishResult,
   SocialMessage,
-} from "../interfaces/platform-handler";
-import { resharePost } from "./reshare-post";
+} from "@api/lib/social/interfaces/platform-handler";
+import { resharePost } from "@api/lib/social/linkedin/reshare-post";
+import { Stage } from "@api/types";
+import { Platform } from "@api/types/social-media";
+import { refreshLinkedInToken } from "@api/utils/linkedin";
+import { RestliClient } from "linkedin-api-client";
 
 const UGC_POSTS_RESOURCE = "/ugcPosts";
 

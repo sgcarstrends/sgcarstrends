@@ -1,4 +1,4 @@
-import { getCarsByMonth } from "./queries";
+import { getCarsByMonth } from "@api/features/cars/queries";
 
 namespace Metric {
   export interface CategoryCount {

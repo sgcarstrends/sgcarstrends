@@ -1,7 +1,4 @@
-import { createMonthsRoute, withErrorHandling } from "@api/features/shared";
-import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
-import { cars } from "@sgcarstrends/database";
-import { getCarMetricsForPeriod } from "./cars.service";
+import { getCarMetricsForPeriod } from "@api/features/cars/cars.service";
 import {
   checkMakeIfExist,
   getCarRegistrationByMonth,
@@ -17,7 +14,7 @@ import {
   getPopularMakesByYear,
   getTopTypes,
   getVehicleTypeByMonth,
-} from "./queries";
+} from "@api/features/cars/queries";
 import {
   CarQuerySchema,
   CarResponseSchema,
@@ -40,7 +37,10 @@ import {
   VehicleTypeDataSchema,
   VehicleTypeParamSchema,
   VehicleTypesResponseSchema,
-} from "./schemas";
+} from "@api/features/cars/schemas";
+import { createMonthsRoute, withErrorHandling } from "@api/features/shared";
+import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
+import { cars } from "@sgcarstrends/database";
 
 const app = new OpenAPIHono();
 
