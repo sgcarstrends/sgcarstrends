@@ -5,16 +5,16 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "src/app/globals.css",
+    "css": "src/styles/globals.css",
     "baseColor": "zinc",
     "cssVariables": true
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@web/components",
-    "hooks": "@web/hooks",
-    "lib": "@web/lib",
+    "components": "@sgcarstrends/ui/components",
     "utils": "@sgcarstrends/ui/lib/utils",
+    "hooks": "@sgcarstrends/ui/hooks",
+    "lib": "@sgcarstrends/ui/lib",
     "ui": "@sgcarstrends/ui/components"
   }
 }

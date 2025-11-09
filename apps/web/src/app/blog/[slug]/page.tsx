@@ -1,4 +1,5 @@
 import { Button } from "@heroui/button";
+import { Separator } from "@sgcarstrends/ui/components/separator";
 import { updatePostTags } from "@web/app/blog/_actions/tags";
 import { mdxComponents } from "@web/app/blog/_components/mdx-components";
 import { ProgressBar } from "@web/app/blog/_components/progress-bar";
@@ -6,7 +7,6 @@ import { RelatedPosts } from "@web/app/blog/_components/related-posts";
 import { ViewCounter } from "@web/app/blog/_components/view-counter";
 import { BetaChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
-import { Separator } from "@web/components/ui/separator";
 import { SITE_URL } from "@web/config";
 import { getAllPosts, getPostBySlug } from "@web/lib/data/posts";
 import { Undo2 } from "lucide-react";

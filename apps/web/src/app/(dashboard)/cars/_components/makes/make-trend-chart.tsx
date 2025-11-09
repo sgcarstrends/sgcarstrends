@@ -1,12 +1,12 @@
 "use client";
 
-import Typography from "@web/components/typography";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@web/components/ui/chart";
+} from "@sgcarstrends/ui/components/chart";
+import Typography from "@web/components/typography";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 interface Props {

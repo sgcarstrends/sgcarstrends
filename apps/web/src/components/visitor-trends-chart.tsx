@@ -6,13 +6,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@web/components/ui/card";
+} from "@sgcarstrends/ui/components/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@web/components/ui/chart";
+} from "@sgcarstrends/ui/components/chart";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 interface Props {

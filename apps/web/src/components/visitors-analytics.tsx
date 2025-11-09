@@ -3,7 +3,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@web/components/ui/card";
+} from "@sgcarstrends/ui/components/card";
 import { VisitorTrendsChart } from "@web/components/visitor-trends-chart";
 import type { AnalyticsData } from "@web/types/analytics";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@web/lib/utils";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 
@@ -240,7 +240,7 @@ const ChartTooltipContent = React.forwardRef<
                           </span>
                         </div>
                         {item.value && (
-                          <span className="font-medium font-mono text-foreground tabular-nums">
+                          <span className="font-mono font-medium tabular-nums text-foreground">
                             {item.value.toLocaleString()}
                           </span>
                         )}

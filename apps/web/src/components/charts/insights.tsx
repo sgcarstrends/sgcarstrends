@@ -1,8 +1,8 @@
 "use client";
 
+import { Badge } from "@sgcarstrends/ui/components/badge";
+import { Card, CardContent } from "@sgcarstrends/ui/components/card";
 import { AnimatedNumber } from "@web/components/animated-number";
-import { Badge } from "@web/components/ui/badge";
-import { Card, CardContent } from "@web/components/ui/card";
 import { cn } from "@web/lib/utils";
 import { formatGrowthRate } from "@web/utils/charts";
 import {

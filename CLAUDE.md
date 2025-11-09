@@ -24,6 +24,7 @@ This repository includes directory-specific CLAUDE.md files with detailed guidan
   analytics
 - **[packages/database/CLAUDE.md](packages/database/CLAUDE.md)**: Database schema management with Drizzle ORM,
   migrations, and TypeScript integration
+- **[packages/ui/CLAUDE.md](packages/ui/CLAUDE.md)**: Shared UI components library with shadcn/ui and Tailwind CSS
 - **[infra/CLAUDE.md](infra/CLAUDE.md)**: Infrastructure configuration with SST v3, AWS deployment, and domain
   management
 
@@ -133,6 +134,11 @@ All commands use pnpm as the package manager.
     - **src/db**: Schema definitions for cars, COE, posts, and analytics tables
     - **migrations**: Database migration files with version tracking
 - **packages/types**: Shared TypeScript type definitions
+- **packages/ui**: Shared UI component library with shadcn/ui and Tailwind CSS
+    - **src/components**: shadcn/ui components (badge, button, card, dialog, etc.)
+    - **src/hooks**: Custom React hooks (use-mobile)
+    - **src/lib**: Utility functions (cn helper for class merging)
+    - **src/styles**: Global CSS styles and Tailwind configuration
 - **packages/utils**: Shared utility functions and Redis configuration
 - **infra**: SST v3 infrastructure configuration for AWS deployment
 
@@ -162,7 +168,7 @@ The project uses **pnpm with catalog** for centralised dependency version manage
 
 - Strict type checking enabled (noImplicitAny, strictNullChecks)
 - Avoid `any` type - prefer `unknown` with type guards
-- Use workspace imports: `@sgcarstrends/database`, `@sgcarstrends/utils`, `@sgcarstrends/types`
+- Use workspace imports: `@sgcarstrends/database`, `@sgcarstrends/ui`, `@sgcarstrends/utils`, `@sgcarstrends/types`
 
 ### Biome
 
@@ -188,7 +194,7 @@ Follow conventional commit format (enforced by commitlint):
 - `chore:`, `docs:`, `refactor:`, `test:` (no bump)
 - **Keep SHORT**: 50 chars preferred, 72 max
 - **Optional scopes**: `feat(api):`, `fix(web):`, `chore(database):`
-- Available scopes: `api`, `web`, `docs`, `database`, `types`, `utils`, `infra`, `deps`, `release`
+- Available scopes: `api`, `web`, `docs`, `database`, `types`, `ui`, `utils`, `infra`, `deps`, `release`
 
 ### Other
 
@@ -250,6 +256,7 @@ PostgreSQL with Drizzle ORM using **snake_case** column naming:
 
 - **`@sgcarstrends/database`**: Drizzle ORM schemas and migrations
 - **`@sgcarstrends/types`**: Shared TypeScript interfaces
+- **`@sgcarstrends/ui`**: Shared UI component library with shadcn/ui, Radix UI primitives, and Tailwind CSS
 - **`@sgcarstrends/utils`**: Utility functions and centralised Redis client
 
 *See component CLAUDE.md files for architecture details (workflows, blog generation, social media integration).*
@@ -299,6 +306,7 @@ Automated via semantic-release:
 - API endpoints, workflows, tRPC, social media integration (`apps/api/CLAUDE.md`)
 - Pages, routes, blog features, analytics, HeroUI components (`apps/web/CLAUDE.md`)
 - Schema changes, migrations, Drizzle config (`packages/database/CLAUDE.md`)
+- UI components, shadcn/ui patterns, Tailwind config (`packages/ui/CLAUDE.md`)
 - SST config, AWS resources, domain management (`infra/CLAUDE.md`)
 
 **Update README.md for:**

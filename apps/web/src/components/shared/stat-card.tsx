@@ -1,15 +1,15 @@
 "use client";
 
-import slugify from "@sindresorhus/slugify";
-import { BarChartByType } from "@web/app/(dashboard)/cars/bar-chart-by-type";
-import Typography from "@web/components/typography";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@web/components/ui/card";
+} from "@sgcarstrends/ui/components/card";
+import slugify from "@sindresorhus/slugify";
+import { BarChartByType } from "@web/app/(dashboard)/cars/bar-chart-by-type";
+import Typography from "@web/components/typography";
 import { FUEL_TYPE } from "@web/config";
 import type { RegistrationStat } from "@web/types/cars";
 import { useRouter, useSearchParams } from "next/navigation";

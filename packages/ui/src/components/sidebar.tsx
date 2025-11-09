@@ -1,26 +1,25 @@
 "use client";
 
-import { Button } from "@admin/components/ui/button";
-import { Input } from "@admin/components/ui/input";
-import { Separator } from "@admin/components/ui/separator";
+import { Slot } from "@radix-ui/react-slot";
+import { Button } from "@sgcarstrends/ui/components/button";
+import { Input } from "@sgcarstrends/ui/components/input";
+import { Separator } from "@sgcarstrends/ui/components/separator";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@admin/components/ui/sheet";
-import { Skeleton } from "@admin/components/ui/skeleton";
+} from "@sgcarstrends/ui/components/sheet";
+import { Skeleton } from "@sgcarstrends/ui/components/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@admin/components/ui/tooltip";
-
-import { useIsMobile } from "@admin/hooks/use-mobile";
-import { cn } from "@admin/lib/utils";
-import { Slot } from "@radix-ui/react-slot";
+} from "@sgcarstrends/ui/components/tooltip";
+import { useIsMobile } from "@sgcarstrends/ui/hooks/use-mobile";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
 import * as React from "react";

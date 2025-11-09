@@ -5,7 +5,7 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@web/components/ui/chart";
+} from "@sgcarstrends/ui/components/chart";
 import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts";
 
 interface Props {

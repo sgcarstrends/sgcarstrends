@@ -3,7 +3,6 @@ import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { getLatestCOEResults } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
-import type { COEResult } from "@web/types";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 import { LatestCOEClient } from "./latest-coe-content";

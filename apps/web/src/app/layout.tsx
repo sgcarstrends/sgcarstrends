@@ -1,21 +1,21 @@
+import { cn } from "@heroui/react";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import LoadingIndicator from "@web/app/loading-indicator";
 import { Providers } from "@web/app/providers";
 import { Analytics as InternalAnalytics } from "@web/components/analytics";
 import { Announcement } from "@web/components/announcement";
+import { Banner } from "@web/components/banner";
 import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
 import { NotificationPrompt } from "@web/components/notification-prompt";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { type ReactNode, Suspense } from "react";
 import "./globals.css";
-import { cn } from "@heroui/react";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Banner } from "@web/components/banner";
-import type { Metadata } from "next";
 
 const geistSans = Geist({
   subsets: ["latin"],

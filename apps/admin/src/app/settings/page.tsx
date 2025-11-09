@@ -1,12 +1,12 @@
-import { Badge } from "@admin/components/ui/badge";
+import { Badge } from "@sgcarstrends/ui/components/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@admin/components/ui/card";
-import { Separator } from "@admin/components/ui/separator";
+} from "@sgcarstrends/ui/components/card";
+import { Separator } from "@sgcarstrends/ui/components/separator";
 import {
   AlertTriangle,
   Bell,

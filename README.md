@@ -109,6 +109,11 @@ sgcarstrends/
 │   │   ├── src/schema/      # Schema definitions for all tables
 │   │   └── migrations/      # Database migration files
 │   ├── types/        # Shared TypeScript types
+│   ├── ui/           # Shared UI component library (shadcn/ui, Radix UI, Tailwind CSS)
+│   │   ├── src/components/  # shadcn/ui components
+│   │   ├── src/hooks/       # Custom React hooks
+│   │   ├── src/lib/         # Utility functions
+│   │   └── src/styles/      # Global styles
 │   └── utils/        # Shared utility functions and Redis configuration
 ├── infra/            # SST v3 infrastructure configuration
 │   ├── api.ts              # API service configuration
@@ -151,6 +156,7 @@ For developers working on this codebase, detailed component-specific guidance is
 - **[API Service](apps/api/CLAUDE.md)** - Hono framework, workflows, tRPC, and social media integration
 - **[Web Application](apps/web/CLAUDE.md)** - Next.js development, HeroUI components, and blog features
 - **[Database Package](packages/database/CLAUDE.md)** - Schema management, migrations, and TypeScript integration
+- **[UI Package](packages/ui/CLAUDE.md)** - Shared component library with shadcn/ui and Tailwind CSS
 - **[Infrastructure](infra/CLAUDE.md)** - SST deployment, AWS configuration, and domain management
 
 ## Getting Started

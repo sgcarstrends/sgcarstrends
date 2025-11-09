@@ -8,7 +8,7 @@ import {
   ChartLegend,
   ChartTooltip,
   ChartTooltipContent,
-} from "@web/components/ui/chart";
+} from "@sgcarstrends/ui/components/chart";
 import type { Pqp } from "@web/types/coe";
 import {
   Bar,

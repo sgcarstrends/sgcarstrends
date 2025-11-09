@@ -1,7 +1,7 @@
 "use client";
 
+import { Button } from "@sgcarstrends/ui/components/button";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@web/components/ui/button";
 import type { COEResult } from "@web/types";
 import { formatCurrency } from "@web/utils/format-currency";
 import { formatOrdinal } from "@web/utils/format-ordinal";
