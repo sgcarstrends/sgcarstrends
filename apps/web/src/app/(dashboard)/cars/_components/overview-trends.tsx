@@ -1,14 +1,14 @@
-import slugify from "@sindresorhus/slugify";
-import { TrendChart } from "@web/app/(dashboard)/cars/trend-chart";
-import { AnimatedNumber } from "@web/components/animated-number";
-import Typography from "@web/components/typography";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@web/components/ui/card";
+} from "@sgcarstrends/ui/components/card";
+import slugify from "@sindresorhus/slugify";
+import { TrendChart } from "@web/app/(dashboard)/cars/trend-chart";
+import { AnimatedNumber } from "@web/components/animated-number";
+import Typography from "@web/components/typography";
 import Link from "next/link";
 
 interface Props {

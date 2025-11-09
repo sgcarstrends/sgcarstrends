@@ -1,10 +1,4 @@
-import { redis } from "@sgcarstrends/utils";
-import { LatestCOEPrices } from "@web/app/(dashboard)/coe/_components/latest-coe-prices";
-import { AnimatedNumber } from "@web/components/animated-number";
-import { PageHeader } from "@web/components/page-header";
-import { StructuredData } from "@web/components/structured-data";
-import Typography from "@web/components/typography";
-import { Button } from "@web/components/ui/button";
+import { Button } from "@sgcarstrends/ui/components/button";
 import {
   Card,
   CardContent,
@@ -12,8 +6,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@web/components/ui/card";
-import { Progress } from "@web/components/ui/progress";
+} from "@sgcarstrends/ui/components/card";
+import { Progress } from "@sgcarstrends/ui/components/progress";
+import { redis } from "@sgcarstrends/utils";
+import { LatestCOEPrices } from "@web/app/(dashboard)/coe/_components/latest-coe-prices";
+import { AnimatedNumber } from "@web/components/animated-number";
+import { PageHeader } from "@web/components/page-header";
+import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { calculateOverviewStats } from "@web/lib/coe/calculations";
 import {

@@ -18,7 +18,7 @@ vi.mock("@web/components/make-selector", () => ({
   MakeSelector: () => <div>MakeSelector</div>,
 }));
 
-vi.mock("@web/components/ui/data-table", () => ({
+vi.mock("@sgcarstrends/ui/components/data-table", () => ({
   DataTable: () => <div>DataTable</div>,
 }));
 

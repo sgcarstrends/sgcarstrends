@@ -1,15 +1,15 @@
 "use client";
 
 import type { SelectPost } from "@sgcarstrends/database";
-import Typography from "@web/components/typography";
-import { Badge } from "@web/components/ui/badge";
+import { Badge } from "@sgcarstrends/ui/components/badge";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@web/components/ui/card";
+} from "@sgcarstrends/ui/components/card";
+import Typography from "@web/components/typography";
 import Image from "next/image";
 import Link from "next/link";
 

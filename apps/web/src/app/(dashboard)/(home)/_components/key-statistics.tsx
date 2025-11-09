@@ -1,20 +1,20 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
-import useStore from "@web/app/store";
-import Typography from "@web/components/typography";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@web/components/ui/chart";
+} from "@sgcarstrends/ui/components/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@web/components/ui/select";
+} from "@sgcarstrends/ui/components/select";
+import useStore from "@web/app/store";
+import Typography from "@web/components/typography";
 import { useMemo } from "react";
 import {
   Area,

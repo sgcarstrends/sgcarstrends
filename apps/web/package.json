@@ -46,6 +46,7 @@
     "@ruchernchong/number-format": "^2.3.4",
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
+    "@sgcarstrends/ui": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
     "@sindresorhus/slugify": "^2.2.1",
     "@tanstack/react-table": "^8.20.1",

@@ -6,15 +6,15 @@
   "tailwind": {
     "config": "",
     "css": "src/app/globals.css",
-    "baseColor": "slate",
-    "cssVariables": true,
-    "prefix": ""
+    "baseColor": "zinc",
+    "cssVariables": true
   },
+  "iconLibrary": "lucide",
   "aliases": {
     "components": "@web/components",
-    "utils": "@web/lib/utils",
-    "ui": "@web/components/ui",
+    "hooks": "@web/hooks",
     "lib": "@web/lib",
-    "hooks": "@web/hooks"
+    "utils": "@sgcarstrends/ui/lib/utils",
+    "ui": "@sgcarstrends/ui/components"
   }
 }

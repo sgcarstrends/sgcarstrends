@@ -1,8 +1,8 @@
 "use client";
 
+import { DataTable } from "@sgcarstrends/ui/components/data-table";
 import useStore from "@web/app/store";
 import { columns } from "@web/components/tables/columns/coe-results-columns";
-import { DataTable } from "@web/components/ui/data-table";
 import type { COEResult } from "@web/types";
 import { useCallback, useMemo } from "react";
 

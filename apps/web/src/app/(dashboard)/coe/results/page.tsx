@@ -1,16 +1,16 @@
-import { COECategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
-import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
-import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
-import { PageHeader } from "@web/components/page-header";
-import { StructuredData } from "@web/components/structured-data";
-import { TrendTable } from "@web/components/tables/coe-results-table";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@web/components/ui/card";
+} from "@sgcarstrends/ui/components/card";
+import { COECategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
+import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
+import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
+import { PageHeader } from "@web/components/page-header";
+import { StructuredData } from "@web/components/structured-data";
+import { TrendTable } from "@web/components/tables/coe-results-table";
 import { fetchCOEPageData } from "@web/lib/coe/page-data";
 import { getLatestCOEResults } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";

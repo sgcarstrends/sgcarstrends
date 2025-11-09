@@ -1,4 +1,12 @@
 import type { SelectCar } from "@sgcarstrends/database";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@sgcarstrends/ui/components/card";
+import { DataTable } from "@sgcarstrends/ui/components/data-table";
 import { MakeSelector } from "@web/app/(dashboard)/cars/_components/make-selector";
 import { MakeTrendChart } from "@web/app/(dashboard)/cars/_components/makes";
 // import type { Logo } from "@web/app/(dashboard)/cars/makes/[make]/page";
@@ -6,14 +14,6 @@ import { LastUpdated } from "@web/components/shared/last-updated";
 import NoData from "@web/components/shared/no-data";
 import { columns } from "@web/components/tables/columns/cars-make-columns";
 import Typography from "@web/components/typography";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@web/components/ui/card";
-import { DataTable } from "@web/components/ui/data-table";
 // import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import type { Make } from "@web/types";
 
