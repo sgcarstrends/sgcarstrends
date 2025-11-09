@@ -1,3 +1,10 @@
+## [4.17.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.3...v4.17.0) (2025-11-09)
+
+### Features
+
+* **ui:** add shadcn components ([29bc23d](https://github.com/sgcarstrends/sgcarstrends/commit/29bc23dff1a60d96ef642f7b25c5d878e06b4816))
+* **ui:** create shared UI package ([a117be2](https://github.com/sgcarstrends/sgcarstrends/commit/a117be2abed3ef1dab9ca80f5115e4f87567ad01))
+
 ## [4.16.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.2...v4.16.3) (2025-11-08)
 
 ### Bug Fixes
