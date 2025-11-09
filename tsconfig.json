@@ -15,5 +15,6 @@
       "@web/*": ["apps/web/src/*"],
       "@sgcarstrends/ui/*": ["packages/ui/src/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", "packages/ui"]
 }
