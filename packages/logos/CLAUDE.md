@@ -26,15 +26,8 @@ wrangler deploy
 pnpm run lint
 pnpm run format
 # or directly
-biome lint src
-biome format src --write
-
-# Release management
-pnpm run release
-pnpm run release:dry
-# or directly
-semantic-release
-semantic-release --dry-run
+biome check .
+biome format --write
 ```
 
 ## Architecture
@@ -58,6 +51,6 @@ This is a Cloudflare Worker API that scrapes and serves car brand logos. The app
 
 Requires Cloudflare R2 bucket binding named `CAR_LOGOS` as configured in `wrangler.toml`.
 
-## Commit Convention
+## Release Management
 
-Uses conventional commits for automated releases. Commits must follow the format: `type(scope): description`
+Releases are handled at the monorepo level. See root CLAUDE.md for commit conventions and release process.
