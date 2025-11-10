@@ -51,7 +51,6 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
-  productionBrowserSourceMaps: true,
   experimental: {
     turbopackFileSystemCacheForDev: true,
   },
