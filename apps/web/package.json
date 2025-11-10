@@ -44,7 +44,6 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
     "@ruchernchong/number-format": "^2.3.4",
-    "@sentry/nextjs": "^10.23.0",
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
