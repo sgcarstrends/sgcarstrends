@@ -51,6 +51,9 @@ export const api = new sst.aws.Function("Api", {
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL as string,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN as string,
 
+    // Vercel Blob (for logos storage)
+    BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN as string,
+
     // Discord
     DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL as string,
     DISCORD_WORKFLOW_WEBHOOK_URL: process.env

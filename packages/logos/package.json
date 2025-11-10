@@ -11,20 +11,18 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@sgcarstrends/utils": "workspace:*",
     "@sindresorhus/slugify": "^2.2.1",
-    "hono": "^4.8.4",
-    "pino": "^9.7.0",
-    "pino-pretty": "^13.0.0"
+    "@vercel/blob": "^2.0.0",
+    "pino": "^9.7.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.1",
-    "@cloudflare/workers-types": "^4.20250712.0",
     "@types/node": "^22.0.0",
     "@vitest/coverage-v8": "3.2.4",
     "@vitest/ui": "^3.2.4",
     "typescript": "^5.8.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4",
-    "wrangler": "^4.24.3"
+    "vitest": "^3.2.4"
   }
 }

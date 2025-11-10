@@ -13,6 +13,7 @@
       "@admin/*": ["apps/admin/src/*"],
       "@api/*": ["apps/api/src/*"],
       "@web/*": ["apps/web/src/*"],
+      "@logos/*": ["packages/logos/src/*"],
       "@sgcarstrends/ui/*": ["packages/ui/src/*"]
     }
   },

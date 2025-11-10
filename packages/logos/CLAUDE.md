@@ -33,7 +33,7 @@ This package provides shared utilities for car logo management. It is a **utilit
 
 **Utilities** (`src/utils/`): Helper functions for brand name normalisation, file handling, and logging.
 
-**Storage** (`src/infra/storage/`): Storage abstractions for R2 and KV (Cloudflare-specific, may need adaptation for other platforms).
+**Storage** (`src/infra/storage/`): Storage adapters for Vercel Blob with Redis caching.
 
 **Configuration** (`src/config/`): Configuration constants for paths and domains.
 
@@ -41,17 +41,22 @@ This package provides shared utilities for car logo management. It is a **utilit
 
 - **Logo Scraper**: Downloads logos from external sources
 - **Brand Normalisation**: Converts brand names to consistent kebab-case format
-- **Storage Layer**: Currently uses Cloudflare R2 + KV (requires adaptation for AWS Lambda/Vercel deployment)
+- **Storage Layer**: Uses Vercel Blob for image storage and Upstash Redis for metadata caching
 - **Metadata Management**: Tracks logo files and their metadata
 
-## Storage Implementation Note
+## Storage Implementation
 
-The current storage implementation uses Cloudflare Workers R2 + KV bindings, which are **not compatible** with AWS Lambda or standard Node.js environments.
+The package uses **Vercel Blob** for logo storage with **Upstash Redis** for metadata caching:
 
-**Migration Options** (per issue #525):
-1. **Vercel Blob** (recommended for simplicity)
-2. **AWS S3 + DynamoDB** (if deploying to AWS Lambda)
-3. **HTTP API to R2** (if deployed separately as Cloudflare Worker)
+- **Vercel Blob**: Stores logo images with public access and aggressive caching (1-year TTL)
+- **Upstash Redis**: Caches logo metadata and list results for fast lookups (24-hour TTL)
+- **On-demand downloads**: Logos are automatically downloaded from external sources when requested
+
+This architecture provides:
+- Zero infrastructure setup (no S3 buckets, no DNS configuration)
+- Fast performance with Redis caching
+- Compatible with both SST/AWS Lambda and Vercel deployments
+- Automatic CDN distribution via Vercel Blob
 
 ## Usage in Other Packages
 

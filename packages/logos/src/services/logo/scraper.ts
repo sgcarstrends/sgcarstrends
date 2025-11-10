@@ -1,22 +1,22 @@
-import { BASE_URL, PATH_PREFIX, R2_PUBLIC_DOMAIN } from "@/config";
-import { addLogoToList, setLogoMetadata } from "@/infra/storage/kv.service";
-import { getLogo } from "@/services/logo/service";
-import type { CarLogo, LogoMetadata } from "@/types";
-import { extractFileExtension, getContentType } from "@/utils/file-utils";
-import { logError, logInfo } from "@/utils/logger";
-import { normaliseBrandName } from "@/utils/normalisation";
+import { BASE_URL } from "@logos/config";
+import * as blobStorage from "@logos/infra/storage/blob.service";
+import { getLogo } from "@logos/services/logo/service";
+import type { CarLogo } from "@logos/types";
+import { extractFileExtension, getContentType } from "@logos/utils/file-utils";
+import { logError, logInfo } from "@logos/utils/logger";
+import { normaliseBrandName } from "@logos/utils/normalisation";
 
 export interface ScrapeResult {
   success: boolean;
-  logo?: CarLogo & { url: string };
+  logo?: CarLogo;
   error?: string;
 }
 
-export const downloadLogo = async (
-  bucket: R2Bucket,
-  kv: KVNamespace,
-  brand: string,
-): Promise<ScrapeResult> => {
+/**
+ * Download a logo from external source and store in Vercel Blob
+ * Uses Redis caching for metadata
+ */
+export const downloadLogo = async (brand: string): Promise<ScrapeResult> => {
   const overallStartTime = Date.now();
 
   try {
@@ -28,7 +28,7 @@ export const downloadLogo = async (
 
     // Check if already exists
     const existingCheckStart = Date.now();
-    const existing = await getLogo(bucket, kv, brand);
+    const existing = await getLogo(brand);
     const existingCheckDuration = Date.now() - existingCheckStart;
 
     if (existing) {
@@ -48,107 +48,54 @@ export const downloadLogo = async (
     });
 
     // Download logo using direct URL pattern
-    let logoData: CarLogo | null = null;
-    try {
-      const logoUrl = `${BASE_URL}/${normalisedBrand}-logo.png`;
+    const logoUrl = `${BASE_URL}/${normalisedBrand}-logo.png`;
 
-      logInfo("Attempting direct logo download", {
-        brand: normalisedBrand,
-        url: logoUrl,
-      });
-      const checkStart = Date.now();
-
-      const response = await fetch(logoUrl);
-      if (!response.ok) {
-        const checkDuration = Date.now() - checkStart;
-        logError(
-          "Failed to fetch logo directly",
-          new Error(`HTTP ${response.status}`),
-          {
-            brand: normalisedBrand,
-            status: response.status,
-            duration: checkDuration,
-          },
-        );
-        return {
-          success: false,
-          error: `Failed to fetch logo: ${response.status}`,
-        };
-      }
-
-      const checkDuration = Date.now() - checkStart;
-      logInfo("Successfully found logo at direct URL", {
-        brand: normalisedBrand,
-        duration: checkDuration,
-      });
-
-      const extension = extractFileExtension(logoUrl);
-      const filename = `${normalisedBrand}.${extension}`;
-
-      logoData = {
-        brand: normalisedBrand,
-        url: logoUrl,
-        filename,
-      };
-
-      logInfo("Using direct logo URL", {
-        brand: normalisedBrand,
-        url: logoUrl,
-        extension,
-      });
-    } catch (error) {
-      logError("Error downloading logo", error, {
-        brand: normalisedBrand,
-      });
-    }
-
-    if (!logoData) {
-      const totalDuration = Date.now() - overallStartTime;
-      logError("Logo scraping failed", new Error("Logo not found on website"), {
-        brand: normalisedBrand,
-        duration: totalDuration,
-      });
-      return {
-        success: false,
-        error: "Logo not found on website",
-      };
-    }
-
-    // Download and store in R2
-    logInfo("Downloading logo image", {
+    logInfo("Attempting direct logo download", {
       brand: normalisedBrand,
-      url: logoData.url,
+      url: logoUrl,
     });
-    const downloadStart = Date.now();
+    const checkStart = Date.now();
 
-    const response = await fetch(logoData.url);
+    const response = await fetch(logoUrl);
     if (!response.ok) {
-      const downloadDuration = Date.now() - downloadStart;
+      const checkDuration = Date.now() - checkStart;
       logError(
-        "Failed to download logo image",
+        "Failed to fetch logo directly",
         new Error(`HTTP ${response.status}`),
         {
           brand: normalisedBrand,
           status: response.status,
-          duration: downloadDuration,
+          duration: checkDuration,
         },
       );
       return {
         success: false,
-        error: "Failed to download logo",
+        error: `Failed to fetch logo: ${response.status}`,
       };
     }
 
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = new Uint8Array(arrayBuffer);
+    const checkDuration = Date.now() - checkStart;
+    logInfo("Successfully found logo at direct URL", {
+      brand: normalisedBrand,
+      duration: checkDuration,
+    });
 
-    if (buffer.length < 100) {
+    // Download and validate image
+    logInfo("Downloading logo image", {
+      brand: normalisedBrand,
+      url: logoUrl,
+    });
+    const downloadStart = Date.now();
+
+    const arrayBuffer = await response.arrayBuffer();
+
+    if (arrayBuffer.byteLength < 100) {
       logError(
         "Downloaded image too small",
         new Error("Image likely corrupted"),
         {
           brand: normalisedBrand,
-          bytes: buffer.length,
+          bytes: arrayBuffer.byteLength,
         },
       );
       return {
@@ -157,61 +104,61 @@ export const downloadLogo = async (
       };
     }
 
-    // Store in R2 with aggressive caching
-    const fullPath = `${PATH_PREFIX}/${logoData.filename}`;
-    const contentType = getContentType(logoData.filename);
-
-    logInfo("Storing logo in R2", {
+    const downloadDuration = Date.now() - downloadStart;
+    logInfo("Successfully downloaded logo image", {
       brand: normalisedBrand,
-      path: fullPath,
+      bytes: arrayBuffer.byteLength,
+      duration: downloadDuration,
+    });
+
+    // Determine content type
+    const extension = extractFileExtension(logoUrl);
+    const contentType = getContentType(`${normalisedBrand}.${extension}`);
+
+    logInfo("Uploading logo to Vercel Blob", {
+      brand: normalisedBrand,
       contentType,
     });
 
-    await bucket.put(fullPath, buffer, {
-      httpMetadata: {
-        contentType,
-      },
-    });
+    // Upload to Vercel Blob (also caches in Redis)
+    const uploadStart = Date.now();
+    const result = await blobStorage.uploadLogo(
+      brand,
+      arrayBuffer,
+      contentType,
+    );
 
-    const absoluteUrl = `${R2_PUBLIC_DOMAIN}/${fullPath}`;
+    if (!result) {
+      logError(
+        "Failed to upload logo to Vercel Blob",
+        new Error("Upload failed"),
+        {
+          brand: normalisedBrand,
+        },
+      );
+      return {
+        success: false,
+        error: "Failed to upload logo to storage",
+      };
+    }
 
-    // Store metadata in KV
-    const metadata: LogoMetadata = {
+    const uploadDuration = Date.now() - uploadStart;
+    const totalDuration = Date.now() - overallStartTime;
+
+    logInfo("Logo download and upload completed", {
       brand: normalisedBrand,
-      filename: logoData.filename,
-      url: absoluteUrl,
-      createdAt: new Date().toISOString(),
-      fileSize: buffer.length,
-    };
-
-    logInfo("Storing logo metadata in KV", {
-      brand: normalisedBrand,
-      filename: logoData.filename,
-      url: absoluteUrl,
-    });
-
-    const kvStoreStart = Date.now();
-    await setLogoMetadata(kv, brand, metadata);
-    const kvStoreDuration = Date.now() - kvStoreStart;
-
-    // Add to logos list
-    const logoForList = {
-      brand: normalisedBrand,
-      filename: logoData.filename,
-      url: absoluteUrl,
-    };
-
-    await addLogoToList(kv, logoForList);
-
-    logInfo("Logo download and metadata storage completed", {
-      brand: normalisedBrand,
-      kvStoreDuration,
-      totalDuration: Date.now() - overallStartTime,
+      url: result.url,
+      uploadDuration,
+      totalDuration,
     });
 
     return {
       success: true,
-      logo: logoForList,
+      logo: {
+        brand: normalisedBrand,
+        filename: result.filename,
+        url: result.url,
+      },
     };
   } catch (error) {
     const totalDuration = Date.now() - overallStartTime;

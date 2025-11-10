@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normaliseBrandName } from "@/utils/normalisation";
+import { normaliseBrandName } from "@/logos/utils/normalisation";
 
 describe("normaliseBrandName", () => {
   it("should normalise basic brand names", () => {
