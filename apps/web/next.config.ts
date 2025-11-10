@@ -12,6 +12,8 @@ if (isProd) {
 }
 
 const nextConfig: NextConfig = {
+  reactStrictMode: true,
+  reactCompiler: true,
   // cacheComponents: true,
   // cacheLife: {
   //   blogs: {
