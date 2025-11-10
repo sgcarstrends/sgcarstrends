@@ -1,0 +1,18 @@
+name = "car-logos"
+main = "src/index.ts"
+compatibility_date = "2025-05-05"
+compatibility_flags = ["nodejs_compat"]
+
+[observability.logs]
+enabled = true
+
+[placement]
+mode = "smart"
+
+[[r2_buckets]]
+binding = "CAR_LOGOS"
+bucket_name = "car-logos"
+
+[[kv_namespaces]]
+binding = "CAR_LOGOS_METADATA"
+id = "682fc2e1bb3f488d864ac5e3b8df7ce1"
