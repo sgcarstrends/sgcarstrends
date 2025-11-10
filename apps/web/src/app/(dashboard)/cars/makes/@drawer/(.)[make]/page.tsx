@@ -11,8 +11,6 @@ interface Props {
 }
 
 const MakePage = async ({ params, searchParams }: Props) => {
-  "use cache";
-
   const { make } = await params;
   let { month } = await loadSearchParams(searchParams);
 

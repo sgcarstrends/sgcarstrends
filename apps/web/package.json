@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && pnpm sentry:sourcemaps",
     "lint": "biome check",
     "format": "biome format --write src",
     "start": "next start",
@@ -18,7 +18,8 @@
     "test:e2e:ui": "playwright test --ui",
     "deploy:dev": "sst deploy --stage dev",
     "deploy:staging": "sst deploy --stage staging",
-    "deploy:prod": "sst deploy --stage prod"
+    "deploy:prod": "sst deploy --stage prod",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org sgcarstrends --project web ./.next && sentry-cli sourcemaps upload --org sgcarstrends --project web ./.next"
   },
   "dependencies": {
     "@heroui/alert": "^2.2.26",
@@ -44,6 +45,8 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
     "@ruchernchong/number-format": "^2.3.4",
+    "@sentry/cli": "^2.58.0",
+    "@sentry/nextjs": "^10.23.0",
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/ui": "workspace:*",
@@ -68,6 +71,8 @@
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.4.6",
     "nuqs": "^2.7.0",
+    "posthog-js": "^1.290.0",
+    "posthog-node": "^5.11.2",
     "react": "catalog:",
     "react-dom": "catalog:",
     "reading-time": "^1.5.0",
@@ -102,6 +107,7 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^4.6.0",
     "@vitest/coverage-v8": "catalog:",
+    "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9.31.0",
     "eslint-config-next": "^16.0.0-beta.0",
     "jsdom": "^26.1.0",
