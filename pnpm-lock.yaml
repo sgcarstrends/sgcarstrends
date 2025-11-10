@@ -190,6 +190,9 @@ importers:
       '@sgcarstrends/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@sgcarstrends/logos':
+        specifier: workspace:*
+        version: link:../../packages/logos
       '@sgcarstrends/types':
         specifier: workspace:*
         version: link:../../packages/types

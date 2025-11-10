@@ -52,6 +52,7 @@ bidding results. Key features include:
 ### Core Structure
 
 - **src/index.ts**: Main Hono app with middleware, routes, and error handling
+- **src/features/**: Feature modules (cars, coe, health, logos, months, workflows, newsletter, shared)
 - **src/v1/**: Versioned API routes (cars, coe, months) with bearer authentication
 - **src/routes/**: Workflow endpoints and social media webhooks
 - **src/trpc/**: Type-safe tRPC router with context creation
@@ -60,6 +61,21 @@ bidding results. Key features include:
 - **src/lib/social/**: Platform-specific social media posting logic
 - **src/config/**: Configuration for databases, Redis, QStash, and platforms
 - **src/utils/**: Utility functions for file processing, caching, and responses
+
+### Features
+
+The API follows a feature-based architecture in `src/features/`:
+
+- **cars**: Car registration data endpoints
+- **coe**: COE bidding results endpoints
+- **health**: Health check endpoint
+- **logos**: Car brand logo API (placeholder - awaiting storage migration)
+- **months**: Available data months endpoint
+- **workflows**: Workflow trigger endpoints
+- **newsletter**: Newsletter functionality
+- **shared**: Shared feature utilities
+
+**Logos Feature Note**: The logos feature (`src/features/logos/`) currently returns 501 Not Implemented responses. The original implementation uses Cloudflare R2 + KV storage which is incompatible with AWS Lambda. Migration options include Vercel Blob (recommended), AWS S3 + DynamoDB, or HTTP API to R2. See `packages/logos/CLAUDE.md` for details.
 
 ### Workflow Architecture
 

@@ -1,10 +1,9 @@
 {
-  "name": "@sgcarstrends/car-logos",
+  "name": "@sgcarstrends/logos",
   "version": "4.17.0",
+  "description": "Shared utilities for car logo management",
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
