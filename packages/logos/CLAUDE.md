@@ -12,44 +12,54 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Package management
 pnpm install
 
-# Local development server
-pnpm run dev
-# or directly
-wrangler dev
-
-# Deploy to Cloudflare Workers
-pnpm run deploy
-# or directly
-wrangler deploy
-
 # Code quality
 pnpm run lint
 pnpm run format
-# or directly
-biome check .
-biome format --write
+
+# Testing
+pnpm test
+pnpm test:ui
 ```
 
 ## Architecture
 
-This is a Cloudflare Worker API that scrapes and serves car brand logos. The application follows a simple service-orientated architecture:
+This package provides shared utilities for car logo management. It is a **utility package only** - the API routes have been moved to `apps/api/src/features/logos/`.
 
-**API Layer** (`src/index.ts`): Hono-based REST API with endpoints for listing all logos and retrieving specific brand logos.
+### Package Structure
 
-**Logo Service** (`src/services/download.ts`): Handles logo scraping, R2 storage operations, and manifest management. Uses Cheerio for HTML parsing and maintains a JSON manifest of stored logos.
+**Services** (`src/services/logo/`): Core logo functionality including scraper, service, and repository patterns for logo retrieval and management.
 
-**Brand Normalization** (`src/utils/index.ts`): Converts brand names to consistent kebab-case filenames for storage.
+**Types** (`src/types/`): TypeScript type definitions for CarLogo, LogoMetadata, and environment bindings.
+
+**Utilities** (`src/utils/`): Helper functions for brand name normalisation, file handling, and logging.
+
+**Storage** (`src/infra/storage/`): Storage abstractions for R2 and KV (Cloudflare-specific, may need adaptation for other platforms).
+
+**Configuration** (`src/config/`): Configuration constants for paths and domains.
 
 ## Key Components
 
-- **R2 Storage**: Cloudflare R2 bucket stores logo images and `manifest.json` metadata
-- **Web Scraping**: Scrapes logo sources to find new logo URLs when requested
-- **Manifest System**: Tracks all stored logos in `manifest.json` for fast lookups
-- **Auto-Download**: Missing logos are automatically scraped and cached on first request
+- **Logo Scraper**: Downloads logos from external sources
+- **Brand Normalisation**: Converts brand names to consistent kebab-case format
+- **Storage Layer**: Currently uses Cloudflare R2 + KV (requires adaptation for AWS Lambda/Vercel deployment)
+- **Metadata Management**: Tracks logo files and their metadata
 
-## Environment
+## Storage Implementation Note
 
-Requires Cloudflare R2 bucket binding named `CAR_LOGOS` as configured in `wrangler.toml`.
+The current storage implementation uses Cloudflare Workers R2 + KV bindings, which are **not compatible** with AWS Lambda or standard Node.js environments.
+
+**Migration Options** (per issue #525):
+1. **Vercel Blob** (recommended for simplicity)
+2. **AWS S3 + DynamoDB** (if deploying to AWS Lambda)
+3. **HTTP API to R2** (if deployed separately as Cloudflare Worker)
+
+## Usage in Other Packages
+
+This package is imported by `apps/api` for logo functionality:
+
+```typescript
+import { downloadLogo, getLogo, listLogos } from "@sgcarstrends/logos";
+```
 
 ## Release Management
 

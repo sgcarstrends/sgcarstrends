@@ -1,4 +1,5 @@
 import { healthRoutes } from "@api/features/health";
+import { logosRoutes } from "@api/features/logos";
 import { workflowRoutes } from "@api/features/workflows";
 import { createTRPCContext } from "@api/trpc/context";
 import { appRouter } from "@api/trpc/router";
@@ -105,6 +106,7 @@ api.use(
 
 api.route("/workflows", workflowRoutes);
 api.route("/health", healthRoutes);
+api.route("/logos", logosRoutes);
 api.route("/v1", v1);
 
 app.route("/", api);

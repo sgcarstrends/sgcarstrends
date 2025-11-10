@@ -1,113 +1,159 @@
-# Car Logos API
+# @sgcarstrends/logos
 
-A Cloudflare Worker API that serves car brand logos. Built with TypeScript, Hono, and Cloudflare R2 storage.
+Shared utilities for car logo management in the SG Cars Trends monorepo.
+
+## Overview
+
+This package provides core utilities for scraping, storing, and retrieving car brand logos. It is a **utility package only** - the API routes are implemented in `apps/api/src/features/logos/`.
 
 ## Features
 
-- **REST API**: Simple endpoints for listing and retrieving car brand logos
-- **Auto-scraping**: Missing logos are automatically scraped and cached on first request
-- **R2 Storage**: All logos stored in Cloudflare R2 with manifest tracking
-- **Brand Normalization**: Consistent kebab-case naming for reliable storage
-- **Fast Lookups**: JSON manifest enables quick logo availability checks
+- **Logo Scraper**: Automatically downloads car brand logos from external sources
+- **Brand Normalisation**: Consistent kebab-case naming for storage keys
+- **Storage Abstractions**: Repository pattern for R2 and KV storage
+- **Metadata Management**: Tracks logo files and their metadata
+- **Type Safety**: Full TypeScript support with exported types
 
-## API Endpoints
+## Installation
 
-### GET `/`
-
-Returns API information and available endpoints.
-
-### GET `/api/logos`
-
-Lists all cached logos with metadata.
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "count": 42,
-  "logos": [
-    {
-      "brand": "toyota",
-      "url": "https://your-r2-bucket.com/toyota.png",
-      "lastModified": "2024-01-01T00:00:00.000Z"
-    }
-  ]
-}
-```
-
-### GET `/api/logo/:brand`
-
-Gets a specific brand's logo URL. If not cached, automatically scrapes and stores it.
-
-**Parameters:**
-
-- `brand` (string): Car brand name (case-insensitive)
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "logo": {
-    "brand": "toyota",
-    "url": "https://your-r2-bucket.com/toyota.png",
-    "lastModified": "2024-01-01T00:00:00.000Z"
-  }
-}
-```
-
-## Environment Setup
-
-### Prerequisites
-
-- Node.js 18+
-- pnpm (package manager)
-- Cloudflare account with R2 storage
-- Wrangler CLI
-
-### Installation
+This package is part of the monorepo workspace. It's automatically linked when you run:
 
 ```bash
-# Install dependencies
 pnpm install
-
-# Configure Cloudflare R2 bucket
-# Update wrangler.toml with your R2 bucket details
 ```
 
-### Environment Variables
+## Usage
 
-The application requires a Cloudflare R2 bucket binding named `CAR_LOGOS` as configured in `wrangler.toml`.
+Import utilities in other workspace packages:
+
+```typescript
+import { downloadLogo, getLogo, listLogos } from "@sgcarstrends/logos";
+import { normaliseBrandName } from "@sgcarstrends/logos";
+import type { CarLogo, LogoMetadata } from "@sgcarstrends/logos";
+```
+
+### Example: Download a Logo
+
+```typescript
+import { downloadLogo } from "@sgcarstrends/logos";
+
+// Download and store a logo
+const result = await downloadLogo(r2Bucket, kvStore, "Toyota");
+
+if (result.success) {
+  console.log(`Logo URL: ${result.logo.url}`);
+} else {
+  console.error(`Error: ${result.error}`);
+}
+```
+
+### Example: Retrieve a Logo
+
+```typescript
+import { getLogo } from "@sgcarstrends/logos";
+
+// Get logo from storage
+const logo = await getLogo(r2Bucket, kvStore, "Toyota");
+
+if (logo) {
+  console.log(`Brand: ${logo.brand}`);
+  console.log(`URL: ${logo.url}`);
+}
+```
+
+### Example: Normalise Brand Name
+
+```typescript
+import { normaliseBrandName } from "@sgcarstrends/logos";
+
+const normalised = normaliseBrandName("Mercedes-Benz");
+// Result: "mercedes-benz"
+```
+
+## Package Structure
+
+```
+packages/logos/
+├── src/
+│   ├── services/logo/     # Core logo functionality
+│   │   ├── scraper.ts     # Logo download logic
+│   │   ├── service.ts     # Logo service layer
+│   │   └── repository.ts  # Data access layer
+│   ├── types/             # TypeScript type definitions
+│   ├── utils/             # Utility functions
+│   │   ├── normalisation.ts
+│   │   ├── file-utils.ts
+│   │   └── logger.ts
+│   ├── infra/storage/     # Storage abstractions (R2, KV)
+│   ├── config/            # Configuration constants
+│   └── index.ts           # Public API exports
+├── package.json
+├── tsconfig.json
+└── vitest.config.ts
+```
+
+## Storage Implementation Note
+
+The current storage implementation uses **Cloudflare Workers R2 + KV bindings**, which are not compatible with AWS Lambda or standard Node.js environments.
+
+### Migration Options (per issue #525)
+
+1. **Vercel Blob** (recommended for simplicity)
+2. **AWS S3 + DynamoDB** (for AWS Lambda deployment)
+3. **HTTP API to R2** (if deployed separately as Cloudflare Worker)
 
 ## Development Commands
 
 ```bash
-# Start local development server
-pnpm run dev
-# or
-wrangler dev
-
 # Code quality
-pnpm run lint          # Check code style
-pnpm run format        # Auto-format code
+pnpm lint          # Check code style with Biome
+pnpm format        # Auto-format code with Biome
 
-# Deployment
-pnpm run deploy        # Deploy to Cloudflare Workers
-# or
-wrangler deploy
-
-# Release management
-pnpm run release       # Create release
-pnpm run release:dry   # Dry run release
+# Testing
+pnpm test          # Run tests
+pnpm test:ui       # Run tests with UI
+pnpm test:run      # Run tests once
 ```
 
-## Architecture
+## API Integration
 
-This Cloudflare Worker follows a simple service-oriented architecture:
+The API routes are implemented in `apps/api/src/features/logos/` and mounted at `/logos`:
 
-- **API Layer** (`src/index.ts`): Hono-based REST API with CORS support
-- **Logo Service** (`src/services/download.ts`): Handles logo retrieval, R2 storage, and manifest management
-- **Brand Normalization** (`src/utils/index.ts`): Converts brand names to kebab-case filenames
-- **R2 Storage**: Stores logo images and `manifest.json` for fast lookups
-- **Web Scraping**: Uses Cheerio to parse logo sources
+- `GET /logos` - List all cached logos
+- `GET /logos/:brand` - Get specific brand logo (auto-download if missing)
+
+## Types
+
+### CarLogo
+
+```typescript
+interface CarLogo {
+  brand: string;
+  url: string;
+  filename: string;
+}
+```
+
+### LogoMetadata
+
+```typescript
+interface LogoMetadata {
+  brand: string;
+  filename: string;
+  url: string;
+  createdAt: string;
+  fileSize?: number;
+}
+```
+
+## Contributing
+
+This package follows the monorepo conventions. See root `CLAUDE.md` for:
+- Commit message format
+- Code style guidelines
+- Testing requirements
+- Release process
+
+## License
+
+MIT
