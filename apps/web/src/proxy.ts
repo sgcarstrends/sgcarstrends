@@ -1,5 +1,4 @@
 import crypto from "node:crypto";
-import { DOMAIN_NAME } from "@web/config";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const proxy = (request: NextRequest) => {
@@ -18,12 +17,12 @@ export const proxy = (request: NextRequest) => {
   const nonce = crypto.randomBytes(16).toString("base64");
   const cspHeader = `
       default-src 'self';
-      script-src 'self' 'unsafe-eval' 'unsafe-inline' *.${DOMAIN_NAME} vercel.live *.vercel-scripts.com;
+      script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
       style-src 'self' 'unsafe-inline';
       img-src 'self' blob: data:;
       connect-src *;
       font-src 'self';
-      frame-src 'self' vercel.live;
+      frame-src 'self' 'strict-dynamic';
   `;
 
   const requestHeaders = new Headers(request.headers);
