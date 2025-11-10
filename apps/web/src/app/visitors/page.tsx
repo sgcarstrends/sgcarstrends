@@ -23,8 +23,6 @@ export const generateMetadata = (): Metadata => {
 };
 
 const VisitorsPage = async () => {
-  "use cache";
-
   let data: AnalyticsData;
 
   try {
