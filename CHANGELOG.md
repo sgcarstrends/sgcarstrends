@@ -1,3 +1,9 @@
+## [4.17.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.17.0...v4.17.1) (2025-11-10)
+
+### Bug Fixes
+
+* **web:** errors in Vercel Analytics ([33d1d5a](https://github.com/sgcarstrends/sgcarstrends/commit/33d1d5a64be15c42b90086a1f6ec178d7f36426e))
+
 ## [4.17.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.3...v4.17.0) (2025-11-09)
 
 ### Features
