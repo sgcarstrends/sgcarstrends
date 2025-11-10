@@ -75,7 +75,7 @@ The API follows a feature-based architecture in `src/features/`:
 - **newsletter**: Newsletter functionality
 - **shared**: Shared feature utilities
 
-**Logos Feature Note**: The logos feature (`src/features/logos/`) currently returns 501 Not Implemented responses. The original implementation uses Cloudflare R2 + KV storage which is incompatible with AWS Lambda. Migration options include Vercel Blob (recommended), AWS S3 + DynamoDB, or HTTP API to R2. See `packages/logos/CLAUDE.md` for details.
+**Logos Feature**: The logos feature (`src/features/logos/`) provides car brand logo retrieval with automatic downloads. Uses Vercel Blob for storage and Upstash Redis for caching. Requires `BLOB_READ_WRITE_TOKEN` environment variable. See `packages/logos/CLAUDE.md` for implementation details.
 
 ### Workflow Architecture
 
@@ -144,6 +144,7 @@ Required for local development (.env.local):
 - `UPSTASH_REDIS_REST_URL`: Redis caching URL
 - `UPSTASH_REDIS_REST_TOKEN`: Redis authentication
 - `UPSTASH_QSTASH_TOKEN`: QStash workflow token
+- `BLOB_READ_WRITE_TOKEN`: Vercel Blob authentication token for logos storage
 - `GOOGLE_GENERATIVE_AI_API_KEY`: Google Gemini API key for blog generation (used by Vercel AI SDK)
 - `LANGFUSE_PUBLIC_KEY`: Langfuse public key for LLM observability (optional)
 - `LANGFUSE_SECRET_KEY`: Langfuse secret key for LLM observability (optional)

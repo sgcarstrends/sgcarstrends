@@ -10,8 +10,8 @@ This package provides core utilities for scraping, storing, and retrieving car b
 
 - **Logo Scraper**: Automatically downloads car brand logos from external sources
 - **Brand Normalisation**: Consistent kebab-case naming for storage keys
-- **Storage Abstractions**: Repository pattern for R2 and KV storage
-- **Metadata Management**: Tracks logo files and their metadata
+- **Vercel Blob Storage**: Cloud storage with public CDN access
+- **Redis Caching**: Fast metadata lookups with 24-hour TTL
 - **Type Safety**: Full TypeScript support with exported types
 
 ## Installation
@@ -37,8 +37,8 @@ import type { CarLogo, LogoMetadata } from "@sgcarstrends/logos";
 ```typescript
 import { downloadLogo } from "@sgcarstrends/logos";
 
-// Download and store a logo
-const result = await downloadLogo(r2Bucket, kvStore, "Toyota");
+// Download and store a logo (automatically uploads to Vercel Blob)
+const result = await downloadLogo("Mercedes-Benz");
 
 if (result.success) {
   console.log(`Logo URL: ${result.logo.url}`);
@@ -52,8 +52,8 @@ if (result.success) {
 ```typescript
 import { getLogo } from "@sgcarstrends/logos";
 
-// Get logo from storage
-const logo = await getLogo(r2Bucket, kvStore, "Toyota");
+// Get logo from storage (checks Redis cache, then Vercel Blob)
+const logo = await getLogo("BMW");
 
 if (logo) {
   console.log(`Brand: ${logo.brand}`);
@@ -92,15 +92,18 @@ packages/logos/
 └── vitest.config.ts
 ```
 
-## Storage Implementation Note
+## Storage Implementation
 
-The current storage implementation uses **Cloudflare Workers R2 + KV bindings**, which are not compatible with AWS Lambda or standard Node.js environments.
+The package uses **Vercel Blob** for logo storage with **Upstash Redis** for metadata caching:
 
-### Migration Options (per issue #525)
+- **Vercel Blob**: Stores logo images with public CDN access and 1-year cache headers
+- **Upstash Redis**: Caches logo metadata for 24 hours to minimize Blob API calls
+- **Compatible**: Works with SST/AWS Lambda and Vercel deployments
 
-1. **Vercel Blob** (recommended for simplicity)
-2. **AWS S3 + DynamoDB** (for AWS Lambda deployment)
-3. **HTTP API to R2** (if deployed separately as Cloudflare Worker)
+**Environment Variables Required:**
+- `BLOB_READ_WRITE_TOKEN`: Vercel Blob authentication token
+- `UPSTASH_REDIS_REST_URL`: Redis REST API URL (from `@sgcarstrends/utils`)
+- `UPSTASH_REDIS_REST_TOKEN`: Redis authentication token (from `@sgcarstrends/utils`)
 
 ## Development Commands
 
