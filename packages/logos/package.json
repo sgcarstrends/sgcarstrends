@@ -4,9 +4,8 @@
   "description": "Shared utilities for car logo management",
   "type": "module",
   "scripts": {
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:run": "vitest run",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "lint": "biome check .",
     "format": "biome format --write"
   },
