@@ -371,13 +371,8 @@ export const getCarTopPerformersData = async (
 /**
  * Get all distinct car makes ordered alphabetically
  */
-export const getDistinctMakes = async (): Promise<{ make: string }[]> => {
-  const results = await db
-    .selectDistinct({ make: cars.make })
-    .from(cars)
-    .orderBy(cars.make);
-
-  return results.map((r) => ({ make: r.make ?? "Unknown" }));
+export const getDistinctMakes = () => {
+  return db.selectDistinct({ make: cars.make }).from(cars).orderBy(cars.make);
 };
 
 /**

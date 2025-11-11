@@ -144,6 +144,14 @@ connection configured in `src/config/db.ts`.
 
 **Caching**: Redis (Upstash) for API response caching, rate limiting, and blog view tracking.
 
+**Car Logos**: Dynamic logo loading via `@sgcarstrends/logos` package with Vercel Blob storage:
+
+- Server actions in `src/actions/logos.ts` fetch logos from Vercel Blob
+- `getLogoUrlMap()` pre-fetches all logos for the makes list page
+- `getCarLogo(brand)` fetches individual logos for make detail pages
+- Logos cached in Redis (24-hour TTL for individual logos, 1-hour TTL for list)
+- Automatic fallback when logos are unavailable (components hide logo display)
+
 **Blog Functionality**: Server actions in `src/app/blog/_actions/` handle:
 
 - Blog post retrieval and filtering
@@ -471,6 +479,7 @@ Environment variables managed through SST config:
 
 - `DATABASE_URL`: Neon PostgreSQL connection
 - `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
+- `BLOB_READ_WRITE_TOKEN`: Vercel Blob storage access for car logos (via `@sgcarstrends/logos`)
 - `SG_CARS_TRENDS_API_TOKEN`: External API authentication
 - `APP_ENV`: Environment stage (dev/staging/prod)
 - `NEXT_PUBLIC_APP_ENV`: Client-side environment stage

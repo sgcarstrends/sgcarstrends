@@ -133,6 +133,10 @@ All commands use pnpm as the package manager.
 - **packages/database**: Database schema and migrations using Drizzle ORM
     - **src/db**: Schema definitions for cars, COE, posts, and analytics tables
     - **migrations**: Database migration files with version tracking
+- **packages/logos**: Car logo management with Vercel Blob storage
+    - **src/services/logo**: Core logo fetching, listing, and downloading functions
+    - **src/infra/storage**: Vercel Blob service with Redis caching
+    - **src/utils**: Brand name normalization utilities
 - **packages/types**: Shared TypeScript type definitions
 - **packages/ui**: Shared UI component library with shadcn/ui and Tailwind CSS
     - **src/components**: shadcn/ui components (badge, button, card, dialog, etc.)
@@ -258,6 +262,7 @@ PostgreSQL with Drizzle ORM using **snake_case** column naming:
 - **`@sgcarstrends/types`**: Shared TypeScript interfaces
 - **`@sgcarstrends/ui`**: Shared UI component library with shadcn/ui, Radix UI primitives, and Tailwind CSS
 - **`@sgcarstrends/utils`**: Utility functions and centralised Redis client
+- **`@sgcarstrends/logos`**: Car logo management with Vercel Blob storage, automatic scraping, Redis caching, and brand name normalization
 
 *See component CLAUDE.md files for architecture details (workflows, blog generation, social media integration).*
 

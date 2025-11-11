@@ -14,6 +14,7 @@ interface MakesProps {
   makes: Make[];
   isPopular?: boolean;
   showLetterFilter?: boolean;
+  logoUrlMap?: Record<string, string>;
 }
 
 export const Makes = ({
@@ -21,6 +22,7 @@ export const Makes = ({
   makes,
   isPopular = false,
   showLetterFilter = false,
+  logoUrlMap = {},
 }: MakesProps) => {
   const { sortedMakes, groupedMakes, letters } = useGroupedMakes(makes);
   const [selectedLetter, setSelectedLetter] = useState(letters[0]);
@@ -84,11 +86,19 @@ export const Makes = ({
             </Typography.TextSm>
           </div>
           <div>
-            <MakeGrid makes={activeMakes} isPopular={isPopular} />
+            <MakeGrid
+              makes={activeMakes}
+              isPopular={isPopular}
+              logoUrlMap={logoUrlMap}
+            />
           </div>
         </div>
       ) : (
-        <MakeGrid makes={activeMakes} isPopular={isPopular} />
+        <MakeGrid
+          makes={activeMakes}
+          isPopular={isPopular}
+          logoUrlMap={logoUrlMap}
+        />
       )}
     </section>
   );

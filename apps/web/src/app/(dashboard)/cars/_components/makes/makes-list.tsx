@@ -14,9 +14,14 @@ import { useMemo, useState } from "react";
 interface MakesListProps {
   makes: Make[];
   popularMakes: Make[];
+  logoUrlMap?: Record<string, string>;
 }
 
-export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
+export const MakesList = ({
+  makes,
+  popularMakes,
+  logoUrlMap = {},
+}: MakesListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const { popular, others } = useMemo(() => {
@@ -60,7 +65,12 @@ export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
 
       {/* Popular Makes Section */}
       {!searchTerm && (
-        <Makes title="Popular Makes" makes={popular} isPopular={true} />
+        <Makes
+          title="Popular Makes"
+          makes={popular}
+          isPopular={true}
+          logoUrlMap={logoUrlMap}
+        />
       )}
 
       {/* All Makes Section */}
@@ -69,12 +79,17 @@ export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
           title="All Makes"
           makes={[...popular, ...others]}
           showLetterFilter={true}
+          logoUrlMap={logoUrlMap}
         />
       )}
 
       {/* Search Results */}
       {searchTerm && (
-        <MakesSearchResults makes={filteredMakes} searchTerm={searchTerm} />
+        <MakesSearchResults
+          makes={filteredMakes}
+          searchTerm={searchTerm}
+          logoUrlMap={logoUrlMap}
+        />
       )}
 
       {filteredMakes.length === 0 && (
