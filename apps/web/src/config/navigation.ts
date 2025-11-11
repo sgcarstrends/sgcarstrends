@@ -36,6 +36,7 @@ export interface NavigationItem {
   show?: boolean;
   badge?: "beta" | "new";
   iconColor?: string;
+  matchPrefix?: boolean;
 }
 
 export interface NavigationSection {
@@ -132,6 +133,7 @@ export const navLinks: NavLinks = {
       description: "Car makes statistics and market share analysis",
       badge: "beta",
       iconColor: "text-pink-500",
+      matchPrefix: true,
     },
     {
       title: "Fuel Types",

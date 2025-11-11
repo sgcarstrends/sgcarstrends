@@ -23,7 +23,7 @@ interface MakeDetailProps {
   cars: { make: string; total: number; data: Partial<SelectCar>[] };
   makes: Make[];
   lastUpdated?: number | null;
-  logo?: CarLogo | null | undefined;
+  logo?: CarLogo | null;
 }
 
 export const MakeDetail = ({
@@ -41,9 +41,9 @@ export const MakeDetail = ({
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">
-          <div className="flex flex-col items-center gap-4">
-            <UnreleasedFeature>
-              {logo?.url && (
+          <div className="flex items-center gap-4">
+            {logo?.url && (
+              <UnreleasedFeature>
                 <Image
                   alt={`${cars.make} logo`}
                   src={logo.url}
@@ -51,8 +51,8 @@ export const MakeDetail = ({
                   height={128}
                   className="object-contain"
                 />
-              )}
-            </UnreleasedFeature>
+              </UnreleasedFeature>
+            )}
             <Typography.H1>{cars.make}</Typography.H1>
           </div>
           <div className="flex flex-col items-start gap-2">

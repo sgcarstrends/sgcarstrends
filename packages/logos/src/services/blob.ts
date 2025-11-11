@@ -1,7 +1,6 @@
 import type { CarLogo } from "@logos/types";
 import { getFileExtension } from "@logos/utils/file-utils";
 import { normaliseMake } from "@logos/utils/normalise-make";
-import { redis } from "@sgcarstrends/utils";
 import { del, list, put } from "@vercel/blob";
 
 const BLOB_PREFIX = "logos/";
@@ -26,36 +25,20 @@ export const uploadLogo = async (
       cacheControlMaxAge: 31536000, // 1 year
     });
 
-    // Invalidate the logos cache so the new logo appears in the list
-    await redis.del("logos");
-
     return { url: blob.url, filename };
   } catch (error) {
-    console.error(error);
+    console.error("[uploadLogo] Error uploading to Vercel Blob:", error);
     return null;
   }
 };
 
-/**
- * List all logos from Vercel Blob storage
- * Caches the list in Redis indefinitely (invalidated on demand)
- */
 export const listLogos = async (): Promise<CarLogo[]> => {
   try {
-    // Try Redis cache first
-    const cachedLogos = await redis.get<CarLogo[]>("logos");
-    if (cachedLogos) {
-      console.log("Using cached logos");
-      return cachedLogos;
-    }
-
-    console.log("Using logos from Vercel Blob");
-
     const { blobs } = await list({ prefix: BLOB_PREFIX });
 
-    const logos: CarLogo[] = blobs.map((blob) => {
+    return blobs.map((blob) => {
       const filename = blob.pathname.replace(BLOB_PREFIX, "");
-      const make = filename.replace(/\.[^/.]+$/, ""); // Remove extension
+      const make = filename.replace(/\.[^/.]+$/, "");
 
       return {
         make,
@@ -63,49 +46,47 @@ export const listLogos = async (): Promise<CarLogo[]> => {
         url: blob.url,
       };
     });
-
-    // Cache in Redis indefinitely (invalidated on demand when logos change)
-    await redis.set("logos", JSON.stringify(logos));
-
-    return logos;
   } catch (error) {
-    console.error(error);
+    console.error("[listLogos] Error listing from Vercel Blob:", error);
     return [];
   }
 };
 
-/**
- * Get a specific logo by make
- * Filters from the cached list for fast lookups
- */
-export const getLogo = async (make: string) => {
+export const getLogo = async (make: string): Promise<CarLogo | null> => {
   const normalisedMake = normaliseMake(make);
 
   try {
-    // Get the full list (from cache or Vercel Blob)
-    const logos = await listLogos();
+    const { blobs } = await list({ prefix: BLOB_PREFIX });
 
-    // Filter for the specific make
-    const logo = logos.find(({ make }) => make === normalisedMake);
-    if (logo) {
-      return logo;
+    const blob = blobs.find((b) => {
+      const filename = b.pathname.replace(BLOB_PREFIX, "");
+      const blobMake = filename.replace(/\.[^/.]+$/, "");
+      return blobMake === normalisedMake;
+    });
+
+    if (!blob) {
+      return null;
     }
 
-    return null;
+    const filename = blob.pathname.replace(BLOB_PREFIX, "");
+    return {
+      make: normalisedMake,
+      filename,
+      url: blob.url,
+    };
   } catch (error) {
-    console.error(error);
+    console.error(
+      `[getLogo] Error fetching logo for ${normalisedMake}:`,
+      error,
+    );
     return null;
   }
 };
 
-/**
- * Delete a logo from Vercel Blob storage and clear Redis cache
- */
 export const deleteLogo = async (make: string): Promise<boolean> => {
   const normalisedMake = normaliseMake(make);
 
   try {
-    // Find the logo first to get the exact URL
     const logo = await getLogo(normalisedMake);
     if (!logo) {
       return true;
@@ -113,13 +94,9 @@ export const deleteLogo = async (make: string): Promise<boolean> => {
 
     await del(logo.url);
 
-    // Invalidate the logos cache so the deleted logo is removed from the list
-    await redis.del("logos");
-
     return true;
   } catch (error) {
-    console.error(error);
-
+    console.error("[deleteLogo] Error deleting logo:", error);
     return false;
   }
 };
