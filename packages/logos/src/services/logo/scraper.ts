@@ -4,7 +4,7 @@ import { getLogo } from "@logos/services/logo/service";
 import type { CarLogo } from "@logos/types";
 import { extractFileExtension, getContentType } from "@logos/utils/file-utils";
 import { logError, logInfo } from "@logos/utils/logger";
-import { normaliseBrandName } from "@logos/utils/normalisation";
+import { normaliseBrandName } from "@logos/utils/normalise-brand-name.ts";
 
 export interface ScrapeResult {
   success: boolean;

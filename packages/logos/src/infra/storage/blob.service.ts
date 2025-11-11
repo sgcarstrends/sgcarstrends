@@ -1,7 +1,7 @@
-import type { CarLogo, LogoMetadata } from "@logos/types";
+import type { CarLogo } from "@logos/types";
 import { getFileExtension } from "@logos/utils/file-utils";
 import { logError, logInfo } from "@logos/utils/logger";
-import { normaliseBrandName } from "@logos/utils/normalisation";
+import { normaliseBrandName } from "@logos/utils/normalise-brand-name.ts";
 import { redis } from "@sgcarstrends/utils";
 import { del, list, put } from "@vercel/blob";
 

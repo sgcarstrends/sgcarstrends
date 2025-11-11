@@ -1,6 +1,6 @@
 import * as blobStorage from "@logos/infra/storage/blob.service";
 import { logInfo } from "@logos/utils/logger";
-import { normaliseBrandName } from "@logos/utils/normalisation";
+import { normaliseBrandName } from "@logos/utils/normalise-brand-name.ts";
 
 /**
  * Get a logo by brand name
