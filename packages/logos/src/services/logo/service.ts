@@ -1,5 +1,4 @@
 import * as blobStorage from "@logos/infra/storage/blob.service";
-import type { CarLogo } from "@logos/types";
 import { logInfo } from "@logos/utils/logger";
 import { normaliseBrandName } from "@logos/utils/normalisation";
 
@@ -7,7 +6,7 @@ import { normaliseBrandName } from "@logos/utils/normalisation";
  * Get a logo by brand name
  * Uses Vercel Blob storage with Redis caching
  */
-export const getLogo = async (brand: string): Promise<CarLogo | null> => {
+export const getLogo = async (brand: string) => {
   const startTime = Date.now();
   const normalisedBrand = normaliseBrandName(brand);
 

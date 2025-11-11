@@ -1,12 +1,14 @@
 "use server";
 
-import { getLogo, listLogos } from "@logos/services/logo";
+import { downloadLogo, getLogo, listLogos } from "@logos/services/logo";
 import type { CarLogo } from "@logos/types";
+import { redis } from "@sgcarstrends/utils";
 
 /**
  * Get a single car logo by brand name
+ * Automatically downloads logo from carlogos.org if not found in cache
  * @param brand - The car brand name (will be normalized automatically)
- * @returns Logo data or null if not found
+ * @returns Logo data or error if download fails
  */
 export const getCarLogo = async (
   brand: string,
@@ -14,13 +16,28 @@ export const getCarLogo = async (
   { success: true; logo: CarLogo } | { success: false; error: string }
 > => {
   try {
-    const logo = await getLogo(brand);
+    let logo = await getLogo(brand);
 
+    // Auto-download if not found
     if (!logo) {
-      return {
-        success: false,
-        error: `Logo not found for brand: ${brand}`,
-      };
+      console.log(
+        `[getCarLogo] Logo not found, downloading for brand: ${brand}`,
+      );
+      const downloadResult = await downloadLogo(brand);
+
+      if (downloadResult.success && downloadResult.logo) {
+        logo = downloadResult.logo;
+        console.log(`[getCarLogo] Successfully downloaded logo for: ${brand}`);
+
+        // Clear list cache so the new logo appears in the makes list
+        await redis.del("logos:all");
+        console.log("[getCarLogo] Cleared logos list cache");
+      } else {
+        return {
+          success: false,
+          error: downloadResult.error || "Logo download failed",
+        };
+      }
     }
 
     return { success: true, logo };

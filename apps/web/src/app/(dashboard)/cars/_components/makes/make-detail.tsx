@@ -14,6 +14,7 @@ import { LastUpdated } from "@web/components/shared/last-updated";
 import NoData from "@web/components/shared/no-data";
 import { columns } from "@web/components/tables/columns/cars-make-columns";
 import Typography from "@web/components/typography";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import type { Make } from "@web/types";
 import Image from "next/image";
 
@@ -41,15 +42,17 @@ export const MakeDetail = ({
       <div className="flex flex-col gap-2">
         <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">
           <div className="flex flex-col items-center gap-4">
-            {logo?.url && (
-              <Image
-                alt={`${cars.make} logo`}
-                src={logo.url}
-                width={128}
-                height={128}
-                className="object-contain"
-              />
-            )}
+            <UnreleasedFeature>
+              {logo?.url && (
+                <Image
+                  alt={`${cars.make} logo`}
+                  src={logo.url}
+                  width={128}
+                  height={128}
+                  className="object-contain"
+                />
+              )}
+            </UnreleasedFeature>
             <Typography.H1>{cars.make}</Typography.H1>
           </div>
           <div className="flex flex-col items-start gap-2">
