@@ -1,3 +1,9 @@
+## [4.18.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.0...v4.18.1) (2025-11-11)
+
+### Bug Fixes
+
+* **web:** add placeholder image for makes ([f0a263d](https://github.com/sgcarstrends/sgcarstrends/commit/f0a263d1dbc8797ae637f6df84194b588224d8c3))
+
 ## [4.18.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.17.1...v4.18.0) (2025-11-11)
 
 ### Features
