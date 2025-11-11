@@ -1,5 +1,3 @@
-export type { Env } from "./env";
-
 export interface CarLogo {
   brand: string;
   url: string;
