@@ -1,6 +1,8 @@
-import { getLogo } from "@logos/services/blob";
+"use cache";
+
+import slugify from "@sindresorhus/slugify";
+import { getCarLogo } from "@web/actions/logos";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
-import { loadSearchParams } from "@web/app/(dashboard)/cars/makes/[make]/search-params";
 import { StructuredData } from "@web/components/structured-data";
 import { fetchMakePageData } from "@web/lib/cars/make-data";
 import {
@@ -10,27 +12,21 @@ import {
 } from "@web/lib/cars/queries";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
-import { getMonthOrLatest } from "@web/utils/months";
+import type { Make } from "@web/types";
 import type { Metadata } from "next";
-import type { SearchParams } from "nuqs/server";
 
 interface Props {
-  params: Promise<{ make: string }>;
-  searchParams: Promise<SearchParams>;
+  params: Promise<{ make: Make }>;
 }
 
 export const generateMetadata = async ({
   params,
-  searchParams,
 }: Props): Promise<Metadata> => {
   const { make } = await params;
-  let { month } = await loadSearchParams(searchParams);
-
-  month = await getMonthOrLatest(month, "cars");
 
   const [makeExists, makeDetails] = await Promise.all([
     checkMakeIfExist(make),
-    getMakeDetails(make, month),
+    getMakeDetails(make),
   ]);
 
   const makeName = makeExists?.make ?? make.toUpperCase();
@@ -38,18 +34,19 @@ export const generateMetadata = async ({
   const title = `${makeName} Cars Overview: Registration Trends`;
   const description = `${makeName} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
 
-  const images = `/api/og?title=${makeName.toUpperCase()}&subtitle=Stats by Make&month=${month}&total=${makeDetails.total}`;
+  const images = `/api/og?title=${makeName.toUpperCase()}&subtitle=Stats by Make&total=${makeDetails.total}`;
 
   return createPageMetadata({
     title,
     description,
-    canonical: `/cars/makes/${make}?month=${month}`,
+    canonical: `/cars/makes/${make}`,
     images,
   });
 };
 
-export const generateStaticParams = () => {
-  return getDistinctMakes();
+export const generateStaticParams = async () => {
+  const allMakes = await getDistinctMakes();
+  return allMakes.map(({ make }) => ({ make: slugify(String(make)) }));
 };
 
 const CarMakePage = async ({ params }: Props) => {
@@ -57,7 +54,7 @@ const CarMakePage = async ({ params }: Props) => {
 
   const [{ cars, makes, lastUpdated, makeName }, logo] = await Promise.all([
     fetchMakePageData(make),
-    getLogo(make),
+    getCarLogo(make),
   ]);
 
   const title = `${makeName} Cars Overview: Registration Trends`;

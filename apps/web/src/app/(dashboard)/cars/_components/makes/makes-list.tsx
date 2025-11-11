@@ -2,6 +2,7 @@
 
 import { Chip } from "@heroui/chip";
 import { Input } from "@heroui/input";
+import type { CarLogo } from "@logos/types";
 import {
   Makes,
   MakesSearchResults,
@@ -14,15 +15,24 @@ import { useMemo, useState } from "react";
 interface MakesListProps {
   makes: Make[];
   popularMakes: Make[];
-  logoUrlMap?: Record<string, string>;
+  logos?: CarLogo[];
 }
 
 export const MakesList = ({
   makes,
   popularMakes,
-  logoUrlMap = {},
+  logos = [],
 }: MakesListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
+
+  const logoUrlMap = useMemo(() => {
+    return logos.reduce<Record<string, string>>((acc, logo) => {
+      if (logo.url) {
+        acc[logo.make] = logo.url;
+      }
+      return acc;
+    }, {});
+  }, [logos]);
 
   const { popular, others } = useMemo(() => {
     const popular = popularMakes.filter((make) => makes.includes(make));

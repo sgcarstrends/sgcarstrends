@@ -37,9 +37,6 @@ export const getCarLogo = async (
 
       if (downloadResult.success && downloadResult.logo) {
         logo = downloadResult.logo;
-
-        // Invalidate list caches since new logo was added
-        await Promise.all([redis.del("logos"), redis.del("logos:map")]);
       } else {
         // Cache negative result to avoid repeated download attempts
         logo = {
@@ -56,12 +53,13 @@ export const getCarLogo = async (
     return logo;
   } catch (error) {
     console.error("Error fetching logo:", error);
-    return undefined;
+    return;
   }
 };
 
 /**
  * Get all available car logos with caching
+ *
  * @returns Array of all logos or error
  */
 export const getAllCarLogos = async (): Promise<
@@ -69,60 +67,26 @@ export const getAllCarLogos = async (): Promise<
 > => {
   try {
     // Check cache first
-    const cachedLogos = await redis.get<CarLogo[]>("logos");
+    const cachedLogos = await redis.get<CarLogo[]>("logos:all");
     if (cachedLogos) {
-      console.log("[getAllCarLogos] Using cached logos list");
+      console.log("Using cached logos list");
       return { logos: cachedLogos };
     }
 
     // Cache miss - fetch from blob storage
-    console.log("[getAllCarLogos] Cache miss, fetching from blob storage");
+    console.log("Cache miss, fetching from blob storage");
     const logos = await listLogos();
 
     // Cache the result
-    await redis.set("logos", JSON.stringify(logos));
-    console.log("[getAllCarLogos] Cached logos list");
+    await redis.set("logos:all", JSON.stringify(logos));
+    console.log("Cached logos list");
 
     return { logos };
   } catch (error) {
-    console.error("[getAllCarLogos] Error fetching logos:", error);
+    console.error("Error fetching logos:", error);
 
     return {
       error: error instanceof Error ? error.message : "Failed to fetch logos",
     };
-  }
-};
-
-/**
- * Create a make-to-URL map for quick logo lookups with caching
- * @returns Map of makes to logo URLs
- */
-export const getLogoUrlMap = async (): Promise<Record<string, string>> => {
-  try {
-    const cacheKey = "logos:map";
-
-    // Check cache first
-    const cachedMap = await redis.get<Record<string, string>>(cacheKey);
-    if (cachedMap) {
-      console.log("[getLogoUrlMap] Using cached logo map");
-      return cachedMap;
-    }
-
-    // Cache miss - fetch and build map
-    console.log("[getLogoUrlMap] Cache miss, building logo map");
-    const logos = await listLogos();
-    const logoMap = logos.reduce<Record<string, string>>((acc, logo) => {
-      acc[logo.make] = logo.url;
-      return acc;
-    }, {});
-
-    // Cache the map
-    await redis.set(cacheKey, JSON.stringify(logoMap));
-    console.log("[getLogoUrlMap] Cached logo map");
-
-    return logoMap;
-  } catch (error) {
-    console.error("[getLogoUrlMap] Error creating logo map:", error);
-    return {};
   }
 };
