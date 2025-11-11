@@ -1,5 +1,6 @@
 import { redis } from "@sgcarstrends/utils";
 import { getPopularMakes } from "@web/actions";
+import { getLogoUrlMap } from "@web/actions/logos";
 import { MakesList } from "@web/app/(dashboard)/cars/_components/makes";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
@@ -23,14 +24,16 @@ export const generateMetadata = (): Metadata => {
 };
 
 const CarMakesPage = async () => {
-  const [makesResult, popularMakes, months, lastUpdated] = await Promise.all([
-    getDistinctMakes(),
-    getPopularMakes(),
-    fetchMonthsForCars(),
-    redis.get<number>(LAST_UPDATED_CARS_KEY),
-  ]);
+  const [allMakes, popularMakes, months, lastUpdated, logoUrlMap] =
+    await Promise.all([
+      getDistinctMakes(),
+      getPopularMakes(),
+      fetchMonthsForCars(),
+      redis.get<number>(LAST_UPDATED_CARS_KEY),
+      getLogoUrlMap(),
+    ]);
 
-  const makes = makesResult.map((m) => m.make);
+  const makes = allMakes.map(({ make }) => String(make));
 
   const title = "Car Makes Overview - Singapore Registration Trends";
   const description =
@@ -59,7 +62,11 @@ const CarMakesPage = async () => {
           lastUpdated={lastUpdated}
           months={months}
         />
-        <MakesList makes={makes} popularMakes={popularMakes} />
+        <MakesList
+          makes={makes}
+          popularMakes={popularMakes}
+          logoUrlMap={logoUrlMap}
+        />
       </div>
     </>
   );

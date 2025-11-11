@@ -38,7 +38,8 @@
         "utils",
         "infra",
         "deps",
-        "release"
+        "release",
+        "logos"
       ]
     ],
     "body-max-line-length": [0, "always"],

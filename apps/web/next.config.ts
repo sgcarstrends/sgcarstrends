@@ -44,6 +44,11 @@ const nextConfig: NextConfig = {
         hostname: "assets.sgcarstrends.com",
         pathname: "/logos/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.blob.vercel-storage.com",
+        pathname: "/logos/**",
+      },
     ],
   },
   logging: {

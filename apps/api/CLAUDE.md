@@ -52,6 +52,7 @@ bidding results. Key features include:
 ### Core Structure
 
 - **src/index.ts**: Main Hono app with middleware, routes, and error handling
+- **src/features/**: Feature modules (cars, coe, health, logos, months, workflows, newsletter, shared)
 - **src/v1/**: Versioned API routes (cars, coe, months) with bearer authentication
 - **src/routes/**: Workflow endpoints and social media webhooks
 - **src/trpc/**: Type-safe tRPC router with context creation
@@ -60,6 +61,21 @@ bidding results. Key features include:
 - **src/lib/social/**: Platform-specific social media posting logic
 - **src/config/**: Configuration for databases, Redis, QStash, and platforms
 - **src/utils/**: Utility functions for file processing, caching, and responses
+
+### Features
+
+The API follows a feature-based architecture in `src/features/`:
+
+- **cars**: Car registration data endpoints
+- **coe**: COE bidding results endpoints
+- **health**: Health check endpoint
+- **logos**: Car brand logo API (placeholder - awaiting storage migration)
+- **months**: Available data months endpoint
+- **workflows**: Workflow trigger endpoints
+- **newsletter**: Newsletter functionality
+- **shared**: Shared feature utilities
+
+**Logos Feature**: The logos feature (`src/features/logos/`) provides car brand logo retrieval with automatic downloads. Uses Vercel Blob for storage and Upstash Redis for caching. Requires `BLOB_READ_WRITE_TOKEN` environment variable. See `packages/logos/CLAUDE.md` for implementation details.
 
 ### Workflow Architecture
 
@@ -128,6 +144,7 @@ Required for local development (.env.local):
 - `UPSTASH_REDIS_REST_URL`: Redis caching URL
 - `UPSTASH_REDIS_REST_TOKEN`: Redis authentication
 - `UPSTASH_QSTASH_TOKEN`: QStash workflow token
+- `BLOB_READ_WRITE_TOKEN`: Vercel Blob authentication token for logos storage
 - `GOOGLE_GENERATIVE_AI_API_KEY`: Google Gemini API key for blog generation (used by Vercel AI SDK)
 - `LANGFUSE_PUBLIC_KEY`: Langfuse public key for LLM observability (optional)
 - `LANGFUSE_SECRET_KEY`: Langfuse secret key for LLM observability (optional)

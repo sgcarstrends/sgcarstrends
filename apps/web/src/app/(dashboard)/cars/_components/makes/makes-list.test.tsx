@@ -18,8 +18,21 @@ describe("MakesList", () => {
 
   const mockPopularMakes = ["Toyota", "BMW", "Mercedes-Benz", "Honda"];
 
+  const mockLogoUrlMap = {
+    toyota: "https://blob.vercel-storage.com/logos/toyota.png",
+    bmw: "https://blob.vercel-storage.com/logos/bmw.png",
+    "mercedes-benz": "https://blob.vercel-storage.com/logos/mercedes-benz.png",
+    honda: "https://blob.vercel-storage.com/logos/honda.png",
+  };
+
   it("should render all makes when no search term is provided", () => {
-    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
+    render(
+      <MakesList
+        makes={mockMakes}
+        popularMakes={mockPopularMakes}
+        logoUrlMap={mockLogoUrlMap}
+      />,
+    );
 
     expect(screen.getByText("10 of 10 makes")).toBeInTheDocument();
     expect(screen.getByText("Popular Makes")).toBeInTheDocument();
@@ -27,7 +40,13 @@ describe("MakesList", () => {
   });
 
   it("should filter and display search results", async () => {
-    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
+    render(
+      <MakesList
+        makes={mockMakes}
+        popularMakes={mockPopularMakes}
+        logoUrlMap={mockLogoUrlMap}
+      />,
+    );
 
     const searchInput = screen.getByPlaceholderText("Search by make");
     await userEvent.type(searchInput, "BMW");
@@ -40,7 +59,13 @@ describe("MakesList", () => {
   });
 
   it("should show empty state when no matches found", async () => {
-    render(<MakesList makes={mockMakes} popularMakes={mockPopularMakes} />);
+    render(
+      <MakesList
+        makes={mockMakes}
+        popularMakes={mockPopularMakes}
+        logoUrlMap={mockLogoUrlMap}
+      />,
+    );
 
     const searchInput = screen.getByPlaceholderText("Search by make");
     await userEvent.type(searchInput, "xyzabc");

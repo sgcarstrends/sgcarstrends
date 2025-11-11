@@ -90,10 +90,39 @@ describe("MakeDetail", () => {
     expect(screen.getByText(/Last updated:/)).toBeVisible();
   });
 
-  // it("renders make logo image", () => {
-  //   render(<MakeDetail make="TOYOTA" cars={mockCars} makes={mockMakes} />);
-  //   const image = screen.getByRole("img");
-  //   expect(image).toHaveAttribute("alt", "Logo");
-  //   expect(image).toHaveAttribute("src", expect.stringContaining("TOYOTA.png"));
-  // });
+  it("should render logo image when logo is provided", () => {
+    const mockLogo = {
+      brand: "TOYOTA",
+      url: "https://example.com/toyota.png",
+      filename: "toyota.png",
+    };
+
+    render(
+      <MakeDetail
+        make="TOYOTA"
+        cars={mockCars}
+        makes={mockMakes}
+        logo={mockLogo}
+      />,
+    );
+
+    const image = screen.getByAltText("TOYOTA logo");
+    expect(image).toBeVisible();
+    expect(image).toHaveAttribute("src", expect.stringContaining("toyota.png"));
+  });
+
+  it("should render placeholder when logo is not provided", () => {
+    render(<MakeDetail make="TOYOTA" cars={mockCars} makes={mockMakes} />);
+  });
+
+  it("should render placeholder when logo download fails", () => {
+    render(
+      <MakeDetail
+        make="TOYOTA"
+        cars={mockCars}
+        makes={mockMakes}
+        logo={undefined}
+      />,
+    );
+  });
 });

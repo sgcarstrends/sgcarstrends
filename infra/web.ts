@@ -8,6 +8,7 @@ export const web = new sst.aws.Nextjs("Web", {
   },
   environment: {
     TZ: "Asia/Singapore",
+    BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN as string,
     SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN as string,
     DATABASE_URL: process.env.DATABASE_URL as string,
     NEXT_PUBLIC_API_URL: api.url,
