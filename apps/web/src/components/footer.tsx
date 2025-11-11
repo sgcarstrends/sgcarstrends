@@ -14,6 +14,8 @@ const NAV_ITEMS = [
 ];
 
 export const Footer = async () => {
+  "use cache";
+
   return (
     <footer className="border-divider border-t bg-content1">
       <div className="container mx-auto px-6 py-12">

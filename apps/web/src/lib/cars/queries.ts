@@ -7,6 +7,7 @@ import type {
 } from "@web/types/cars";
 import { format, subMonths } from "date-fns";
 import { and, desc, eq, sql } from "drizzle-orm";
+import { cacheLife, cacheTag } from "next/cache";
 
 export interface CarMarketShareData {
   name: string;
@@ -51,6 +52,10 @@ export interface CarTopPerformersData {
 }
 
 export async function getCarsData(month: string): Promise<Registration> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("cars", `cars-${month}`);
+
   const fuelTypeQuery = db
     .select({
       name: cars.fuelType,
@@ -101,6 +106,10 @@ export async function getCarsData(month: string): Promise<Registration> {
 }
 
 export async function getCarsComparison(month: string): Promise<Comparison> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("cars", `cars-comparison-${month}`);
+
   const currentDate = new Date(`${month}-01`);
   const previousMonthDate = subMonths(currentDate, 1);
   const previousMonthStr = format(previousMonthDate, "yyyy-MM");
@@ -169,6 +178,10 @@ export async function getCarsComparison(month: string): Promise<Comparison> {
 }
 
 export async function getTopTypes(month: string): Promise<TopType> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("cars", `cars-types-${month}`);
+
   const topFuelTypeQuery = db
     .select({
       name: cars.fuelType,
@@ -232,6 +245,10 @@ export const getTopMakes = async (month: string): Promise<TopMake[]> => {
 export async function getTopMakesByFuelType(
   month: string,
 ): Promise<FuelType[]> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("cars", `cars-makes-${month}`);
+
   const fuelTypeResults = await db
     .select({
       fuelType: cars.fuelType,
@@ -629,6 +646,10 @@ export const getVehicleTypeData = async (
  * Get list of available months with car data
  */
 export async function getCarsMonths(): Promise<{ month: string }[]> {
+  "use cache";
+  cacheLife("statistics");
+  cacheTag("cars", "cars-months");
+
   const results = await db
     .selectDistinct({ month: cars.month })
     .from(cars)

@@ -1,5 +1,6 @@
 import { cars, coe, db } from "@sgcarstrends/database";
 import { desc, max } from "drizzle-orm";
+import { cacheLife, cacheTag } from "next/cache";
 
 /**
  * Generic function to get the latest month from any table with a month column
@@ -28,6 +29,10 @@ export const getLatestMonth = async (
  * Get the latest month with car registration data
  */
 export async function getCarsLatestMonth(): Promise<string | null> {
+  "use cache";
+  cacheLife("latestData");
+  cacheTag("cars", "latest-cars-month");
+
   const result = await db.query.cars.findFirst({
     columns: { month: true },
     orderBy: desc(cars.month),
@@ -40,6 +45,10 @@ export async function getCarsLatestMonth(): Promise<string | null> {
  * Get the latest month with COE bidding data
  */
 export async function getCOELatestMonth(): Promise<string | null> {
+  "use cache";
+  cacheLife("latestData");
+  cacheTag("coe", "latest-coe-month");
+
   const [{ latestMonth }] = await db
     .select({ latestMonth: max(coe.month) })
     .from(coe);

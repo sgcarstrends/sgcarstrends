@@ -2,6 +2,7 @@ import { coe, coePQP, db } from "@sgcarstrends/database";
 import type { COEResult } from "@web/types";
 import type { Pqp } from "@web/types/coe";
 import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
+import { cacheLife, cacheTag } from "next/cache";
 
 export interface COEMarketShareData {
   category: string;
@@ -12,6 +13,10 @@ export interface COEMarketShareData {
 }
 
 export async function getCOEResults(): Promise<COEResult[]> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("coe", "coe-all");
+
   const results = await db
     .select()
     .from(coe)
@@ -21,6 +26,10 @@ export async function getCOEResults(): Promise<COEResult[]> {
 }
 
 export async function getLatestCOEResults(): Promise<COEResult[]> {
+  "use cache";
+  cacheLife("latestData");
+  cacheTag("coe", "latest-coe");
+
   const [{ latestMonth }] = await db
     .select({ latestMonth: max(coe.month) })
     .from(coe);
@@ -50,6 +59,10 @@ export async function getLatestCOEResults(): Promise<COEResult[]> {
 }
 
 export async function getPQPData(): Promise<Record<string, Pqp.Rates>> {
+  "use cache";
+  cacheLife("monthlyData");
+  cacheTag("coe", "pqp-all");
+
   const results = await db
     .select()
     .from(coePQP)
@@ -80,6 +93,18 @@ export async function getCOEResultsFiltered(
   start?: string,
   end?: string,
 ): Promise<COEResult[]> {
+  "use cache";
+  cacheLife("monthlyData");
+
+  // Generate dynamic cache tags based on filters
+  if (month) {
+    cacheTag("coe", `coe-${month}`);
+  } else if (start || end) {
+    cacheTag("coe", `coe-range-${start || "all"}-${end || "all"}`);
+  } else {
+    cacheTag("coe", "coe-all");
+  }
+
   const filters = [];
 
   if (month) {
@@ -107,6 +132,10 @@ export async function getCOEResultsFiltered(
  * Get list of available months with COE data
  */
 export async function getCOEMonths(): Promise<{ month: string }[]> {
+  "use cache";
+  cacheLife("statistics");
+  cacheTag("coe", "coe-months");
+
   const results = await db
     .selectDistinct({ month: coe.month })
     .from(coe)
