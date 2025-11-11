@@ -4,7 +4,7 @@ import { getLogo } from "@logos/services/logo/service";
 import type { CarLogo } from "@logos/types";
 import { extractFileExtension, getContentType } from "@logos/utils/file-utils";
 import { logError, logInfo } from "@logos/utils/logger";
-import { normaliseBrandName } from "@logos/utils/normalise-brand-name.ts";
+import { normaliseMake } from "@logos/utils/normalise-make.ts";
 
 export interface ScrapeResult {
   success: boolean;
@@ -16,24 +16,24 @@ export interface ScrapeResult {
  * Download a logo from external source and store in Vercel Blob
  * Uses Redis caching for metadata
  */
-export const downloadLogo = async (brand: string): Promise<ScrapeResult> => {
+export const downloadLogo = async (make: string): Promise<ScrapeResult> => {
   const overallStartTime = Date.now();
 
   try {
-    const normalisedBrand = normaliseBrandName(brand);
+    const normalisedMake = normaliseMake(make);
     logInfo("Starting logo download process", {
-      brand,
-      normalised: normalisedBrand,
+      make,
+      normalised: normalisedMake,
     });
 
     // Check if already exists
     const existingCheckStart = Date.now();
-    const existing = await getLogo(brand);
+    const existing = await getLogo(make);
     const existingCheckDuration = Date.now() - existingCheckStart;
 
     if (existing) {
       logInfo("Logo already exists, returning cached version", {
-        brand: normalisedBrand,
+        make: normalisedMake,
         duration: existingCheckDuration,
       });
       return {
@@ -43,15 +43,15 @@ export const downloadLogo = async (brand: string): Promise<ScrapeResult> => {
     }
 
     logInfo("No existing logo found, proceeding with download", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       duration: existingCheckDuration,
     });
 
     // Download logo using direct URL pattern
-    const logoUrl = `${BASE_URL}/${normalisedBrand}-logo.png`;
+    const logoUrl = `${BASE_URL}/${normalisedMake}-logo.png`;
 
     logInfo("Attempting direct logo download", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       url: logoUrl,
     });
     const checkStart = Date.now();
@@ -63,7 +63,7 @@ export const downloadLogo = async (brand: string): Promise<ScrapeResult> => {
         "Failed to fetch logo directly",
         new Error(`HTTP ${response.status}`),
         {
-          brand: normalisedBrand,
+          make: normalisedMake,
           status: response.status,
           duration: checkDuration,
         },
@@ -76,13 +76,13 @@ export const downloadLogo = async (brand: string): Promise<ScrapeResult> => {
 
     const checkDuration = Date.now() - checkStart;
     logInfo("Successfully found logo at direct URL", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       duration: checkDuration,
     });
 
     // Download and validate image
     logInfo("Downloading logo image", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       url: logoUrl,
     });
     const downloadStart = Date.now();
@@ -94,7 +94,7 @@ export const downloadLogo = async (brand: string): Promise<ScrapeResult> => {
         "Downloaded image too small",
         new Error("Image likely corrupted"),
         {
-          brand: normalisedBrand,
+          make: normalisedMake,
           bytes: arrayBuffer.byteLength,
         },
       );
@@ -106,34 +106,30 @@ export const downloadLogo = async (brand: string): Promise<ScrapeResult> => {
 
     const downloadDuration = Date.now() - downloadStart;
     logInfo("Successfully downloaded logo image", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       bytes: arrayBuffer.byteLength,
       duration: downloadDuration,
     });
 
     // Determine content type
     const extension = extractFileExtension(logoUrl);
-    const contentType = getContentType(`${normalisedBrand}.${extension}`);
+    const contentType = getContentType(`${normalisedMake}.${extension}`);
 
     logInfo("Uploading logo to Vercel Blob", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       contentType,
     });
 
     // Upload to Vercel Blob (also caches in Redis)
     const uploadStart = Date.now();
-    const result = await blobStorage.uploadLogo(
-      brand,
-      arrayBuffer,
-      contentType,
-    );
+    const result = await blobStorage.uploadLogo(make, arrayBuffer, contentType);
 
     if (!result) {
       logError(
         "Failed to upload logo to Vercel Blob",
         new Error("Upload failed"),
         {
-          brand: normalisedBrand,
+          make: normalisedMake,
         },
       );
       return {
@@ -146,7 +142,7 @@ export const downloadLogo = async (brand: string): Promise<ScrapeResult> => {
     const totalDuration = Date.now() - overallStartTime;
 
     logInfo("Logo download and upload completed", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       url: result.url,
       uploadDuration,
       totalDuration,
@@ -155,7 +151,7 @@ export const downloadLogo = async (brand: string): Promise<ScrapeResult> => {
     return {
       success: true,
       logo: {
-        brand: normalisedBrand,
+        make: normalisedMake,
         filename: result.filename,
         url: result.url,
       },
@@ -165,7 +161,7 @@ export const downloadLogo = async (brand: string): Promise<ScrapeResult> => {
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
     logError("Logo download failed", error, {
-      brand,
+      make,
       duration: totalDuration,
     });
 

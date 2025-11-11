@@ -1,7 +1,7 @@
 import type { CarLogo } from "@logos/types";
 import { getFileExtension } from "@logos/utils/file-utils";
 import { logError, logInfo } from "@logos/utils/logger";
-import { normaliseBrandName } from "@logos/utils/normalise-brand-name.ts";
+import { normaliseMake } from "@logos/utils/normalise-make.ts";
 import { redis } from "@sgcarstrends/utils";
 import { del, list, put } from "@vercel/blob";
 
@@ -12,19 +12,19 @@ const BLOB_PREFIX = "logos/";
  * Upload a logo to Vercel Blob storage
  */
 export const uploadLogo = async (
-  brand: string,
+  make: string,
   buffer: ArrayBuffer,
   contentType: string,
 ): Promise<{ url: string; filename: string } | null> => {
   const start = Date.now();
-  const normalisedBrand = normaliseBrandName(brand);
+  const normalisedMake = normaliseMake(make);
   const extension = getFileExtension(contentType);
-  const filename = `${normalisedBrand}.${extension}`;
+  const filename = `${normalisedMake}.${extension}`;
   const pathname = `${BLOB_PREFIX}${filename}`;
 
   try {
     logInfo("Uploading logo to Vercel Blob", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       filename,
       contentType,
       size: buffer.byteLength,
@@ -34,26 +34,25 @@ export const uploadLogo = async (
       access: "public",
       contentType,
       cacheControlMaxAge: 31536000, // 1 year
-      token: process.env.BLOB_READ_WRITE_TOKEN,
     });
 
     const duration = Date.now() - start;
     logInfo("Successfully uploaded logo to Vercel Blob", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       url: blob.url,
       duration,
     });
 
     // Cache metadata in Redis
-    const metadata: LogoMetadata = {
-      brand: normalisedBrand,
+    const metadata = {
+      make: normalisedMake,
       filename,
       url: blob.url,
       createdAt: new Date().toISOString(),
       fileSize: buffer.byteLength,
     };
 
-    await redis.set(`logo:${normalisedBrand}`, JSON.stringify(metadata), {
+    await redis.set(`logo:${normalisedMake}`, JSON.stringify(metadata), {
       ex: REDIS_TTL,
     });
 
@@ -61,7 +60,7 @@ export const uploadLogo = async (
   } catch (error) {
     const duration = Date.now() - start;
     logError("Failed to upload logo to Vercel Blob", error, {
-      brand: normalisedBrand,
+      make: normalisedMake,
       filename,
       duration,
     });
@@ -78,32 +77,29 @@ export const listLogos = async (): Promise<CarLogo[]> => {
 
   try {
     // Try Redis cache first
-    const cached = await redis.get<CarLogo[]>("logos:all");
-    if (cached) {
+    const cachedLogos = await redis.get<CarLogo[]>("logos:all");
+    if (cachedLogos) {
       const duration = Date.now() - start;
       logInfo("Found logos list in Redis cache", {
-        count: cached.length,
+        count: cachedLogos.length,
         duration,
       });
-      return cached;
+
+      return cachedLogos;
     }
 
     logInfo("Fetching all logos from Vercel Blob", {
       prefix: BLOB_PREFIX,
     });
 
-    const { blobs } = await list({
-      prefix: BLOB_PREFIX,
-      limit: 1000,
-      token: process.env.BLOB_READ_WRITE_TOKEN,
-    });
+    const { blobs } = await list({ prefix: BLOB_PREFIX });
 
     const logos: CarLogo[] = blobs.map((blob) => {
       const filename = blob.pathname.replace(BLOB_PREFIX, "");
-      const brand = filename.replace(/\.[^/.]+$/, ""); // Remove extension
+      const make = filename.replace(/\.[^/.]+$/, ""); // Remove extension
 
       return {
-        brand,
+        make,
         filename,
         url: blob.url,
       };
@@ -124,50 +120,50 @@ export const listLogos = async (): Promise<CarLogo[]> => {
     logError("Failed to list logos from Vercel Blob", error, {
       duration,
     });
+
     return [];
   }
 };
 
 /**
- * Get a specific logo by brand name
+ * Get a specific logo by make
  * Uses Redis cache for fast lookups, falls back to Blob list API
  */
-export const getLogo = async (brand: string) => {
+export const getLogo = async (make: string) => {
   const start = Date.now();
-  const normalisedBrand = normaliseBrandName(brand);
+  make = normaliseMake(make);
 
   try {
     // Try Redis cache first
-    const cached = await redis.get<LogoMetadata>(`logo:${normalisedBrand}`);
+    const cached = await redis.get<CarLogo>(`logo:${make}`);
     if (cached) {
       const duration = Date.now() - start;
       logInfo("Found logo metadata in Redis cache", {
-        brand: normalisedBrand,
+        make,
         duration,
       });
 
       return {
-        brand: cached.brand,
+        make: cached.make,
         filename: cached.filename,
         url: cached.url,
       };
     }
 
     logInfo("Fetching logo from Vercel Blob", {
-      brand: normalisedBrand,
+      make,
     });
 
     // Search for logo with any extension
     const { blobs } = await list({
-      prefix: `${BLOB_PREFIX}${normalisedBrand}`,
+      prefix: `${BLOB_PREFIX}${make}`,
       limit: 1,
-      token: process.env.BLOB_READ_WRITE_TOKEN,
     });
 
     if (blobs.length === 0) {
       const duration = Date.now() - start;
       logInfo("Logo not found in Vercel Blob", {
-        brand: normalisedBrand,
+        make,
         duration,
       });
       return null;
@@ -178,28 +174,28 @@ export const getLogo = async (brand: string) => {
       const filename = blob.pathname.replace(BLOB_PREFIX, "");
 
       const logo: CarLogo = {
-        brand: normalisedBrand,
+        make,
         filename,
         url: blob.url,
       };
 
       const duration = Date.now() - start;
       logInfo("Found logo in Vercel Blob", {
-        brand: normalisedBrand,
+        make,
         url: blob.url,
         duration,
       });
 
       // Cache in Redis
-      const metadata: LogoMetadata = {
-        brand: normalisedBrand,
+      const metadata = {
+        make,
         filename,
         url: blob.url,
         createdAt: new Date().toISOString(),
         fileSize: blob.size,
       };
 
-      await redis.set(`logo:${normalisedBrand}`, JSON.stringify(metadata), {
+      await redis.set(`logo:${make}`, JSON.stringify(metadata), {
         ex: REDIS_TTL,
       });
 
@@ -208,9 +204,10 @@ export const getLogo = async (brand: string) => {
   } catch (error) {
     const duration = Date.now() - start;
     logError("Failed to get logo from Vercel Blob", error, {
-      brand: normalisedBrand,
+      make,
       duration,
     });
+
     return null;
   }
 };
@@ -218,36 +215,34 @@ export const getLogo = async (brand: string) => {
 /**
  * Delete a logo from Vercel Blob storage and clear Redis cache
  */
-export const deleteLogo = async (brand: string): Promise<boolean> => {
+export const deleteLogo = async (make: string): Promise<boolean> => {
   const start = Date.now();
-  const normalisedBrand = normaliseBrandName(brand);
+  const normalisedMake = normaliseMake(make);
 
   try {
     // Find the logo first to get the exact URL
-    const logo = await getLogo(normalisedBrand);
+    const logo = await getLogo(normalisedMake);
     if (!logo) {
       logInfo("Logo not found, nothing to delete", {
-        brand: normalisedBrand,
+        make: normalisedMake,
       });
       return true;
     }
 
     logInfo("Deleting logo from Vercel Blob", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       url: logo.url,
     });
 
-    await del(logo.url, {
-      token: process.env.BLOB_READ_WRITE_TOKEN,
-    });
+    await del(logo.url);
 
     // Clear Redis caches
-    await redis.del(`logo:${normalisedBrand}`);
+    await redis.del(`logo:${normalisedMake}`);
     await redis.del("logos:all");
 
     const duration = Date.now() - start;
     logInfo("Successfully deleted logo", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       duration,
     });
 
@@ -255,9 +250,10 @@ export const deleteLogo = async (brand: string): Promise<boolean> => {
   } catch (error) {
     const duration = Date.now() - start;
     logError("Failed to delete logo from Vercel Blob", error, {
-      brand: normalisedBrand,
+      make: normalisedMake,
       duration,
     });
+
     return false;
   }
 };

@@ -1,5 +1,5 @@
 export interface CarLogo {
-  brand: string;
+  make: string;
   url: string;
   filename: string;
 }

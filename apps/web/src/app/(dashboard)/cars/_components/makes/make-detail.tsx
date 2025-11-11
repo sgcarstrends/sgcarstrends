@@ -1,3 +1,4 @@
+import type { CarLogo } from "@logos/types";
 import type { SelectCar } from "@sgcarstrends/database";
 import {
   Card,
@@ -7,7 +8,6 @@ import {
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
 import { DataTable } from "@sgcarstrends/ui/components/data-table";
-import type { CarLogo } from "@web/actions/logos";
 import { MakeSelector } from "@web/app/(dashboard)/cars/_components/make-selector";
 import { MakeTrendChart } from "@web/app/(dashboard)/cars/_components/makes";
 import { LastUpdated } from "@web/components/shared/last-updated";
@@ -23,7 +23,7 @@ interface MakeDetailProps {
   cars: { make: string; total: number; data: Partial<SelectCar>[] };
   makes: Make[];
   lastUpdated?: number | null;
-  logo?: CarLogo;
+  logo?: CarLogo | null | undefined;
 }
 
 export const MakeDetail = ({

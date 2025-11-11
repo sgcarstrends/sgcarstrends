@@ -1,34 +1,34 @@
 import * as blobStorage from "@logos/infra/storage/blob.service";
 import { logInfo } from "@logos/utils/logger";
-import { normaliseBrandName } from "@logos/utils/normalise-brand-name.ts";
+import { normaliseMake } from "@logos/utils/normalise-make.ts";
 
 /**
- * Get a logo by brand name
+ * Get a logo by make
  * Uses Vercel Blob storage with Redis caching
  */
-export const getLogo = async (brand: string) => {
+export const getLogo = async (make: string) => {
   const startTime = Date.now();
-  const normalisedBrand = normaliseBrandName(brand);
+  const normalisedMake = normaliseMake(make);
 
   logInfo("Looking up logo", {
-    brand,
-    normalised: normalisedBrand,
+    make,
+    normalised: normalisedMake,
   });
 
   // Use blob service which handles Redis cache internally
-  const logo = await blobStorage.getLogo(brand);
+  const logo = await blobStorage.getLogo(make);
 
   const duration = Date.now() - startTime;
 
   if (logo) {
     logInfo("Found logo", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       filename: logo.filename,
       duration,
     });
   } else {
     logInfo("No logo found", {
-      brand: normalisedBrand,
+      make: normalisedMake,
       duration,
     });
   }

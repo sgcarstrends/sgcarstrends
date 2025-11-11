@@ -1,4 +1,4 @@
-import { getCarLogo } from "@web/actions/logos";
+import { getLogo } from "@logos/infra/storage/blob.service";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/makes/[make]/search-params";
 import { StructuredData } from "@web/components/structured-data";
@@ -55,10 +55,10 @@ export const generateStaticParams = () => {
 const CarMakePage = async ({ params }: Props) => {
   const { make } = await params;
 
-  const [{ cars, makes, lastUpdated, makeName }, logoResult] =
-    await Promise.all([fetchMakePageData(make), getCarLogo(make)]);
-
-  const logo = logoResult.success ? logoResult.logo : undefined;
+  const [{ cars, makes, lastUpdated, makeName }, logo] = await Promise.all([
+    fetchMakePageData(make),
+    getLogo(make),
+  ]);
 
   const title = `${makeName} Cars Overview: Registration Trends`;
   const description = `${makeName} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
