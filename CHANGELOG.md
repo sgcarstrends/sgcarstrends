@@ -1,3 +1,9 @@
+## [4.18.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.2...v4.18.3) (2025-11-11)
+
+### Bug Fixes
+
+* **web:** add prefix matching for navigation ([ffa4ab9](https://github.com/sgcarstrends/sgcarstrends/commit/ffa4ab9c8b2d505a86f1335d5665ac57763a1ff5))
+
 ## [4.18.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.1...v4.18.2) (2025-11-11)
 
 ### Reverts
