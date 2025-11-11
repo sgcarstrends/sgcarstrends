@@ -45,8 +45,11 @@ export const listLogos = async (): Promise<CarLogo[]> => {
     // Try Redis cache first
     const cachedLogos = await redis.get<CarLogo[]>("logos");
     if (cachedLogos) {
+      console.log("Using cached logos");
       return cachedLogos;
     }
+
+    console.log("Using logos from Vercel Blob");
 
     const { blobs } = await list({ prefix: BLOB_PREFIX });
 
@@ -83,8 +86,7 @@ export const getLogo = async (make: string) => {
     const logos = await listLogos();
 
     // Filter for the specific make
-    const logo = logos.find((l) => l.make === normalisedMake);
-
+    const logo = logos.find(({ make }) => make === normalisedMake);
     if (logo) {
       return logo;
     }
