@@ -26,7 +26,7 @@ export const getCarLogo = async (
         console.log(`[getCarLogo] Successfully downloaded logo for: ${make}`);
 
         // Clear list cache so the new logo appears in the makes list
-        await redis.del("logos:all");
+        await redis.del("logos");
         console.log("[getCarLogo] Cleared logos list cache");
       } else {
         return {
