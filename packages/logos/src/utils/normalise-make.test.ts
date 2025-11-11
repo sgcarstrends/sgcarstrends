@@ -2,43 +2,40 @@ import { normaliseMake } from "@logos/utils/normalise-make";
 import { describe, expect, it } from "vitest";
 
 describe("normaliseMake", () => {
-  it("should normalise basic makes", () => {
-    expect(normaliseMake("BMW")).toBe("bmw");
-    expect(normaliseMake("Mercedes-Benz")).toBe("mercedes-benz");
-    expect(normaliseMake("Audi")).toBe("audi");
-  });
+  it.each([
+    // Basic makes
+    { input: "BMW", expected: "bmw" },
+    { input: "Mercedes-Benz", expected: "mercedes-benz" },
+    { input: "Audi", expected: "audi" },
 
-  it("should handle names with spaces", () => {
-    expect(normaliseMake("Land Rover")).toBe("land-rover");
-    expect(normaliseMake("Rolls Royce")).toBe("rolls-royce");
-    expect(normaliseMake("Aston Martin")).toBe("aston-martin");
-  });
+    // Names with spaces
+    { input: "Land Rover", expected: "land-rover" },
+    { input: "Rolls Royce", expected: "rolls-royce" },
+    { input: "Aston Martin", expected: "aston-martin" },
 
-  it("should remove logo suffixes", () => {
-    expect(normaliseMake("BMW-logo")).toBe("bmw");
-    expect(normaliseMake("Audi-logo.png")).toBe("audi");
-    expect(normaliseMake("Mercedes-logo-vector")).toBe("mercedes");
-  });
+    // Logo suffixes
+    { input: "BMW-logo", expected: "bmw" },
+    { input: "Audi-logo.png", expected: "audi" },
+    { input: "Mercedes-logo-vector", expected: "mercedes" },
 
-  it("should remove logo prefixes", () => {
-    expect(normaliseMake("logo-BMW")).toBe("bmw");
-    expect(normaliseMake("logo-Mercedes")).toBe("mercedes");
-  });
+    // Logo prefixes
+    { input: "logo-BMW", expected: "bmw" },
+    { input: "logo-Mercedes", expected: "mercedes" },
 
-  it("should handle special characters", () => {
-    expect(normaliseMake("Citroën")).toBe("citroen");
-    expect(normaliseMake("Škoda")).toBe("skoda");
-    expect(normaliseMake("McLaren")).toBe("mc-laren");
-  });
+    // Special characters
+    { input: "Citroën", expected: "citroen" },
+    { input: "Škoda", expected: "skoda" },
+    { input: "McLaren", expected: "mc-laren" },
 
-  it("should handle empty and whitespace strings", () => {
-    expect(normaliseMake("")).toBe("");
-    expect(normaliseMake("   ")).toBe("");
-    expect(normaliseMake("\t\n")).toBe("");
-  });
+    // Empty and whitespace
+    { input: "", expected: "" },
+    { input: "   ", expected: "" },
+    { input: "\t\n", expected: "" },
 
-  it("should handle numbers and mixed case", () => {
-    expect(normaliseMake("BMW M3")).toBe("bmw-m3");
-    expect(normaliseMake("FORD F150")).toBe("ford-f150");
+    // Numbers and mixed case
+    { input: "BMW M3", expected: "bmw-m3" },
+    { input: "FORD F150", expected: "ford-f150" },
+  ])("should normalise $description", ({ input, expected }) => {
+    expect(normaliseMake(input)).toBe(expected);
   });
 });
