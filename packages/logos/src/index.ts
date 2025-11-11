@@ -1,6 +1,4 @@
-// Export utilities for use in other packages
-
 export * from "./config";
-export * from "./services/logo";
+export * from "./services";
 export * from "./types";
 export * from "./utils/normalise-make";

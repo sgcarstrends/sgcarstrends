@@ -1,5 +1,5 @@
 import { BASE_URL } from "@logos/config";
-import * as blobStorage from "@logos/infra/storage/blob.service";
+import * as blobStorage from "@logos/services/blob";
 import type { CarLogo } from "@logos/types";
 import { extractFileExtension, getContentType } from "@logos/utils/file-utils";
 import { normaliseMake } from "@logos/utils/normalise-make";

@@ -1,4 +1,4 @@
-import { getLogo } from "@logos/infra/storage/blob.service";
+import { getLogo } from "@logos/services/blob";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/makes/[make]/search-params";
 import { StructuredData } from "@web/components/structured-data";

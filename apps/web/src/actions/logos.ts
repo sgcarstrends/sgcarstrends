@@ -1,6 +1,7 @@
 "use server";
 
-import { downloadLogo, getLogo, listLogos } from "@logos/services/logo";
+import { getLogo, listLogos } from "@logos/services/blob";
+import { downloadLogo } from "@logos/services/scraper";
 import type { CarLogo } from "@logos/types";
 import { redis } from "@sgcarstrends/utils";
 
