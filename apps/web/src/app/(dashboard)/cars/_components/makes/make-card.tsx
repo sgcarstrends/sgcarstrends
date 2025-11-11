@@ -1,3 +1,4 @@
+import { Avatar } from "@heroui/avatar";
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import slugify from "@sindresorhus/slugify";
@@ -38,7 +39,7 @@ export const MakeCard = ({
         )}
       </CardHeader>
       <CardBody>
-        {logoUrl && (
+        {logoUrl ? (
           <Image
             alt={`${make} Logo`}
             src={logoUrl}
@@ -46,6 +47,13 @@ export const MakeCard = ({
             height={512}
             className="h-24 object-contain"
           />
+        ) : (
+          <div className="flex justify-center">
+            <Avatar
+              name={make}
+              className="size-24 bg-primary object-contain text-2xl text-primary-foreground"
+            />
+          </div>
         )}
       </CardBody>
       <CardFooter>
