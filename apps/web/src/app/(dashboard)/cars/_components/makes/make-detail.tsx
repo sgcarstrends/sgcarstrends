@@ -23,7 +23,7 @@ interface MakeDetailProps {
   cars: { make: string; total: number; data: Partial<SelectCar>[] };
   makes: Make[];
   lastUpdated?: number | null;
-  logo?: CarLogo | null | undefined;
+  logo?: CarLogo | null;
 }
 
 export const MakeDetail = ({
