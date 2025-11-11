@@ -1,3 +1,9 @@
+## [4.18.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.1...v4.18.2) (2025-11-11)
+
+### Reverts
+
+* Revert "chore(web): temporary remove cache components" ([f03cb09](https://github.com/sgcarstrends/sgcarstrends/commit/f03cb0998f70e9f4323ee2d4e250412b26dca3a1))
+
 ## [4.18.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.0...v4.18.1) (2025-11-11)
 
 ### Bug Fixes
