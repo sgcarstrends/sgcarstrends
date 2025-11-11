@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 interface NavItem {
   name: string;
   href: string;
+  matchPrefix?: boolean;
 }
 
 interface SectionsProps {
@@ -49,6 +50,29 @@ const Sections = ({ sections }: SectionsProps) => {
 const Pages = ({ items }: PagesProps) => {
   const pathname = usePathname();
 
+  // Find the best matching tab based on pathname
+  const selectedKey =
+    items.reduce(
+      (best, item) => {
+        const { href, matchPrefix } = item;
+
+        // Check if this item matches the current pathname
+        const matches = matchPrefix
+          ? pathname.startsWith(href)
+          : pathname === href;
+
+        if (!matches) return best;
+
+        // If no match yet, or this match is more specific (longer href), use it
+        if (!best || href.length > best.length) {
+          return href;
+        }
+
+        return best;
+      },
+      null as string | null,
+    ) ?? pathname;
+
   return (
     <div className="mb-8 overflow-x-scroll">
       <Tabs
@@ -58,7 +82,7 @@ const Pages = ({ items }: PagesProps) => {
         size="lg"
         variant="bordered"
         items={items}
-        selectedKey={pathname}
+        selectedKey={selectedKey}
       >
         {items.map(({ name, href }) => {
           return <Tab key={href} href={href} title={name} />;
@@ -81,6 +105,7 @@ export const Navigation = () => {
     activeSection?.children.map((item) => ({
       name: item.title,
       href: item.url,
+      matchPrefix: item.matchPrefix,
     })) ?? [];
 
   return (
