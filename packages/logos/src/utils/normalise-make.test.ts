@@ -1,4 +1,4 @@
-import { normaliseMake } from "@logos/utils/normalise-make.ts";
+import { normaliseMake } from "@logos/utils/normalise-make";
 import { describe, expect, it } from "vitest";
 
 describe("normaliseMake", () => {

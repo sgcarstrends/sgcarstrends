@@ -1,10 +1,9 @@
 import { BASE_URL } from "@logos/config";
 import * as blobStorage from "@logos/infra/storage/blob.service";
-import { getLogo } from "@logos/services/logo/service";
 import type { CarLogo } from "@logos/types";
 import { extractFileExtension, getContentType } from "@logos/utils/file-utils";
 import { logError, logInfo } from "@logos/utils/logger";
-import { normaliseMake } from "@logos/utils/normalise-make.ts";
+import { normaliseMake } from "@logos/utils/normalise-make";
 
 export interface ScrapeResult {
   success: boolean;
@@ -28,7 +27,7 @@ export const downloadLogo = async (make: string): Promise<ScrapeResult> => {
 
     // Check if already exists
     const existingCheckStart = Date.now();
-    const existing = await getLogo(make);
+    const existing = await blobStorage.getLogo(make);
     const existingCheckDuration = Date.now() - existingCheckStart;
 
     if (existing) {

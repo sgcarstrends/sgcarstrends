@@ -3,4 +3,4 @@
 export * from "./config";
 export * from "./services/logo";
 export * from "./types";
-export * from "./utils/normalisation";
+export * from "./utils/normalise-make";

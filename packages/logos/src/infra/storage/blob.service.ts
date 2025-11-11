@@ -1,7 +1,7 @@
 import type { CarLogo } from "@logos/types";
 import { getFileExtension } from "@logos/utils/file-utils";
 import { logError, logInfo } from "@logos/utils/logger";
-import { normaliseMake } from "@logos/utils/normalise-make.ts";
+import { normaliseMake } from "@logos/utils/normalise-make";
 import { redis } from "@sgcarstrends/utils";
 import { del, list, put } from "@vercel/blob";
 
