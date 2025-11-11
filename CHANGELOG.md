@@ -1,3 +1,18 @@
+## [4.18.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.17.1...v4.18.0) (2025-11-11)
+
+### Features
+
+* **logos:** implement API with Vercel Blob ([1d158ff](https://github.com/sgcarstrends/sgcarstrends/commit/1d158ffcaaf6ae2518da0791e949380482074b1a))
+* **logos:** implement API with Vercel Blob ([6bc1e37](https://github.com/sgcarstrends/sgcarstrends/commit/6bc1e37d12f615d7d5e644b46cece5f78ff8789b))
+* **logos:** migrate car-logos to monorepo ([8a77b38](https://github.com/sgcarstrends/sgcarstrends/commit/8a77b3804090309611af8195f2d5e16d406c1a87))
+* **logos:** migrate car-logos to monorepo ([07fa407](https://github.com/sgcarstrends/sgcarstrends/commit/07fa407dec7433bf5e99afad4c179e2ca89c60db))
+* **web:** auto-download missing car logos ([d777781](https://github.com/sgcarstrends/sgcarstrends/commit/d77778133640f2802c366632d08b3594c2b75a36))
+* **web:** integrate logos package with Vercel Blob ([1461c4c](https://github.com/sgcarstrends/sgcarstrends/commit/1461c4c51c331cfdc5e3ac4b1409b31afd43dce1))
+
+### Bug Fixes
+
+* **logos:** resolve ReDoS in brand name regex ([2b31abf](https://github.com/sgcarstrends/sgcarstrends/commit/2b31abf2c03f75c430fc6c44f8f77301c13dfd8b))
+
 ## [4.17.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.17.0...v4.17.1) (2025-11-10)
 
 ### Bug Fixes
