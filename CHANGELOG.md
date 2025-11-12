@@ -1,3 +1,10 @@
+## [4.19.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.3...v4.19.0) (2025-11-12)
+
+### Features
+
+* **admin:** add blog regeneration feature ([1e64be6](https://github.com/sgcarstrends/sgcarstrends/commit/1e64be6040956578aef4566040c0d46a17dfe438))
+* **admin:** add maintenance mode controls ([03898f9](https://github.com/sgcarstrends/sgcarstrends/commit/03898f9278492c2e9d119d4a6949a489f7208358))
+
 ## [4.18.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.2...v4.18.3) (2025-11-11)
 
 ### Bug Fixes
