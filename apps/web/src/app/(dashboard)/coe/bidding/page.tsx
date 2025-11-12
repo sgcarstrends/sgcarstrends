@@ -16,8 +16,8 @@ import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
 import Typography from "@web/components/typography";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { getCOEResultsFiltered } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
+import { getCoeResultsFiltered } from "@web/queries/coe";
 import type { COEResult } from "@web/types";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -47,7 +47,7 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
   const endDate = end || defaultEnd;
 
   const [coeResults, lastUpdated] = await Promise.all([
-    getCOEResultsFiltered(undefined, startDate, endDate),
+    getCoeResultsFiltered(undefined, startDate, endDate),
     redis.get<number>(LAST_UPDATED_COE_KEY),
   ]);
 

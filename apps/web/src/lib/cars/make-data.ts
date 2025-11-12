@@ -4,7 +4,7 @@ import {
   checkMakeIfExist,
   getDistinctMakes,
   getMakeDetails,
-} from "@web/lib/cars/queries";
+} from "@web/queries/cars";
 
 export const fetchMakePageData = async (make: string, month?: string) => {
   const [makeExists, makeDetails, makesResult, lastUpdated] = await Promise.all(

@@ -1,2 +1,1 @@
-export * from "./cars";
-export * from "./coe";
+export { subscribeAction } from "./newsletter/subscribe";

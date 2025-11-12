@@ -1,5 +1,3 @@
-"use server";
-
 import { getLogo, listLogos } from "@logos/services/blob";
 import { downloadLogo } from "@logos/services/scraper";
 import type { CarLogo } from "@logos/types";

@@ -1,8 +1,6 @@
-"use server";
-
 import { cars, db } from "@sgcarstrends/database";
 import { and, desc, gt, ilike, max, sql } from "drizzle-orm";
-import { cache } from "react";
+import { cacheLife, cacheTag } from "next/cache";
 
 /**
  * Get the latest year from car registration data
@@ -44,10 +42,14 @@ const getPopularMakesByYearData = async (year: string, limit: number = 8) => {
 };
 
 /**
- * Server action to get popular makes for the current year
- * Returns array of make names sorted by registration volume
+ * Query popular makes for the current year.
+ * Returns array of make names sorted by registration volume.
  */
-export const getPopularMakes = cache(async (year?: string) => {
+export const getPopularMakes = async (year?: string) => {
+  "use cache";
+  cacheLife("statistics");
+  cacheTag("cars", `popular-makes-${year ?? "latest"}`);
+
   const targetYear = year ?? (await getLatestYear());
   return getPopularMakesByYearData(targetYear, 8);
-});
+};

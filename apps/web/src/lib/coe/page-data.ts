@@ -5,7 +5,7 @@ import {
 } from "@web/app/(dashboard)/coe/search-params";
 import { LAST_UPDATED_COE_KEY } from "@web/config";
 import { groupCOEResultsByBidding } from "@web/lib/coe/calculations";
-import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/coe/queries";
+import { getCoeMonths, getCoeResultsFiltered } from "@web/queries/coe";
 
 export const fetchCOEPageData = async (start?: string, end?: string) => {
   const defaultStart = await getDefaultStartDate();
@@ -14,8 +14,8 @@ export const fetchCOEPageData = async (start?: string, end?: string) => {
   const endDate = end || defaultEnd;
 
   const [coeResults, monthsResult, lastUpdated] = await Promise.all([
-    getCOEResultsFiltered(undefined, startDate, endDate),
-    getCOEMonths(),
+    getCoeResultsFiltered(undefined, startDate, endDate),
+    getCoeMonths(),
     redis.get<number>(LAST_UPDATED_COE_KEY),
   ]);
 

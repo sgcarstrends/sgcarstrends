@@ -20,9 +20,9 @@ import {
   calculateCategoryStats,
   groupCOEResultsByBidding,
 } from "@web/lib/coe/calculations";
-import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
+import { getCoeMonths, getCoeResultsFiltered } from "@web/queries/coe";
 import type { COECategory } from "@web/types";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -97,8 +97,8 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
   const endDate = end || defaultEnd;
 
   const [coeResults, monthsResult, lastUpdated] = await Promise.all([
-    getCOEResultsFiltered(undefined, startDate, endDate),
-    getCOEMonths(),
+    getCoeResultsFiltered(undefined, startDate, endDate),
+    getCoeMonths(),
     redis.get<number>(LAST_UPDATED_COE_KEY),
   ]);
 

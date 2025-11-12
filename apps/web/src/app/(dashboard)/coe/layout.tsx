@@ -1,5 +1,5 @@
 import { QuotaPremiumTicker } from "@web/components/quota-premium-ticker";
-import { getLatestCOEResults } from "@web/lib/coe/queries";
+import { getLatestCOEResults } from "@web/queries/coe";
 import type { PropsWithChildren } from "react";
 
 interface Props extends PropsWithChildren {}

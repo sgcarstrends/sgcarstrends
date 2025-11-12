@@ -1,17 +1,17 @@
 "use cache";
 
 import slugify from "@sindresorhus/slugify";
-import { getCarLogo } from "@web/actions/logos";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
 import { StructuredData } from "@web/components/structured-data";
 import { fetchMakePageData } from "@web/lib/cars/make-data";
+import { createPageMetadata } from "@web/lib/metadata";
+import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
 import {
   checkMakeIfExist,
   getDistinctMakes,
   getMakeDetails,
-} from "@web/lib/cars/queries";
-import { createPageMetadata } from "@web/lib/metadata";
-import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
+} from "@web/queries/cars";
+import { getCarLogo } from "@web/queries/logos";
 import type { Make } from "@web/types";
 import type { Metadata } from "next";
 
