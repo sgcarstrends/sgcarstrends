@@ -1,17 +1,19 @@
+import { getMaintenanceStatus } from "@web/actions/maintenance";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const useMaintenance = (pollingInterval = 5000) => {
+const useMaintenance = (pollingInterval = 30000) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  // TODO: Simulating this for now
-  const isMaintenanceMode = process.env.MAINTENANCE_MODE === "true";
+  const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
 
   useEffect(() => {
     const checkMaintenance = async () => {
       try {
-        if (!isMaintenanceMode) {
+        const { enabled } = await getMaintenanceStatus();
+        setIsMaintenanceMode(enabled);
+
+        if (!enabled) {
           const from = searchParams.get("from");
           if (from) {
             router.replace(decodeURIComponent(from));
@@ -24,12 +26,12 @@ const useMaintenance = (pollingInterval = 5000) => {
       }
     };
 
-    const interval = setInterval(() => isMaintenanceMode, pollingInterval);
+    const interval = setInterval(checkMaintenance, pollingInterval);
 
     void checkMaintenance();
 
     return () => clearInterval(interval);
-  }, [isMaintenanceMode, pollingInterval, router, searchParams]);
+  }, [pollingInterval, router, searchParams]);
 };
 
 export default useMaintenance;

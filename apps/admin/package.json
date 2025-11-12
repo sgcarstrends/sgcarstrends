@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3001",
     "lint": "biome check",
     "format": "biome format --write src"
   },
@@ -16,10 +16,13 @@
     "@sgcarstrends/ui": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
     "@tanstack/react-query": "^5.84.1",
+    "drizzle-orm": "0.44.3",
     "lucide-react": "^0.482.0",
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "slugify": "^1.6.6",
+    "sonner": "catalog:",
     "zustand": "^5.0.6"
   },
   "devDependencies": {
