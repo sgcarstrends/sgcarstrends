@@ -24,7 +24,7 @@ const SettingsPage = () => {
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="flex items-center gap-2 font-bold text-3xl tracking-tight">
-          <Settings className="h-8 w-8" />
+          <Settings className="size-8" />
           Settings
         </h1>
         <p className="text-muted-foreground">
@@ -39,7 +39,7 @@ const SettingsPage = () => {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Wrench className="h-5 w-5" />
+                  <Wrench className="size-5" />
                   Maintenance Mode
                 </div>
                 <Badge variant="secondary">Inactive</Badge>
@@ -70,7 +70,7 @@ const SettingsPage = () => {
         <Card className="cursor-pointer opacity-60">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Globe className="h-5 w-5" />
+              <Globe className="size-5" />
               Site Configuration
             </CardTitle>
             <CardDescription>
@@ -95,7 +95,7 @@ const SettingsPage = () => {
         <Card className="cursor-pointer opacity-60">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Database className="h-5 w-5" />
+              <Database className="size-5" />
               Database Settings
             </CardTitle>
             <CardDescription>
@@ -121,7 +121,7 @@ const SettingsPage = () => {
         <Card className="cursor-pointer opacity-60">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Lock className="h-5 w-5" />
+              <Lock className="size-5" />
               Security Settings
             </CardTitle>
             <CardDescription>
@@ -147,7 +147,7 @@ const SettingsPage = () => {
         <Card className="cursor-pointer opacity-60">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5" />
+              <Users className="size-5" />
               User Management
             </CardTitle>
             <CardDescription>
@@ -172,7 +172,7 @@ const SettingsPage = () => {
         <Card className="cursor-pointer opacity-60">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Bell className="h-5 w-5" />
+              <Bell className="size-5" />
               Notifications
             </CardTitle>
             <CardDescription>
@@ -199,7 +199,7 @@ const SettingsPage = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-amber-500" />
+            <AlertTriangle className="size-5 text-amber-500" />
             Important Notes
           </CardTitle>
         </CardHeader>

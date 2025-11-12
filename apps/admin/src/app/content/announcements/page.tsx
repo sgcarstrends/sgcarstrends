@@ -63,14 +63,14 @@ const Page = () => {
           href="/content"
           className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="size-4" />
           Back to Content Management
         </Link>
       </div>
 
       <div>
         <h1 className="flex items-center gap-2 font-bold text-3xl tracking-tight">
-          <MessageSquare className="h-8 w-8" />
+          <MessageSquare className="size-8" />
           Announcements
         </h1>
         <p className="text-muted-foreground">
@@ -130,9 +130,9 @@ const Page = () => {
               className="flex items-center gap-2"
             >
               {isEnabled ? (
-                <Eye className="h-4 w-4" />
+                <Eye className="size-4" />
               ) : (
-                <EyeOff className="h-4 w-4" />
+                <EyeOff className="size-4" />
               )}
               {isEnabled ? "Enabled" : "Disabled"}
             </Button>
@@ -168,7 +168,7 @@ const Page = () => {
           {/* Warning */}
           {isEnabled && !announcementText.trim() && (
             <div className="flex items-center gap-2 rounded-md border border-orange-200 bg-orange-50 p-3 text-orange-800">
-              <AlertCircle className="h-4 w-4" />
+              <AlertCircle className="size-4" />
               <span className="text-sm">
                 Announcement is enabled but no text is provided. Please add
                 announcement text or disable it.
@@ -183,7 +183,7 @@ const Page = () => {
               disabled={isSaving || (isEnabled && !announcementText.trim())}
               className="flex items-center gap-2"
             >
-              <Save className="h-4 w-4" />
+              <Save className="size-4" />
               {isSaving ? "Saving..." : "Save Changes"}
             </Button>
           </div>
