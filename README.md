@@ -97,8 +97,9 @@ sgcarstrends/
 │   │   ├── src/app/         # Next.js App Router pages and layouts
 │   │   │   ├── (social)/    # Social media redirect routes with UTM tracking
 │   │   │   └── blog/        # Blog pages with AI-generated content
+│   │   ├── src/queries/     # Data fetching queries (cars, COE, logos) with comprehensive tests
+│   │   ├── src/actions/     # Server actions (newsletter subscription)
 │   │   ├── src/components/  # React components with comprehensive tests
-│   │   ├── src/actions/     # Server actions for blog and analytics
 │   │   └── src/utils/       # Web-specific utility functions
 │   ├── admin/        # Administrative interface for content management (unreleased)
 │   └── docs/         # Mintlify documentation site
