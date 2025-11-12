@@ -1,5 +1,5 @@
+import type { COEMarketShareData } from "@web/queries/coe";
 import type { COEBiddingResult, COEResult } from "@web/types";
-import type { COEMarketShareData } from "./queries";
 
 export const COE_CHART_COLOURS = [
   "#dc2626", // red for Category A

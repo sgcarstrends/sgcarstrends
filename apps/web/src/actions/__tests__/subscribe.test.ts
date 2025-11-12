@@ -1,5 +1,5 @@
+import { subscribeAction } from "@web/actions";
 import { describe, expect, it, vi } from "vitest";
-import { subscribeAction } from "../subscribe-action";
 
 // Mock Resend
 vi.mock("@web/utils/resend", () => ({

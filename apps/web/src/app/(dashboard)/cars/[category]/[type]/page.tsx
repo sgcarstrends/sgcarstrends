@@ -13,6 +13,7 @@ import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { createPageMetadata } from "@web/lib/metadata";
 import {
   checkFuelTypeIfExist,
   checkVehicleTypeIfExist,
@@ -20,8 +21,7 @@ import {
   getDistinctVehicleTypes,
   getFuelTypeData,
   getVehicleTypeData,
-} from "@web/lib/cars/queries";
-import { createPageMetadata } from "@web/lib/metadata";
+} from "@web/queries/cars";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";

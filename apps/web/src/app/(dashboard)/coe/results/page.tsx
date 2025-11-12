@@ -12,9 +12,9 @@ import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
 import { fetchCOEPageData } from "@web/lib/coe/page-data";
-import { getLatestCOEResults } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
+import { getLatestCOEResults } from "@web/queries/coe";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 

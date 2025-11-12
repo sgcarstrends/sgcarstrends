@@ -1,18 +1,18 @@
 import { redis } from "@sgcarstrends/utils";
-import { getPopularMakes } from "@web/actions/cars/popular-makes";
 import {
   LAST_UPDATED_CARS_KEY,
   LAST_UPDATED_COE_KEY,
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
+import { getCarsLatestMonth, getCOELatestMonth } from "@web/lib/data/months";
+import { getAllPosts } from "@web/lib/data/posts";
 import {
   getDistinctFuelTypes,
   getDistinctVehicleTypes,
-} from "@web/lib/cars/queries";
-import { getLatestCOEResults } from "@web/lib/coe/queries";
-import { getCarsLatestMonth, getCOELatestMonth } from "@web/lib/data/months";
-import { getAllPosts } from "@web/lib/data/posts";
+  getPopularMakes,
+} from "@web/queries/cars";
+import { getLatestCOEResults } from "@web/queries/coe";
 
 export const GET = async () => {
   // Fetch all dynamic data in parallel

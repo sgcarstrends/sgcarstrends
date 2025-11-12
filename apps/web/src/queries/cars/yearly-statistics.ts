@@ -1,5 +1,3 @@
-"use server";
-
 import { cars, db } from "@sgcarstrends/database";
 import { and, desc, eq, gt, isNotNull, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
@@ -9,7 +7,7 @@ const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;
 /**
  * Get yearly registration totals aggregated from monthly data
  */
-export async function getYearlyRegistrations() {
+export const getYearlyRegistrations = async () => {
   "use cache";
   cacheLife("statistics");
   cacheTag("cars", "stats-yearly");
@@ -28,12 +26,12 @@ export async function getYearlyRegistrations() {
     year: Number.parseInt(result.year, 10),
     total: result.total,
   }));
-}
+};
 
 /**
  * Get top car makes aggregated by year (defaults to latest year)
  */
-export async function getTopMakesByYear(year?: number, limit = 8) {
+export const getTopMakesByYear = async (year?: number, limit = 8) => {
   "use cache";
   cacheLife("statistics");
   cacheTag("cars", `stats-top-makes-${year || "latest"}`);
@@ -69,4 +67,4 @@ export async function getTopMakesByYear(year?: number, limit = 8) {
     .groupBy(cars.make)
     .orderBy(desc(sumExpr))
     .limit(limit);
-}
+};
