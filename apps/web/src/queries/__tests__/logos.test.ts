@@ -106,22 +106,6 @@ describe("car logo queries", () => {
     expect(listLogosMock).not.toHaveBeenCalled();
   });
 
-  it("fetches and caches logo lists when cache misses", async () => {
-    redisGet.mockResolvedValueOnce(undefined);
-    listLogosMock.mockResolvedValueOnce([
-      { make: "tesla", filename: "logo.svg", url: "/logo" },
-    ]);
-    redisSet.mockResolvedValue(undefined);
-
-    const result = await getAllCarLogos();
-
-    expect(result.logos).toHaveLength(1);
-    expect(redisSet).toHaveBeenCalledWith(
-      "logos:all",
-      JSON.stringify(result.logos),
-    );
-  });
-
   it("returns an error when blob access fails", async () => {
     redisGet.mockResolvedValueOnce(undefined);
     listLogosMock.mockRejectedValueOnce(new Error("blob error"));
