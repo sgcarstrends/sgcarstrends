@@ -60,6 +60,11 @@ const data = {
       icon: Edit3,
       items: [
         {
+          title: "Blog",
+          url: "/content/blog",
+          icon: FileText,
+        },
+        {
           title: "Announcements",
           url: "/content/announcements",
           icon: MessageSquare,
@@ -117,8 +122,8 @@ export const AppSidebar = () => {
     <Sidebar variant="inset">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-3 py-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <LayoutDashboard className="h-4 w-4 text-primary-foreground" />
+          <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
+            <LayoutDashboard className="size-4 text-primary-foreground" />
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-semibold">SG Cars Admin</span>

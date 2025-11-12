@@ -22,7 +22,7 @@ const Page = () => (
         <Card className="h-full transition-colors hover:bg-muted/50">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <MessageSquare className="h-5 w-5 text-primary" />
+              <MessageSquare className="size-5 text-primary" />
               <CardTitle className="text-lg">Announcements</CardTitle>
             </div>
             <CardDescription>

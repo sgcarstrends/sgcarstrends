@@ -1,17 +1,49 @@
+import {
+  getMaintenanceStatus,
+  type MaintenanceStatus,
+} from "@web/actions/maintenance";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-const useMaintenance = (pollingInterval = 5000) => {
+type MaintenanceFetcher = () => Promise<MaintenanceStatus>;
+
+export interface UseMaintenanceOptions {
+  pollingInterval?: number;
+  fetchStatus?: MaintenanceFetcher;
+}
+
+const DEFAULT_POLLING_INTERVAL = 30000;
+
+const resolveOptions = (
+  options?: number | UseMaintenanceOptions,
+): {
+  pollingInterval: number;
+  fetchStatus: MaintenanceFetcher;
+} => {
+  if (typeof options === "number") {
+    return {
+      pollingInterval: options,
+      fetchStatus: getMaintenanceStatus,
+    };
+  }
+
+  return {
+    pollingInterval: options?.pollingInterval ?? DEFAULT_POLLING_INTERVAL,
+    fetchStatus: options?.fetchStatus ?? getMaintenanceStatus,
+  };
+};
+
+const useMaintenance = (options?: number | UseMaintenanceOptions) => {
+  const { pollingInterval, fetchStatus } = resolveOptions(options);
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  // TODO: Simulating this for now
-  const isMaintenanceMode = process.env.MAINTENANCE_MODE === "true";
 
   useEffect(() => {
     const checkMaintenance = async () => {
       try {
-        if (!isMaintenanceMode) {
+        const { enabled } = await fetchStatus();
+
+        if (!enabled) {
           const from = searchParams.get("from");
           if (from) {
             router.replace(decodeURIComponent(from));
@@ -24,12 +56,12 @@ const useMaintenance = (pollingInterval = 5000) => {
       }
     };
 
-    const interval = setInterval(() => isMaintenanceMode, pollingInterval);
+    const interval = setInterval(checkMaintenance, pollingInterval);
 
     void checkMaintenance();
 
     return () => clearInterval(interval);
-  }, [isMaintenanceMode, pollingInterval, router, searchParams]);
+  }, [fetchStatus, pollingInterval, router, searchParams]);
 };
 
 export default useMaintenance;

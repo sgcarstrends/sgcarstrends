@@ -23,7 +23,7 @@ const Dashboard = () => {
         <h1 className="font-bold text-3xl tracking-tight">Admin Dashboard</h1>
         <div className="flex items-center space-x-2">
           <Button variant="outline" size="sm">
-            <RefreshCw className="mr-2 h-4 w-4" />
+            <RefreshCw className="mr-2 size-4" />
             Refresh
           </Button>
         </div>
@@ -33,7 +33,7 @@ const Dashboard = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="font-medium text-sm">System Status</CardTitle>
-            <Server className="h-4 w-4 text-muted-foreground" />
+            <Server className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-2">
@@ -52,7 +52,7 @@ const Dashboard = () => {
             <CardTitle className="font-medium text-sm">
               Maintenance Mode
             </CardTitle>
-            <Wrench className="h-4 w-4 text-muted-foreground" />
+            <Wrench className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-2">
@@ -67,7 +67,7 @@ const Dashboard = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="font-medium text-sm">API Health</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <Activity className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-2">
@@ -84,7 +84,7 @@ const Dashboard = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="font-medium text-sm">Database</CardTitle>
-            <Database className="h-4 w-4 text-muted-foreground" />
+            <Database className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-2">
@@ -107,7 +107,7 @@ const Dashboard = () => {
           <CardContent className="flex flex-col gap-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" className="flex h-20 flex-col gap-2">
-                <RefreshCw className="h-6 w-6" />
+                <RefreshCw className="size-6" />
                 <div className="text-center">
                   <div className="font-medium">Trigger Data Update</div>
                   <div className="text-muted-foreground text-xs">
@@ -117,7 +117,7 @@ const Dashboard = () => {
               </Button>
 
               <Button variant="outline" className="flex h-20 flex-col gap-2">
-                <Database className="h-6 w-6" />
+                <Database className="size-6" />
                 <div className="text-center">
                   <div className="font-medium">Manage Data</div>
                   <div className="text-muted-foreground text-xs">
@@ -127,7 +127,7 @@ const Dashboard = () => {
               </Button>
 
               <Button variant="outline" className="flex h-20 flex-col gap-2">
-                <Activity className="h-6 w-6" />
+                <Activity className="size-6" />
                 <div className="text-center">
                   <div className="font-medium">View Workflows</div>
                   <div className="text-muted-foreground text-xs">
@@ -137,7 +137,7 @@ const Dashboard = () => {
               </Button>
 
               <Button variant="outline" className="flex h-20 flex-col gap-2">
-                <Server className="h-6 w-6" />
+                <Server className="size-6" />
                 <div className="text-center">
                   <div className="font-medium">System Logs</div>
                   <div className="text-muted-foreground text-xs">
@@ -151,7 +151,7 @@ const Dashboard = () => {
                   variant="outline"
                   className="flex h-20 w-full flex-col gap-2"
                 >
-                  <Wrench className="h-6 w-6" />
+                  <Wrench className="size-6" />
                   <div className="text-center">
                     <div className="font-medium">Maintenance Mode</div>
                     <div className="text-muted-foreground text-xs">
@@ -166,7 +166,7 @@ const Dashboard = () => {
                   variant="outline"
                   className="flex h-20 w-full flex-col gap-2"
                 >
-                  <Settings className="h-6 w-6" />
+                  <Settings className="size-6" />
                   <div className="text-center">
                     <div className="font-medium">Settings</div>
                     <div className="text-muted-foreground text-xs">

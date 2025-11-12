@@ -9,6 +9,7 @@
     "dev": "sst dev --stage local",
     "lint": "turbo lint",
     "format": "turbo format",
+    "start": "turbo start",
     "test": "turbo test",
     "test:coverage": "turbo test:coverage",
     "test:watch": "turbo test:watch",

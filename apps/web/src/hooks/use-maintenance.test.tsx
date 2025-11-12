@@ -1,4 +1,5 @@
 import { renderHook } from "@testing-library/react";
+import type { MaintenanceStatus } from "@web/actions/maintenance";
 import { useRouter, useSearchParams } from "next/navigation";
 import useMaintenance from "./use-maintenance";
 
@@ -12,6 +13,11 @@ describe("useMaintenance", () => {
   const mockReplace = vi.fn();
   const mockGet = vi.fn();
   let intervalSpy: any;
+  const createFetcher = (status: MaintenanceStatus) => {
+    return async () => ({
+      ...status,
+    });
+  };
 
   const waitForAsyncEffect = (delay = 0) =>
     new Promise((resolve) => setTimeout(resolve, delay));
@@ -36,11 +42,10 @@ describe("useMaintenance", () => {
   });
 
   it("should redirect to home when not in maintenance mode and no 'from' param", async () => {
-    // Mock environment without maintenance mode
-    vi.stubEnv("MAINTENANCE_MODE", undefined);
     mockGet.mockReturnValue(null);
+    const fetchStatus = createFetcher({ enabled: false, message: "" });
 
-    renderHook(() => useMaintenance(1000));
+    renderHook(() => useMaintenance({ pollingInterval: 1000, fetchStatus }));
 
     // Wait for the async effect to complete
     await waitForAsyncEffect();
@@ -49,10 +54,10 @@ describe("useMaintenance", () => {
   });
 
   it("should redirect to 'from' param URL when not in maintenance mode", async () => {
-    vi.stubEnv("MAINTENANCE_MODE", undefined);
     mockGet.mockReturnValue("/dashboard");
+    const fetchStatus = createFetcher({ enabled: false, message: "" });
 
-    renderHook(() => useMaintenance(1000));
+    renderHook(() => useMaintenance({ pollingInterval: 1000, fetchStatus }));
 
     await waitForAsyncEffect();
 
@@ -60,10 +65,10 @@ describe("useMaintenance", () => {
   });
 
   it("should decode URI component from 'from' param", async () => {
-    vi.stubEnv("MAINTENANCE_MODE", undefined);
     mockGet.mockReturnValue("/dashboard%2Fsettings");
+    const fetchStatus = createFetcher({ enabled: false, message: "" });
 
-    renderHook(() => useMaintenance(1000));
+    renderHook(() => useMaintenance({ pollingInterval: 1000, fetchStatus }));
 
     await waitForAsyncEffect();
 
@@ -71,9 +76,9 @@ describe("useMaintenance", () => {
   });
 
   it("should not redirect when in maintenance mode", async () => {
-    vi.stubEnv("MAINTENANCE_MODE", "true");
+    const fetchStatus = createFetcher({ enabled: true, message: "Active" });
 
-    renderHook(() => useMaintenance(1000));
+    renderHook(() => useMaintenance({ pollingInterval: 1000, fetchStatus }));
 
     await waitForAsyncEffect();
 
@@ -81,19 +86,26 @@ describe("useMaintenance", () => {
   });
 
   it("should set up polling interval with custom interval", () => {
-    renderHook(() => useMaintenance(2000));
+    const fetchStatus = createFetcher({ enabled: false, message: "" });
+
+    renderHook(() => useMaintenance({ pollingInterval: 2000, fetchStatus }));
 
     expect(intervalSpy).toHaveBeenCalledWith(expect.any(Function), 2000);
   });
 
   it("should use default polling interval when not specified", () => {
-    renderHook(() => useMaintenance());
+    const fetchStatus = createFetcher({ enabled: false, message: "" });
 
-    expect(intervalSpy).toHaveBeenCalledWith(expect.any(Function), 5000);
+    renderHook(() => useMaintenance({ fetchStatus }));
+
+    expect(intervalSpy).toHaveBeenCalledWith(expect.any(Function), 30000);
   });
 
   it("should clear interval on unmount", () => {
-    const { unmount } = renderHook(() => useMaintenance(1000));
+    const fetchStatus = createFetcher({ enabled: false, message: "" });
+    const { unmount } = renderHook(() =>
+      useMaintenance({ pollingInterval: 1000, fetchStatus }),
+    );
 
     unmount();
 
@@ -102,17 +114,13 @@ describe("useMaintenance", () => {
 
   it("should handle errors gracefully", async () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-
-    // Set up normal mocks first
-    vi.stubEnv("MAINTENANCE_MODE", undefined);
     mockGet.mockReturnValue(null);
 
-    // Make router.replace throw an error to simulate an error in the checkMaintenance function
-    mockReplace.mockImplementation(() => {
+    const fetchStatus = async () => {
       throw new Error("Test error");
-    });
+    };
 
-    renderHook(() => useMaintenance(1000));
+    renderHook(() => useMaintenance({ pollingInterval: 1000, fetchStatus }));
 
     await waitForAsyncEffect(10);
 
