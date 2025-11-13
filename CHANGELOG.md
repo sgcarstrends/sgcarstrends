@@ -1,3 +1,9 @@
+## [4.19.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.19.0...v4.19.1) (2025-11-13)
+
+### Bug Fixes
+
+* **api:** resolve logos routes type errors ([d1850a0](https://github.com/sgcarstrends/sgcarstrends/commit/d1850a096c8e88aadea91112b7fcff628dc7ef98))
+
 ## [4.19.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.3...v4.19.0) (2025-11-12)
 
 ### Features
