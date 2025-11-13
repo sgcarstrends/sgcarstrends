@@ -6,7 +6,7 @@ import type { MetadataRoute } from "next";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const allMakes = await getDistinctMakes();
-  const makes = allMakes.map(({ make }) => String(make));
+  const makes = allMakes.map(({ make }) => make);
   const posts = await getAllPosts();
 
   return [

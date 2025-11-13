@@ -46,7 +46,7 @@ export const generateMetadata = async ({
 
 export const generateStaticParams = async () => {
   const allMakes = await getDistinctMakes();
-  return allMakes.map(({ make }) => ({ make: slugify(String(make)) }));
+  return allMakes.map(({ make }) => ({ make: slugify(make) }));
 };
 
 const CarMakePage = async ({ params }: Props) => {

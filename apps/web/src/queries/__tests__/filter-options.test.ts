@@ -25,44 +25,50 @@ describe("car filter option queries", () => {
     ]);
   });
 
-  it("normalises null fuel types and applies month filtering", async () => {
+  it("returns distinct fuel types with month filtering", async () => {
     queueSelectDistinct([
       { fuelType: "Electric" },
-      { fuelType: null },
       { fuelType: "Hybrid" },
+      { fuelType: "Petrol" },
     ]);
 
     const result = await getDistinctFuelTypes("2024-04");
 
     expect(result).toEqual([
       { fuelType: "Electric" },
-      { fuelType: "Unknown" },
       { fuelType: "Hybrid" },
+      { fuelType: "Petrol" },
     ]);
   });
 
-  it("handles missing month when fetching distinct fuel types", async () => {
-    queueSelectDistinct([{ fuelType: null }]);
+  it("returns distinct fuel types without month filter", async () => {
+    queueSelectDistinct([{ fuelType: "Electric" }, { fuelType: "Diesel" }]);
 
     const result = await getDistinctFuelTypes();
 
-    expect(result).toEqual([{ fuelType: "Unknown" }]);
+    expect(result).toEqual([{ fuelType: "Electric" }, { fuelType: "Diesel" }]);
   });
 
-  it("maps vehicle types to Unknown when value is null", async () => {
-    queueSelectDistinct([{ vehicleType: null }]);
+  it("returns distinct vehicle types with month filtering", async () => {
+    queueSelectDistinct([
+      { vehicleType: "Cars" },
+      { vehicleType: "Motor cycles" },
+    ]);
 
     const result = await getDistinctVehicleTypes("2024-01");
 
-    expect(result).toEqual([{ vehicleType: "Unknown" }]);
+    expect(result).toEqual([
+      { vehicleType: "Cars" },
+      { vehicleType: "Motor cycles" },
+    ]);
   });
 
   it("returns distinct months and registers cache metadata", async () => {
-    queueSelectDistinct([{ month: "2024-06" }, { month: null }]);
+    queueSelectDistinct([{ month: "2024-06" }, { month: "2024-05" }]);
 
     const result = await getCarsMonths();
 
-    expect(result).toEqual([{ month: "2024-06" }, { month: "" }]);
+    expect(result).toEqual([{ month: "2024-06" }, { month: "2024-05" }]);
     expect(cacheLifeMock).toHaveBeenCalledWith("statistics");
     expect(cacheTagMock).toHaveBeenCalledWith("cars", "cars-months");
   });

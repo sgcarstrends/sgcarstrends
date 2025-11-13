@@ -11,7 +11,7 @@ export const checkMakeIfExist = async (
     columns: { make: true },
   });
 
-  return result ? { make: result.make ?? "Unknown" } : undefined;
+  return result;
 };
 
 export const checkFuelTypeIfExist = async (
@@ -22,7 +22,7 @@ export const checkFuelTypeIfExist = async (
     columns: { fuelType: true },
   });
 
-  return result ? { fuelType: result.fuelType ?? "Unknown" } : undefined;
+  return result;
 };
 
 export const checkVehicleTypeIfExist = async (
@@ -33,5 +33,5 @@ export const checkVehicleTypeIfExist = async (
     columns: { vehicleType: true },
   });
 
-  return result ? { vehicleType: result.vehicleType ?? "Unknown" } : undefined;
+  return result;
 };

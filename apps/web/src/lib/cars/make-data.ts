@@ -17,7 +17,7 @@ export const fetchMakePageData = async (make: string, month?: string) => {
   );
 
   const makeName = makeExists?.make ?? make.toUpperCase();
-  const makes = makesResult.map(({ make }) => String(make));
+  const makes = makesResult.map(({ make }) => make);
 
   const cars = {
     make: makeName,

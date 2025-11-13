@@ -51,10 +51,10 @@ describe("car make breakdown queries", () => {
     });
   });
 
-  it("returns fuel type aggregates with Unknown fallbacks", async () => {
+  it("returns fuel type aggregates for battery electric vehicles", async () => {
     queueSelect(
       [{ total: 12 }],
-      [{ month: "2024-02", make: null, fuelType: null, count: 12 }],
+      [{ month: "2024-02", make: "Tesla", fuelType: "Electric", count: 12 }],
     );
 
     const result = await getFuelTypeData("battery-electric", "2024-02");
@@ -64,18 +64,18 @@ describe("car make breakdown queries", () => {
       data: [
         {
           month: "2024-02",
-          make: "Unknown",
-          fuelType: "Unknown",
+          make: "Tesla",
+          fuelType: "Electric",
           count: 12,
         },
       ],
     });
   });
 
-  it("returns vehicle type aggregates with Unknown fallbacks", async () => {
+  it("returns vehicle type aggregates for sport utility vehicles", async () => {
     queueSelect(
       [{ total: 9 }],
-      [{ month: "2024-03", make: null, vehicleType: null, count: 9 }],
+      [{ month: "2024-03", make: "BMW", vehicleType: "SUV", count: 9 }],
     );
 
     const result = await getVehicleTypeData("sport-utility", "2024-03");
@@ -85,8 +85,8 @@ describe("car make breakdown queries", () => {
       data: [
         {
           month: "2024-03",
-          make: "Unknown",
-          vehicleType: "Unknown",
+          make: "BMW",
+          vehicleType: "SUV",
           count: 9,
         },
       ],
@@ -99,13 +99,13 @@ describe("entity existence checks", () => {
     resetDbMocks();
   });
 
-  it("normalises make results", async () => {
+  it("returns make when it exists in database", async () => {
     vi.mocked(dbMock.query.cars.findFirst).mockResolvedValueOnce({
-      make: null,
+      make: "Tesla",
     });
 
     await expect(checkMakeIfExist("tesla")).resolves.toEqual({
-      make: "Unknown",
+      make: "Tesla",
     });
   });
 
@@ -150,11 +150,11 @@ describe("popular makes queries", () => {
     expect(cacheTagMock).toHaveBeenCalledWith("cars", "popular-makes-latest");
   });
 
-  it("falls back to calendar year when latest month is missing", async () => {
+  it("falls back to calendar year when latest month query returns no results", async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2022-08-15"));
 
-    queueSelect([{ latestMonth: null }], [{ make: "Mazda" }]);
+    queueSelect([{ latestMonth: "2022-01" }], [{ make: "Mazda" }]);
 
     try {
       const result = await getPopularMakes();

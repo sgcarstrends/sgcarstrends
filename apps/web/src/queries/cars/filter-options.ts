@@ -15,13 +15,11 @@ export const getDistinctFuelTypes = async (
     filters.push(eq(cars.month, month));
   }
 
-  const results = await db
+  return db
     .selectDistinct({ fuelType: cars.fuelType })
     .from(cars)
     .where(filters.length > 0 ? and(...filters) : undefined)
     .orderBy(cars.fuelType);
-
-  return results.map((r) => ({ fuelType: r.fuelType ?? "Unknown" }));
 };
 
 export const getDistinctVehicleTypes = async (
@@ -33,13 +31,11 @@ export const getDistinctVehicleTypes = async (
     filters.push(eq(cars.month, month));
   }
 
-  const results = await db
+  return db
     .selectDistinct({ vehicleType: cars.vehicleType })
     .from(cars)
     .where(filters.length > 0 ? and(...filters) : undefined)
     .orderBy(cars.vehicleType);
-
-  return results.map((r) => ({ vehicleType: r.vehicleType ?? "Unknown" }));
 };
 
 export const getCarsMonths = async (): Promise<{ month: string }[]> => {
@@ -47,10 +43,8 @@ export const getCarsMonths = async (): Promise<{ month: string }[]> => {
   cacheLife("statistics");
   cacheTag("cars", "cars-months");
 
-  const results = await db
+  return db
     .selectDistinct({ month: cars.month })
     .from(cars)
     .orderBy(desc(cars.month));
-
-  return results.map((r) => ({ month: r.month ?? "" }));
 };

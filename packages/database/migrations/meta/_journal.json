@@ -36,6 +36,13 @@
       "when": 1757843588053,
       "tag": "0004_lucky_secret_warriors",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1763038979700,
+      "tag": "0005_calm_northstar",
+      "breakpoints": true
     }
   ]
 }

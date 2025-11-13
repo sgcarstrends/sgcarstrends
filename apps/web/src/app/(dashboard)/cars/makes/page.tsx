@@ -34,7 +34,7 @@ const CarMakesPage = async () => {
       getAllCarLogos(),
     ]);
 
-  const makes = allMakes.map(({ make }) => String(make));
+  const makes = allMakes.map(({ make }) => make);
   const logos = "logos" in allLogos ? allLogos.logos : [];
 
   const title = "Car Makes Overview - Singapore Registration Trends";

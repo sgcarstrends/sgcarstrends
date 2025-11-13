@@ -1,5 +1,5 @@
 import { cars, db } from "@sgcarstrends/database";
-import { and, desc, eq, gt, isNotNull, sql } from "drizzle-orm";
+import { and, desc, eq, gt, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;
@@ -61,9 +61,7 @@ export const getTopMakesByYear = async (year?: number, limit = 8) => {
       value: sql<number>`cast(${sumExpr} as integer)`,
     })
     .from(cars)
-    .where(
-      and(eq(yearExpr, targetYear), gt(cars.number, 0), isNotNull(cars.make)),
-    )
+    .where(and(eq(yearExpr, targetYear), gt(cars.number, 0)))
     .groupBy(cars.make)
     .orderBy(desc(sumExpr))
     .limit(limit);

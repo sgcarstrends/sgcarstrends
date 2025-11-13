@@ -4,12 +4,12 @@ export const cars = pgTable(
   "cars",
   {
     id: uuid().defaultRandom().primaryKey(),
-    month: text(),
-    make: text(),
+    month: text().notNull(),
+    make: text().notNull(),
     importerType: text(),
-    fuelType: text(),
-    vehicleType: text(),
-    number: integer(),
+    fuelType: text().notNull(),
+    vehicleType: text().notNull(),
+    number: integer().default(0),
   },
   (table) => [
     index("month_make_idx").on(table.month, table.make),

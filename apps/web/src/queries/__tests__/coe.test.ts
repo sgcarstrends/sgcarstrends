@@ -19,11 +19,11 @@ describe("COE queries", () => {
   });
 
   it("returns the available COE months", async () => {
-    queueSelectDistinct([{ month: "2024-05" }, { month: null }]);
+    queueSelectDistinct([{ month: "2024-05" }, { month: "2024-04" }]);
 
     const result = await getCoeMonths();
 
-    expect(result).toEqual([{ month: "2024-05" }, { month: "" }]);
+    expect(result).toEqual([{ month: "2024-05" }, { month: "2024-04" }]);
     expect(cacheLifeMock).toHaveBeenCalledWith("statistics");
     expect(cacheTagMock).toHaveBeenCalledWith("coe", "coe-months");
   });

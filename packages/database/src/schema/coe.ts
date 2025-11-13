@@ -4,13 +4,13 @@ export const coe = pgTable(
   "coe",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    month: text("month"),
+    month: text("month").notNull(),
     bidding_no: integer("bidding_no"),
-    vehicle_class: text("vehicle_class"),
-    quota: integer("quota"),
-    bids_success: integer("bids_success"),
-    bids_received: integer("bids_received"),
-    premium: integer("premium"),
+    vehicle_class: text("vehicle_class").notNull(),
+    quota: integer("quota").default(0),
+    bids_success: integer("bids_success").default(0),
+    bids_received: integer("bids_received").default(0),
+    premium: integer("premium").default(0),
   },
   (table) => [
     index("month_vehicle_idx").on(table.month, table.vehicle_class),
@@ -30,9 +30,9 @@ export const coePQP = pgTable(
   "coe_pqp",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    month: text("month"),
-    vehicle_class: text("vehicle_class"),
-    pqp: integer("pqp"),
+    month: text("month").notNull(),
+    vehicle_class: text("vehicle_class").notNull(),
+    pqp: integer("pqp").default(0),
   },
   (table) => [
     index("pqp_month_vehicle_class_idx").on(table.month, table.vehicle_class),

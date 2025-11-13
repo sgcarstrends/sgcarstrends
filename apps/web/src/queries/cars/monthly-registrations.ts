@@ -47,14 +47,8 @@ export const getCarsData = async (month: string): Promise<Registration> => {
   return {
     month,
     total,
-    fuelType: fuelType.map((type) => ({
-      ...type,
-      name: type.name ?? "Unknown",
-    })),
-    vehicleType: vehicleType.map((type) => ({
-      ...type,
-      name: type.name ?? "Unknown",
-    })),
+    fuelType,
+    vehicleType,
   };
 };
 
@@ -105,14 +99,8 @@ export const getCarsComparison = async (month: string): Promise<Comparison> => {
     return {
       period: m,
       total: totalResult[0]?.total ?? 0,
-      fuelType: fuelType.map((ft) => ({
-        label: ft.label ?? "Unknown",
-        count: ft.count,
-      })),
-      vehicleType: vehicleType.map((vt) => ({
-        label: vt.label ?? "Unknown",
-        count: vt.count,
-      })),
+      fuelType,
+      vehicleType,
     };
   };
 

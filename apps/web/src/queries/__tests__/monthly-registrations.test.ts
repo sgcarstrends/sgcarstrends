@@ -16,7 +16,7 @@ describe("monthly registration queries", () => {
     queueSelect(
       [
         { name: "Electric", count: 10 },
-        { name: null, count: 2 },
+        { name: "Hybrid", count: 2 },
       ],
       [{ name: "SUV", count: 5 }],
       [{ total: 12 }],
@@ -29,7 +29,7 @@ describe("monthly registration queries", () => {
       total: 12,
       fuelType: [
         { name: "Electric", count: 10 },
-        { name: "Unknown", count: 2 },
+        { name: "Hybrid", count: 2 },
       ],
       vehicleType: [{ name: "SUV", count: 5 }],
     });
@@ -42,7 +42,7 @@ describe("monthly registration queries", () => {
       [{ label: "Electric", count: 8 }],
       [{ label: "SUV", count: 6 }],
       [{ total: 8 }],
-      [{ label: null, count: 3 }],
+      [{ label: "Petrol", count: 3 }],
       [{ label: "Sedan", count: 4 }],
       [{ total: 3 }],
       [],
@@ -61,7 +61,7 @@ describe("monthly registration queries", () => {
     expect(result.previousMonth).toEqual({
       period: "2024-05",
       total: 3,
-      fuelType: [{ label: "Unknown", count: 3 }],
+      fuelType: [{ label: "Petrol", count: 3 }],
       vehicleType: [{ label: "Sedan", count: 4 }],
     });
     expect(result.previousYear).toEqual({

@@ -47,22 +47,22 @@ describe("car market insight queries", () => {
     expect(result.topVehicleType).toEqual({ name: "N/A", total: 0 });
   });
 
-  it("returns top makes with Unknown fallback", async () => {
-    queueSelect([{ make: null, total: 15 }]);
+  it("returns top makes for the month", async () => {
+    queueSelect([{ make: "Toyota", total: 15 }]);
 
     const result = await marketInsights.getTopMakes("2024-05");
 
-    expect(result).toEqual([{ make: "Unknown", total: 15 }]);
+    expect(result).toEqual([{ make: "Toyota", total: 15 }]);
   });
 
   it("groups top makes for every fuel type", async () => {
     queueSelect(
       [
         { fuelType: "Electric", total: 100 },
-        { fuelType: null, total: 20 },
+        { fuelType: "Hybrid", total: 20 },
       ],
       [{ make: "Tesla", count: 80 }],
-      [{ make: null, count: 20 }],
+      [{ make: "Toyota", count: 20 }],
     );
 
     const result = await marketInsights.getTopMakesByFuelType("2024-06");
@@ -74,9 +74,9 @@ describe("car market insight queries", () => {
         makes: [{ make: "Tesla", count: 80 }],
       },
       {
-        fuelType: "Unknown",
+        fuelType: "Hybrid",
         total: 20,
-        makes: [{ make: "Unknown", count: 20 }],
+        makes: [{ make: "Toyota", count: 20 }],
       },
     ]);
     expect(cacheTagMock).toHaveBeenCalledWith("cars", "cars-makes-2024-06");
