@@ -106,15 +106,15 @@ export const groupCOEResultsByBidding = (
   const groupedData = coeResults.reduce<
     Record<string, Partial<COEBiddingResult>>
   >((acc, item) => {
-    const key = `${item.month}-${item.bidding_no}`;
+    const key = `${item.month}-${item.biddingNo}`;
 
     if (!acc[key]) {
       acc[key] = {
         month: item.month,
-        biddingNo: item.bidding_no,
+        biddingNo: item.biddingNo,
       };
     }
-    acc[key][item.vehicle_class] = item.premium;
+    acc[key][item.vehicleClass] = item.premium;
 
     return acc;
   }, {});
@@ -230,7 +230,7 @@ export const calculateOverviewStats = (
   return categories
     .map((category) => {
       const categoryData = allResults
-        .filter((item) => item.vehicle_class === category)
+        .filter((item) => item.vehicleClass === category)
         .sort(
           (a, b) => new Date(a.month).getTime() - new Date(b.month).getTime(),
         );

@@ -12,5 +12,5 @@ export const getCoeMonths = async (): Promise<{ month: string }[]> => {
     .from(coe)
     .orderBy(desc(coe.month));
 
-  return results.map((r) => ({ month: r.month ?? "" }));
+  return results.map(({ month }) => ({ month }));
 };

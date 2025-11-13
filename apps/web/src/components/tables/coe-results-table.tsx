@@ -18,17 +18,17 @@ export const TrendTable = ({ coeResults }: Props) => {
       return b.month.localeCompare(a.month);
     }
 
-    if (a.bidding_no !== b.bidding_no) {
-      return b.bidding_no - a.bidding_no;
+    if (a.biddingNo !== b.biddingNo) {
+      return b.biddingNo - a.biddingNo;
     }
 
-    return a.vehicle_class.localeCompare(b.vehicle_class);
+    return a.vehicleClass.localeCompare(b.vehicleClass);
   }, []);
 
   const sortedData = useMemo(
     () =>
       coeResults
-        .filter(({ vehicle_class }) => categories[vehicle_class])
+        .filter(({ vehicleClass }) => categories[vehicleClass])
         .sort(sortCOEResults),
     [categories, coeResults, sortCOEResults],
   );

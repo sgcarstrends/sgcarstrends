@@ -11,6 +11,7 @@
     "push": "drizzle-kit push",
     "drop": "drizzle-kit drop",
     "generate": "drizzle-kit generate",
+    "check": "drizzle-kit check",
     "migrate": "drizzle-kit migrate",
     "migrate:check": "drizzle-kit check"
   },

@@ -15,7 +15,7 @@ export enum VehicleType {
 export enum Collection {
   Cars = "cars",
   COE = "coe",
-  COEPQP = "coe_pqp",
+  PQP = "pqp",
 }
 
 export enum OrderBy {
@@ -46,17 +46,17 @@ export interface Car {
 
 export interface COE {
   month: string;
-  bidding_no: number;
-  vehicle_class: string;
+  biddingNo: number;
+  vehicleClass: string;
   quota: number;
-  bids_success: number;
-  bids_received: number;
+  bidsSuccess: number;
+  bidsReceived: number;
   premium: number;
 }
 
 export interface PQP {
   month: string;
-  vehicle_class: string;
+  vehicleClass: string;
   pqp: number;
 }
 

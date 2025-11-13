@@ -44,11 +44,11 @@ export type COECategoryFilter = Record<COECategory, boolean>;
 
 export interface COEResult {
   month: string;
-  bidding_no: number;
-  vehicle_class: COECategory;
+  biddingNo: number;
+  vehicleClass: COECategory;
   quota: number;
-  bids_success: number;
-  bids_received: number;
+  bidsSuccess: number;
+  bidsReceived: number;
   premium: number;
 }
 

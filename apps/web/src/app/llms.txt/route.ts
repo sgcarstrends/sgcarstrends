@@ -40,7 +40,7 @@ export const GET = async () => {
 
   // Extract unique COE categories from latest results
   const coeCategories = [
-    ...new Set(latestCOE.map((r) => r.vehicle_class)),
+    ...new Set(latestCOE.map((r) => r.vehicleClass)),
   ].filter(Boolean);
 
   // Format fuel types for display

@@ -16,9 +16,9 @@ export const QuotaPremiumTicker = ({ data = [] }: Props) => {
   useEffect(() => {
     setBannerContent(
       <div className="flex items-center justify-center gap-4">
-        {data.toSorted(sortByCategory).map(({ vehicle_class, premium }) => (
-          <div key={vehicle_class} className="flex items-center gap-2">
-            <div className="font-semibold text-sm">{vehicle_class}</div>
+        {data.toSorted(sortByCategory).map(({ vehicleClass, premium }) => (
+          <div key={vehicleClass} className="flex items-center gap-2">
+            <div className="font-semibold text-sm">{vehicleClass}</div>
             <Chip color="primary" variant="bordered">
               {formatCurrency(premium)}
             </Chip>
@@ -37,4 +37,4 @@ export const QuotaPremiumTicker = ({ data = [] }: Props) => {
 
 // TODO: Move this to a common directory
 const sortByCategory = (a: COEResult, b: COEResult) =>
-  a.vehicle_class.localeCompare(b.vehicle_class);
+  a.vehicleClass.localeCompare(b.vehicleClass);

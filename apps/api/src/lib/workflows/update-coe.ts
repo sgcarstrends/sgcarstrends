@@ -1,7 +1,7 @@
 import { LTA_DATAMALL_BASE_URL } from "@api/config";
 import { Updater } from "@api/lib/updater";
 import type { COE, PQP } from "@api/types";
-import { coe, coePQP } from "@sgcarstrends/database";
+import { coe, pqp } from "@sgcarstrends/database";
 
 export const updateCoe = async () => {
   const filename = "COE Bidding Results.zip";
@@ -16,11 +16,11 @@ export const updateCoe = async () => {
   };
 
   // Update COE bidding results
-  const coeKeyFields: Array<keyof COE> = ["month", "bidding_no"];
+  const coeKeyFields: Array<keyof COE> = ["month", "biddingNo"];
   const parseNumericFields: Array<keyof COE> = [
     "quota",
-    "bids_success",
-    "bids_received",
+    "bidsSuccess",
+    "bidsReceived",
   ];
 
   const coeUpdater = new Updater<COE>({
@@ -42,7 +42,7 @@ export const updateCoe = async () => {
   const pqpKeyFields: Array<keyof PQP> = ["month", "vehicle_class", "pqp"];
 
   const pqpUpdater = new Updater<PQP>({
-    table: coePQP,
+    table: pqp,
     url,
     csvFile: "M11-coe_results_pqp.csv",
     keyFields: pqpKeyFields,

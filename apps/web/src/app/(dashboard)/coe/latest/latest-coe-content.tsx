@@ -28,7 +28,7 @@ export const LatestCOEClient = ({
   // Get the latest bidding information
   const latestBidding = results[0];
   const biddingMonth = latestBidding?.month;
-  const biddingNumber = latestBidding?.bidding_no;
+  const biddingNumber = latestBidding?.biddingNo;
 
   return (
     <div className="flex flex-col gap-6">

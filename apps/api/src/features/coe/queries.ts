@@ -5,7 +5,7 @@ export const getCoeForMonth = async (month: string) =>
   db.query.coe.findMany({
     columns: { id: false },
     where: eq(coe.month, month),
-    orderBy: [asc(coe.bidding_no), asc(coe.vehicle_class)],
+    orderBy: [asc(coe.biddingNo), asc(coe.vehicleClass)],
   });
 
 export const getCoeLatestMonth = () =>

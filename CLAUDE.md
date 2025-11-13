@@ -250,9 +250,15 @@ Core cross-cutting variables:
 
 ## Data Models
 
-PostgreSQL with Drizzle ORM using **snake_case** column naming:
+PostgreSQL with Drizzle ORM using **camelCase** column naming:
 
-- `cars`, `coe`, `coePQP`, `posts`, `analyticsTable`
+- `cars`, `coe`, `pqp`, `posts`, `analyticsTable`
+
+**Naming Strategy:**
+- Table names: `snake_case` (e.g., `cars`, `coe`, `pqp`)
+- Column names: `camelCase` (e.g., `vehicleClass`, `biddingNo`, `fuelType`)
+- Core columns use `NOT NULL` constraints where appropriate
+- Default values for numeric columns (e.g., `integer().default(0)`)
 
 *See [packages/database/CLAUDE.md](packages/database/CLAUDE.md) for detailed schemas and migrations.*
 

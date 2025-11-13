@@ -19,11 +19,11 @@ export const LatestCOE = ({ results }: LatestCOEProps) => {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
         {results.map((result) => {
           return (
-            <Card key={result.vehicle_class}>
+            <Card key={result.vehicleClass}>
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <h4 className="font-semibold text-foreground text-xs lg:text-base">
-                    {result.vehicle_class}
+                    {result.vehicleClass}
                   </h4>
                 </div>
               </CardHeader>

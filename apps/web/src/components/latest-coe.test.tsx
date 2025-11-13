@@ -18,20 +18,20 @@ describe("LatestCOE", () => {
   const mockResults: COEResult[] = [
     {
       month: "2024-01",
-      bidding_no: 1,
-      vehicle_class: "Category A",
+      biddingNo: 1,
+      vehicleClass: "Category A",
       quota: 100,
-      bids_success: 90,
-      bids_received: 120,
+      bidsSuccess: 90,
+      bidsReceived: 120,
       premium: 95000,
     },
     {
       month: "2024-01",
-      bidding_no: 1,
-      vehicle_class: "Category B",
+      biddingNo: 1,
+      vehicleClass: "Category B",
       quota: 80,
-      bids_success: 75,
-      bids_received: 100,
+      bidsSuccess: 75,
+      bidsReceived: 100,
       premium: 105000,
     },
   ];

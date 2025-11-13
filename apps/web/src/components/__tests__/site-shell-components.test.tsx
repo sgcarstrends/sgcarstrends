@@ -58,15 +58,15 @@ vi.mock("next/navigation", () => ({
 }));
 
 const createCoeResult = (
-  vehicle_class: COEResult["vehicle_class"],
+  vehicleClass: COEResult["vehicleClass"],
   premium: number,
 ): COEResult => ({
   month: "2024-01",
-  bidding_no: 1,
-  vehicle_class,
+  biddingNo: 1,
+  vehicleClass,
   quota: 100,
-  bids_success: 80,
-  bids_received: 120,
+  bidsSuccess: 80,
+  bidsReceived: 120,
   premium,
 });
 

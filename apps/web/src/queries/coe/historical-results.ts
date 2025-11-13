@@ -19,7 +19,7 @@ export const getCOEResults = async (): Promise<COEResult[]> => {
   const results = await db
     .select()
     .from(coe)
-    .orderBy(desc(coe.month), asc(coe.bidding_no), asc(coe.vehicle_class));
+    .orderBy(desc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
 };
@@ -58,7 +58,7 @@ export const getCoeResultsFiltered = async (
     .select()
     .from(coe)
     .where(whereClause)
-    .orderBy(desc(coe.month), asc(coe.bidding_no), asc(coe.vehicle_class));
+    .orderBy(desc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
 };

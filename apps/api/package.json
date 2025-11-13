@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "biome check ."
+    "lint": "biome check .",
+    "vercel-build": "turbo run @sgcarstrends/database#migrate"
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.20",

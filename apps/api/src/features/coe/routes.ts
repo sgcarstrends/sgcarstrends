@@ -1,6 +1,6 @@
 import { createMonthsRoute } from "@api/features/shared";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
-import { coe, coePQP, db } from "@sgcarstrends/database";
+import { coe, db, pqp } from "@sgcarstrends/database";
 import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
 import {
   COELatestResponseSchema,
@@ -49,7 +49,7 @@ app.openapi(
       .select()
       .from(coe)
       .where(and(...filters))
-      .orderBy(desc(coe.month), asc(coe.bidding_no), asc(coe.vehicle_class));
+      .orderBy(desc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
     return c.json(results);
   },
@@ -91,15 +91,15 @@ app.openapi(
         and(
           eq(coe.month, latestMonth),
           inArray(
-            coe.bidding_no,
+            coe.biddingNo,
             db
-              .select({ bidding_no: max(coe.bidding_no) })
+              .select({ biddingNo: max(coe.biddingNo) })
               .from(coe)
               .where(eq(coe.month, latestMonth)),
           ),
         ),
       )
-      .orderBy(desc(coe.bidding_no), asc(coe.vehicle_class));
+      .orderBy(desc(coe.biddingNo), asc(coe.vehicleClass));
 
     return c.json(results);
   },
@@ -130,19 +130,16 @@ app.openapi(
   async (c) => {
     const results = await db
       .select()
-      .from(coePQP)
-      .orderBy(desc(coePQP.month), asc(coePQP.vehicle_class));
+      .from(pqp)
+      .orderBy(desc(pqp.month), asc(pqp.vehicleClass));
 
-    const pqpRates = results.reduce(
-      (grouped, { month, vehicle_class, pqp }) => {
-        if (!grouped[month]) {
-          grouped[month] = {};
-        }
-        grouped[month][vehicle_class] = pqp;
-        return grouped;
-      },
-      {},
-    );
+    const pqpRates = results.reduce((grouped, { month, vehicleClass, pqp }) => {
+      if (!grouped[month]) {
+        grouped[month] = {};
+      }
+      grouped[month][vehicleClass] = pqp;
+      return grouped;
+    }, {});
 
     return c.json(pqpRates);
   },

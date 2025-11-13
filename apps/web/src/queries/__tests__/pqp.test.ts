@@ -1,6 +1,5 @@
+import { getPQPOverview, getPqpRates } from "@web/queries";
 import { describe, expect, it } from "vitest";
-import { getPQPOverview } from "../coe/pqp/overview";
-import { getPqpRates } from "../coe/pqp/rates";
 import { queueSelect, queueSelectDistinct, resetDbMocks } from "./test-utils";
 
 describe("PQP queries", () => {
@@ -9,7 +8,7 @@ describe("PQP queries", () => {
   });
 
   it("provides an overview of PQP insights with savings calculations", async () => {
-    queueSelectDistinct([{ month: "2024-06" }, { month: null }]);
+    queueSelectDistinct([{ month: "2024-06" }]);
     queueSelect(
       [
         {
@@ -22,12 +21,12 @@ describe("PQP queries", () => {
       [{ biddingNo: 2 }],
       [
         { vehicleClass: "Category A", premium: 120 },
-        { vehicleClass: null, premium: 0 },
+        { vehicleClass: "Category B", premium: 0 },
       ],
       [{ month: "2024-06" }],
       [
         { vehicleClass: "Category A", pqp: 100 },
-        { vehicleClass: null, pqp: 0 },
+        { vehicleClass: "Category B", pqp: 0 },
       ],
     );
 
@@ -70,15 +69,9 @@ describe("PQP queries", () => {
     });
   });
 
-  it("handles missing PQP months gracefully", async () => {
+  it("handles empty PQP data gracefully", async () => {
     queueSelectDistinct([]);
-    queueSelect(
-      [{ month: null }],
-      [{ month: null }],
-      [],
-      [{ month: null }],
-      [],
-    );
+    queueSelect([], [], [], [], []);
 
     const result = await getPQPOverview();
 
@@ -90,17 +83,17 @@ describe("PQP queries", () => {
     queueSelect([
       {
         month: "2024-06",
-        vehicle_class: "Category A",
+        vehicleClass: "Category A",
         pqp: 100,
       },
       {
         month: "2024-05",
-        vehicle_class: "Category B",
+        vehicleClass: "Category B",
         pqp: 90,
       },
       {
-        month: null,
-        vehicle_class: "Category C",
+        month: "2024-04",
+        vehicleClass: "Category C",
         pqp: 80,
       },
     ]);
@@ -110,6 +103,7 @@ describe("PQP queries", () => {
     expect(result).toEqual({
       "2024-06": { "Category A": 100 },
       "2024-05": { "Category B": 90 },
+      "2024-04": { "Category C": 80 },
     });
   });
 });

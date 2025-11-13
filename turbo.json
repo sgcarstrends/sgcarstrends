@@ -10,7 +10,7 @@
       "dependsOn": ["^topo"]
     },
     "build": {
-      "dependsOn": ["migrate", "^build"],
+      "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*", "tsconfig.json"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },

@@ -36,7 +36,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
   const results = await getLatestCOEResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
-      category[current.vehicle_class] = current.premium;
+      category[current.vehicleClass] = current.premium;
       return category;
     },
     {},
@@ -84,9 +84,9 @@ const COEPricesPage = async () => {
 
   // Calculate Category A premium as percentage of Category B
   const categoryA =
-    latestResults.find((r) => r.vehicle_class === "Category A")?.premium || 0;
+    latestResults.find((r) => r.vehicleClass === "Category A")?.premium || 0;
   const categoryB =
-    latestResults.find((r) => r.vehicle_class === "Category B")?.premium || 0;
+    latestResults.find((r) => r.vehicleClass === "Category B")?.premium || 0;
   const categoryAPercentage = categoryB > 0 ? categoryA / categoryB : 0;
 
   return (
