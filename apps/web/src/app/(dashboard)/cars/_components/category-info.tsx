@@ -1,8 +1,8 @@
 "use client";
 
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import useStore from "@web/app/store";
 import Typography from "@web/components/typography";
-import { cn } from "@web/lib/utils";
 import type { COECategory } from "@web/types";
 import type { LucideIcon } from "lucide-react";
 

@@ -2,8 +2,8 @@
 
 import { Badge } from "@sgcarstrends/ui/components/badge";
 import { Card, CardContent } from "@sgcarstrends/ui/components/card";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import { AnimatedNumber } from "@web/components/animated-number";
-import { cn } from "@web/lib/utils";
 import { formatGrowthRate } from "@web/utils/charts";
 import {
   Award,

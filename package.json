@@ -58,7 +58,6 @@
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.0",
     "@semantic-release/release-notes-generator": "^14.0.1",
-    "@types/aws-lambda": "8.10.152",
     "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "conventional-changelog-conventionalcommits": "^9.1.0",

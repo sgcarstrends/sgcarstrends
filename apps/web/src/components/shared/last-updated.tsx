@@ -1,5 +1,5 @@
 import Typography from "@web/components/typography";
-import dayjs from "dayjs";
+import { format } from "date-fns";
 
 interface Props {
   lastUpdated: number;
@@ -9,7 +9,7 @@ export const LastUpdated = ({ lastUpdated }: Props) => (
   <Typography.Caption>
     Last updated:{" "}
     <span className="underline">
-      {dayjs(lastUpdated).format("DD MMM YYYY, h:mmA")}
+      {format(lastUpdated, "dd MMM yyyy, h:mma")}
     </span>
   </Typography.Caption>
 );

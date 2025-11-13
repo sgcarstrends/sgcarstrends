@@ -17,7 +17,6 @@
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/ui": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
-    "@tanstack/react-query": "^5.84.1",
     "ai": "^5.0.68",
     "drizzle-orm": "0.44.3",
     "lucide-react": "^0.482.0",
