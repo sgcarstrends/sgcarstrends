@@ -1,4 +1,4 @@
-import { coe, coePQP, db } from "@sgcarstrends/database";
+import { coe, db, pqp } from "@sgcarstrends/database";
 import type { Pqp } from "@web/types/coe";
 import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
 
@@ -34,10 +34,10 @@ const toNumber = (value: number | string | null | undefined): number => {
  */
 export const getPQPOverview = async (): Promise<Pqp.Overview> => {
   const recentMonthsRows = await db
-    .selectDistinct({ month: coePQP.month })
-    .from(coePQP)
-    .where(isNotNull(coePQP.month))
-    .orderBy(desc(coePQP.month))
+    .selectDistinct({ month: pqp.month })
+    .from(pqp)
+    .where(isNotNull(pqp.month))
+    .orderBy(desc(pqp.month))
     .limit(12);
 
   const recentMonths = recentMonthsRows
@@ -51,15 +51,15 @@ export const getPQPOverview = async (): Promise<Pqp.Overview> => {
   if (recentMonths.length > 0) {
     const pqpRates = await db
       .select({
-        month: coePQP.month,
-        vehicleClass: coePQP.vehicle_class,
-        pqp: coePQP.pqp,
+        month: pqp.month,
+        vehicleClass: pqp.vehicle_class,
+        pqp: pqp.pqp,
       })
-      .from(coePQP)
+      .from(pqp)
       .where(
         and(
-          inArray(coePQP.month, recentMonths),
-          inArray(coePQP.vehicle_class, PQP_CATEGORIES),
+          inArray(pqp.month, recentMonths),
+          inArray(pqp.vehicle_class, PQP_CATEGORIES),
         ),
       );
 
@@ -154,10 +154,10 @@ export const getPQPOverview = async (): Promise<Pqp.Overview> => {
   }
 
   const latestPqpMonthRow = await db
-    .select({ month: coePQP.month })
-    .from(coePQP)
-    .where(isNotNull(coePQP.month))
-    .orderBy(desc(coePQP.month))
+    .select({ month: pqp.month })
+    .from(pqp)
+    .where(isNotNull(pqp.month))
+    .orderBy(desc(pqp.month))
     .limit(1);
 
   const latestPqpMonth = latestPqpMonthRow[0]?.month ?? null;
@@ -166,14 +166,14 @@ export const getPQPOverview = async (): Promise<Pqp.Overview> => {
   if (latestPqpMonth) {
     const latestPqpRates = await db
       .select({
-        vehicleClass: coePQP.vehicle_class,
-        pqp: coePQP.pqp,
+        vehicleClass: pqp.vehicle_class,
+        pqp: pqp.pqp,
       })
-      .from(coePQP)
+      .from(pqp)
       .where(
         and(
-          eq(coePQP.month, latestPqpMonth),
-          inArray(coePQP.vehicle_class, PQP_CATEGORIES),
+          eq(pqp.month, latestPqpMonth),
+          inArray(pqp.vehicle_class, PQP_CATEGORIES),
         ),
       );
 

@@ -15,7 +15,7 @@ export enum VehicleType {
 export enum Collection {
   Cars = "cars",
   COE = "coe",
-  COEPQP = "coe_pqp",
+  PQP = "pqp",
 }
 
 export enum OrderBy {

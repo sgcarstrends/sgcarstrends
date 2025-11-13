@@ -26,13 +26,13 @@ export const coe = pgTable(
   ],
 );
 
-export const coePQP = pgTable(
-  "coe_pqp",
+export const pqp = pgTable(
+  "pqp",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
-    month: text("month").notNull(),
-    vehicle_class: text("vehicle_class").notNull(),
-    pqp: integer("pqp").default(0),
+    id: uuid().defaultRandom().primaryKey(),
+    month: text().notNull(),
+    vehicle_class: text().notNull(),
+    pqp: integer().default(0),
   },
   (table) => [
     index("pqp_month_vehicle_class_idx").on(table.month, table.vehicle_class),
@@ -44,5 +44,5 @@ export const coePQP = pgTable(
 export type InsertCOE = typeof coe.$inferInsert;
 export type SelectCOE = typeof coe.$inferSelect;
 
-export type InsertCOEPQP = typeof coePQP.$inferInsert;
-export type SelectCOEPQP = typeof coePQP.$inferSelect;
+export type InsertPqp = typeof pqp.$inferInsert;
+export type SelectPqp = typeof pqp.$inferSelect;

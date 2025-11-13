@@ -6,10 +6,10 @@ export {
 export { cars, type InsertCar, type SelectCar } from "./cars";
 export {
   coe,
-  coePQP,
   type InsertCOE,
-  type InsertCOEPQP,
+  type InsertPqp,
+  pqp,
   type SelectCOE,
-  type SelectCOEPQP,
+  type SelectPqp,
 } from "./coe";
 export { type InsertPost, posts, type SelectPost } from "./posts";

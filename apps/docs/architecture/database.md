@@ -27,7 +27,7 @@ erDiagram
         integer premium "Winning premium in SGD"
     }
 
-    coe_pqp {
+    pqp {
         uuid id PK "Primary key (auto-generated)"
         text month "Month YYYY-MM"
         text vehicle_class "COE category"
@@ -60,7 +60,7 @@ erDiagram
     %% Relationships (conceptual, not foreign keys)
     posts ||--o{ cars : "generated from cars data"
     posts ||--o{ coe : "generated from coe data"
-    coe ||--o{ coe_pqp : "related by month and vehicle_class"
+    coe ||--o{ pqp : "related by month and vehicle_class"
 ```
 
 ## Table Specifications
@@ -159,7 +159,7 @@ CREATE INDEX month_bidding_no_vehicle_class_idx ON coe (month DESC, bidding_no D
 
 **Table Definition**:
 ```sql
-CREATE TABLE coe_pqp (
+CREATE TABLE pqp (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     month TEXT,
     vehicle_class TEXT,
@@ -176,9 +176,9 @@ CREATE TABLE coe_pqp (
 **Indexes**:
 ```sql
 -- Optimized for PQP rate lookups
-CREATE INDEX pqp_month_vehicle_class_idx ON coe_pqp (month, vehicle_class);
-CREATE INDEX pqp_vehicle_class_idx ON coe_pqp (vehicle_class);
-CREATE INDEX pqp_idx ON coe_pqp (pqp);
+CREATE INDEX pqp_month_vehicle_class_idx ON pqp (month, vehicle_class);
+CREATE INDEX pqp_vehicle_class_idx ON pqp (vehicle_class);
+CREATE INDEX pqp_idx ON pqp (pqp);
 ```
 
 ### Blog Posts Table

@@ -1,6 +1,6 @@
 import { createMonthsRoute } from "@api/features/shared";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
-import { coe, coePQP, db } from "@sgcarstrends/database";
+import { coe, db, pqp } from "@sgcarstrends/database";
 import { and, asc, desc, eq, gte, inArray, lte, max } from "drizzle-orm";
 import {
   COELatestResponseSchema,
@@ -130,8 +130,8 @@ app.openapi(
   async (c) => {
     const results = await db
       .select()
-      .from(coePQP)
-      .orderBy(desc(coePQP.month), asc(coePQP.vehicle_class));
+      .from(pqp)
+      .orderBy(desc(pqp.month), asc(pqp.vehicle_class));
 
     const pqpRates = results.reduce(
       (grouped, { month, vehicle_class, pqp }) => {

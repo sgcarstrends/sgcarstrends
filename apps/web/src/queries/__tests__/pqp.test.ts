@@ -1,6 +1,5 @@
+import { getPQPOverview, getPqpRates } from "@web/queries";
 import { describe, expect, it } from "vitest";
-import { getPQPOverview } from "../coe/pqp/overview";
-import { getPqpRates } from "../coe/pqp/rates";
 import { queueSelect, queueSelectDistinct, resetDbMocks } from "./test-utils";
 
 describe("PQP queries", () => {

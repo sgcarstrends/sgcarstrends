@@ -252,7 +252,7 @@ Core cross-cutting variables:
 
 PostgreSQL with Drizzle ORM using **snake_case** column naming:
 
-- `cars`, `coe`, `coePQP`, `posts`, `analyticsTable`
+- `cars`, `coe`, `pqp`, `posts`, `analyticsTable`
 
 *See [packages/database/CLAUDE.md](packages/database/CLAUDE.md) for detailed schemas and migrations.*
 

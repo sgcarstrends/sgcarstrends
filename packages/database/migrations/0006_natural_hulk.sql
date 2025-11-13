@@ -1,0 +1,1 @@
+ALTER TABLE "coe_pqp" RENAME TO "pqp";

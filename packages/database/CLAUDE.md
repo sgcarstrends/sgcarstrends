@@ -55,7 +55,7 @@ src/
 ├── schema/
 │   ├── index.ts         # Main schema exports
 │   ├── cars.ts          # Car registration table schema
-│   ├── coe.ts           # COE bidding tables (coe, coePQP)
+│   ├── coe.ts           # COE bidding tables (coe, pqp)
 │   ├── posts.ts         # Blog posts table schema
 │   └── analytics.ts     # Analytics tracking table schema
 ├── client.ts            # Drizzle client setup
@@ -105,7 +105,7 @@ Stores Certificate of Entitlement bidding exercise results.
 - `bids_received`: Integer (total bids submitted)
 - `premium`: Numeric (winning premium in SGD)
 
-#### COE Prevailing Quota Premium (`coePQP`)
+#### COE Prevailing Quota Premium (`pqp`)
 
 Stores monthly PQP rates for immediate vehicle registration.
 
