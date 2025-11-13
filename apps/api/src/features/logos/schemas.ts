@@ -3,8 +3,8 @@ import { z } from "@hono/zod-openapi";
 // Core logo schema
 export const CarLogoSchema = z
   .object({
-    brand: z.string().openapi({
-      description: "Normalised car brand name in kebab-case",
+    make: z.string().openapi({
+      description: "Normalised car make name in kebab-case",
       example: "toyota",
     }),
     filename: z.string().openapi({
@@ -17,16 +17,16 @@ export const CarLogoSchema = z
     }),
   })
   .openapi({
-    description: "Car brand logo information",
+    description: "Car make logo information",
   });
 
 // Path parameter schema
-export const BrandParamSchema = z.object({
-  brand: z.string().openapi({
-    description: "Car brand name (will be normalised to kebab-case)",
+export const MakeParamSchema = z.object({
+  make: z.string().openapi({
+    description: "Car make name (will be normalised to kebab-case)",
     example: "Toyota",
     param: {
-      name: "brand",
+      name: "make",
       in: "path",
     },
   }),
@@ -44,7 +44,7 @@ export const ListLogosResponseSchema = z
       example: 88,
     }),
     logos: z.array(CarLogoSchema).openapi({
-      description: "Array of car brand logos",
+      description: "Array of car make logos",
     }),
   })
   .openapi({
@@ -58,7 +58,7 @@ export const GetLogoResponseSchema = z
       example: true,
     }),
     logo: CarLogoSchema.openapi({
-      description: "Car brand logo information",
+      description: "Car make logo information",
     }),
   })
   .openapi({
@@ -76,9 +76,9 @@ export const LogoNotFoundSchema = z
       description: "Error message",
       example: "Logo not found",
     }),
-    brand: z.string().optional().openapi({
-      description: "The brand that was searched for",
-      example: "unknown-brand",
+    make: z.string().optional().openapi({
+      description: "The make that was searched for",
+      example: "unknown-make",
     }),
   })
   .openapi({

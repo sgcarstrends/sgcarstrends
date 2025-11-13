@@ -2,24 +2,24 @@ import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { getLogo, listLogos } from "@logos/services/blob";
 import { downloadLogo } from "@logos/services/scraper";
 import {
-  BrandParamSchema,
   GetLogoResponseSchema,
   ListLogosResponseSchema,
   LogoNotFoundSchema,
+  MakeParamSchema,
 } from "./schemas";
 
 const app = new OpenAPIHono();
 
 /**
- * GET /logos - List all available car brand logos
+ * GET /logos - List all available car make logos
  */
 app.openapi(
   createRoute({
     method: "get",
     path: "/",
-    summary: "List all car brand logos",
+    summary: "List all car make logos",
     description:
-      "Returns a list of all available car brand logos with their public URLs. Results are cached in Redis for performance.",
+      "Returns a list of all available car make logos with their public URLs. Results are cached in Redis for performance.",
     tags: ["Logos"],
     responses: {
       200: {
@@ -59,19 +59,19 @@ app.openapi(
 );
 
 /**
- * GET /logos/:brand - Get a specific car brand logo
+ * GET /logos/:make - Get a specific car make logo
  * Auto-downloads from external source if not found in storage
  */
 app.openapi(
   createRoute({
     method: "get",
-    path: "/:brand",
-    summary: "Get car brand logo",
+    path: "/:make",
+    summary: "Get car make logo",
     description:
-      "Returns the logo for a specific car brand. If the logo is not in storage, it will be automatically downloaded from carlogos.org and stored for future requests. Brand names are normalised to kebab-case (e.g., 'Mercedes-Benz' becomes 'mercedes-benz').",
+      "Returns the logo for a specific car make. If the logo is not in storage, it will be automatically downloaded from carlogos.org and stored for future requests. Make names are normalised to kebab-case (e.g., 'Mercedes-Benz' becomes 'mercedes-benz').",
     tags: ["Logos"],
     request: {
-      params: BrandParamSchema,
+      params: MakeParamSchema,
     },
     responses: {
       200: {
@@ -97,21 +97,21 @@ app.openapi(
   }),
   async (c) => {
     try {
-      const brand = c.req.param("brand");
+      const make = c.req.param("make");
 
       // Try to get existing logo first
-      let logo = await getLogo(brand);
+      let logo = await getLogo(make);
 
       // If not found, try to download it
       if (!logo) {
-        const result = await downloadLogo(brand);
+        const result = await downloadLogo(make);
 
         if (!result.success || !result.logo) {
           return c.json(
             {
               success: false,
               error: result.error || "Logo not found",
-              brand,
+              make,
             },
             404,
           );
@@ -126,13 +126,13 @@ app.openapi(
       });
     } catch (error) {
       const err = error as Error;
-      const brand = c.req.param("brand");
-      console.error(`Error fetching logo for ${brand}:`, err);
+      const make = c.req.param("make");
+      console.error(`Error fetching logo for ${make}:`, err);
       return c.json(
         {
           success: false,
           error: "An error occurred while fetching logo",
-          brand,
+          make,
         },
         500,
       );
