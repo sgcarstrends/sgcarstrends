@@ -15,13 +15,13 @@ export const generateMetadata = async (): Promise<Metadata> => {
   const results = await getLatestCOEResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
-      category[current.vehicle_class] = current.premium;
+      category[current.vehicleClass] = current.premium;
       return category;
     },
     {},
   );
 
-  const images = `/api/og/coe?title=Latest COE Prices&subtitle=Current Results&biddingNo=${results[0]?.bidding_no || 1}&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
+  const images = `/api/og/coe?title=Latest COE Prices&subtitle=Current Results&biddingNo=${results[0]?.biddingNo || 1}&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
 
   return createPageMetadata({
     title,

@@ -34,11 +34,11 @@ describe("COE queries", () => {
       [
         {
           month: "2024-05",
-          bidding_no: 2,
-          vehicle_class: "A",
+          biddingNo: 2,
+          vehicleClass: "A",
         },
       ],
-      [{ bidding_no: 2 }],
+      [{ biddingNo: 2 }],
     );
 
     const result = await getLatestCOEResults();
@@ -46,8 +46,8 @@ describe("COE queries", () => {
     expect(result).toEqual([
       {
         month: "2024-05",
-        bidding_no: 2,
-        vehicle_class: "A",
+        biddingNo: 2,
+        vehicleClass: "A",
       },
     ]);
     expect(cacheTagMock).toHaveBeenCalledWith("coe", "latest-coe");
