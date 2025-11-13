@@ -18,7 +18,8 @@
     "test:e2e:ui": "playwright test --ui",
     "deploy:dev": "sst deploy --stage dev",
     "deploy:staging": "sst deploy --stage staging",
-    "deploy:prod": "sst deploy --stage prod"
+    "deploy:prod": "sst deploy --stage prod",
+    "vercel-build": "turbo run @sgcarstrends/database#migrate && next build"
   },
   "dependencies": {
     "@heroui/alert": "^2.2.26",
