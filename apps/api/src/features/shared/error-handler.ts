@@ -14,11 +14,11 @@ export interface ErrorContext {
  * @param errorContext - Context information for error logging
  * @returns Wrapped handler with error handling
  */
-export const withErrorHandling = (
-  handler: (c: Context) => Promise<Response>,
+export const withErrorHandling = <T extends Context = Context>(
+  handler: (c: T) => Promise<Response>,
   errorContext: ErrorContext,
 ) => {
-  return async (c: Context): Promise<Response> => {
+  return async (c: T): Promise<Response> => {
     try {
       return await handler(c);
     } catch (e) {

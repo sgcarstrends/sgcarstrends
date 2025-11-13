@@ -1,6 +1,6 @@
-import { withErrorHandling } from "@api/features/shared/error-handler";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
-import { downloadLogo, getLogo, listLogos } from "@logos/services/logo";
+import { getLogo, listLogos } from "@logos/services/blob";
+import { downloadLogo } from "@logos/services/scraper";
 import {
   BrandParamSchema,
   GetLogoResponseSchema,
@@ -32,16 +32,11 @@ app.openapi(
       },
       500: {
         description: "Internal server error",
-        content: {
-          "application/json": {
-            schema: LogoNotFoundSchema,
-          },
-        },
       },
     },
   }),
-  withErrorHandling(
-    async (c) => {
+  async (c) => {
+    try {
       const logos = await listLogos();
 
       return c.json({
@@ -49,9 +44,18 @@ app.openapi(
         count: logos.length,
         logos,
       });
-    },
-    { operation: "listing logos" },
-  ),
+    } catch (error) {
+      const err = error as Error;
+      console.error("Error listing logos:", err);
+      return c.json(
+        {
+          success: false,
+          error: "An error occurred while listing logos",
+        },
+        500,
+      );
+    }
+  },
 );
 
 /**
@@ -88,16 +92,11 @@ app.openapi(
       },
       500: {
         description: "Internal server error",
-        content: {
-          "application/json": {
-            schema: LogoNotFoundSchema,
-          },
-        },
       },
     },
   }),
-  withErrorHandling(
-    async (c) => {
+  async (c) => {
+    try {
       const brand = c.req.param("brand");
 
       // Try to get existing logo first
@@ -125,9 +124,20 @@ app.openapi(
         success: true,
         logo,
       });
-    },
-    { operation: "fetching logo" },
-  ),
+    } catch (error) {
+      const err = error as Error;
+      const brand = c.req.param("brand");
+      console.error(`Error fetching logo for ${brand}:`, err);
+      return c.json(
+        {
+          success: false,
+          error: "An error occurred while fetching logo",
+          brand,
+        },
+        500,
+      );
+    }
+  },
 );
 
 export const logosRoutes = app;
