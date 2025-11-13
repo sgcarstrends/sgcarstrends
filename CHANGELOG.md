@@ -1,3 +1,9 @@
+## [4.19.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.19.1...v4.19.2) (2025-11-13)
+
+### Bug Fixes
+
+* **api:** correct tokeniser import path ([7597971](https://github.com/sgcarstrends/sgcarstrends/commit/7597971dea8bce72e6271d216acaee0959ad19c5))
+
 ## [4.19.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.19.0...v4.19.1) (2025-11-13)
 
 ### Bug Fixes
