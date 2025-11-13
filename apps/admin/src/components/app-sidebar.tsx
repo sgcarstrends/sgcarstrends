@@ -29,6 +29,7 @@ import {
   Workflow,
   Wrench,
 } from "lucide-react";
+import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -152,7 +153,7 @@ export const AppSidebar = () => {
                           return (
                             <SidebarMenuItem key={subItem.title}>
                               <SidebarMenuButton asChild isActive={isActive}>
-                                <Link href={subItem.url}>
+                                <Link href={subItem.url as Route}>
                                   <subItem.icon />
                                   <span>{subItem.title}</span>
                                 </Link>
@@ -169,7 +170,7 @@ export const AppSidebar = () => {
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={isActive}>
-                      <Link href={item.url}>
+                      <Link href={item.url as Route}>
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>
