@@ -52,14 +52,14 @@ export const getPQPOverview = async (): Promise<Pqp.Overview> => {
     const pqpRates = await db
       .select({
         month: pqp.month,
-        vehicleClass: pqp.vehicle_class,
+        vehicleClass: pqp.vehicleClass,
         pqp: pqp.pqp,
       })
       .from(pqp)
       .where(
         and(
           inArray(pqp.month, recentMonths),
-          inArray(pqp.vehicle_class, PQP_CATEGORIES),
+          inArray(pqp.vehicleClass, PQP_CATEGORIES),
         ),
       );
 
@@ -117,10 +117,10 @@ export const getPQPOverview = async (): Promise<Pqp.Overview> => {
 
   if (latestCoeMonth) {
     const latestCoeBiddingRow = await db
-      .select({ biddingNo: coe.bidding_no })
+      .select({ biddingNo: coe.biddingNo })
       .from(coe)
       .where(eq(coe.month, latestCoeMonth))
-      .orderBy(desc(coe.bidding_no))
+      .orderBy(desc(coe.biddingNo))
       .limit(1);
 
     const latestCoeBiddingNo = latestCoeBiddingRow[0]?.biddingNo ?? null;
@@ -128,15 +128,15 @@ export const getPQPOverview = async (): Promise<Pqp.Overview> => {
     if (latestCoeBiddingNo !== null) {
       const latestCoeResults = await db
         .select({
-          vehicleClass: coe.vehicle_class,
+          vehicleClass: coe.vehicleClass,
           premium: coe.premium,
         })
         .from(coe)
         .where(
           and(
             eq(coe.month, latestCoeMonth),
-            eq(coe.bidding_no, latestCoeBiddingNo),
-            inArray(coe.vehicle_class, PQP_CATEGORIES),
+            eq(coe.biddingNo, latestCoeBiddingNo),
+            inArray(coe.vehicleClass, PQP_CATEGORIES),
           ),
         );
 
@@ -166,14 +166,14 @@ export const getPQPOverview = async (): Promise<Pqp.Overview> => {
   if (latestPqpMonth) {
     const latestPqpRates = await db
       .select({
-        vehicleClass: pqp.vehicle_class,
+        vehicleClass: pqp.vehicleClass,
         pqp: pqp.pqp,
       })
       .from(pqp)
       .where(
         and(
           eq(pqp.month, latestPqpMonth),
-          inArray(pqp.vehicle_class, PQP_CATEGORIES),
+          inArray(pqp.vehicleClass, PQP_CATEGORIES),
         ),
       );
 

@@ -23,15 +23,15 @@ export const getLatestCOEResults = async (): Promise<COEResult[]> => {
       and(
         eq(coe.month, latestMonth),
         inArray(
-          coe.bidding_no,
+          coe.biddingNo,
           db
-            .select({ bidding_no: max(coe.bidding_no) })
+            .select({ biddingNo: max(coe.biddingNo) })
             .from(coe)
             .where(eq(coe.month, latestMonth)),
         ),
       ),
     )
-    .orderBy(desc(coe.bidding_no), asc(coe.vehicle_class));
+    .orderBy(desc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
 };

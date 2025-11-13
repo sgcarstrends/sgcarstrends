@@ -3,26 +3,22 @@ import { index, integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
 export const coe = pgTable(
   "coe",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
-    month: text("month").notNull(),
-    bidding_no: integer("bidding_no"),
-    vehicle_class: text("vehicle_class").notNull(),
-    quota: integer("quota").default(0),
-    bids_success: integer("bids_success").default(0),
-    bids_received: integer("bids_received").default(0),
-    premium: integer("premium").default(0),
+    id: uuid().defaultRandom().primaryKey(),
+    month: text().notNull(),
+    biddingNo: integer(),
+    vehicleClass: text().notNull(),
+    quota: integer().default(0),
+    bidsSuccess: integer().default(0),
+    bidsReceived: integer().default(0),
+    premium: integer().default(0),
   },
   (table) => [
-    index("month_vehicle_idx").on(table.month, table.vehicle_class),
-    index("vehicle_class_idx").on(table.vehicle_class),
-    index("month_bidding_no_idx").on(table.month, table.bidding_no),
-    index("premium_idx").on(table.premium),
-    index("bids_idx").on(table.bids_success, table.bids_received),
-    index("month_bidding_no_vehicle_class_idx").on(
-      table.month.desc(),
-      table.bidding_no.desc(),
-      table.vehicle_class,
-    ),
+    index().on(table.month, table.vehicleClass),
+    index().on(table.vehicleClass),
+    index().on(table.month, table.biddingNo),
+    index().on(table.premium),
+    index().on(table.bidsSuccess, table.bidsReceived),
+    index().on(table.month.desc(), table.biddingNo.desc(), table.vehicleClass),
   ],
 );
 
@@ -31,13 +27,13 @@ export const pqp = pgTable(
   {
     id: uuid().defaultRandom().primaryKey(),
     month: text().notNull(),
-    vehicle_class: text().notNull(),
+    vehicleClass: text().notNull(),
     pqp: integer().default(0),
   },
   (table) => [
-    index("pqp_month_vehicle_class_idx").on(table.month, table.vehicle_class),
-    index("pqp_vehicle_class_idx").on(table.vehicle_class),
-    index("pqp_idx").on(table.pqp),
+    index().on(table.month, table.vehicleClass),
+    index().on(table.vehicleClass),
+    index().on(table.pqp),
   ],
 );
 

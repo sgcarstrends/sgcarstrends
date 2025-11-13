@@ -16,11 +16,11 @@ export const updateCoe = async () => {
   };
 
   // Update COE bidding results
-  const coeKeyFields: Array<keyof COE> = ["month", "bidding_no"];
+  const coeKeyFields: Array<keyof COE> = ["month", "biddingNo"];
   const parseNumericFields: Array<keyof COE> = [
     "quota",
-    "bids_success",
-    "bids_received",
+    "bidsSuccess",
+    "bidsReceived",
   ];
 
   const coeUpdater = new Updater<COE>({

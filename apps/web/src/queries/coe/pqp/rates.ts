@@ -11,14 +11,14 @@ export const getPqpRates = async (): Promise<Record<string, Pqp.Rates>> => {
   const results = await db
     .select()
     .from(pqp)
-    .orderBy(desc(pqp.month), asc(pqp.vehicle_class));
+    .orderBy(desc(pqp.month), asc(pqp.vehicleClass));
 
   return results.reduce<Record<string, Pqp.Rates>>(
-    (grouped, { month, vehicle_class, pqp }) => {
+    (grouped, { month, vehicleClass, pqp }) => {
       if (!grouped[month]) {
         grouped[month] = {} as Pqp.Rates;
       }
-      grouped[month][vehicle_class as keyof Pqp.Rates] = pqp ?? 0;
+      grouped[month][vehicleClass as keyof Pqp.Rates] = pqp ?? 0;
       return grouped;
     },
     {},

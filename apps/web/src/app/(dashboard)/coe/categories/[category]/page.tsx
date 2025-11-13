@@ -106,7 +106,7 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
 
   // Filter data for the specific category
   const categoryResults = coeResults.filter(
-    (result) => result.vehicle_class === category,
+    (result) => result.vehicleClass === category,
   );
 
   const data = groupCOEResultsByBidding(categoryResults);

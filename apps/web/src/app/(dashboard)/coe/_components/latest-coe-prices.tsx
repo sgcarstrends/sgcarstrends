@@ -13,21 +13,21 @@ interface LatestCOEPricesProps {
 export const LatestCOEPrices = ({ results }: LatestCOEPricesProps) => {
   const { categories } = useStore();
   const filteredResults = results.filter(
-    (result) => categories[result.vehicle_class as keyof typeof categories],
+    (result) => categories[result.vehicleClass as keyof typeof categories],
   );
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {filteredResults.map((result) => (
         <Card
-          key={result.vehicle_class}
+          key={result.vehicleClass}
           className="relative overflow-hidden border-foreground/10 border-small bg-gradient-to-br from-background to-default-100 shadow-lg transition-shadow duration-300 hover:shadow-xl"
         >
           <CardHeader className="pb-2">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-                <Typography.H4>{result.vehicle_class}</Typography.H4>
+                <Typography.H4>{result.vehicleClass}</Typography.H4>
               </div>
             </div>
           </CardHeader>

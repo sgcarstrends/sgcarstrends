@@ -30,7 +30,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
   const results = await getLatestCOEResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
-      category[current.vehicle_class] = current.premium;
+      category[current.vehicleClass] = current.premium;
       return category;
     },
     {},

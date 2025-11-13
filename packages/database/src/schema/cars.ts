@@ -12,12 +12,12 @@ export const cars = pgTable(
     number: integer().default(0),
   },
   (table) => [
-    index("month_make_idx").on(table.month, table.make),
-    index("month_idx").on(table.month),
-    index("make_idx").on(table.make),
-    index("fuel_type_idx").on(table.fuelType),
-    index("make_fuel_type_idx").on(table.make, table.fuelType),
-    index("number_idx").on(table.number),
+    index().on(table.month, table.make),
+    index().on(table.month),
+    index().on(table.make),
+    index().on(table.fuelType),
+    index().on(table.make, table.fuelType),
+    index().on(table.number),
   ],
 );
 

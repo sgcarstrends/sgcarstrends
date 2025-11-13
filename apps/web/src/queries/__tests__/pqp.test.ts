@@ -83,17 +83,17 @@ describe("PQP queries", () => {
     queueSelect([
       {
         month: "2024-06",
-        vehicle_class: "Category A",
+        vehicleClass: "Category A",
         pqp: 100,
       },
       {
         month: "2024-05",
-        vehicle_class: "Category B",
+        vehicleClass: "Category B",
         pqp: 90,
       },
       {
         month: "2024-04",
-        vehicle_class: "Category C",
+        vehicleClass: "Category C",
         pqp: 80,
       },
     ]);

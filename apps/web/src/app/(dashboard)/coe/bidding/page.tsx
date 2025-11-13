@@ -54,7 +54,7 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
   // Group results by bidding round
   const biddingRounds = coeResults.reduce<Record<string, COEResult[]>>(
     (acc, result) => {
-      const key = `${result.month}-${result.bidding_no}`;
+      const key = `${result.month}-${result.biddingNo}`;
       if (!acc[key]) {
         acc[key] = [];
       }
@@ -106,7 +106,7 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
                 <div className="text-center">
                   <Typography.H3>
                     {coeResults
-                      .reduce((sum, result) => sum + result.bids_received, 0)
+                      .reduce((sum, result) => sum + result.bidsReceived, 0)
                       .toLocaleString()}
                   </Typography.H3>
                   <Typography.TextSm>Total Bids Received</Typography.TextSm>
