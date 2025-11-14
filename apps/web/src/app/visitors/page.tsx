@@ -28,9 +28,7 @@ const VisitorsPage = async () => {
   let data: AnalyticsData;
 
   try {
-    const response = await fetch(
-      new URL(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics`),
-    );
+    const response = await fetch(`${SITE_URL}/api/analytics`);
     if (!response.ok) {
       throw new Error("Failed to fetch analytics data");
     }
