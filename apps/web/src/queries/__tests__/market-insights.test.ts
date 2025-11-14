@@ -1,3 +1,4 @@
+import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it, vi } from "vitest";
 import {
   cacheLifeMock,
@@ -34,8 +35,10 @@ describe("car market insight queries", () => {
       topFuelType: { name: "Electric", total: 60 },
       topVehicleType: { name: "SUV", total: 40 },
     });
-    expect(cacheLifeMock).toHaveBeenCalledWith("monthlyData");
-    expect(cacheTagMock).toHaveBeenCalledWith("cars", "cars-types-2024-04");
+    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.monthlyData);
+    expect(cacheTagMock).toHaveBeenCalledWith(
+      ...CACHE_TAG.cars.types("2024-04"),
+    );
   });
 
   it("falls back to placeholder entries when no types exist", async () => {
@@ -79,7 +82,9 @@ describe("car market insight queries", () => {
         makes: [{ make: "Toyota", count: 20 }],
       },
     ]);
-    expect(cacheTagMock).toHaveBeenCalledWith("cars", "cars-makes-2024-06");
+    expect(cacheTagMock).toHaveBeenCalledWith(
+      ...CACHE_TAG.cars.makes("2024-06"),
+    );
   });
 
   it("computes market share breakdowns from cached data", async () => {

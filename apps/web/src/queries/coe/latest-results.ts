@@ -1,12 +1,13 @@
 import { coe, db } from "@sgcarstrends/database";
+import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import type { COEResult } from "@web/types";
 import { and, asc, desc, eq, inArray, max } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export const getLatestCOEResults = async (): Promise<COEResult[]> => {
   "use cache";
-  cacheLife("latestData");
-  cacheTag("coe", "latest-coe");
+  cacheLife(CACHE_LIFE.latestData);
+  cacheTag(...CACHE_TAG.coe.latestResults());
 
   const [{ latestMonth }] = await db
     .select({ latestMonth: max(coe.month) })

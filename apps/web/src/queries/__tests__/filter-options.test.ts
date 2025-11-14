@@ -1,3 +1,4 @@
+import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import {
   getCarsMonths,
   getDistinctFuelTypes,
@@ -69,7 +70,7 @@ describe("car filter option queries", () => {
     const result = await getCarsMonths();
 
     expect(result).toEqual([{ month: "2024-06" }, { month: "2024-05" }]);
-    expect(cacheLifeMock).toHaveBeenCalledWith("statistics");
-    expect(cacheTagMock).toHaveBeenCalledWith("cars", "cars-months");
+    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.statistics);
+    expect(cacheTagMock).toHaveBeenCalledWith(...CACHE_TAG.cars.months());
   });
 });

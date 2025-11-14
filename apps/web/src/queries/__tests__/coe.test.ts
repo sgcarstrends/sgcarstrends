@@ -1,3 +1,4 @@
+import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it } from "vitest";
 import { getCoeMonths } from "../coe/available-months";
 import {
@@ -24,8 +25,8 @@ describe("COE queries", () => {
     const result = await getCoeMonths();
 
     expect(result).toEqual([{ month: "2024-05" }, { month: "2024-04" }]);
-    expect(cacheLifeMock).toHaveBeenCalledWith("statistics");
-    expect(cacheTagMock).toHaveBeenCalledWith("coe", "coe-months");
+    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.statistics);
+    expect(cacheTagMock).toHaveBeenCalledWith(...CACHE_TAG.coe.months());
   });
 
   it("returns the latest COE bidding results", async () => {
@@ -50,7 +51,7 @@ describe("COE queries", () => {
         vehicleClass: "A",
       },
     ]);
-    expect(cacheTagMock).toHaveBeenCalledWith("coe", "latest-coe");
+    expect(cacheTagMock).toHaveBeenCalledWith(...CACHE_TAG.coe.latestResults());
   });
 
   it("returns an empty list when no latest month is available", async () => {
@@ -67,7 +68,7 @@ describe("COE queries", () => {
     const result = await getCOEResults();
 
     expect(result).toEqual([{ id: 1 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith("coe", "coe-all");
+    expect(cacheTagMock).toHaveBeenCalledWith(...CACHE_TAG.coe.all());
   });
 
   it("filters COE results by month", async () => {
@@ -76,7 +77,9 @@ describe("COE queries", () => {
     const result = await getCoeResultsFiltered("2024-04");
 
     expect(result).toEqual([{ id: 2 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith("coe", "coe-2024-04");
+    expect(cacheTagMock).toHaveBeenCalledWith(
+      ...CACHE_TAG.coe.entry("2024-04"),
+    );
   });
 
   it("filters COE results by range", async () => {
@@ -86,8 +89,7 @@ describe("COE queries", () => {
 
     expect(result).toEqual([{ id: 3 }]);
     expect(cacheTagMock).toHaveBeenCalledWith(
-      "coe",
-      "coe-range-2024-01-2024-03",
+      ...CACHE_TAG.coe.range("2024-01", "2024-03"),
     );
   });
 
@@ -97,6 +99,6 @@ describe("COE queries", () => {
     const result = await getCoeResultsFiltered();
 
     expect(result).toEqual([{ id: 4 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith("coe", "coe-all");
+    expect(cacheTagMock).toHaveBeenCalledWith(...CACHE_TAG.coe.all());
   });
 });

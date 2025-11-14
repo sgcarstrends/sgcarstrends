@@ -1,3 +1,4 @@
+import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it } from "vitest";
 import {
   getTopMakesByYear,
@@ -21,8 +22,8 @@ describe("yearly statistics queries", () => {
     const result = await getYearlyRegistrations();
 
     expect(result).toEqual([{ year: 2022, total: 123 }]);
-    expect(cacheLifeMock).toHaveBeenCalledWith("statistics");
-    expect(cacheTagMock).toHaveBeenCalledWith("cars", "stats-yearly");
+    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.statistics);
+    expect(cacheTagMock).toHaveBeenCalledWith(...CACHE_TAG.cars.statsYearly());
   });
 
   it("returns top makes for an explicit year", async () => {
@@ -31,7 +32,9 @@ describe("yearly statistics queries", () => {
     const result = await getTopMakesByYear(2024, 1);
 
     expect(result).toEqual([{ make: "Tesla", value: 50 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith("cars", "stats-top-makes-2024");
+    expect(cacheTagMock).toHaveBeenCalledWith(
+      ...CACHE_TAG.cars.statsTopMakes("2024"),
+    );
   });
 
   it("derives latest year when no year is supplied", async () => {

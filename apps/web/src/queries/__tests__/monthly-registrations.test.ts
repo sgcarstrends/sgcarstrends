@@ -1,3 +1,4 @@
+import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it } from "vitest";
 import { getCarsComparison, getCarsData } from "../cars/monthly-registrations";
 import {
@@ -33,8 +34,10 @@ describe("monthly registration queries", () => {
       ],
       vehicleType: [{ name: "SUV", count: 5 }],
     });
-    expect(cacheLifeMock).toHaveBeenCalledWith("monthlyData");
-    expect(cacheTagMock).toHaveBeenCalledWith("cars", "cars-2024-06");
+    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.monthlyData);
+    expect(cacheTagMock).toHaveBeenCalledWith(
+      ...CACHE_TAG.cars.dataset("2024-06"),
+    );
   });
 
   it("provides comparisons for previous month and year", async () => {
@@ -71,8 +74,7 @@ describe("monthly registration queries", () => {
       vehicleType: [],
     });
     expect(cacheTagMock).toHaveBeenCalledWith(
-      "cars",
-      "cars-comparison-2024-06",
+      ...CACHE_TAG.cars.comparison("2024-06"),
     );
   });
 });

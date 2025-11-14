@@ -1,4 +1,5 @@
 import { cars, db } from "@sgcarstrends/database";
+import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import { getCarsData } from "@web/queries";
 import type { FuelType, TopType } from "@web/types/cars";
 import { and, desc, eq, sql } from "drizzle-orm";
@@ -53,8 +54,8 @@ interface TopMake {
 
 export const getTopTypes = async (month: string): Promise<TopType> => {
   "use cache";
-  cacheLife("monthlyData");
-  cacheTag("cars", `cars-types-${month}`);
+  cacheLife(CACHE_LIFE.monthlyData);
+  cacheTag(...CACHE_TAG.cars.types(month));
 
   const topFuelTypeQuery = db
     .select({
@@ -110,8 +111,8 @@ export const getTopMakesByFuelType = async (
   month: string,
 ): Promise<FuelType[]> => {
   "use cache";
-  cacheLife("monthlyData");
-  cacheTag("cars", `cars-makes-${month}`);
+  cacheLife(CACHE_LIFE.monthlyData);
+  cacheTag(...CACHE_TAG.cars.makes(month));
 
   const fuelTypeResults = await db
     .select({
@@ -152,8 +153,8 @@ export const getCarMarketShareData = async (
   category: "fuelType" | "vehicleType",
 ): Promise<CarMarketShareResponse> => {
   "use cache";
-  cacheLife("monthlyData");
-  cacheTag("cars", `market-share-${category}-${month}`);
+  cacheLife(CACHE_LIFE.monthlyData);
+  cacheTag(...CACHE_TAG.cars.marketShare(category, month));
 
   const response = await getCarsData(month);
 
@@ -204,8 +205,8 @@ export const getCarTopPerformersData = async (
   month: string,
 ): Promise<CarTopPerformersData> => {
   "use cache";
-  cacheLife("monthlyData");
-  cacheTag("cars", `top-performers-${month}`);
+  cacheLife(CACHE_LIFE.monthlyData);
+  cacheTag(...CACHE_TAG.cars.topPerformers(month));
 
   const [topTypes, topMakes] = await Promise.all([
     getTopTypes(month),

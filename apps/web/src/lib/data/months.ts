@@ -1,4 +1,5 @@
 import { cars, coe, db } from "@sgcarstrends/database";
+import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import { desc, max } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
@@ -30,8 +31,8 @@ export const getLatestMonth = async (
  */
 export async function getCarsLatestMonth(): Promise<string | null> {
   "use cache";
-  cacheLife("latestData");
-  cacheTag("cars", "latest-cars-month");
+  cacheLife(CACHE_LIFE.latestData);
+  cacheTag(...CACHE_TAG.cars.latestMonth());
 
   const result = await db.query.cars.findFirst({
     columns: { month: true },
@@ -46,8 +47,8 @@ export async function getCarsLatestMonth(): Promise<string | null> {
  */
 export async function getCOELatestMonth(): Promise<string | null> {
   "use cache";
-  cacheLife("latestData");
-  cacheTag("coe", "latest-coe-month");
+  cacheLife(CACHE_LIFE.latestData);
+  cacheTag(...CACHE_TAG.coe.latestMonth());
 
   const [{ latestMonth }] = await db
     .select({ latestMonth: max(coe.month) })

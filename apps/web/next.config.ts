@@ -20,12 +20,12 @@ const nextConfig: NextConfig = {
       revalidate: 3600 * 24, // 1 day
       expire: 3600 * 24 * 30, // 30 days
     },
-    monthlyData: {
+    "monthly-data": {
       stale: 3600 * 24, // 1 day - historical data is immutable
       revalidate: 3600 * 6, // 6 hours
       expire: 3600 * 24 * 90, // 90 days
     },
-    latestData: {
+    "latest-data": {
       stale: 300, // 5 minutes - actively updating
       revalidate: 900, // 15 minutes
       expire: 3600, // 1 hour
