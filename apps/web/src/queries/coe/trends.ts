@@ -1,8 +1,71 @@
-import { coe, db } from "@sgcarstrends/database";
+import { coe, db, type SelectCOE } from "@sgcarstrends/database";
 import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import type { COECategory } from "@web/types";
 import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
+
+const COE_CATEGORIES: COECategory[] = [
+  "Category A",
+  "Category B",
+  "Category C",
+  "Category D",
+  "Category E",
+];
+
+const formatCurrentMonth = (date: Date) => date.toISOString().slice(0, 7);
+
+const getDateRange = (year?: number) => {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const targetYear = year ?? currentYear;
+
+  const startMonth = `${targetYear}-01`;
+  const endMonth =
+    targetYear < currentYear
+      ? `${targetYear}-12`
+      : formatCurrentMonth(currentDate);
+
+  return { startMonth, endMonth };
+};
+
+const fetchCoeResults = async (
+  startMonth: string,
+  endMonth: string,
+  category?: COECategory,
+) => {
+  const filters = [gte(coe.month, startMonth), lte(coe.month, endMonth)];
+
+  if (category) {
+    filters.push(eq(coe.vehicleClass, category));
+  }
+
+  return db
+    .select()
+    .from(coe)
+    .where(and(...filters))
+    .orderBy(asc(coe.month), desc(coe.biddingNo));
+};
+
+const upsertMonthlyTrend = (
+  trends: Map<string, CoeMonthlyPremium>,
+  result: SelectCOE,
+) => {
+  const biddingNo = result.biddingNo;
+  if (typeof biddingNo !== "number") {
+    return;
+  }
+
+  const premium = typeof result.premium === "number" ? result.premium : 0;
+  const existing = trends.get(result.month);
+
+  if (!existing || biddingNo > existing.biddingNo) {
+    trends.set(result.month, {
+      month: result.month,
+      premium,
+      biddingNo,
+    });
+  }
+};
 
 export interface CoeMonthlyPremium {
   month: string;
@@ -17,50 +80,14 @@ export const getCOECategoryTrends = async (
   "use cache";
   cacheLife(CACHE_LIFE.monthlyData);
 
-  const currentYear = new Date().getFullYear();
-  const targetYear = year ?? currentYear;
+  const { startMonth, endMonth } = getDateRange(year);
+  cacheTag(...CACHE_TAG.coe.range(startMonth, endMonth));
 
-  // Determine date range based on year
-  const startDate = `${targetYear}-01-01`;
-  const endDate =
-    targetYear < currentYear
-      ? `${targetYear}-12-31` // Full year for past years
-      : new Date().toISOString().split("T")[0]; // YTD for current year
-
-  cacheTag(...CACHE_TAG.coe.range(startDate, endDate));
-
-  // Fetch all results for the category within the date range
-  const results = await db
-    .select()
-    .from(coe)
-    .where(
-      and(
-        eq(coe.vehicleClass, category),
-        gte(coe.month, startDate),
-        lte(coe.month, endDate),
-      ),
-    )
-    .orderBy(asc(coe.month), desc(coe.biddingNo));
-
-  // Group by month and take the latest bidding number for each month
+  const results = await fetchCoeResults(startMonth, endMonth, category);
   const monthlyTrends = new Map<string, CoeMonthlyPremium>();
 
   for (const result of results) {
-    const biddingNo = result.biddingNo;
-    if (typeof biddingNo !== "number") {
-      continue;
-    }
-    const existing = monthlyTrends.get(result.month);
-    const premium = typeof result.premium === "number" ? result.premium : 0;
-
-    // Keep the result with the highest bidding number (latest in the month)
-    if (!existing || biddingNo > existing.biddingNo) {
-      monthlyTrends.set(result.month, {
-        month: result.month,
-        premium,
-        biddingNo,
-      });
-    }
+    upsertMonthlyTrend(monthlyTrends, result);
   }
 
   return Array.from(monthlyTrends.values());
@@ -72,61 +99,24 @@ export const getAllCOECategoryTrends = async (
   "use cache";
   cacheLife(CACHE_LIFE.monthlyData);
 
-  const currentYear = new Date().getFullYear();
-  const targetYear = year ?? currentYear;
+  const { startMonth, endMonth } = getDateRange(year);
+  cacheTag(...CACHE_TAG.coe.range(startMonth, endMonth));
 
-  const startDate = `${targetYear}-01-01`;
-  const endDate =
-    targetYear < currentYear
-      ? `${targetYear}-12-31`
-      : new Date().toISOString().split("T")[0];
+  const results = await fetchCoeResults(startMonth, endMonth);
 
-  cacheTag(...CACHE_TAG.coe.range(startDate, endDate));
-
-  const categories: COECategory[] = [
-    "Category A",
-    "Category B",
-    "Category C",
-    "Category D",
-    "Category E",
-  ];
-
-  // Fetch all results within the date range
-  const results = await db
-    .select()
-    .from(coe)
-    .where(and(gte(coe.month, startDate), lte(coe.month, endDate)))
-    .orderBy(asc(coe.month), desc(coe.biddingNo));
-
-  // Group by category and month, taking latest bidding per month
   const categoryTrends = new Map<COECategory, Map<string, CoeMonthlyPremium>>();
-  for (const category of categories) {
+  for (const category of COE_CATEGORIES) {
     categoryTrends.set(category, new Map());
   }
 
   for (const result of results) {
-    const biddingNo = result.biddingNo;
-    if (typeof biddingNo !== "number") {
-      continue;
-    }
     const categoryMap = categoryTrends.get(result.vehicleClass as COECategory);
     if (!categoryMap) continue;
-
-    const existing = categoryMap.get(result.month);
-    const premium = typeof result.premium === "number" ? result.premium : 0;
-
-    if (!existing || biddingNo > existing.biddingNo) {
-      categoryMap.set(result.month, {
-        month: result.month,
-        premium,
-        biddingNo,
-      });
-    }
+    upsertMonthlyTrend(categoryMap, result);
   }
 
-  // Convert maps to arrays
   return Object.fromEntries(
-    categories.map((category) => [
+    COE_CATEGORIES.map((category) => [
       category,
       Array.from(categoryTrends.get(category)?.values() ?? []),
     ]),
