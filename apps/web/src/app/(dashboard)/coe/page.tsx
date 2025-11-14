@@ -18,6 +18,7 @@ import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { calculateOverviewStats } from "@web/lib/coe/calculations";
 import { createPageMetadata } from "@web/lib/metadata";
 import {
+  getCOECategoryTrends,
   getCOEResults,
   getLatestCOEResults,
   getPqpRates,
@@ -54,6 +55,23 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const COEPricesPage = async () => {
+  // Fetch COE trends for all categories in parallel
+  const trendResults = await Promise.all([
+    getCOECategoryTrends("Category A"),
+    getCOECategoryTrends("Category B"),
+    getCOECategoryTrends("Category C"),
+    getCOECategoryTrends("Category D"),
+    getCOECategoryTrends("Category E"),
+  ]);
+
+  const coeTrends = {
+    "Category A": trendResults[0],
+    "Category B": trendResults[1],
+    "Category C": trendResults[2],
+    "Category D": trendResults[3],
+    "Category E": trendResults[4],
+  };
+
   const [latestResults, allCoeResults, pqpRates] = await Promise.all([
     getLatestCOEResults(),
     getCOEResults(),
@@ -95,7 +113,7 @@ const COEPricesPage = async () => {
       <div className="flex flex-col gap-6">
         <PageHeader title="COE Overview" lastUpdated={lastUpdated} />
 
-        <LatestCOEPrices results={latestResults} />
+        <LatestCOEPrices results={latestResults} trends={coeTrends} />
 
         <div className="flex flex-col gap-4">
           <Typography.H2>Fun Facts</Typography.H2>

@@ -86,15 +86,6 @@ export const formatCOEDataForChart = (
   }));
 };
 
-export const getCOECategoryColor = (category: string): string => {
-  const categoryIndex = Object.keys(COE_CATEGORY_MAP).indexOf(
-    category.toUpperCase(),
-  );
-  return categoryIndex >= 0
-    ? COE_CHART_COLOURS[categoryIndex]
-    : COE_CHART_COLOURS[0];
-};
-
 /**
  * Groups COE results by month and bidding number, transforming from
  * separate records per vehicle class into a single record with all

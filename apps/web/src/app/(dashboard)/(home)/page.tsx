@@ -7,7 +7,7 @@ import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-re
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { getAllPosts } from "@web/lib/data/posts";
 import { getTopMakesByYear, getYearlyRegistrations } from "@web/queries/cars";
-import { getLatestCOEResults } from "@web/queries/coe";
+import { getAllCOECategoryTrends, getLatestCOEResults } from "@web/queries/coe";
 import type { Metadata } from "next";
 import type { WebSite, WithContext } from "schema-dts";
 
@@ -27,12 +27,14 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
-  const [yearlyData, latestTopMakes, allPosts, latestCOE] = await Promise.all([
-    getYearlyRegistrations(),
-    getTopMakesByYear(),
-    getAllPosts(),
-    getLatestCOEResults(),
-  ]);
+  const [coeTrends, yearlyData, latestTopMakes, allPosts, latestCOE] =
+    await Promise.all([
+      getAllCOECategoryTrends(),
+      getYearlyRegistrations(),
+      getTopMakesByYear(),
+      getAllPosts(),
+      getLatestCOEResults(),
+    ]);
   const latestYear = yearlyData.at(-1)?.year;
   const structuredData: WithContext<WebSite> = {
     "@context": "https://schema.org",
@@ -46,7 +48,7 @@ const HomePage = async () => {
     <>
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
-        <LatestCOE results={latestCOE} />
+        <LatestCOE results={latestCOE} trends={coeTrends} />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
           <main className="flex flex-col gap-8 lg:col-span-3">
             <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
