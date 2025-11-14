@@ -777,3 +777,31 @@ describe("Button Tailwind Classes", () => {
 6. **Semantic Names**: Use meaningful color names (brand, accent, not blue-500)
 7. **Dark Mode**: Support dark mode from the start
 8. **Performance**: Minimize custom utilities, use Tailwind defaults
+9. **Size Utility**: Use `size-*` instead of `h-* w-*` when dimensions are equal (Tailwind v3.4+)
+
+### Size Utility Convention
+
+When an element needs equal height and width, use the `size-*` utility instead of separate `h-*` and `w-*` classes:
+
+```tsx
+// ✅ Good - Use size-* for equal dimensions
+<div className="size-4">Icon</div>
+<div className="size-8">Avatar</div>
+<button className="size-10">Icon Button</button>
+
+// ❌ Avoid - Redundant h-* and w-*
+<div className="h-4 w-4">Icon</div>
+<div className="h-8 w-8">Avatar</div>
+<button className="h-10 w-10">Icon Button</button>
+
+// ✅ Good - Different dimensions still use h-* and w-*
+<div className="h-4 w-6">Rectangle</div>
+<div className="h-full w-32">Sidebar</div>
+```
+
+**Common Use Cases:**
+- Icons: `size-4`, `size-5`, `size-6`
+- Avatars: `size-8`, `size-10`, `size-12`
+- Icon buttons: `size-8`, `size-10`, `size-12`
+- Loading spinners: `size-4`, `size-6`, `size-8`
+- Square containers: `size-16`, `size-24`, `size-32`

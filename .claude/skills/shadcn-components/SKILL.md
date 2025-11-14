@@ -656,3 +656,28 @@ npx shadcn@latest add button card dialog --overwrite
 6. **Versioning**: Keep shadcn/ui components updated
 7. **Customization**: Extend, don't modify core components
 8. **Type Safety**: Leverage TypeScript for props
+9. **Size Utility**: Use `size-*` instead of `h-* w-*` for equal dimensions (Tailwind v3.4+)
+
+### Size Utility Convention
+
+When styling shadcn/ui components with equal height and width, use the `size-*` utility:
+
+```tsx
+// ✅ Good - Use size-* for equal dimensions
+<Button size="icon" className="size-10">
+  <Icon className="size-4" />
+</Button>
+
+<Avatar className="size-8">
+  <AvatarImage src={imageUrl} />
+</Avatar>
+
+// ❌ Avoid - Redundant h-* and w-*
+<Button size="icon" className="h-10 w-10">
+  <Icon className="h-4 w-4" />
+</Button>
+
+<Avatar className="h-8 w-8">
+  <AvatarImage src={imageUrl} />
+</Avatar>
+```

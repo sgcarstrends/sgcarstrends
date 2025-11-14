@@ -52,6 +52,11 @@ This Skill ensures all UI components follow the project's Typography system and 
 - ❌ `gap-1`, `gap-3`, `gap-5` (without justification)
 - ✅ `gap-2`, `gap-4`, `gap-6`, `gap-8`
 
+**Redundant Height/Width** (Tailwind v3.4+):
+- ❌ `<div className="h-4 w-4">` (equal dimensions)
+- ✅ `<div className="size-4">` (use size-* utility)
+- ⚠️ Exception: Different dimensions still use `h-*` and `w-*` (e.g., `h-4 w-6`)
+
 **Exception**: `mt-*` is acceptable ONLY for icon alignment with text (e.g., `<Icon className="mt-1" />`)
 
 ## Actions Performed
@@ -60,6 +65,7 @@ This Skill ensures all UI components follow the project's Typography system and 
 2. **Report Violations**: List each issue with file:line reference
 3. **Provide Auto-Fix Suggestions**: Show before/after code examples
 4. **Check Typography Imports**: Ensure `Typography` is imported from `@web/components/typography`
+5. **Check Size Utility Usage**: Detect `h-* w-*` patterns with equal values and suggest `size-*`
 
 ## Example Output
 
@@ -77,6 +83,10 @@ src/components/charts/trend-chart.tsx:42
 src/app/blog/_components/post-list.tsx:28
 ❌ <PostCard className="mt-6" />
 ✅ Parent should use: <div className="flex flex-col gap-6">
+
+src/components/icons/search-icon.tsx:8
+❌ <svg className="h-4 w-4">
+✅ <svg className="size-4">
 ```
 
 ## Spacing Scale Reference

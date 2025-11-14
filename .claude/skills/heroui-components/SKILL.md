@@ -628,3 +628,20 @@ describe("CarCard", () => {
 6. **TypeScript**: Leverage TypeScript types for props
 7. **Testing**: Wrap tests in HeroUIProvider
 8. **Performance**: Use client components only when needed
+9. **Size Utility**: Use `size-*` instead of `h-* w-*` for equal dimensions (Tailwind v3.4+)
+
+### Size Utility Convention
+
+When styling HeroUI components with equal height and width, use the `size-*` utility:
+
+```tsx
+// ✅ Good - Use size-* for equal dimensions
+<Button isIconOnly className="size-10">
+  <Icon className="size-4" />
+</Button>
+
+// ❌ Avoid - Redundant h-* and w-*
+<Button isIconOnly className="h-10 w-10">
+  <Icon className="h-4 w-4" />
+</Button>
+```
