@@ -2,10 +2,10 @@ import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it } from "vitest";
 import { getCoeMonths } from "../coe/available-months";
 import {
-  getCOEResults,
+  getCoeResults,
   getCoeResultsFiltered,
 } from "../coe/historical-results";
-import { getLatestCOEResults } from "../coe/latest-results";
+import { getLatestCoeResults } from "../coe/latest-results";
 import {
   cacheLifeMock,
   cacheTagMock,
@@ -42,7 +42,7 @@ describe("COE queries", () => {
       [{ biddingNo: 2 }],
     );
 
-    const result = await getLatestCOEResults();
+    const result = await getLatestCoeResults();
 
     expect(result).toEqual([
       {
@@ -57,7 +57,7 @@ describe("COE queries", () => {
   it("returns an empty list when no latest month is available", async () => {
     queueSelect([{ latestMonth: null }]);
 
-    const result = await getLatestCOEResults();
+    const result = await getLatestCoeResults();
 
     expect(result).toEqual([]);
   });
@@ -65,7 +65,7 @@ describe("COE queries", () => {
   it("loads all COE results without filters", async () => {
     queueSelect([{ id: 1 }]);
 
-    const result = await getCOEResults();
+    const result = await getCoeResults();
 
     expect(result).toEqual([{ id: 1 }]);
     expect(cacheTagMock).toHaveBeenCalledWith(...CACHE_TAG.coe.all());

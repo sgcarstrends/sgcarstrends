@@ -73,7 +73,7 @@ export interface CoeMonthlyPremium {
   biddingNo: number;
 }
 
-export const getCOECategoryTrends = async (
+export const getCoeCategoryTrends = async (
   category: COECategory,
   year?: number,
 ): Promise<CoeMonthlyPremium[]> => {
@@ -93,7 +93,7 @@ export const getCOECategoryTrends = async (
   return Array.from(monthlyTrends.values());
 };
 
-export const getAllCOECategoryTrends = async (
+export const getAllCoeCategoryTrends = async (
   year?: number,
 ): Promise<Record<COECategory, CoeMonthlyPremium[]>> => {
   "use cache";

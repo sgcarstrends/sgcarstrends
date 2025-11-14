@@ -18,9 +18,9 @@ import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { calculateOverviewStats } from "@web/lib/coe/calculations";
 import { createPageMetadata } from "@web/lib/metadata";
 import {
-  getCOECategoryTrends,
-  getCOEResults,
-  getLatestCOEResults,
+  getCoeCategoryTrends,
+  getCoeResults,
+  getLatestCoeResults,
   getPqpRates,
 } from "@web/queries/coe";
 import { formatPercent } from "@web/utils/charts";
@@ -34,7 +34,7 @@ const description =
   "Certificate of Entitlement (COE) analysis hub for Singapore vehicle registration. Explore historical results, trends, bidding data, and category-specific insights.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const results = await getLatestCOEResults();
+  const results = await getLatestCoeResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
       category[current.vehicleClass] = current.premium;
@@ -57,11 +57,11 @@ export const generateMetadata = async (): Promise<Metadata> => {
 const COEPricesPage = async () => {
   // Fetch COE trends for all categories in parallel
   const trendResults = await Promise.all([
-    getCOECategoryTrends("Category A"),
-    getCOECategoryTrends("Category B"),
-    getCOECategoryTrends("Category C"),
-    getCOECategoryTrends("Category D"),
-    getCOECategoryTrends("Category E"),
+    getCoeCategoryTrends("Category A"),
+    getCoeCategoryTrends("Category B"),
+    getCoeCategoryTrends("Category C"),
+    getCoeCategoryTrends("Category D"),
+    getCoeCategoryTrends("Category E"),
   ]);
 
   const coeTrends = {
@@ -73,8 +73,8 @@ const COEPricesPage = async () => {
   };
 
   const [latestResults, allCoeResults, pqpRates] = await Promise.all([
-    getLatestCOEResults(),
-    getCOEResults(),
+    getLatestCoeResults(),
+    getCoeResults(),
     getPqpRates(),
   ]);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);

@@ -8,7 +8,7 @@ import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { getAllPosts } from "@web/lib/data/posts";
 import { getTopMakesByYear, getYearlyRegistrations } from "@web/queries/cars";
-import { getAllCOECategoryTrends, getLatestCOEResults } from "@web/queries/coe";
+import { getAllCoeCategoryTrends, getLatestCoeResults } from "@web/queries/coe";
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { WebSite, WithContext } from "schema-dts";
@@ -29,13 +29,13 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
-  const [coeTrends, yearlyData, latestTopMakes, allPosts, latestCOE] =
+  const [coeTrends, yearlyData, latestTopMakes, allPosts, latestCoe] =
     await Promise.all([
-      getAllCOECategoryTrends(),
+      getAllCoeCategoryTrends(),
       getYearlyRegistrations(),
       getTopMakesByYear(),
       getAllPosts(),
-      getLatestCOEResults(),
+      getLatestCoeResults(),
     ]);
   const latestYear = yearlyData.at(-1)?.year;
   const structuredData: WithContext<WebSite> = {
@@ -58,7 +58,7 @@ const HomePage = async () => {
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
-            <LatestCoePremium results={latestCOE} trends={coeTrends} />
+            <LatestCoePremium results={latestCoe} trends={coeTrends} />
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">

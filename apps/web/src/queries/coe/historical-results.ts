@@ -4,7 +4,7 @@ import type { COEResult } from "@web/types";
 import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
-export interface COEMarketShareData {
+export interface CoeMarketShareData {
   category: string;
   premium: number;
   percentage: number;
@@ -12,7 +12,7 @@ export interface COEMarketShareData {
   colour: string;
 }
 
-export const getCOEResults = async (): Promise<COEResult[]> => {
+export const getCoeResults = async (): Promise<COEResult[]> => {
   "use cache";
   cacheLife(CACHE_LIFE.monthlyData);
   cacheTag(...CACHE_TAG.coe.all());
