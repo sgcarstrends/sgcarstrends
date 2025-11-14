@@ -9,8 +9,8 @@ import {
 } from "@sgcarstrends/ui/components/card";
 import { Progress } from "@sgcarstrends/ui/components/progress";
 import { redis } from "@sgcarstrends/utils";
-import { LatestCOEPrices } from "@web/app/(dashboard)/coe/_components/latest-coe-prices";
 import { AnimatedNumber } from "@web/components/animated-number";
+import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
@@ -113,7 +113,9 @@ const COEPricesPage = async () => {
       <div className="flex flex-col gap-6">
         <PageHeader title="COE Overview" lastUpdated={lastUpdated} />
 
-        <LatestCOEPrices results={latestResults} trends={coeTrends} />
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
+          <LatestCoePremium results={latestResults} trends={coeTrends} />
+        </div>
 
         <div className="flex flex-col gap-4">
           <Typography.H2>Fun Facts</Typography.H2>

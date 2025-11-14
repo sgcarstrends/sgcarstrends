@@ -4,7 +4,7 @@ import type { COECategory } from "@web/types";
 import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
-export interface COETrendPoint {
+export interface CoeMonthlyPremium {
   month: string;
   premium: number;
   biddingNo: number;
@@ -13,7 +13,7 @@ export interface COETrendPoint {
 export const getCOECategoryTrends = async (
   category: COECategory,
   year?: number,
-): Promise<COETrendPoint[]> => {
+): Promise<CoeMonthlyPremium[]> => {
   "use cache";
   cacheLife(CACHE_LIFE.monthlyData);
 
@@ -43,7 +43,7 @@ export const getCOECategoryTrends = async (
     .orderBy(asc(coe.month), desc(coe.biddingNo));
 
   // Group by month and take the latest bidding number for each month
-  const monthlyTrends = new Map<string, COETrendPoint>();
+  const monthlyTrends = new Map<string, CoeMonthlyPremium>();
 
   for (const result of results) {
     const biddingNo = result.biddingNo;
@@ -68,7 +68,7 @@ export const getCOECategoryTrends = async (
 
 export const getAllCOECategoryTrends = async (
   year?: number,
-): Promise<Record<COECategory, COETrendPoint[]>> => {
+): Promise<Record<COECategory, CoeMonthlyPremium[]>> => {
   "use cache";
   cacheLife(CACHE_LIFE.monthlyData);
 
@@ -99,7 +99,7 @@ export const getAllCOECategoryTrends = async (
     .orderBy(asc(coe.month), desc(coe.biddingNo));
 
   // Group by category and month, taking latest bidding per month
-  const categoryTrends = new Map<COECategory, Map<string, COETrendPoint>>();
+  const categoryTrends = new Map<COECategory, Map<string, CoeMonthlyPremium>>();
   for (const category of categories) {
     categoryTrends.set(category, new Map());
   }
@@ -130,5 +130,5 @@ export const getAllCOECategoryTrends = async (
       category,
       Array.from(categoryTrends.get(category)?.values() ?? []),
     ]),
-  ) as Record<COECategory, COETrendPoint[]>;
+  ) as Record<COECategory, CoeMonthlyPremium[]>;
 };
