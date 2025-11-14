@@ -23,10 +23,7 @@ pnpm test:e2e:ui        # Run E2E tests with Playwright UI
 pnpm lint               # Run Next.js ESLint
 pnpm format             # Format code with Biome
 
-# Deployment
-pnpm deploy:dev         # Deploy to dev environment
-pnpm deploy:staging     # Deploy to staging environment
-pnpm deploy:prod        # Deploy to production environment
+# Deployment (see `sst-deployment` skill)
 ```
 
 ## Architecture Overview
@@ -542,13 +539,12 @@ The web application uses Vercel Related Projects for automatic API URL resolutio
 
 ### Deployment
 
-Multi-stage deployment via SST:
-
+Multi-stage deployment via SST with domain mapping:
 - **dev**: `dev.sgcarstrends.com`
 - **staging**: `staging.sgcarstrends.com`
 - **prod**: `sgcarstrends.com` (apex domain)
 
-Infrastructure uses AWS Lambda with ARM64 architecture and Cloudflare DNS.
+See `sst-deployment` skill for deployment workflows and infrastructure details.
 
 ## Development Notes
 

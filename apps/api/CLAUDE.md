@@ -38,9 +38,7 @@ bidding results. Key features include:
 
 ### Deployment Commands
 
-- **Deploy to dev**: `pnpm deploy:dev`
-- **Deploy to staging**: `pnpm deploy:staging`
-- **Deploy to production**: `pnpm deploy:prod`
+See `sst-deployment` skill for multi-environment deployment workflows.
 
 ### Testing Specific Files
 
@@ -179,22 +177,11 @@ The API service is configured as a related project for the web application:
 
 ## Workflow Development
 
-When working with workflows:
-
-- Use `WorkflowContext.run()` for atomic operations
-- Implement proper error handling with platform notifications
-- Use Redis for timestamp tracking to prevent redundant processing
-- Structure workflows as composable task handlers
-- Test workflow logic independently of QStash integration
+Workflows orchestrate data updates, blog generation, and social media posting. See `workflow-management` skill for implementation patterns and best practices.
 
 ## Social Media Integration
 
-Each platform has dedicated posting logic in `src/lib/social/*/`:
-
-- **Platform-specific APIs**: LinkedIn API client, Twitter API v2, Discord webhooks, Telegram bot API
-- **Conditional Publishing**: Environment-based platform enabling
-- **Error Notifications**: Discord notifications for posting failures
-- **Content Formatting**: Platform-appropriate message formatting and link handling
+Platform-specific posting logic in `src/lib/social/*/` for Discord, LinkedIn, Twitter, and Telegram. See `social-media` skill for integration details, webhook management, and content formatting patterns.
 
 ## LLM Observability with Langfuse
 
@@ -239,30 +226,4 @@ Each blog post generation trace includes:
 
 ### Quality Scoring
 
-Automated quality scores are calculated and attached to each generation trace:
-
-#### Content Quality Score (0-1)
-Evaluates post structure and completeness:
-- **Word count** (400-600 words target): 0.3 points
-- **Title presence** (# header): 0.2 points
-- **Section headers** (## headers, 2+ required): 0.2 points
-- **Data tables** (markdown tables, 3+ rows): 0.2 points
-- **Bullet points** (list formatting): 0.1 points
-
-#### Token Efficiency Score (0-1)
-Measures output quality vs. tokens consumed:
-- **Optimal** (1.5-2.5 tokens/word): 1.0
-- **Too efficient** (<1.5 tokens/word): 0.8 (may indicate low quality)
-- **Acceptable** (2.5-3.5 tokens/word): 0.7
-- **Inefficient** (>3.5 tokens/word): 0.5
-
-#### Generation Success Score (0-1)
-Indicates completion status:
-- **Complete** (no errors, proper ending): 1.0
-- **Partial** (incomplete or truncated): 0.5
-- **Failed** (error occurred): 0.0
-
-#### Overall Score
-Average of all three scores, providing a single quality metric per generation.
-
-**Viewing Scores**: All scores are visible in Langfuse dashboard as span attributes (`score.content_quality`, `score.token_efficiency`, `score.generation_success`, `score.overall`).
+Automated quality scores track content quality, token efficiency, and generation success. All scores visible in Langfuse dashboard as span attributes. See `gemini-blog` skill for scoring criteria and optimization strategies.

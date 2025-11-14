@@ -35,18 +35,8 @@ platform. It uses Drizzle ORM v0.44.3 with PostgreSQL to manage:
 
 ### Development Workflow
 
-```bash
-# 1. Modify schema files in src/schema/
-# 2. Generate migration
-pnpm generate
-
-# 3. Review generated migration in migrations/
-# 4. Apply migration to database
-pnpm migrate
-
-# 5. Verify schema consistency
-pnpm migrate:check
-```
+Modify schema → Generate migration → Apply to database → Verify consistency.
+See `schema-design` skill for schema change workflows and migration best practices.
 
 ## File Structure
 
@@ -227,12 +217,12 @@ const carData: SelectCar[] = await db.select().from(cars);
 
 ### Schema Design Patterns
 
-- **Primary keys**: Use `uuid().defaultRandom().primaryKey()` for most tables; `serial().primaryKey()` for analytics
-- **Column naming**: Use `camelCase` for all column names (e.g., `vehicleClass`, `biddingNo`)
-- **NOT NULL constraints**: Apply to core columns that should always have values
-- **Default values**: Provide sensible defaults for numeric columns (e.g., `integer().default(0)`)
-- **Indexes**: Let Drizzle auto-generate index names; focus on defining index columns
-- **Timestamps**: Include `createdAt`/`modifiedAt` for audit trails where appropriate
+- **Column naming**: `camelCase` (e.g., `vehicleClass`, `biddingNo`)
+- **Primary keys**: UUID for most tables, serial for analytics
+- **Constraints**: NOT NULL for core columns, defaults for numeric fields
+- **Timestamps**: Include `createdAt`/`modifiedAt` for audit trails
+
+See `schema-design` skill for detailed patterns and indexing strategies.
 
 ### Type Safety
 
@@ -243,10 +233,7 @@ const carData: SelectCar[] = await db.select().from(cars);
 
 ### Performance Optimization
 
-- Create compound indexes for multi-column queries
-- Index foreign key columns for join performance
-- Consider partial indexes for filtered queries
-- Monitor query performance and add indexes as needed
+Add indexes based on query patterns and monitor performance. See `query-optimization` skill for indexing strategies and query tuning.
 
 ## Environment Configuration
 
@@ -305,10 +292,7 @@ await db.select().from(posts).where(isNotNull(posts.publishedAt));
 
 ### Schema Evolution
 
-- Always generate migrations for schema changes
-- Test migrations on development data before production
-- Keep migration files in version control
-- Document breaking changes in schema evolution
+Always generate migrations and test before production. See `schema-design` skill for migration workflows and breaking change management.
 
 ### Type Management
 

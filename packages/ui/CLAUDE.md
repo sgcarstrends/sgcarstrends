@@ -257,22 +257,7 @@ The `components.json` file configures shadcn/ui component generation:
 
 ## Adding New Components
 
-To add new shadcn/ui components to this package:
-
-1. **Use shadcn CLI** from the package directory:
-   ```bash
-   cd packages/ui
-   pnpm dlx shadcn@latest add [component-name]
-   ```
-
-2. **Update package.json exports** if needed (already configured for common patterns)
-
-3. **Test in consuming application**:
-   ```typescript
-   import { NewComponent } from "@sgcarstrends/ui/components/new-component";
-   ```
-
-4. **Document the component** in this CLAUDE.md file under "Available Components"
+See `shadcn-components` skill for adding new shadcn/ui components to this package.
 
 ## Workspace Dependencies
 
@@ -309,8 +294,8 @@ This package follows the monorepo's unified versioning strategy using semantic-r
 
 ## Future Considerations
 
-- **Component Documentation**: Consider adding Storybook for component documentation and testing
+- **Component Documentation**: See `component-docs` skill for Storybook integration
 - **Theme Customisation**: Explore theme variants for different applications
-- **Component Testing**: Add unit tests for components using Vitest and Testing Library
-- **Bundle Optimisation**: Consider tree-shaking optimisations for better bundle sizes
+- **Component Testing**: Add unit tests using Vitest and Testing Library
+- **Bundle Optimisation**: Tree-shaking optimisations for better bundle sizes
 - **Migration Path**: Plan for migrating `apps/web` from HeroUI to shared shadcn/ui components

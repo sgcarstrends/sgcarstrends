@@ -68,47 +68,21 @@ Certificate of Entitlement (COE) bidding results. The monorepo includes:
 
 All commands use pnpm as the package manager.
 
-### Build & Development
-
-- `pnpm build` - Build all packages
-- `pnpm dev` - Start all development servers
-- `pnpm start:web` - Start production web server
-
-### Testing
-
-- `pnpm test` - Run all tests
-- `pnpm test:watch` - Run tests in watch mode
-- `pnpm test:coverage` - Generate coverage reports
-- `pnpm -F <package> test -- <path>` - Run specific test
-
-### Linting
-
-- `pnpm lint` - Lint all packages (Biome)
-- `pnpm format` - Format all packages (Biome)
-
-### Database
-
-- `pnpm db:migrate` - Run migrations
-- `pnpm db:generate` - Generate migrations
-- `pnpm db:push` - Push schema changes
-
-### Documentation
-
-- `pnpm docs:dev` - Start documentation dev server
-- `cd apps/docs && pnpm mintlify broken-links` - Check broken links
-
-### Deployment
-
-- `pnpm deploy:dev` - Deploy all to development
-- `pnpm deploy:staging` - Deploy all to staging
-- `pnpm deploy:prod` - Deploy all to production
-- `pnpm deploy:<service>:<env>` - Deploy specific service (api/web) to environment
-
-### Release
-
-- Automated via GitHub Actions on main branch push
-- Uses semantic-release with conventional commits
-- Manual dry-run: `npx semantic-release --dry-run`
+| Category | Command | Description |
+|----------|---------|-------------|
+| **Build/Dev** | `pnpm build` | Build all packages |
+| | `pnpm dev` | Start all development servers |
+| | `pnpm start:web` | Start production web server |
+| **Testing** | `pnpm test` | Run all tests (see `api-testing`, `e2e-testing`, `coverage-analysis` skills) |
+| | `pnpm test:watch` | Run tests in watch mode |
+| | `pnpm -F <package> test -- <path>` | Run specific test |
+| **Linting** | `pnpm lint` | Lint all packages (see `biome-config` skill) |
+| | `pnpm format` | Format all packages |
+| **Database** | `pnpm db:migrate` | Run migrations (see `schema-design` skill) |
+| | `pnpm db:generate` | Generate migrations |
+| **Docs** | `pnpm docs:dev` | Start docs server (see `mintlify-docs`, `broken-links` skills) |
+| **Deployment** | See `sst-deployment` skill | Multi-environment deployment workflows |
+| **Release** | See `release-management` skill | Automated releases with semantic-release |
 
 *See component CLAUDE.md files for service-specific commands and workflows.*
 
@@ -207,12 +181,7 @@ Follow conventional commit format (enforced by commitlint):
 
 ## Git Hooks
 
-The project uses Husky v9+ with automated git hooks:
-
-- **Pre-commit**: `lint-staged` runs `pnpm biome check --write` on staged files
-- **Commit-msg**: `commitlint` validates conventional commit format
-- Failed hooks prevent commits with clear error messages
-- Bypass with `git commit -n` (not recommended)
+The project uses Husky v9+ with `lint-staged` and `commitlint`. See `conventional-commits` skill for commit message formatting and git workflows.
 
 ## Testing
 
@@ -233,20 +202,18 @@ Core cross-cutting variables:
 
 ## Deployment
 
-- **Platform**: AWS via SST framework
-- **Region**: ap-southeast-1 (Singapore)
-- **Architecture**: arm64
-- **DNS**: Cloudflare
-- **Domains**: sgcarstrends.com with environment subdomains
+- **Platform**: AWS via SST framework (ap-southeast-1, arm64)
+- **DNS**: Cloudflare with sgcarstrends.com domain
 
-*See [infra/CLAUDE.md](infra/CLAUDE.md) for detailed infrastructure configuration.*
+See `sst-deployment` skill for deployment workflows and [infra/CLAUDE.md](infra/CLAUDE.md) for infrastructure details.
 
 ## Domain Convention
 
 - **API**: `<service>.<environment>.sgcarstrends.com` (e.g., `api.sgcarstrends.com`)
 - **Web**: `<environment>.sgcarstrends.com` with apex for production (e.g., `sgcarstrends.com`)
-- **DNS**: Cloudflare with automatic SSL
-- **New backend services**: Use service subdomain pattern
+- **New services**: Use service subdomain pattern
+
+See `domain-management` skill for DNS configuration and routing details.
 
 ## Data Models
 
@@ -274,19 +241,14 @@ PostgreSQL with Drizzle ORM using **camelCase** column naming:
 
 ## Release Process
 
-Automated via semantic-release:
-- Triggered on main branch push via GitHub Actions
-- Unified versioning with "v" prefix (v1.0.0, v1.1.0, v2.0.0)
-- Auto-generated changelog and GitHub releases
+Automated via semantic-release with unified "v" prefix versioning (v1.0.0, v1.1.0, v2.0.0). See `release-management` and `changelog` skills for release workflows.
 
 ## GitHub Actions
 
-**Active workflows:**
-- `release.yml` - Automated releases on main branch
-- `deploy-staging.yml` / `deploy-prod.yml` - Environment deployments
-- `run-migrations.yml` / `test.yml` - Reusable workflows
+**Active**: `release.yml`, `deploy-staging.yml`, `deploy-prod.yml`, `run-migrations.yml`, `test.yml`
+**Disabled**: `deploy-pr.yml`, `cleanup-pr.yml`
 
-**Disabled workflows:** `deploy-pr.yml`, `cleanup-pr.yml` (skip unless re-enabling)
+See `github-actions` skill for workflow management and automation.
 
 ## Contribution Guidelines
 
@@ -301,30 +263,10 @@ Automated via semantic-release:
 ### Documentation Structure
 
 - **Root CLAUDE.md**: Monorepo-wide guidelines, structure, tooling, cross-cutting concerns
-- **Component CLAUDE.md**: `apps/*/CLAUDE.md`, `packages/*/CLAUDE.md` - component-specific implementation details
+- **Component CLAUDE.md**: Component-specific implementation (`apps/*/CLAUDE.md`, `packages/*/CLAUDE.md`)
 - **README.md**: Package setup, usage instructions, user-facing features
-- **Architecture docs**: `apps/docs/architecture/*.md` - system design with Mermaid diagrams
+- **Architecture docs**: System design with Mermaid diagrams (`apps/docs/architecture/*.md`)
 
-### Update Guidelines
+**Rule of thumb:** Component-specific changes → component docs. Cross-cutting changes → root docs.
 
-**Update root CLAUDE.md for:**
-- New apps/packages, dependency management changes
-- Monorepo build system, git hooks, code style changes
-- Cross-cutting commands, environment variables, deployment patterns
-- Domain conventions, infrastructure changes
-
-**Update component CLAUDE.md for:**
-- API endpoints, workflows, tRPC, social media integration (`apps/api/CLAUDE.md`)
-- Pages, routes, blog features, analytics, HeroUI components (`apps/web/CLAUDE.md`)
-- Schema changes, migrations, Drizzle config (`packages/database/CLAUDE.md`)
-- UI components, shadcn/ui patterns, Tailwind config (`packages/ui/CLAUDE.md`)
-- SST config, AWS resources, domain management (`infra/CLAUDE.md`)
-
-**Update README.md for:**
-- User-facing features, setup instructions, tech stack changes
-
-**Update architecture docs for:**
-- System architecture changes, data flow modifications
-- Update Mermaid diagrams in `apps/docs/diagrams/` accordingly
-
-**Rule of thumb:** Component-specific changes → component docs. Cross-cutting changes → root docs. When in doubt, update it.
+See `readme-updates`, `mintlify-docs`, and `mermaid-diagrams` skills for documentation workflows.
