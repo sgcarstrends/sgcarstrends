@@ -1,3 +1,9 @@
+## [4.20.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.19.2...v4.20.0) (2025-11-14)
+
+### Features
+
+* **web:** add sparkline trends to COE ([b773b1b](https://github.com/sgcarstrends/sgcarstrends/commit/b773b1b23856580bd9704657231fc802337053c6))
+
 ## [4.19.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.19.1...v4.19.2) (2025-11-13)
 
 ### Bug Fixes
