@@ -14,7 +14,7 @@ import { TrendTable } from "@web/components/tables/coe-results-table";
 import { fetchCOEPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
-import { getLatestCOEResults } from "@web/queries/coe";
+import { getLatestCoeResults } from "@web/queries/coe";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 
@@ -27,7 +27,7 @@ const description =
   "Explore historical Certificate of Entitlement (COE) price trends and bidding results for car registrations in Singapore.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const results = await getLatestCOEResults();
+  const results = await getLatestCoeResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
       category[current.vehicleClass] = current.premium;

@@ -4,7 +4,7 @@ import type { COEResult } from "@web/types";
 import { and, asc, desc, eq, inArray, max } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
-export const getLatestCOEResults = async (): Promise<COEResult[]> => {
+export const getLatestCoeResults = async (): Promise<COEResult[]> => {
   "use cache";
   cacheLife(CACHE_LIFE.latestData);
   cacheTag(...CACHE_TAG.coe.latestResults());

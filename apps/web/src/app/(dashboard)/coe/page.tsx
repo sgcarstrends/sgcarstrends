@@ -9,8 +9,8 @@ import {
 } from "@sgcarstrends/ui/components/card";
 import { Progress } from "@sgcarstrends/ui/components/progress";
 import { redis } from "@sgcarstrends/utils";
-import { LatestCOEPrices } from "@web/app/(dashboard)/coe/_components/latest-coe-prices";
 import { AnimatedNumber } from "@web/components/animated-number";
+import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
@@ -18,8 +18,9 @@ import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { calculateOverviewStats } from "@web/lib/coe/calculations";
 import { createPageMetadata } from "@web/lib/metadata";
 import {
-  getCOEResults,
-  getLatestCOEResults,
+  getCoeCategoryTrends,
+  getCoeResults,
+  getLatestCoeResults,
   getPqpRates,
 } from "@web/queries/coe";
 import { formatPercent } from "@web/utils/charts";
@@ -33,7 +34,7 @@ const description =
   "Certificate of Entitlement (COE) analysis hub for Singapore vehicle registration. Explore historical results, trends, bidding data, and category-specific insights.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const results = await getLatestCOEResults();
+  const results = await getLatestCoeResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
       category[current.vehicleClass] = current.premium;
@@ -54,9 +55,26 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const COEPricesPage = async () => {
+  // Fetch COE trends for all categories in parallel
+  const trendResults = await Promise.all([
+    getCoeCategoryTrends("Category A"),
+    getCoeCategoryTrends("Category B"),
+    getCoeCategoryTrends("Category C"),
+    getCoeCategoryTrends("Category D"),
+    getCoeCategoryTrends("Category E"),
+  ]);
+
+  const coeTrends = {
+    "Category A": trendResults[0],
+    "Category B": trendResults[1],
+    "Category C": trendResults[2],
+    "Category D": trendResults[3],
+    "Category E": trendResults[4],
+  };
+
   const [latestResults, allCoeResults, pqpRates] = await Promise.all([
-    getLatestCOEResults(),
-    getCOEResults(),
+    getLatestCoeResults(),
+    getCoeResults(),
     getPqpRates(),
   ]);
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
@@ -95,7 +113,9 @@ const COEPricesPage = async () => {
       <div className="flex flex-col gap-6">
         <PageHeader title="COE Overview" lastUpdated={lastUpdated} />
 
-        <LatestCOEPrices results={latestResults} />
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-5">
+          <LatestCoePremium results={latestResults} trends={coeTrends} />
+        </div>
 
         <div className="flex flex-col gap-4">
           <Typography.H2>Fun Facts</Typography.H2>

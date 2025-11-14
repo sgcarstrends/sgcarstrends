@@ -1,4 +1,4 @@
-import type { COEMarketShareData } from "@web/queries/coe";
+import type { CoeMarketShareData } from "@web/queries/coe";
 import type { COEBiddingResult, COEResult } from "@web/types";
 
 export const COE_CHART_COLOURS = [
@@ -25,7 +25,7 @@ export const formatCOECategory = (category: string): string => {
 };
 
 export const calculateCOEPremiumInsights = (
-  data: COEMarketShareData[],
+  data: CoeMarketShareData[],
 ): {
   averagePremium: number;
   highestCategory: string;
@@ -71,7 +71,7 @@ export const calculateCOEPremiumInsights = (
 };
 
 export const formatCOEDataForChart = (
-  data: COEMarketShareData[],
+  data: CoeMarketShareData[],
 ): Array<{
   name: string;
   value: number;
@@ -84,15 +84,6 @@ export const formatCOEDataForChart = (
     premium: item.premium,
     colour: item.colour,
   }));
-};
-
-export const getCOECategoryColor = (category: string): string => {
-  const categoryIndex = Object.keys(COE_CATEGORY_MAP).indexOf(
-    category.toUpperCase(),
-  );
-  return categoryIndex >= 0
-    ? COE_CHART_COLOURS[categoryIndex]
-    : COE_CHART_COLOURS[0];
 };
 
 /**

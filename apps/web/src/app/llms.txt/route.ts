@@ -12,7 +12,7 @@ import {
   getDistinctVehicleTypes,
   getPopularMakes,
 } from "@web/queries/cars";
-import { getLatestCOEResults } from "@web/queries/coe";
+import { getLatestCoeResults } from "@web/queries/coe";
 
 export const GET = async () => {
   // Fetch all dynamic data in parallel
@@ -23,7 +23,7 @@ export const GET = async () => {
     fuelTypes,
     vehicleTypes,
     recentPosts,
-    latestCOE,
+    latestCoe,
     carsLastUpdated,
     coeLastUpdated,
   ] = await Promise.all([
@@ -33,14 +33,14 @@ export const GET = async () => {
     getDistinctFuelTypes(),
     getDistinctVehicleTypes(),
     getAllPosts().then((posts) => posts.slice(0, 10)),
-    getLatestCOEResults(),
+    getLatestCoeResults(),
     redis.get<number>(LAST_UPDATED_CARS_KEY),
     redis.get<number>(LAST_UPDATED_COE_KEY),
   ]);
 
   // Extract unique COE categories from latest results
   const coeCategories = [
-    ...new Set(latestCOE.map((r) => r.vehicleClass)),
+    ...new Set(latestCoe.map((r) => r.vehicleClass)),
   ].filter(Boolean);
 
   // Format fuel types for display
