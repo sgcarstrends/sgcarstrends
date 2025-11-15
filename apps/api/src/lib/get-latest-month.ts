@@ -1,10 +1,7 @@
 import { db } from "@sgcarstrends/database";
-import { max } from "drizzle-orm";
-import type { PgTable } from "drizzle-orm/pg-core";
+import { max, type Table } from "drizzle-orm";
 
-export const getLatestMonth = async <T extends PgTable>(
-  table: T,
-): Promise<string> => {
+export const getLatestMonth = async (table: Table): Promise<string> => {
   const key = "month";
 
   try {

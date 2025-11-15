@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "build": "tsup",
     "deploy:dev": "sst deploy --stage dev",
     "deploy:staging": "sst deploy --stage staging",
     "deploy:prod": "sst deploy --stage prod",
@@ -14,7 +15,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "biome check .",
-    "vercel-build": "turbo run @sgcarstrends/database#migrate"
+    "vercel-build": "turbo run @sgcarstrends/database#migrate && tsup"
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.20",
@@ -40,6 +41,7 @@
     "adm-zip": "^0.5.16",
     "ai": "^5.0.68",
     "date-fns": "catalog:",
+    "dotenv": "^17.2.3",
     "drizzle-orm": "0.44.3",
     "hono": "^4.10.3",
     "linkedin-api-client": "npm:@ruchernchong/linkedin-api-client@^0.3.1",
@@ -53,6 +55,7 @@
     "@types/adm-zip": "^0.5.7",
     "@types/aws-lambda": "8.10.146",
     "@types/papaparse": "^5.3.15",
+    "tsup": "^8.5.1",
     "tsx": "^4.20.6"
   }
 }

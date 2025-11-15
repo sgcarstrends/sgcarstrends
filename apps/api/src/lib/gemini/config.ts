@@ -18,13 +18,13 @@ export const SYSTEM_INSTRUCTIONS = {
 
     Data Structure:
     The data is provided in pipe-delimited format with headers:
-    month|make|fuel_type|vehicle_type|number
+    month|make|fuelType|vehicleType|number
 
     Where:
     - month: Month/year of registration data (text)
     - make: Car manufacturer/brand (text)
-    - fuel_type: Type of fuel (text)
-    - vehicle_type: Type of vehicle (text)
+    - fuelType: Type of fuel (text)
+    - vehicleType: Type of vehicle (text)
     - number: Number of vehicle registrations (integer)
 
     Required Structure and Guidelines:
@@ -50,11 +50,11 @@ export const SYSTEM_INSTRUCTIONS = {
 
     4. DATA TABLES:
        - Include these 2 tables in markdown format with H3 headers:
-         a) "Fuel Type Breakdown": Group and sum registrations by fuel_type
-         b) "Vehicle Type Breakdown": Group and sum registrations by vehicle_type
+         a) "Fuel Type Breakdown": Group and sum registrations by fuelType
+         b) "Vehicle Type Breakdown": Group and sum registrations by vehicleType
        - CRITICAL: Use properly capitalised column headers in title case:
-         * "Fuel Type" (not fuel_type)
-         * "Vehicle Type" (not vehicle_type)
+         * "Fuel Type" (not fuelType)
+         * "Vehicle Type" (not vehicleType)
          * "Total Registrations" (not number or total)
          * "Percentage" (for % calculations)
        - Include total registrations row for each table

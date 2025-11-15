@@ -20,8 +20,8 @@ export const updateCars = () => {
     keyFields,
     csvTransformOptions: {
       columnMapping: {
-        fuel_type: "fuelType",
-        vehicle_type: "vehicleType",
+        fuelType: "fuelType",
+        vehicleType: "vehicleType",
         importer_type: "importerType",
       },
       fields: {
