@@ -68,7 +68,7 @@ export const getCarMetricsForPeriod = async (
     );
 
   const processData = (
-    data: Array<{ number: number; fuel_type: string; vehicle_type: string }>,
+    data: Array<{ number: number; fuelType: string; vehicleType: string }>,
   ) => {
     let total = 0;
     const fuelGroups: Record<string, number> = {};
@@ -76,10 +76,10 @@ export const getCarMetricsForPeriod = async (
 
     for (const record of data) {
       total += record.number;
-      fuelGroups[record.fuel_type] =
-        (fuelGroups[record.fuel_type] || 0) + record.number;
-      vehicleGroups[record.vehicle_type] =
-        (vehicleGroups[record.vehicle_type] || 0) + record.number;
+      fuelGroups[record.fuelType] =
+        (fuelGroups[record.fuelType] || 0) + record.number;
+      vehicleGroups[record.vehicleType] =
+        (vehicleGroups[record.vehicleType] || 0) + record.number;
     }
 
     return { total, fuelGroups, vehicleGroups };

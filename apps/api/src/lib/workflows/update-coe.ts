@@ -39,7 +39,7 @@ export const updateCoe = async () => {
   console.log("[COE]", coeResult);
 
   // Update COE PQP (Prevailing Quota Premium)
-  const pqpKeyFields: Array<keyof PQP> = ["month", "vehicle_class", "pqp"];
+  const pqpKeyFields: Array<keyof PQP> = ["month", "vehicleClass", "pqp"];
 
   const pqpUpdater = new Updater<PQP>({
     table: pqp,

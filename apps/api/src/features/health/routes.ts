@@ -23,11 +23,6 @@ app.openapi(
       },
       503: {
         description: "Service is unhealthy",
-        content: {
-          "application/json": {
-            schema: healthResponseSchema,
-          },
-        },
       },
     },
   }),

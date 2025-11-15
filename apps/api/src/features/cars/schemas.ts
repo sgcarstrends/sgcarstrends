@@ -13,8 +13,8 @@ export const CarQuerySchema = z
   .object({
     month: MonthSchema.optional(),
     make: z.string().optional(),
-    fuel_type: z.string().optional(),
-    vehicle_type: z.string().optional(),
+    fuelType: z.string().optional(),
+    vehicleType: z.string().optional(),
   })
   .strict();
 
@@ -106,8 +106,8 @@ export const MakeQuerySchema = z
 export const CarSchema = z.object({
   make: z.string(),
   model: z.string(),
-  fuel_type: z.string(),
-  vehicle_type: z.string(),
+  fuelType: z.string(),
+  vehicleType: z.string(),
   month: z.string(),
   number: z.number(),
 });

@@ -52,8 +52,8 @@ export const getCarsAggregatedByMonth = (month: string) =>
     .select({
       month: cars.month,
       make: cars.make,
-      fuel_type: cars.fuelType,
-      vehicle_type: cars.vehicleType,
+      fuelType: cars.fuelType,
+      vehicleType: cars.vehicleType,
       number: sql<number>`cast(sum(${cars.number}) as integer)`,
     })
     .from(cars)
@@ -157,7 +157,7 @@ export const getFuelTypeByMonth = (fuelType: string, month: string) => {
       .select({
         month: cars.month,
         make: cars.make,
-        fuel_type: cars.fuelType,
+        fuelType: cars.fuelType,
         count: sql<number>`cast(sum(${cars.number}) as integer)`,
       })
       .from(cars)
@@ -200,7 +200,7 @@ export const getVehicleTypeByMonth = (vehicleType: string, month: string) => {
       .select({
         month: cars.month,
         make: cars.make,
-        vehicle_type: cars.vehicleType,
+        vehicleType: cars.vehicleType,
         count: sql<number>`cast(sum(${cars.number}) as integer)`,
       })
       .from(cars)

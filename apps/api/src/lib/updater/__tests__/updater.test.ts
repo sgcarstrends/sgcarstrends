@@ -42,7 +42,7 @@ vi.mock("drizzle-orm", () => ({
 const mockTable = {
   month: "month",
   make: "make",
-  fuel_type: "fuel_type",
+  fuelType: "fuelType",
 } as any;
 
 describe("Updater", () => {
@@ -51,8 +51,8 @@ describe("Updater", () => {
   let updaterOptions: UpdaterOptions;
 
   const mockData = [
-    { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" },
-    { month: "2024-01", make: "HONDA", fuel_type: "Hybrid" },
+    { month: "2024-01", make: "TOYOTA", fuelType: "Petrol" },
+    { month: "2024-01", make: "HONDA", fuelType: "Hybrid" },
   ];
 
   beforeEach(() => {
@@ -68,7 +68,7 @@ describe("Updater", () => {
     updaterConfig = {
       table: mockTable,
       url: "https://example.com/data.zip",
-      keyFields: ["month", "make", "fuel_type"],
+      keyFields: ["month", "make", "fuelType"],
       csvTransformOptions: {},
     };
 
@@ -200,7 +200,7 @@ describe("Updater", () => {
         .map((_, i) => ({
           month: "2024-01",
           make: `MAKE_${i}`,
-          fuel_type: "Petrol",
+          fuelType: "Petrol",
         }));
 
       vi.mocked(processCsv).mockResolvedValue(largeDataSet);
@@ -318,7 +318,7 @@ describe("Updater", () => {
     it("should filter out existing records and insert new ones", async () => {
       // Mock existing records query
       const existingRecords = [
-        { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" },
+        { month: "2024-01", make: "TOYOTA", fuelType: "Petrol" },
       ];
       const mockSelect = {
         from: vi.fn().mockResolvedValue(existingRecords),

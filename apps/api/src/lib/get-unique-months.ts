@@ -1,11 +1,7 @@
 import { db } from "@sgcarstrends/database";
-import { desc } from "drizzle-orm";
-import type { PgTable } from "drizzle-orm/pg-core";
+import { desc, type Table } from "drizzle-orm";
 
-export const getUniqueMonths = async <T extends PgTable>(
-  table: T,
-  key = "month",
-) => {
+export const getUniqueMonths = async (table: Table, key = "month") => {
   try {
     const results = await db
       .selectDistinct({ month: table[key] })
