@@ -10,7 +10,7 @@ exports[`LastUpdated > should render 1`] = `
     <span
       class="underline"
     >
-      1 Jan 2025, 00:00AM
+      01 Jan 2025, 12:00am
     </span>
   </span>
 </div>

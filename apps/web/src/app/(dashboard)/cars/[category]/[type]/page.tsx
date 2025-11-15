@@ -1,3 +1,10 @@
+import { Badge } from "@sgcarstrends/ui/components/badge";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@sgcarstrends/ui/components/card";
 import { redis } from "@sgcarstrends/utils";
 import slugify from "@sindresorhus/slugify";
 import { CarOverviewTrends } from "@web/app/(dashboard)/cars/_components/overview-trends";
@@ -5,15 +12,8 @@ import { loadSearchParams } from "@web/app/(dashboard)/cars/[category]/[type]/se
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
-import Typography from "@web/components/typography";
-import { Badge } from "@web/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@web/components/ui/card";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { createPageMetadata } from "@web/lib/metadata";
 import {
   checkFuelTypeIfExist,
   checkVehicleTypeIfExist,
@@ -21,8 +21,7 @@ import {
   getDistinctVehicleTypes,
   getFuelTypeData,
   getVehicleTypeData,
-} from "@web/lib/cars/queries";
-import { createPageMetadata } from "@web/lib/metadata";
+} from "@web/queries/cars";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";

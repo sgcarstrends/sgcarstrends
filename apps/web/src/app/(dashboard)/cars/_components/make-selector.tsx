@@ -9,13 +9,19 @@ import { useMemo } from "react";
 type MakeSelectorProps = {
   makes: Make[];
   selectedMake: Make;
+  logoUrlMap?: Record<string, string>;
 };
 
 type LogoProps = {
   make: Make;
+  logoUrl?: string;
 };
 
-export const MakeSelector = ({ makes, selectedMake }: MakeSelectorProps) => {
+export const MakeSelector = ({
+  makes,
+  selectedMake,
+  logoUrlMap = {},
+}: MakeSelectorProps) => {
   const validSelectedMake = useMemo(() => {
     const regexSelectedMake = selectedMake.replace(
       /[^a-zA-Z0-9]/g,
@@ -33,13 +39,15 @@ export const MakeSelector = ({ makes, selectedMake }: MakeSelectorProps) => {
       }
       aria-label="Make"
       placeholder="Select Make"
-      startContent={<Logo make={selectedMake} />}
+      startContent={
+        <Logo make={selectedMake} logoUrl={logoUrlMap[slugify(selectedMake)]} />
+      }
       variant="underlined"
     >
       {makes.map((make) => (
         <AutocompleteItem key={make} textValue={make}>
           <div className="flex items-center gap-2">
-            <Logo make={make} />
+            <Logo make={make} logoUrl={logoUrlMap[slugify(make)]} />
             {make}
           </div>
         </AutocompleteItem>
@@ -48,12 +56,16 @@ export const MakeSelector = ({ makes, selectedMake }: MakeSelectorProps) => {
   );
 };
 
-const Logo = ({ make }: LogoProps) => (
-  <Image
-    src={`https://assets.sgcarstrends.com/logos/${slugify(make)}.png`}
-    alt={`${make} logo`}
-    width={512}
-    height={512}
-    className="size-6"
-  />
-);
+const Logo = ({ make, logoUrl }: LogoProps) => {
+  if (!logoUrl) return null;
+
+  return (
+    <Image
+      src={logoUrl}
+      alt={`${make} logo`}
+      width={512}
+      height={512}
+      className="size-6"
+    />
+  );
+};

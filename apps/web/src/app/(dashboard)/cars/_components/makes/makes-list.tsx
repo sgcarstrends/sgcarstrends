@@ -2,6 +2,7 @@
 
 import { Chip } from "@heroui/chip";
 import { Input } from "@heroui/input";
+import type { CarLogo } from "@logos/types";
 import {
   Makes,
   MakesSearchResults,
@@ -14,10 +15,24 @@ import { useMemo, useState } from "react";
 interface MakesListProps {
   makes: Make[];
   popularMakes: Make[];
+  logos?: CarLogo[];
 }
 
-export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
+export const MakesList = ({
+  makes,
+  popularMakes,
+  logos = [],
+}: MakesListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
+
+  const logoUrlMap = useMemo(() => {
+    return logos.reduce<Record<string, string>>((acc, logo) => {
+      if (logo.url) {
+        acc[logo.make] = logo.url;
+      }
+      return acc;
+    }, {});
+  }, [logos]);
 
   const { popular, others } = useMemo(() => {
     const popular = popularMakes.filter((make) => makes.includes(make));
@@ -60,7 +75,12 @@ export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
 
       {/* Popular Makes Section */}
       {!searchTerm && (
-        <Makes title="Popular Makes" makes={popular} isPopular={true} />
+        <Makes
+          title="Popular Makes"
+          makes={popular}
+          isPopular={true}
+          logoUrlMap={logoUrlMap}
+        />
       )}
 
       {/* All Makes Section */}
@@ -69,12 +89,17 @@ export const MakesList = ({ makes, popularMakes }: MakesListProps) => {
           title="All Makes"
           makes={[...popular, ...others]}
           showLetterFilter={true}
+          logoUrlMap={logoUrlMap}
         />
       )}
 
       {/* Search Results */}
       {searchTerm && (
-        <MakesSearchResults makes={filteredMakes} searchTerm={searchTerm} />
+        <MakesSearchResults
+          makes={filteredMakes}
+          searchTerm={searchTerm}
+          logoUrlMap={logoUrlMap}
+        />
       )}
 
       {filteredMakes.length === 0 && (

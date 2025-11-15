@@ -1,19 +1,19 @@
 "use client";
 
-import { CategoryInfo } from "@web/app/(dashboard)/cars/_components/category-info";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@web/components/ui/card";
+} from "@sgcarstrends/ui/components/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@web/components/ui/tooltip";
+} from "@sgcarstrends/ui/components/tooltip";
+import { CategoryInfo } from "@web/app/(dashboard)/cars/_components/category-info";
 import {
   Bike,
   Car,

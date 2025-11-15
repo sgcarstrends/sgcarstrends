@@ -1,3 +1,85 @@
+## [4.21.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.20.0...v4.21.0) (2025-11-15)
+
+### Features
+
+* **admin:** add Better Auth authentication ([fe969a8](https://github.com/sgcarstrends/sgcarstrends/commit/fe969a8bb55a451514f0d0a181d311474c8197e0))
+* **admin:** secure actions and add sign-out ([99aa039](https://github.com/sgcarstrends/sgcarstrends/commit/99aa039c9198ea95c37e9338a1c33d1a2ea0c10e))
+
+### Bug Fixes
+
+* **admin:** unable to login in local ([f70d578](https://github.com/sgcarstrends/sgcarstrends/commit/f70d57882263226cef0e2ebf9b2b71566c31f64d))
+
+## [4.20.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.19.2...v4.20.0) (2025-11-14)
+
+### Features
+
+* **web:** add sparkline trends to COE ([b773b1b](https://github.com/sgcarstrends/sgcarstrends/commit/b773b1b23856580bd9704657231fc802337053c6))
+
+## [4.19.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.19.1...v4.19.2) (2025-11-13)
+
+### Bug Fixes
+
+* **api:** correct tokeniser import path ([7597971](https://github.com/sgcarstrends/sgcarstrends/commit/7597971dea8bce72e6271d216acaee0959ad19c5))
+
+## [4.19.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.19.0...v4.19.1) (2025-11-13)
+
+### Bug Fixes
+
+* **api:** resolve logos routes type errors ([d1850a0](https://github.com/sgcarstrends/sgcarstrends/commit/d1850a096c8e88aadea91112b7fcff628dc7ef98))
+
+## [4.19.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.3...v4.19.0) (2025-11-12)
+
+### Features
+
+* **admin:** add blog regeneration feature ([1e64be6](https://github.com/sgcarstrends/sgcarstrends/commit/1e64be6040956578aef4566040c0d46a17dfe438))
+* **admin:** add maintenance mode controls ([03898f9](https://github.com/sgcarstrends/sgcarstrends/commit/03898f9278492c2e9d119d4a6949a489f7208358))
+
+## [4.18.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.2...v4.18.3) (2025-11-11)
+
+### Bug Fixes
+
+* **web:** add prefix matching for navigation ([ffa4ab9](https://github.com/sgcarstrends/sgcarstrends/commit/ffa4ab9c8b2d505a86f1335d5665ac57763a1ff5))
+
+## [4.18.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.1...v4.18.2) (2025-11-11)
+
+### Reverts
+
+* Revert "chore(web): temporary remove cache components" ([f03cb09](https://github.com/sgcarstrends/sgcarstrends/commit/f03cb0998f70e9f4323ee2d4e250412b26dca3a1))
+
+## [4.18.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.18.0...v4.18.1) (2025-11-11)
+
+### Bug Fixes
+
+* **web:** add placeholder image for makes ([f0a263d](https://github.com/sgcarstrends/sgcarstrends/commit/f0a263d1dbc8797ae637f6df84194b588224d8c3))
+
+## [4.18.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.17.1...v4.18.0) (2025-11-11)
+
+### Features
+
+* **logos:** implement API with Vercel Blob ([1d158ff](https://github.com/sgcarstrends/sgcarstrends/commit/1d158ffcaaf6ae2518da0791e949380482074b1a))
+* **logos:** implement API with Vercel Blob ([6bc1e37](https://github.com/sgcarstrends/sgcarstrends/commit/6bc1e37d12f615d7d5e644b46cece5f78ff8789b))
+* **logos:** migrate car-logos to monorepo ([8a77b38](https://github.com/sgcarstrends/sgcarstrends/commit/8a77b3804090309611af8195f2d5e16d406c1a87))
+* **logos:** migrate car-logos to monorepo ([07fa407](https://github.com/sgcarstrends/sgcarstrends/commit/07fa407dec7433bf5e99afad4c179e2ca89c60db))
+* **web:** auto-download missing car logos ([d777781](https://github.com/sgcarstrends/sgcarstrends/commit/d77778133640f2802c366632d08b3594c2b75a36))
+* **web:** integrate logos package with Vercel Blob ([1461c4c](https://github.com/sgcarstrends/sgcarstrends/commit/1461c4c51c331cfdc5e3ac4b1409b31afd43dce1))
+
+### Bug Fixes
+
+* **logos:** resolve ReDoS in brand name regex ([2b31abf](https://github.com/sgcarstrends/sgcarstrends/commit/2b31abf2c03f75c430fc6c44f8f77301c13dfd8b))
+
+## [4.17.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.17.0...v4.17.1) (2025-11-10)
+
+### Bug Fixes
+
+* **web:** errors in Vercel Analytics ([33d1d5a](https://github.com/sgcarstrends/sgcarstrends/commit/33d1d5a64be15c42b90086a1f6ec178d7f36426e))
+
+## [4.17.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.3...v4.17.0) (2025-11-09)
+
+### Features
+
+* **ui:** add shadcn components ([29bc23d](https://github.com/sgcarstrends/sgcarstrends/commit/29bc23dff1a60d96ef642f7b25c5d878e06b4816))
+* **ui:** create shared UI package ([a117be2](https://github.com/sgcarstrends/sgcarstrends/commit/a117be2abed3ef1dab9ca80f5115e4f87567ad01))
+
 ## [4.16.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.16.2...v4.16.3) (2025-11-08)
 
 ### Bug Fixes

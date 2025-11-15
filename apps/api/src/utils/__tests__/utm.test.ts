@@ -1,5 +1,5 @@
+import { addUTMParametersToURL, createSocialShareURL } from "@api/utils/utm";
 import { describe, expect, it } from "vitest";
-import { addUTMParametersToURL, createSocialShareURL } from "../utm";
 
 describe("UTM utilities", () => {
   describe("addUTMParametersToURL", () => {

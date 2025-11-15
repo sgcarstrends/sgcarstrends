@@ -1,6 +1,6 @@
+import { getLatestMonth } from "@api/lib/get-latest-month";
 import { db } from "@sgcarstrends/database";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { getLatestMonth } from "../get-latest-month";
 
 vi.mock("@sgcarstrends/database", () => ({
   db: {

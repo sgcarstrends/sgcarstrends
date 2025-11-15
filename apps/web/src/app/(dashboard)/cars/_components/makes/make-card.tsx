@@ -1,3 +1,4 @@
+import { Avatar } from "@heroui/avatar";
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import slugify from "@sindresorhus/slugify";
@@ -10,9 +11,14 @@ import Link from "next/link";
 interface MakeCardProps {
   make: Make;
   isPopular?: boolean;
+  logoUrl?: string;
 }
 
-export const MakeCard = ({ make, isPopular = false }: MakeCardProps) => {
+export const MakeCard = ({
+  make,
+  isPopular = false,
+  logoUrl,
+}: MakeCardProps) => {
   const href = `/cars/makes/${slugify(make)}`;
 
   return (
@@ -33,13 +39,22 @@ export const MakeCard = ({ make, isPopular = false }: MakeCardProps) => {
         )}
       </CardHeader>
       <CardBody>
-        <Image
-          alt={`${make} Logo`}
-          src={`https://assets.sgcarstrends.com/logos/${slugify(make)}.png`}
-          width={512}
-          height={512}
-          className="h-24 object-contain"
-        />
+        {logoUrl ? (
+          <Image
+            alt={`${make} Logo`}
+            src={logoUrl}
+            width={512}
+            height={512}
+            className="h-24 object-contain"
+          />
+        ) : (
+          <div className="flex justify-center">
+            <Avatar
+              name={make}
+              className="size-24 bg-primary object-contain text-2xl text-primary-foreground"
+            />
+          </div>
+        )}
       </CardBody>
       <CardFooter>
         <Typography.Text>{make}</Typography.Text>

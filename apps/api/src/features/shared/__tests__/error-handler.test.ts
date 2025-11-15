@@ -1,6 +1,6 @@
+import { withErrorHandling } from "@api/features/shared/error-handler";
 import type { Context } from "hono";
 import { describe, expect, it, vi } from "vitest";
-import { withErrorHandling } from "../error-handler";
 
 describe("withErrorHandling", () => {
   const mockContext = {
@@ -36,7 +36,7 @@ describe("withErrorHandling", () => {
       details: { id: 123 },
     });
 
-    const result = await wrappedHandler(mockContext);
+    await wrappedHandler(mockContext);
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       "Error in fetching data:",

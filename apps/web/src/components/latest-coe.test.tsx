@@ -1,50 +1,40 @@
 import { render, screen } from "@testing-library/react";
-import type { COEResult } from "@web/types";
-import { LatestCOE } from "./coe/latest-coe";
+import type { CoeMonthlyPremium } from "@web/queries/coe";
+import type { COECategory, COEResult } from "@web/types";
+import { LatestCoePremium } from "./coe/latest-coe-premium";
 
 vi.mock("@web/components/animated-number", () => ({
   AnimatedNumber: ({ value }: { value: number }) => <span>{value}</span>,
 }));
 
-vi.mock("next/link", () => ({
-  default: ({ href, children, ...props }: any) => (
-    <a href={href} {...props}>
-      {children}
-    </a>
-  ),
+vi.mock("@web/components/charts/sparkline", () => ({
+  Sparkline: () => <div data-testid="sparkline">Sparkline</div>,
 }));
 
-describe("LatestCOE", () => {
+describe("LatestCoe", () => {
   const mockResults: COEResult[] = [
     {
       month: "2024-01",
-      bidding_no: 1,
-      vehicle_class: "Category A",
+      biddingNo: 1,
+      vehicleClass: "Category A",
       quota: 100,
-      bids_success: 90,
-      bids_received: 120,
+      bidsSuccess: 90,
+      bidsReceived: 120,
       premium: 95000,
     },
     {
       month: "2024-01",
-      bidding_no: 1,
-      vehicle_class: "Category B",
+      biddingNo: 1,
+      vehicleClass: "Category B",
       quota: 80,
-      bids_success: 75,
-      bids_received: 100,
+      bidsSuccess: 75,
+      bidsReceived: 100,
       premium: 105000,
     },
   ];
 
-  it("should render title and view all link", () => {
-    render(<LatestCOE results={mockResults} />);
-
-    expect(screen.getByText("Latest COE Results")).toBeInTheDocument();
-    expect(screen.getByText("View all")).toBeInTheDocument();
-  });
-
   it("should render all COE results", () => {
-    render(<LatestCOE results={mockResults} />);
+    render(<LatestCoePremium results={mockResults} />);
 
     expect(screen.getByText("Category A")).toBeInTheDocument();
     expect(screen.getByText("Category B")).toBeInTheDocument();
@@ -53,15 +43,36 @@ describe("LatestCOE", () => {
   });
 
   it("should render with empty results", () => {
-    render(<LatestCOE results={[]} />);
+    const { container } = render(<LatestCoePremium results={[]} />);
 
-    expect(screen.getByText("Latest COE Results")).toBeInTheDocument();
+    expect(container).toBeEmptyDOMElement();
   });
 
-  it("should have link to COE page", () => {
-    render(<LatestCOE results={mockResults} />);
+  it("should render sparklines when trends data is provided", () => {
+    const mockTrends: Record<COECategory, CoeMonthlyPremium[]> = {
+      "Category A": [
+        { month: "2024-01", premium: 90000, biddingNo: 1 },
+        { month: "2024-02", premium: 95000, biddingNo: 1 },
+      ],
+      "Category B": [
+        { month: "2024-01", premium: 100000, biddingNo: 1 },
+        { month: "2024-02", premium: 105000, biddingNo: 1 },
+      ],
+      "Category C": [],
+      "Category D": [],
+      "Category E": [],
+    };
 
-    const link = screen.getByText("View all").closest("a");
-    expect(link).toHaveAttribute("href", "/coe");
+    render(<LatestCoePremium results={mockResults} trends={mockTrends} />);
+
+    const sparklines = screen.getAllByTestId("sparkline");
+    expect(sparklines).toHaveLength(2);
+  });
+
+  it("should not render sparklines when trends data is not provided", () => {
+    render(<LatestCoePremium results={mockResults} />);
+
+    const sparklines = screen.queryAllByTestId("sparkline");
+    expect(sparklines).toHaveLength(0);
   });
 });

@@ -96,15 +96,15 @@ export const SYSTEM_INSTRUCTIONS = {
 
     Data Structure:
     The data is provided in pipe-delimited format with headers:
-    month|bidding_no|vehicle_class|quota|bids_received|bids_success|premium
+    month|biddingNo|vehicleClass|quota|bidsReceived|bidsSuccess|premium
 
     Where:
     - month: Month/year of COE bidding (text)
-    - bidding_no: 1 (first) or 2 (second) bidding exercise (integer)
-    - vehicle_class: Category A (≤1600cc & ≤130bhp), B (>1600cc or >130bhp), C (goods vehicles & buses), D (motorcycles), E (open category) (text)
+    - biddingNo: 1 (first) or 2 (second) bidding exercise (integer)
+    - vehicleClass: Category A (≤1600cc & ≤130bhp), B (>1600cc or >130bhp), C (goods vehicles & buses), D (motorcycles), E (open category) (text)
     - quota: Total certificates available (integer)
-    - bids_received: Number of bids submitted (integer)
-    - bids_success: Number of successful bids (integer)
+    - bidsReceived: Number of bids submitted (integer)
+    - bidsSuccess: Number of successful bids (integer)
     - premium: Final premium amount in SGD (integer)
 
     Required Structure and Guidelines:
@@ -131,12 +131,12 @@ export const SYSTEM_INSTRUCTIONS = {
 
     4. DATA TABLES:
        - Include these 2 tables in markdown format with H3 headers:
-         a) "First Bidding Exercise Results": Filter data where bidding_no = 1
-         b) "Second Bidding Exercise Results": Filter data where bidding_no = 2
+         a) "First Bidding Exercise Results": Filter data where biddingNo = 1
+         b) "Second Bidding Exercise Results": Filter data where biddingNo = 2
        - CRITICAL: Use properly capitalised column headers in title case:
-         * "Vehicle Class" (not vehicle_class)
+         * "Vehicle Class" (not vehicleClass)
          * "Quota" (for quota)
-         * "Bids Received" (not bids_received)
+         * "Bids Received" (not bidsReceived)
          * "Bids Success" (not bids_success)
          * "Premium (SGD)" (not premium)
          * "Over-subscription %" (calculated field)

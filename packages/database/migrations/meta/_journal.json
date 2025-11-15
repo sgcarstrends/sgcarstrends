@@ -36,6 +36,34 @@
       "when": 1757843588053,
       "tag": "0004_lucky_secret_warriors",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1763038979700,
+      "tag": "0005_calm_northstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1763040589722,
+      "tag": "0006_natural_hulk",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1763047200445,
+      "tag": "0007_great_sinister_six",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1763196770120,
+      "tag": "0008_careful_cloak",
+      "breakpoints": true
     }
   ]
 }

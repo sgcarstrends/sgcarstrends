@@ -1,8 +1,11 @@
 {
   "$schema": "../../node_modules/@biomejs/biome/configuration_schema.json",
+  "root": false,
   "extends": "//",
-  "files": {
-    "includes": ["**", "!!src/components/ui"]
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
   },
   "linter": {
     "rules": {
@@ -23,11 +26,6 @@
     "domains": {
       "next": "recommended",
       "react": "recommended"
-    }
-  },
-  "css": {
-    "parser": {
-      "tailwindDirectives": true
     }
   }
 }

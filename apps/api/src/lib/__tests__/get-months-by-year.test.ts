@@ -1,5 +1,5 @@
+import { getMonthsByYear } from "@api/lib/get-months-by-year";
 import { describe, expect, it } from "vitest";
-import { getMonthsByYear } from "../get-months-by-year";
 
 describe("getMonthsByYear", () => {
   it("should group months by year", () => {

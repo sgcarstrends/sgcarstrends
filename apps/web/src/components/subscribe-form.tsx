@@ -3,7 +3,7 @@
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { addToast } from "@heroui/toast";
-import { subscribeAction } from "@web/actions/subscribe-action";
+import { subscribeAction } from "@web/actions";
 import { Mail } from "lucide-react";
 
 export const SubscribeForm = () => {

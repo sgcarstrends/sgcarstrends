@@ -1,3 +1,10 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@sgcarstrends/ui/components/card";
 import { redis } from "@sgcarstrends/utils";
 import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
 import {
@@ -8,21 +15,14 @@ import {
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@web/components/ui/card";
 import { LAST_UPDATED_COE_KEY } from "@web/config";
 import {
   calculateCategoryStats,
   groupCOEResultsByBidding,
 } from "@web/lib/coe/calculations";
-import { getCOEMonths, getCOEResultsFiltered } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
+import { getCoeMonths, getCoeResultsFiltered } from "@web/queries/coe";
 import type { COECategory } from "@web/types";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -97,8 +97,8 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
   const endDate = end || defaultEnd;
 
   const [coeResults, monthsResult, lastUpdated] = await Promise.all([
-    getCOEResultsFiltered(undefined, startDate, endDate),
-    getCOEMonths(),
+    getCoeResultsFiltered(undefined, startDate, endDate),
+    getCoeMonths(),
     redis.get<number>(LAST_UPDATED_COE_KEY),
   ]);
 
@@ -106,7 +106,7 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
 
   // Filter data for the specific category
   const categoryResults = coeResults.filter(
-    (result) => result.vehicle_class === category,
+    (result) => result.vehicleClass === category,
   );
 
   const data = groupCOEResultsByBidding(categoryResults);

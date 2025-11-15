@@ -1,12 +1,12 @@
-import { Platform } from "@api/types/social-media";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import type {
   PlatformHandler,
   PlatformHealth,
   PublishResult,
   SocialMessage,
-} from "../interfaces/platform-handler";
-import { SocialMediaManager } from "../social-media-manager";
+} from "@api/lib/social/interfaces/platform-handler";
+import { SocialMediaManager } from "@api/lib/social/social-media-manager";
+import { Platform } from "@api/types/social-media";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock platform handler
 const createMockHandler = (

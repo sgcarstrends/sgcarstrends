@@ -23,10 +23,7 @@ pnpm test:e2e:ui        # Run E2E tests with Playwright UI
 pnpm lint               # Run Next.js ESLint
 pnpm format             # Format code with Biome
 
-# Deployment
-pnpm deploy:dev         # Deploy to dev environment
-pnpm deploy:staging     # Deploy to staging environment
-pnpm deploy:prod        # Deploy to production environment
+# Deployment (see `sst-deployment` skill)
 ```
 
 ## Architecture Overview
@@ -58,12 +55,16 @@ src/
 │   │   ├── _actions/              # Blog-specific server actions (co-located)
 │   │   └── _components/           # Blog-specific components (co-located)
 │   └── store/                     # Zustand store slices
-├── actions/                       # Shared server actions (cars, COE)
+├── actions/                       # Server actions (newsletter subscription)
+├── queries/                       # Data fetching queries (cars, COE, logos)
+│   ├── cars/                      # Car data queries with comprehensive tests
+│   ├── coe/                       # COE data queries with comprehensive tests
+│   ├── logos/                     # Logo queries
+│   └── __tests__/                 # Comprehensive query test suite
 ├── components/                    # Shared React components
 │   ├── coe/                       # Shared COE components (latest-coe.tsx for home page)
 │   ├── dashboard/                 # Shared dashboard components (navigation, skeletons)
 │   ├── shared/                    # Generic shared components (chips, currency, metric-card)
-│   ├── ui/                        # shadcn/ui base components (DO NOT MODIFY)
 │   └── [others]                   # Shared components used across multiple routes
 ├── config/                        # App configuration (DB, Redis, navigation)
 ├── lib/                           # Shared data fetching and business logic
@@ -96,14 +97,15 @@ Route-specific server actions use private folders:
 **Keep Centralised When:**
 
 - Component used by 3+ different routes
-- Part of design system (`components/ui/` - shadcn/ui)
-- Shared business logic (`actions/`, `lib/`)
+- Part of design system (use `@sgcarstrends/ui` shared package for shadcn/ui components)
+- Shared business logic (`queries/`, `lib/`)
+- Server actions used across multiple routes (`actions/`)
 - Generic utilities (`components/shared/`)
 
 **Co-locate When:**
 
 - Component only used by single route or route segment
-- Action/query specific to one feature area
+- Action/query specific to one feature area (use `_actions/` or `_queries/` in route folders)
 - Utility function only needed in one place
 
 #### Import Strategy
@@ -115,9 +117,14 @@ Route-specific server actions use private folders:
 import {ProgressBar} from "@web/app/blog/_components/progress-bar";
 import {KeyStatistics} from "@web/app/(dashboard)/(home)/_components/key-statistics";
 
+// ✅ Shared queries and actions via path alias
+import {getCarRegistrations} from "@web/queries/cars";
+import {getLatestCOE} from "@web/queries/coe";
+import {subscribeAction} from "@web/actions";
+
 // ✅ Shared components via existing alias
 import {MetricCard} from "@web/components/shared/metric-card";
-import {Button} from "@web/components/ui/button";
+import {Button} from "@sgcarstrends/ui/components/button";
 
 // ❌ Avoid relative imports for co-located code
 import {ProgressBar} from "../_components/progress-bar"; // Don't use
@@ -145,12 +152,25 @@ connection configured in `src/config/db.ts`.
 
 **Caching**: Redis (Upstash) for API response caching, rate limiting, and blog view tracking.
 
-**Blog Functionality**: Server actions in `src/app/blog/_actions/` handle:
+**Data Queries**: Organized in `src/queries/` directory with comprehensive test coverage:
 
-- Blog post retrieval and filtering
-- View counting with Redis-based tracking
-- Related posts discovery using tag-based associations
-- SEO metadata and reading time calculations
+- **Car Queries** (`queries/cars/`): Registration data, market insights, makes, yearly statistics, filter options
+- **COE Queries** (`queries/coe/`): Historical results, latest results, available months, PQP rates
+- **Logo Queries** (`queries/logos/`): Dynamic logo loading via `@sgcarstrends/logos` package with Vercel Blob storage
+- All queries include comprehensive unit tests in `queries/__tests__/`
+
+**Car Logos**: Dynamic logo loading via `@sgcarstrends/logos` package with Vercel Blob storage:
+
+- Logo queries in `src/queries/logos/` fetch logos from Vercel Blob
+- `getLogoUrlMap()` pre-fetches all logos for the makes list page
+- `getCarLogo(brand)` fetches individual logos for make detail pages
+- Logos cached in Redis (24-hour TTL for individual logos, 1-hour TTL for list)
+- Automatic fallback when logos are unavailable (components hide logo display)
+
+**Server Actions**: Organized in `src/actions/` directory for write operations:
+
+- Newsletter subscription (`actions/newsletter/subscribe.ts`)
+- Blog-specific actions co-located in `src/app/blog/_actions/` (view counting, related posts)
 
 **Social Media Integration**: Implements domain-based redirect routes in `src/app/(social)/` that provide trackable,
 SEO-friendly URLs for all social media platforms. Each route includes standardised UTM parameters for analytics
@@ -180,7 +200,7 @@ philosophy inspired by Vercel, Linear, and Stripe. Uses lighter font weights (se
 secondary headings/labels, normal for body text) with hierarchy driven by size and spacing.
 See [Typography System](#typography-system) section below.
 
-**UI Components**: Located in `src/components/ui/` following HeroUI patterns with professional design system.
+**UI Components**: Base UI components (shadcn/ui) are imported from the shared `@sgcarstrends/ui` package. HeroUI components are also used throughout the application for professional design system integration.
 
 **Charts**: Recharts-based components in `src/components/charts/` for data visualization.
 
@@ -472,6 +492,7 @@ Environment variables managed through SST config:
 
 - `DATABASE_URL`: Neon PostgreSQL connection
 - `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
+- `BLOB_READ_WRITE_TOKEN`: Vercel Blob storage access for car logos (via `@sgcarstrends/logos`)
 - `SG_CARS_TRENDS_API_TOKEN`: External API authentication
 - `APP_ENV`: Environment stage (dev/staging/prod)
 - `NEXT_PUBLIC_APP_ENV`: Client-side environment stage
@@ -518,13 +539,12 @@ The web application uses Vercel Related Projects for automatic API URL resolutio
 
 ### Deployment
 
-Multi-stage deployment via SST:
-
+Multi-stage deployment via SST with domain mapping:
 - **dev**: `dev.sgcarstrends.com`
 - **staging**: `staging.sgcarstrends.com`
 - **prod**: `sgcarstrends.com` (apex domain)
 
-Infrastructure uses AWS Lambda with ARM64 architecture and Cloudflare DNS.
+See `sst-deployment` skill for deployment workflows and infrastructure details.
 
 ## Development Notes
 

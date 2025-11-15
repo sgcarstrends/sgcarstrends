@@ -1,7 +1,7 @@
 import { NEWSLETTER_FROM_EMAIL, resend } from "@api/config/resend";
+import { createMonthlyNewsletterContent } from "@api/features/newsletter/audience-service";
 import { options } from "@api/lib/workflows/options";
 import { createWorkflow } from "@upstash/workflow/hono";
-import { createMonthlyNewsletterContent } from "./audience-service";
 
 export const newsletterWorkflow = createWorkflow(
   async (context) => {

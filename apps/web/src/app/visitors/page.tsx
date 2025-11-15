@@ -1,8 +1,8 @@
+import { Card, CardContent } from "@sgcarstrends/ui/components/card";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
-import { Card, CardContent } from "@web/components/ui/card";
 import { VisitorsAnalytics } from "@web/components/visitors-analytics";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -23,12 +23,12 @@ export const generateMetadata = (): Metadata => {
 };
 
 const VisitorsPage = async () => {
+  "use cache";
+
   let data: AnalyticsData;
 
   try {
-    const response = await fetch(
-      new URL(`${process.env.NEXT_PUBLIC_SITE_URL}/api/analytics`),
-    );
+    const response = await fetch(`${SITE_URL}/api/analytics`);
     if (!response.ok) {
       throw new Error("Failed to fetch analytics data");
     }

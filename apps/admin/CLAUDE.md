@@ -36,7 +36,7 @@ system monitoring.
 ### Tech Stack
 
 - **Framework**: Next.js 15.4.7 with App Router and React 19.1.0
-- **UI Framework**: shadcn/ui components built on Radix UI primitives
+- **UI Framework**: `@sgcarstrends/ui` shared component library with shadcn/ui and Radix UI primitives
 - **Styling**: Tailwind CSS v4.1.11 with shadcn/ui design system
 - **State Management**: Zustand v5.0.6 for client-side state
 - **Data Fetching**: TanStack Query v5.84.1 (React Query)
@@ -50,20 +50,17 @@ system monitoring.
     - **page.tsx**: Dashboard overview with system status cards
     - **content/**: Content management pages (announcements, etc.)
 - **src/components/**: React components
-    - **app-sidebar.tsx**: Main navigation sidebar using shadcn/ui Sidebar components
-    - **ui/**: shadcn/ui components (badge, button, card, dialog, sidebar, etc.)
-- **src/hooks/**: Custom React hooks (use-mobile.ts)
-- **src/lib/utils.ts**: Utility functions including cn() helper for class merging
+    - **app-sidebar.tsx**: Main navigation sidebar using `@sgcarstrends/ui` Sidebar components
 
 ### shadcn/ui Integration
 
-This project uses shadcn/ui components extensively:
+This project uses shadcn/ui components from the shared `@sgcarstrends/ui` package:
 
-- **Component Location**: All shadcn/ui components are in `src/components/ui/`
-- **Configuration**: `components.json` contains shadcn/ui configuration
-- **Styling**: Uses Tailwind CSS with shadcn/ui's design tokens and CSS variables
-- **Icons**: Lucide React icons integrated with shadcn/ui components
-- **Path Alias**: `@admin/*` points to `src/*` for clean imports
+- **Component Location**: Import from `@sgcarstrends/ui/components/*` (e.g., `@sgcarstrends/ui/components/button`)
+- **Configuration**: `components.json` maintains shadcn/ui configuration and points to the shared package
+- **Styling**: Import global styles from `@sgcarstrends/ui/globals.css`
+- **Utilities**: Shared hooks and utilities available from `@sgcarstrends/ui/hooks/*` and `@sgcarstrends/ui/lib/*`
+- **Path Alias**: `@admin/*` points to `src/*` for local admin-specific code
 
 ### Navigation Structure
 
@@ -140,13 +137,14 @@ For detailed spacing conventions, examples, and rationale, see [apps/web/CLAUDE.
 
 ## shadcn/ui Component Usage
 
-When working with components, use the existing shadcn/ui patterns:
+When working with components, use the shared UI package patterns:
 
-- Import from `@admin/components/ui/[component-name]`
+- Import from `@sgcarstrends/ui/components/[component-name]` (e.g., `@sgcarstrends/ui/components/button`)
+- Import utilities from `@sgcarstrends/ui/lib/utils` for the cn() helper function
+- Import hooks from `@sgcarstrends/ui/hooks/*` (e.g., `@sgcarstrends/ui/hooks/use-mobile`)
 - Use proper TypeScript interfaces and ref forwarding
 - Follow shadcn/ui styling conventions with CSS variables
 - Utilise component variants and size props where available
-- Use the cn() utility function for conditional classes
 
 ## Workspace Dependencies
 
@@ -154,6 +152,7 @@ This admin dashboard is part of the SG Cars Trends monorepo and uses shared pack
 
 - **@sgcarstrends/database**: Database schema and types
 - **@sgcarstrends/types**: Shared TypeScript definitions
+- **@sgcarstrends/ui**: Shared UI component library with shadcn/ui, Radix UI, and Tailwind CSS
 - **@sgcarstrends/utils**: Common utility functions including Redis configuration
 
 ## Current Status

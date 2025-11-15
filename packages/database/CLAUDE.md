@@ -35,18 +35,8 @@ platform. It uses Drizzle ORM v0.44.3 with PostgreSQL to manage:
 
 ### Development Workflow
 
-```bash
-# 1. Modify schema files in src/schema/
-# 2. Generate migration
-pnpm generate
-
-# 3. Review generated migration in migrations/
-# 4. Apply migration to database
-pnpm migrate
-
-# 5. Verify schema consistency
-pnpm migrate:check
-```
+Modify schema → Generate migration → Apply to database → Verify consistency.
+See `schema-design` skill for schema change workflows and migration best practices.
 
 ## File Structure
 
@@ -55,7 +45,7 @@ src/
 ├── schema/
 │   ├── index.ts         # Main schema exports
 │   ├── cars.ts          # Car registration table schema
-│   ├── coe.ts           # COE bidding tables (coe, coePQP)
+│   ├── coe.ts           # COE bidding tables (coe, pqp)
 │   ├── posts.ts         # Blog posts table schema
 │   └── analytics.ts     # Analytics tracking table schema
 ├── client.ts            # Drizzle client setup
@@ -66,6 +56,12 @@ src/
 
 ## Database Schema
 
+### Naming Conventions
+
+**Table names**: `snake_case` (e.g., `cars`, `coe`, `pqp`)
+**Column names**: `camelCase` (e.g., `vehicleClass`, `biddingNo`, `fuelType`)
+**Indexes**: Auto-generated names (no explicit naming required)
+
 ### Cars Table (`cars`)
 
 Stores monthly vehicle registration data from LTA DataMall.
@@ -73,21 +69,19 @@ Stores monthly vehicle registration data from LTA DataMall.
 **Columns:**
 
 - `id`: UUID primary key (auto-generated)
-- `month`: Text (YYYY-MM format, e.g., "2024-01")
-- `make`: Text (vehicle manufacturer, e.g., "Toyota", "BMW")
-- `importer_type`: Text (registration type)
-- `fuel_type`: Text ("Petrol", "Diesel", "Electric", "Hybrid")
-- `vehicle_type`: Text ("Cars", "Motor cycles", "Buses", etc.)
-- `number`: Integer (number of registrations)
+- `month`: Text, NOT NULL (YYYY-MM format, e.g., "2024-01")
+- `make`: Text, NOT NULL (vehicle manufacturer, e.g., "Toyota", "BMW")
+- `importerType`: Text (registration type)
+- `fuelType`: Text, NOT NULL ("Petrol", "Diesel", "Electric", "Hybrid")
+- `vehicleType`: Text, NOT NULL ("Cars", "Motor cycles", "Buses", etc.)
+- `number`: Integer, default 0 (number of registrations)
 
 **Indexes:**
 
-- `month_make_idx`: Compound index for month + make queries
-- `month_idx`: Month-based filtering
-- `make_idx`: Make-based filtering
-- `fuel_type_idx`: Fuel type analysis
-- `make_fuel_type_idx`: Compound index for make + fuel type
-- `number_idx`: Registration volume sorting
+- Compound index on `month` + `make` for efficient queries
+- Individual indexes on `month`, `make`, `fuelType` for filtering
+- Compound index on `make` + `fuelType` for combined filtering
+- Index on `number` for registration volume sorting
 
 ### COE Tables
 
@@ -97,24 +91,40 @@ Stores Certificate of Entitlement bidding exercise results.
 
 **Columns:**
 
-- `id`: UUID primary key
-- `month`: Text (bidding month)
-- `bidding_no`: Integer (exercise number, 1 or 2)
-- `vehicle_class`: Text (COE category)
-- `quota`: Integer (available certificates)
-- `bids_received`: Integer (total bids submitted)
-- `premium`: Numeric (winning premium in SGD)
+- `id`: UUID primary key (auto-generated)
+- `month`: Text, NOT NULL (bidding month, YYYY-MM format)
+- `biddingNo`: Integer (exercise number, 1 or 2)
+- `vehicleClass`: Text, NOT NULL (COE category: "A", "B", "C", "D", "E")
+- `quota`: Integer, default 0 (available certificates)
+- `bidsSuccess`: Integer, default 0 (successful bids)
+- `bidsReceived`: Integer, default 0 (total bids submitted)
+- `premium`: Integer, default 0 (winning premium in SGD)
 
-#### COE Prevailing Quota Premium (`coePQP`)
+**Indexes:**
 
-Stores monthly PQP rates for immediate vehicle registration.
+- Compound index on `month` + `vehicleClass`
+- Individual index on `vehicleClass`
+- Compound index on `month` + `biddingNo`
+- Index on `premium` for sorting by price
+- Compound index on `bidsSuccess` + `bidsReceived` for success rate analysis
+- Descending compound index on `month`, `biddingNo`, `vehicleClass` for latest results
+
+#### Prevailing Quota Premium (`pqp`)
+
+Stores monthly PQP rates for immediate vehicle registration. Formerly named `coe_pqp`, renamed to `pqp` for clarity.
 
 **Columns:**
 
-- `id`: UUID primary key
-- `month`: Text (month)
-- `vehicle_class`: Text (COE category)
-- `premium`: Numeric (PQP rate in SGD)
+- `id`: UUID primary key (auto-generated)
+- `month`: Text, NOT NULL (month, YYYY-MM format)
+- `vehicleClass`: Text, NOT NULL (COE category)
+- `pqp`: Integer, default 0 (PQP rate in SGD)
+
+**Indexes:**
+
+- Compound index on `month` + `vehicleClass`
+- Individual index on `vehicleClass`
+- Index on `pqp` for sorting by rate
 
 ### Blog Posts (`posts`)
 
@@ -122,27 +132,21 @@ Stores LLM-generated blog content with comprehensive metadata.
 
 **Columns:**
 
-- `id`: UUID primary key
-- `title`: Text (blog post title)
-- `slug`: Text (URL-friendly identifier, unique)
-- `content`: Text (Markdown content)
-- `excerpt`: Text (short summary)
-- `published_at`: Timestamp (publication date)
-- `created_at`: Timestamp (creation date)
-- `updated_at`: Timestamp (last modification)
-- `tags`: Text array (content categorization)
-- `reading_time`: Integer (estimated minutes)
-- `view_count`: Integer (reader analytics)
-- `llm_model`: Text (AI model used for generation)
-- `data_month`: Text (source data month)
-- `data_type`: Text ("cars" or "coe")
+- `id`: UUID primary key (auto-generated)
+- `title`: Text, NOT NULL (blog post title)
+- `slug`: Text, NOT NULL, UNIQUE (URL-friendly identifier)
+- `content`: Text, NOT NULL (Markdown content)
+- `metadata`: JSONB (flexible metadata storage)
+- `month`: Text (source data month, YYYY-MM format)
+- `dataType`: Text (source data type: "cars" or "coe")
+- `createdAt`: Timestamp, NOT NULL, default now() (creation date)
+- `modifiedAt`: Timestamp, NOT NULL, default now() (last modification)
+- `publishedAt`: Timestamp (publication date, nullable for drafts)
 
 **Indexes:**
 
-- `slug_idx`: Unique index for URL routing
-- `published_at_idx`: Chronological sorting
-- `tags_idx`: Tag-based filtering
-- `data_month_idx`: Data period filtering
+- Unique constraint on `slug` for URL routing
+- Compound unique constraint on `month` + `dataType` to prevent duplicate posts
 
 ### Analytics (`analyticsTable`)
 
@@ -150,16 +154,15 @@ Tracks page views and visitor metrics for performance monitoring.
 
 **Columns:**
 
-- `id`: UUID primary key
-- `pathname`: Text (page URL path)
-- `views`: Integer (view count)
-- `visitors`: Integer (unique visitor count)
-- `updated_at`: Timestamp (last update)
-
-**Indexes:**
-
-- `pathname_idx`: Path-based lookups
-- `updated_at_idx`: Temporal sorting
+- `id`: Serial primary key (auto-incrementing integer)
+- `date`: Timestamp with timezone, default now() (event timestamp)
+- `pathname`: Text, NOT NULL (page URL path)
+- `referrer`: Text (referring URL)
+- `country`: Text (visitor country)
+- `flag`: Text (country flag emoji)
+- `city`: Text (visitor city)
+- `latitude`: Text (geographic coordinate)
+- `longitude`: Text (geographic coordinate)
 
 ## TypeScript Integration
 
@@ -171,12 +174,16 @@ Each schema file exports corresponding TypeScript types:
 // Insert types (for creating new records)
 export type InsertCar = typeof cars.$inferInsert;
 export type InsertCOE = typeof coe.$inferInsert;
+export type InsertPqp = typeof pqp.$inferInsert;
 export type InsertPost = typeof posts.$inferInsert;
+export type InsertAnalytics = typeof analyticsTable.$inferInsert;
 
 // Select types (for query results)
 export type SelectCar = typeof cars.$inferSelect;
 export type SelectCOE = typeof coe.$inferSelect;
+export type SelectPqp = typeof pqp.$inferSelect;
 export type SelectPost = typeof posts.$inferSelect;
+export type SelectAnalytics = typeof analyticsTable.$inferSelect;
 ```
 
 ### Usage in Applications
@@ -210,10 +217,12 @@ const carData: SelectCar[] = await db.select().from(cars);
 
 ### Schema Design Patterns
 
-- Use `uuid().defaultRandom().primaryKey()` for all primary keys
-- Add strategic indexes for common query patterns
-- Use appropriate column types (text, integer, numeric, timestamp)
-- Include created_at/updated_at timestamps for audit trails
+- **Column naming**: `camelCase` (e.g., `vehicleClass`, `biddingNo`)
+- **Primary keys**: UUID for most tables, serial for analytics
+- **Constraints**: NOT NULL for core columns, defaults for numeric fields
+- **Timestamps**: Include `createdAt`/`modifiedAt` for audit trails
+
+See `schema-design` skill for detailed patterns and indexing strategies.
 
 ### Type Safety
 
@@ -224,10 +233,7 @@ const carData: SelectCar[] = await db.select().from(cars);
 
 ### Performance Optimization
 
-- Create compound indexes for multi-column queries
-- Index foreign key columns for join performance
-- Consider partial indexes for filtered queries
-- Monitor query performance and add indexes as needed
+Add indexes based on query patterns and monitor performance. See `query-optimization` skill for indexing strategies and query tuning.
 
 ## Environment Configuration
 
@@ -272,21 +278,21 @@ Common query patterns for each table:
 // Cars: Monthly registration data
 await db.select().from(cars).where(eq(cars.month, "2024-01"));
 
-// COE: Latest bidding results  
+// COE: Latest bidding results
 await db.select().from(coe).orderBy(desc(coe.month));
 
+// PQP: Prevailing quota premium rates
+await db.select().from(pqp).where(eq(pqp.month, "2024-01"));
+
 // Posts: Published blog content
-await db.select().from(posts).where(isNotNull(posts.published_at));
+await db.select().from(posts).where(isNotNull(posts.publishedAt));
 ```
 
 ## Best Practices
 
 ### Schema Evolution
 
-- Always generate migrations for schema changes
-- Test migrations on development data before production
-- Keep migration files in version control
-- Document breaking changes in schema evolution
+Always generate migrations and test before production. See `schema-design` skill for migration workflows and breaking change management.
 
 ### Type Management
 

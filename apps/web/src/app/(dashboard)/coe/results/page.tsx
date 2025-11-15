@@ -1,20 +1,20 @@
-import { COECategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
-import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
-import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
-import { PageHeader } from "@web/components/page-header";
-import { StructuredData } from "@web/components/structured-data";
-import { TrendTable } from "@web/components/tables/coe-results-table";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@web/components/ui/card";
+} from "@sgcarstrends/ui/components/card";
+import { COECategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
+import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
+import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
+import { PageHeader } from "@web/components/page-header";
+import { StructuredData } from "@web/components/structured-data";
+import { TrendTable } from "@web/components/tables/coe-results-table";
 import { fetchCOEPageData } from "@web/lib/coe/page-data";
-import { getLatestCOEResults } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
+import { getLatestCoeResults } from "@web/queries/coe";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 
@@ -27,10 +27,10 @@ const description =
   "Explore historical Certificate of Entitlement (COE) price trends and bidding results for car registrations in Singapore.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const results = await getLatestCOEResults();
+  const results = await getLatestCoeResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
-      category[current.vehicle_class] = current.premium;
+      category[current.vehicleClass] = current.premium;
       return category;
     },
     {},

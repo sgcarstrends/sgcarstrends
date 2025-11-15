@@ -1,6 +1,6 @@
 {
   "name": "sgcarstrends",
-  "version": "4.16.3",
+  "version": "4.21.0",
   "description": "Monorepo for SG Cars Trends",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -9,6 +9,7 @@
     "dev": "sst dev --stage local",
     "lint": "turbo lint",
     "format": "turbo format",
+    "start": "turbo start",
     "test": "turbo test",
     "test:coverage": "turbo test:coverage",
     "test:watch": "turbo test:watch",
@@ -42,7 +43,8 @@
     "db:push": "turbo run @sgcarstrends/database#push",
     "db:drop": "turbo run @sgcarstrends/database#drop",
     "docs:build": "turbo run @sgcarstrends/docs#build",
-    "docs:dev": "turbo run @sgcarstrends/docs#dev"
+    "docs:dev": "turbo run @sgcarstrends/docs#dev",
+    "auth:generate": "turbo run auth:generate"
   },
   "dependencies": {
     "sst": "3.17.21"
@@ -57,14 +59,13 @@
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.0",
     "@semantic-release/release-notes-generator": "^14.0.1",
-    "@types/aws-lambda": "8.10.152",
     "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "conventional-changelog-conventionalcommits": "^9.1.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
     "semantic-release": "^24.0.0",
-    "turbo": "^2.6.0",
+    "turbo": "^2.6.1",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },

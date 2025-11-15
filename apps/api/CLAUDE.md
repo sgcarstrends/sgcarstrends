@@ -38,9 +38,7 @@ bidding results. Key features include:
 
 ### Deployment Commands
 
-- **Deploy to dev**: `pnpm deploy:dev`
-- **Deploy to staging**: `pnpm deploy:staging`
-- **Deploy to production**: `pnpm deploy:prod`
+See `sst-deployment` skill for multi-environment deployment workflows.
 
 ### Testing Specific Files
 
@@ -52,6 +50,7 @@ bidding results. Key features include:
 ### Core Structure
 
 - **src/index.ts**: Main Hono app with middleware, routes, and error handling
+- **src/features/**: Feature modules (cars, coe, health, logos, months, workflows, newsletter, shared)
 - **src/v1/**: Versioned API routes (cars, coe, months) with bearer authentication
 - **src/routes/**: Workflow endpoints and social media webhooks
 - **src/trpc/**: Type-safe tRPC router with context creation
@@ -60,6 +59,21 @@ bidding results. Key features include:
 - **src/lib/social/**: Platform-specific social media posting logic
 - **src/config/**: Configuration for databases, Redis, QStash, and platforms
 - **src/utils/**: Utility functions for file processing, caching, and responses
+
+### Features
+
+The API follows a feature-based architecture in `src/features/`:
+
+- **cars**: Car registration data endpoints
+- **coe**: COE bidding results endpoints
+- **health**: Health check endpoint
+- **logos**: Car brand logo API (placeholder - awaiting storage migration)
+- **months**: Available data months endpoint
+- **workflows**: Workflow trigger endpoints
+- **newsletter**: Newsletter functionality
+- **shared**: Shared feature utilities
+
+**Logos Feature**: The logos feature (`src/features/logos/`) provides car brand logo retrieval with automatic downloads. Uses Vercel Blob for storage and Upstash Redis for caching. Requires `BLOB_READ_WRITE_TOKEN` environment variable. See `packages/logos/CLAUDE.md` for implementation details.
 
 ### Workflow Architecture
 
@@ -128,6 +142,7 @@ Required for local development (.env.local):
 - `UPSTASH_REDIS_REST_URL`: Redis caching URL
 - `UPSTASH_REDIS_REST_TOKEN`: Redis authentication
 - `UPSTASH_QSTASH_TOKEN`: QStash workflow token
+- `BLOB_READ_WRITE_TOKEN`: Vercel Blob authentication token for logos storage
 - `GOOGLE_GENERATIVE_AI_API_KEY`: Google Gemini API key for blog generation (used by Vercel AI SDK)
 - `LANGFUSE_PUBLIC_KEY`: Langfuse public key for LLM observability (optional)
 - `LANGFUSE_SECRET_KEY`: Langfuse secret key for LLM observability (optional)
@@ -162,22 +177,11 @@ The API service is configured as a related project for the web application:
 
 ## Workflow Development
 
-When working with workflows:
-
-- Use `WorkflowContext.run()` for atomic operations
-- Implement proper error handling with platform notifications
-- Use Redis for timestamp tracking to prevent redundant processing
-- Structure workflows as composable task handlers
-- Test workflow logic independently of QStash integration
+Workflows orchestrate data updates, blog generation, and social media posting. See `workflow-management` skill for implementation patterns and best practices.
 
 ## Social Media Integration
 
-Each platform has dedicated posting logic in `src/lib/social/*/`:
-
-- **Platform-specific APIs**: LinkedIn API client, Twitter API v2, Discord webhooks, Telegram bot API
-- **Conditional Publishing**: Environment-based platform enabling
-- **Error Notifications**: Discord notifications for posting failures
-- **Content Formatting**: Platform-appropriate message formatting and link handling
+Platform-specific posting logic in `src/lib/social/*/` for Discord, LinkedIn, Twitter, and Telegram. See `social-media` skill for integration details, webhook management, and content formatting patterns.
 
 ## LLM Observability with Langfuse
 
@@ -222,30 +226,4 @@ Each blog post generation trace includes:
 
 ### Quality Scoring
 
-Automated quality scores are calculated and attached to each generation trace:
-
-#### Content Quality Score (0-1)
-Evaluates post structure and completeness:
-- **Word count** (400-600 words target): 0.3 points
-- **Title presence** (# header): 0.2 points
-- **Section headers** (## headers, 2+ required): 0.2 points
-- **Data tables** (markdown tables, 3+ rows): 0.2 points
-- **Bullet points** (list formatting): 0.1 points
-
-#### Token Efficiency Score (0-1)
-Measures output quality vs. tokens consumed:
-- **Optimal** (1.5-2.5 tokens/word): 1.0
-- **Too efficient** (<1.5 tokens/word): 0.8 (may indicate low quality)
-- **Acceptable** (2.5-3.5 tokens/word): 0.7
-- **Inefficient** (>3.5 tokens/word): 0.5
-
-#### Generation Success Score (0-1)
-Indicates completion status:
-- **Complete** (no errors, proper ending): 1.0
-- **Partial** (incomplete or truncated): 0.5
-- **Failed** (error occurred): 0.0
-
-#### Overall Score
-Average of all three scores, providing a single quality metric per generation.
-
-**Viewing Scores**: All scores are visible in Langfuse dashboard as span attributes (`score.content_quality`, `score.token_efficiency`, `score.generation_success`, `score.overall`).
+Automated quality scores track content quality, token efficiency, and generation success. All scores visible in Langfuse dashboard as span attributes. See `gemini-blog` skill for scoring criteria and optimization strategies.

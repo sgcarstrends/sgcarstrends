@@ -1,7 +1,9 @@
 import { healthRoutes } from "@api/features/health";
+import { logosRoutes } from "@api/features/logos";
 import { workflowRoutes } from "@api/features/workflows";
 import { createTRPCContext } from "@api/trpc/context";
 import { appRouter } from "@api/trpc/router";
+import v1 from "@api/v1";
 import { trpcServer } from "@hono/trpc-server";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
@@ -14,8 +16,6 @@ import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import packageJson from "../package.json" with { type: "json" };
-// import redis from "./config/redis";
-import v1 from "./v1";
 
 // const ratelimit = new Ratelimit({
 //   redis,
@@ -106,6 +106,7 @@ api.use(
 
 api.route("/workflows", workflowRoutes);
 api.route("/health", healthRoutes);
+api.route("/logos", logosRoutes);
 api.route("/v1", v1);
 
 app.route("/", api);

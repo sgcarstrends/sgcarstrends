@@ -1,7 +1,11 @@
 "use client";
 
-import { Alert, AlertDescription, AlertTitle } from "@web/components/ui/alert";
-import { Button } from "@web/components/ui/button";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@sgcarstrends/ui/components/alert";
+import { Button } from "@sgcarstrends/ui/components/button";
 import { AlertCircle, Home, RotateCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
 

@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { SubscribeForm } from "../subscribe-form";
 
 // Mock the server action
-vi.mock("@web/actions/subscribe-action", () => ({
+vi.mock("@web/actions", () => ({
   subscribeAction: vi.fn(),
 }));
 

@@ -1,13 +1,13 @@
 "use client";
 
-import { ChartWidget } from "@web/components/charts/widget";
 import {
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@web/components/ui/chart";
+} from "@sgcarstrends/ui/components/chart";
+import { ChartWidget } from "@web/components/charts/widget";
 import {
   chartColorPalette,
   formatMonthYear,

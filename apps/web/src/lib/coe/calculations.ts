@@ -1,5 +1,5 @@
+import type { CoeMarketShareData } from "@web/queries/coe";
 import type { COEBiddingResult, COEResult } from "@web/types";
-import type { COEMarketShareData } from "./queries";
 
 export const COE_CHART_COLOURS = [
   "#dc2626", // red for Category A
@@ -25,7 +25,7 @@ export const formatCOECategory = (category: string): string => {
 };
 
 export const calculateCOEPremiumInsights = (
-  data: COEMarketShareData[],
+  data: CoeMarketShareData[],
 ): {
   averagePremium: number;
   highestCategory: string;
@@ -71,7 +71,7 @@ export const calculateCOEPremiumInsights = (
 };
 
 export const formatCOEDataForChart = (
-  data: COEMarketShareData[],
+  data: CoeMarketShareData[],
 ): Array<{
   name: string;
   value: number;
@@ -86,15 +86,6 @@ export const formatCOEDataForChart = (
   }));
 };
 
-export const getCOECategoryColor = (category: string): string => {
-  const categoryIndex = Object.keys(COE_CATEGORY_MAP).indexOf(
-    category.toUpperCase(),
-  );
-  return categoryIndex >= 0
-    ? COE_CHART_COLOURS[categoryIndex]
-    : COE_CHART_COLOURS[0];
-};
-
 /**
  * Groups COE results by month and bidding number, transforming from
  * separate records per vehicle class into a single record with all
@@ -106,15 +97,15 @@ export const groupCOEResultsByBidding = (
   const groupedData = coeResults.reduce<
     Record<string, Partial<COEBiddingResult>>
   >((acc, item) => {
-    const key = `${item.month}-${item.bidding_no}`;
+    const key = `${item.month}-${item.biddingNo}`;
 
     if (!acc[key]) {
       acc[key] = {
         month: item.month,
-        biddingNo: item.bidding_no,
+        biddingNo: item.biddingNo,
       };
     }
-    acc[key][item.vehicle_class] = item.premium;
+    acc[key][item.vehicleClass] = item.premium;
 
     return acc;
   }, {});
@@ -230,7 +221,7 @@ export const calculateOverviewStats = (
   return categories
     .map((category) => {
       const categoryData = allResults
-        .filter((item) => item.vehicle_class === category)
+        .filter((item) => item.vehicleClass === category)
         .sort(
           (a, b) => new Date(a.month).getTime() - new Date(b.month).getTime(),
         );

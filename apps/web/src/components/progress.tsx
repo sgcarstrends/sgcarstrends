@@ -1,4 +1,4 @@
-import { cn } from "@web/lib/utils";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import type { PropsWithChildren } from "react";
 
 interface ProgressProps extends PropsWithChildren {

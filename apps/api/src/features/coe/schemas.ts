@@ -17,10 +17,10 @@ export const COEQuerySchema = z
 // Response schemas
 export const COESchema = z.object({
   month: z.string(),
-  bidding_no: z.number(),
-  vehicle_class: z.string(),
+  biddingNo: z.number(),
+  vehicleClass: z.string(),
   quota: z.number(),
-  bids_received: z.number(),
+  bidsReceived: z.number(),
   premium: z.number(),
 });
 

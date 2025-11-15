@@ -24,13 +24,10 @@ This directory contains the SST (Serverless Stack) v3.17.10 infrastructure confi
 
 ## Domain Strategy
 
-### Permanent Stages
-- **API**: `api.{environment}.sgcarstrends.com` (e.g., `api.sgcarstrends.com`, `api.staging.sgcarstrends.com`)
-- **Web**: `{environment}.sgcarstrends.com` with apex domain for production
+**Permanent stages**: `api.sgcarstrends.com`, `staging.sgcarstrends.com` (with apex for prod)
+**Ephemeral stages**: `{stage}.sgcarstrends.com`, `api-{stage}.sgcarstrends.com`
 
-### Ephemeral Stages
-- **API**: `api-{stage}.sgcarstrends.com` (e.g., `api-pr-123.sgcarstrends.com`)
-- **Web**: `{stage}.sgcarstrends.com` (e.g., `pr-123.sgcarstrends.com`)
+See `domain-management` skill for DNS configuration and routing patterns.
 
 ## File Structure
 
@@ -66,9 +63,8 @@ This directory contains the SST (Serverless Stack) v3.17.10 infrastructure confi
 4. Add environment variables directly to the Lambda function configuration in `api.ts` or `web.ts`
 
 ### Stage Management
-- **Permanent stages** get full router instances with Cloudflare DNS
-- **Ephemeral stages** reference existing router to avoid DNS conflicts
-- Use `subDomain()` helper for consistent domain generation
+
+Permanent stages use full router with Cloudflare DNS, ephemeral stages reference existing router. See `sst-deployment` skill for stage management patterns.
 
 ### Environment Variables
 - Set environment variables directly in Lambda function configuration
@@ -83,10 +79,7 @@ This directory contains the SST (Serverless Stack) v3.17.10 infrastructure confi
 
 ## Deployment Commands
 
-- **Deploy to specific stage**: `sst deploy --stage {stage-name}`
-- **Remove stage**: `sst remove --stage {stage-name}`
-- **Local development**: `sst dev --stage local`
-- **Development deployment**: `sst dev --stage dev`
+See `sst-deployment` skill for deployment workflows and stage management commands.
 
 ## Best Practices
 

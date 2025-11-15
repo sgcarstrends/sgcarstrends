@@ -1,18 +1,18 @@
 import { redis } from "@sgcarstrends/utils";
-import { getPopularMakes } from "@web/actions/cars/popular-makes";
 import {
   LAST_UPDATED_CARS_KEY,
   LAST_UPDATED_COE_KEY,
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
+import { getCarsLatestMonth, getCOELatestMonth } from "@web/lib/data/months";
+import { getAllPosts } from "@web/lib/data/posts";
 import {
   getDistinctFuelTypes,
   getDistinctVehicleTypes,
-} from "@web/lib/cars/queries";
-import { getLatestCOEResults } from "@web/lib/coe/queries";
-import { getCarsLatestMonth, getCOELatestMonth } from "@web/lib/data/months";
-import { getAllPosts } from "@web/lib/data/posts";
+  getPopularMakes,
+} from "@web/queries/cars";
+import { getLatestCoeResults } from "@web/queries/coe";
 
 export const GET = async () => {
   // Fetch all dynamic data in parallel
@@ -23,7 +23,7 @@ export const GET = async () => {
     fuelTypes,
     vehicleTypes,
     recentPosts,
-    latestCOE,
+    latestCoe,
     carsLastUpdated,
     coeLastUpdated,
   ] = await Promise.all([
@@ -33,14 +33,14 @@ export const GET = async () => {
     getDistinctFuelTypes(),
     getDistinctVehicleTypes(),
     getAllPosts().then((posts) => posts.slice(0, 10)),
-    getLatestCOEResults(),
+    getLatestCoeResults(),
     redis.get<number>(LAST_UPDATED_CARS_KEY),
     redis.get<number>(LAST_UPDATED_COE_KEY),
   ]);
 
   // Extract unique COE categories from latest results
   const coeCategories = [
-    ...new Set(latestCOE.map((r) => r.vehicle_class)),
+    ...new Set(latestCoe.map((r) => r.vehicleClass)),
   ].filter(Boolean);
 
   // Format fuel types for display

@@ -1,6 +1,6 @@
-import { getCarsMonths } from "@web/lib/cars/queries";
-import { getCOEMonths } from "@web/lib/coe/queries";
 import { getCarsLatestMonth, getCOELatestMonth } from "@web/lib/data/months";
+import { getCarsMonths } from "@web/queries/cars";
+import { getCoeMonths } from "@web/queries/coe";
 import type { Month } from "@web/types";
 
 export const fetchMonthsForCars = async (): Promise<Month[]> => {
@@ -9,7 +9,7 @@ export const fetchMonthsForCars = async (): Promise<Month[]> => {
 };
 
 export const fetchMonthsForCOE = async (): Promise<Month[]> => {
-  const results = await getCOEMonths();
+  const results = await getCoeMonths();
   return results.map((r) => r.month);
 };
 

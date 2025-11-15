@@ -33,8 +33,3 @@ sst-env.d.ts
 
 # Changesets
 .changeset/pre.json
-# Sentry Config File
-.env.sentry-build-plugin
-
-# Sentry Config File
-.sentryclirc

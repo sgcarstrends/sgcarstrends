@@ -1,3 +1,10 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@sgcarstrends/ui/components/card";
 import { redis } from "@sgcarstrends/utils";
 import {
   getDefaultEndDate,
@@ -8,16 +15,9 @@ import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
 import Typography from "@web/components/typography";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@web/components/ui/card";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { getCOEResultsFiltered } from "@web/lib/coe/queries";
 import { createPageMetadata } from "@web/lib/metadata";
+import { getCoeResultsFiltered } from "@web/queries/coe";
 import type { COEResult } from "@web/types";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -47,14 +47,14 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
   const endDate = end || defaultEnd;
 
   const [coeResults, lastUpdated] = await Promise.all([
-    getCOEResultsFiltered(undefined, startDate, endDate),
+    getCoeResultsFiltered(undefined, startDate, endDate),
     redis.get<number>(LAST_UPDATED_COE_KEY),
   ]);
 
   // Group results by bidding round
   const biddingRounds = coeResults.reduce<Record<string, COEResult[]>>(
     (acc, result) => {
-      const key = `${result.month}-${result.bidding_no}`;
+      const key = `${result.month}-${result.biddingNo}`;
       if (!acc[key]) {
         acc[key] = [];
       }
@@ -106,7 +106,7 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
                 <div className="text-center">
                   <Typography.H3>
                     {coeResults
-                      .reduce((sum, result) => sum + result.bids_received, 0)
+                      .reduce((sum, result) => sum + result.bidsReceived, 0)
                       .toLocaleString()}
                   </Typography.H3>
                   <Typography.TextSm>Total Bids Received</Typography.TextSm>

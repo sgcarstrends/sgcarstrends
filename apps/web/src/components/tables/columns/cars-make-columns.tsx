@@ -1,9 +1,9 @@
 "use client";
 
 import type { SelectCar } from "@sgcarstrends/database";
+import { Button } from "@sgcarstrends/ui/components/button";
 import slugify from "@sindresorhus/slugify";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@web/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
 

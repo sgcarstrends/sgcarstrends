@@ -20,7 +20,7 @@ erDiagram
         integer premium "Winning premium in SGD"
     }
 
-    coe_pqp {
+    pqp {
         uuid id PK "Primary key (auto-generated)"
         text month "Month YYYY-MM"
         text vehicle_class "COE category"
@@ -53,4 +53,4 @@ erDiagram
     %% Relationships (conceptual, not foreign keys)
     posts ||--o{ cars : "generated from cars data"
     posts ||--o{ coe : "generated from coe data"
-    coe ||--o{ coe_pqp : "related by month and vehicle_class"
+    coe ||--o{ pqp : "related by month and vehicle_class"

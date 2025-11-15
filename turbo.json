@@ -10,7 +10,7 @@
       "dependsOn": ["^topo"]
     },
     "build": {
-      "dependsOn": ["migrate", "^build"],
+      "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*", "tsconfig.json"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
@@ -37,7 +37,7 @@
       "persistent": true
     },
     "test": {
-      "dependsOn": ["topo"],
+      "dependsOn": ["topo", "^test"],
       "inputs": ["$TURBO_DEFAULT$", "test/**/*.ts", "tests/**/*.ts"]
     },
     "test:watch": {
@@ -46,7 +46,7 @@
       "interactive": true
     },
     "test:coverage": {
-      "dependsOn": ["topo"],
+      "dependsOn": ["topo", "^test:coverage"],
       "inputs": ["$TURBO_DEFAULT$", "test/**/*.ts", "tests/**/*.ts"],
       "outputs": ["coverage/**"]
     },
@@ -90,6 +90,10 @@
       "cache": false,
       "env": ["DATABASE_URL"],
       "interactive": true
+    },
+    "auth:generate": {
+      "cache": false,
+      "env": ["DATABASE_URL"]
     }
   }
 }

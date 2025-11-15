@@ -1,11 +1,13 @@
+"use cache";
+
 import { redis } from "@sgcarstrends/utils";
-import { getPopularMakes } from "@web/actions";
 import { MakesList } from "@web/app/(dashboard)/cars/_components/makes";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { getDistinctMakes } from "@web/lib/cars/queries";
 import { createPageMetadata } from "@web/lib/metadata";
+import { getDistinctMakes, getPopularMakes } from "@web/queries/cars";
+import { getAllCarLogos } from "@web/queries/logos";
 import { fetchMonthsForCars } from "@web/utils/months";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
@@ -14,7 +16,7 @@ const title = "Makes";
 const description =
   "Comprehensive overview of car makes in Singapore. Explore popular brands, discover all available manufacturers, and view registration trends and market statistics.";
 
-export const generateMetadata = (): Metadata => {
+export const generateMetadata = async (): Promise<Metadata> => {
   return createPageMetadata({
     title,
     description,
@@ -23,14 +25,17 @@ export const generateMetadata = (): Metadata => {
 };
 
 const CarMakesPage = async () => {
-  const [makesResult, popularMakes, months, lastUpdated] = await Promise.all([
-    getDistinctMakes(),
-    getPopularMakes(),
-    fetchMonthsForCars(),
-    redis.get<number>(LAST_UPDATED_CARS_KEY),
-  ]);
+  const [allMakes, popularMakes, months, lastUpdated, allLogos] =
+    await Promise.all([
+      getDistinctMakes(),
+      getPopularMakes(),
+      fetchMonthsForCars(),
+      redis.get<number>(LAST_UPDATED_CARS_KEY),
+      getAllCarLogos(),
+    ]);
 
-  const makes = makesResult.map((m) => m.make);
+  const makes = allMakes.map(({ make }) => make);
+  const logos = "logos" in allLogos ? allLogos.logos : [];
 
   const title = "Car Makes Overview - Singapore Registration Trends";
   const description =
@@ -59,7 +64,7 @@ const CarMakesPage = async () => {
           lastUpdated={lastUpdated}
           months={months}
         />
-        <MakesList makes={makes} popularMakes={popularMakes} />
+        <MakesList makes={makes} popularMakes={popularMakes} logos={logos} />
       </div>
     </>
   );

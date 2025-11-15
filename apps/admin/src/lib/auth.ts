@@ -1,0 +1,24 @@
+import { db } from "@sgcarstrends/database";
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { nextCookies } from "better-auth/next-js";
+import { admin } from "better-auth/plugins";
+import * as schema from "../db/schema";
+
+export const auth = betterAuth({
+  database: drizzleAdapter(db, {
+    provider: "pg",
+    schema,
+    usePlural: true,
+  }),
+  plugins: [
+    admin(),
+    nextCookies(), // Make sure this is the last plugin in the array
+  ],
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+  },
+});

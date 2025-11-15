@@ -1,7 +1,7 @@
 "use client";
 
+import { Button } from "@sgcarstrends/ui/components/button";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@web/components/ui/button";
 import type { COEResult } from "@web/types";
 import { formatCurrency } from "@web/utils/format-currency";
 import { formatOrdinal } from "@web/utils/format-ordinal";
@@ -24,9 +24,9 @@ export const columns: ColumnDef<COEResult>[] = [
     ),
   },
   {
-    accessorKey: "vehicle_class",
+    accessorKey: "vehicleClass",
     header: "Category",
-    cell: ({ row }) => row.getValue<string>("vehicle_class"),
+    cell: ({ row }) => row.getValue<string>("vehicleClass"),
   },
   {
     accessorKey: "premium",
@@ -34,25 +34,25 @@ export const columns: ColumnDef<COEResult>[] = [
     cell: ({ row }) => `S${formatCurrency(row.getValue<number>("premium"))}`,
   },
   {
-    accessorKey: "bidding_no",
+    accessorKey: "biddingNo",
     header: "Bidding Round",
     cell: ({ row }) =>
-      `${formatOrdinal(row.getValue<number>("bidding_no"))} Round`,
+      `${formatOrdinal(row.getValue<number>("biddingNo"))} Round`,
   },
   // { accessorKey: "quota", header: "Quota" },
-  // { accessorKey: "bids_received", header: "Bids Received" },
+  // { accessorKey: "bidsReceived", header: "Bids Received" },
   // {
-  //   accessorKey: "bids_success",
+  //   accessorKey: "bidsSuccess",
   //   header: "Bids Success",
   //   cell: ({ row }) =>
-  //     `${row.getValue("bids_success") as number} (${formatPercent((row.getValue("bids_success") as number) / (row.getValue("bids_received") as number))})`,
+  //     `${row.getValue("bidsSuccess") as number} (${formatPercent((row.getValue("bidsSuccess") as number) / (row.getValue("bidsReceived") as number))})`,
   // },
   // {
   //   accessorKey: "oversubscribed",
   //   header: "Oversubscribed (%)",
   //   cell: ({ row }) =>
   //     formatPercent(
-  //       (row.getValue("bids_received") as number) /
+  //       (row.getValue("bidsReceived") as number) /
   //         (row.getValue("quota") as number) -
   //         1,
   //     ),

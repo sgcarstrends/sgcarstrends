@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@admin/lib/auth-client";
 import {
   Sidebar,
   SidebarContent,
@@ -12,7 +13,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@admin/components/ui/sidebar";
+} from "@sgcarstrends/ui/components/sidebar";
 import {
   Activity,
   BarChart3,
@@ -29,8 +30,10 @@ import {
   Workflow,
   Wrench,
 } from "lucide-react";
+import type { Route } from "next";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const data = {
   navigation: [
@@ -59,6 +62,11 @@ const data = {
       title: "Content Management",
       icon: Edit3,
       items: [
+        {
+          title: "Blog",
+          url: "/content/blog",
+          icon: FileText,
+        },
         {
           title: "Announcements",
           url: "/content/announcements",
@@ -112,18 +120,34 @@ const data = {
 
 export const AppSidebar = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success("Signed out successfully");
+          router.push("/login");
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message || "Failed to sign out");
+        },
+      },
+    });
+  };
 
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-3 py-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <LayoutDashboard className="h-4 w-4 text-primary-foreground" />
+          <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
+            <LayoutDashboard className="size-4 text-primary-foreground" />
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-semibold">SG Cars Admin</span>
             <span className="truncate text-muted-foreground text-xs">
-              Dashboard
+              {session?.user?.email || "Dashboard"}
             </span>
           </div>
         </div>
@@ -147,7 +171,7 @@ export const AppSidebar = () => {
                           return (
                             <SidebarMenuItem key={subItem.title}>
                               <SidebarMenuButton asChild isActive={isActive}>
-                                <Link href={subItem.url}>
+                                <Link href={subItem.url as Route}>
                                   <subItem.icon />
                                   <span>{subItem.title}</span>
                                 </Link>
@@ -164,7 +188,7 @@ export const AppSidebar = () => {
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={isActive}>
-                      <Link href={item.url}>
+                      <Link href={item.url as Route}>
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>
@@ -179,7 +203,7 @@ export const AppSidebar = () => {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>
+            <SidebarMenuButton onClick={handleSignOut}>
               <LogOut />
               <span>Sign Out</span>
             </SidebarMenuButton>

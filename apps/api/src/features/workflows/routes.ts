@@ -6,12 +6,12 @@ import {
   newsletterWorkflow,
   triggerNewsletterWorkflow,
 } from "@api/features/newsletter";
+import { WorkflowTriggerResponseSchema } from "@api/features/workflows/schemas";
 import { carsWorkflow } from "@api/lib/workflows/cars";
 import { coeWorkflow } from "@api/lib/workflows/coe";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { serveMany } from "@upstash/workflow/hono";
 import { bearerAuth } from "hono/bearer-auth";
-import { WorkflowTriggerResponseSchema } from "./schemas";
 
 const app = new OpenAPIHono();
 

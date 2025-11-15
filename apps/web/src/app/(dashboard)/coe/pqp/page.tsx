@@ -1,5 +1,4 @@
 import { redis } from "@sgcarstrends/utils";
-import { getPQPOverview } from "@web/actions";
 import {
   AnimatedSection,
   ComparisonMixedChart,
@@ -11,8 +10,9 @@ import {
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { LAST_UPDATED_COE_KEY, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
+import { getPQPOverview } from "@web/queries/coe";
 import type { Pqp } from "@web/types/coe";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";

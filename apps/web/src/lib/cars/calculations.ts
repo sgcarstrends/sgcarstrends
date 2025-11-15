@@ -1,4 +1,4 @@
-import type { CarMarketShareData } from "./queries";
+import type { CarMarketShareData } from "@web/queries/cars";
 
 export const calculateCarMarketShareInsights = (
   data: CarMarketShareData[],

@@ -1,32 +1,32 @@
 "use client";
 
-import useStore from "@web/app/store";
-import {
-  currencyTooltipFormatter,
-  MonthXAxis,
-  PriceYAxis,
-} from "@web/components/charts/shared";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@web/components/ui/card";
+} from "@sgcarstrends/ui/components/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartTooltip,
   ChartTooltipContent,
-} from "@web/components/ui/chart";
+} from "@sgcarstrends/ui/components/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@web/components/ui/select";
+} from "@sgcarstrends/ui/components/select";
+import useStore from "@web/app/store";
+import {
+  currencyTooltipFormatter,
+  MonthXAxis,
+  PriceYAxis,
+} from "@web/components/charts/shared";
 import type { COEBiddingResult, COECategory, Month } from "@web/types";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { addYears, format, parse, subMonths } from "date-fns";

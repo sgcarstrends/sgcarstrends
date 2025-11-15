@@ -1,5 +1,5 @@
 import { NEWSLETTER_FROM_EMAIL } from "@api/config/resend";
-import type { NewsletterContent } from "./models";
+import type { NewsletterContent } from "@api/features/newsletter/models";
 
 const createNewsletterSubject = (date: Date) => {
   const month = date.toISOString().slice(0, 7);

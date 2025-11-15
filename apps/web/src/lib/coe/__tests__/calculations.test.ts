@@ -4,11 +4,11 @@ import { groupCOEResultsByBidding } from "../calculations";
 
 const createMockCOEResult = (overrides?: Partial<COEResult>): COEResult => ({
   month: "2024-01",
-  bidding_no: 1,
-  vehicle_class: "Category A",
+  biddingNo: 1,
+  vehicleClass: "Category A",
   quota: 100,
-  bids_success: 95,
-  bids_received: 150,
+  bidsSuccess: 95,
+  bidsReceived: 150,
   premium: 90000,
   ...overrides,
 });
@@ -21,8 +21,8 @@ const createCategoryResults = (
   return categories.map(({ class: vehicleClass, quota, premium }) =>
     createMockCOEResult({
       month,
-      bidding_no: biddingNo,
-      vehicle_class: vehicleClass,
+      biddingNo: biddingNo,
+      vehicleClass: vehicleClass,
       quota,
       premium,
     }),
@@ -54,17 +54,17 @@ describe("COE Calculations", () => {
       const mockResults: COEResult[] = [
         createMockCOEResult({
           month: "2024-01",
-          bidding_no: 1,
+          biddingNo: 1,
           premium: 90000,
         }),
         createMockCOEResult({
           month: "2024-01",
-          bidding_no: 2,
+          biddingNo: 2,
           premium: 95000,
         }),
         createMockCOEResult({
           month: "2024-02",
-          bidding_no: 1,
+          biddingNo: 1,
           quota: 110,
           premium: 92000,
         }),
@@ -123,24 +123,24 @@ describe("COE Calculations", () => {
       const mockResults: COEResult[] = [
         createMockCOEResult({
           month: "2024-02",
-          vehicle_class: "Category B",
+          vehicleClass: "Category B",
           quota: 80,
           premium: 102000,
         }),
         createMockCOEResult({
           month: "2024-01",
-          vehicle_class: "Category A",
+          vehicleClass: "Category A",
           premium: 90000,
         }),
         createMockCOEResult({
           month: "2024-01",
-          vehicle_class: "Category B",
+          vehicleClass: "Category B",
           quota: 80,
           premium: 100000,
         }),
         createMockCOEResult({
           month: "2024-02",
-          vehicle_class: "Category A",
+          vehicleClass: "Category A",
           quota: 110,
           premium: 92000,
         }),
