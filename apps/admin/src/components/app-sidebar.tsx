@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@admin/lib/auth-client";
 import {
   Sidebar,
   SidebarContent,
@@ -31,7 +32,8 @@ import {
 } from "lucide-react";
 import type { Route } from "next";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const data = {
   navigation: [
@@ -118,6 +120,22 @@ const data = {
 
 export const AppSidebar = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success("Signed out successfully");
+          router.push("/login");
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message || "Failed to sign out");
+        },
+      },
+    });
+  };
 
   return (
     <Sidebar variant="inset">
@@ -129,7 +147,7 @@ export const AppSidebar = () => {
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-semibold">SG Cars Admin</span>
             <span className="truncate text-muted-foreground text-xs">
-              Dashboard
+              {session?.user?.email || "Dashboard"}
             </span>
           </div>
         </div>
@@ -185,7 +203,7 @@ export const AppSidebar = () => {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>
+            <SidebarMenuButton onClick={handleSignOut}>
               <LogOut />
               <span>Sign Out</span>
             </SidebarMenuButton>
