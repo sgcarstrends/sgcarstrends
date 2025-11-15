@@ -1,3 +1,14 @@
+## [4.21.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.20.0...v4.21.0) (2025-11-15)
+
+### Features
+
+* **admin:** add Better Auth authentication ([fe969a8](https://github.com/sgcarstrends/sgcarstrends/commit/fe969a8bb55a451514f0d0a181d311474c8197e0))
+* **admin:** secure actions and add sign-out ([99aa039](https://github.com/sgcarstrends/sgcarstrends/commit/99aa039c9198ea95c37e9338a1c33d1a2ea0c10e))
+
+### Bug Fixes
+
+* **admin:** unable to login in local ([f70d578](https://github.com/sgcarstrends/sgcarstrends/commit/f70d57882263226cef0e2ebf9b2b71566c31f64d))
+
 ## [4.20.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.19.2...v4.20.0) (2025-11-14)
 
 ### Features
