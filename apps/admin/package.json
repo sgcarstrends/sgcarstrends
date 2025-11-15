@@ -4,20 +4,23 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 3001",
+    "start": "next start",
     "lint": "biome check",
     "format": "biome format --write src",
+    "auth:generate": "pnpm dlx @better-auth/cli generate --output src/db/schema/auth.ts --yes",
     "vercel-build": "turbo run @sgcarstrends/database#migrate && next build"
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.20",
+    "@neondatabase/serverless": "1.0.1",
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/ui": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
     "ai": "^5.0.68",
+    "better-auth": "^1.3.34",
     "drizzle-orm": "0.44.3",
     "lucide-react": "^0.482.0",
     "next": "catalog:",
@@ -31,6 +34,7 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "drizzle-kit": "0.31.4",
     "typescript": "catalog:"
   }
 }

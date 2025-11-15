@@ -90,6 +90,10 @@
       "cache": false,
       "env": ["DATABASE_URL"],
       "interactive": true
+    },
+    "auth:generate": {
+      "cache": false,
+      "env": ["DATABASE_URL"]
     }
   }
 }

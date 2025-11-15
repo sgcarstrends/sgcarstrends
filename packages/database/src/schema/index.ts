@@ -1,3 +1,4 @@
+export * from "@admin/db/schema/auth";
 export {
   analyticsTable,
   type InsertAnalytics,

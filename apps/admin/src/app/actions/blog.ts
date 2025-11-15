@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@admin/lib/auth";
 import { getCarsAggregatedByMonth } from "@admin/queries/cars";
 import { getCoeForMonth } from "@admin/queries/coe";
 import { google } from "@ai-sdk/google";
@@ -7,6 +8,7 @@ import { db, posts } from "@sgcarstrends/database";
 import { tokeniser } from "@sgcarstrends/utils";
 import { generateText } from "ai";
 import { desc } from "drizzle-orm";
+import { headers } from "next/headers";
 import slugify from "slugify";
 
 export interface PostWithMetadata {
@@ -27,6 +29,14 @@ export interface PostWithMetadata {
 }
 
 export const getAllPosts = async (): Promise<PostWithMetadata[]> => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
+
   try {
     const allPosts = await db
       .select({
@@ -52,6 +62,17 @@ export const regeneratePost = async (params: {
   month: string;
   dataType: "cars" | "coe";
 }): Promise<{ success: boolean; error?: string; postId?: string }> => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return {
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+
   try {
     const { month, dataType } = params;
 

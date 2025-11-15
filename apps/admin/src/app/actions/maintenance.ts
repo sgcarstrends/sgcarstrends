@@ -1,6 +1,8 @@
 "use server";
 
+import { auth } from "@admin/lib/auth";
 import { redis } from "@sgcarstrends/utils";
+import { headers } from "next/headers";
 
 interface AppConfig {
   maintenance: {
@@ -15,6 +17,14 @@ export interface MaintenanceConfig {
 }
 
 export const getMaintenanceConfig = async (): Promise<MaintenanceConfig> => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
+
   try {
     const config = await redis.get<AppConfig>("config");
 
@@ -37,6 +47,17 @@ export const getMaintenanceConfig = async (): Promise<MaintenanceConfig> => {
 export const updateMaintenanceConfig = async (
   maintenanceConfig: MaintenanceConfig,
 ): Promise<{ success: boolean; error?: string }> => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return {
+      success: false,
+      error: "Unauthorized",
+    };
+  }
+
   try {
     // Get current config
     const currentConfig =
