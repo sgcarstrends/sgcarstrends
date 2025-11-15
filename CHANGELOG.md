@@ -1,3 +1,10 @@
+## [4.21.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.0...v4.21.1) (2025-11-15)
+
+### Bug Fixes
+
+* **api:** add tsup bundling for Vercel ([1850e06](https://github.com/sgcarstrends/sgcarstrends/commit/1850e06f6d5d9e83e893b4acdc84bbdf976f138c))
+* **api:** type errors ([fb2fe7c](https://github.com/sgcarstrends/sgcarstrends/commit/fb2fe7cfe4f38455671bca6e221c0d7ba000b29a))
+
 ## [4.21.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.20.0...v4.21.0) (2025-11-15)
 
 ### Features
