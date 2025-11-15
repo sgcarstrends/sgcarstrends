@@ -4,6 +4,7 @@ import { workflowRoutes } from "@api/features/workflows";
 import { createTRPCContext } from "@api/trpc/context";
 import { appRouter } from "@api/trpc/router";
 import v1 from "@api/v1";
+import { serve } from "@hono/node-server";
 import { trpcServer } from "@hono/trpc-server";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
@@ -110,6 +111,16 @@ api.route("/logos", logosRoutes);
 api.route("/v1", v1);
 
 app.route("/", api);
+
+serve(
+  {
+    fetch: app.fetch,
+    port: 8787,
+  },
+  (info) => {
+    console.log(`Server is running on http://localhost:${info.port}`);
+  },
+);
 
 export const handler = handle(app);
 

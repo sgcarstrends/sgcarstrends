@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "turbo build",
-    "dev": "sst dev --stage local",
+    "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "turbo format",
     "start": "turbo start",

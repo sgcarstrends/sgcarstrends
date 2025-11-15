@@ -2,6 +2,7 @@ import { neon } from "@neondatabase/serverless";
 import { upstashCache } from "drizzle-orm/cache/upstash";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
+import "dotenv/config";
 
 const CACHE_TTL = 24 * 60 * 60; // 24 hours in seconds
 
