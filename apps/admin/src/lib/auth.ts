@@ -21,7 +21,6 @@ export const auth = betterAuth({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       redirectURI: `${process.env.VERCEL_PROJECT_PRODUCTION_URL}/api/auth/callback/google`,
-      disableSignUp: true,
     },
   },
 });
