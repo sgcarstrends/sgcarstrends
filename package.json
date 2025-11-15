@@ -43,7 +43,8 @@
     "db:push": "turbo run @sgcarstrends/database#push",
     "db:drop": "turbo run @sgcarstrends/database#drop",
     "docs:build": "turbo run @sgcarstrends/docs#build",
-    "docs:dev": "turbo run @sgcarstrends/docs#dev"
+    "docs:dev": "turbo run @sgcarstrends/docs#dev",
+    "auth:generate": "turbo run auth:generate"
   },
   "dependencies": {
     "sst": "3.17.21"

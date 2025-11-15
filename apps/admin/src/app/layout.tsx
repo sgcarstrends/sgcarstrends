@@ -1,9 +1,3 @@
-import { AppSidebar } from "@admin/components/app-sidebar";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@sgcarstrends/ui/components/sidebar";
 import { Toaster } from "@sgcarstrends/ui/components/sonner";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -36,17 +30,7 @@ const RootLayout = ({
 }>) => (
   <html lang="en">
     <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-          <main>
-            <header className="sticky top-0 z-10 border-b bg-background px-6 py-4">
-              <SidebarTrigger />
-            </header>
-            <div className="p-6">{children}</div>
-          </main>
-        </SidebarInset>
-      </SidebarProvider>
+      {children}
       <Toaster />
     </body>
   </html>
