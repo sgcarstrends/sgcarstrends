@@ -64,6 +64,13 @@
       "when": 1763196770120,
       "tag": "0008_careful_cloak",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1763287029415,
+      "tag": "0009_adorable_deathstrike",
+      "breakpoints": true
     }
   ]
 }

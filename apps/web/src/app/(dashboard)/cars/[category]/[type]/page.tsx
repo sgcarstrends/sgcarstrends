@@ -5,8 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import { redis } from "@sgcarstrends/utils";
-import slugify from "@sindresorhus/slugify";
+import { redis, slugify } from "@sgcarstrends/utils";
 import { CarOverviewTrends } from "@web/app/(dashboard)/cars/_components/overview-trends";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/[category]/[type]/search-params";
 import { AnimatedNumber } from "@web/components/animated-number";

@@ -1,7 +1,7 @@
-import { redis } from "@sgcarstrends/utils";
+import { redis, slugify } from "@sgcarstrends/utils";
 import type { Redis } from "@upstash/redis";
 
-export class RedisCache {
+export class Checksum {
   private redis: Redis;
 
   constructor(redisInstance: Redis = redis) {
@@ -13,11 +13,12 @@ export class RedisCache {
    *
    * @param fileName Name of the file to cache checksum for
    * @param checksum The checksum value to cache
-   * @returns Promise resolving to true if successful, null if failed
+   * @returns Promise resolving to the number of fields added (0 or 1) or null if failed
    */
   async cacheChecksum(fileName: string, checksum: string) {
     try {
-      return this.redis.set(`checksum:${fileName}`, checksum);
+      const key = slugify(fileName);
+      return this.redis.hset("checksum", { [key]: checksum });
     } catch (error) {
       console.error(`Error caching checksum: ${error}`);
       return null;
@@ -37,7 +38,8 @@ export class RedisCache {
     }
 
     try {
-      return this.redis.get<string>(`checksum:${fileName}`);
+      const key = slugify(fileName);
+      return this.redis.hget<string>("checksum", key);
     } catch (error) {
       console.error(`Error retrieving cached checksum: ${error}`);
       return null;

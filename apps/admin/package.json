@@ -1,6 +1,6 @@
 {
   "name": "@sgcarstrends/admin",
-  "version": "4.21.0",
+  "version": "4.21.2",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -13,20 +13,21 @@
     "vercel-build": "turbo run @sgcarstrends/database#migrate && next build"
   },
   "dependencies": {
-    "@ai-sdk/google": "^2.0.20",
+    "@ai-sdk/google": "catalog:",
+    "@langfuse/otel": "catalog:",
     "@neondatabase/serverless": "1.0.1",
+    "@sgcarstrends/ai": "workspace:*",
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/ui": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
-    "ai": "^5.0.68",
+    "ai": "catalog:",
     "better-auth": "^1.3.34",
     "drizzle-orm": "0.44.3",
     "lucide-react": "^0.482.0",
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "slugify": "^1.6.6",
     "sonner": "catalog:",
     "zustand": "^5.0.6"
   },

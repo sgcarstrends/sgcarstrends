@@ -19,9 +19,12 @@ export const processCsv = async <T>(
     dynamicTyping: true,
     skipEmptyLines: true,
     transform: (value, field) => {
-      // Check for specific field transformations
-      if (fields[field]) {
-        return fields[field](value);
+      // First apply column mapping
+      const mappedField = columnMapping[field] || field;
+
+      // Then check for specific field transformations on the mapped field
+      if (fields[mappedField]) {
+        return fields[mappedField](value);
       }
 
       // Default trim

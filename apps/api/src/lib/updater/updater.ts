@@ -6,7 +6,7 @@ import {
   type CSVTransformOptions,
   processCsv,
 } from "@api/lib/updater/services/process-csv";
-import { RedisCache } from "@api/utils/redis-cache";
+import { Checksum } from "@api/utils/checksum";
 import { db } from "@sgcarstrends/database";
 import { createUniqueKey } from "@sgcarstrends/utils";
 import { getTableName, type Table } from "drizzle-orm";
@@ -29,20 +29,20 @@ export interface UpdaterResult {
 
 export interface UpdaterOptions {
   batchSize?: number;
-  redisCache?: RedisCache;
+  checksum?: Checksum;
 }
 
 const DEFAULT_BATCH_SIZE = 5000;
 
 export class Updater<T> {
   private readonly config: UpdaterConfig<T>;
-  private readonly redisCache: RedisCache;
+  private readonly checksum: Checksum;
   private readonly batchSize: number;
   private readonly tableName: string;
 
   constructor(config: UpdaterConfig<T>, options: UpdaterOptions = {}) {
     this.config = config;
-    this.redisCache = options.redisCache || new RedisCache();
+    this.checksum = options.checksum || new Checksum();
     this.batchSize = options.batchSize || DEFAULT_BATCH_SIZE;
     this.tableName = getTableName(config.table);
   }
@@ -98,19 +98,19 @@ export class Updater<T> {
 
     // Get previously stored checksum
     const cachedChecksum =
-      await this.redisCache.getCachedChecksum(extractedFileName);
+      await this.checksum.getCachedChecksum(extractedFileName);
     console.log("Cached checksum:", cachedChecksum);
 
     if (!cachedChecksum) {
       console.log("No cached checksum found. This might be the first run.");
-      await this.redisCache.cacheChecksum(extractedFileName, checksum);
+      await this.checksum.cacheChecksum(extractedFileName, checksum);
     } else if (cachedChecksum === checksum) {
       const message = `File has not changed since last update (Checksum: ${checksum})`;
       console.log(message);
       return { filePath: destinationPath, checksum: null };
     }
 
-    await this.redisCache.cacheChecksum(extractedFileName, checksum);
+    await this.checksum.cacheChecksum(extractedFileName, checksum);
     console.log("Checksum has been changed.");
 
     return { filePath: destinationPath, checksum };

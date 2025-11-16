@@ -9,7 +9,7 @@ export const startTracing = (): void => {
     return;
   }
 
-  const environment = process.env.VERCEL_ENV ?? process.env.STAGE;
+  const environment = process.env.VERCEL_ENV || process.env.STAGE;
 
   langfuseSpanProcessor = new LangfuseSpanProcessor({
     publicKey: process.env.LANGFUSE_PUBLIC_KEY,

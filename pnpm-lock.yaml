@@ -6,6 +6,12 @@ settings:
 
 catalogs:
   default:
+    '@ai-sdk/google':
+      specifier: ^2.0.32
+      version: 2.0.32
+    '@langfuse/otel':
+      specifier: ^4.4.2
+      version: 4.4.2
     '@types/node':
       specifier: ^22.16.4
       version: 22.17.0
@@ -18,6 +24,9 @@ catalogs:
     '@vitest/coverage-v8':
       specifier: ^3.2.4
       version: 3.2.4
+    ai:
+      specifier: ^5.0.93
+      version: 5.0.93
     date-fns:
       specifier: ^3.6.0
       version: 3.6.0
@@ -118,11 +127,17 @@ importers:
   apps/admin:
     dependencies:
       '@ai-sdk/google':
-        specifier: ^2.0.20
-        version: 2.0.20(zod@4.1.12)
+        specifier: 'catalog:'
+        version: 2.0.32(zod@4.1.12)
+      '@langfuse/otel':
+        specifier: 'catalog:'
+        version: 4.4.2(@opentelemetry/api@1.9.0)(@opentelemetry/core@2.1.0(@opentelemetry/api@1.9.0))(@opentelemetry/exporter-trace-otlp-http@0.206.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.1.0(@opentelemetry/api@1.9.0))
       '@neondatabase/serverless':
         specifier: 1.0.1
         version: 1.0.1
+      '@sgcarstrends/ai':
+        specifier: workspace:*
+        version: link:../../packages/ai
       '@sgcarstrends/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -136,8 +151,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/utils
       ai:
-        specifier: ^5.0.68
-        version: 5.0.68(zod@4.1.12)
+        specifier: 'catalog:'
+        version: 5.0.93(zod@4.1.12)
       better-auth:
         specifier: ^1.3.34
         version: 1.3.34(next@16.0.0(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -156,9 +171,6 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 19.2.0(react@19.2.0)
-      slugify:
-        specifier: ^1.6.6
-        version: 1.6.6
       sonner:
         specifier: 'catalog:'
         version: 2.0.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -185,8 +197,8 @@ importers:
   apps/api:
     dependencies:
       '@ai-sdk/google':
-        specifier: ^2.0.20
-        version: 2.0.20(zod@3.25.76)
+        specifier: 'catalog:'
+        version: 2.0.32(zod@3.25.76)
       '@hono/trpc-server':
         specifier: ^0.4.0
         version: 0.4.0(@trpc/server@11.4.3(typescript@5.8.3))(hono@4.10.3)
@@ -197,8 +209,8 @@ importers:
         specifier: ^0.4.2
         version: 0.4.3(hono@4.10.3)(zod@3.25.76)
       '@langfuse/otel':
-        specifier: ^4.2.0
-        version: 4.2.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@2.1.0(@opentelemetry/api@1.9.0))(@opentelemetry/exporter-trace-otlp-http@0.206.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.1.0(@opentelemetry/api@1.9.0))
+        specifier: 'catalog:'
+        version: 4.4.2(@opentelemetry/api@1.9.0)(@opentelemetry/core@2.1.0(@opentelemetry/api@1.9.0))(@opentelemetry/exporter-trace-otlp-http@0.206.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.1.0(@opentelemetry/api@1.9.0))
       '@neondatabase/serverless':
         specifier: 1.0.1
         version: 1.0.1
@@ -208,6 +220,9 @@ importers:
       '@scalar/hono-api-reference':
         specifier: ^0.9.3
         version: 0.9.3(hono@4.10.3)
+      '@sgcarstrends/ai':
+        specifier: workspace:*
+        version: link:../../packages/ai
       '@sgcarstrends/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -220,9 +235,6 @@ importers:
       '@sgcarstrends/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      '@sindresorhus/slugify':
-        specifier: ^2.2.1
-        version: 2.2.1
       '@trpc/client':
         specifier: ^11.7.0
         version: 11.7.0(@trpc/server@11.4.3(typescript@5.8.3))(typescript@5.8.3)
@@ -245,8 +257,8 @@ importers:
         specifier: ^0.5.16
         version: 0.5.16
       ai:
-        specifier: ^5.0.68
-        version: 5.0.68(zod@3.25.76)
+        specifier: 'catalog:'
+        version: 5.0.93(zod@3.25.76)
       date-fns:
         specifier: 'catalog:'
         version: 3.6.0
@@ -356,9 +368,6 @@ importers:
       '@sgcarstrends/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      '@sindresorhus/slugify':
-        specifier: ^2.2.1
-        version: 2.2.1
       '@tanstack/react-table':
         specifier: ^8.20.1
         version: 8.21.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -514,6 +523,33 @@ importers:
         specifier: 'catalog:'
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.17.0)(@vitest/ui@3.2.4)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(msw@2.12.1(@types/node@22.17.0)(typescript@5.8.3))(terser@5.44.1)(yaml@2.8.1)
 
+  packages/ai:
+    dependencies:
+      '@ai-sdk/google':
+        specifier: 'catalog:'
+        version: 2.0.32(zod@4.1.12)
+      '@langfuse/otel':
+        specifier: 'catalog:'
+        version: 4.4.2(@opentelemetry/api@1.9.0)(@opentelemetry/core@2.1.0(@opentelemetry/api@1.9.0))(@opentelemetry/exporter-trace-otlp-http@0.206.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.1.0(@opentelemetry/api@1.9.0))
+      '@opentelemetry/sdk-trace-node':
+        specifier: ^2.1.0
+        version: 2.1.0(@opentelemetry/api@1.9.0)
+      '@sgcarstrends/database':
+        specifier: workspace:*
+        version: link:../database
+      '@sgcarstrends/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@upstash/workflow':
+        specifier: ^0.2.12
+        version: 0.2.12(react@19.2.0)
+      ai:
+        specifier: 'catalog:'
+        version: 5.0.93(zod@4.1.12)
+      drizzle-orm:
+        specifier: 0.44.3
+        version: 0.44.3(@aws-sdk/client-rds-data@3.758.0(aws-crt@1.25.3))(@cloudflare/workers-types@4.20251109.0)(@neondatabase/serverless@1.0.1)(@opentelemetry/api@1.9.0)(@types/pg@8.15.5)(@upstash/redis@1.34.8)(kysely@0.28.8)
+
   packages/database:
     dependencies:
       '@neondatabase/serverless':
@@ -532,9 +568,6 @@ importers:
       '@sgcarstrends/utils':
         specifier: workspace:*
         version: link:../utils
-      '@sindresorhus/slugify':
-        specifier: ^2.2.1
-        version: 2.2.1
       '@vercel/blob':
         specifier: ^2.0.0
         version: 2.0.0
@@ -662,20 +695,23 @@ importers:
       date-fns:
         specifier: 'catalog:'
         version: 3.6.0
+      slugify:
+        specifier: ^1.6.6
+        version: 1.6.6
 
 packages:
 
   '@adobe/css-tools@4.4.3':
     resolution: {integrity: sha512-VQKMkwriZbaOgVCby1UDY/LDk5fIjhQicCvVPFqfe+69fWaPWydbWJ3wRt59/YzIwda1I81loas3oCoHxnqvdA==}
 
-  '@ai-sdk/gateway@1.0.39':
-    resolution: {integrity: sha512-ijYCKG2sbn2RBVfIgaXNXvzHAf2HpFXxQODtjMI+T7Z4CLryflytchsZZ9qrGtsjiQVopKOV6m6kj4lq5fnbsg==}
+  '@ai-sdk/gateway@2.0.9':
+    resolution: {integrity: sha512-E6x4h5CPPPJ0za1r5HsLtHbeI+Tp3H+YFtcH8G3dSSPFE6w+PZINzB4NxLZmg1QqSeA5HTP3ZEzzsohp0o2GEw==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/google@2.0.20':
-    resolution: {integrity: sha512-+pVkl1GSnORRJEKnjscQEdfW4RR2csVVY8F3QkCHdWjbeSIqrEQw8MWQ4SrtsVLJdAvqyG9WMdiDR7WXSXpn4Q==}
+  '@ai-sdk/google@2.0.32':
+    resolution: {integrity: sha512-tQh15Eo+qcW2Yx1fqIT/iBf9sUAsEzx8oriyxMQAGLYMlZBG6EGs1ftNWQIwWqmAjz8q9FH0WjKs18E5522JjA==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -692,8 +728,8 @@ packages:
     peerDependencies:
       zod: ^3.23.8
 
-  '@ai-sdk/provider-utils@3.0.12':
-    resolution: {integrity: sha512-ZtbdvYxdMoria+2SlNarEk6Hlgyf+zzcznlD55EAl+7VZvJaSg2sqPvwArY7L6TfDEDJsnCq0fdhBSkYo0Xqdg==}
+  '@ai-sdk/provider-utils@3.0.17':
+    resolution: {integrity: sha512-TR3Gs4I3Tym4Ll+EPdzRdvo/rc8Js6c4nVhFLuvGLX/Y4V9ZcQMa/HTiYsHEgmYrf1zVi6Q145UEZUfleOwOjw==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -3156,11 +3192,13 @@ packages:
     peerDependencies:
       jsep: ^0.4.0||^1.0.0
 
-  '@langfuse/core@4.2.0':
-    resolution: {integrity: sha512-QARHC8Xz3ZyFrIQtbc9L34XQo5yWwpTBvzqiXeEw/LScigG9gyUf3XaykVbJ8Er0O7cggHm9wBXw3POMxDih/w==}
+  '@langfuse/core@4.4.2':
+    resolution: {integrity: sha512-LfWyyLXTdnAikkXobWJ9ZMoF0RMC/WJqkk5mvyS7WI0SNwigueLulHzX1ixr8Q/vnaabFO+XREy2ftSiwnQxng==}
+    peerDependencies:
+      '@opentelemetry/api': ^1.9.0
 
-  '@langfuse/otel@4.2.0':
-    resolution: {integrity: sha512-SRso7L/GdKJ1MjOdiCwctJVm4skEl4XLYipa4kQsk5mhfxU/1WPO4FwFocc/IRE7PxkMYVmkKOAB2za7ROVgTw==}
+  '@langfuse/otel@4.4.2':
+    resolution: {integrity: sha512-iEhjyXFFX2JsST8ZjKmRMT4SehM3xjqWKEgTXd/llE4rsPQmSJSwX4tfank2TawdO8lbP5kRtQ889/nsjYIIoA==}
     engines: {node: '>=20'}
     peerDependencies:
       '@opentelemetry/api': ^1.9.0
@@ -5618,8 +5656,8 @@ packages:
     resolution: {integrity: sha512-oAj7Pdy83YKSwIaMFoM7zFeLYWRc+qUpW3PiDSblxQMnGFb43qs4bmfq7dr/+JIfwhs6PTwe1o2YBwKhyjWxXw==}
     engines: {node: '>=20.0.0'}
 
-  '@vercel/oidc@3.0.2':
-    resolution: {integrity: sha512-JekxQ0RApo4gS4un/iMGsIL1/k4KUBe3HmnGcDvzHuFBdQdudEJgTqcsJC7y6Ul4Yw5CeykgvQbX2XeEJd0+DA==}
+  '@vercel/oidc@3.0.3':
+    resolution: {integrity: sha512-yNEQvPcVrK9sIe637+I0jD6leluPxzwJKx/Haw6F4H77CdDsszUn5V3o96LPziXkSNE2B83+Z3mjqGKBK/R6Gg==}
     engines: {node: '>= 20'}
 
   '@vercel/related-projects@1.0.0':
@@ -5757,8 +5795,8 @@ packages:
       react:
         optional: true
 
-  ai@5.0.68:
-    resolution: {integrity: sha512-SB6r+4TkKVlSg2ozGBSfuf6Is5hrcX/bpGBzOoyHIN3b4ILGhaly0IHEvP8+3GGIHXqtkPVEUmR6V05jKdjNlg==}
+  ai@5.0.93:
+    resolution: {integrity: sha512-9eGcu+1PJgPg4pRNV4L7tLjRR3wdJC9CXQoNMvtqvYNOLZHFCzjHtVIOr2SIkoJJeu2+sOy3hyiSuTmy2MA40g==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -11184,30 +11222,30 @@ snapshots:
 
   '@adobe/css-tools@4.4.3': {}
 
-  '@ai-sdk/gateway@1.0.39(zod@3.25.76)':
+  '@ai-sdk/gateway@2.0.9(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.12(zod@3.25.76)
-      '@vercel/oidc': 3.0.2
+      '@ai-sdk/provider-utils': 3.0.17(zod@3.25.76)
+      '@vercel/oidc': 3.0.3
       zod: 3.25.76
 
-  '@ai-sdk/gateway@1.0.39(zod@4.1.12)':
+  '@ai-sdk/gateway@2.0.9(zod@4.1.12)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.12(zod@4.1.12)
-      '@vercel/oidc': 3.0.2
+      '@ai-sdk/provider-utils': 3.0.17(zod@4.1.12)
+      '@vercel/oidc': 3.0.3
       zod: 4.1.12
 
-  '@ai-sdk/google@2.0.20(zod@3.25.76)':
+  '@ai-sdk/google@2.0.32(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.12(zod@3.25.76)
+      '@ai-sdk/provider-utils': 3.0.17(zod@3.25.76)
       zod: 3.25.76
 
-  '@ai-sdk/google@2.0.20(zod@4.1.12)':
+  '@ai-sdk/google@2.0.32(zod@4.1.12)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.12(zod@4.1.12)
+      '@ai-sdk/provider-utils': 3.0.17(zod@4.1.12)
       zod: 4.1.12
 
   '@ai-sdk/openai@1.3.21(zod@3.25.76)':
@@ -11223,14 +11261,14 @@ snapshots:
       secure-json-parse: 2.7.0
       zod: 3.25.76
 
-  '@ai-sdk/provider-utils@3.0.12(zod@3.25.76)':
+  '@ai-sdk/provider-utils@3.0.17(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
       '@standard-schema/spec': 1.0.0
       eventsource-parser: 3.0.6
       zod: 3.25.76
 
-  '@ai-sdk/provider-utils@3.0.12(zod@4.1.12)':
+  '@ai-sdk/provider-utils@3.0.17(zod@4.1.12)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
       '@standard-schema/spec': 1.0.0
@@ -14618,11 +14656,13 @@ snapshots:
     dependencies:
       jsep: 1.4.0
 
-  '@langfuse/core@4.2.0': {}
-
-  '@langfuse/otel@4.2.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@2.1.0(@opentelemetry/api@1.9.0))(@opentelemetry/exporter-trace-otlp-http@0.206.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.1.0(@opentelemetry/api@1.9.0))':
+  '@langfuse/core@4.4.2(@opentelemetry/api@1.9.0)':
     dependencies:
-      '@langfuse/core': 4.2.0
+      '@opentelemetry/api': 1.9.0
+
+  '@langfuse/otel@4.4.2(@opentelemetry/api@1.9.0)(@opentelemetry/core@2.1.0(@opentelemetry/api@1.9.0))(@opentelemetry/exporter-trace-otlp-http@0.206.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.1.0(@opentelemetry/api@1.9.0))':
+    dependencies:
+      '@langfuse/core': 4.4.2(@opentelemetry/api@1.9.0)
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.1.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/exporter-trace-otlp-http': 0.206.0(@opentelemetry/api@1.9.0)
@@ -18187,7 +18227,7 @@ snapshots:
       throttleit: 2.1.0
       undici: 5.29.0
 
-  '@vercel/oidc@3.0.2': {}
+  '@vercel/oidc@3.0.3': {}
 
   '@vercel/related-projects@1.0.0':
     optionalDependencies:
@@ -18341,19 +18381,19 @@ snapshots:
     optionalDependencies:
       react: 19.2.0
 
-  ai@5.0.68(zod@3.25.76):
+  ai@5.0.93(zod@3.25.76):
     dependencies:
-      '@ai-sdk/gateway': 1.0.39(zod@3.25.76)
+      '@ai-sdk/gateway': 2.0.9(zod@3.25.76)
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.12(zod@3.25.76)
+      '@ai-sdk/provider-utils': 3.0.17(zod@3.25.76)
       '@opentelemetry/api': 1.9.0
       zod: 3.25.76
 
-  ai@5.0.68(zod@4.1.12):
+  ai@5.0.93(zod@4.1.12):
     dependencies:
-      '@ai-sdk/gateway': 1.0.39(zod@4.1.12)
+      '@ai-sdk/gateway': 2.0.9(zod@4.1.12)
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.12(zod@4.1.12)
+      '@ai-sdk/provider-utils': 3.0.17(zod@4.1.12)
       '@opentelemetry/api': 1.9.0
       zod: 4.1.12
 
