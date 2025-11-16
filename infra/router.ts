@@ -1,6 +1,6 @@
 import { isPermanentStage } from "./config";
 
-const DOMAIN_NAME = "sgcarstrends.com";
+const DOMAIN_NAME = "aws.sgcarstrends.com";
 
 const getDomainName = () => {
   switch ($app.stage) {
@@ -32,7 +32,7 @@ export const router = isPermanentStage
         ...($app.stage === "prod" && { redirects: [`www.${DOMAIN_NAME}`] }),
       },
     })
-  : sst.aws.Router.get("SGCarsTrends", "E276L7UCINP9HN");
+  : sst.aws.Router.get("SGCarsTrends", `${process.env.DISTRIBUTION_ID}`);
 
 export const url = router.url;
 
