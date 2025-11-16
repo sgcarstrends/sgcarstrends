@@ -124,7 +124,7 @@ describe("Updater", () => {
     it("should successfully process new data", async () => {
       // Mock no cached checksum (first run)
       vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
-      vi.mocked(mockChecksum.cacheChecksum).mockResolvedValue("cached");
+      vi.mocked(mockChecksum.cacheChecksum).mockResolvedValue(undefined);
 
       const updater = new Updater(updaterConfig, updaterOptions);
       const result = await updater.update();
