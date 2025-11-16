@@ -1,6 +1,7 @@
 import type { Stage } from "@api/types";
+import { DOMAIN_NAME } from "@sgcarstrends/utils";
 
-export const DOMAIN_NAME = "sgcarstrends.com";
+export { DOMAIN_NAME };
 
 export const API_DOMAINS: Record<Stage, string> = {
   dev: `api.dev.${DOMAIN_NAME}`,
