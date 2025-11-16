@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import slugify from "@sindresorhus/slugify";
+import { slugify } from "@sgcarstrends/utils";
 import { BarChartByType } from "@web/app/(dashboard)/cars/bar-chart-by-type";
 import Typography from "@web/components/typography";
 import { FUEL_TYPE } from "@web/config";

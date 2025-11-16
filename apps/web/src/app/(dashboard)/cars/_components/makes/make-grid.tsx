@@ -1,4 +1,4 @@
-import slugify from "@sindresorhus/slugify";
+import { slugify } from "@sgcarstrends/utils";
 import type { Make } from "@web/types";
 import { MakeCard } from "./make-card";
 

@@ -1,7 +1,7 @@
 import { Avatar } from "@heroui/avatar";
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import slugify from "@sindresorhus/slugify";
+import { slugify } from "@sgcarstrends/utils";
 import Typography from "@web/components/typography";
 import type { Make } from "@web/types";
 import { TrendingUp } from "lucide-react";

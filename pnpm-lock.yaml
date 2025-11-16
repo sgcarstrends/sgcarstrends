@@ -156,9 +156,6 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 19.2.0(react@19.2.0)
-      slugify:
-        specifier: ^1.6.6
-        version: 1.6.6
       sonner:
         specifier: 'catalog:'
         version: 2.0.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -220,9 +217,6 @@ importers:
       '@sgcarstrends/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      '@sindresorhus/slugify':
-        specifier: ^2.2.1
-        version: 2.2.1
       '@trpc/client':
         specifier: ^11.7.0
         version: 11.7.0(@trpc/server@11.4.3(typescript@5.8.3))(typescript@5.8.3)
@@ -356,9 +350,6 @@ importers:
       '@sgcarstrends/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      '@sindresorhus/slugify':
-        specifier: ^2.2.1
-        version: 2.2.1
       '@tanstack/react-table':
         specifier: ^8.20.1
         version: 8.21.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -532,9 +523,6 @@ importers:
       '@sgcarstrends/utils':
         specifier: workspace:*
         version: link:../utils
-      '@sindresorhus/slugify':
-        specifier: ^2.2.1
-        version: 2.2.1
       '@vercel/blob':
         specifier: ^2.0.0
         version: 2.0.0
@@ -662,6 +650,9 @@ importers:
       date-fns:
         specifier: 'catalog:'
         version: 3.6.0
+      slugify:
+        specifier: ^1.6.6
+        version: 1.6.6
 
 packages:
 

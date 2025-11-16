@@ -1,5 +1,5 @@
 import { db, posts } from "@sgcarstrends/database";
-import slugify from "@sindresorhus/slugify";
+import { slugify } from "@sgcarstrends/utils";
 import type { LanguageModelResponseMetadata, LanguageModelUsage } from "ai";
 import { and, eq } from "drizzle-orm";
 

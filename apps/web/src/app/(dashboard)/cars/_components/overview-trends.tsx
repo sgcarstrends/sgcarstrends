@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import slugify from "@sindresorhus/slugify";
+import { slugify } from "@sgcarstrends/utils";
 import { TrendChart } from "@web/app/(dashboard)/cars/trend-chart";
 import { AnimatedNumber } from "@web/components/animated-number";
 import Typography from "@web/components/typography";

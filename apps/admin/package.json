@@ -26,7 +26,6 @@
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "slugify": "^1.6.6",
     "sonner": "catalog:",
     "zustand": "^5.0.6"
   },

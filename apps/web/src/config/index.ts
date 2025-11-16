@@ -1,4 +1,4 @@
-import slugify from "@sindresorhus/slugify";
+import { slugify } from "@sgcarstrends/utils";
 import { withRelatedProject } from "@vercel/related-projects";
 import { VEHICLE_TYPE_MAP } from "@web/constants";
 import type { Announcement, AppEnv, LinkItem, VehicleType } from "@web/types";

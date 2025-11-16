@@ -1,6 +1,6 @@
 "use cache";
 
-import slugify from "@sindresorhus/slugify";
+import { slugify } from "@sgcarstrends/utils";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
 import { StructuredData } from "@web/components/structured-data";
 import { fetchMakePageData } from "@web/lib/cars/make-data";
