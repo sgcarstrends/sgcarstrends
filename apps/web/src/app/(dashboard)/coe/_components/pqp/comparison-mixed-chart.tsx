@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { numberFormat } from "@ruchernchong/number-format";
 import {
   type ChartConfig,
@@ -38,7 +38,7 @@ export const ComparisonMixedChart = ({ data }: Props) => {
           </p>
         </div>
       </CardHeader>
-      <CardBody className="flex flex-col gap-4">
+      <CardBody>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <ComposedChart data={data}>
             <CartesianGrid vertical={false} />
@@ -69,19 +69,14 @@ export const ComparisonMixedChart = ({ data }: Props) => {
             <ChartLegend />
           </ComposedChart>
         </ChartContainer>
-        <div>
-          <div className="text-default-500 text-sm">
-            <h4 className="mb-2 font-semibold text-foreground">
-              Chart Description
-            </h4>
-            <p>
-              Latest COE premium (bars) vs PQP baseline (dashed line). Bars
-              above line indicate strong demand; bars below suggest favourable
-              renewal conditions.
-            </p>
-          </div>
-        </div>
       </CardBody>
+      <CardFooter>
+        <p className="text-default-500 text-sm">
+          Latest COE premium (bars) vs PQP baseline (dashed line). Bars above
+          line indicate strong demand; bars below suggest favourable renewal
+          conditions.
+        </p>
+      </CardFooter>
     </Card>
   );
 };
