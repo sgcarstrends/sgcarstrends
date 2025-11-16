@@ -29,7 +29,6 @@ vi.mock("@sgcarstrends/database", () => ({
 }));
 vi.mock("@sgcarstrends/utils", () => ({
   createUniqueKey: vi.fn(),
-  DOMAIN_NAME: "sgcarstrends.com",
   redis: {
     set: vi.fn(),
     get: vi.fn(),
