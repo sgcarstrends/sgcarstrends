@@ -1,6 +1,5 @@
 export * from "./cleanSpecialChars";
 export * from "./createUniqueKey";
-export * from "./domains";
 export * from "./format-ordinal";
 export * from "./format-percentage";
 export * from "./getTrailingSixMonths";

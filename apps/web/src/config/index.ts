@@ -1,10 +1,10 @@
-import { DOMAIN_NAME, slugify } from "@sgcarstrends/utils";
+import { slugify } from "@sgcarstrends/utils";
 import { withRelatedProject } from "@vercel/related-projects";
 import { VEHICLE_TYPE_MAP } from "@web/constants";
 import type { Announcement, AppEnv, LinkItem, VehicleType } from "@web/types";
 import { Battery, Droplet, Fuel, Zap } from "lucide-react";
 
-export { DOMAIN_NAME };
+export const DOMAIN_NAME = "sgcarstrends.com";
 const API_VERSION = "v1";
 
 export const SITE_URL =

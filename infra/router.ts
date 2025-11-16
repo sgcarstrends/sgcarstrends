@@ -1,7 +1,6 @@
-import { DOMAIN_NAME } from "@sgcarstrends/utils";
 import { isPermanentStage } from "./config";
 
-export { DOMAIN_NAME };
+const DOMAIN_NAME = "aws.sgcarstrends.com";
 
 const getDomainName = () => {
   switch ($app.stage) {
