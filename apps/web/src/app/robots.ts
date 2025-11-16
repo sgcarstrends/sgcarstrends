@@ -5,31 +5,33 @@ import type { MetadataRoute } from "next";
 const robots = (): MetadataRoute.Robots => {
   const protectedPaths = ["/api/", "/_next/"];
 
+  // Support both Vercel (VERCEL_ENV) and SST (NEXT_PUBLIC_APP_ENV) deployments
+  const isProduction =
+    process.env.VERCEL_ENV === "production" || APP_ENV === AppEnv.PROD;
+
   let rules: MetadataRoute.Robots["rules"];
-  switch (APP_ENV) {
-    case AppEnv.PROD:
-      rules = [
-        { userAgent: "*", allow: "/" },
-        { userAgent: "*", disallow: protectedPaths },
-        { userAgent: "*", allow: "/api/og/" },
-      ];
-      break;
-    default:
-      rules = [
-        { userAgent: "*", disallow: "/" },
-        { userAgent: "*", allow: "/api/og/" },
-        {
-          userAgent: "AhrefsSiteAudit",
-          allow: "/",
-          disallow: protectedPaths,
-        },
-        {
-          userAgent: "AhrefsSiteAudit",
-          allow: "/public/x5wwykuhfx3gazs9h8y3fq9fxtnmv9zw.txt",
-          disallow: protectedPaths,
-        },
-      ];
-      break;
+
+  if (isProduction) {
+    rules = [
+      { userAgent: "*", allow: "/" },
+      { userAgent: "*", disallow: protectedPaths },
+      { userAgent: "*", allow: "/api/og/" },
+    ];
+  } else {
+    rules = [
+      { userAgent: "*", disallow: "/" },
+      { userAgent: "*", allow: "/api/og/" },
+      {
+        userAgent: "AhrefsSiteAudit",
+        allow: "/",
+        disallow: protectedPaths,
+      },
+      {
+        userAgent: "AhrefsSiteAudit",
+        allow: "/public/x5wwykuhfx3gazs9h8y3fq9fxtnmv9zw.txt",
+        disallow: protectedPaths,
+      },
+    ];
   }
 
   return {
