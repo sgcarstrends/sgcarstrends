@@ -10,8 +10,9 @@ vi.mock("next/navigation", () => ({
   }),
 }));
 
-vi.mock("@web/components/makes", () => ({
+vi.mock("@web/app/(dashboard)/cars/_components/makes", () => ({
   MakeTrendChart: () => <div>TrendChart</div>,
+  CoeComparisonChart: () => <div>CoeComparisonChart</div>,
 }));
 
 vi.mock("@web/components/make-selector", () => ({
@@ -53,38 +54,97 @@ const mockMakes: Make[] = ["TOYOTA", "HONDA", "BMW"];
 
 const mockLastUpdated = 1735660800; // 2025-01-01 00:00:00 UTC
 
+const mockCoeComparison = [
+  {
+    month: "2024-01",
+    registrations: 50,
+    categoryAPremium: 95000,
+    categoryBPremium: 110000,
+  },
+  {
+    month: "2024-02",
+    registrations: 30,
+    categoryAPremium: 98000,
+    categoryBPremium: 115000,
+  },
+];
+
 describe("MakeDetail", () => {
-  it("renders make name", () => {
-    render(<MakeDetail make="TOYOTA" cars={mockCars} makes={mockMakes} />);
+  it("should render make name", () => {
+    render(
+      <MakeDetail
+        make="TOYOTA"
+        cars={mockCars}
+        makes={mockMakes}
+        coeComparison={mockCoeComparison}
+      />,
+    );
     expect(screen.getByText("TOYOTA")).toBeVisible();
   });
 
-  it("renders Historical Trend card", () => {
-    render(<MakeDetail make="TOYOTA" cars={mockCars} makes={mockMakes} />);
+  it("should render Historical Trend card", () => {
+    render(
+      <MakeDetail
+        make="TOYOTA"
+        cars={mockCars}
+        makes={mockMakes}
+        coeComparison={mockCoeComparison}
+      />,
+    );
     expect(screen.getByText("Historical Trend")).toBeVisible();
     expect(screen.getByText("Past registrations")).toBeVisible();
   });
 
-  it("renders Summary card", () => {
-    render(<MakeDetail make="TOYOTA" cars={mockCars} makes={mockMakes} />);
+  it("should render COE Premium Impact card", () => {
+    render(
+      <MakeDetail
+        make="TOYOTA"
+        cars={mockCars}
+        makes={mockMakes}
+        coeComparison={mockCoeComparison}
+      />,
+    );
+    expect(screen.getByText("COE Premium Impact")).toBeVisible();
+    expect(
+      screen.getByText("Correlation between registrations and COE premiums"),
+    ).toBeVisible();
+  });
+
+  it("should render Summary card", () => {
+    render(
+      <MakeDetail
+        make="TOYOTA"
+        cars={mockCars}
+        makes={mockMakes}
+        coeComparison={mockCoeComparison}
+      />,
+    );
     expect(screen.getByText("Summary")).toBeVisible();
     expect(
       screen.getByText("Breakdown of fuel & vehicle types by month"),
     ).toBeVisible();
   });
 
-  it("renders NoData component when cars is null", () => {
-    render(<MakeDetail make="TOYOTA" cars={null as any} makes={mockMakes} />);
+  it("should render NoData component when cars is null", () => {
+    render(
+      <MakeDetail
+        make="TOYOTA"
+        cars={null as any}
+        makes={mockMakes}
+        coeComparison={mockCoeComparison}
+      />,
+    );
     expect(screen.getByText("No Data Available")).toBeVisible();
   });
 
-  it("renders LastUpdated component when lastUpdated is provided", () => {
+  it("should render LastUpdated component when lastUpdated is provided", () => {
     render(
       <MakeDetail
         make="TOYOTA"
         cars={mockCars}
         makes={mockMakes}
         lastUpdated={mockLastUpdated}
+        coeComparison={mockCoeComparison}
       />,
     );
     expect(screen.getByText(/Last updated:/)).toBeVisible();
@@ -92,6 +152,7 @@ describe("MakeDetail", () => {
 
   it("should render logo image when logo is provided", () => {
     const mockLogo = {
+      make: "TOYOTA",
       brand: "TOYOTA",
       url: "https://example.com/toyota.png",
       filename: "toyota.png",
@@ -103,6 +164,7 @@ describe("MakeDetail", () => {
         cars={mockCars}
         makes={mockMakes}
         logo={mockLogo}
+        coeComparison={mockCoeComparison}
       />,
     );
 
@@ -112,7 +174,14 @@ describe("MakeDetail", () => {
   });
 
   it("should render placeholder when logo is not provided", () => {
-    render(<MakeDetail make="TOYOTA" cars={mockCars} makes={mockMakes} />);
+    render(
+      <MakeDetail
+        make="TOYOTA"
+        cars={mockCars}
+        makes={mockMakes}
+        coeComparison={mockCoeComparison}
+      />,
+    );
   });
 
   it("should render placeholder when logo download fails", () => {
@@ -122,6 +191,7 @@ describe("MakeDetail", () => {
         cars={mockCars}
         makes={mockMakes}
         logo={undefined}
+        coeComparison={mockCoeComparison}
       />,
     );
   });
