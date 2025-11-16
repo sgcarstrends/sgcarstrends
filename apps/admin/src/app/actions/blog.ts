@@ -1,9 +1,8 @@
 "use server";
 
 import { auth } from "@admin/lib/auth";
-import { getCarsAggregatedByMonth } from "@admin/queries/cars";
-import { getCoeForMonth } from "@admin/queries/coe";
 import { google } from "@ai-sdk/google";
+import { getCarsAggregatedByMonth, getCoeForMonth } from "@sgcarstrends/ai";
 import { db, posts } from "@sgcarstrends/database";
 import { slugify, tokeniser } from "@sgcarstrends/utils";
 import { generateText } from "ai";

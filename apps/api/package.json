@@ -25,6 +25,7 @@
     "@neondatabase/serverless": "1.0.1",
     "@opentelemetry/sdk-trace-node": "^2.1.0",
     "@scalar/hono-api-reference": "^0.9.3",
+    "@sgcarstrends/ai": "workspace:*",
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/logos": "workspace:*",
     "@sgcarstrends/types": "workspace:*",

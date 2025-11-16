@@ -29,6 +29,7 @@
       "always",
       [
         "admin",
+        "ai",
         "api",
         "web",
         "docs",
