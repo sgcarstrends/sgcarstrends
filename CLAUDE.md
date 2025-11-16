@@ -91,7 +91,6 @@ All commands use pnpm as the package manager.
 - **apps/api**: Unified API service using Hono framework with integrated updater workflows
     - **src/v1**: API endpoints for data access
     - **src/lib/workflows**: Workflow-based data update system and social media integration
-    - **src/lib/gemini**: LLM blog generation using Vercel AI SDK with Google Gemini
     - **src/routes**: API route handlers including workflow endpoints
     - **src/config**: Database, Redis, QStash, and platform configurations
     - **src/trpc**: Type-safe tRPC router with authentication
@@ -107,6 +106,12 @@ All commands use pnpm as the package manager.
 - **packages/database**: Database schema and migrations using Drizzle ORM
     - **src/db**: Schema definitions for cars, COE, posts, and analytics tables
     - **migrations**: Database migration files with version tracking
+- **packages/ai**: AI-powered blog generation shared package
+    - **src/generate-post.ts**: Core blog content generation with Code Execution Tool
+    - **src/config.ts**: System instructions and prompts for cars/COE analysis
+    - **src/queries.ts**: Database queries for data aggregation
+    - **src/save-post.ts**: Post persistence with idempotency
+    - **src/instrumentation.ts**: Langfuse telemetry setup
 - **packages/logos**: Car logo management with Vercel Blob storage
     - **src/services/logo**: Core logo fetching, listing, and downloading functions
     - **src/infra/storage**: Vercel Blob service with Redis caching
@@ -231,6 +236,7 @@ PostgreSQL with Drizzle ORM using **camelCase** column naming:
 
 ## Shared Packages
 
+- **`@sgcarstrends/ai`**: AI-powered blog generation with Code Execution Tool, Langfuse telemetry, and comprehensive system instructions for accurate market analysis
 - **`@sgcarstrends/database`**: Drizzle ORM schemas and migrations
 - **`@sgcarstrends/types`**: Shared TypeScript interfaces
 - **`@sgcarstrends/ui`**: Shared UI component library with shadcn/ui, Radix UI primitives, and Tailwind CSS

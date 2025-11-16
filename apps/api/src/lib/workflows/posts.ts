@@ -1,6 +1,8 @@
-import { getCarsAggregatedByMonth } from "@api/features/cars/queries";
-import { getCoeForMonth } from "@api/features/coe/queries";
-import { generatePost } from "@api/lib/gemini/generate-post";
+import {
+  generatePost,
+  getCarsAggregatedByMonth,
+  getCoeForMonth,
+} from "@sgcarstrends/ai";
 import { tokeniser } from "@sgcarstrends/utils";
 import type { WorkflowContext } from "@upstash/workflow";
 
