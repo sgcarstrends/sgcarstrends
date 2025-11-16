@@ -95,7 +95,7 @@ describe("MakeDetail", () => {
     expect(screen.getByText("Past registrations")).toBeVisible();
   });
 
-  it("should render COE Premium Impact card", () => {
+  it("should render Registration vs COE Premium card", () => {
     render(
       <MakeDetail
         make="TOYOTA"
@@ -104,7 +104,7 @@ describe("MakeDetail", () => {
         coeComparison={mockCoeComparison}
       />,
     );
-    expect(screen.getByText("COE Premium Impact")).toBeVisible();
+    expect(screen.getByText("Registration vs COE Premium")).toBeVisible();
     expect(
       screen.getByText("Correlation between registrations and COE premiums"),
     ).toBeVisible();

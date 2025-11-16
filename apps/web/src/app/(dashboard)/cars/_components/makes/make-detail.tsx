@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import type { CarLogo } from "@logos/types";
 import type { SelectCar } from "@sgcarstrends/database";
 import { DataTable } from "@sgcarstrends/ui/components/data-table";
@@ -86,6 +86,15 @@ export const MakeDetail = ({
         <CardBody>
           <CoeComparisonChart data={coeComparison} />
         </CardBody>
+        <CardFooter>
+          <p className="text-default-500 text-sm">
+            Registration bars (left axis) show monthly vehicle purchases, while
+            COE premium lines (right axis) display Category A and B prices.
+            Rising premiums typically correlate with increased demand, though
+            luxury makes may respond differently to Category B changes versus
+            mass-market makes to Category A.
+          </p>
+        </CardFooter>
       </Card>
 
       <Card className="p-4">
