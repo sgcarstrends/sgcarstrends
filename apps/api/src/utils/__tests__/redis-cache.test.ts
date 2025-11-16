@@ -1,14 +1,18 @@
 import { RedisCache } from "@api/utils/redis-cache";
-import { redis } from "@sgcarstrends/utils";
+import { redis, slugify } from "@sgcarstrends/utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock redis
-vi.mock("@sgcarstrends/utils", () => ({
-  redis: {
-    set: vi.fn().mockResolvedValue(true),
-    get: vi.fn().mockResolvedValue("abc123def456"),
-  },
-}));
+vi.mock("@sgcarstrends/utils", async () => {
+  const actual = await vi.importActual("@sgcarstrends/utils");
+  return {
+    ...actual,
+    redis: {
+      hset: vi.fn(),
+      hget: vi.fn(),
+    },
+  };
+});
 
 describe("RedisCache", () => {
   let redisCache: RedisCache;
@@ -19,8 +23,8 @@ describe("RedisCache", () => {
     vi.resetAllMocks();
 
     // Default mock implementations
-    vi.mocked(redis.set).mockResolvedValue(true);
-    vi.mocked(redis.get).mockResolvedValue(checksum);
+    vi.mocked(redis.hset).mockResolvedValue(1);
+    vi.mocked(redis.hget).mockResolvedValue(checksum);
 
     redisCache = new RedisCache();
   });
@@ -30,16 +34,19 @@ describe("RedisCache", () => {
   });
 
   describe("cacheChecksum", () => {
-    it("should store a checksum in Redis", async () => {
+    it("should store a checksum in Redis hash with slugified key", async () => {
       const result = await redisCache.cacheChecksum(fileName, checksum);
+      const key = slugify(fileName);
 
-      expect(redis.set).toHaveBeenCalledWith(`checksum:${fileName}`, checksum);
-      expect(result).toBe(true);
+      expect(redis.hset).toHaveBeenCalledWith("checksum", {
+        [key]: checksum,
+      });
+      expect(result).toBe(1);
     });
 
     it("should handle Redis errors gracefully", async () => {
       // Setup the mock to throw an error
-      vi.mocked(redis.set).mockImplementation(() => {
+      vi.mocked(redis.hset).mockImplementation(() => {
         throw new Error("Redis connection error");
       });
 
@@ -57,15 +64,16 @@ describe("RedisCache", () => {
   });
 
   describe("getCachedChecksum", () => {
-    it("should retrieve a checksum from Redis", async () => {
+    it("should retrieve a checksum from Redis hash with slugified key", async () => {
       const result = await redisCache.getCachedChecksum(fileName);
+      const key = slugify(fileName);
 
-      expect(redis.get).toHaveBeenCalledWith(`checksum:${fileName}`);
+      expect(redis.hget).toHaveBeenCalledWith("checksum", key);
       expect(result).toBe(checksum);
     });
 
     it("should return null when the checksum is not found", async () => {
-      vi.mocked(redis.get).mockResolvedValueOnce(null);
+      vi.mocked(redis.hget).mockResolvedValueOnce(null);
 
       const result = await redisCache.getCachedChecksum(fileName);
 
@@ -74,7 +82,7 @@ describe("RedisCache", () => {
 
     it("should handle Redis errors gracefully", async () => {
       // Setup the mock to throw an error
-      vi.mocked(redis.get).mockImplementation(() => {
+      vi.mocked(redis.hget).mockImplementation(() => {
         throw new Error("Redis connection error");
       });
 
@@ -94,24 +102,24 @@ describe("RedisCache", () => {
   describe("custom Redis instance", () => {
     it("should use custom Redis instance when provided", async () => {
       const customRedis = {
-        set: vi.fn().mockResolvedValue("OK"),
-        get: vi.fn().mockResolvedValue("custom-checksum"),
+        hset: vi.fn().mockResolvedValue(1),
+        hget: vi.fn().mockResolvedValue("custom-checksum"),
       };
 
       const customCache = new RedisCache(customRedis as any);
+      const key = slugify(fileName);
 
       await customCache.cacheChecksum(fileName, checksum);
       await customCache.getCachedChecksum(fileName);
 
-      expect(customRedis.set).toHaveBeenCalledWith(
-        `checksum:${fileName}`,
-        checksum,
-      );
-      expect(customRedis.get).toHaveBeenCalledWith(`checksum:${fileName}`);
+      expect(customRedis.hset).toHaveBeenCalledWith("checksum", {
+        [key]: checksum,
+      });
+      expect(customRedis.hget).toHaveBeenCalledWith("checksum", key);
 
       // Default redis instance should not have been called
-      expect(redis.set).not.toHaveBeenCalled();
-      expect(redis.get).not.toHaveBeenCalled();
+      expect(redis.hset).not.toHaveBeenCalled();
+      expect(redis.hget).not.toHaveBeenCalled();
     });
   });
 });
