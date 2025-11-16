@@ -1,3 +1,9 @@
+## [4.21.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.0...v4.21.1) (2025-11-16)
+
+### Bug Fixes
+
+* **web:** support Vercel in robots config ([dd2ed27](https://github.com/sgcarstrends/sgcarstrends/commit/dd2ed2737b58022003af88aada5f62198c500787))
+
 ## [4.21.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.20.0...v4.21.0) (2025-11-15)
 
 ### Features
