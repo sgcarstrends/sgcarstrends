@@ -1,3 +1,9 @@
+## [4.21.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.2...v4.21.3) (2025-11-16)
+
+### Bug Fixes
+
+* **web:** allow crawlers to access static assets ([caef768](https://github.com/sgcarstrends/sgcarstrends/commit/caef76828394e9ebe8b34cbd6b6a1f5ed2dd3756))
+
 ## [4.21.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.0...v4.21.1) (2025-11-16)
 
 ### Bug Fixes
