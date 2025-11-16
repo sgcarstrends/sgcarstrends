@@ -10,40 +10,59 @@ import {
 import { shutdownTracing, startTracing } from "./instrumentation";
 import { savePost } from "./save-post";
 
+/**
+ * Standalone blog content generation function without WorkflowContext dependency.
+ * Can be used in both workflow and non-workflow contexts (e.g., Admin app).
+ * Always includes Code Execution Tool, telemetry, and tracing for accuracy and observability.
+ *
+ * @param params - Blog generation parameters (data, month, dataType)
+ * @returns Generated text, usage stats, and response metadata
+ */
+export const generateBlogContent = async (params: BlogGenerationParams) => {
+  const { data, month, dataType } = params;
+
+  // Initialize LangFuse tracing
+  startTracing();
+
+  console.log(`${dataType} blog post generation started...`);
+
+  const result = await generateText({
+    model: google("gemini-2.5-flash"),
+    system: SYSTEM_INSTRUCTIONS[dataType],
+    tools: { code_execution: google.tools.codeExecution({}) },
+    prompt: `${dataType.toUpperCase()} data for ${month}:\n${data}\n\n${GENERATION_PROMPTS[dataType]}`,
+    providerOptions: {
+      google: {
+        thinkingConfig: {
+          thinkingBudget: -1,
+        },
+      },
+    },
+    experimental_telemetry: {
+      isEnabled: true,
+      functionId: `post-generation/${dataType}`,
+      metadata: {
+        month,
+        dataType,
+        tags: [dataType, month, "post-generation"],
+      },
+    },
+  });
+
+  console.log(`${dataType} blog post generated`);
+
+  return result;
+};
+
 export const generatePost = async (
   context: WorkflowContext,
   params: BlogGenerationParams,
 ): Promise<BlogResult> => {
-  const { data, month, dataType } = params;
+  const { month, dataType } = params;
 
   return context.run(`Generate blog post for ${dataType}`, async () => {
-    // Initialize LangFuse tracing
-    startTracing();
-
-    console.log(`${dataType} blog post generation started...`);
-
-    const { text, usage, response } = await generateText({
-      model: google("gemini-2.5-flash"),
-      system: SYSTEM_INSTRUCTIONS[dataType],
-      tools: { code_execution: google.tools.codeExecution({}) },
-      prompt: `${dataType.toUpperCase()} data for ${month}:\n${data}\n\n${GENERATION_PROMPTS[dataType]}`,
-      providerOptions: {
-        google: {
-          thinkingConfig: {
-            thinkingBudget: -1,
-          },
-        },
-      },
-      experimental_telemetry: {
-        isEnabled: true,
-        functionId: `post-generation/${dataType}`,
-        metadata: {
-          month,
-          dataType,
-          tags: [dataType, month, "post-generation"],
-        },
-      },
-    });
+    // Generate blog content using shared logic
+    const { text, usage, response } = await generateBlogContent(params);
 
     console.log(`${dataType} blog post generated, saving to database...`);
 
