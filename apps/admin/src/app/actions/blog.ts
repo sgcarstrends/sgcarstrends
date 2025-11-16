@@ -2,13 +2,12 @@
 
 import { auth } from "@admin/lib/auth";
 import {
-  generateBlogContent,
+  generateAndSavePost,
   getCarsAggregatedByMonth,
   getCoeForMonth,
-  shutdownTracing,
 } from "@sgcarstrends/ai";
 import { db, posts } from "@sgcarstrends/database";
-import { slugify, tokeniser } from "@sgcarstrends/utils";
+import { tokeniser } from "@sgcarstrends/utils";
 import { desc } from "drizzle-orm";
 import { headers } from "next/headers";
 
@@ -87,101 +86,19 @@ export const regeneratePost = async (params: {
       data = tokeniser(coe);
     }
 
-    const { text, usage, response } = await generateBlogContent({
+    // Use shared generate and save function
+    const result = await generateAndSavePost({
       data,
       month,
       dataType,
     });
 
-    console.log(`${dataType} blog post generated, saving to database...`);
-
-    // Extract title from the first line (assuming it starts with # Title)
-    const lines = text.split("\n");
-    const titleLine = lines[0];
-    const title = titleLine.replace(/^#+\s*/, "");
-
-    // Generate slug from title
-    const slug = slugify(title);
-
-    // Save to database
-    const [post] = await db
-      .insert(posts)
-      .values({
-        title,
-        slug,
-        content: text,
-        month,
-        dataType,
-        metadata: {
-          month,
-          dataType,
-          responseId: response.id,
-          modelId: response.modelId,
-          timestamp: response.timestamp,
-          usage,
-        },
-        publishedAt: new Date(),
-      })
-      .onConflictDoUpdate({
-        target: [posts.month, posts.dataType],
-        set: {
-          title,
-          slug,
-          content: text,
-          metadata: {
-            month,
-            dataType,
-            responseId: response.id,
-            modelId: response.modelId,
-            timestamp: response.timestamp,
-            usage,
-          },
-          modifiedAt: new Date(),
-        },
-      })
-      .returning();
-
-    console.log(`${dataType} blog post saved successfully`);
-
-    // Revalidate blog cache on web app
-    try {
-      const webUrl =
-        process.env.NEXT_PUBLIC_WEB_URL || "https://sgcarstrends.com";
-      const revalidateUrl = `${webUrl}/api/revalidate`;
-      const revalidateResponse = await fetch(revalidateUrl, {
-        method: "POST",
-        headers: {
-          "x-revalidate-token": process.env.NEXT_PUBLIC_REVALIDATE_TOKEN || "",
-        },
-        body: JSON.stringify({ tag: "blog" }),
-        signal: AbortSignal.timeout(5000),
-      });
-
-      if (revalidateResponse.ok) {
-        console.log("Blog cache revalidated successfully");
-      } else {
-        const text = await revalidateResponse.text();
-        console.warn(
-          `Blog cache revalidation failed with status: ${revalidateResponse.status}, response: ${text}`,
-        );
-      }
-    } catch (error) {
-      console.error("Error revalidating blog cache:", error);
-      // Don't fail blog generation if revalidation fails
-    }
-
-    // Shutdown tracing to flush remaining spans
-    await shutdownTracing();
-
     return {
-      success: true,
-      postId: post.id,
+      success: result.success,
+      postId: result.postId,
     };
   } catch (error) {
     console.error("Error regenerating post:", error);
-
-    // Shutdown tracing even on error to flush spans
-    await shutdownTracing();
 
     return {
       success: false,

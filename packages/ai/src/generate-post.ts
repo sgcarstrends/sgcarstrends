@@ -11,6 +11,17 @@ import { shutdownTracing, startTracing } from "./instrumentation";
 import { savePost } from "./save-post";
 
 /**
+ * Result of generating and saving a blog post
+ */
+export interface GenerateAndSaveResult {
+  success: boolean;
+  month: string;
+  postId: string;
+  title: string;
+  slug: string;
+}
+
+/**
  * Standalone blog content generation function without WorkflowContext dependency.
  * Can be used in both workflow and non-workflow contexts (e.g., Admin app).
  * Always includes Code Execution Tool, telemetry, and tracing for accuracy and observability.
@@ -54,13 +65,20 @@ export const generateBlogContent = async (params: BlogGenerationParams) => {
   return result;
 };
 
-export const generatePost = async (
-  context: WorkflowContext,
+/**
+ * Generates and saves a blog post without WorkflowContext dependency.
+ * Can be used in both workflow and non-workflow contexts (e.g., Admin app).
+ * Handles the complete flow: generation, title extraction, saving, and cache revalidation.
+ *
+ * @param params - Blog generation parameters (data, month, dataType)
+ * @returns Result with post ID, title, slug, and success status
+ */
+export const generateAndSavePost = async (
   params: BlogGenerationParams,
-): Promise<BlogResult> => {
+): Promise<GenerateAndSaveResult> => {
   const { month, dataType } = params;
 
-  return context.run(`Generate blog post for ${dataType}`, async () => {
+  try {
     // Generate blog content using shared logic
     const { text, usage, response } = await generateBlogContent(params);
 
@@ -71,7 +89,7 @@ export const generatePost = async (
     const titleLine = lines[0];
     const title = titleLine.replace(/^#+\s*/, "");
 
-    // Save to database
+    // Save to database (upsert behavior)
     const post = await savePost({
       title,
       content: text,
@@ -85,41 +103,7 @@ export const generatePost = async (
       },
     });
 
-    console.log(`${dataType} blog post generation completed`);
-
-    // Revalidate blog cache
-    try {
-      const stage = process.env.STAGE || "dev";
-      const siteUrl =
-        stage === "prod"
-          ? "https://sgcarstrends.com"
-          : `https://${stage}.sgcarstrends.com`;
-
-      const revalidateUrl = `${siteUrl}/api/revalidate`;
-      const revalidateResponse = await fetch(revalidateUrl, {
-        method: "POST",
-        headers: {
-          "x-revalidate-token": process.env.NEXT_PUBLIC_REVALIDATE_TOKEN || "",
-        },
-        body: JSON.stringify({ tag: "blog" }),
-        signal: AbortSignal.timeout(5000),
-      });
-
-      if (revalidateResponse.ok) {
-        console.log("Blog cache revalidated successfully");
-      } else {
-        const text = await revalidateResponse.text();
-        console.warn(
-          `Blog cache revalidation failed with status: ${revalidateResponse.status}, response: ${text}`,
-        );
-      }
-    } catch (error) {
-      console.error("Error revalidating blog cache:", error);
-      // Don't fail blog generation if revalidation fails
-    }
-
-    // Shutdown tracing to flush remaining spans
-    await shutdownTracing();
+    console.log(`${dataType} blog post saved successfully`);
 
     return {
       success: true,
@@ -128,5 +112,24 @@ export const generatePost = async (
       title: post.title,
       slug: post.slug,
     };
+  } finally {
+    // Shutdown tracing to flush remaining spans (even on error)
+    await shutdownTracing();
+  }
+};
+
+export const generatePost = async (
+  context: WorkflowContext,
+  params: BlogGenerationParams,
+): Promise<BlogResult> => {
+  const { dataType } = params;
+
+  return context.run(`Generate blog post for ${dataType}`, async () => {
+    // Use the shared generate and save function
+    const result = await generateAndSavePost(params);
+
+    console.log(`${dataType} blog post generation completed`);
+
+    return result;
   });
 };
