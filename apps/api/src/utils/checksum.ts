@@ -1,7 +1,7 @@
 import { redis, slugify } from "@sgcarstrends/utils";
 import type { Redis } from "@upstash/redis";
 
-export class RedisCache {
+export class Checksum {
   private redis: Redis;
 
   constructor(redisInstance: Redis = redis) {

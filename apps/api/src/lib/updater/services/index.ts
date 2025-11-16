@@ -1,4 +1,4 @@
-export { RedisCache } from "@api/utils/redis-cache";
+export { Checksum } from "@api/utils/checksum";
 export { calculateChecksum } from "./calculate-checksum";
 export { downloadFile } from "./download-file";
 export type { CSVTransformOptions } from "./process-csv";

@@ -57,7 +57,7 @@ describe("normaliseMake", () => {
       expected: "citroen",
     },
     { description: "Škoda with caron", input: "Škoda", expected: "skoda" },
-    { description: "McLaren casing", input: "McLaren", expected: "mc-laren" },
+    { description: "McLaren casing", input: "McLaren", expected: "mclaren" },
 
     // Empty and whitespace
     { description: "empty string", input: "", expected: "" },

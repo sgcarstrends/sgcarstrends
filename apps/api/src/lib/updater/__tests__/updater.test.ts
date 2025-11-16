@@ -8,7 +8,7 @@ import {
 import { calculateChecksum } from "@api/lib/updater/services/calculate-checksum";
 import { downloadFile } from "@api/lib/updater/services/download-file";
 import { processCsv } from "@api/lib/updater/services/process-csv";
-import type { RedisCache } from "@api/utils/redis-cache";
+import type { Checksum } from "@api/utils/checksum";
 import { db } from "@sgcarstrends/database";
 import { createUniqueKey } from "@sgcarstrends/utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -17,7 +17,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 vi.mock("@api/lib/updater/services/download-file");
 vi.mock("@api/lib/updater/services/calculate-checksum");
 vi.mock("@api/lib/updater/services/process-csv");
-vi.mock("@api/utils/redis-cache");
+vi.mock("@api/utils/checksum");
 vi.mock("@sgcarstrends/database", () => ({
   db: {
     select: vi.fn(),
@@ -46,7 +46,7 @@ const mockTable = {
 } as any;
 
 describe("Updater", () => {
-  let mockRedisCache: RedisCache;
+  let mockChecksum: Checksum;
   let updaterConfig: UpdaterConfig<any>;
   let updaterOptions: UpdaterOptions;
 
@@ -58,8 +58,8 @@ describe("Updater", () => {
   beforeEach(() => {
     vi.resetAllMocks();
 
-    // Mock RedisCache
-    mockRedisCache = {
+    // Mock Checksum
+    mockChecksum = {
       getCachedChecksum: vi.fn(),
       cacheChecksum: vi.fn(),
     } as any;
@@ -73,7 +73,7 @@ describe("Updater", () => {
     };
 
     updaterOptions = {
-      redisCache: mockRedisCache,
+      checksum: mockChecksum,
       batchSize: 2,
     };
 
@@ -123,8 +123,8 @@ describe("Updater", () => {
   describe("update", () => {
     it("should successfully process new data", async () => {
       // Mock no cached checksum (first run)
-      vi.mocked(mockRedisCache.getCachedChecksum).mockResolvedValue(null);
-      vi.mocked(mockRedisCache.cacheChecksum).mockResolvedValue("cached");
+      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
+      vi.mocked(mockChecksum.cacheChecksum).mockResolvedValue("cached");
 
       const updater = new Updater(updaterConfig, updaterOptions);
       const result = await updater.update();
@@ -143,7 +143,7 @@ describe("Updater", () => {
       expect(calculateChecksum).toHaveBeenCalledWith(
         path.join(AWS_LAMBDA_TEMP_DIR, "test-file.csv"),
       );
-      expect(mockRedisCache.cacheChecksum).toHaveBeenCalledWith(
+      expect(mockChecksum.cacheChecksum).toHaveBeenCalledWith(
         "test-file.csv",
         "abc123",
       );
@@ -151,7 +151,7 @@ describe("Updater", () => {
 
     it("should return early when file hasn't changed", async () => {
       // Mock cached checksum matches current checksum
-      vi.mocked(mockRedisCache.getCachedChecksum).mockResolvedValue("abc123");
+      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue("abc123");
 
       const updater = new Updater(updaterConfig, updaterOptions);
       const result = await updater.update();
@@ -170,7 +170,7 @@ describe("Updater", () => {
 
     it("should handle no new records to insert", async () => {
       // Mock checksum change but all records already exist
-      vi.mocked(mockRedisCache.getCachedChecksum).mockResolvedValue(
+      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(
         "different123",
       );
 
@@ -204,7 +204,7 @@ describe("Updater", () => {
         }));
 
       vi.mocked(processCsv).mockResolvedValue(largeDataSet);
-      vi.mocked(mockRedisCache.getCachedChecksum).mockResolvedValue(null);
+      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
 
       // Mock insert to return the batch
       const mockInsert = {
@@ -245,7 +245,7 @@ describe("Updater", () => {
 
   describe("downloadAndVerify", () => {
     it("should download file and calculate checksum", async () => {
-      vi.mocked(mockRedisCache.getCachedChecksum).mockResolvedValue(null);
+      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
 
       const updater = new Updater(updaterConfig, updaterOptions);
       // Access private method for testing
@@ -266,7 +266,7 @@ describe("Updater", () => {
     });
 
     it("should return null checksum when file hasn't changed", async () => {
-      vi.mocked(mockRedisCache.getCachedChecksum).mockResolvedValue("abc123");
+      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue("abc123");
 
       const updater = new Updater(updaterConfig, updaterOptions);
       const result = await (updater as any).downloadAndVerify();
@@ -280,7 +280,7 @@ describe("Updater", () => {
         csvFile: "specific-file.csv",
       };
 
-      vi.mocked(mockRedisCache.getCachedChecksum).mockResolvedValue(null);
+      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
 
       const updater = new Updater(configWithCsvFile, updaterOptions);
       await (updater as any).downloadAndVerify();
