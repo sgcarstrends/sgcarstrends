@@ -17,10 +17,11 @@ export const updateCoe = async () => {
 
   // Update COE bidding results
   const coeKeyFields: Array<keyof COE> = ["month", "biddingNo"];
-  const parseNumericFields: Array<keyof COE> = [
+  const coeParseNumericFields: Array<keyof COE> = [
     "quota",
     "bidsSuccess",
     "bidsReceived",
+    "premium",
   ];
 
   const coeUpdater = new Updater<COE>({
@@ -29,8 +30,14 @@ export const updateCoe = async () => {
     csvFile: "M11-coe_results.csv",
     keyFields: coeKeyFields,
     csvTransformOptions: {
+      columnMapping: {
+        bidding_no: "biddingNo",
+        vehicle_class: "vehicleClass",
+        bids_success: "bidsSuccess",
+        bids_received: "bidsReceived",
+      },
       fields: Object.fromEntries(
-        parseNumericFields.map((field) => [field, parseNumericString]),
+        coeParseNumericFields.map((field) => [field, parseNumericString]),
       ),
     },
   });
@@ -39,13 +46,22 @@ export const updateCoe = async () => {
   console.log("[COE]", coeResult);
 
   // Update COE PQP (Prevailing Quota Premium)
-  const pqpKeyFields: Array<keyof PQP> = ["month", "vehicle_class", "pqp"];
+  const pqpKeyFields: Array<keyof PQP> = ["month", "vehicleClass", "pqp"];
+  const pqpParseNumericFields: Array<keyof PQP> = ["pqp"];
 
   const pqpUpdater = new Updater<PQP>({
     table: pqp,
     url,
     csvFile: "M11-coe_results_pqp.csv",
     keyFields: pqpKeyFields,
+    csvTransformOptions: {
+      columnMapping: {
+        vehicle_class: "vehicleClass",
+      },
+      fields: Object.fromEntries(
+        pqpParseNumericFields.map((field) => [field, parseNumericString]),
+      ),
+    },
   });
 
   const pqpResult = await pqpUpdater.update();

@@ -5,12 +5,12 @@ export const coe = pgTable(
   {
     id: uuid().defaultRandom().primaryKey(),
     month: text().notNull(),
-    biddingNo: integer(),
+    biddingNo: integer().notNull(),
     vehicleClass: text().notNull(),
-    quota: integer().default(0),
-    bidsSuccess: integer().default(0),
-    bidsReceived: integer().default(0),
-    premium: integer().default(0),
+    quota: integer().notNull(),
+    bidsSuccess: integer().notNull(),
+    bidsReceived: integer().notNull(),
+    premium: integer().notNull(),
   },
   (table) => [
     index().on(table.month, table.vehicleClass),
@@ -28,7 +28,7 @@ export const pqp = pgTable(
     id: uuid().defaultRandom().primaryKey(),
     month: text().notNull(),
     vehicleClass: text().notNull(),
-    pqp: integer().default(0),
+    pqp: integer().notNull(),
   },
   (table) => [
     index().on(table.month, table.vehicleClass),

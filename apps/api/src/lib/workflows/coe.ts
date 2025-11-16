@@ -34,7 +34,7 @@ export const coeWorkflow = createWorkflow(
       };
     }
 
-    const { month, bidding_no: biddingNo } = await getCoeLatestMonth();
+    const { month, biddingNo } = await getCoeLatestMonth();
 
     // Invalidate cache for updated COE data
     await revalidateWebCache(context, [
@@ -47,7 +47,7 @@ export const coeWorkflow = createWorkflow(
       "latest-coe-month",
     ]);
 
-    // Generate blog post only when both bidding exercises are complete (bidding_no = 2)
+    // Generate blog post only when both bidding exercises are complete (biddingNo = 2)
     if (biddingNo === 2) {
       const post = await generateCoePost(context, month);
 
