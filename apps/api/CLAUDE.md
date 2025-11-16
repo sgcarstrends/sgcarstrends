@@ -55,10 +55,11 @@ See `sst-deployment` skill for multi-environment deployment workflows.
 - **src/routes/**: Workflow endpoints and social media webhooks
 - **src/trpc/**: Type-safe tRPC router with context creation
 - **src/lib/workflows/**: QStash workflows (cars, coe, posts, save-post, update-cars, update-coe, workflow, options)
-- **src/lib/gemini/**: LLM-powered blog post generation using Vercel AI SDK with Google Gemini
 - **src/lib/social/**: Platform-specific social media posting logic
 - **src/config/**: Configuration for databases, Redis, QStash, and platforms
 - **src/utils/**: Utility functions for file processing, caching, and responses
+
+**Note**: Blog generation logic has been extracted to the `@sgcarstrends/ai` shared package for reuse across API workflows and Admin app.
 
 ### Features
 
@@ -81,8 +82,7 @@ The API uses a workflow-based system for data processing:
 
 - **Workflow Runtime** (`src/lib/workflows/workflow.ts`): Common workflow helpers, step runner, Redis timestamps
 - **Data Updaters** (`src/lib/workflows/update-cars.ts`, `src/lib/workflows/update-coe.ts`): Automated data fetching and processing
-- **Blog Generation** (`src/lib/workflows/posts.ts`): LLM-powered blog post creation using Vercel AI SDK with Google Gemini via `src/lib/gemini/generate-post.ts`
-- **Post Management** (`src/lib/workflows/save-post.ts`): Blog post persistence with idempotency support
+- **Blog Generation** (`src/lib/workflows/posts.ts`): Orchestrates LLM-powered blog post creation using `@sgcarstrends/ai` package
 - **Main Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`): Main workflow orchestrators exposed as routes
 - **Social Publishing**: Automated posting to platforms when data updates occur
 
@@ -198,8 +198,8 @@ The API integrates Langfuse for comprehensive LLM observability and analytics:
 
 ### Implementation
 
-- **Instrumentation**: `src/instrumentation.ts` - OpenTelemetry setup with Langfuse span processor
-- **Telemetry**: Enabled in `src/lib/gemini/generate-post.ts` via Vercel AI SDK's experimental telemetry
+- **Instrumentation**: Configured in `@sgcarstrends/ai` package via `instrumentation.ts` - OpenTelemetry setup with Langfuse span processor
+- **Telemetry**: Enabled in `@sgcarstrends/ai/generate-post.ts` via Vercel AI SDK's experimental telemetry
 - **Automatic Initialization**: Instrumentation starts on Lambda cold start before any imports
 - **Optional**: Langfuse credentials are optional - API works without them
 
