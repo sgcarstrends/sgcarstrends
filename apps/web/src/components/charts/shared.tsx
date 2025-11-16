@@ -72,22 +72,3 @@ interface MonthXAxisProps {
 export const MonthXAxis = ({ tickFormatter }: MonthXAxisProps) => (
   <XAxis dataKey="month" tickFormatter={tickFormatter} axisLine={false} />
 );
-
-interface ChartDescriptionSectionProps {
-  title?: string;
-  description: string;
-  className?: string;
-}
-
-export const ChartDescriptionSection = ({
-  title = "Chart Description",
-  description,
-  className = "",
-}: ChartDescriptionSectionProps) => (
-  <div className={className}>
-    <div className="text-default-500 text-sm">
-      <h4 className="mb-2 font-semibold text-foreground">{title}</h4>
-      <p>{description}</p>
-    </div>
-  </div>
-);
