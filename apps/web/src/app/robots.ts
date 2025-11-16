@@ -3,7 +3,8 @@ import { AppEnv } from "@web/types";
 import type { MetadataRoute } from "next";
 
 const robots = (): MetadataRoute.Robots => {
-  const protectedPaths = ["/api/", "/_next/"];
+  // Protect API routes and Next.js data endpoints, but allow static assets
+  const protectedPaths = ["/api/", "/_next/data/"];
 
   // Support both Vercel (VERCEL_ENV) and SST (NEXT_PUBLIC_APP_ENV) deployments
   const isProduction =
@@ -14,6 +15,7 @@ const robots = (): MetadataRoute.Robots => {
   if (isProduction) {
     rules = [
       { userAgent: "*", allow: "/" },
+      { userAgent: "*", allow: "/_next/static/" },
       { userAgent: "*", disallow: protectedPaths },
       { userAgent: "*", allow: "/api/og/" },
     ];
@@ -24,6 +26,11 @@ const robots = (): MetadataRoute.Robots => {
       {
         userAgent: "AhrefsSiteAudit",
         allow: "/",
+        disallow: protectedPaths,
+      },
+      {
+        userAgent: "AhrefsSiteAudit",
+        allow: "/_next/static/",
         disallow: protectedPaths,
       },
       {
