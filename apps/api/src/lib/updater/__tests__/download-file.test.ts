@@ -69,15 +69,67 @@ describe("downloadFile", () => {
     expect(result).toBe("data.csv");
   });
 
-  it("should handle HTTP errors", async () => {
+  it("should handle HTTP errors and log detailed error information", async () => {
+    const mockErrorBody = "<html><body>Not Found</body></html>";
+    const consoleErrorSpy = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
     vi.mocked(global.fetch).mockResolvedValue({
       ok: false,
       status: 404,
+      statusText: "Not Found",
+      text: vi.fn().mockResolvedValue(mockErrorBody),
     } as unknown as Response);
 
     await expect(downloadFile(mockUrl)).rejects.toThrow(
       "HTTP error! status: 404",
     );
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Download failed:",
+      expect.objectContaining({
+        status: 404,
+        statusText: "Not Found",
+        url: mockUrl,
+        errorBody: mockErrorBody,
+        timestamp: expect.any(String),
+      }),
+    );
+
+    consoleErrorSpy.mockRestore();
+  });
+
+  it("should handle 403 forbidden errors with detailed logging", async () => {
+    const mockErrorBody =
+      "<html><body>403 Forbidden - Access Denied</body></html>";
+    const consoleErrorSpy = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: false,
+      status: 403,
+      statusText: "Forbidden",
+      text: vi.fn().mockResolvedValue(mockErrorBody),
+    } as unknown as Response);
+
+    await expect(downloadFile(mockUrl)).rejects.toThrow(
+      "HTTP error! status: 403",
+    );
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Download failed:",
+      expect.objectContaining({
+        status: 403,
+        statusText: "Forbidden",
+        url: mockUrl,
+        errorBody: mockErrorBody,
+        timestamp: expect.any(String),
+      }),
+    );
+
+    consoleErrorSpy.mockRestore();
   });
 
   it("should handle fetch failures", async () => {

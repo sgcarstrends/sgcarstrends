@@ -6,6 +6,14 @@ export const downloadFile = async (url: string, csvFile?: string) => {
     const response = await fetch(url);
 
     if (!response.ok) {
+      const errorBody = await response.text();
+      console.error("Download failed:", {
+        status: response.status,
+        statusText: response.statusText,
+        url,
+        errorBody: errorBody.substring(0, 500),
+        timestamp: new Date().toISOString(),
+      });
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
