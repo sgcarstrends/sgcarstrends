@@ -1,3 +1,9 @@
+## [4.21.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.3...v4.21.4) (2025-11-18)
+
+### Bug Fixes
+
+* **api:** enhance error logging in download function ([1d5d94f](https://github.com/sgcarstrends/sgcarstrends/commit/1d5d94f9599380b10f2b31ae64fddcfcf9a5de52))
+
 ## [4.21.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.2...v4.21.3) (2025-11-16)
 
 ### Bug Fixes
