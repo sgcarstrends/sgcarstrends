@@ -40,7 +40,7 @@
     "ai": "catalog:",
     "date-fns": "catalog:",
     "drizzle-orm": "0.44.3",
-    "hono": "^4.10.3",
+    "hono": "^4.10.4",
     "linkedin-api-client": "npm:@ruchernchong/linkedin-api-client@^0.3.1",
     "papaparse": "^5.4.1",
     "resend": "catalog:",
