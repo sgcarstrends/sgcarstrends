@@ -1,3 +1,9 @@
+## [4.22.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.4...v4.22.0) (2025-11-19)
+
+### Features
+
+* **web:** add COE premium comparison to makes ([ee80323](https://github.com/sgcarstrends/sgcarstrends/commit/ee8032345269545d0e84db465ac91476511e1b89))
+
 ## [4.21.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.3...v4.21.4) (2025-11-18)
 
 ### Bug Fixes
