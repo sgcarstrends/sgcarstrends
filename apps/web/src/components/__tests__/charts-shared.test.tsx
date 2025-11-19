@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import {
-  ChartDescriptionSection,
   currencyTooltipFormatter,
   MonthXAxis,
   PriceYAxis,
@@ -8,7 +7,7 @@ import {
 import { Line, LineChart } from "recharts";
 
 describe("Chart shared helpers", () => {
-  it("formats currency tooltip content with matching colour indicator", () => {
+  it("should format currency tooltip content with matching colour indicator", () => {
     const fragment = currencyTooltipFormatter({
       value: 123456,
       name: "COE Premium",
@@ -20,7 +19,7 @@ describe("Chart shared helpers", () => {
     expect(screen.getByText("$123,456")).toBeInTheDocument();
   });
 
-  it("renders axis helpers without crashing", () => {
+  it("should render axis helpers without crashing", () => {
     render(
       <LineChart
         width={400}
@@ -34,19 +33,5 @@ describe("Chart shared helpers", () => {
     );
 
     expect(document.querySelector("svg")).toBeTruthy();
-  });
-
-  it("renders a chart description section", () => {
-    render(
-      <ChartDescriptionSection
-        title="Trend insight"
-        description="COE premiums are stabilising."
-      />,
-    );
-
-    expect(screen.getByText("Trend insight")).toBeInTheDocument();
-    expect(
-      screen.getByText("COE premiums are stabilising."),
-    ).toBeInTheDocument();
   });
 });

@@ -1,3 +1,4 @@
+export { CoeComparisonChart } from "./coe-comparison-chart";
 export { MakeCard } from "./make-card";
 export { MakeDetail } from "./make-detail";
 export { MakeDrawer } from "./make-drawer";

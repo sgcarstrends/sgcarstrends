@@ -11,6 +11,7 @@ import {
   getDistinctMakes,
   getMakeDetails,
 } from "@web/queries/cars";
+import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import { getCarLogo } from "@web/queries/logos";
 import type { Make } from "@web/types";
 import type { Metadata } from "next";
@@ -52,10 +53,12 @@ export const generateStaticParams = async () => {
 const CarMakePage = async ({ params }: Props) => {
   const { make } = await params;
 
-  const [{ cars, makes, lastUpdated, makeName }, logo] = await Promise.all([
-    fetchMakePageData(make),
-    getCarLogo(make),
-  ]);
+  const [{ cars, makes, lastUpdated, makeName }, logo, coeComparison] =
+    await Promise.all([
+      fetchMakePageData(make),
+      getCarLogo(make),
+      getMakeCoeComparison(make),
+    ]);
 
   const title = `${makeName} Cars Overview: Registration Trends`;
   const description = `${makeName} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
@@ -74,6 +77,7 @@ const CarMakePage = async ({ params }: Props) => {
         makes={makes}
         lastUpdated={lastUpdated}
         logo={logo}
+        coeComparison={coeComparison}
       />
     </>
   );
