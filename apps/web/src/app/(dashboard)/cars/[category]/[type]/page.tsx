@@ -5,24 +5,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import { redis, slugify } from "@sgcarstrends/utils";
+import { slugify } from "@sgcarstrends/utils";
 import { CarOverviewTrends } from "@web/app/(dashboard)/cars/_components/overview-trends";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/[category]/[type]/search-params";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
-import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { SITE_TITLE, SITE_URL } from "@web/config";
+import { loadCarsTypePageData } from "@web/lib/cars/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import {
   checkFuelTypeIfExist,
   checkVehicleTypeIfExist,
   getDistinctFuelTypes,
   getDistinctVehicleTypes,
-  getFuelTypeData,
-  getVehicleTypeData,
 } from "@web/queries/cars";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
+import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
@@ -31,17 +30,6 @@ import type { WebPage, WithContext } from "schema-dts";
 interface Props {
   params: Promise<{ category: string; type: string }>;
   searchParams: Promise<SearchParams>;
-}
-
-interface TypeData {
-  total: number;
-  data: {
-    month: string;
-    make: string;
-    fuelType?: string;
-    vehicleType?: string;
-    count: number;
-  }[];
 }
 
 const categoryConfigs = {
@@ -129,13 +117,11 @@ const TypePage = async ({ params, searchParams }: Props) => {
 
   month = await getMonthOrLatest(month, "cars");
 
-  const [cars, months, lastUpdated] = (await Promise.all([
-    category === "fuel-types"
-      ? getFuelTypeData(type, month)
-      : getVehicleTypeData(type, month),
-    fetchMonthsForCars(),
-    redis.get<number>(LAST_UPDATED_CARS_KEY),
-  ])) as [TypeData, string[], number | null];
+  const { cars, months, lastUpdated } = await loadCarsTypePageData(
+    category,
+    type,
+    month,
+  );
 
   const formattedMonth = formatDateToMonthYear(month);
 
