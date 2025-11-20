@@ -8,21 +8,16 @@ import {
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
 import { Progress } from "@sgcarstrends/ui/components/progress";
-import { redis } from "@sgcarstrends/utils";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
-import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import { calculateOverviewStats } from "@web/lib/coe/calculations";
+import { loadCOEOverviewPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
-import {
-  getCoeCategoryTrends,
-  getCoeResults,
-  getLatestCoeResults,
-  getPqpRates,
-} from "@web/queries/coe";
+import { getLatestCoeResults } from "@web/queries/coe";
 import { formatPercent } from "@web/utils/charts";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import type { Metadata } from "next";
@@ -55,29 +50,8 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const COEPricesPage = async () => {
-  // Fetch COE trends for all categories in parallel
-  const trendResults = await Promise.all([
-    getCoeCategoryTrends("Category A"),
-    getCoeCategoryTrends("Category B"),
-    getCoeCategoryTrends("Category C"),
-    getCoeCategoryTrends("Category D"),
-    getCoeCategoryTrends("Category E"),
-  ]);
-
-  const coeTrends = {
-    "Category A": trendResults[0],
-    "Category B": trendResults[1],
-    "Category C": trendResults[2],
-    "Category D": trendResults[3],
-    "Category E": trendResults[4],
-  };
-
-  const [latestResults, allCoeResults, pqpRates] = await Promise.all([
-    getLatestCoeResults(),
-    getCoeResults(),
-    getPqpRates(),
-  ]);
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
+  const { coeTrends, latestResults, allCoeResults, pqpRates, lastUpdated } =
+    await loadCOEOverviewPageData();
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",

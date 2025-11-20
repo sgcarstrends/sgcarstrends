@@ -6,9 +6,7 @@ import { TopMakesByYear } from "@web/components/top-makes-by-year";
 import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-registrations-by-year";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { getAllPosts } from "@web/lib/data/posts";
-import { getTopMakesByYear, getYearlyRegistrations } from "@web/queries/cars";
-import { getAllCoeCategoryTrends, getLatestCoeResults } from "@web/queries/coe";
+import { loadHomePageData } from "@web/lib/home/page-data";
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { WebSite, WithContext } from "schema-dts";
@@ -29,14 +27,8 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
-  const [coeTrends, yearlyData, latestTopMakes, allPosts, latestCoe] =
-    await Promise.all([
-      getAllCoeCategoryTrends(),
-      getYearlyRegistrations(),
-      getTopMakesByYear(),
-      getAllPosts(),
-      getLatestCoeResults(),
-    ]);
+  const { coeTrends, yearlyData, latestTopMakes, allPosts, latestCoe } =
+    await loadHomePageData();
   const latestYear = yearlyData.at(-1)?.year;
   const structuredData: WithContext<WebSite> = {
     "@context": "https://schema.org",

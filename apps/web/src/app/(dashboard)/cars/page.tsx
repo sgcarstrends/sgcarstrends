@@ -1,4 +1,3 @@
-import { redis } from "@sgcarstrends/utils";
 import { TopMakes } from "@web/app/(dashboard)/cars/_components/top-makes";
 import { CategoryTabs } from "@web/app/(dashboard)/cars/category-tabs";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
@@ -8,17 +7,16 @@ import { MetricCard } from "@web/components/shared/metric-card";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { SITE_TITLE, SITE_URL } from "@web/config";
+import {
+  loadCarsMetadataData,
+  loadCarsPageData,
+} from "@web/lib/cars/page-data";
+import { loadLastUpdated } from "@web/lib/common";
 import { createPageMetadata } from "@web/lib/metadata";
 import { generateDatasetSchema } from "@web/lib/structured-data";
-import {
-  getCarsComparison,
-  getCarsData,
-  getTopMakesByFuelType,
-  getTopTypes,
-} from "@web/queries/cars";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
+import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
@@ -40,10 +38,7 @@ export const generateMetadata = async ({
   const title = `${formattedMonth} Car Registrations`;
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
 
-  const [topTypes, carRegistration] = await Promise.all([
-    getTopTypes(month),
-    getCarsData(month),
-  ]);
+  const { topTypes, carRegistration } = await loadCarsMetadataData(month);
   const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${carRegistration.total}&topFuelType=${topTypes.topFuelType.name}&topVehicleType=${topTypes.topVehicleType.name}`;
 
   return createPageMetadata({
@@ -60,15 +55,10 @@ const CarsPage = async ({ searchParams }: Props) => {
 
   month = await getMonthOrLatest(month, "cars");
 
-  const [cars, comparison, topTypes, topMakes, months] = await Promise.all([
-    getCarsData(month),
-    getCarsComparison(month),
-    getTopTypes(month),
-    getTopMakesByFuelType(month),
-    fetchMonthsForCars(),
-  ]);
+  const { cars, comparison, topTypes, topMakes, months } =
+    await loadCarsPageData(month);
 
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
+  const lastUpdated = await loadLastUpdated("cars");
 
   if (!cars) {
     return notFound();
