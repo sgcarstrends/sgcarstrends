@@ -35,12 +35,25 @@ export const generateMetadata = (): Metadata => {
   });
 };
 
-const COETrendsPage = async ({ searchParams }: Props) => {
+const Page = async ({ searchParams }: Props) => {
+  const { start, end } = await loadSearchParams(searchParams);
+
+  return <COETrendsPage start={start} end={end} />;
+};
+
+export default Page;
+
+const COETrendsPage = async ({
+  start,
+  end,
+}: {
+  start: string;
+  end: string;
+}) => {
   "use cache";
   cacheLife("max");
   cacheTag("coe");
 
-  const { start, end } = await loadSearchParams(searchParams);
   const { months, lastUpdated, data } = await fetchCOEPageData(start, end);
   const trendInsights = calculateTrendInsights(data);
 
@@ -140,5 +153,3 @@ const COETrendsPage = async ({ searchParams }: Props) => {
     </>
   );
 };
-
-export default COETrendsPage;

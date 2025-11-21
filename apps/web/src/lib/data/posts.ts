@@ -1,11 +1,10 @@
 import { db, posts } from "@sgcarstrends/database";
-import { CACHE_LIFE } from "@web/lib/cache";
 import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getAllPosts() {
   "use cache";
-  cacheLife(CACHE_LIFE.blogs);
+  cacheLife("max");
   cacheTag("posts");
 
   return db.query.posts.findMany({
@@ -16,7 +15,7 @@ export async function getAllPosts() {
 
 export async function getPostBySlug(slug: string) {
   "use cache";
-  cacheLife(CACHE_LIFE.blogs);
+  cacheLife("max");
   cacheTag("posts");
 
   return db.query.posts.findFirst({
@@ -26,7 +25,7 @@ export async function getPostBySlug(slug: string) {
 
 export async function getPostsByIds(postIds: string[]) {
   "use cache";
-  cacheLife(CACHE_LIFE.blogs);
+  cacheLife("max");
   cacheTag("posts");
 
   if (postIds.length === 0) {

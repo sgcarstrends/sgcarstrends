@@ -6,7 +6,7 @@ import { cacheLife, cacheTag } from "next/cache";
 
 export const getLatestCoeResults = async (): Promise<COEResult[]> => {
   "use cache";
-  cacheLife(CACHE_LIFE.latestData);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.coe.latestResults());
 
   const [{ latestMonth }] = await db

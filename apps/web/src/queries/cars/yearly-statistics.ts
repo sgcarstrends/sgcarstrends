@@ -10,7 +10,7 @@ const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;
  */
 export const getYearlyRegistrations = async () => {
   "use cache";
-  cacheLife(CACHE_LIFE.statistics);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.cars.statsYearly());
 
   const results = await db
@@ -34,7 +34,7 @@ export const getYearlyRegistrations = async () => {
  */
 export const getTopMakesByYear = async (year?: number, limit = 8) => {
   "use cache";
-  cacheLife(CACHE_LIFE.statistics);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.cars.statsTopMakes(String(year ?? "latest")));
 
   let targetYear = year;

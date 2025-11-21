@@ -40,12 +40,24 @@ export const generateMetadata = (): Metadata => {
   });
 };
 
-const COEBiddingPage = async ({ searchParams }: Props) => {
+const Page = async ({ searchParams }: Props) => {
+  const { start, end } = await loadSearchParams(searchParams);
+
+  return <COEBiddingPage start={start} end={end} />;
+};
+
+export default Page;
+
+const COEBiddingPage = async ({
+  start,
+  end,
+}: {
+  start: string;
+  end: string;
+}) => {
   "use cache";
   cacheLife("max");
   cacheTag("coe");
-
-  const { start, end } = await loadSearchParams(searchParams);
   const defaultStart = await getDefaultStartDate();
   const defaultEnd = await getDefaultEndDate();
   const startDate = start || defaultStart;
@@ -125,5 +137,3 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
     </>
   );
 };
-
-export default COEBiddingPage;

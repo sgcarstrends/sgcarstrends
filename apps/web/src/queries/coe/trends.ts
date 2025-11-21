@@ -78,7 +78,7 @@ export const getCoeCategoryTrends = async (
   year?: number,
 ): Promise<CoeMonthlyPremium[]> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
 
   const { startMonth, endMonth } = getDateRange(year);
   cacheTag(...CACHE_TAG.coe.range(startMonth, endMonth));
@@ -97,7 +97,7 @@ export const getAllCoeCategoryTrends = async (
   year?: number,
 ): Promise<Record<COECategory, CoeMonthlyPremium[]>> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
 
   const { startMonth, endMonth } = getDateRange(year);
   cacheTag(...CACHE_TAG.coe.range(startMonth, endMonth));

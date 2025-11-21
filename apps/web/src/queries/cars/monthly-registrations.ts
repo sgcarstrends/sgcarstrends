@@ -7,7 +7,7 @@ import { cacheLife, cacheTag } from "next/cache";
 
 export const getCarsData = async (month: string): Promise<Registration> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.cars.dataset(month));
 
   const fuelTypeQuery = db
@@ -55,7 +55,7 @@ export const getCarsData = async (month: string): Promise<Registration> => {
 
 export const getCarsComparison = async (month: string): Promise<Comparison> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.cars.comparison(month));
 
   const currentDate = new Date(`${month}-01`);

@@ -47,12 +47,25 @@ export const generateMetadata = async (): Promise<Metadata> => {
   });
 };
 
-const COEResultsPage = async ({ searchParams }: Props) => {
+const Page = async ({ searchParams }: Props) => {
+  const { start, end } = await loadSearchParams(searchParams);
+
+  return <COEResultsPage start={start} end={end} />;
+};
+
+export default Page;
+
+const COEResultsPage = async ({
+  start,
+  end,
+}: {
+  start: string;
+  end: string;
+}) => {
   "use cache";
   cacheLife("max");
   cacheTag("coe");
 
-  const { start, end } = await loadSearchParams(searchParams);
   const { coeResults, months, lastUpdated, data } = await fetchCOEPageData(
     start,
     end,
@@ -92,5 +105,3 @@ const COEResultsPage = async ({ searchParams }: Props) => {
     </>
   );
 };
-
-export default COEResultsPage;

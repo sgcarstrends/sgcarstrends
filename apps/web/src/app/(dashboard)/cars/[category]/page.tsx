@@ -80,20 +80,32 @@ export const generateMetadata = async ({
   });
 };
 
-const CategoryPage = async ({ params, searchParams }: Props) => {
+const Page = async ({ params, searchParams }: Props) => {
+  const { category } = await params;
+  let { month } = await loadSearchParams(searchParams);
+  month = await getMonthOrLatest(month, "cars");
+
+  return <CategoryPage category={category} month={month} />;
+};
+
+export default Page;
+
+const CategoryPage = async ({
+  category,
+  month,
+}: {
+  category: string;
+  month: string;
+}) => {
   "use cache";
   cacheLife("max");
   cacheTag("cars");
 
-  const { category } = await params;
   const config = categoryConfigs[category];
 
   if (!config) {
     return notFound();
   }
-
-  let { month } = await loadSearchParams(searchParams);
-  month = await getMonthOrLatest(month, "cars");
 
   const { lastUpdated, cars, topPerformers, marketShare, months } =
     await loadCarsCategoryPageData(month, config.apiDataField);
@@ -150,5 +162,3 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
     </>
   );
 };
-
-export default CategoryPage;

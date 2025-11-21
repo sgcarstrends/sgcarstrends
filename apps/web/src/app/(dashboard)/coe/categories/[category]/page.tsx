@@ -83,19 +83,35 @@ export const generateMetadata = async ({
   });
 };
 
-const COECategoryPage = async ({ params, searchParams }: Props) => {
+const Page = async ({ params, searchParams }: Props) => {
+  const { category: categorySlug } = await params;
+  const { start, end } = await loadSearchParams(searchParams);
+
+  return (
+    <COECategoryPage categorySlug={categorySlug} start={start} end={end} />
+  );
+};
+
+export default Page;
+
+const COECategoryPage = async ({
+  categorySlug,
+  start,
+  end,
+}: {
+  categorySlug: string;
+  start: string;
+  end: string;
+}) => {
   "use cache";
   cacheLife("max");
   cacheTag("coe");
 
-  const { category: categorySlug } = await params;
   const category = getCategoryFromSlug(categorySlug);
 
   if (!category) {
     notFound();
   }
-
-  const { start, end } = await loadSearchParams(searchParams);
   const defaultStart = await getDefaultStartDate();
   const defaultEnd = await getDefaultEndDate();
   const startDate = start || defaultStart;
@@ -170,5 +186,3 @@ const COECategoryPage = async ({ params, searchParams }: Props) => {
     </>
   );
 };
-
-export default COECategoryPage;

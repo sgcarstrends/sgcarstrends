@@ -54,7 +54,7 @@ interface TopMake {
 
 export const getTopTypes = async (month: string): Promise<TopType> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.cars.types(month));
 
   const topFuelTypeQuery = db
@@ -111,7 +111,7 @@ export const getTopMakesByFuelType = async (
   month: string,
 ): Promise<FuelType[]> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.cars.makes(month));
 
   const fuelTypeResults = await db
@@ -153,7 +153,7 @@ export const getCarMarketShareData = async (
   category: "fuelType" | "vehicleType",
 ): Promise<CarMarketShareResponse> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.cars.marketShare(category, month));
 
   const response = await getCarsData(month);
@@ -205,7 +205,7 @@ export const getCarTopPerformersData = async (
   month: string,
 ): Promise<CarTopPerformersData> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.cars.topPerformers(month));
 
   const [topTypes, topMakes] = await Promise.all([
