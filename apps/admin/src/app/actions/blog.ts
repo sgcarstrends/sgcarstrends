@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@admin/lib/auth";
+import { revalidateWebCache } from "@admin/lib/revalidate";
 import {
   generateAndSavePost,
   getCarsAggregatedByMonth,
@@ -92,6 +93,11 @@ export const regeneratePost = async (params: {
       month,
       dataType,
     });
+
+    // Invalidate cache for new blog post
+    if (result.success) {
+      await revalidateWebCache(["posts"]);
+    }
 
     return {
       success: result.success,
