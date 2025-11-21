@@ -31,7 +31,7 @@ export const getLatestMonth = async (
  */
 export async function getCarsLatestMonth(): Promise<string | null> {
   "use cache";
-  cacheLife(CACHE_LIFE.latestData);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.cars.latestMonth());
 
   const result = await db.query.cars.findFirst({

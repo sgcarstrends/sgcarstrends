@@ -70,7 +70,7 @@ describe("car filter option queries", () => {
     const result = await getCarsMonths();
 
     expect(result).toEqual([{ month: "2024-06" }, { month: "2024-05" }]);
-    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.statistics);
+    expect(cacheLifeMock).toHaveBeenCalledWith("max");
     expect(cacheTagMock).toHaveBeenCalledWith(...CACHE_TAG.cars.months());
   });
 });
