@@ -1,3 +1,9 @@
+## [4.23.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.22.1...v4.23.0) (2025-11-21)
+
+### Features
+
+* **web:** add health endpoint for uptime bots ([cd9c3f2](https://github.com/sgcarstrends/sgcarstrends/commit/cd9c3f25c41c3b81de6791f3b0312dc3f8892b6a))
+
 ## [4.22.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.22.0...v4.22.1) (2025-11-21)
 
 ### Bug Fixes
