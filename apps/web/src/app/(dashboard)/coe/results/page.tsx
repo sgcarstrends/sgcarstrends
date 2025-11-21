@@ -50,12 +50,12 @@ export const generateMetadata = async (): Promise<Metadata> => {
 const Page = async ({ searchParams }: Props) => {
   const { start, end } = await loadSearchParams(searchParams);
 
-  return <COEResultsPage start={start} end={end} />;
+  return <COEResultsPageContent start={start} end={end} />;
 };
 
 export default Page;
 
-const COEResultsPage = async ({
+const COEResultsPageContent = async ({
   start,
   end,
 }: {

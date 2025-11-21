@@ -38,12 +38,12 @@ export const generateMetadata = (): Metadata => {
 const Page = async ({ searchParams }: Props) => {
   const { start, end } = await loadSearchParams(searchParams);
 
-  return <COETrendsPage start={start} end={end} />;
+  return <COETrendsPageContent start={start} end={end} />;
 };
 
 export default Page;
 
-const COETrendsPage = async ({
+const COETrendsPageContent = async ({
   start,
   end,
 }: {

@@ -88,13 +88,17 @@ const Page = async ({ params, searchParams }: Props) => {
   const { start, end } = await loadSearchParams(searchParams);
 
   return (
-    <COECategoryPage categorySlug={categorySlug} start={start} end={end} />
+    <COECategoryPageContent
+      categorySlug={categorySlug}
+      start={start}
+      end={end}
+    />
   );
 };
 
 export default Page;
 
-const COECategoryPage = async ({
+const COECategoryPageContent = async ({
   categorySlug,
   start,
   end,

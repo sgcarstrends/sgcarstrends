@@ -85,12 +85,12 @@ const Page = async ({ params, searchParams }: Props) => {
   let { month } = await loadSearchParams(searchParams);
   month = await getMonthOrLatest(month, "cars");
 
-  return <CategoryPage category={category} month={month} />;
+  return <CategoryPageContent category={category} month={month} />;
 };
 
 export default Page;
 
-const CategoryPage = async ({
+const CategoryPageContent = async ({
   category,
   month,
 }: {
