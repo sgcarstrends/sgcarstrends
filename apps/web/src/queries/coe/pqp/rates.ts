@@ -6,7 +6,7 @@ import { cacheLife, cacheTag } from "next/cache";
 
 export const getPqpRates = async (): Promise<Record<string, Pqp.Rates>> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.coe.pqpAll());
 
   const results = await db

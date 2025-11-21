@@ -1,5 +1,3 @@
-"use cache";
-
 import { redis } from "@sgcarstrends/utils";
 import { MakesList } from "@web/app/(dashboard)/cars/_components/makes";
 import { PageHeader } from "@web/components/page-header";
@@ -10,6 +8,7 @@ import { getDistinctMakes, getPopularMakes } from "@web/queries/cars";
 import { getAllCarLogos } from "@web/queries/logos";
 import { fetchMonthsForCars } from "@web/utils/months";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import type { WebPage, WithContext } from "schema-dts";
 
 const title = "Makes";
@@ -25,6 +24,10 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const CarMakesPage = async () => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("cars");
+
   const [allMakes, popularMakes, months, lastUpdated, allLogos] =
     await Promise.all([
       getDistinctMakes(),

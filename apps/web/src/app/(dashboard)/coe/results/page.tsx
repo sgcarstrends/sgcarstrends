@@ -16,6 +16,7 @@ import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
 import { getLatestCoeResults } from "@web/queries/coe";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import type { SearchParams } from "nuqs/server";
 
 interface Props {
@@ -46,8 +47,25 @@ export const generateMetadata = async (): Promise<Metadata> => {
   });
 };
 
-const COEResultsPage = async ({ searchParams }: Props) => {
+const Page = async ({ searchParams }: Props) => {
   const { start, end } = await loadSearchParams(searchParams);
+
+  return <COEResultsPageContent start={start} end={end} />;
+};
+
+export default Page;
+
+const COEResultsPageContent = async ({
+  start,
+  end,
+}: {
+  start: string;
+  end: string;
+}) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("coe");
+
   const { coeResults, months, lastUpdated, data } = await fetchCOEPageData(
     start,
     end,
@@ -87,5 +105,3 @@ const COEResultsPage = async ({ searchParams }: Props) => {
     </>
   );
 };
-
-export default COEResultsPage;

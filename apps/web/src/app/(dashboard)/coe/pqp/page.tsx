@@ -15,6 +15,7 @@ import { createPageMetadata } from "@web/lib/metadata";
 import { getPQPOverview } from "@web/queries/coe";
 import type { Pqp } from "@web/types/coe";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import type { WebPage, WithContext } from "schema-dts";
 
 const title = "COE PQP Rates";
@@ -31,6 +32,10 @@ export const generateMetadata = (): Metadata => {
 };
 
 const PQPRatesPage = async () => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("coe");
+
   const overview = await getPQPOverview();
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);

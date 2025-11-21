@@ -5,7 +5,7 @@ import { cacheLife, cacheTag } from "next/cache";
 
 export const getCoeMonths = async (): Promise<{ month: string }[]> => {
   "use cache";
-  cacheLife(CACHE_LIFE.statistics);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.coe.months());
 
   const results = await db

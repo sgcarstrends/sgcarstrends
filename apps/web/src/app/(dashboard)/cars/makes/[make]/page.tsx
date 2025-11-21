@@ -1,5 +1,3 @@
-"use cache";
-
 import { slugify } from "@sgcarstrends/utils";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
 import { StructuredData } from "@web/components/structured-data";
@@ -15,6 +13,7 @@ import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import { getCarLogo } from "@web/queries/logos";
 import type { Make } from "@web/types";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 
 interface Props {
   params: Promise<{ make: Make }>;
@@ -51,6 +50,10 @@ export const generateStaticParams = async () => {
 };
 
 const CarMakePage = async ({ params }: Props) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("cars");
+
   const { make } = await params;
 
   const [{ cars, makes, lastUpdated, makeName }, logo, coeComparison] =

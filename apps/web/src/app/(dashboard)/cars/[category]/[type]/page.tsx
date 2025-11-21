@@ -23,6 +23,7 @@ import {
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -96,16 +97,34 @@ export const generateStaticParams = async () => {
   return params;
 };
 
-const TypePage = async ({ params, searchParams }: Props) => {
+const Page = async ({ params, searchParams }: Props) => {
   const { category, type } = await params;
   let { month } = await loadSearchParams(searchParams);
+  month = await getMonthOrLatest(month, "cars");
+
+  return <TypePageContent category={category} type={type} month={month} />;
+};
+
+export default Page;
+
+const TypePageContent = async ({
+  category,
+  type,
+  month,
+}: {
+  category: string;
+  type: string;
+  month: string;
+}) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("cars");
 
   const config = categoryConfigs[category as keyof typeof categoryConfigs];
   if (!config) {
     notFound();
   }
 
-  // Validate type parameter
   const typeExists =
     category === "fuel-types"
       ? await checkFuelTypeIfExist(type)
@@ -114,8 +133,6 @@ const TypePage = async ({ params, searchParams }: Props) => {
   if (!typeExists) {
     notFound();
   }
-
-  month = await getMonthOrLatest(month, "cars");
 
   const { cars, months, lastUpdated } = await loadCarsTypePageData(
     category,
@@ -174,5 +191,3 @@ const TypePage = async ({ params, searchParams }: Props) => {
     </>
   );
 };
-
-export default TypePage;

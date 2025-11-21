@@ -37,15 +37,7 @@ export const coeWorkflow = createWorkflow(
     const { month, biddingNo } = await getCoeLatestMonth();
 
     // Invalidate cache for updated COE data
-    await revalidateWebCache(context, [
-      "coe",
-      `coe-${month}`,
-      "coe-all",
-      "pqp-all",
-      "coe-months",
-      "latest-coe",
-      "latest-coe-month",
-    ]);
+    await revalidateWebCache(context, ["coe"]);
 
     // Generate blog post only when both bidding exercises are complete (biddingNo = 2)
     if (biddingNo === 2) {
@@ -53,6 +45,9 @@ export const coeWorkflow = createWorkflow(
 
       // Announce new blog post on social media
       if (post?.success && post?.title) {
+        // Invalidate cache for new blog post
+        await revalidateWebCache(context, ["posts"]);
+
         const link = `${SITE_URL}/blog/${post.slug}`;
         const message = `📰 New Blog Post: ${post.title}`;
 

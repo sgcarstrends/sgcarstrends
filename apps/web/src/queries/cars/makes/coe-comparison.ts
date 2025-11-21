@@ -26,7 +26,7 @@ export const getMakeCoeComparison = async (
   make: string,
 ): Promise<MakeCoeComparisonData[]> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
 
   const { startMonth, endMonth } = getDateRange24Months();
   cacheTag(

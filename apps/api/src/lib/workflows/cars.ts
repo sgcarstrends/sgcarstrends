@@ -35,21 +35,15 @@ export const carsWorkflow = createWorkflow(
     const { month } = await getCarsLatestMonth();
 
     // Invalidate cache for updated car data
-    await revalidateWebCache(context, [
-      "cars",
-      `cars-${month}`,
-      `cars-comparison-${month}`,
-      `cars-types-${month}`,
-      `cars-makes-${month}`,
-      "cars-months",
-      "stats-yearly",
-      "latest-cars-month",
-    ]);
+    await revalidateWebCache(context, ["cars"]);
 
     const post = await generateCarPost(context, month);
 
     // Announce new blog post on social media
     if (post?.success && post?.title) {
+      // Invalidate cache for new blog post
+      await revalidateWebCache(context, ["posts"]);
+
       const link = `${SITE_URL}/blog/${post.slug}`;
       const message = `📰 New Blog Post: ${post.title}`;
 

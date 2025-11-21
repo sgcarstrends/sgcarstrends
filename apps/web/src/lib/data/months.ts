@@ -47,7 +47,7 @@ export async function getCarsLatestMonth(): Promise<string | null> {
  */
 export async function getCOELatestMonth(): Promise<string | null> {
   "use cache";
-  cacheLife(CACHE_LIFE.latestData);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.coe.latestMonth());
 
   const [{ latestMonth }] = await db

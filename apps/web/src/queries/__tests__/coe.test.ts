@@ -25,7 +25,7 @@ describe("COE queries", () => {
     const result = await getCoeMonths();
 
     expect(result).toEqual([{ month: "2024-05" }, { month: "2024-04" }]);
-    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.statistics);
+    expect(cacheLifeMock).toHaveBeenCalledWith("max");
     expect(cacheTagMock).toHaveBeenCalledWith(...CACHE_TAG.coe.months());
   });
 

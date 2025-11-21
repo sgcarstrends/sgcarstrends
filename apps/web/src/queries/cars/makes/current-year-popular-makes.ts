@@ -48,7 +48,7 @@ const getPopularMakesByYearData = async (year: string, limit: number = 8) => {
  */
 export const getPopularMakes = async (year?: string) => {
   "use cache";
-  cacheLife(CACHE_LIFE.statistics);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.cars.popularMakes(year ?? "latest"));
 
   const targetYear = year ?? (await getLatestYear());

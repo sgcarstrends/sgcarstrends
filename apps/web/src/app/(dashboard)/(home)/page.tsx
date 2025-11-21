@@ -8,6 +8,7 @@ import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadHomePageData } from "@web/lib/home/page-data";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import Link from "next/link";
 import type { WebSite, WithContext } from "schema-dts";
 
@@ -27,6 +28,10 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("cars", "coe", "posts");
+
   const { coeTrends, yearlyData, latestTopMakes, allPosts, latestCoe } =
     await loadHomePageData();
   const latestYear = yearlyData.at(-1)?.year;
