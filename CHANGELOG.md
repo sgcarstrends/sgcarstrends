@@ -1,3 +1,10 @@
+## [4.22.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.22.0...v4.22.1) (2025-11-21)
+
+### Bug Fixes
+
+* **web:** add aggressive caching to /cars page ([66d99d0](https://github.com/sgcarstrends/sgcarstrends/commit/66d99d026308ff88e73c336c47e0c482e104eee4))
+* **web:** update wrapper function cache to match page cache lifetime ([f21a1c4](https://github.com/sgcarstrends/sgcarstrends/commit/f21a1c4cf8157d8ea489cc6f61c0fb582f7bf380))
+
 ## [4.22.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.4...v4.22.0) (2025-11-19)
 
 ### Features
