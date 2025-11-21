@@ -1,3 +1,34 @@
+## [4.23.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.22.1...v4.23.0) (2025-11-21)
+
+### Features
+
+* **web:** add health endpoint for uptime bots ([cd9c3f2](https://github.com/sgcarstrends/sgcarstrends/commit/cd9c3f25c41c3b81de6791f3b0312dc3f8892b6a))
+
+## [4.22.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.22.0...v4.22.1) (2025-11-21)
+
+### Bug Fixes
+
+* **web:** add aggressive caching to /cars page ([66d99d0](https://github.com/sgcarstrends/sgcarstrends/commit/66d99d026308ff88e73c336c47e0c482e104eee4))
+* **web:** update wrapper function cache to match page cache lifetime ([f21a1c4](https://github.com/sgcarstrends/sgcarstrends/commit/f21a1c4cf8157d8ea489cc6f61c0fb582f7bf380))
+
+## [4.22.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.4...v4.22.0) (2025-11-19)
+
+### Features
+
+* **web:** add COE premium comparison to makes ([ee80323](https://github.com/sgcarstrends/sgcarstrends/commit/ee8032345269545d0e84db465ac91476511e1b89))
+
+## [4.21.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.3...v4.21.4) (2025-11-18)
+
+### Bug Fixes
+
+* **api:** enhance error logging in download function ([1d5d94f](https://github.com/sgcarstrends/sgcarstrends/commit/1d5d94f9599380b10f2b31ae64fddcfcf9a5de52))
+
+## [4.21.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.2...v4.21.3) (2025-11-16)
+
+### Bug Fixes
+
+* **web:** allow crawlers to access static assets ([caef768](https://github.com/sgcarstrends/sgcarstrends/commit/caef76828394e9ebe8b34cbd6b6a1f5ed2dd3756))
+
 ## [4.21.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.21.0...v4.21.1) (2025-11-16)
 
 ### Bug Fixes

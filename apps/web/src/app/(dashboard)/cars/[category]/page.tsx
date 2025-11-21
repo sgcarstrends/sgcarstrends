@@ -1,17 +1,12 @@
-import { redis } from "@sgcarstrends/utils";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
-import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { SITE_TITLE, SITE_URL } from "@web/config";
+import { loadCarsCategoryPageData } from "@web/lib/cars/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
-import {
-  getCarMarketShareData,
-  getCarsData,
-  getCarTopPerformersData,
-} from "@web/queries/cars";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
+import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
@@ -95,14 +90,8 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
   let { month } = await loadSearchParams(searchParams);
   month = await getMonthOrLatest(month, "cars");
 
-  const months = await fetchMonthsForCars();
-
-  const [lastUpdated, cars, topPerformers, marketShare] = await Promise.all([
-    redis.get<number>(LAST_UPDATED_CARS_KEY),
-    getCarsData(month),
-    getCarTopPerformersData(month),
-    getCarMarketShareData(month, config.apiDataField),
-  ]);
+  const { lastUpdated, cars, topPerformers, marketShare, months } =
+    await loadCarsCategoryPageData(month, config.apiDataField);
 
   const categoryData = cars?.[config.apiDataField] || [];
 

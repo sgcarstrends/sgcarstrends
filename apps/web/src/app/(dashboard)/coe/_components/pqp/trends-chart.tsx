@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { numberFormat } from "@ruchernchong/number-format";
 import {
   type ChartConfig,
@@ -9,7 +9,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
-import { ChartDescriptionSection } from "@web/components/charts/shared";
 import type { Pqp } from "@web/types/coe";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
@@ -64,8 +63,13 @@ export const TrendsChart = ({ data }: Props) => {
             <ChartLegend />
           </LineChart>
         </ChartContainer>
-        <ChartDescriptionSection description="Historical PQP rates (3-month average COE prices) used for COE renewals across categories." />
       </CardBody>
+      <CardFooter>
+        <p className="text-default-500 text-sm">
+          Historical PQP rates (3-month average COE prices) used for COE
+          renewals across categories.
+        </p>
+      </CardFooter>
     </Card>
   );
 };
