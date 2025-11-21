@@ -36,9 +36,4 @@ export const CACHE_TAG = {
       withScope("coe", `coe-range-${start}-${end}`),
     pqpAll: () => withScope("coe", "pqp-all"),
   },
-  blog: {
-    all: () => withScope("blog", "all-blogs"),
-    postsByIds: () => withScope("blog", "posts-by-ids"),
-    entry: (slug: string) => withScope("blog", `blog-${slug}`),
-  },
 } as const;
