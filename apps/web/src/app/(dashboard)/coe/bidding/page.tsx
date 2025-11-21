@@ -20,6 +20,7 @@ import { createPageMetadata } from "@web/lib/metadata";
 import { getCoeResultsFiltered } from "@web/queries/coe";
 import type { COEResult } from "@web/types";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
@@ -40,6 +41,10 @@ export const generateMetadata = (): Metadata => {
 };
 
 const COEBiddingPage = async ({ searchParams }: Props) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("coe");
+
   const { start, end } = await loadSearchParams(searchParams);
   const defaultStart = await getDefaultStartDate();
   const defaultEnd = await getDefaultEndDate();

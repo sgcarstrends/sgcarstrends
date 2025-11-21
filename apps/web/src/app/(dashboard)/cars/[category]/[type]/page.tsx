@@ -23,6 +23,7 @@ import {
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -97,6 +98,10 @@ export const generateStaticParams = async () => {
 };
 
 const TypePage = async ({ params, searchParams }: Props) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("cars");
+
   const { category, type } = await params;
   let { month } = await loadSearchParams(searchParams);
 

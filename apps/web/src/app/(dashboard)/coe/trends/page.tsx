@@ -16,6 +16,7 @@ import { fetchCOEPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import type { SearchParams } from "nuqs/server";
 
 interface Props {
@@ -35,6 +36,10 @@ export const generateMetadata = (): Metadata => {
 };
 
 const COETrendsPage = async ({ searchParams }: Props) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("coe");
+
   const { start, end } = await loadSearchParams(searchParams);
   const { months, lastUpdated, data } = await fetchCOEPageData(start, end);
   const trendInsights = calculateTrendInsights(data);

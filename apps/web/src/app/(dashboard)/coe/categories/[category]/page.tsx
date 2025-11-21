@@ -25,6 +25,7 @@ import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
 import { getCoeMonths, getCoeResultsFiltered } from "@web/queries/coe";
 import type { COECategory } from "@web/types";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 
@@ -83,6 +84,10 @@ export const generateMetadata = async ({
 };
 
 const COECategoryPage = async ({ params, searchParams }: Props) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("coe");
+
   const { category: categorySlug } = await params;
   const category = getCategoryFromSlug(categorySlug);
 
