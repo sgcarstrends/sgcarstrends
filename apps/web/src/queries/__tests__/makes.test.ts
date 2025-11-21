@@ -138,7 +138,7 @@ describe("popular makes queries", () => {
     const result = await getPopularMakes("2023");
 
     expect(result).toEqual(["Tesla", "BMW"]);
-    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.statistics);
+    expect(cacheLifeMock).toHaveBeenCalledWith("max");
     expect(cacheTagMock).toHaveBeenCalledWith(
       ...CACHE_TAG.cars.popularMakes("2023"),
     );

@@ -34,7 +34,7 @@ describe("monthly registration queries", () => {
       ],
       vehicleType: [{ name: "SUV", count: 5 }],
     });
-    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.monthlyData);
+    expect(cacheLifeMock).toHaveBeenCalledWith("max");
     expect(cacheTagMock).toHaveBeenCalledWith(
       ...CACHE_TAG.cars.dataset("2024-06"),
     );

@@ -35,7 +35,7 @@ describe("car market insight queries", () => {
       topFuelType: { name: "Electric", total: 60 },
       topVehicleType: { name: "SUV", total: 40 },
     });
-    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.monthlyData);
+    expect(cacheLifeMock).toHaveBeenCalledWith("max");
     expect(cacheTagMock).toHaveBeenCalledWith(
       ...CACHE_TAG.cars.types("2024-04"),
     );

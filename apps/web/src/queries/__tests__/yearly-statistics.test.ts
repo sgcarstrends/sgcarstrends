@@ -22,7 +22,7 @@ describe("yearly statistics queries", () => {
     const result = await getYearlyRegistrations();
 
     expect(result).toEqual([{ year: 2022, total: 123 }]);
-    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.statistics);
+    expect(cacheLifeMock).toHaveBeenCalledWith("max");
     expect(cacheTagMock).toHaveBeenCalledWith(...CACHE_TAG.cars.statsYearly());
   });
 
