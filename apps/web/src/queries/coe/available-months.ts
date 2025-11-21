@@ -1,12 +1,12 @@
 import { coe, db } from "@sgcarstrends/database";
-import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
+import { CACHE_LIFE } from "@web/lib/cache";
 import { desc } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export const getCoeMonths = async (): Promise<{ month: string }[]> => {
   "use cache";
   cacheLife("max");
-  cacheTag(...CACHE_TAG.coe.months());
+  cacheTag(CACHE_LIFE.coe);
 
   const results = await db
     .selectDistinct({ month: coe.month })

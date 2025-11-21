@@ -1,5 +1,5 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
+import { CACHE_LIFE } from "@web/lib/cache";
 import { and, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
@@ -42,7 +42,7 @@ export const getDistinctVehicleTypes = async (
 export const getCarsMonths = async (): Promise<{ month: string }[]> => {
   "use cache";
   cacheLife("max");
-  cacheTag(...CACHE_TAG.cars.months());
+  cacheTag(CACHE_LIFE.cars);
 
   return db
     .selectDistinct({ month: cars.month })
