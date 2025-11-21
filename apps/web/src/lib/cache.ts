@@ -1,8 +1,7 @@
 export const CACHE_LIFE = {
-  blogs: "blogs",
-  latestData: "latest-data",
-  monthlyData: "monthly-data",
-  statistics: "statistics",
+  cars: "cars",
+  coe: "coe",
+  posts: "posts",
 } as const;
 
 const withScope = (...values: string[]) => values;
