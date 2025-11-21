@@ -1,3 +1,9 @@
+## [4.24.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.23.0...v4.24.0) (2025-11-21)
+
+### Features
+
+* **admin:** add cache revalidation to blog actions ([cdb03da](https://github.com/sgcarstrends/sgcarstrends/commit/cdb03daf81aa361d525b6f476a24b99c94b07851))
+
 ## [4.23.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.22.1...v4.23.0) (2025-11-21)
 
 ### Features
