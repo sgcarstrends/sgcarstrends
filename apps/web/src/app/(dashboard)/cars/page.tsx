@@ -20,6 +20,7 @@ import {
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -55,17 +56,34 @@ export const generateMetadata = async ({
   });
 };
 
-const CarsPage = async ({ searchParams }: Props) => {
+// Wrapper: handles nuqs searchParams (runtime data)
+const Page = async ({ searchParams }: Props) => {
   let { month } = await loadSearchParams(searchParams);
-
   month = await getMonthOrLatest(month, "cars");
+  const months = await fetchMonthsForCars();
 
-  const [cars, comparison, topTypes, topMakes, months] = await Promise.all([
+  return <CarsPage month={month} months={months} />;
+};
+
+export default Page;
+
+// Main component with aggressive caching
+const CarsPage = async ({
+  month,
+  months,
+}: {
+  month: string;
+  months: string[];
+}) => {
+  "use cache";
+  cacheLife("max"); // 30-day revalidate, 1-year expire
+  cacheTag("cars"); // On-demand revalidation
+
+  const [cars, comparison, topTypes, topMakes] = await Promise.all([
     getCarsData(month),
     getCarsComparison(month),
     getTopTypes(month),
     getTopMakesByFuelType(month),
-    fetchMonthsForCars(),
   ]);
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_CARS_KEY);
@@ -156,5 +174,3 @@ const CarsPage = async ({ searchParams }: Props) => {
     </>
   );
 };
-
-export default CarsPage;

@@ -41,7 +41,7 @@ export const getDistinctVehicleTypes = async (
 
 export const getCarsMonths = async (): Promise<{ month: string }[]> => {
   "use cache";
-  cacheLife(CACHE_LIFE.statistics);
+  cacheLife("max");
   cacheTag(...CACHE_TAG.cars.months());
 
   return db
