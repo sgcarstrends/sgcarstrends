@@ -2,7 +2,7 @@ import { cars, db } from "@sgcarstrends/database";
 import { CACHE_LIFE } from "@web/lib/cache";
 import { getCarsData } from "@web/queries";
 import type { FuelType, TopType } from "@web/types/cars";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, gt, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface CarMarketShareData {
@@ -124,7 +124,7 @@ export const getTopMakesByFuelType = async (
       total: sql<number>`sum(${cars.number})`.mapWith(Number),
     })
     .from(cars)
-    .where(eq(cars.month, month))
+    .where(and(eq(cars.month, month), gt(cars.number, 0)))
     .groupBy(cars.fuelType)
     .orderBy(desc(sql<number>`sum(${cars.number})`));
 
