@@ -1,3 +1,9 @@
+## [4.24.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.0...v4.24.1) (2025-11-22)
+
+### Performance Improvements
+
+* **web:** add cache directives to queries ([5069acc](https://github.com/sgcarstrends/sgcarstrends/commit/5069acc6bc8b3a405529de86ebeab4bad3db07cb))
+
 ## [4.24.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.23.0...v4.24.0) (2025-11-21)
 
 ### Features
