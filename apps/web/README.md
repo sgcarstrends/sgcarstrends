@@ -10,10 +10,11 @@ Certificate of Entitlement) bidding results, and market trends.
 - **Trend Analysis**: Month-over-month and year-over-year comparisons
 - **Interactive Charts**: Responsive data visualisation with Recharts
 - **Geographic Insights**: User analytics by location
+- **Performance Optimization**: Next.js 16 Cache Components with `"use cache"` directives for optimal data fetching
 
 ## Tech Stack
 
-- **Next.js 15** with App Router and React 19
+- **Next.js 16** with App Router, React 19, and Cache Components
 - **TypeScript** with strict type checking
 - **Tailwind CSS v4** for styling
 - **Drizzle ORM** with PostgreSQL (Neon Database)
