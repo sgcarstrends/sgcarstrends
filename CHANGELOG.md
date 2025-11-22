@@ -1,3 +1,9 @@
+## [4.24.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.1...v4.24.2) (2025-11-22)
+
+### Performance Improvements
+
+* **web:** batch analytics queries ([550a9a2](https://github.com/sgcarstrends/sgcarstrends/commit/550a9a2a8eb8ac7ecd1c8feecdc9f05a41680a7a))
+
 ## [4.24.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.0...v4.24.1) (2025-11-22)
 
 ### Performance Improvements
