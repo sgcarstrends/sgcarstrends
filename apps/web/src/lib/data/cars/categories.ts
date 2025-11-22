@@ -157,7 +157,7 @@ export const getTypeDetails = async (
   month?: string,
 ): Promise<TypeDetailData> => {
   const pattern = typeValue.replaceAll("-", "%");
-  const whereConditions = [sql`lower(${config.column}) LIKE lower(${pattern})`];
+  const whereConditions = [sql`${config.column} ILIKE ${pattern}`];
 
   if (month) {
     whereConditions.push(eq(cars.month, month));
