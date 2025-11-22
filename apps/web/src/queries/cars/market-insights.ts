@@ -95,6 +95,10 @@ export const getTopTypes = async (month: string): Promise<TopType> => {
 };
 
 export const getTopMakes = async (month: string): Promise<TopMake[]> => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(CACHE_LIFE.cars);
+
   return db
     .select({
       make: cars.make,
@@ -124,10 +128,15 @@ export const getTopMakesByFuelType = async (
     .groupBy(cars.fuelType)
     .orderBy(desc(sql<number>`sum(${cars.number})`));
 
-  const topMakesByFuelType: FuelType[] = [];
+  if (fuelTypeResults.length === 0) {
+    return [];
+  }
 
-  for (const { fuelType, total } of fuelTypeResults) {
-    const topMakes = await db
+  // TODO: Optimise to use db.batch() for single network round-trip instead of sequential queries
+  // Currently blocked by TypeScript requiring non-empty tuple type [T, ...T[]] but .map() returns T[]
+  // Possible solutions: type assertion with runtime guard, or restructure query building
+  const topMakesQueries = fuelTypeResults.map(({ fuelType }) =>
+    db
       .select({
         make: cars.make,
         count: sql<number>`sum(${cars.number})`.mapWith(Number),
@@ -136,16 +145,16 @@ export const getTopMakesByFuelType = async (
       .where(and(eq(cars.month, month), eq(cars.fuelType, fuelType)))
       .groupBy(cars.make)
       .orderBy(desc(sql<number>`sum(${cars.number})`))
-      .limit(5);
+      .limit(5),
+  );
 
-    topMakesByFuelType.push({
-      fuelType,
-      total,
-      makes: topMakes.map(({ make, count }) => ({ make, count })),
-    });
-  }
+  const topMakesResults = await Promise.all(topMakesQueries);
 
-  return topMakesByFuelType;
+  return fuelTypeResults.map(({ fuelType, total }, index) => ({
+    fuelType,
+    total,
+    makes: topMakesResults[index].map(({ make, count }) => ({ make, count })),
+  }));
 };
 
 export const getCarMarketShareData = async (

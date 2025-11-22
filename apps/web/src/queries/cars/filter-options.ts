@@ -3,13 +3,21 @@ import { CACHE_LIFE } from "@web/lib/cache";
 import { and, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
-export const getDistinctMakes = () => {
+export const getDistinctMakes = async () => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(CACHE_LIFE.cars);
+
   return db.selectDistinct({ make: cars.make }).from(cars).orderBy(cars.make);
 };
 
 export const getDistinctFuelTypes = async (
   month?: string,
 ): Promise<{ fuelType: string }[]> => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(CACHE_LIFE.cars);
+
   const filters = [];
 
   if (month) {
@@ -26,6 +34,10 @@ export const getDistinctFuelTypes = async (
 export const getDistinctVehicleTypes = async (
   month?: string,
 ): Promise<{ vehicleType: string }[]> => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(CACHE_LIFE.cars);
+
   const filters = [];
 
   if (month) {
