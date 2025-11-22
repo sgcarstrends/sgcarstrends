@@ -11,11 +11,14 @@ This skill helps you implement and optimize Next.js 16 Cache Components in `apps
 ## When to Use This Skill
 
 - Converting components to use Cache Components
-- Adding "use cache" directives to functions
+- Adding "use cache" directives to functions or queries
+- Implementing query-level caching for data fetching
+- Setting up domain-level cache tags for efficient invalidation
 - Implementing Suspense boundaries
 - Configuring cacheLife profiles
 - Debugging cache-related errors
 - Optimizing page load performance
+- Reducing ISR write operations with broad cache tags
 
 ## Cache Components Overview
 
@@ -24,10 +27,12 @@ Next.js 16 introduced Cache Components to improve performance by caching compone
 ### Key Concepts
 
 1. **"use cache" directive**: Marks functions/components for caching
-2. **Suspense boundaries**: Required for streaming cached content
-3. **cacheLife profiles**: Control cache duration and invalidation
-4. **cacheTag**: Manual cache invalidation
-5. **Dynamic vs Static**: Understanding when caching applies
+2. **Query-level caching**: Apply cache directives at data-fetching query functions for consistency
+3. **Domain-level cache tags**: Use broad tags (e.g., `CACHE_LIFE.cars`) instead of granular per-record tags
+4. **Suspense boundaries**: Required for streaming cached content
+5. **cacheLife profiles**: Control cache duration and invalidation
+6. **cacheTag**: Manual cache invalidation (prefer domain-level scopes)
+7. **Dynamic vs Static**: Understanding when caching applies
 
 ## Implementation Patterns
 
@@ -92,9 +97,50 @@ async function RealtimeData() {
 
 ### 3. Cache Tags for Invalidation
 
-```typescript
-import { cacheTag } from "next/cache";
+**Domain-Level Scopes (Recommended)**
 
+Use broad, domain-level cache tags to minimize ISR write operations:
+
+```typescript
+// lib/cache.ts - Define domain-level cache scopes
+export const CACHE_LIFE = {
+  cars: "cars",
+  coe: "coe",
+  posts: "posts",
+} as const;
+```
+
+```typescript
+// Query function with domain-level cache tag
+import { CACHE_LIFE } from "@web/lib/cache";
+import { cacheLife, cacheTag } from "next/cache";
+
+export const getDistinctMakes = async () => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(CACHE_LIFE.cars); // Broad tag for all car-related data
+
+  return db.selectDistinct({ make: cars.make }).from(cars).orderBy(cars.make);
+};
+```
+
+```typescript
+// Invalidate entire domain cache in server action
+"use server";
+import { revalidateTag } from "next/cache";
+import { CACHE_LIFE } from "@web/lib/cache";
+
+export async function updateCarData() {
+  await fetchAndUpdateCars();
+  revalidateTag(CACHE_LIFE.cars); // Invalidate all car-related caches
+}
+```
+
+**Granular Tags (Use Sparingly)**
+
+For specific invalidation needs, use granular tags:
+
+```typescript
 async function BlogPosts() {
   "use cache";
   cacheTag("blog-posts"); // Tag for manual invalidation
@@ -113,7 +159,65 @@ export async function createPost(data: PostData) {
 }
 ```
 
-### 4. Private Cache (User-Specific)
+**⚠️ Cache Tag Best Practices:**
+- **Prefer domain-level tags** to reduce ISR write operations
+- **Avoid over-granular tags** (e.g., per-record tags) which increase overhead
+- **Use granular tags only** when selective invalidation is critical
+- **Keep tag names consistent** using constants from `lib/cache.ts`
+
+### 4. Query-Level Caching (Recommended Pattern)
+
+Apply cache directives at the query function level for reusable data fetching:
+
+```typescript
+// queries/cars/filter-options.ts
+import { cars, db } from "@sgcarstrends/database";
+import { CACHE_LIFE } from "@web/lib/cache";
+import { cacheLife, cacheTag } from "next/cache";
+
+export const getDistinctMakes = async () => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(CACHE_LIFE.cars);
+
+  return db.selectDistinct({ make: cars.make }).from(cars).orderBy(cars.make);
+};
+
+export const getDistinctFuelTypes = async (month?: string) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(CACHE_LIFE.cars);
+
+  const filters = month ? [eq(cars.month, month)] : [];
+  return db
+    .selectDistinct({ fuelType: cars.fuelType })
+    .from(cars)
+    .where(filters.length > 0 ? and(...filters) : undefined)
+    .orderBy(cars.fuelType);
+};
+```
+
+**Benefits:**
+- ✅ Centralized cache configuration for all data queries
+- ✅ Consistent caching strategy across the application
+- ✅ Easy to maintain and update cache policies
+- ✅ Reusable across multiple components/pages
+- ✅ Domain-level cache tags for efficient invalidation
+
+**Usage in Components:**
+
+```typescript
+// app/cars/page.tsx
+import { getDistinctMakes } from "@web/queries/cars/filter-options";
+
+export default async function CarsPage() {
+  const makes = await getDistinctMakes(); // Cached automatically
+
+  return <MakesList makes={makes} />;
+}
+```
+
+### 5. Private Cache (User-Specific)
 
 ```typescript
 import { cookies } from "next/headers";
@@ -129,7 +233,7 @@ async function UserDashboard() {
 }
 ```
 
-### 5. Nested Cache Components
+### 6. Nested Cache Components
 
 ```typescript
 // Outer component - longer cache
@@ -425,11 +529,54 @@ Track cache effectiveness:
 
 ## Best Practices
 
-1. **Granular Caching**: Cache at component level, not page level
-2. **Appropriate TTLs**: Match cache duration to data freshness needs
-3. **Error Handling**: Always wrap with ErrorBoundary
-4. **Loading States**: Provide meaningful Suspense fallbacks
-5. **Cache Tags**: Tag related caches for easy invalidation
-6. **Testing**: Test both cached and uncached states
-7. **Monitoring**: Track cache performance in production
-8. **Progressive Enhancement**: Start with long TTLs, optimize based on usage
+1. **Query-Level Caching**: Apply cache directives at query functions for consistency and reusability
+2. **Domain-Level Tags**: Use broad cache tags (e.g., `CACHE_LIFE.cars`) to minimize ISR write operations
+3. **Avoid Over-Granular Tags**: Don't create per-record or per-field tags; use domain scopes instead
+4. **Appropriate TTLs**: Match cache duration to data freshness needs (use `cacheLife("max")` for static data)
+5. **Cache Tag Constants**: Define cache tags in `lib/cache.ts` for consistency
+6. **Error Handling**: Always wrap cached components with ErrorBoundary
+7. **Loading States**: Provide meaningful Suspense fallbacks
+8. **Testing**: Test both cached and uncached states
+9. **Monitoring**: Track cache performance in production
+10. **Progressive Enhancement**: Start with long TTLs, optimize based on usage
+
+### Cache Optimization Strategy
+
+**Recommended Approach (SG Cars Trends Pattern):**
+
+```typescript
+// 1. Define domain-level cache tags
+// lib/cache.ts
+export const CACHE_LIFE = {
+  cars: "cars",
+  coe: "coe",
+  posts: "posts",
+} as const;
+
+// 2. Apply cache directives at query level
+// queries/cars/filter-options.ts
+export const getDistinctMakes = async () => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(CACHE_LIFE.cars);
+
+  return db.selectDistinct({ make: cars.make }).from(cars);
+};
+
+// 3. Invalidate at domain level
+// actions/update-cars.ts
+"use server";
+import { revalidateTag } from "next/cache";
+import { CACHE_LIFE } from "@web/lib/cache";
+
+export async function updateCarData() {
+  await fetchAndUpdateCars();
+  revalidateTag(CACHE_LIFE.cars); // Invalidate all car-related caches
+}
+```
+
+**Benefits:**
+- ✅ Reduces ISR write operations
+- ✅ Simplifies cache invalidation
+- ✅ Improves performance
+- ✅ Easier to maintain

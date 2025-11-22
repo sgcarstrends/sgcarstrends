@@ -152,6 +152,40 @@ connection configured in `src/config/db.ts`.
 
 **Caching**: Redis (Upstash) for API response caching, rate limiting, and blog view tracking.
 
+**Cache Components & Optimization** (Next.js 16):
+
+The application implements Next.js 16 Cache Components with `"use cache"` directives for optimal performance:
+
+- **Cache Directives**: All data fetching queries use `"use cache"` with `cacheLife("max")` for static data
+- **Cache Tags**: High-level scopes (`CACHE_LIFE.cars`, `CACHE_LIFE.coe`, `CACHE_LIFE.posts`) for broad cache invalidation
+- **Tagged Queries**: Filter options, market insights, entity breakdowns, and overview queries include cache tags
+- **Simplified Architecture**: Moved from granular cache tags to broad tags to reduce ISR write operations
+- **Cache Configuration** (`src/lib/cache.ts`): Defines cache tag constants for cars, COE, and posts domains
+
+**Cache Strategy Best Practices**:
+- Use `"use cache"` directive at the top of async functions that fetch data
+- Apply `cacheLife("max")` for static or infrequently changing data
+- Tag with domain-level scopes (`cacheTag(CACHE_LIFE.cars)`) for efficient invalidation
+- Avoid over-granular tags to minimize ISR write overhead
+- See `cache-components` skill for implementation patterns
+
+**Cache Implementation Example**:
+
+```typescript
+import { CACHE_LIFE } from "@web/lib/cache";
+import { cacheLife, cacheTag } from "next/cache";
+
+export const getDistinctMakes = async () => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(CACHE_LIFE.cars);
+
+  return db.selectDistinct({ make: cars.make }).from(cars).orderBy(cars.make);
+};
+```
+
+This pattern is used across all query functions in `src/queries/cars/` and `src/queries/coe/` directories
+
 **Data Queries**: Organized in `src/queries/` directory with comprehensive test coverage:
 
 - **Car Queries** (`queries/cars/`): Registration data, market insights, makes, yearly statistics, filter options

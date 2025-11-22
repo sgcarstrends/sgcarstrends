@@ -2,7 +2,7 @@ import { cars, coe, db } from "@sgcarstrends/database";
 import { CACHE_LIFE } from "@web/lib/cache";
 import type { COECategory } from "@web/types";
 import { subMonths } from "date-fns";
-import { and, desc, gte, inArray, lte, sql } from "drizzle-orm";
+import { and, desc, gte, ilike, inArray, lte, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface MakeCoeComparisonData {
@@ -43,7 +43,7 @@ export const getMakeCoeComparison = async (
     .from(cars)
     .where(
       and(
-        sql`lower(${cars.make}) LIKE lower(${pattern})`,
+        ilike(cars.make, pattern),
         gte(cars.month, startMonth),
         lte(cars.month, endMonth),
       ),
