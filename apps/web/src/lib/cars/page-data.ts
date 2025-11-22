@@ -1,33 +1,13 @@
 import { loadLastUpdated } from "@web/lib/common";
 import {
   getCarMarketShareData,
-  getCarsComparison,
   getCarsData,
   getCarTopPerformersData,
   getFuelTypeData,
-  getTopMakesByFuelType,
   getTopTypes,
   getVehicleTypeData,
 } from "@web/queries/cars";
 import { fetchMonthsForCars } from "@web/utils/months";
-
-/**
- * Load data for the main cars overview page
- *
- * @param month - Month in YYYY-MM format
- * @returns Cars data, comparison, top types, top makes, and available months
- */
-export const loadCarsPageData = async (month: string) => {
-  const [cars, comparison, topTypes, topMakes, months] = await Promise.all([
-    getCarsData(month),
-    getCarsComparison(month),
-    getTopTypes(month),
-    getTopMakesByFuelType(month),
-    fetchMonthsForCars(),
-  ]);
-
-  return { cars, comparison, topTypes, topMakes, months };
-};
 
 /**
  * Load data for cars category pages (fuel-types or vehicle-types)
