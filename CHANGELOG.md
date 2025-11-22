@@ -1,3 +1,9 @@
+## [4.24.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.3...v4.24.4) (2025-11-22)
+
+### Bug Fixes
+
+* **web:** filter zero registrations in fuel type query ([3d07902](https://github.com/sgcarstrends/sgcarstrends/commit/3d07902f2990cd4302ce251b53b9cb5ecc153ecd))
+
 ## [4.24.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.2...v4.24.3) (2025-11-22)
 
 ### Performance Improvements
