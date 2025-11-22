@@ -73,79 +73,78 @@ export const GET = async (request: NextRequest) => {
       dateFilter = sql`1=1`;
     }
 
-    // Get total page views within date range
-    const totalViews = await db
-      .select({ count: count() })
-      .from(analyticsTable)
-      .where(dateFilter);
-
-    // Get top countries within date range
-    const topCountries = await db
-      .select({
-        country: analyticsTable.country,
-        flag: analyticsTable.flag,
-        count: count(),
-      })
-      .from(analyticsTable)
-      .where(dateFilter)
-      .groupBy(analyticsTable.country, analyticsTable.flag)
-      .having(isNotNull(analyticsTable.country))
-      .orderBy(desc(count()))
-      .limit(10);
-
-    // Get top cities within date range
-    const topCities = await db
-      .select({
-        city: analyticsTable.city,
-        country: analyticsTable.country,
-        flag: analyticsTable.flag,
-        count: count(),
-      })
-      .from(analyticsTable)
-      .where(dateFilter)
-      .groupBy(analyticsTable.city, analyticsTable.country, analyticsTable.flag)
-      .having(isNotNull(analyticsTable.city))
-      .orderBy(desc(count()))
-      .limit(10);
-
-    // Get top pages within date range
-    const topPages = await db
-      .select({
-        pathname: analyticsTable.pathname,
-        count: count(),
-      })
-      .from(analyticsTable)
-      .where(dateFilter)
-      .groupBy(analyticsTable.pathname)
-      .orderBy(desc(count()))
-      .limit(10);
-
-    // Get top referrers within date range
-    const topReferrers = await db
-      .select({
-        referrer: analyticsTable.referrer,
-        count: count(),
-      })
-      .from(analyticsTable)
-      .where(and(ne(analyticsTable.referrer, ""), dateFilter))
-      .groupBy(analyticsTable.referrer)
-      .having(isNotNull(analyticsTable.referrer))
-      .orderBy(desc(count()))
-      .limit(10);
-
-    // Get daily views within date range
-    const dailyViews = await db
-      .select({
-        date: sql<string>`DATE
-          (${analyticsTable.date})`,
-        count: count(),
-      })
-      .from(analyticsTable)
-      .where(dateFilter)
-      .groupBy(sql`DATE
-        (${analyticsTable.date})`)
-      .orderBy(sql`DATE
-        (${analyticsTable.date})`);
+    const [
+      totalViews,
+      topCountries,
+      topCities,
+      topPages,
+      topReferrers,
+      dailyViews,
+    ] = await db.batch([
+      db.select({ count: count() }).from(analyticsTable).where(dateFilter),
+      db
+        .select({
+          country: analyticsTable.country,
+          flag: analyticsTable.flag,
+          count: count(),
+        })
+        .from(analyticsTable)
+        .where(dateFilter)
+        .groupBy(analyticsTable.country, analyticsTable.flag)
+        .having(isNotNull(analyticsTable.country))
+        .orderBy(desc(count()))
+        .limit(10),
+      db
+        .select({
+          city: analyticsTable.city,
+          country: analyticsTable.country,
+          flag: analyticsTable.flag,
+          count: count(),
+        })
+        .from(analyticsTable)
+        .where(dateFilter)
+        .groupBy(
+          analyticsTable.city,
+          analyticsTable.country,
+          analyticsTable.flag,
+        )
+        .having(isNotNull(analyticsTable.city))
+        .orderBy(desc(count()))
+        .limit(10),
+      db
+        .select({
+          pathname: analyticsTable.pathname,
+          count: count(),
+        })
+        .from(analyticsTable)
+        .where(dateFilter)
+        .groupBy(analyticsTable.pathname)
+        .orderBy(desc(count()))
+        .limit(10),
+      db
+        .select({
+          referrer: analyticsTable.referrer,
+          count: count(),
+        })
+        .from(analyticsTable)
+        .where(and(ne(analyticsTable.referrer, ""), dateFilter))
+        .groupBy(analyticsTable.referrer)
+        .having(isNotNull(analyticsTable.referrer))
+        .orderBy(desc(count()))
+        .limit(10),
+      db
+        .select({
+          date: sql<string>`DATE
+            (${analyticsTable.date})`,
+          count: count(),
+        })
+        .from(analyticsTable)
+        .where(dateFilter)
+        .groupBy(sql`DATE
+          (${analyticsTable.date})`)
+        .orderBy(sql`DATE
+          (${analyticsTable.date})`),
+    ]);
 
     return NextResponse.json({
       totalViews: totalViews[0]?.count || 0,
