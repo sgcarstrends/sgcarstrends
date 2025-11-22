@@ -4,11 +4,7 @@ import { StructuredData } from "@web/components/structured-data";
 import { fetchMakePageData } from "@web/lib/cars/make-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
-import {
-  checkMakeIfExist,
-  getDistinctMakes,
-  getMakeDetails,
-} from "@web/queries/cars";
+import { getDistinctMakes } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import { getCarLogo } from "@web/queries/logos";
 import type { Make } from "@web/types";
@@ -24,17 +20,12 @@ export const generateMetadata = async ({
 }: Props): Promise<Metadata> => {
   const { make } = await params;
 
-  const [makeExists, makeDetails] = await Promise.all([
-    checkMakeIfExist(make),
-    getMakeDetails(make),
-  ]);
-
-  const makeName = makeExists?.make ?? make.toUpperCase();
+  const makeName = make.toUpperCase().replaceAll("-", " ");
 
   const title = `${makeName} Cars Overview: Registration Trends`;
   const description = `${makeName} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
 
-  const images = `/api/og?title=${makeName.toUpperCase()}&subtitle=Stats by Make&total=${makeDetails.total}`;
+  const images = `/api/og?title=${makeName}&subtitle=Stats by Make`;
 
   return createPageMetadata({
     title,

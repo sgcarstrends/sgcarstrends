@@ -2,7 +2,7 @@ import { cars, coe, db } from "@sgcarstrends/database";
 import { CACHE_LIFE } from "@web/lib/cache";
 import type { COECategory } from "@web/types";
 import { subMonths } from "date-fns";
-import { and, desc, gte, ilike, inArray, lte, sql } from "drizzle-orm";
+import { and, asc, gte, ilike, inArray, lte, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface MakeCoeComparisonData {
@@ -49,7 +49,7 @@ export const getMakeCoeComparison = async (
       ),
     )
     .groupBy(cars.month)
-    .orderBy(desc(cars.month));
+    .orderBy(asc(cars.month));
 
   // Fetch COE premiums for both Category A and B
   const coePremiums = await db
@@ -67,7 +67,7 @@ export const getMakeCoeComparison = async (
         inArray(coe.vehicleClass, ["Category A", "Category B"]),
       ),
     )
-    .orderBy(desc(coe.month), desc(coe.biddingNo));
+    .orderBy(asc(coe.month), asc(coe.biddingNo));
 
   // Get latest bidding per month for each category
   const coeByMonth = new Map<
