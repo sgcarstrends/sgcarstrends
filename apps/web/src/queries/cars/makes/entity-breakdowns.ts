@@ -1,5 +1,5 @@
 import { cars, db, type SelectCar } from "@sgcarstrends/database";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, ilike, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface MakeDetails {
@@ -36,7 +36,7 @@ export const getMakeDetails = async (
   cacheTag("cars");
 
   const pattern = make.replaceAll("-", "%");
-  const whereConditions = [sql`lower(${cars.make}) LIKE lower(${pattern})`];
+  const whereConditions = [ilike(cars.make, pattern)];
 
   if (month) {
     whereConditions.push(eq(cars.month, month));
@@ -77,7 +77,7 @@ export const getFuelTypeData = async (
   cacheTag("cars");
 
   const pattern = fuelType.replaceAll("-", "%");
-  const whereConditions = [sql`lower(${cars.fuelType}) LIKE lower(${pattern})`];
+  const whereConditions = [ilike(cars.fuelType, pattern)];
 
   if (month) {
     whereConditions.push(eq(cars.month, month));
@@ -123,9 +123,7 @@ export const getVehicleTypeData = async (
   cacheTag("cars");
 
   const pattern = vehicleType.replaceAll("-", "%");
-  const whereConditions = [
-    sql`lower(${cars.vehicleType}) LIKE lower(${pattern})`,
-  ];
+  const whereConditions = [ilike(cars.vehicleType, pattern)];
 
   if (month) {
     whereConditions.push(eq(cars.month, month));

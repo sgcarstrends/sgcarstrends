@@ -1,5 +1,5 @@
 import { cars, db } from "@sgcarstrends/database";
-import { sql } from "drizzle-orm";
+import { ilike } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 const normalisePattern = (value: string) => value.replaceAll("-", "%");
@@ -12,7 +12,7 @@ export const checkMakeIfExist = async (
   cacheTag("cars");
 
   const result = await db.query.cars.findFirst({
-    where: sql`lower(${cars.make}) LIKE lower(${normalisePattern(make)})`,
+    where: ilike(cars.make, normalisePattern(make)),
     columns: { make: true },
   });
 
@@ -27,7 +27,7 @@ export const checkFuelTypeIfExist = async (
   cacheTag("cars");
 
   const result = await db.query.cars.findFirst({
-    where: sql`lower(${cars.fuelType}) LIKE lower(${normalisePattern(fuelType)})`,
+    where: ilike(cars.fuelType, normalisePattern(fuelType)),
     columns: { fuelType: true },
   });
 
@@ -42,7 +42,7 @@ export const checkVehicleTypeIfExist = async (
   cacheTag("cars");
 
   const result = await db.query.cars.findFirst({
-    where: sql`lower(${cars.vehicleType}) LIKE lower(${normalisePattern(vehicleType)})`,
+    where: ilike(cars.vehicleType, normalisePattern(vehicleType)),
     columns: { vehicleType: true },
   });
 
