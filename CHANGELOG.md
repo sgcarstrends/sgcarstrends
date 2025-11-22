@@ -1,3 +1,9 @@
+## [4.24.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.2...v4.24.3) (2025-11-22)
+
+### Performance Improvements
+
+* **web:** optimize COE comparison query ([b6a791c](https://github.com/sgcarstrends/sgcarstrends/commit/b6a791c9e855e3cacd0a75b878342279e161165d))
+
 ## [4.24.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.1...v4.24.2) (2025-11-22)
 
 ### Performance Improvements
