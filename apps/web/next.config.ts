@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   reactCompiler: true,
   cacheComponents: true,
+  cacheLife: {
+    max: {
+      stale: 2592000,
+      revalidate: 2592000,
+      expire: 31536000,
+    },
+  },
   images: {
     remotePatterns: [
       {

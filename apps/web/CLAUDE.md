@@ -154,39 +154,69 @@ connection configured in `src/config/db.ts`.
 
 **Cache Components & Optimization** (Next.js 16):
 
-The application implements Next.js 16 Cache Components with `"use cache"` directives for optimal performance:
+The application implements Next.js 16 Cache Components with `"use cache"` directives optimized for monthly data updates:
 
-- **Cache Directives**: All data fetching queries use `"use cache"` with `cacheLife("max")` for static data
-- **Cache Tags**: High-level scopes (`CACHE_LIFE.CARS`, `CACHE_LIFE.coe`, `CACHE_LIFE.posts`) for broad cache
-  invalidation
-- **Tagged Queries**: Filter options, market insights, entity breakdowns, and overview queries include cache tags
-- **Simplified Architecture**: Moved from granular cache tags to broad tags to reduce ISR write operations
-- **Cache Configuration** (`src/lib/cache.ts`): Defines cache tag constants for cars, COE, and posts domains
+- **Cache Directives**: All data fetching queries use `"use cache"` with `cacheLife("max")` for monthly data
+- **Cache Profile**: Custom "max" profile optimized for CPU efficiency (30-day revalidation aligned with monthly updates)
+- **Cache Tags**: Domain-level scopes (`CACHE_TAG.CARS`, `CACHE_TAG.COE`, `CACHE_TAG.POSTS`) for on-demand invalidation
+- **Tagged Queries**: All queries include cache tags for manual revalidation via `revalidateTag()`
+- **Cache Configuration**:
+  - `next.config.ts`: Custom "max" profile with 30-day stale/revalidate, 1-year expire
+  - `src/lib/cache.ts`: Defines cache tag constants for cars, COE, and posts domains
+- **Revalidation Strategy**: On-demand via `revalidateTag()` when monthly data arrives (bypasses 30-day cache)
 
 **Cache Strategy Best Practices**:
 
 - Use `"use cache"` directive at the top of async functions that fetch data
-- Apply `cacheLife("max")` for static or infrequently changing data
-- Tag with domain-level scopes (`cacheTag(CACHE_LIFE.CARS)`) for efficient invalidation
+- Apply `cacheLife("max")` for monthly data (30-day client/server cache)
+- Tag with domain-level scopes (`cacheTag(CACHE_TAG.CARS)`) for on-demand invalidation
+- Trigger `revalidateTag()` when new monthly data arrives to bypass automatic revalidation
 - Avoid over-granular tags to minimize ISR write overhead
 - See `cache-components` skill for implementation patterns
+
+**CPU Optimization**:
+
+The custom "max" profile minimizes Vercel Fluid Compute usage:
+- **Client cache (stale)**: 30 days - users get instant page loads for 30 days, minimal server requests
+- **Server cache (revalidate)**: 30 days - ~1 automatic regeneration/month (aligns with monthly data cycle)
+- **Cache expiration (expire)**: 1 year - long-term cache persistence across traffic gaps
+- **On-demand revalidation**: Manual `revalidateTag()` triggers immediate cache refresh when new data arrives
+- **Result**: ~2 regenerations/month (1 automatic + 1 manual) vs ~30 with daily checks = **15x CPU savings**
 
 **Cache Implementation Example**:
 
 ```typescript
-import {CACHE_LIFE} from "@web/lib/cache";
+import {CACHE_TAG} from "@web/lib/cache";
 import {cacheLife, cacheTag} from "next/cache";
 
 export const getDistinctMakes = async () => {
     "use cache";
-    cacheLife("max");
-    cacheTag(CACHE_LIFE.CARS);
+    cacheLife("max");  // Uses custom 30-day profile from next.config.ts
+    cacheTag(CACHE_TAG.CARS);  // Enables on-demand revalidation
 
     return db.selectDistinct({make: cars.make}).from(cars).orderBy(cars.make);
 };
 ```
 
-This pattern is used across all query functions in `src/queries/cars/` and `src/queries/coe/` directories
+This pattern is used across all query functions in `src/queries/cars/` and `src/queries/coe/` directories.
+
+**On-demand Cache Revalidation**:
+
+When new monthly data arrives, trigger cache invalidation:
+
+```typescript
+// In API route or server action
+import {revalidateTag} from "next/cache";
+import {CACHE_TAG} from "@web/lib/cache";
+
+// Invalidate all car data queries
+revalidateTag(CACHE_TAG.CARS);
+
+// Invalidate all COE data queries
+revalidateTag(CACHE_TAG.COE);
+```
+
+This immediately clears client and server caches, bypassing the 30-day automatic revalidation period
 
 **Data Queries**: Organized in `src/queries/` directory with comprehensive test coverage:
 
