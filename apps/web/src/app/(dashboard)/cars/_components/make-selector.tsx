@@ -2,8 +2,8 @@
 
 import { Autocomplete, AutocompleteItem } from "@heroui/react";
 import { slugify } from "@sgcarstrends/utils";
+import { LogoImage } from "@web/components/charts/logo-image";
 import type { Make } from "@web/types";
-import Image from "next/image";
 import { useMemo } from "react";
 
 type MakeSelectorProps = {
@@ -60,12 +60,6 @@ const Logo = ({ make, logoUrl }: LogoProps) => {
   if (!logoUrl) return null;
 
   return (
-    <Image
-      src={logoUrl}
-      alt={`${make} logo`}
-      width={512}
-      height={512}
-      className="size-6"
-    />
+    <LogoImage brand={make} logoUrl={logoUrl} size="sm" className="size-6" />
   );
 };
