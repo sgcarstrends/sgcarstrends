@@ -157,30 +157,32 @@ connection configured in `src/config/db.ts`.
 The application implements Next.js 16 Cache Components with `"use cache"` directives for optimal performance:
 
 - **Cache Directives**: All data fetching queries use `"use cache"` with `cacheLife("max")` for static data
-- **Cache Tags**: High-level scopes (`CACHE_LIFE.cars`, `CACHE_LIFE.coe`, `CACHE_LIFE.posts`) for broad cache invalidation
+- **Cache Tags**: High-level scopes (`CACHE_LIFE.CARS`, `CACHE_LIFE.coe`, `CACHE_LIFE.posts`) for broad cache
+  invalidation
 - **Tagged Queries**: Filter options, market insights, entity breakdowns, and overview queries include cache tags
 - **Simplified Architecture**: Moved from granular cache tags to broad tags to reduce ISR write operations
 - **Cache Configuration** (`src/lib/cache.ts`): Defines cache tag constants for cars, COE, and posts domains
 
 **Cache Strategy Best Practices**:
+
 - Use `"use cache"` directive at the top of async functions that fetch data
 - Apply `cacheLife("max")` for static or infrequently changing data
-- Tag with domain-level scopes (`cacheTag(CACHE_LIFE.cars)`) for efficient invalidation
+- Tag with domain-level scopes (`cacheTag(CACHE_LIFE.CARS)`) for efficient invalidation
 - Avoid over-granular tags to minimize ISR write overhead
 - See `cache-components` skill for implementation patterns
 
 **Cache Implementation Example**:
 
 ```typescript
-import { CACHE_LIFE } from "@web/lib/cache";
-import { cacheLife, cacheTag } from "next/cache";
+import {CACHE_LIFE} from "@web/lib/cache";
+import {cacheLife, cacheTag} from "next/cache";
 
 export const getDistinctMakes = async () => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_LIFE.cars);
+    "use cache";
+    cacheLife("max");
+    cacheTag(CACHE_LIFE.CARS);
 
-  return db.selectDistinct({ make: cars.make }).from(cars).orderBy(cars.make);
+    return db.selectDistinct({make: cars.make}).from(cars).orderBy(cars.make);
 };
 ```
 
@@ -234,7 +236,8 @@ philosophy inspired by Vercel, Linear, and Stripe. Uses lighter font weights (se
 secondary headings/labels, normal for body text) with hierarchy driven by size and spacing.
 See [Typography System](#typography-system) section below.
 
-**UI Components**: Base UI components (shadcn/ui) are imported from the shared `@sgcarstrends/ui` package. HeroUI components are also used throughout the application for professional design system integration.
+**UI Components**: Base UI components (shadcn/ui) are imported from the shared `@sgcarstrends/ui` package. HeroUI
+components are also used throughout the application for professional design system integration.
 
 **Charts**: Recharts-based components in `src/components/charts/` for data visualization.
 
@@ -395,7 +398,8 @@ A standardized approach to spacing and layout for consistent, maintainable compo
 
 - **Avoid `space-y-*`**: Use `flex flex-col gap-*` instead for better layout control
 - **Avoid `margin-top`**: Use `gap-*` or `padding` for spacing between elements
-- **Prefer even gap values**: `gap-2`, `gap-4`, `gap-6`, `gap-8` (odd values like `gap-1` only sparingly for specific cases)
+- **Prefer even gap values**: `gap-2`, `gap-4`, `gap-6`, `gap-8` (odd values like `gap-1` only sparingly for specific
+  cases)
 
 **Guidelines**:
 
@@ -407,47 +411,54 @@ A standardized approach to spacing and layout for consistent, maintainable compo
 - ❌ Avoid `mt-*`/`margin-top` for spacing between sibling elements (use `gap-*` instead)
 - ⚠️ Exception: `mt-*` acceptable only for icon alignment with text (e.g., `mt-1` for small icons)
 
-**Rationale**: `gap-*` provides more predictable spacing in modern layouts, works consistently with flexbox/grid, and avoids margin collapsing issues that can occur with `space-y-*` and `margin-top`.
+**Rationale**: `gap-*` provides more predictable spacing in modern layouts, works consistently with flexbox/grid, and
+avoids margin collapsing issues that can occur with `space-y-*` and `margin-top`.
 
 **Examples**:
 
 ```typescript
 // ✅ Preferred: flex with gap for vertical spacing
-<div className="flex flex-col gap-4">
-  <CardComponent />
-  <CardComponent />
-  <CardComponent />
-</div>
+<div className = "flex flex-col gap-4" >
+    <CardComponent / >
+    <CardComponent / >
+    <CardComponent / >
+    </div>
 
-// ✅ Grid with even gap values
-<div className="grid grid-cols-2 gap-6">
-  <Item />
-  <Item />
-</div>
+    // ✅ Grid with even gap values
+    < div
+className = "grid grid-cols-2 gap-6" >
+    <Item / >
+    <Item / >
+    </div>
 
-// ✅ Horizontal flex with gap
-<div className="flex items-center gap-2">
-  <Icon className="size-4" />
-  <span>Text content</span>
-</div>
+    // ✅ Horizontal flex with gap
+    < div
+className = "flex items-center gap-2" >
+<Icon className = "size-4" / >
+    <span>Text
+content < /span>
+< /div>
 
 // ❌ Avoid: space-y utilities (legacy pattern)
-<div className="space-y-4">
-  <CardComponent />
-  <CardComponent />
+< div
+className = "space-y-4" >
+<CardComponent / >
+<CardComponent / >
 </div>
 
 // ❌ Avoid: margin-top for sibling spacing
-<div>
-  <CardComponent />
-  <CardComponent className="mt-4" />
-</div>
+< div >
+<CardComponent / >
+<CardComponent className = "mt-4" / >
+    </div>
 
-// ⚠️ Acceptable exception: icon vertical alignment
-<div className="flex items-center gap-2">
-  <Icon className="mt-1 size-4" />
-  <span className="text-sm">Aligned text</span>
-</div>
+    // ⚠️ Acceptable exception: icon vertical alignment
+    < div
+className = "flex items-center gap-2" >
+<Icon className = "mt-1 size-4" / >
+<span className = "text-sm" > Aligned
+text < /span>
+< /div>
 ```
 
 **Spacing Scale Reference**:
@@ -461,6 +472,7 @@ A standardized approach to spacing and layout for consistent, maintainable compo
 **Migration from Legacy Patterns**:
 
 When refactoring existing code:
+
 1. Replace `<div className="space-y-4">` with `<div className="flex flex-col gap-4">`
 2. Remove `mt-*` from child elements when parent uses `gap-*`
 3. Convert `space-y-*` values to equivalent `gap-*` (space-y-2 → gap-2, space-y-4 → gap-4, etc.)
@@ -574,6 +586,7 @@ The web application uses Vercel Related Projects for automatic API URL resolutio
 ### Deployment
 
 Multi-stage deployment via SST with domain mapping:
+
 - **dev**: `dev.sgcarstrends.com`
 - **staging**: `staging.sgcarstrends.com`
 - **prod**: `sgcarstrends.com` (apex domain)

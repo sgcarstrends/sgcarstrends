@@ -1,4 +1,4 @@
-import { CACHE_LIFE } from "@web/lib/cache";
+import { CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it } from "vitest";
 import { getCoeMonths } from "../coe/available-months";
 import {
@@ -26,7 +26,7 @@ describe("COE queries", () => {
 
     expect(result).toEqual([{ month: "2024-05" }, { month: "2024-04" }]);
     expect(cacheLifeMock).toHaveBeenCalledWith("max");
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_LIFE.coe);
+    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
   });
 
   it("returns the latest COE bidding results", async () => {
@@ -51,7 +51,7 @@ describe("COE queries", () => {
         vehicleClass: "A",
       },
     ]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_LIFE.coe);
+    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
   });
 
   it("returns an empty list when no latest month is available", async () => {
@@ -68,7 +68,7 @@ describe("COE queries", () => {
     const result = await getCoeResults();
 
     expect(result).toEqual([{ id: 1 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_LIFE.coe);
+    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
   });
 
   it("filters COE results by month", async () => {
@@ -77,7 +77,7 @@ describe("COE queries", () => {
     const result = await getCoeResultsFiltered("2024-04");
 
     expect(result).toEqual([{ id: 2 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_LIFE.coe);
+    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
   });
 
   it("filters COE results by range", async () => {
@@ -86,7 +86,7 @@ describe("COE queries", () => {
     const result = await getCoeResultsFiltered(undefined, "2024-01", "2024-03");
 
     expect(result).toEqual([{ id: 3 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_LIFE.coe);
+    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
   });
 
   it("falls back to all-cache tag when no filters are provided", async () => {
@@ -95,6 +95,6 @@ describe("COE queries", () => {
     const result = await getCoeResultsFiltered();
 
     expect(result).toEqual([{ id: 4 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_LIFE.coe);
+    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
   });
 });

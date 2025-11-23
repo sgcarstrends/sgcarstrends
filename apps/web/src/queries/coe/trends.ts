@@ -1,5 +1,5 @@
 import { coe, db, type SelectCOE } from "@sgcarstrends/database";
-import { CACHE_LIFE } from "@web/lib/cache";
+import { CACHE_TAG } from "@web/lib/cache";
 import type { COECategory } from "@web/types";
 import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
@@ -81,7 +81,7 @@ export const getCoeCategoryTrends = async (
   cacheLife("max");
 
   const { startMonth, endMonth } = getDateRange(year);
-  cacheTag(CACHE_LIFE.coe);
+  cacheTag(CACHE_TAG.COE);
 
   const results = await fetchCoeResults(startMonth, endMonth, category);
   const monthlyTrends = new Map<string, CoeMonthlyPremium>();
@@ -100,7 +100,7 @@ export const getAllCoeCategoryTrends = async (
   cacheLife("max");
 
   const { startMonth, endMonth } = getDateRange(year);
-  cacheTag(CACHE_LIFE.coe);
+  cacheTag(CACHE_TAG.COE);
 
   const results = await fetchCoeResults(startMonth, endMonth);
 

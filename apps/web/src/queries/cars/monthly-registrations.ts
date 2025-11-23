@@ -1,5 +1,5 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_LIFE } from "@web/lib/cache";
+import { CACHE_TAG } from "@web/lib/cache";
 import type { Comparison, Registration } from "@web/types/cars";
 import { format, subMonths } from "date-fns";
 import { desc, eq, sql } from "drizzle-orm";
@@ -8,7 +8,7 @@ import { cacheLife, cacheTag } from "next/cache";
 export const getCarsData = async (month: string): Promise<Registration> => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_LIFE.cars);
+  cacheTag(CACHE_TAG.CARS);
 
   const fuelTypeQuery = db
     .select({
@@ -56,7 +56,7 @@ export const getCarsData = async (month: string): Promise<Registration> => {
 export const getCarsComparison = async (month: string): Promise<Comparison> => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_LIFE.cars);
+  cacheTag(CACHE_TAG.CARS);
 
   const currentDate = new Date(`${month}-01`);
   const previousMonthDate = subMonths(currentDate, 1);

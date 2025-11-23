@@ -1,6 +1,7 @@
 import { slugify } from "@sgcarstrends/utils";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
 import { StructuredData } from "@web/components/structured-data";
+import { CACHE_TAG } from "@web/lib/cache";
 import { fetchMakePageData } from "@web/lib/cars/make-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
@@ -43,7 +44,7 @@ export const generateStaticParams = async () => {
 const CarMakePage = async ({ params }: Props) => {
   "use cache";
   cacheLife("max");
-  cacheTag("cars");
+  cacheTag(CACHE_TAG.CARS);
 
   const { make } = await params;
 

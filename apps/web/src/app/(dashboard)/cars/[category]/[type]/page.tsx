@@ -12,6 +12,7 @@ import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { CACHE_TAG } from "@web/lib/cache";
 import { loadCarsTypePageData } from "@web/lib/cars/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import {
@@ -118,7 +119,7 @@ const TypePageContent = async ({
 }) => {
   "use cache";
   cacheLife("max");
-  cacheTag("cars");
+  cacheTag(CACHE_TAG.CARS);
 
   const config = categoryConfigs[category as keyof typeof categoryConfigs];
   if (!config) {

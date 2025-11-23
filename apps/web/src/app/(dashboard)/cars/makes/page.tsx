@@ -3,6 +3,7 @@ import { MakesList } from "@web/app/(dashboard)/cars/_components/makes";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { CACHE_TAG } from "@web/lib/cache";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getDistinctMakes, getPopularMakes } from "@web/queries/cars";
 import { getAllCarLogos } from "@web/queries/logos";
@@ -26,7 +27,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 const CarMakesPage = async () => {
   "use cache";
   cacheLife("max");
-  cacheTag("cars");
+  cacheTag(CACHE_TAG.CARS);
 
   const [allMakes, popularMakes, months, lastUpdated, allLogos] =
     await Promise.all([

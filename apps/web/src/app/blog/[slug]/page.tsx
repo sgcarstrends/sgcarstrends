@@ -8,6 +8,7 @@ import { ViewCounter } from "@web/app/blog/_components/view-counter";
 import { BetaChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
+import { CACHE_TAG } from "@web/lib/cache";
 import { getAllPosts, getPostBySlug } from "@web/lib/data/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
@@ -100,7 +101,7 @@ export const generateStaticParams = async () => {
 const BlogPostPage = async ({ params }: Props) => {
   "use cache";
   cacheLife("max");
-  cacheTag("posts");
+  cacheTag(CACHE_TAG.POSTS);
 
   const { slug } = await params;
   const post = await getPostBySlug(slug);

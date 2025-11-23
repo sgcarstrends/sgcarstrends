@@ -11,6 +11,7 @@ import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
+import { CACHE_TAG } from "@web/lib/cache";
 import { fetchCOEPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
@@ -64,7 +65,7 @@ const COEResultsPageContent = async ({
 }) => {
   "use cache";
   cacheLife("max");
-  cacheTag("coe");
+  cacheTag(CACHE_TAG.COE);
 
   const { coeResults, months, lastUpdated, data } = await fetchCOEPageData(
     start,

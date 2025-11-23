@@ -1,12 +1,12 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_LIFE } from "@web/lib/cache";
+import { CACHE_TAG } from "@web/lib/cache";
 import { and, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export const getDistinctMakes = async () => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_LIFE.cars);
+  cacheTag(CACHE_TAG.CARS);
 
   return db.selectDistinct({ make: cars.make }).from(cars).orderBy(cars.make);
 };
@@ -16,7 +16,7 @@ export const getDistinctFuelTypes = async (
 ): Promise<{ fuelType: string }[]> => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_LIFE.cars);
+  cacheTag(CACHE_TAG.CARS);
 
   const filters = [];
 
@@ -36,7 +36,7 @@ export const getDistinctVehicleTypes = async (
 ): Promise<{ vehicleType: string }[]> => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_LIFE.cars);
+  cacheTag(CACHE_TAG.CARS);
 
   const filters = [];
 
@@ -54,7 +54,7 @@ export const getDistinctVehicleTypes = async (
 export const getCarsMonths = async (): Promise<{ month: string }[]> => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_LIFE.cars);
+  cacheTag(CACHE_TAG.CARS);
 
   return db
     .selectDistinct({ month: cars.month })

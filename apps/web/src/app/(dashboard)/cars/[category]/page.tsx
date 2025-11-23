@@ -3,6 +3,7 @@ import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { CACHE_TAG } from "@web/lib/cache";
 import { loadCarsCategoryPageData } from "@web/lib/cars/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
@@ -99,7 +100,7 @@ const CategoryPageContent = async ({
 }) => {
   "use cache";
   cacheLife("max");
-  cacheTag("cars");
+  cacheTag(CACHE_TAG.CARS);
 
   const config = categoryConfigs[category];
 

@@ -1,4 +1,5 @@
 import { cars, db, type SelectCar } from "@sgcarstrends/database";
+import { CACHE_TAG } from "@web/lib/cache";
 import { and, desc, eq, ilike, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
@@ -33,7 +34,7 @@ export const getMakeDetails = async (
 ): Promise<MakeDetails> => {
   "use cache";
   cacheLife("max");
-  cacheTag("cars");
+  cacheTag(CACHE_TAG.CARS);
 
   const pattern = make.replaceAll("-", "%");
   const whereConditions = [ilike(cars.make, pattern)];
@@ -74,7 +75,7 @@ export const getFuelTypeData = async (
 ): Promise<FuelTypeData> => {
   "use cache";
   cacheLife("max");
-  cacheTag("cars");
+  cacheTag(CACHE_TAG.CARS);
 
   const pattern = fuelType.replaceAll("-", "%");
   const whereConditions = [ilike(cars.fuelType, pattern)];
@@ -120,7 +121,7 @@ export const getVehicleTypeData = async (
 ): Promise<VehicleTypeData> => {
   "use cache";
   cacheLife("max");
-  cacheTag("cars");
+  cacheTag(CACHE_TAG.CARS);
 
   const pattern = vehicleType.replaceAll("-", "%");
   const whereConditions = [ilike(cars.vehicleType, pattern)];

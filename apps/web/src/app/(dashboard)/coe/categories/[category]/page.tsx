@@ -16,6 +16,7 @@ import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { LAST_UPDATED_COE_KEY } from "@web/config";
+import { CACHE_TAG } from "@web/lib/cache";
 import {
   calculateCategoryStats,
   groupCOEResultsByBidding,
@@ -109,7 +110,7 @@ const COECategoryPageContent = async ({
 }) => {
   "use cache";
   cacheLife("max");
-  cacheTag("coe");
+  cacheTag(CACHE_TAG.COE);
 
   const category = getCategoryFromSlug(categorySlug);
 

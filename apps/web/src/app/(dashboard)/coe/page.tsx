@@ -14,6 +14,7 @@ import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { CACHE_TAG } from "@web/lib/cache";
 import { calculateOverviewStats } from "@web/lib/coe/calculations";
 import { loadCOEOverviewPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -53,7 +54,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 const COEPricesPage = async () => {
   "use cache";
   cacheLife("max");
-  cacheTag("coe");
+  cacheTag(CACHE_TAG.COE);
 
   const { coeTrends, latestResults, allCoeResults, pqpRates, lastUpdated } =
     await loadCOEOverviewPageData();

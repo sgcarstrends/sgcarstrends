@@ -1,5 +1,5 @@
 import { coe, db } from "@sgcarstrends/database";
-import { CACHE_LIFE } from "@web/lib/cache";
+import { CACHE_TAG } from "@web/lib/cache";
 import type { COEResult } from "@web/types";
 import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
@@ -15,7 +15,7 @@ export interface CoeMarketShareData {
 export const getCoeResults = async (): Promise<COEResult[]> => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_LIFE.coe);
+  cacheTag(CACHE_TAG.COE);
 
   const results = await db
     .select()
@@ -34,11 +34,11 @@ export const getCoeResultsFiltered = async (
   cacheLife("max");
 
   if (month) {
-    cacheTag(CACHE_LIFE.coe);
+    cacheTag(CACHE_TAG.COE);
   } else if (start || end) {
-    cacheTag(CACHE_LIFE.coe);
+    cacheTag(CACHE_TAG.COE);
   } else {
-    cacheTag(CACHE_LIFE.coe);
+    cacheTag(CACHE_TAG.COE);
   }
 
   const filters = [];

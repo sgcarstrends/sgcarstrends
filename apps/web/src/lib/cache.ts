@@ -1,5 +1,5 @@
-export const CACHE_LIFE = {
-  cars: "cars",
-  coe: "coe",
-  posts: "posts",
+export const CACHE_TAG = {
+  CARS: "cars",
+  COE: "coe",
+  POSTS: "posts",
 } as const;

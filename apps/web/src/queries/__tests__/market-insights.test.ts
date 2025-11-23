@@ -1,4 +1,4 @@
-import { CACHE_LIFE } from "@web/lib/cache";
+import { CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it, vi } from "vitest";
 import {
   cacheLifeMock,
@@ -36,7 +36,7 @@ describe("car market insight queries", () => {
       topVehicleType: { name: "SUV", total: 40 },
     });
     expect(cacheLifeMock).toHaveBeenCalledWith("max");
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_LIFE.cars);
+    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.CARS);
   });
 
   it("falls back to placeholder entries when no types exist", async () => {
@@ -80,7 +80,7 @@ describe("car market insight queries", () => {
         makes: [{ make: "Toyota", count: 20 }],
       },
     ]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_LIFE.cars);
+    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.CARS);
   });
 
   it("computes market share breakdowns from cached data", async () => {

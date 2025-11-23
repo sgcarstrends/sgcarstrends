@@ -8,6 +8,7 @@ import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { CACHE_TAG } from "@web/lib/cache";
 import { loadCarsMetadataData } from "@web/lib/cars/page-data";
 import { loadLastUpdated } from "@web/lib/common";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -75,7 +76,7 @@ const CarsPage = async ({
 }) => {
   "use cache";
   cacheLife("max"); // 30-day revalidate, 1-year expire
-  cacheTag("cars"); // On-demand revalidation
+  cacheTag(CACHE_TAG.CARS); // On-demand revalidation
 
   const [cars, comparison, topTypes, topMakes] = await Promise.all([
     getCarsData(month),
