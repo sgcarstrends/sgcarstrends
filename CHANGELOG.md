@@ -1,3 +1,10 @@
+## [4.24.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.4...v4.24.5) (2025-11-23)
+
+### Reverts
+
+* Revert "chore: use bun runtime for Vercel" ([8999eeb](https://github.com/sgcarstrends/sgcarstrends/commit/8999eeb20ed64fbb85213a75f6d417e0ddbd210e))
+* Revert "feat: enable bun for Vercel" ([bf12d83](https://github.com/sgcarstrends/sgcarstrends/commit/bf12d83abed0b6e1c1771250defe068f6e80f29c))
+
 ## [4.24.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.3...v4.24.4) (2025-11-22)
 
 ### Bug Fixes
