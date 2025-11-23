@@ -134,7 +134,7 @@ sgcarstrends/
 - **Infrastructure**: SST v3 (Serverless Stack) on AWS
 - **Scheduling**: QStash Workflows for data processing
 - **LLM Integration**: Vercel AI SDK with Google Gemini for blog content generation
-- **Package Management**: pnpm v10.13.1 workspace with catalog for centralised dependency management
+- **Package Management**: pnpm v10.22.0 workspace with catalog for centralised dependency management
 - **Build Tools**: Turbopack for fast development builds
 - **Testing**: Vitest (unit), Playwright (E2E) with comprehensive coverage
 - **Linting & Formatting**: Biome v2.3.0 for consistent code style, formatting, and import organisation
@@ -165,7 +165,7 @@ For developers working on this codebase, detailed component-specific guidance is
 ### Prerequisites
 
 - Node.js >= 22
-- pnpm v10.13.1
+- pnpm v10.22.0
 
 ### Installation
 

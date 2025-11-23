@@ -625,7 +625,7 @@ See `sst-deployment` skill for deployment workflows and infrastructure details.
 
 ## Development Notes
 
-- **Package Manager**: Uses pnpm v10.13.1
+- **Package Manager**: Uses pnpm v10.22.0
 - **TypeScript**: Strict mode enabled
 - **Turbopack**: Enabled for faster builds and development
 - **Feature Flags**: Controlled via `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`

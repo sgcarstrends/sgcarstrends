@@ -15,7 +15,7 @@
     "migrate": "drizzle-kit migrate",
     "migrate:check": "drizzle-kit check"
   },
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.22.0",
   "dependencies": {
     "@neondatabase/serverless": "1.0.1",
     "drizzle-orm": "0.44.3"
