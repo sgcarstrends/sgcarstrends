@@ -1,6 +1,6 @@
 {
   "name": "@sgcarstrends/logos",
-  "version": "4.24.5",
+  "version": "4.24.6",
   "description": "Shared utilities for car logo management",
   "type": "module",
   "scripts": {

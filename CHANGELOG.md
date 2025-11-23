@@ -1,3 +1,9 @@
+## [4.24.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.5...v4.24.6) (2025-11-23)
+
+### Performance Improvements
+
+* **web:** optimise max cacheLife for monthly data ([3d31bcc](https://github.com/sgcarstrends/sgcarstrends/commit/3d31bcc61f41fa95c1b3714f987c321e0bf06dd7))
+
 ## [4.24.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.4...v4.24.5) (2025-11-23)
 
 ### Reverts
