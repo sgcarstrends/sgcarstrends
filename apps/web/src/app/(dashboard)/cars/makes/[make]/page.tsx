@@ -42,10 +42,6 @@ export const generateStaticParams = async () => {
 };
 
 const CarMakePage = async ({ params }: Props) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const { make } = await params;
 
   const [{ cars, makes, lastUpdated, makeName }, logo, coeComparison] =

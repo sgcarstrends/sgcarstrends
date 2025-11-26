@@ -98,10 +98,6 @@ const CategoryPageContent = async ({
   category: string;
   month: string;
 }) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const config = categoryConfigs[category];
 
   if (!config) {

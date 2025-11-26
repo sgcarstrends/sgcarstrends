@@ -66,7 +66,6 @@ const Page = async ({ searchParams }: Props) => {
 
 export default Page;
 
-// Main component with aggressive caching
 const CarsPage = async ({
   month,
   months,
@@ -74,10 +73,6 @@ const CarsPage = async ({
   month: string;
   months: string[];
 }) => {
-  "use cache";
-  cacheLife("max"); // 30-day revalidate, 1-year expire
-  cacheTag(CACHE_TAG.CARS); // On-demand revalidation
-
   const [cars, comparison, topTypes, topMakes] = await Promise.all([
     getCarsData(month),
     getCarsComparison(month),
