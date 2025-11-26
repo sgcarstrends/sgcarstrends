@@ -7,7 +7,10 @@ import {
 } from "@sgcarstrends/ui/components/card";
 import { COECategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
 import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
-import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
+import {
+  loadSearchParams,
+  type Period,
+} from "@web/app/(dashboard)/coe/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
@@ -35,21 +38,15 @@ export const generateMetadata = (): Metadata => {
 };
 
 const Page = async ({ searchParams }: Props) => {
-  const { start, end } = await loadSearchParams(searchParams);
+  const { period } = await loadSearchParams(searchParams);
 
-  return <COETrendsPageContent start={start} end={end} />;
+  return <COETrendsPageContent period={period} />;
 };
 
 export default Page;
 
-const COETrendsPageContent = async ({
-  start,
-  end,
-}: {
-  start: string;
-  end: string;
-}) => {
-  const { months, lastUpdated, data } = await fetchCOEPageData(start, end);
+const COETrendsPageContent = async ({ period }: { period: Period }) => {
+  const { lastUpdated, data } = await fetchCOEPageData(period);
   const trendInsights = calculateTrendInsights(data);
 
   const structuredData = createWebPageStructuredData(
@@ -66,7 +63,7 @@ const COETrendsPageContent = async ({
 
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
           <div className="xl:col-span-9">
-            <COEPremiumChart data={data} months={months} />
+            <COEPremiumChart data={data} />
           </div>
           <div className="xl:col-span-3">
             <COECategories />

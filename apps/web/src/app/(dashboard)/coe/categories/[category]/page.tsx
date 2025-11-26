@@ -5,24 +5,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import { redis } from "@sgcarstrends/utils";
 import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
 import {
-  getDefaultEndDate,
-  getDefaultStartDate,
   loadSearchParams,
+  type Period,
 } from "@web/app/(dashboard)/coe/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
-import { LAST_UPDATED_COE_KEY } from "@web/config";
 import {
   calculateCategoryStats,
   groupCOEResultsByBidding,
 } from "@web/lib/coe/calculations";
+import { fetchCOEPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
-import { getCoeMonths, getCoeResultsFiltered } from "@web/queries/coe";
 import type { COECategory } from "@web/types";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -84,45 +81,27 @@ export const generateMetadata = async ({
 
 const Page = async ({ params, searchParams }: Props) => {
   const { category: categorySlug } = await params;
-  const { start, end } = await loadSearchParams(searchParams);
+  const { period } = await loadSearchParams(searchParams);
 
-  return (
-    <COECategoryPageContent
-      categorySlug={categorySlug}
-      start={start}
-      end={end}
-    />
-  );
+  return <COECategoryPageContent categorySlug={categorySlug} period={period} />;
 };
 
 export default Page;
 
 const COECategoryPageContent = async ({
   categorySlug,
-  start,
-  end,
+  period,
 }: {
   categorySlug: string;
-  start: string;
-  end: string;
+  period: Period;
 }) => {
   const category = getCategoryFromSlug(categorySlug);
 
   if (!category) {
     notFound();
   }
-  const defaultStart = await getDefaultStartDate();
-  const defaultEnd = await getDefaultEndDate();
-  const startDate = start || defaultStart;
-  const endDate = end || defaultEnd;
 
-  const [coeResults, monthsResult, lastUpdated] = await Promise.all([
-    getCoeResultsFiltered(undefined, startDate, endDate),
-    getCoeMonths(),
-    redis.get<number>(LAST_UPDATED_COE_KEY),
-  ]);
-
-  const months = monthsResult.map(({ month }) => month);
+  const { coeResults, lastUpdated } = await fetchCOEPageData(period);
 
   // Filter data for the specific category
   const categoryResults = coeResults.filter(
@@ -146,7 +125,7 @@ const COECategoryPageContent = async ({
       <div className="flex flex-col gap-4">
         <PageHeader title={`${category} Analysis`} lastUpdated={lastUpdated} />
         <div className="grid grid-cols-1 gap-4">
-          <COEPremiumChart data={data} months={months} />
+          <COEPremiumChart data={data} />
         </div>
         <Card>
           <CardHeader>

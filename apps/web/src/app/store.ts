@@ -4,11 +4,6 @@ import {
   createBannerSlice,
 } from "@web/app/store/banner-slice";
 import {
-  type COEAction,
-  type COEState,
-  createCoeSlice,
-} from "@web/app/store/coe-slice";
-import {
   createDateSlice,
   type DateAction,
   type DateState,
@@ -21,21 +16,19 @@ import {
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type State = DateState & COEState & NotificationState & BannerState;
-type Action = DateAction & COEAction & NotificationAction & BannerAction;
+type State = DateState & NotificationState & BannerState;
+type Action = DateAction & NotificationAction & BannerAction;
 
 const useStore = create<State & Action, [["zustand/persist", unknown]]>(
   persist(
     (...a) => ({
       ...createDateSlice(...a),
-      ...createCoeSlice(...a),
       ...createNotificationSlice(...a),
       ...createBannerSlice(...a),
     }),
     {
       name: "config",
-      partialize: ({ categories, notificationStatus }) => ({
-        categories,
+      partialize: ({ notificationStatus }) => ({
         notificationStatus,
       }),
     },
