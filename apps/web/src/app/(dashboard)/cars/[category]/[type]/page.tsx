@@ -117,10 +117,6 @@ const TypePageContent = async ({
   type: string;
   month: string;
 }) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const config = categoryConfigs[category as keyof typeof categoryConfigs];
   if (!config) {
     notFound();
