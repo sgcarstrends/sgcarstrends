@@ -13,9 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@sgcarstrends/ui/components/select";
-import useStore from "@web/app/store";
 import Typography from "@web/components/typography";
-import { useMemo } from "react";
+import { useQueryState } from "nuqs";
+import { useEffect, useMemo } from "react";
 import {
   Area,
   AreaChart,
@@ -171,8 +171,16 @@ const TrendChart = ({ data, chartColor, ariaLabel }: TrendChartProps) => {
 };
 
 export const KeyStatistics = ({ data }: Props) => {
-  const selectedYear = useStore(({ selectedYear }) => selectedYear);
-  const setSelectedYear = useStore(({ setSelectedYear }) => setSelectedYear);
+  const defaultYear = (new Date().getFullYear() - 1).toString();
+  const [selectedYear, setSelectedYear] = useQueryState("year", {
+    shallow: false,
+  });
+
+  useEffect(() => {
+    if (!selectedYear) {
+      void setSelectedYear(defaultYear);
+    }
+  }, [defaultYear, selectedYear, setSelectedYear]);
 
   const numberFormatter = useMemo(() => new Intl.NumberFormat("en-SG"), []);
   const percentFormatter = useMemo(
@@ -206,8 +214,8 @@ export const KeyStatistics = ({ data }: Props) => {
   );
 
   const selectedYearNumber = useMemo(
-    () => Number(selectedYear),
-    [selectedYear],
+    () => Number(selectedYear ?? defaultYear),
+    [selectedYear, defaultYear],
   );
   const selectedEntry = useMemo(
     () => sortedByYearAsc.find((item) => item.year === selectedYearNumber),
@@ -258,13 +266,13 @@ export const KeyStatistics = ({ data }: Props) => {
                 ? numberFormatter.format(selectedEntry.total)
                 : "—"}
               <Typography.TextSm>
-                total registrations in {selectedYear || "—"}
+                total registrations in {selectedYear ?? defaultYear}
               </Typography.TextSm>
             </div>
           </div>
           <Select
             onValueChange={(year) => setSelectedYear(year)}
-            value={selectedYear}
+            value={selectedYear ?? defaultYear}
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select year" />
