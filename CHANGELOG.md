@@ -1,3 +1,13 @@
+## [4.24.7](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.6...v4.24.7) (2025-11-26)
+
+### Performance Improvements
+
+* **web:** add cache life to analytics query ([e4fb96c](https://github.com/sgcarstrends/sgcarstrends/commit/e4fb96cd65d0f64b83b51065c16d2bc1b45a50ad))
+* **web:** remove Cars page-level cache ([3cb1b4b](https://github.com/sgcarstrends/sgcarstrends/commit/3cb1b4bec220e0b8e5a3861c0de0992013c0eb33))
+* **web:** remove COE page-level cache ([b2dcdce](https://github.com/sgcarstrends/sgcarstrends/commit/b2dcdce5e5d1122cd5c18858f1213f78cd5e0965))
+* **web:** remove remaining page-level cache ([9fd39b5](https://github.com/sgcarstrends/sgcarstrends/commit/9fd39b583f535e82baef3d1be3782822004ee703))
+* **web:** replace visitors page HTTP fetch with direct query ([5dc5606](https://github.com/sgcarstrends/sgcarstrends/commit/5dc5606d32d26c7022b94f6910404ad69ef7dd18))
+
 ## [4.24.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.5...v4.24.6) (2025-11-23)
 
 ### Performance Improvements
