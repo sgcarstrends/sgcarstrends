@@ -56,9 +56,6 @@ const COEBiddingPageContent = async ({
   start: string;
   end: string;
 }) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
   const defaultStart = await getDefaultStartDate();
   const defaultEnd = await getDefaultEndDate();
   const startDate = start || defaultStart;

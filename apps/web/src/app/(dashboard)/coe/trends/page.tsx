@@ -51,10 +51,6 @@ const COETrendsPageContent = async ({
   start: string;
   end: string;
 }) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const { months, lastUpdated, data } = await fetchCOEPageData(start, end);
   const trendInsights = calculateTrendInsights(data);
 

@@ -63,10 +63,6 @@ const COEResultsPageContent = async ({
   start: string;
   end: string;
 }) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const { coeResults, months, lastUpdated, data } = await fetchCOEPageData(
     start,
     end,

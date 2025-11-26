@@ -108,10 +108,6 @@ const COECategoryPageContent = async ({
   start: string;
   end: string;
 }) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const category = getCategoryFromSlug(categorySlug);
 
   if (!category) {
