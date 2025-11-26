@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 import type { Redirect } from "next/dist/lib/load-custom-routes";
 
+const ONE_DAY = 60 * 60 * 24;
+
 const isProd =
   process.env.VERCEL_ENV === "production" ||
   process.env.NEXT_PUBLIC_APP_ENV === "prod";
@@ -16,9 +18,9 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   cacheLife: {
     max: {
-      stale: 2592000,
-      revalidate: 2592000,
-      expire: 31536000,
+      stale: ONE_DAY * 30,
+      revalidate: ONE_DAY * 30,
+      expire: ONE_DAY * 365,
     },
   },
   images: {
@@ -42,7 +44,9 @@ const nextConfig: NextConfig = {
   },
   transpilePackages: ["@sgcarstrends/ui"],
   experimental: {
+    mcpServer: true,
     turbopackFileSystemCacheForDev: true,
+    typedEnv: true,
   },
   async headers() {
     return [
