@@ -3,13 +3,11 @@ import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { CACHE_TAG } from "@web/lib/cache";
 import { loadCarsCategoryPageData } from "@web/lib/cars/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -98,10 +96,6 @@ const CategoryPageContent = async ({
   category: string;
   month: string;
 }) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const config = categoryConfigs[category];
 
   if (!config) {
