@@ -15,7 +15,7 @@ import { useMemo, useState } from "react";
 interface MakesListProps {
   makes: Make[];
   popularMakes: Make[];
-  logos?: CarLogo[];
+  logos?: CarLogo[] | null;
 }
 
 export const MakesList = ({
@@ -26,7 +26,7 @@ export const MakesList = ({
   const [searchTerm, setSearchTerm] = useState("");
 
   const logoUrlMap = useMemo(() => {
-    return logos.reduce<Record<string, string>>((acc, logo) => {
+    return logos?.reduce<Record<string, string>>((acc, logo) => {
       if (logo.url) {
         acc[logo.make] = logo.url;
       }
