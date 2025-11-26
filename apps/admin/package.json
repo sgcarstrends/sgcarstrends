@@ -22,7 +22,7 @@
     "@sgcarstrends/ui": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
     "ai": "catalog:",
-    "better-auth": "^1.3.34",
+    "better-auth": "^1.4.0",
     "drizzle-orm": "0.44.3",
     "lucide-react": "^0.482.0",
     "next": "catalog:",
