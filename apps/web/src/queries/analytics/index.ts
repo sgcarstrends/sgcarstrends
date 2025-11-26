@@ -1,6 +1,6 @@
 import { analyticsTable, db } from "@sgcarstrends/database";
 import type { AnalyticsData } from "@web/types/analytics";
-import { count, desc, isNotNull, ne, sql } from "drizzle-orm";
+import { and, count, desc, isNotNull, ne, sql } from "drizzle-orm";
 
 export const getAnalyticsData = async (): Promise<AnalyticsData> => {
   "use cache";
@@ -16,25 +16,33 @@ export const getAnalyticsData = async (): Promise<AnalyticsData> => {
     db.select({ count: count() }).from(analyticsTable),
     db
       .select({
-        country: analyticsTable.country,
-        flag: analyticsTable.flag,
+        country: sql<string>`${analyticsTable.country}`,
+        flag: sql<string>`${analyticsTable.flag}`,
         count: count(),
       })
       .from(analyticsTable)
+      .where(
+        and(isNotNull(analyticsTable.country), isNotNull(analyticsTable.flag)),
+      )
       .groupBy(analyticsTable.country, analyticsTable.flag)
-      .having(isNotNull(analyticsTable.country))
       .orderBy(desc(count()))
       .limit(10),
     db
       .select({
-        city: analyticsTable.city,
-        country: analyticsTable.country,
-        flag: analyticsTable.flag,
+        city: sql<string>`${analyticsTable.city}`,
+        country: sql<string>`${analyticsTable.country}`,
+        flag: sql<string>`${analyticsTable.flag}`,
         count: count(),
       })
       .from(analyticsTable)
+      .where(
+        and(
+          isNotNull(analyticsTable.city),
+          isNotNull(analyticsTable.country),
+          isNotNull(analyticsTable.flag),
+        ),
+      )
       .groupBy(analyticsTable.city, analyticsTable.country, analyticsTable.flag)
-      .having(isNotNull(analyticsTable.city))
       .orderBy(desc(count()))
       .limit(10),
     db
@@ -48,13 +56,17 @@ export const getAnalyticsData = async (): Promise<AnalyticsData> => {
       .limit(10),
     db
       .select({
-        referrer: analyticsTable.referrer,
+        referrer: sql<string>`${analyticsTable.referrer}`,
         count: count(),
       })
       .from(analyticsTable)
-      .where(ne(analyticsTable.referrer, ""))
+      .where(
+        and(
+          isNotNull(analyticsTable.referrer),
+          ne(analyticsTable.referrer, ""),
+        ),
+      )
       .groupBy(analyticsTable.referrer)
-      .having(isNotNull(analyticsTable.referrer))
       .orderBy(desc(count()))
       .limit(10),
     db
