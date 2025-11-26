@@ -23,26 +23,34 @@ import {
   Truck,
 } from "lucide-react";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 const defaultCategories = ["Category A", "Category B", "Category E"];
+const coreCategories = ["Category A", "Category B", "Category E"];
 
-export const COECategories = () => {
-  const [categories, setCategories] = useQueryState(
+export const CoeCategories = () => {
+  const [selectedCategories, setSelectedCategories] = useQueryState(
     "categories",
     parseAsArrayOf(parseAsString).withDefault(defaultCategories),
   );
 
+  const activeCategories = useMemo(() => {
+    return [...new Set([...coreCategories, ...selectedCategories])];
+  }, [selectedCategories]);
+
   const toggleCategory = useCallback(
     (category: COECategory) => {
-      setCategories((prev) => {
+      setSelectedCategories((prev) => {
         if (prev.includes(category)) {
+          if (coreCategories.includes(category)) {
+            return prev;
+          }
           return prev.filter((c) => c !== category);
         }
         return [...prev, category];
       });
     },
-    [setCategories],
+    [setSelectedCategories],
   );
 
   return (
@@ -70,7 +78,7 @@ export const COECategories = () => {
             category="Category A"
             description="Cars up to 1600cc & 97kW"
             canFilter={false}
-            isSelected={categories.includes("Category A")}
+            isSelected={activeCategories.includes("Category A")}
             onToggle={toggleCategory}
           />
           <CategoryInfo
@@ -78,21 +86,21 @@ export const COECategories = () => {
             category="Category B"
             description="Cars above 1600cc or 97kW"
             canFilter={false}
-            isSelected={categories.includes("Category B")}
+            isSelected={activeCategories.includes("Category B")}
             onToggle={toggleCategory}
           />
           <CategoryInfo
             icon={Truck}
             category="Category C"
             description="Goods vehicles & buses"
-            isSelected={categories.includes("Category C")}
+            isSelected={activeCategories.includes("Category C")}
             onToggle={toggleCategory}
           />
           <CategoryInfo
             icon={Bike}
             category="Category D"
             description="Motorcycles"
-            isSelected={categories.includes("Category D")}
+            isSelected={activeCategories.includes("Category D")}
             onToggle={toggleCategory}
           />
           <CategoryInfo
@@ -100,7 +108,7 @@ export const COECategories = () => {
             category="Category E"
             description="Open Category"
             canFilter={false}
-            isSelected={categories.includes("Category E")}
+            isSelected={activeCategories.includes("Category E")}
             onToggle={toggleCategory}
           />
         </div>

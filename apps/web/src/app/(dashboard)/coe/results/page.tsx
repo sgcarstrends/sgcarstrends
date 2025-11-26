@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import { COECategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
+import { CoeCategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
 import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
 import {
   loadSearchParams,
@@ -76,7 +76,7 @@ const COEResultsPageContent = async ({ period }: { period: Period }) => {
             <COEPremiumChart data={data} />
           </div>
           <div className="xl:col-span-3">
-            <COECategories />
+            <CoeCategories />
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4">
