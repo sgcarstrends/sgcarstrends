@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@sgcarstrends/ui/lib/utils";
-import useStore from "@web/app/store";
 import Typography from "@web/components/typography";
 import type { COECategory } from "@web/types";
 import type { LucideIcon } from "lucide-react";
@@ -11,6 +10,8 @@ interface Props {
   category: COECategory;
   description: string;
   canFilter?: boolean;
+  isSelected: boolean;
+  onToggle: (category: COECategory) => void;
 }
 
 export const CategoryInfo = ({
@@ -18,13 +19,12 @@ export const CategoryInfo = ({
   category,
   description,
   canFilter = true,
+  isSelected,
+  onToggle,
 }: Props) => {
-  const categories = useStore((state) => state.categories);
-  const updateCategories = useStore((state) => state.updateCategories);
-
   const handleFilterCategories = () => {
     if (canFilter) {
-      updateCategories(category);
+      onToggle(category);
     }
   };
 
@@ -42,14 +42,14 @@ export const CategoryInfo = ({
         "pointer-events-none flex cursor-not-allowed items-center gap-2 rounded-xl border-2 border-transparent p-2 hover:bg-gray-100",
         {
           "pointer-events-auto cursor-pointer": canFilter,
-          "border-primary": categories[category],
+          "border-primary": isSelected,
         },
       )}
       onClick={handleFilterCategories}
       onKeyDown={handleKeyDown}
       tabIndex={canFilter ? 0 : -1}
       role="button"
-      aria-pressed={categories[category]}
+      aria-pressed={isSelected}
     >
       <Icon className="size-6" />
       <div>

@@ -1,7 +1,7 @@
 import { coe, db } from "@sgcarstrends/database";
 import { CACHE_TAG } from "@web/lib/cache";
 import type { COEResult } from "@web/types";
-import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
+import { and, asc, eq, gte, lte } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface CoeMarketShareData {
@@ -20,7 +20,7 @@ export const getCoeResults = async (): Promise<COEResult[]> => {
   const results = await db
     .select()
     .from(coe)
-    .orderBy(desc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
+    .orderBy(asc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
 };
@@ -59,7 +59,7 @@ export const getCoeResultsFiltered = async (
     .select()
     .from(coe)
     .where(whereClause)
-    .orderBy(desc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
+    .orderBy(asc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
 };

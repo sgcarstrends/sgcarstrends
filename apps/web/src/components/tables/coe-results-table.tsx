@@ -1,17 +1,22 @@
 "use client";
 
 import { DataTable } from "@sgcarstrends/ui/components/data-table";
-import useStore from "@web/app/store";
 import { columns } from "@web/components/tables/columns/coe-results-columns";
 import type { COEResult } from "@web/types";
+import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import { useCallback, useMemo } from "react";
 
 interface Props {
   coeResults: COEResult[];
 }
 
+const defaultCategories = ["Category A", "Category B", "Category E"];
+
 export const TrendTable = ({ coeResults }: Props) => {
-  const categories = useStore(({ categories }) => categories);
+  const [categories] = useQueryState(
+    "categories",
+    parseAsArrayOf(parseAsString).withDefault(defaultCategories),
+  );
 
   const sortCOEResults = useCallback((a: COEResult, b: COEResult) => {
     if (a.month !== b.month) {
@@ -28,7 +33,7 @@ export const TrendTable = ({ coeResults }: Props) => {
   const sortedData = useMemo(
     () =>
       coeResults
-        .filter(({ vehicleClass }) => categories[vehicleClass])
+        .filter(({ vehicleClass }) => categories.includes(vehicleClass))
         .sort(sortCOEResults),
     [categories, coeResults, sortCOEResults],
   );

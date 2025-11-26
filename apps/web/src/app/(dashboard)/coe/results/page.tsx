@@ -5,9 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import { COECategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
+import { CoeCategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
 import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
-import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
+import {
+  loadSearchParams,
+  type Period,
+} from "@web/app/(dashboard)/coe/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
@@ -47,24 +50,15 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const Page = async ({ searchParams }: Props) => {
-  const { start, end } = await loadSearchParams(searchParams);
+  const { period } = await loadSearchParams(searchParams);
 
-  return <COEResultsPageContent start={start} end={end} />;
+  return <COEResultsPageContent period={period} />;
 };
 
 export default Page;
 
-const COEResultsPageContent = async ({
-  start,
-  end,
-}: {
-  start: string;
-  end: string;
-}) => {
-  const { coeResults, months, lastUpdated, data } = await fetchCOEPageData(
-    start,
-    end,
-  );
+const COEResultsPageContent = async ({ period }: { period: Period }) => {
+  const { coeResults, lastUpdated, data } = await fetchCOEPageData(period);
 
   const structuredData = createWebPageStructuredData(
     title,
@@ -79,10 +73,10 @@ const COEResultsPageContent = async ({
         <PageHeader title="Historical Results" lastUpdated={lastUpdated} />
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
           <div className="xl:col-span-9">
-            <COEPremiumChart data={data} months={months} />
+            <COEPremiumChart data={data} />
           </div>
           <div className="xl:col-span-3">
-            <COECategories />
+            <CoeCategories />
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4">

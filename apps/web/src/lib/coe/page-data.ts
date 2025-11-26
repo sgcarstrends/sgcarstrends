@@ -1,8 +1,5 @@
 import { redis } from "@sgcarstrends/utils";
-import {
-  getDefaultEndDate,
-  getDefaultStartDate,
-} from "@web/app/(dashboard)/coe/search-params";
+import type { Period } from "@web/app/(dashboard)/coe/search-params";
 import { LAST_UPDATED_COE_KEY } from "@web/config";
 import { groupCOEResultsByBidding } from "@web/lib/coe/calculations";
 import { loadLastUpdated } from "@web/lib/common";
@@ -14,22 +11,58 @@ import {
   getLatestCoeResults,
   getPqpRates,
 } from "@web/queries/coe";
+import { format, subMonths, subYears } from "date-fns";
 
-export const fetchCOEPageData = async (start?: string, end?: string) => {
-  const defaultStart = await getDefaultStartDate();
-  const defaultEnd = await getDefaultEndDate();
-  const startDate = start || defaultStart;
-  const endDate = end || defaultEnd;
+const getDateRangeFromPeriod = (
+  period: Period,
+  latestMonth: string,
+  earliestMonth: string,
+): { start: string; end: string } => {
+  const latest = new Date(`${latestMonth}-01`);
 
-  const [coeResults, monthsResult, lastUpdated] = await Promise.all([
-    getCoeResultsFiltered(undefined, startDate, endDate),
-    getCoeMonths(),
+  switch (period) {
+    case "12m":
+      return {
+        start: format(subMonths(latest, 12), "yyyy-MM"),
+        end: latestMonth,
+      };
+    case "5y":
+      return {
+        start: format(subYears(latest, 5), "yyyy-MM"),
+        end: latestMonth,
+      };
+    case "10y":
+      return {
+        start: format(subYears(latest, 10), "yyyy-MM"),
+        end: latestMonth,
+      };
+    case "ytd":
+      return { start: `${new Date().getFullYear()}-01`, end: latestMonth };
+    case "all":
+      return { start: earliestMonth, end: latestMonth };
+  }
+};
+
+export const fetchCOEPageData = async (period: Period = "12m") => {
+  const monthsResult = await getCoeMonths();
+  const months = monthsResult.map(({ month }) => month);
+  const latestMonth = months[0];
+  const earliestMonth = months[months.length - 1];
+
+  const { start, end } = getDateRangeFromPeriod(
+    period,
+    latestMonth,
+    earliestMonth,
+  );
+
+  const [coeResults, lastUpdated] = await Promise.all([
+    getCoeResultsFiltered(undefined, start, end),
     redis.get<number>(LAST_UPDATED_COE_KEY),
   ]);
 
   return {
     coeResults,
-    months: monthsResult.map(({ month }) => month),
+    months,
     lastUpdated,
     data: groupCOEResultsByBidding(coeResults),
   };
