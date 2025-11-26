@@ -11,13 +11,11 @@ import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
-import { CACHE_TAG } from "@web/lib/cache";
 import { calculateTrendInsights } from "@web/lib/coe/calculations";
 import { fetchCOEPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
 import type { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import type { SearchParams } from "nuqs/server";
 
 interface Props {

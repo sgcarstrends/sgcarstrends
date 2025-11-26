@@ -6,7 +6,7 @@ import Typography from "@web/components/typography";
 import { VisitorsAnalytics } from "@web/components/visitors-analytics";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
-import type { AnalyticsData } from "@web/types/analytics";
+import { getAnalyticsData } from "@web/queries/analytics";
 import { Users } from "lucide-react";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
@@ -23,30 +23,7 @@ export const generateMetadata = (): Metadata => {
 };
 
 const VisitorsPage = async () => {
-  "use cache";
-
-  let data: AnalyticsData;
-
-  try {
-    const response = await fetch(`${SITE_URL}/api/analytics`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch analytics data");
-    }
-
-    data = await response.json();
-  } catch (error) {
-    console.error("Error fetching analytics data:", error);
-    // Provide default data structure
-    data = {
-      totalViews: 0,
-      uniqueVisitors: 0,
-      topCountries: [],
-      topCities: [],
-      topPages: [],
-      topReferrers: [],
-      dailyViews: [],
-    };
-  }
+  const data = await getAnalyticsData();
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -82,7 +59,6 @@ const VisitorsPage = async () => {
             </div>
           </CardContent>
         </Card>
-
         <VisitorsAnalytics data={data} />
       </div>
     </>

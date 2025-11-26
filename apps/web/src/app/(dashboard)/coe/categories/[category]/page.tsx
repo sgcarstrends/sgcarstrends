@@ -16,7 +16,6 @@ import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { LAST_UPDATED_COE_KEY } from "@web/config";
-import { CACHE_TAG } from "@web/lib/cache";
 import {
   calculateCategoryStats,
   groupCOEResultsByBidding,
@@ -26,7 +25,6 @@ import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
 import { getCoeMonths, getCoeResultsFiltered } from "@web/queries/coe";
 import type { COECategory } from "@web/types";
 import type { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 

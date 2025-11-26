@@ -8,7 +8,6 @@ import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { CACHE_TAG } from "@web/lib/cache";
 import { loadCarsMetadataData } from "@web/lib/cars/page-data";
 import { loadLastUpdated } from "@web/lib/common";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -22,7 +21,6 @@ import {
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";

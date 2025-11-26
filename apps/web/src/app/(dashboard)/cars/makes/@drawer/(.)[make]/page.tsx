@@ -1,9 +1,7 @@
 import { MakeDrawer } from "@web/app/(dashboard)/cars/_components/makes";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes/make-detail";
-import { CACHE_TAG } from "@web/lib/cache";
 import { fetchMakePageData } from "@web/lib/cars/make-data";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
-import { cacheLife, cacheTag } from "next/cache";
 
 interface Props {
   params: Promise<{ make: string }>;
