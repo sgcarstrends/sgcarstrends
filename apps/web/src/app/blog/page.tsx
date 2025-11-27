@@ -3,10 +3,8 @@ import { StructuredData } from "@web/components/structured-data";
 import { SubscribeForm } from "@web/components/subscribe-form";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import { CACHE_TAG } from "@web/lib/cache";
 import { getAllPosts } from "@web/lib/data/posts";
 import type { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import type { Blog, WithContext } from "schema-dts";
 
 const title = "Blog";

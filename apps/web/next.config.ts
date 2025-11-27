@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 import type { Redirect } from "next/dist/lib/load-custom-routes";
 
-const ONE_DAY = 60 * 60 * 24;
+const _ONE_DAY = 60 * 60 * 24;
 
 const isProd =
   process.env.VERCEL_ENV === "production" ||

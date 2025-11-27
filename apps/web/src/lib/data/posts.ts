@@ -1,7 +1,5 @@
 import { db, posts } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
-import { cacheLife, cacheTag } from "next/cache";
 
 export async function getAllPosts() {
   return db.query.posts.findMany({
