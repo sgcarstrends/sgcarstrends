@@ -1,8 +1,6 @@
 import { coe, db } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import type { COEResult } from "@web/types";
 import { and, asc, eq, gte, lte } from "drizzle-orm";
-import { cacheLife, cacheTag } from "next/cache";
 
 export interface CoeMarketShareData {
   category: string;

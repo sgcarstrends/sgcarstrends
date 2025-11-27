@@ -1,7 +1,5 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import { and, desc, eq, gt, sql } from "drizzle-orm";
-import { cacheLife, cacheTag } from "next/cache";
 
 const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;
 

@@ -1,9 +1,7 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import { getCarsData } from "@web/queries";
 import type { FuelType, TopType } from "@web/types/cars";
 import { and, desc, eq, gt, sql } from "drizzle-orm";
-import { cacheLife, cacheTag } from "next/cache";
 
 export interface CarMarketShareData {
   name: string;

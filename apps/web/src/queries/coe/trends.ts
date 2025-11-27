@@ -1,8 +1,6 @@
 import { coe, db, type SelectCOE } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import type { COECategory } from "@web/types";
 import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
-import { cacheLife, cacheTag } from "next/cache";
 
 const COE_CATEGORIES: COECategory[] = [
   "Category A",

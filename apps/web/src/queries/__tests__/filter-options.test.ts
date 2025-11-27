@@ -1,16 +1,10 @@
-import { CACHE_TAG } from "@web/lib/cache";
 import {
   getCarsMonths,
   getDistinctFuelTypes,
   getDistinctMakes,
   getDistinctVehicleTypes,
 } from "../cars/filter-options";
-import {
-  cacheLifeMock,
-  cacheTagMock,
-  queueSelectDistinct,
-  resetDbMocks,
-} from "./test-utils";
+import { queueSelectDistinct, resetDbMocks } from "./test-utils";
 
 describe("car filter option queries", () => {
   beforeEach(() => {
@@ -70,7 +64,5 @@ describe("car filter option queries", () => {
     const result = await getCarsMonths();
 
     expect(result).toEqual([{ month: "2024-06" }, { month: "2024-05" }]);
-    expect(cacheLifeMock).toHaveBeenCalledWith("max");
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.CARS);
   });
 });

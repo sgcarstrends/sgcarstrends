@@ -1,8 +1,6 @@
 import { coe, db, pqp } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import type { Pqp } from "@web/types/coe";
 import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
-import { cacheLife, cacheTag } from "next/cache";
 
 const PQP_CATEGORIES = [
   "Category A",

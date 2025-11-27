@@ -1,7 +1,6 @@
 import { analyticsTable, db } from "@sgcarstrends/database";
 import type { AnalyticsData } from "@web/types/analytics";
 import { and, count, desc, isNotNull, ne, sql } from "drizzle-orm";
-import { cacheLife } from "next/cache";
 
 export const getAnalyticsData = async (): Promise<AnalyticsData> => {
   try {

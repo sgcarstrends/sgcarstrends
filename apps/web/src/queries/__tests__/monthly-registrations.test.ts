@@ -1,12 +1,6 @@
-import { CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it } from "vitest";
 import { getCarsComparison, getCarsData } from "../cars/monthly-registrations";
-import {
-  cacheLifeMock,
-  cacheTagMock,
-  queueSelect,
-  resetDbMocks,
-} from "./test-utils";
+import { queueSelect, resetDbMocks } from "./test-utils";
 
 describe("monthly registration queries", () => {
   beforeEach(() => {
@@ -34,8 +28,6 @@ describe("monthly registration queries", () => {
       ],
       vehicleType: [{ name: "SUV", count: 5 }],
     });
-    expect(cacheLifeMock).toHaveBeenCalledWith("max");
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.CARS);
   });
 
   it("provides comparisons for previous month and year", async () => {
@@ -71,6 +63,5 @@ describe("monthly registration queries", () => {
       fuelType: [],
       vehicleType: [],
     });
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.CARS);
   });
 });

@@ -1,4 +1,3 @@
-import { CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it, vi } from "vitest";
 import { getPopularMakes } from "../cars/makes/current-year-popular-makes";
 import {
@@ -11,13 +10,7 @@ import {
   checkMakeIfExist,
   checkVehicleTypeIfExist,
 } from "../cars/makes/entity-checks";
-import {
-  cacheLifeMock,
-  cacheTagMock,
-  dbMock,
-  queueSelect,
-  resetDbMocks,
-} from "./test-utils";
+import { dbMock, queueSelect, resetDbMocks } from "./test-utils";
 
 describe("car make breakdown queries", () => {
   beforeEach(() => {
@@ -138,8 +131,6 @@ describe("popular makes queries", () => {
     const result = await getPopularMakes("2023");
 
     expect(result).toEqual(["Tesla", "BMW"]);
-    expect(cacheLifeMock).toHaveBeenCalledWith("max");
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.CARS);
   });
 
   it("loads current year when year argument is omitted", async () => {
@@ -148,7 +139,6 @@ describe("popular makes queries", () => {
     const result = await getPopularMakes();
 
     expect(result).toEqual(["Honda"]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.CARS);
   });
 
   it("falls back to calendar year when latest month query returns no results", async () => {

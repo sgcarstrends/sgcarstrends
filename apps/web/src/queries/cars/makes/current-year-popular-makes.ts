@@ -1,7 +1,5 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import { and, desc, gt, ilike, max, sql } from "drizzle-orm";
-import { cacheLife, cacheTag } from "next/cache";
 
 /**
  * Get the latest year from car registration data

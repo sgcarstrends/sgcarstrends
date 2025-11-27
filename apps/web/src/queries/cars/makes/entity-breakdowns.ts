@@ -1,7 +1,5 @@
 import { cars, db, type SelectCar } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import { and, desc, eq, ilike, sql } from "drizzle-orm";
-import { cacheLife, cacheTag } from "next/cache";
 
 export interface MakeDetails {
   total: number;

@@ -1,7 +1,5 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import { and, desc, eq } from "drizzle-orm";
-import { cacheLife, cacheTag } from "next/cache";
 
 export const getDistinctMakes = async () => {
   return db.selectDistinct({ make: cars.make }).from(cars).orderBy(cars.make);
