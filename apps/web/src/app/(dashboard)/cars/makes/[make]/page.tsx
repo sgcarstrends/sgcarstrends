@@ -2,10 +2,14 @@ import type { CarLogo } from "@logos/types";
 import { redis, slugify } from "@sgcarstrends/utils";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
 import { StructuredData } from "@web/components/structured-data";
-import { fetchMakePageData } from "@web/lib/cars/make-data";
+import { LAST_UPDATED_CARS_KEY } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
-import { getDistinctMakes } from "@web/queries/cars";
+import {
+  checkMakeIfExist,
+  getDistinctMakes,
+  getMakeDetails,
+} from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import type { Make } from "@web/types";
 import type { Metadata } from "next";
@@ -42,10 +46,29 @@ export const generateStaticParams = async () => {
 const CarMakePage = async ({ params }: Props) => {
   const { make } = await params;
 
-  const logo = await redis.get<CarLogo>(`logo:${make}`);
+  const [
+    makeExists,
+    makeDetails,
+    makesResult,
+    lastUpdated,
+    coeComparison,
+    logo,
+  ] = await Promise.all([
+    checkMakeIfExist(make),
+    getMakeDetails(make),
+    getDistinctMakes(),
+    redis.get<number>(LAST_UPDATED_CARS_KEY),
+    getMakeCoeComparison(make),
+    redis.get<CarLogo>(`logo:${make}`),
+  ]);
 
-  const [{ cars, makes, lastUpdated, makeName }, coeComparison] =
-    await Promise.all([fetchMakePageData(make), getMakeCoeComparison(make)]);
+  const makeName = makeExists?.make ?? make.toUpperCase();
+  const makes = makesResult.map(({ make }) => make);
+  const cars = {
+    make: makeName,
+    total: makeDetails.total,
+    data: makeDetails.data,
+  };
 
   const title = `${makeName} Cars Overview: Registration Trends`;
   const description = `${makeName} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
