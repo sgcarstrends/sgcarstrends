@@ -33,10 +33,6 @@ export const generateMetadata = (): Metadata => {
 };
 
 const PQPRatesPage = async () => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const overview = await getPQPOverview();
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);

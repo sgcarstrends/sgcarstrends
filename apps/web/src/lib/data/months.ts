@@ -30,10 +30,6 @@ export const getLatestMonth = async (
  * Get the latest month with car registration data
  */
 export async function getCarsLatestMonth(): Promise<string | null> {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const result = await db.query.cars.findFirst({
     columns: { month: true },
     orderBy: desc(cars.month),
@@ -46,10 +42,6 @@ export async function getCarsLatestMonth(): Promise<string | null> {
  * Get the latest month with COE bidding data
  */
 export async function getCOELatestMonth(): Promise<string | null> {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const [{ latestMonth }] = await db
     .select({ latestMonth: max(coe.month) })
     .from(coe);

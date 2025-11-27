@@ -32,10 +32,6 @@ export const getMakeDetails = async (
   make: string,
   month?: string,
 ): Promise<MakeDetails> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const pattern = make.replaceAll("-", "%");
   const whereConditions = [ilike(cars.make, pattern)];
 
@@ -73,10 +69,6 @@ export const getFuelTypeData = async (
   fuelType: string,
   month?: string,
 ): Promise<FuelTypeData> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const pattern = fuelType.replaceAll("-", "%");
   const whereConditions = [ilike(cars.fuelType, pattern)];
 
@@ -119,10 +111,6 @@ export const getVehicleTypeData = async (
   vehicleType: string,
   month?: string,
 ): Promise<VehicleTypeData> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const pattern = vehicleType.replaceAll("-", "%");
   const whereConditions = [ilike(cars.vehicleType, pattern)];
 

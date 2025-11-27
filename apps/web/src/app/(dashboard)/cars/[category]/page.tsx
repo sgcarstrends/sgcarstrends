@@ -1,4 +1,3 @@
-import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
@@ -9,13 +8,11 @@ import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 import { CategoryTypesTabsView } from "./category-tabs";
 
 interface Props {
   params: Promise<{ category: string }>;
-  searchParams: Promise<SearchParams>;
 }
 
 interface CategoryConfig {
@@ -53,7 +50,6 @@ export const generateStaticParams = async () =>
 
 export const generateMetadata = async ({
   params,
-  searchParams,
 }: Props): Promise<Metadata> => {
   const { category } = await params;
   const config = categoryConfigs[category];
@@ -65,8 +61,7 @@ export const generateMetadata = async ({
     };
   }
 
-  let { month } = await loadSearchParams(searchParams);
-  month = await getMonthOrLatest(month, "cars");
+  const month = await getMonthOrLatest(null, "cars");
   const formattedMonth = formatDateToMonthYear(month);
 
   const title = `${formattedMonth} ${config.title} - Car Registrations`;
@@ -79,10 +74,9 @@ export const generateMetadata = async ({
   });
 };
 
-const Page = async ({ params, searchParams }: Props) => {
+const Page = async ({ params }: Props) => {
   const { category } = await params;
-  let { month } = await loadSearchParams(searchParams);
-  month = await getMonthOrLatest(month, "cars");
+  const month = await getMonthOrLatest(null, "cars");
 
   return <CategoryPageContent category={category} month={month} />;
 };

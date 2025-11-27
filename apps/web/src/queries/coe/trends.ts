@@ -77,11 +77,7 @@ export const getCoeCategoryTrends = async (
   category: COECategory,
   year?: number,
 ): Promise<CoeMonthlyPremium[]> => {
-  "use cache";
-  cacheLife("max");
-
   const { startMonth, endMonth } = getDateRange(year);
-  cacheTag(CACHE_TAG.COE);
 
   const results = await fetchCoeResults(startMonth, endMonth, category);
   const monthlyTrends = new Map<string, CoeMonthlyPremium>();
@@ -96,11 +92,7 @@ export const getCoeCategoryTrends = async (
 export const getAllCoeCategoryTrends = async (
   year?: number,
 ): Promise<Record<COECategory, CoeMonthlyPremium[]>> => {
-  "use cache";
-  cacheLife("max");
-
   const { startMonth, endMonth } = getDateRange(year);
-  cacheTag(CACHE_TAG.COE);
 
   const results = await fetchCoeResults(startMonth, endMonth);
 

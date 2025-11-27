@@ -1,6 +1,5 @@
 import { TopMakes } from "@web/app/(dashboard)/cars/_components/top-makes";
 import { CategoryTabs } from "@web/app/(dashboard)/cars/category-tabs";
-import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
 import { CarRegistration } from "@web/app/(dashboard)/cars/trends-compare-button";
 import { PageHeader } from "@web/components/page-header";
 import { MetricCard } from "@web/components/shared/metric-card";
@@ -22,19 +21,10 @@ import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
-interface Props {
-  searchParams: Promise<SearchParams>;
-}
-
-export const generateMetadata = async ({
-  searchParams,
-}: Props): Promise<Metadata> => {
-  let { month } = await loadSearchParams(searchParams);
-
-  month = await getMonthOrLatest(month, "cars");
+export const generateMetadata = async (): Promise<Metadata> => {
+  const month = await getMonthOrLatest(null, "cars");
 
   const formattedMonth = formatDateToMonthYear(month);
 
@@ -53,10 +43,8 @@ export const generateMetadata = async ({
   });
 };
 
-// Wrapper: handles nuqs searchParams (runtime data)
-const Page = async ({ searchParams }: Props) => {
-  let { month } = await loadSearchParams(searchParams);
-  month = await getMonthOrLatest(month, "cars");
+const Page = async () => {
+  const month = await getMonthOrLatest(null, "cars");
   const months = await fetchMonthsForCars();
 
   return <CarsPage month={month} months={months} />;

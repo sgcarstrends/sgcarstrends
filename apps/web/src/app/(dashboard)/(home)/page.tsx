@@ -29,10 +29,6 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS, CACHE_TAG.COE, CACHE_TAG.POSTS);
-
   const { coeTrends, yearlyData, latestTopMakes, allPosts, latestCoe } =
     await loadHomePageData();
   const latestYear = yearlyData.at(-1)?.year;

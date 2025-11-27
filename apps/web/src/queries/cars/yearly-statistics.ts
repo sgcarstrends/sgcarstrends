@@ -9,10 +9,6 @@ const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;
  * Get yearly registration totals aggregated from monthly data
  */
 export const getYearlyRegistrations = async () => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const results = await db
     .select({
       year: sql<string>`${yearExpr}`,
@@ -33,10 +29,6 @@ export const getYearlyRegistrations = async () => {
  * Get top car makes aggregated by year (defaults to latest year)
  */
 export const getTopMakesByYear = async (year?: number, limit = 8) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   let targetYear = year;
 
   if (!targetYear) {

@@ -47,10 +47,6 @@ const getPopularMakesByYearData = async (year: string, limit: number = 8) => {
  * Returns array of make names sorted by registration volume.
  */
 export const getPopularMakes = async (year?: string) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const targetYear = year ?? (await getLatestYear());
   return getPopularMakesByYearData(targetYear, 8);
 };

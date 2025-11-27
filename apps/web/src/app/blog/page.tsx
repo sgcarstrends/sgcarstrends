@@ -40,10 +40,6 @@ export const metadata: Metadata = {
 };
 
 const Page = async () => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.POSTS);
-
   const posts = await getAllPosts();
 
   return (

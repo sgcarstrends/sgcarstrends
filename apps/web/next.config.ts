@@ -15,14 +15,7 @@ if (isProd) {
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   reactCompiler: true,
-  cacheComponents: true,
-  cacheLife: {
-    max: {
-      stale: ONE_DAY * 30,
-      revalidate: ONE_DAY * 30,
-      expire: ONE_DAY * 365,
-    },
-  },
+  cacheComponents: false,
   images: {
     remotePatterns: [
       {

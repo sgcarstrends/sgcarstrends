@@ -5,10 +5,6 @@ import { and, asc, desc, eq, inArray, max } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export const getLatestCoeResults = async (): Promise<COEResult[]> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const [{ latestMonth }] = await db
     .select({ latestMonth: max(coe.month) })
     .from(coe);

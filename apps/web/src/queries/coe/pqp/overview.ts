@@ -35,10 +35,6 @@ const toNumber = (value: number | string | null | undefined): number => {
  * Server action to fetch aggregated PQP insights for the last 12 months
  */
 export const getPQPOverview = async (): Promise<Pqp.Overview> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const recentMonthsRows = await db
     .selectDistinct({ month: pqp.month })
     .from(pqp)

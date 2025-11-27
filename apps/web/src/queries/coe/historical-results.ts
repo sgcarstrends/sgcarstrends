@@ -13,10 +13,6 @@ export interface CoeMarketShareData {
 }
 
 export const getCoeResults = async (): Promise<COEResult[]> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const results = await db
     .select()
     .from(coe)
@@ -30,15 +26,9 @@ export const getCoeResultsFiltered = async (
   start?: string,
   end?: string,
 ): Promise<COEResult[]> => {
-  "use cache";
-  cacheLife("max");
-
   if (month) {
-    cacheTag(CACHE_TAG.COE);
   } else if (start || end) {
-    cacheTag(CACHE_TAG.COE);
   } else {
-    cacheTag(CACHE_TAG.COE);
   }
 
   const filters = [];

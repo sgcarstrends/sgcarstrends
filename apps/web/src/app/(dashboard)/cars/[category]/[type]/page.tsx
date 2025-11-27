@@ -7,7 +7,6 @@ import {
 } from "@sgcarstrends/ui/components/card";
 import { slugify } from "@sgcarstrends/utils";
 import { CarOverviewTrends } from "@web/app/(dashboard)/cars/_components/overview-trends";
-import { loadSearchParams } from "@web/app/(dashboard)/cars/[category]/[type]/search-params";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
@@ -24,12 +23,10 @@ import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   params: Promise<{ category: string; type: string }>;
-  searchParams: Promise<SearchParams>;
 }
 
 const categoryConfigs = {
@@ -45,10 +42,9 @@ const categoryConfigs = {
 
 export const generateMetadata = async ({
   params,
-  searchParams,
 }: Props): Promise<Metadata> => {
   const { category, type } = await params;
-  const { month } = await loadSearchParams(searchParams);
+  const month = await getMonthOrLatest(null, "cars");
 
   const config = categoryConfigs[category as keyof typeof categoryConfigs];
   if (!config) {
@@ -96,10 +92,9 @@ export const generateStaticParams = async () => {
   return params;
 };
 
-const Page = async ({ params, searchParams }: Props) => {
+const Page = async ({ params }: Props) => {
   const { category, type } = await params;
-  let { month } = await loadSearchParams(searchParams);
-  month = await getMonthOrLatest(month, "cars");
+  const month = await getMonthOrLatest(null, "cars");
 
   return <TypePageContent category={category} type={type} month={month} />;
 };

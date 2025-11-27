@@ -52,10 +52,6 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const COEPricesPage = async () => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const { coeTrends, latestResults, allCoeResults, pqpRates, lastUpdated } =
     await loadCOEOverviewPageData();
 

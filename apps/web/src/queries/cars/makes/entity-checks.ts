@@ -8,10 +8,6 @@ const normalisePattern = (value: string) => value.replaceAll("-", "%");
 export const checkMakeIfExist = async (
   make: string,
 ): Promise<{ make: string } | undefined> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const result = await db.query.cars.findFirst({
     where: ilike(cars.make, normalisePattern(make)),
     columns: { make: true },
@@ -23,10 +19,6 @@ export const checkMakeIfExist = async (
 export const checkFuelTypeIfExist = async (
   fuelType: string,
 ): Promise<{ fuelType: string } | undefined> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const result = await db.query.cars.findFirst({
     where: ilike(cars.fuelType, normalisePattern(fuelType)),
     columns: { fuelType: true },
@@ -38,10 +30,6 @@ export const checkFuelTypeIfExist = async (
 export const checkVehicleTypeIfExist = async (
   vehicleType: string,
 ): Promise<{ vehicleType: string } | undefined> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const result = await db.query.cars.findFirst({
     where: ilike(cars.vehicleType, normalisePattern(vehicleType)),
     columns: { vehicleType: true },

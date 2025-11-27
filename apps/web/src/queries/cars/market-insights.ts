@@ -53,10 +53,6 @@ interface TopMake {
 }
 
 export const getTopTypes = async (month: string): Promise<TopType> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const topFuelTypeQuery = db
     .select({
       name: cars.fuelType,
@@ -95,10 +91,6 @@ export const getTopTypes = async (month: string): Promise<TopType> => {
 };
 
 export const getTopMakes = async (month: string): Promise<TopMake[]> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   return db
     .select({
       make: cars.make,
@@ -114,10 +106,6 @@ export const getTopMakes = async (month: string): Promise<TopMake[]> => {
 export const getTopMakesByFuelType = async (
   month: string,
 ): Promise<FuelType[]> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const fuelTypeResults = await db
     .select({
       fuelType: cars.fuelType,
@@ -161,10 +149,6 @@ export const getCarMarketShareData = async (
   month: string,
   category: "fuelType" | "vehicleType",
 ): Promise<CarMarketShareResponse> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const response = await getCarsData(month);
 
   const categoryData = response[category];
@@ -213,10 +197,6 @@ export const getCarMarketShareData = async (
 export const getCarTopPerformersData = async (
   month: string,
 ): Promise<CarTopPerformersData> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const [topTypes, topMakes] = await Promise.all([
     getTopTypes(month),
     getTopMakes(month),

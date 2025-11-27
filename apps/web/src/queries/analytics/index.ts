@@ -4,9 +4,6 @@ import { and, count, desc, isNotNull, ne, sql } from "drizzle-orm";
 import { cacheLife } from "next/cache";
 
 export const getAnalyticsData = async (): Promise<AnalyticsData> => {
-  "use cache";
-  cacheLife("minutes");
-
   try {
     const [
       totalViews,

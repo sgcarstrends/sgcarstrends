@@ -4,20 +4,12 @@ import { and, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export const getDistinctMakes = async () => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   return db.selectDistinct({ make: cars.make }).from(cars).orderBy(cars.make);
 };
 
 export const getDistinctFuelTypes = async (
   month?: string,
 ): Promise<{ fuelType: string }[]> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const filters = [];
 
   if (month) {
@@ -34,10 +26,6 @@ export const getDistinctFuelTypes = async (
 export const getDistinctVehicleTypes = async (
   month?: string,
 ): Promise<{ vehicleType: string }[]> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   const filters = [];
 
   if (month) {
@@ -52,10 +40,6 @@ export const getDistinctVehicleTypes = async (
 };
 
 export const getCarsMonths = async (): Promise<{ month: string }[]> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
-
   return db
     .selectDistinct({ month: cars.month })
     .from(cars)

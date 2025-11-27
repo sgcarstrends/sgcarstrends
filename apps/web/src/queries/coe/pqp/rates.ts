@@ -5,10 +5,6 @@ import { asc, desc } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export const getPqpRates = async (): Promise<Record<string, Pqp.Rates>> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const results = await db
     .select()
     .from(pqp)
