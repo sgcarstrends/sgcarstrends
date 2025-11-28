@@ -26,6 +26,7 @@ export async function getPostBySlug(slug: string) {
 export async function getPostsByIds(postIds: string[]) {
   "use cache";
   cacheLife("max");
+  cacheTag("posts:list");
 
   if (postIds.length === 0) {
     return [];
