@@ -1,5 +1,4 @@
 import { db, pqp } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import type { Pqp } from "@web/types/coe";
 import { asc, desc } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
@@ -7,7 +6,7 @@ import { cacheLife, cacheTag } from "next/cache";
 export const getPqpRates = async (): Promise<Record<string, Pqp.Rates>> => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
+  cacheTag("coe:pqp");
 
   const results = await db
     .select()

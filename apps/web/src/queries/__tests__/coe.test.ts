@@ -1,9 +1,8 @@
-import { CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it } from "vitest";
 import { getCoeMonths } from "../coe/available-months";
 import {
   getCoeResults,
-  getCoeResultsFiltered,
+  getCoeResultsByPeriod,
 } from "../coe/historical-results";
 import { getLatestCoeResults } from "../coe/latest-results";
 import {
@@ -19,17 +18,17 @@ describe("COE queries", () => {
     resetDbMocks();
   });
 
-  it("returns the available COE months", async () => {
+  it("should return the available COE months", async () => {
     queueSelectDistinct([{ month: "2024-05" }, { month: "2024-04" }]);
 
     const result = await getCoeMonths();
 
     expect(result).toEqual([{ month: "2024-05" }, { month: "2024-04" }]);
     expect(cacheLifeMock).toHaveBeenCalledWith("max");
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
+    expect(cacheTagMock).toHaveBeenCalledWith("coe:months");
   });
 
-  it("returns the latest COE bidding results", async () => {
+  it("should return the latest COE bidding results", async () => {
     queueSelect(
       [{ latestMonth: "2024-05" }],
       [
@@ -51,10 +50,10 @@ describe("COE queries", () => {
         vehicleClass: "A",
       },
     ]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
+    expect(cacheTagMock).toHaveBeenCalledWith("coe:latest");
   });
 
-  it("returns an empty list when no latest month is available", async () => {
+  it("should return an empty list when no latest month is available", async () => {
     queueSelect([{ latestMonth: null }]);
 
     const result = await getLatestCoeResults();
@@ -62,39 +61,41 @@ describe("COE queries", () => {
     expect(result).toEqual([]);
   });
 
-  it("loads all COE results without filters", async () => {
+  it("should load all COE results without filters", async () => {
     queueSelect([{ id: 1 }]);
 
     const result = await getCoeResults();
 
     expect(result).toEqual([{ id: 1 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
+    expect(cacheTagMock).toHaveBeenCalledWith("coe:results");
   });
 
-  it("filters COE results by month", async () => {
+  it("should return COE results by period with correct cache tag", async () => {
+    // First call: selectDistinct for months
+    queueSelectDistinct([{ month: "2024-05" }, { month: "2024-01" }]);
+    // Second call: select for filtered results
     queueSelect([{ id: 2 }]);
 
-    const result = await getCoeResultsFiltered("2024-04");
+    const result = await getCoeResultsByPeriod("12m");
 
     expect(result).toEqual([{ id: 2 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
+    expect(cacheTagMock).toHaveBeenCalledWith("coe:period:12m");
   });
 
-  it("filters COE results by range", async () => {
+  it("should return empty array when no months available", async () => {
+    queueSelectDistinct([]);
+
+    const result = await getCoeResultsByPeriod("12m");
+
+    expect(result).toEqual([]);
+  });
+
+  it("should use default period of 12m when not specified", async () => {
+    queueSelectDistinct([{ month: "2024-05" }, { month: "2024-01" }]);
     queueSelect([{ id: 3 }]);
 
-    const result = await getCoeResultsFiltered(undefined, "2024-01", "2024-03");
+    await getCoeResultsByPeriod();
 
-    expect(result).toEqual([{ id: 3 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
-  });
-
-  it("falls back to all-cache tag when no filters are provided", async () => {
-    queueSelect([{ id: 4 }]);
-
-    const result = await getCoeResultsFiltered();
-
-    expect(result).toEqual([{ id: 4 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.COE);
+    expect(cacheTagMock).toHaveBeenCalledWith("coe:period:12m");
   });
 });
