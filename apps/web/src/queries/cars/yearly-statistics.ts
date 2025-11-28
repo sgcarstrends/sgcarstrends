@@ -1,5 +1,4 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import { and, desc, eq, gt, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
@@ -11,7 +10,7 @@ const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;
 export const getYearlyRegistrations = async () => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
+  cacheTag("cars:annual");
 
   const results = await db
     .select({
@@ -35,7 +34,9 @@ export const getYearlyRegistrations = async () => {
 export const getTopMakesByYear = async (year?: number, limit = 8) => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
+  if (year) {
+    cacheTag(`cars:year:${year}`);
+  }
 
   let targetYear = year;
 
