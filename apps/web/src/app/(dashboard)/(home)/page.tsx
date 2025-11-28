@@ -6,10 +6,8 @@ import { TopMakesByYear } from "@web/components/top-makes-by-year";
 import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-registrations-by-year";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { CACHE_TAG } from "@web/lib/cache";
 import { loadHomePageData } from "@web/lib/home/page-data";
 import type { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import Link from "next/link";
 import type { WebSite, WithContext } from "schema-dts";
 
@@ -29,10 +27,6 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.CARS, CACHE_TAG.COE, CACHE_TAG.POSTS);
-
   const { coeTrends, yearlyData, latestTopMakes, allPosts, latestCoe } =
     await loadHomePageData();
   const latestYear = yearlyData.at(-1)?.year;

@@ -16,6 +16,8 @@ export const incrementPostView = async (postId: string): Promise<number> => {
 };
 
 export const getPostViewCount = async (postId: string): Promise<number> => {
+  "use cache";
+
   try {
     const count = await redis.get<string>(`blog:views:${postId}`);
     return Number.parseInt(count ?? "0", 10);

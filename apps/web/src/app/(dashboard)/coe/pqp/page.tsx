@@ -11,12 +11,10 @@ import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { LAST_UPDATED_COE_KEY, SITE_URL } from "@web/config";
-import { CACHE_TAG } from "@web/lib/cache";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getPQPOverview } from "@web/queries/coe";
 import type { Pqp } from "@web/types/coe";
 import type { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import type { WebPage, WithContext } from "schema-dts";
 
 const title = "COE PQP Rates";
@@ -33,10 +31,6 @@ export const generateMetadata = (): Metadata => {
 };
 
 const PQPRatesPage = async () => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const overview = await getPQPOverview();
 
   const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);

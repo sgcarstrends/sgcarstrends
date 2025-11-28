@@ -1,5 +1,4 @@
 import { coe, db, pqp } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import type { Pqp } from "@web/types/coe";
 import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
@@ -37,7 +36,7 @@ const toNumber = (value: number | string | null | undefined): number => {
 export const getPQPOverview = async (): Promise<Pqp.Overview> => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
+  cacheTag("coe:pqp");
 
   const recentMonthsRows = await db
     .selectDistinct({ month: pqp.month })

@@ -1,5 +1,4 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import { and, desc, gt, ilike, max, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
@@ -49,7 +48,9 @@ const getPopularMakesByYearData = async (year: string, limit: number = 8) => {
 export const getPopularMakes = async (year?: string) => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
+  if (year) {
+    cacheTag(`cars:year:${year}`);
+  }
 
   const targetYear = year ?? (await getLatestYear());
   return getPopularMakesByYearData(targetYear, 8);

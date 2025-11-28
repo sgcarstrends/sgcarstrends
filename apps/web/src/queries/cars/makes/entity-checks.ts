@@ -1,5 +1,4 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import { ilike } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
@@ -10,7 +9,7 @@ export const checkMakeIfExist = async (
 ): Promise<{ make: string } | undefined> => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
+  cacheTag(`cars:make:${make}`);
 
   const result = await db.query.cars.findFirst({
     where: ilike(cars.make, normalisePattern(make)),
@@ -25,7 +24,7 @@ export const checkFuelTypeIfExist = async (
 ): Promise<{ fuelType: string } | undefined> => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
+  cacheTag(`cars:fuel:${fuelType}`);
 
   const result = await db.query.cars.findFirst({
     where: ilike(cars.fuelType, normalisePattern(fuelType)),
@@ -40,7 +39,7 @@ export const checkVehicleTypeIfExist = async (
 ): Promise<{ vehicleType: string } | undefined> => {
   "use cache";
   cacheLife("max");
-  cacheTag(CACHE_TAG.CARS);
+  cacheTag(`cars:vehicle:${vehicleType}`);
 
   const result = await db.query.cars.findFirst({
     where: ilike(cars.vehicleType, normalisePattern(vehicleType)),

@@ -158,20 +158,42 @@ The application implements Next.js 16 Cache Components with `"use cache"` direct
 
 - **Cache Directives**: All data fetching queries use `"use cache"` with `cacheLife("max")` for monthly data
 - **Cache Profile**: Custom "max" profile optimized for CPU efficiency (30-day revalidation aligned with monthly updates)
-- **Cache Tags**: Domain-level scopes (`CACHE_TAG.CARS`, `CACHE_TAG.COE`, `CACHE_TAG.POSTS`) for on-demand invalidation
+- **Cache Tags**: Granular tags for precise on-demand invalidation (e.g., `cars:month:2024-01`, `coe:period:12m`)
 - **Tagged Queries**: All queries include cache tags for manual revalidation via `revalidateTag()`
-- **Cache Configuration**:
-  - `next.config.ts`: Custom "max" profile with 30-day stale/revalidate, 1-year expire
-  - `src/lib/cache.ts`: Defines cache tag constants for cars, COE, and posts domains
+- **Cache Configuration**: `next.config.ts` defines custom "max" profile with 30-day stale/revalidate, 1-year expire
 - **Revalidation Strategy**: On-demand via `revalidateTag()` when monthly data arrives (bypasses 30-day cache)
+
+**Cache Tag Patterns**:
+
+Granular cache tags enable precise invalidation without over-fetching:
+
+| Tag Pattern | Description | Example |
+|-------------|-------------|---------|
+| `cars:month:{month}` | Month-specific car data | `cars:month:2024-01` |
+| `cars:year:{year}` | Year-specific car data | `cars:year:2024` |
+| `cars:make:{make}` | Make-specific car data | `cars:make:toyota` |
+| `cars:fuel:{fuelType}` | Fuel type-specific data | `cars:fuel:electric` |
+| `cars:vehicle:{vehicleType}` | Vehicle type-specific data | `cars:vehicle:saloon` |
+| `cars:category:{category}` | Category-specific data | `cars:category:saloon` |
+| `cars:makes` | Car makes list | - |
+| `cars:months` | Available months list | - |
+| `cars:annual` | Yearly registration totals | - |
+| `coe:results` | All COE results | - |
+| `coe:latest` | Latest COE results | - |
+| `coe:period:{period}` | Period-filtered COE data | `coe:period:12m` |
+| `coe:category:{category}` | Category-specific COE data | `coe:category:A` |
+| `coe:year:{year}` | Year-specific COE data | `coe:year:2024` |
+| `coe:months` | Available COE months list | - |
+| `coe:pqp` | PQP rates data | - |
+| `posts:list` | Blog post list | - |
+| `posts:slug:{slug}` | Individual blog post | `posts:slug:jan-2024-analysis` |
 
 **Cache Strategy Best Practices**:
 
 - Use `"use cache"` directive at the top of async functions that fetch data
 - Apply `cacheLife("max")` for monthly data (30-day client/server cache)
-- Tag with domain-level scopes (`cacheTag(CACHE_TAG.CARS)`) for on-demand invalidation
-- Trigger `revalidateTag()` when new monthly data arrives to bypass automatic revalidation
-- Avoid over-granular tags to minimize ISR write overhead
+- Tag with granular scopes based on query parameters for precise invalidation
+- Trigger `revalidateTag()` when new data arrives to bypass automatic revalidation
 - See `cache-components` skill for implementation patterns
 
 **CPU Optimization**:
@@ -183,18 +205,36 @@ The custom "max" profile minimizes Vercel Fluid Compute usage:
 - **On-demand revalidation**: Manual `revalidateTag()` triggers immediate cache refresh when new data arrives
 - **Result**: ~2 regenerations/month (1 automatic + 1 manual) vs ~30 with daily checks = **15x CPU savings**
 
-**Cache Implementation Example**:
+**Cache Implementation Examples**:
 
 ```typescript
-import {CACHE_TAG} from "@web/lib/cache";
 import {cacheLife, cacheTag} from "next/cache";
 
+// Static list query - uses simple tag
 export const getDistinctMakes = async () => {
     "use cache";
-    cacheLife("max");  // Uses custom 30-day profile from next.config.ts
-    cacheTag(CACHE_TAG.CARS);  // Enables on-demand revalidation
+    cacheLife("max");
+    cacheTag("cars:makes");  // Static tag for makes list
 
     return db.selectDistinct({make: cars.make}).from(cars).orderBy(cars.make);
+};
+
+// Parameterised query - uses dynamic tag
+export const getTopTypes = async (month: string) => {
+    "use cache";
+    cacheLife("max");
+    cacheTag(`cars:month:${month}`);  // Dynamic tag includes parameter
+
+    return db.select(...).from(cars).where(eq(cars.month, month));
+};
+
+// Multiple parameters - uses multiple tags
+export const getCarMarketShareData = async (month: string, category: string) => {
+    "use cache";
+    cacheLife("max");
+    cacheTag(`cars:month:${month}`, `cars:category:${category}`);
+
+    // Query implementation
 };
 ```
 
@@ -202,21 +242,38 @@ This pattern is used across all query functions in `src/queries/cars/` and `src/
 
 **On-demand Cache Revalidation**:
 
-When new monthly data arrives, trigger cache invalidation:
+When new monthly data arrives, trigger targeted cache invalidation. In Next.js 16, `revalidateTag()` requires a second
+argument specifying the cache profile (use `"max"` for stale-while-revalidate semantics):
 
 ```typescript
-// In API route or server action
 import {revalidateTag} from "next/cache";
-import {CACHE_TAG} from "@web/lib/cache";
 
-// Invalidate all car data queries
-revalidateTag(CACHE_TAG.CARS);
+// Invalidate specific month's car data
+revalidateTag("cars:month:2024-01", "max");
 
-// Invalidate all COE data queries
-revalidateTag(CACHE_TAG.COE);
+// Invalidate specific make's data
+revalidateTag("cars:make:toyota", "max");
+
+// Invalidate COE results
+revalidateTag("coe:results", "max");
+revalidateTag("coe:latest", "max");
+
+// Invalidate COE results for a specific period
+revalidateTag("coe:period:12m", "max");
+
+// Invalidate COE category data
+revalidateTag("coe:category:A", "max");
+
+// Invalidate PQP rates
+revalidateTag("coe:pqp", "max");
+
+// Invalidate static lists when new data adds new entries
+revalidateTag("cars:makes", "max");
+revalidateTag("cars:months", "max");
+revalidateTag("coe:months", "max");
 ```
 
-This immediately clears client and server caches, bypassing the 30-day automatic revalidation period
+This precisely invalidates only affected caches, avoiding unnecessary regeneration of unrelated queries.
 
 **Data Queries**: Organized in `src/queries/` directory with comprehensive test coverage:
 

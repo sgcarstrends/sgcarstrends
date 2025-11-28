@@ -14,7 +14,6 @@ import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { CACHE_TAG } from "@web/lib/cache";
 import { calculateOverviewStats } from "@web/lib/coe/calculations";
 import { loadCOEOverviewPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -22,7 +21,6 @@ import { getLatestCoeResults } from "@web/queries/coe";
 import { formatPercent } from "@web/utils/charts";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import type { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import Link from "next/link";
 import type { WebPage, WithContext } from "schema-dts";
 
@@ -52,10 +50,6 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const COEPricesPage = async () => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.COE);
-
   const { coeTrends, latestResults, allCoeResults, pqpRates, lastUpdated } =
     await loadCOEOverviewPageData();
 

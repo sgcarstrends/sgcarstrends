@@ -1,5 +1,4 @@
 import { cars, coe, db } from "@sgcarstrends/database";
-import { CACHE_TAG } from "@web/lib/cache";
 import { subMonths } from "date-fns";
 import { and, asc, avg, gte, ilike, inArray, lte, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
@@ -28,8 +27,7 @@ export const getMakeCoeComparison = async (
   cacheLife("max");
 
   const { startMonth, endMonth } = getDateRange24Months();
-  cacheTag(CACHE_TAG.CARS);
-  cacheTag(CACHE_TAG.COE);
+  cacheTag(`cars:make:${make}`);
 
   const pattern = make.replaceAll("-", "%");
 
