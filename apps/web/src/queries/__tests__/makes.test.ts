@@ -1,4 +1,3 @@
-import { CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it, vi } from "vitest";
 import { getPopularMakes } from "../cars/makes/current-year-popular-makes";
 import {
@@ -139,7 +138,7 @@ describe("popular makes queries", () => {
 
     expect(result).toEqual(["Tesla", "BMW"]);
     expect(cacheLifeMock).toHaveBeenCalledWith("max");
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.CARS);
+    expect(cacheTagMock).toHaveBeenCalledWith("cars:year:2023");
   });
 
   it("loads current year when year argument is omitted", async () => {
@@ -148,7 +147,8 @@ describe("popular makes queries", () => {
     const result = await getPopularMakes();
 
     expect(result).toEqual(["Honda"]);
-    expect(cacheTagMock).toHaveBeenCalledWith(CACHE_TAG.CARS);
+    // cacheTag is only called when year is explicitly provided
+    expect(cacheTagMock).not.toHaveBeenCalled();
   });
 
   it("falls back to calendar year when latest month query returns no results", async () => {
