@@ -1,6 +1,7 @@
 import { Button } from "@heroui/button";
 import { Separator } from "@sgcarstrends/ui/components/separator";
 import { updatePostTags } from "@web/app/blog/_actions/tags";
+import { getPostViewCount } from "@web/app/blog/_actions/views";
 import { mdxComponents } from "@web/app/blog/_components/mdx-components";
 import { ProgressBar } from "@web/app/blog/_components/progress-bar";
 import { RelatedPosts } from "@web/app/blog/_components/related-posts";
@@ -8,14 +9,13 @@ import { ViewCounter } from "@web/app/blog/_components/view-counter";
 import { BetaChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
-import { CACHE_TAG } from "@web/lib/cache";
 import { getAllPosts, getPostBySlug } from "@web/lib/data/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { Suspense } from "react";
 import readingTime from "reading-time";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
@@ -99,10 +99,6 @@ export const generateStaticParams = async () => {
 };
 
 const BlogPostPage = async ({ params }: Props) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(CACHE_TAG.POSTS);
-
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 
@@ -118,6 +114,7 @@ const BlogPostPage = async ({ params }: Props) => {
     readingTime?: number;
   };
   const publishedDate = post.publishedAt || post.createdAt;
+  const initialViewCount = await getPostViewCount(post.id);
 
   // Update post tags in Redis for related posts functionality
   if (metadata?.tags && metadata.tags.length > 0) {
@@ -160,7 +157,9 @@ const BlogPostPage = async ({ params }: Props) => {
           <span>&middot;</span>
           <span>{readingTime(post.content).text}</span>
           <span>&middot;</span>
-          <ViewCounter postId={post.id} />
+          <Suspense fallback={null}>
+            <ViewCounter postId={post.id} initialCount={initialViewCount} />
+          </Suspense>
         </div>
 
         <article className="prose dark:prose-invert max-w-none">

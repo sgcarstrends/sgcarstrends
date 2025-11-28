@@ -58,6 +58,8 @@ const getTagSimilarPosts = async (
 const getPopularPosts = async (
   limit: number = 10,
 ): Promise<Array<{ postId: string; viewCount: number }>> => {
+  "use cache";
+
   try {
     // Get top posts by view count (highest to lowest) using zrange with REV
     const results = await redis.zrange<
@@ -85,6 +87,8 @@ const getPopularPosts = async (
 };
 
 export const getRelatedPosts = async (postId: string, limit: number = 3) => {
+  "use cache";
+
   try {
     const [tagRelated, popular] = await Promise.all([
       getTagSimilarPosts(postId, limit * 2),

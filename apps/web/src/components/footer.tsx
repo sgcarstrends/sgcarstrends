@@ -13,9 +13,9 @@ const NAV_ITEMS = [
   { href: "/faq", label: "FAQ" },
 ];
 
-export const Footer = async () => {
-  "use cache";
+const CURRENT_YEAR = new Date().getFullYear();
 
+export const Footer = () => {
   return (
     <footer className="border-divider border-t bg-content1">
       <div className="container mx-auto px-6 py-12">
@@ -70,8 +70,7 @@ export const Footer = async () => {
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:gap-0">
           <div className="text-center text-default-600 md:text-left">
             <Typography.TextSm>
-              © {new Date().getFullYear()} SGCarsTrends. All rights reserved. •
-              v{version}
+              © {CURRENT_YEAR} SGCarsTrends. All rights reserved. • v{version}
             </Typography.TextSm>
             <Typography.TextSm>
               Data provided by{" "}
