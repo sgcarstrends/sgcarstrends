@@ -179,6 +179,7 @@ Granular cache tags enable precise invalidation without over-fetching:
 | `cars:months` | Available months list | - |
 | `cars:annual` | Yearly registration totals | - |
 | `coe:results` | All COE results | - |
+| `coe:latest` | Latest COE results | - |
 | `coe:period:{period}` | Period-filtered COE data | `coe:period:12m` |
 | `coe:category:{category}` | Category-specific COE data | `coe:category:A` |
 | `coe:year:{year}` | Year-specific COE data | `coe:year:2024` |
@@ -241,30 +242,35 @@ This pattern is used across all query functions in `src/queries/cars/` and `src/
 
 **On-demand Cache Revalidation**:
 
-When new monthly data arrives, trigger targeted cache invalidation:
+When new monthly data arrives, trigger targeted cache invalidation. In Next.js 16, `revalidateTag()` requires a second
+argument specifying the cache profile (use `"max"` for stale-while-revalidate semantics):
 
 ```typescript
 import {revalidateTag} from "next/cache";
 
 // Invalidate specific month's car data
-revalidateTag("cars:month:2024-01");
+revalidateTag("cars:month:2024-01", "max");
 
 // Invalidate specific make's data
-revalidateTag("cars:make:toyota");
+revalidateTag("cars:make:toyota", "max");
+
+// Invalidate COE results
+revalidateTag("coe:results", "max");
+revalidateTag("coe:latest", "max");
 
 // Invalidate COE results for a specific period
-revalidateTag("coe:period:12m");
+revalidateTag("coe:period:12m", "max");
 
 // Invalidate COE category data
-revalidateTag("coe:category:A");
+revalidateTag("coe:category:A", "max");
 
 // Invalidate PQP rates
-revalidateTag("coe:pqp");
+revalidateTag("coe:pqp", "max");
 
 // Invalidate static lists when new data adds new entries
-revalidateTag("cars:makes");
-revalidateTag("cars:months");
-revalidateTag("coe:months");
+revalidateTag("cars:makes", "max");
+revalidateTag("cars:months", "max");
+revalidateTag("coe:months", "max");
 ```
 
 This precisely invalidates only affected caches, avoiding unnecessary regeneration of unrelated queries.
