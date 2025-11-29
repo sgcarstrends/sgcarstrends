@@ -1,3 +1,9 @@
+## [4.24.8](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.7...v4.24.8) (2025-11-29)
+
+### Performance Improvements
+
+* **web:** static generate blog OG images ([b1e5a18](https://github.com/sgcarstrends/sgcarstrends/commit/b1e5a18d604fcebe288eea5f9cfba6f0fd21ae5e))
+
 ## [4.24.7](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.6...v4.24.7) (2025-11-26)
 
 ### Performance Improvements
