@@ -1,5 +1,4 @@
 import { getAllPosts, getPostBySlug } from "@web/queries/posts";
-import { cacheLife, cacheTag } from "next/cache";
 import { ImageResponse } from "next/og";
 
 interface Props {
@@ -19,11 +18,7 @@ export async function generateStaticParams() {
 }
 
 const Image = async ({ params }: Props) => {
-  "use cache";
-
   const { slug } = await params;
-  cacheLife("max");
-  cacheTag(`posts:slug:${slug}`);
 
   const post = await getPostBySlug(slug);
 
@@ -131,6 +126,10 @@ const Image = async ({ params }: Props) => {
     </div>,
     {
       ...size,
+      headers: {
+        "Cache-Control":
+          "public, max-age=31536000, s-maxage=31536000, immutable",
+      },
     },
   );
 };
