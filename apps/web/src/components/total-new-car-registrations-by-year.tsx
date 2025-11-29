@@ -34,7 +34,7 @@ export const TotalNewCarRegistrationsByYear = ({
         <h3>Total New Car Registrations by Year</h3>
       </CardHeader>
       <CardBody>
-        <ChartContainer config={chartConfig} className="h-[250px] w-full">
+        <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <LineChart accessibilityLayer data={data}>
             <CartesianGrid vertical={false} />
             <XAxis dataKey="year" tickLine={false} axisLine={false} />
