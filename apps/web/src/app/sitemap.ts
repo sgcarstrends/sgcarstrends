@@ -16,11 +16,6 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
     //   changeFrequency: "monthly" as const,
     // },
     {
-      url: `${SITE_URL}/visitors`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-    },
-    {
       url: `${SITE_URL}/blog`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
