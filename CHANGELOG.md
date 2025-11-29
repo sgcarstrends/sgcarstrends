@@ -1,3 +1,9 @@
+## [4.25.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.25.0...v4.25.1) (2025-11-29)
+
+### Bug Fixes
+
+* **ai:** filter non-AI spans in Langfuse ([cc9a179](https://github.com/sgcarstrends/sgcarstrends/commit/cc9a179fb3d2dce195bf1ec0251b86c869960d10))
+
 ## [4.25.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.8...v4.25.0) (2025-11-29)
 
 ### Features
