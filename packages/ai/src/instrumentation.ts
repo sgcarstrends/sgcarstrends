@@ -1,8 +1,15 @@
-import { LangfuseSpanProcessor } from "@langfuse/otel";
+import { LangfuseSpanProcessor, type ShouldExportSpan } from "@langfuse/otel";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 
 export let langfuseSpanProcessor: LangfuseSpanProcessor | null = null;
 let tracerProvider: NodeTracerProvider | null = null;
+
+/**
+ * Filter to only export AI SDK and Langfuse spans.
+ * Excludes generic HTTP/fetch spans from database, Redis, and other infra.
+ */
+const shouldExportSpan: ShouldExportSpan = ({ otelSpan }) =>
+  ["langfuse-sdk", "ai"].includes(otelSpan.instrumentationScope.name);
 
 export const startTracing = (): void => {
   if (tracerProvider) {
@@ -16,6 +23,7 @@ export const startTracing = (): void => {
     secretKey: process.env.LANGFUSE_SECRET_KEY,
     baseUrl: process.env.LANGFUSE_HOST,
     environment,
+    shouldExportSpan,
   });
 
   tracerProvider = new NodeTracerProvider({
