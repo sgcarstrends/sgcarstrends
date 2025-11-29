@@ -82,6 +82,10 @@ const dashboardItems: NavigationItem[] = [
     title: "Overview",
     url: "/",
   },
+  {
+    title: "Annual",
+    url: "/annual",
+  },
 ];
 
 const socialMedia: SocialMedia[] = [
