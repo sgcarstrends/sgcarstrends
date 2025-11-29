@@ -1,6 +1,7 @@
 import { SITE_URL } from "@api/config";
 import { socialMediaManager } from "@api/config/platforms";
 import { getCarsLatestMonth } from "@api/features/cars/queries";
+import { getExistingPostByMonth } from "@api/features/posts/queries";
 import { options } from "@api/lib/workflows/options";
 import { generateCarPost } from "@api/lib/workflows/posts";
 import { updateCars } from "@api/lib/workflows/update-cars";
@@ -43,6 +44,16 @@ export const carsWorkflow = createWorkflow(
       "cars:makes",
       "cars:annual",
     ]);
+
+    // Check if post already exists for this month
+    const existingPost = await getExistingPostByMonth<"cars">(month, "cars");
+
+    if (existingPost.length > 0) {
+      return {
+        message:
+          "Post already exists for this month. Skipped generation and social media.",
+      };
+    }
 
     const post = await generateCarPost(context, month);
 

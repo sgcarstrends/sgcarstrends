@@ -1,6 +1,7 @@
 import { SITE_URL } from "@api/config";
 import { socialMediaManager } from "@api/config/platforms";
 import { getCoeLatestMonth } from "@api/features/coe/queries";
+import { getExistingPostByMonth } from "@api/features/posts/queries";
 import { options } from "@api/lib/workflows/options";
 import { generateCoePost } from "@api/lib/workflows/posts";
 import { updateCoe } from "@api/lib/workflows/update-coe";
@@ -44,6 +45,16 @@ export const coeWorkflow = createWorkflow(
       "coe:months",
       `coe:year:${year}`,
     ]);
+
+    // Check if post already exists for this month
+    const existingPost = await getExistingPostByMonth<"coe">(month, "coe");
+
+    if (existingPost.length > 0) {
+      return {
+        message:
+          "Post already exists for this month. Skipped generation and social media.",
+      };
+    }
 
     // Generate blog post only when both bidding exercises are complete (biddingNo = 2)
     if (biddingNo === 2) {
