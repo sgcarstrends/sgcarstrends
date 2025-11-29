@@ -47,7 +47,7 @@ interface GridSkeletonProps {
 
 export const GridSkeleton = ({
   count,
-  columns = "grid-cols-1 sm:grid-cols-2 lg:grid-cols-5",
+  columns = "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
   className,
 }: GridSkeletonProps) => (
   <div className={cn("grid gap-4", columns, className)}>
