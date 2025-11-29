@@ -27,7 +27,9 @@ const Sections = ({ sections }: SectionsProps) => {
     <nav className="mb-4 flex items-end gap-4 overflow-x-auto lg:gap-8">
       {sections.map(({ name, href }) => {
         const isActive =
-          href === "/" ? pathname === "/" : pathname.startsWith(href);
+          href === "/"
+            ? pathname === "/" || pathname === "/annual"
+            : pathname.startsWith(href);
 
         return (
           <Link
@@ -97,7 +99,9 @@ export const Navigation = () => {
 
   // Find active section based on pathname
   const activeSection = navigationSections.find((section) =>
-    section.href === "/" ? pathname === "/" : pathname.startsWith(section.href),
+    section.href === "/"
+      ? pathname === "/" || pathname === "/annual"
+      : pathname.startsWith(section.href),
   );
 
   // Map children to Pages items format

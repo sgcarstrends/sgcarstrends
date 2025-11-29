@@ -26,7 +26,12 @@ describe("yearly statistics queries", () => {
   });
 
   it("returns top makes for an explicit year", async () => {
-    queueSelect([{ make: "Tesla", value: 50 }]);
+    // Queue results in order of db.select() calls:
+    // 1. latestYearSubquery (embedded in SQL, not awaited directly), 2. main query
+    queueSelect(
+      [], // latestYearSubquery (created but not used when year is provided)
+      [{ make: "Tesla", value: 50 }], // main query result
+    );
 
     const result = await getTopMakesByYear(2024, 1);
 
@@ -43,7 +48,9 @@ describe("yearly statistics queries", () => {
   });
 
   it("returns an empty list when no data is present", async () => {
-    queueSelect([]);
+    // Queue results in order of db.select() calls:
+    // 1. latestYearSubquery, 2. main query (empty)
+    queueSelect([], []);
 
     const result = await getTopMakesByYear();
 
