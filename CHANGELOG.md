@@ -1,3 +1,23 @@
+## [4.25.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.8...v4.25.0) (2025-11-29)
+
+### Features
+
+* **web:** add annual registrations page ([6193a43](https://github.com/sgcarstrends/sgcarstrends/commit/6193a4364cf5564e93fd1ecb31d574b93e64c130))
+* **web:** add trend colours to sparkline ([c752f0d](https://github.com/sgcarstrends/sgcarstrends/commit/c752f0dab10ef23e031f6cc0d91577d1b539ecb7))
+
+### Bug Fixes
+
+* **api:** use correct domain for blog URLs ([0b2c491](https://github.com/sgcarstrends/sgcarstrends/commit/0b2c49141e8a2b2049c6396983d93174fb09cfa8))
+* **web:** add cache headers to blog OG image ([02ba601](https://github.com/sgcarstrends/sgcarstrends/commit/02ba601571c05a3ae2669ffb2e9d6b2edb44bd14))
+* **web:** add force-static to OG image route ([795f3aa](https://github.com/sgcarstrends/sgcarstrends/commit/795f3aaec5f6085bc0edb3403dd9953568666135))
+* **web:** improve COE sparkline layout for tablets ([9e0b352](https://github.com/sgcarstrends/sgcarstrends/commit/9e0b352edde01c43ea1a60607675b21b003ecef2))
+* **web:** increase registration chart height ([f4c25ed](https://github.com/sgcarstrends/sgcarstrends/commit/f4c25ed6353d44e5f322dc703887ccf85e4ee7ff))
+
+### Performance Improvements
+
+* **web:** add cache to blog OG image route ([967b88b](https://github.com/sgcarstrends/sgcarstrends/commit/967b88ba23945361b97b42158a81c4f285cd4bdc))
+* **web:** add Suspense sections to homepage ([09abf3b](https://github.com/sgcarstrends/sgcarstrends/commit/09abf3bea228b75ebb4a4ab4afd034d4d8b1876b))
+
 ## [4.24.8](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.7...v4.24.8) (2025-11-29)
 
 ### Performance Improvements
