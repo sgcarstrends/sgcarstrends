@@ -10,10 +10,12 @@ export const size = {
   height: 630,
 };
 
-export const generateStaticParams = async () => {
+export const dynamic = "force-static";
+
+export async function generateStaticParams() {
   const posts = await getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
-};
+}
 
 const Image = async ({ params }: Props) => {
   const { slug } = await params;
