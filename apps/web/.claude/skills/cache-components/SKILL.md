@@ -1,6 +1,6 @@
 ---
 name: cache-components
-description: Ensure 'use cache' is used strategically to minimize CPU usage and ISR writes. Use after creating/modifying queries to verify caching decisions align with data update patterns and cost optimization.
+description: Ensure 'use cache' is used strategically to minimize CPU usage and ISR writes. Use when creating/modifying queries to verify caching decisions align with data update patterns and cost optimization.
 ---
 
 # Cache Components Skill

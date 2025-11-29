@@ -1,6 +1,6 @@
 ---
 name: heroui-recommender
-description: Recommend appropriate HeroUI components for new features and ensure proper usage. Use this when implementing new UI features or migrating from shadcn/ui to HeroUI.
+description: Recommend appropriate HeroUI components for new features and ensure proper usage. Use when implementing new UI features or migrating from shadcn/ui to HeroUI.
 ---
 
 # HeroUI Component Recommender Skill

@@ -1,6 +1,6 @@
 ---
 name: typography-spacing-enforcer
-description: Enforce Typography system and modern spacing conventions. Use this after implementing new UI components to ensure design consistency with project standards.
+description: Enforce Typography system and modern spacing conventions. Use when implementing new UI components to ensure design consistency with project standards.
 ---
 
 # Typography & Spacing Enforcer Skill
