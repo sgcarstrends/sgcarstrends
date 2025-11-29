@@ -7,7 +7,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
-import { searchParams } from "@web/app/(dashboard)/annual/search-params";
+import { searchParams } from "@web/app/(dashboard)/(home)/annual/search-params";
 import Typography from "@web/components/typography";
 import { useQueryStates } from "nuqs";
 import type React from "react";
@@ -27,7 +27,7 @@ export const AnnualRegistrationsChart = ({ data, availableYears }: Props) => {
   const [{ year }, setSearchParams] = useQueryStates(searchParams);
 
   const numberFormatter = new Intl.NumberFormat("en-SG");
-  const selectedEntry = data.find((item) => item.year === year);
+  const selectedYear = data.find((item) => item.year === year);
 
   const chartConfig = {
     total: { label: "Registrations", color: "var(--primary)" },
@@ -45,12 +45,12 @@ export const AnnualRegistrationsChart = ({ data, availableYears }: Props) => {
 
   return (
     <Card className="p-4">
-      <CardHeader className="flex flex-row items-center justify-between gap-4">
+      <CardHeader className="flex items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
           <Typography.H3>Total New Car Registrations by Year</Typography.H3>
-          {selectedEntry && (
+          {selectedYear && (
             <Typography.Text className="text-default-500">
-              {numberFormatter.format(selectedEntry.total)} registrations in{" "}
+              {numberFormatter.format(selectedYear.total)} registrations in{" "}
               {year}
             </Typography.Text>
           )}
@@ -66,9 +66,11 @@ export const AnnualRegistrationsChart = ({ data, availableYears }: Props) => {
             label: String(item.year),
           }))}
         >
-          {(item) => (
-            <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>
-          )}
+          {(item) => {
+            return (
+              <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>
+            );
+          }}
         </Autocomplete>
       </CardHeader>
       <CardBody>
