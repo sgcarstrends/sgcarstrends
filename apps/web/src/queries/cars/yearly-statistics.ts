@@ -29,27 +29,18 @@ export const getYearlyRegistrations = async () => {
 export const getTopMakesByYear = async (year?: number, limit = 8) => {
   "use cache";
   cacheLife("max");
+  cacheTag("cars:top-makes");
   if (year) {
     cacheTag(`cars:year:${year}`);
   }
 
-  let targetYear = year;
+  // Use SQL subquery for latest year instead of nested await
+  const latestYearSubquery = db
+    .select({ year: sql<number>`max(${yearExpr})` })
+    .from(cars)
+    .where(gt(cars.number, 0));
 
-  if (!targetYear) {
-    const [latest] = await db
-      .select({
-        year: sql<number>`cast(${yearExpr} as integer)`,
-      })
-      .from(cars)
-      .where(gt(cars.number, 0))
-      .groupBy(yearExpr)
-      .orderBy(desc(yearExpr))
-      .limit(1);
-
-    if (!latest?.year) return [];
-    targetYear = latest.year;
-  }
-
+  const targetYear = year ?? sql`(${latestYearSubquery})`;
   const sumExpr = sql`sum(${cars.number})`;
 
   return db

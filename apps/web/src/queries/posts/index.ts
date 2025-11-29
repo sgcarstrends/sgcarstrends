@@ -13,6 +13,18 @@ export async function getAllPosts() {
   });
 }
 
+export async function getRecentPosts(limit = 3) {
+  "use cache";
+  cacheLife("max");
+  cacheTag("posts:recent");
+
+  return db.query.posts.findMany({
+    where: isNotNull(posts.publishedAt),
+    orderBy: desc(posts.publishedAt),
+    limit,
+  });
+}
+
 export async function getPostBySlug(slug: string) {
   "use cache";
   cacheLife("max");
