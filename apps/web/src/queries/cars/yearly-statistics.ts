@@ -12,20 +12,15 @@ export const getYearlyRegistrations = async () => {
   cacheLife("max");
   cacheTag("cars:annual");
 
-  const results = await db
+  return db
     .select({
-      year: sql<string>`${yearExpr}`,
+      year: sql<number>`cast(${yearExpr} as integer)`,
       total: sql<number>`cast(sum(${cars.number}) as integer)`,
     })
     .from(cars)
     .where(gt(cars.number, 0))
     .groupBy(yearExpr)
     .orderBy(yearExpr);
-
-  return results.map((result) => ({
-    year: Number.parseInt(result.year, 10),
-    total: result.total,
-  }));
 };
 
 /**
@@ -43,7 +38,7 @@ export const getTopMakesByYear = async (year?: number, limit = 8) => {
   if (!targetYear) {
     const [latest] = await db
       .select({
-        year: sql<string>`${yearExpr}`,
+        year: sql<number>`cast(${yearExpr} as integer)`,
       })
       .from(cars)
       .where(gt(cars.number, 0))
@@ -52,7 +47,7 @@ export const getTopMakesByYear = async (year?: number, limit = 8) => {
       .limit(1);
 
     if (!latest?.year) return [];
-    targetYear = Number.parseInt(latest.year, 10);
+    targetYear = latest.year;
   }
 
   const sumExpr = sql`sum(${cars.number})`;

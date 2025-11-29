@@ -1,6 +1,7 @@
-import { getCarsLatestMonth, getCOELatestMonth } from "@web/lib/data/months";
 import { getCarsMonths } from "@web/queries/cars";
+import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getCoeMonths } from "@web/queries/coe";
+import { getCOELatestMonth } from "@web/queries/coe/latest-month";
 import type { Month } from "@web/types";
 
 export const fetchMonthsForCars = async (): Promise<Month[]> => {

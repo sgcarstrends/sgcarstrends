@@ -16,7 +16,7 @@ describe("yearly statistics queries", () => {
   });
 
   it("aggregates yearly registration totals", async () => {
-    queueSelect([{ year: "2022", total: 123 }]);
+    queueSelect([{ year: 2022, total: 123 }]);
 
     const result = await getYearlyRegistrations();
 
@@ -35,7 +35,7 @@ describe("yearly statistics queries", () => {
   });
 
   it("derives latest year when no year is supplied", async () => {
-    queueSelect([{ year: "2021" }], [{ make: "Toyota", value: 80 }]);
+    queueSelect([{ year: 2021 }], [{ make: "Toyota", value: 80 }]);
 
     const result = await getTopMakesByYear();
 

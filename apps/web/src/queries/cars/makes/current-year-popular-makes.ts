@@ -27,18 +27,15 @@ const getLatestYear = async (): Promise<string> => {
 const getPopularMakesByYearData = async (year: string, limit: number = 8) => {
   const whereConditions = [ilike(cars.month, `${year}-%`), gt(cars.number, 0)];
 
-  const results = await db
+  return db
     .select({
       make: cars.make,
-      totalRegistrations: sql<number>`cast(sum(${cars.number}) as integer)`,
     })
     .from(cars)
     .where(and(...whereConditions))
     .groupBy(cars.make)
     .orderBy(desc(sql`sum(${cars.number})`))
     .limit(limit);
-
-  return results.map((result) => result.make as string);
 };
 
 /**

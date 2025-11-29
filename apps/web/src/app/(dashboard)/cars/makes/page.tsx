@@ -34,6 +34,7 @@ const CarMakesPage = async () => {
   ]);
 
   const makes = allMakes.map(({ make }) => make);
+  const popular = popularMakes.map(({ make }) => make);
 
   const title = "Car Makes Overview - Singapore Registration Trends";
   const description =
@@ -63,7 +64,7 @@ const CarMakesPage = async () => {
           months={months}
         />
         <Suspense fallback={null}>
-          <MakesList makes={makes} popularMakes={popularMakes} logos={logos} />
+          <MakesList makes={makes} popularMakes={popular} logos={logos} />
         </Suspense>
       </div>
     </>

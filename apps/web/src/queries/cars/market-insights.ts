@@ -1,4 +1,9 @@
 import { cars, db } from "@sgcarstrends/database";
+import {
+  calculateMarketShareData,
+  calculateTopPerformersData,
+  findDominantType,
+} from "@web/lib/cars/calculations";
 import { getCarsData } from "@web/queries";
 import type { FuelType, TopType } from "@web/types/cars";
 import { and, desc, eq, gt, sql } from "drizzle-orm";
@@ -165,47 +170,18 @@ export const getCarMarketShareData = async (
   cacheTag(`cars:month:${month}`, `cars:category:${category}`);
 
   const response = await getCarsData(month);
-
   const categoryData = response[category];
   const total = response.total;
 
-  const marketShareData = categoryData.map((item, index) => ({
-    name: item.name,
-    count: item.count,
-    percentage: (item.count / total) * 100,
-    colour: [
-      "#3b82f6",
-      "#10b981",
-      "#8b5cf6",
-      "#f59e0b",
-      "#ef4444",
-      "#06b6d4",
-      "#6366f1",
-      "#f97316",
-      "#14b8a6",
-      "#84cc16",
-    ][index % 10],
-  }));
-
-  const dominantType = marketShareData.reduce(
-    (max, current) => (current.percentage > max.percentage ? current : max),
-    marketShareData[0] ?? {
-      name: "Unknown",
-      percentage: 0,
-      count: 0,
-      colour: "#000000",
-    },
-  );
+  const marketShareData = calculateMarketShareData(categoryData, total);
+  const dominantType = findDominantType(marketShareData);
 
   return {
     month: response.month,
     total,
     category,
     data: marketShareData,
-    dominantType: {
-      name: dominantType.name,
-      percentage: dominantType.percentage,
-    },
+    dominantType,
   };
 };
 
@@ -216,42 +192,26 @@ export const getCarTopPerformersData = async (
   cacheLife("max");
   cacheTag(`cars:month:${month}`);
 
-  const [topTypes, topMakes] = await Promise.all([
+  const [topTypes, topMakes, carsData] = await Promise.all([
     getTopTypes(month),
     getTopMakes(month),
+    getCarsData(month),
   ]);
 
-  const carsData = await getCarsData(month);
-  const total = carsData.total;
-
-  const topFuelTypes = [
-    {
-      name: topTypes.topFuelType.name,
-      count: topTypes.topFuelType.total,
-      percentage: (topTypes.topFuelType.total / total) * 100,
-      rank: 1,
-    },
-  ];
-
-  const topVehicleTypes = [
-    {
-      name: topTypes.topVehicleType.name,
-      count: topTypes.topVehicleType.total,
-      percentage: (topTypes.topVehicleType.total / total) * 100,
-      rank: 1,
-    },
-  ];
-
-  const topMakesData = topMakes.map((make, index) => ({
-    make: make.make,
-    count: make.total,
-    percentage: (make.total / total) * 100,
-    rank: index + 1,
-  }));
+  const {
+    topFuelTypes,
+    topVehicleTypes,
+    topMakes: topMakesData,
+  } = calculateTopPerformersData(
+    topTypes.topFuelType,
+    topTypes.topVehicleType,
+    topMakes,
+    carsData.total,
+  );
 
   return {
     month: topTypes.month,
-    total,
+    total: carsData.total,
     topFuelTypes,
     topVehicleTypes,
     topMakes: topMakesData,
