@@ -111,12 +111,7 @@ export const getFuelTypeData = async (
 
   return {
     total: totalResult[0]?.total ?? 0,
-    data: data.map(({ month, make, fuelType, count }) => ({
-      month,
-      make,
-      fuelType,
-      count,
-    })),
+    data,
   };
 };
 
@@ -160,11 +155,6 @@ export const getVehicleTypeData = async (
 
   return {
     total: totalResult[0]?.total ?? 0,
-    data: data.map(({ month, make, vehicleType, count }) => ({
-      month,
-      make,
-      vehicleType,
-      count,
-    })),
+    data,
   };
 };

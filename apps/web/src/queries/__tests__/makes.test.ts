@@ -136,7 +136,7 @@ describe("popular makes queries", () => {
 
     const result = await getPopularMakes("2023");
 
-    expect(result).toEqual(["Tesla", "BMW"]);
+    expect(result).toEqual([{ make: "Tesla" }, { make: "BMW" }]);
     expect(cacheLifeMock).toHaveBeenCalledWith("max");
     expect(cacheTagMock).toHaveBeenCalledWith("cars:year:2023");
   });
@@ -146,7 +146,7 @@ describe("popular makes queries", () => {
 
     const result = await getPopularMakes();
 
-    expect(result).toEqual(["Honda"]);
+    expect(result).toEqual([{ make: "Honda" }]);
     // cacheTag is only called when year is explicitly provided
     expect(cacheTagMock).not.toHaveBeenCalled();
   });
@@ -159,7 +159,7 @@ describe("popular makes queries", () => {
 
     try {
       const result = await getPopularMakes();
-      expect(result).toEqual(["Mazda"]);
+      expect(result).toEqual([{ make: "Mazda" }]);
     } finally {
       vi.useRealTimers();
     }

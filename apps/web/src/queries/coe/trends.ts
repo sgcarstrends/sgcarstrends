@@ -1,4 +1,5 @@
 import { coe, db, type SelectCOE } from "@sgcarstrends/database";
+import { getDateRangeForYear } from "@web/lib/coe/calculations";
 import type { COECategory } from "@web/types";
 import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
@@ -10,22 +11,6 @@ const COE_CATEGORIES: COECategory[] = [
   "Category D",
   "Category E",
 ];
-
-const formatCurrentMonth = (date: Date) => date.toISOString().slice(0, 7);
-
-const getDateRange = (year?: number) => {
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
-  const targetYear = year ?? currentYear;
-
-  const startMonth = `${targetYear}-01`;
-  const endMonth =
-    targetYear < currentYear
-      ? `${targetYear}-12`
-      : formatCurrentMonth(currentDate);
-
-  return { startMonth, endMonth };
-};
 
 const fetchCoeResults = async (
   startMonth: string,
@@ -50,17 +35,13 @@ const upsertMonthlyTrend = (
   result: SelectCOE,
 ) => {
   const biddingNo = result.biddingNo;
-  if (typeof biddingNo !== "number") {
-    return;
-  }
 
-  const premium = typeof result.premium === "number" ? result.premium : 0;
   const existing = trends.get(result.month);
 
   if (!existing || biddingNo > existing.biddingNo) {
     trends.set(result.month, {
       month: result.month,
-      premium,
+      premium: result.premium,
       biddingNo,
     });
   }
@@ -83,7 +64,7 @@ export const getCoeCategoryTrends = async (
     cacheTag(`coe:year:${year}`);
   }
 
-  const { startMonth, endMonth } = getDateRange(year);
+  const { startMonth, endMonth } = getDateRangeForYear(year);
 
   const results = await fetchCoeResults(startMonth, endMonth, category);
   const monthlyTrends = new Map<string, CoeMonthlyPremium>();
@@ -104,7 +85,7 @@ export const getAllCoeCategoryTrends = async (
     cacheTag(`coe:year:${year}`);
   }
 
-  const { startMonth, endMonth } = getDateRange(year);
+  const { startMonth, endMonth } = getDateRangeForYear(year);
 
   const results = await fetchCoeResults(startMonth, endMonth);
 

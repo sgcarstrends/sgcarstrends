@@ -92,23 +92,9 @@ export const getPQPOverview = async (): Promise<Pqp.Overview> => {
     };
   });
 
-  const trendData: Pqp.TrendPoint[] = [...tableRows]
-    .sort((a, b) => a.month.localeCompare(b.month))
-    .map(
-      ({
-        month,
-        "Category A": categoryA,
-        "Category B": categoryB,
-        "Category C": categoryC,
-        "Category D": categoryD,
-      }) => ({
-        month,
-        "Category A": categoryA,
-        "Category B": categoryB,
-        "Category C": categoryC,
-        "Category D": categoryD,
-      }),
-    );
+  const trendData: Pqp.TrendPoint[] = [...tableRows].sort((a, b) =>
+    a.month.localeCompare(b.month),
+  );
 
   const latestCoeMonthRow = await db
     .select({ month: coe.month })

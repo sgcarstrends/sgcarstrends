@@ -1,6 +1,6 @@
-import { getAllPosts } from "@web/lib/data/posts";
 import { getTopMakesByYear, getYearlyRegistrations } from "@web/queries/cars";
 import { getAllCoeCategoryTrends, getLatestCoeResults } from "@web/queries/coe";
+import { getAllPosts } from "@web/queries/posts";
 
 /**
  * Load all data for the home page

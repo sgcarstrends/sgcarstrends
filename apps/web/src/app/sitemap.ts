@@ -1,7 +1,7 @@
 import { slugify } from "@sgcarstrends/utils";
 import { SITE_LINKS, SITE_URL } from "@web/config";
-import { getAllPosts } from "@web/lib/data/posts";
 import { getDistinctMakes } from "@web/queries/cars";
+import { getAllPosts } from "@web/queries/posts";
 import type { MetadataRoute } from "next";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {

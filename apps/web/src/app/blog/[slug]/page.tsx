@@ -8,11 +8,8 @@ import { ViewCounter } from "@web/app/blog/_components/view-counter";
 import { BetaChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
-import {
-  getAllPosts,
-  getPostBySlug,
-  getPostViewCount,
-} from "@web/lib/data/posts";
+import { getPostViewCount } from "@web/lib/data/posts";
+import { getAllPosts, getPostBySlug } from "@web/queries/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";

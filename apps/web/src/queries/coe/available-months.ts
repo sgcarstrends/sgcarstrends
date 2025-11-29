@@ -7,10 +7,8 @@ export const getCoeMonths = async (): Promise<{ month: string }[]> => {
   cacheLife("max");
   cacheTag("coe:months");
 
-  const results = await db
+  return db
     .selectDistinct({ month: coe.month })
     .from(coe)
     .orderBy(desc(coe.month));
-
-  return results.map(({ month }) => ({ month }));
 };

@@ -1,7 +1,7 @@
 import { coe, db } from "@sgcarstrends/database";
 import type { Period } from "@web/app/(dashboard)/coe/search-params";
+import { getDateRangeFromPeriod } from "@web/lib/coe/calculations";
 import type { COEResult } from "@web/types";
-import { format, subMonths, subYears } from "date-fns";
 import { and, asc, desc, gte, lte } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
@@ -24,36 +24,6 @@ export const getCoeResults = async (): Promise<COEResult[]> => {
     .orderBy(asc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
-};
-
-const getDateRangeFromPeriod = (
-  period: Period,
-  latestMonth: string,
-  earliestMonth: string,
-): { start: string; end: string } => {
-  const latest = new Date(`${latestMonth}-01`);
-
-  switch (period) {
-    case "12m":
-      return {
-        start: format(subMonths(latest, 12), "yyyy-MM"),
-        end: latestMonth,
-      };
-    case "5y":
-      return {
-        start: format(subYears(latest, 5), "yyyy-MM"),
-        end: latestMonth,
-      };
-    case "10y":
-      return {
-        start: format(subYears(latest, 10), "yyyy-MM"),
-        end: latestMonth,
-      };
-    case "ytd":
-      return { start: `${new Date().getFullYear()}-01`, end: latestMonth };
-    case "all":
-      return { start: earliestMonth, end: latestMonth };
-  }
 };
 
 export const getCoeResultsByPeriod = async (

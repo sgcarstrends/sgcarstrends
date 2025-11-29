@@ -1,5 +1,5 @@
 import { cars, coe, db } from "@sgcarstrends/database";
-import { subMonths } from "date-fns";
+import { getDateRange24Months } from "@web/lib/coe/calculations";
 import { and, asc, avg, gte, ilike, inArray, lte, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
@@ -9,16 +9,6 @@ export interface MakeCoeComparisonData {
   categoryAPremium: number;
   categoryBPremium: number;
 }
-
-const getDateRange24Months = () => {
-  const currentDate = new Date();
-  const startDate = subMonths(currentDate, 24);
-
-  const startMonth = startDate.toISOString().slice(0, 7);
-  const endMonth = currentDate.toISOString().slice(0, 7);
-
-  return { startMonth, endMonth };
-};
 
 export const getMakeCoeComparison = async (
   make: string,
