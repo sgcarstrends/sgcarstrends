@@ -3,6 +3,7 @@ import { CoeSection } from "@web/app/(dashboard)/(home)/_components/coe-section"
 import { KeyStatisticsSection } from "@web/app/(dashboard)/(home)/_components/key-statistics-section";
 import { PostsSection } from "@web/app/(dashboard)/(home)/_components/posts-section";
 import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
 import type { WebSite, WithContext } from "schema-dts";
@@ -36,6 +37,7 @@ const HomePage = () => {
     <>
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
+        <Typography.H1>Overview</Typography.H1>
         {/* COE section loads first - most important above-the-fold */}
         <CoeSection />
 
