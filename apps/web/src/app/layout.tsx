@@ -3,7 +3,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import LoadingIndicator from "@web/app/loading-indicator";
 import { Providers } from "@web/app/providers";
-import { Analytics as InternalAnalytics } from "@web/components/analytics";
 import { Announcement } from "@web/components/announcement";
 import { Banner } from "@web/components/banner";
 import { Footer } from "@web/components/footer";
@@ -97,11 +96,6 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
             <main className="container mx-auto px-6 py-8">{children}</main>
             <Footer />
           </NuqsAdapter>
-          {process.env.NODE_ENV === "production" && (
-            <Suspense fallback={null}>
-              <InternalAnalytics />
-            </Suspense>
-          )}
         </Providers>
         <Analytics />
         <SpeedInsights />

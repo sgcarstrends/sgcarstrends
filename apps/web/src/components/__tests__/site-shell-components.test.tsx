@@ -1,5 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { Analytics } from "@web/components/analytics";
+import { render, screen } from "@testing-library/react";
 import { Announcement } from "@web/components/announcement";
 import { Banner } from "@web/components/banner";
 import { ComingSoon } from "@web/components/coming-soon";
@@ -20,8 +19,6 @@ import { createUseStoreMock } from "../../../tests/test-utils";
 const announcementsFixture: AnnouncementType[] = [];
 let mockPathname = "/";
 const mockUseMaintenance = vi.fn();
-const originalFetch = global.fetch;
-const originalSendBeacon = navigator.sendBeacon;
 
 const { state: mockStoreState } = createUseStoreMock();
 
@@ -70,13 +67,6 @@ const createCoeResult = (
   premium,
 });
 
-const setDocumentReferrer = (value: string) => {
-  Object.defineProperty(document, "referrer", {
-    value,
-    configurable: true,
-  });
-};
-
 describe("Site shell components", () => {
   beforeEach(() => {
     announcementsFixture.length = 0;
@@ -84,57 +74,6 @@ describe("Site shell components", () => {
     mockUseMaintenance.mockClear();
     mockStoreState.bannerContent = null;
     mockStoreState.setBannerContent.mockClear();
-    setDocumentReferrer("");
-  });
-
-  afterAll(() => {
-    global.fetch = originalFetch;
-    Object.defineProperty(window.navigator, "sendBeacon", {
-      value: originalSendBeacon,
-      configurable: true,
-    });
-  });
-
-  describe("Analytics", () => {
-    it("uses navigator.sendBeacon when available", async () => {
-      const sendBeacon = vi.fn(() => true);
-      Object.defineProperty(window.navigator, "sendBeacon", {
-        value: sendBeacon,
-        configurable: true,
-      });
-      mockPathname = "/cars";
-      setDocumentReferrer("https://example.com");
-
-      render(<Analytics />);
-
-      await waitFor(() =>
-        expect(sendBeacon).toHaveBeenCalledWith(
-          "/api/analytics",
-          JSON.stringify({
-            pathname: "/cars",
-            referrer: "https://example.com",
-          }),
-        ),
-      );
-    });
-
-    it("falls back to fetch when sendBeacon is unavailable", async () => {
-      Object.defineProperty(window.navigator, "sendBeacon", {
-        value: undefined,
-        configurable: true,
-      });
-      const fetchMock = vi.fn(() => Promise.resolve({ ok: true } as Response));
-      global.fetch = fetchMock as typeof fetch;
-
-      render(<Analytics />);
-
-      await waitFor(() =>
-        expect(fetchMock).toHaveBeenCalledWith(
-          "/api/analytics",
-          expect.objectContaining({ method: "POST", keepalive: true }),
-        ),
-      );
-    });
   });
 
   describe("Announcement", () => {

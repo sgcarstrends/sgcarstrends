@@ -197,12 +197,6 @@ export const navLinks: NavLinks = {
       description: "Frequently asked questions about COE and car buying",
       show: true,
     },
-    {
-      title: "Visitors",
-      url: "/visitors",
-      icon: BarChart3,
-      description: "Website traffic and visitor analytics",
-    },
   ],
   socialMedia: sortByName(socialMedia, { sortKey: "title" }),
 };

@@ -140,7 +140,6 @@ ${recentPosts.map((post) => `- [${post.title}](${SITE_URL}/blog/${post.slug})`).
 - [About](${SITE_URL}/about): About ${SITE_TITLE} platform
 - [FAQ](${SITE_URL}/faq): Frequently asked questions
 - [Contact](${SITE_URL}/contact): Get in touch with the team
-- [Visitors](${SITE_URL}/visitors): Platform analytics and visitor information
 
 ## Optional
 

@@ -1,9 +1,4 @@
 export * from "@admin/db/schema/auth";
-export {
-  analyticsTable,
-  type InsertAnalytics,
-  type SelectAnalytics,
-} from "./analytics";
 export { cars, type InsertCar, type SelectCar } from "./cars";
 export {
   coe,

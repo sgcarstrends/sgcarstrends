@@ -97,14 +97,14 @@ All commands use pnpm as the package manager.
 - **apps/web**: Next.js frontend application
     - **src/app**: Next.js App Router pages and layouts with blog functionality
     - **src/components**: React components with comprehensive tests
-    - **src/actions**: Server actions for blog and analytics functionality
+    - **src/actions**: Server actions for blog functionality
     - **src/utils**: Web-specific utility functions
 - **apps/admin**: Administrative interface for content management (unreleased)
 - **apps/docs**: Mintlify documentation site
     - **architecture/**: Complete system architecture documentation with Mermaid diagrams
     - **diagrams/**: Source Mermaid diagram files for architecture documentation
 - **packages/database**: Database schema and migrations using Drizzle ORM
-    - **src/db**: Schema definitions for cars, COE, posts, and analytics tables
+    - **src/db**: Schema definitions for cars, COE, and posts tables
     - **migrations**: Database migration files with version tracking
 - **packages/ai**: AI-powered blog generation shared package
     - **src/generate-post.ts**: Core blog content generation with Code Execution Tool
@@ -224,7 +224,7 @@ See `domain-management` skill for DNS configuration and routing details.
 
 PostgreSQL with Drizzle ORM using **camelCase** column naming:
 
-- `cars`, `coe`, `pqp`, `posts`, `analyticsTable`
+- `cars`, `coe`, `pqp`, `posts`
 
 **Naming Strategy:**
 - Table names: `snake_case` (e.g., `cars`, `coe`, `pqp`)

@@ -9,7 +9,6 @@ import { version } from "../../package.json";
 const NAV_ITEMS = [
   { href: "/", label: "Dashboard" },
   { href: "/blog", label: "Blog" },
-  { href: "/visitors", label: "Visitors" },
   { href: "/faq", label: "FAQ" },
 ];
 
