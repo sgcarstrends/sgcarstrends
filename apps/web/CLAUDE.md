@@ -88,9 +88,9 @@ Route-specific components live alongside their consuming routes using private fo
 
 #### Co-located Actions (`_actions/`)
 
-Route-specific server actions use private folders:
+Route-specific server actions (mutations only) use private folders:
 
-- **Blog**: `app/blog/_actions/` - View counting, related posts, tag management
+- **Blog**: `app/blog/_actions/` - View incrementing, tag updates (mutations only; reads are in `lib/data/posts.ts`)
 
 #### Centralised vs Co-located
 
@@ -187,6 +187,9 @@ Granular cache tags enable precise invalidation without over-fetching:
 | `coe:pqp` | PQP rates data | - |
 | `posts:list` | Blog post list | - |
 | `posts:slug:{slug}` | Individual blog post | `posts:slug:jan-2024-analysis` |
+| `posts:views:{postId}` | Individual post view count | `posts:views:abc123` |
+| `posts:popular` | Popular posts list | - |
+| `posts:related:{postId}` | Related posts for a post | `posts:related:abc123` |
 
 **Cache Strategy Best Practices**:
 

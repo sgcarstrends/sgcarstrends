@@ -1,5 +1,5 @@
-import { getRelatedPosts } from "@web/app/blog/_actions";
 import Typography from "@web/components/typography";
+import { getRelatedPosts } from "@web/lib/data/posts";
 import Link from "next/link";
 
 interface RelatedPostsProps {

@@ -1,7 +1,6 @@
 import { Button } from "@heroui/button";
 import { Separator } from "@sgcarstrends/ui/components/separator";
 import { updatePostTags } from "@web/app/blog/_actions/tags";
-import { getPostViewCount } from "@web/app/blog/_actions/views";
 import { mdxComponents } from "@web/app/blog/_components/mdx-components";
 import { ProgressBar } from "@web/app/blog/_components/progress-bar";
 import { RelatedPosts } from "@web/app/blog/_components/related-posts";
@@ -9,7 +8,11 @@ import { ViewCounter } from "@web/app/blog/_components/view-counter";
 import { BetaChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
-import { getAllPosts, getPostBySlug } from "@web/lib/data/posts";
+import {
+  getAllPosts,
+  getPostBySlug,
+  getPostViewCount,
+} from "@web/lib/data/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
