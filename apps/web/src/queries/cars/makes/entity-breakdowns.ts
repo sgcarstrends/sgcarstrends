@@ -45,7 +45,7 @@ export const getMakeDetails = async (
     whereConditions.push(eq(cars.month, month));
   }
 
-  const [totalResult, data] = await Promise.all([
+  const [totalResult, data] = await db.batch([
     db
       .select({
         total: sql<number>`sum(${cars.number})`.mapWith(Number),
@@ -89,7 +89,7 @@ export const getFuelTypeData = async (
     whereConditions.push(eq(cars.month, month));
   }
 
-  const [totalResult, data] = await Promise.all([
+  const [totalResult, data] = await db.batch([
     db
       .select({
         total: sql<number>`sum(${cars.number})`.mapWith(Number),
@@ -133,7 +133,7 @@ export const getVehicleTypeData = async (
     whereConditions.push(eq(cars.month, month));
   }
 
-  const [totalResult, data] = await Promise.all([
+  const [totalResult, data] = await db.batch([
     db
       .select({
         total: sql<number>`sum(${cars.number})`.mapWith(Number),

@@ -83,7 +83,7 @@ export const getTopTypes = async (month: string): Promise<TopType> => {
     .orderBy(desc(sql<number>`sum(${cars.number})`))
     .limit(1);
 
-  const [topFuelTypeResult, topVehicleTypeResult] = await Promise.all([
+  const [topFuelTypeResult, topVehicleTypeResult] = await db.batch([
     topFuelTypeQuery,
     topVehicleTypeQuery,
   ]);
@@ -136,9 +136,6 @@ export const getTopMakesByFuelType = async (
     return [];
   }
 
-  // TODO: Optimise to use db.batch() for single network round-trip instead of sequential queries
-  // Currently blocked by TypeScript requiring non-empty tuple type [T, ...T[]] but .map() returns T[]
-  // Possible solutions: type assertion with runtime guard, or restructure query building
   const topMakesQueries = fuelTypeResults.map(({ fuelType }) =>
     db
       .select({
@@ -152,7 +149,13 @@ export const getTopMakesByFuelType = async (
       .limit(5),
   );
 
-  const topMakesResults = await Promise.all(topMakesQueries);
+  // Use db.batch() for single network round-trip
+  const topMakesResults = await db.batch(
+    topMakesQueries as [
+      (typeof topMakesQueries)[0],
+      ...(typeof topMakesQueries)[number][],
+    ],
+  );
 
   return fuelTypeResults.map(({ fuelType, total }, index) => ({
     fuelType,

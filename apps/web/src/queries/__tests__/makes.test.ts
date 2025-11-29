@@ -14,6 +14,7 @@ import {
   cacheLifeMock,
   cacheTagMock,
   dbMock,
+  queueBatch,
   queueSelect,
   resetDbMocks,
 } from "./test-utils";
@@ -24,7 +25,8 @@ describe("car make breakdown queries", () => {
   });
 
   it("returns make details with summed totals", async () => {
-    queueSelect(
+    // getMakeDetails now uses db.batch with 2 queries
+    queueBatch([
       [{ total: 42 }],
       [
         {
@@ -34,7 +36,7 @@ describe("car make breakdown queries", () => {
           count: 42,
         },
       ],
-    );
+    ]);
 
     const result = await getMakeDetails("toyota-prius", "2024-01");
 
@@ -52,10 +54,11 @@ describe("car make breakdown queries", () => {
   });
 
   it("returns fuel type aggregates for battery electric vehicles", async () => {
-    queueSelect(
+    // getFuelTypeData now uses db.batch with 2 queries
+    queueBatch([
       [{ total: 12 }],
       [{ month: "2024-02", make: "Tesla", fuelType: "Electric", count: 12 }],
-    );
+    ]);
 
     const result = await getFuelTypeData("battery-electric", "2024-02");
 
@@ -73,10 +76,11 @@ describe("car make breakdown queries", () => {
   });
 
   it("returns vehicle type aggregates for sport utility vehicles", async () => {
-    queueSelect(
+    // getVehicleTypeData now uses db.batch with 2 queries
+    queueBatch([
       [{ total: 9 }],
       [{ month: "2024-03", make: "BMW", vehicleType: "SUV", count: 9 }],
-    );
+    ]);
 
     const result = await getVehicleTypeData("sport-utility", "2024-03");
 

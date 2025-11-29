@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import {
   cacheLifeMock,
   cacheTagMock,
+  queueBatch,
   queueSelect,
   resetDbMocks,
 } from "./test-utils";
@@ -22,10 +23,11 @@ describe("car market insight queries", () => {
   });
 
   it("returns the top fuel and vehicle types", async () => {
-    queueSelect(
+    // getTopTypes uses db.batch with 2 queries
+    queueBatch([
       [{ name: "Electric", total: 60 }],
       [{ name: "SUV", total: 40 }],
-    );
+    ]);
 
     const result = await marketInsights.getTopTypes("2024-04");
 
@@ -39,7 +41,7 @@ describe("car market insight queries", () => {
   });
 
   it("falls back to placeholder entries when no types exist", async () => {
-    queueSelect([], []);
+    queueBatch([[], []]);
 
     const result = await marketInsights.getTopTypes("2024-05");
 
@@ -56,14 +58,16 @@ describe("car market insight queries", () => {
   });
 
   it("groups top makes for every fuel type", async () => {
-    queueSelect(
-      [
-        { fuelType: "Electric", total: 100 },
-        { fuelType: "Hybrid", total: 20 },
-      ],
+    // First query (non-batched) fetches fuel type totals
+    queueSelect([
+      { fuelType: "Electric", total: 100 },
+      { fuelType: "Hybrid", total: 20 },
+    ]);
+    // Then db.batch is called with queries for each fuel type
+    queueBatch([
       [{ make: "Tesla", count: 80 }],
       [{ make: "Toyota", count: 20 }],
-    );
+    ]);
 
     const result = await marketInsights.getTopMakesByFuelType("2024-06");
 
@@ -108,14 +112,12 @@ describe("car market insight queries", () => {
   });
 
   it("creates top performer summaries from derived queries", async () => {
-    queueSelect(
-      [{ name: "Hybrid", total: 40 }],
-      [{ name: "SUV", total: 30 }],
-      [
-        { make: "Toyota", total: 25 },
-        { make: "Tesla", total: 15 },
-      ],
-    );
+    queueSelect([], []);
+    queueBatch([[{ name: "Hybrid", total: 40 }], [{ name: "SUV", total: 30 }]]);
+    queueSelect([
+      { make: "Toyota", total: 25 },
+      { make: "Tesla", total: 15 },
+    ]);
 
     mockedGetCarsData.mockResolvedValue({
       month: "2024-08",

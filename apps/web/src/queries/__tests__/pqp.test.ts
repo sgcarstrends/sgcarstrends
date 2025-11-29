@@ -1,6 +1,11 @@
 import { getPQPOverview, getPqpRates } from "@web/queries";
 import { describe, expect, it } from "vitest";
-import { queueSelect, queueSelectDistinct, resetDbMocks } from "./test-utils";
+import {
+  queueBatch,
+  queueSelect,
+  queueSelectDistinct,
+  resetDbMocks,
+} from "./test-utils";
 
 describe("PQP queries", () => {
   beforeEach(() => {
@@ -8,27 +13,26 @@ describe("PQP queries", () => {
   });
 
   it("provides an overview of PQP insights with savings calculations", async () => {
-    queueSelectDistinct([{ month: "2024-06" }]);
-    queueSelect(
-      [
-        {
-          month: "2024-06",
-          vehicleClass: "Category A",
-          pqp: 100,
-        },
-      ],
+    queueSelectDistinct([]);
+    queueSelect([], []);
+    queueBatch([
       [{ month: "2024-06" }],
+      [{ month: "2024-06" }],
+      [{ month: "2024-06" }],
+    ]);
+    queueSelect([], [], []);
+    queueBatch([
+      [{ month: "2024-06", vehicleClass: "Category A", pqp: 100 }],
       [{ biddingNo: 2 }],
-      [
-        { vehicleClass: "Category A", premium: 120 },
-        { vehicleClass: "Category B", premium: 0 },
-      ],
-      [{ month: "2024-06" }],
       [
         { vehicleClass: "Category A", pqp: 100 },
         { vehicleClass: "Category B", pqp: 0 },
       ],
-    );
+    ]);
+    queueSelect([
+      { vehicleClass: "Category A", premium: 120 },
+      { vehicleClass: "Category B", premium: 0 },
+    ]);
 
     const result = await getPQPOverview();
 
@@ -71,7 +75,8 @@ describe("PQP queries", () => {
 
   it("handles empty PQP data gracefully", async () => {
     queueSelectDistinct([]);
-    queueSelect([], [], [], [], []);
+    queueSelect([], []);
+    queueBatch([[], [], []]);
 
     const result = await getPQPOverview();
 
