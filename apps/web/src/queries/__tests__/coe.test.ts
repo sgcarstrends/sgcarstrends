@@ -29,16 +29,12 @@ describe("COE queries", () => {
   });
 
   it("should return the latest COE bidding results", async () => {
+    // Queue results in order of db.select() calls:
+    // 1. latestMonthSubquery, 2. latestBiddingSubquery, 3. main query (the one that's awaited)
     queueSelect(
-      [{ latestMonth: "2024-05" }],
-      [
-        {
-          month: "2024-05",
-          biddingNo: 2,
-          vehicleClass: "A",
-        },
-      ],
-      [{ biddingNo: 2 }],
+      [], // latestMonthSubquery (embedded in SQL, not awaited directly)
+      [], // latestBiddingSubquery (embedded in SQL, not awaited directly)
+      [{ month: "2024-05", biddingNo: 2, vehicleClass: "A" }], // main query result
     );
 
     const result = await getLatestCoeResults();
