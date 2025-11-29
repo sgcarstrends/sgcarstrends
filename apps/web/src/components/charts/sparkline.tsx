@@ -50,10 +50,10 @@ export const Sparkline = ({
 
   return (
     <ChartContainer config={chartConfig} className={cn("w-full", height)}>
-      <AreaChart data={data} margin={{ top: 2, right: 2, bottom: 2, left: 2 }}>
+      <AreaChart data={data}>
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={strokeColor} stopOpacity={0.3} />
+            <stop offset="0%" stopColor={strokeColor} stopOpacity={0.1} />
             <stop offset="100%" stopColor={strokeColor} stopOpacity={0} />
           </linearGradient>
         </defs>

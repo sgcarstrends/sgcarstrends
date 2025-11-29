@@ -44,7 +44,7 @@ export const LatestCoePremium = ({
               </div>
             </CardHeader>
             <CardBody>
-              <div className="flex flex-col gap-2">
+              <div className="grid grid-cols-2 items-center gap-2">
                 <div className="flex items-baseline gap-1">
                   <span className="font-medium text-default-600">S$</span>
                   <div className="font-bold text-2xl text-primary">
@@ -52,7 +52,7 @@ export const LatestCoePremium = ({
                   </div>
                 </div>
                 {sparklineData.length > 0 && (
-                  <Sparkline data={sparklineData} height="h-10" trend={trend} />
+                  <Sparkline data={sparklineData} trend={trend} />
                 )}
               </div>
             </CardBody>
