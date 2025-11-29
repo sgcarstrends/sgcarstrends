@@ -1,7 +1,9 @@
-import { createLoader, parseAsString } from "nuqs/server";
+import { createLoader, parseAsInteger } from "nuqs/server";
 
-export const homeSearchParams = {
-  year: parseAsString,
+const currentYear = new Date().getFullYear();
+
+export const searchParams = {
+  year: parseAsInteger.withDefault(currentYear),
 };
 
-export const loadSearchParams = createLoader(homeSearchParams);
+export const loadSearchParams = createLoader(searchParams);

@@ -14,8 +14,8 @@ import {
   SelectValue,
 } from "@sgcarstrends/ui/components/select";
 import Typography from "@web/components/typography";
-import { useQueryState } from "nuqs";
-import { useEffect, useMemo } from "react";
+import { useQueryStates } from "nuqs";
+import { useMemo } from "react";
 import {
   Area,
   AreaChart,
@@ -28,6 +28,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { searchParams } from "../search-params";
 
 interface YearlyData {
   year: number;
@@ -171,16 +172,7 @@ const TrendChart = ({ data, chartColor, ariaLabel }: TrendChartProps) => {
 };
 
 export const KeyStatistics = ({ data }: Props) => {
-  const defaultYear = (new Date().getFullYear() - 1).toString();
-  const [selectedYear, setSelectedYear] = useQueryState("year", {
-    shallow: false,
-  });
-
-  useEffect(() => {
-    if (!selectedYear) {
-      void setSelectedYear(defaultYear);
-    }
-  }, [defaultYear, selectedYear, setSelectedYear]);
+  const [{ year }, setSearchParams] = useQueryStates(searchParams);
 
   const numberFormatter = useMemo(() => new Intl.NumberFormat("en-SG"), []);
   const percentFormatter = useMemo(
@@ -213,17 +205,13 @@ export const KeyStatistics = ({ data }: Props) => {
     [comparableAsc],
   );
 
-  const selectedYearNumber = useMemo(
-    () => Number(selectedYear ?? defaultYear),
-    [selectedYear, defaultYear],
-  );
   const selectedEntry = useMemo(
-    () => sortedByYearAsc.find((item) => item.year === selectedYearNumber),
-    [sortedByYearAsc, selectedYearNumber],
+    () => sortedByYearAsc.find((item) => item.year === year),
+    [sortedByYearAsc, year],
   );
   const previousEntry = useMemo(
-    () => sortedByYearAsc.find((item) => item.year === selectedYearNumber - 1),
-    [sortedByYearAsc, selectedYearNumber],
+    () => sortedByYearAsc.find((item) => item.year === year - 1),
+    [sortedByYearAsc, year],
   );
   const highestEntry = comparableTotalDesc[0];
   const lowestEntry = comparableTotalDesc[comparableTotalDesc.length - 1];
@@ -266,13 +254,13 @@ export const KeyStatistics = ({ data }: Props) => {
                 ? numberFormatter.format(selectedEntry.total)
                 : "—"}
               <Typography.TextSm>
-                total registrations in {selectedYear ?? defaultYear}
+                total registrations in {year}
               </Typography.TextSm>
             </div>
           </div>
           <Select
-            onValueChange={(year) => setSelectedYear(year)}
-            value={selectedYear ?? defaultYear}
+            onValueChange={(value) => setSearchParams({ year: Number(value) })}
+            value={year.toString()}
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select year" />
