@@ -2,7 +2,7 @@ import { AnnualRegistrationsChart } from "@web/app/(dashboard)/annual/_component
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { getYearlyRegistrations } from "@web/queries";
+import { getAvailableYears, getYearlyRegistrations } from "@web/queries";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
@@ -36,7 +36,10 @@ const structuredData: WithContext<WebPage> = {
 };
 
 const AnnualPage = async () => {
-  const yearlyData = await getYearlyRegistrations();
+  const [yearlyData, availableYears] = await Promise.all([
+    getYearlyRegistrations(),
+    getAvailableYears(),
+  ]);
 
   return (
     <>
@@ -49,7 +52,10 @@ const AnnualPage = async () => {
           </Typography.TextLg>
         </div>
 
-        <AnnualRegistrationsChart data={yearlyData} />
+        <AnnualRegistrationsChart
+          data={yearlyData}
+          availableYears={availableYears}
+        />
       </section>
     </>
   );

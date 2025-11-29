@@ -5,7 +5,7 @@ import { cacheLife, cacheTag } from "next/cache";
 const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;
 
 /**
- * Get yearly registration totals aggregated from monthly data
+ * Get yearly registration totals aggregated from monthly data (ascending order for charts)
  */
 export const getYearlyRegistrations = async () => {
   "use cache";
@@ -21,6 +21,24 @@ export const getYearlyRegistrations = async () => {
     .where(gt(cars.number, 0))
     .groupBy(yearExpr)
     .orderBy(yearExpr);
+};
+
+/**
+ * Get available years in descending order (for dropdowns/selectors)
+ */
+export const getAvailableYears = async () => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("cars:annual");
+
+  return db
+    .select({
+      year: sql<number>`cast(${yearExpr} as integer)`,
+    })
+    .from(cars)
+    .where(gt(cars.number, 0))
+    .groupBy(yearExpr)
+    .orderBy(desc(yearExpr));
 };
 
 /**

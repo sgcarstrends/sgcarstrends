@@ -11,7 +11,6 @@ import { searchParams } from "@web/app/(dashboard)/annual/search-params";
 import Typography from "@web/components/typography";
 import { useQueryStates } from "nuqs";
 import type React from "react";
-import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 
 interface YearlyData {
@@ -21,43 +20,26 @@ interface YearlyData {
 
 interface Props {
   data: YearlyData[];
+  availableYears: { year: number }[];
 }
 
-export const AnnualRegistrationsChart = ({ data }: Props) => {
+export const AnnualRegistrationsChart = ({ data, availableYears }: Props) => {
   const [{ year }, setSearchParams] = useQueryStates(searchParams);
 
-  const numberFormatter = useMemo(() => new Intl.NumberFormat("en-SG"), []);
-
-  const chartData = useMemo(
-    () => [...data].sort((a, b) => a.year - b.year),
-    [data],
-  );
-
-  const sortedByYearDesc = useMemo(
-    () => [...data].sort((a, b) => b.year - a.year),
-    [data],
-  );
-
-  const selectedEntry = useMemo(
-    () => chartData.find((item) => item.year === year),
-    [chartData, year],
-  );
+  const numberFormatter = new Intl.NumberFormat("en-SG");
+  const selectedEntry = data.find((item) => item.year === year);
 
   const chartConfig = {
     total: { label: "Registrations", color: "var(--primary)" },
   } as const;
 
-  const handleBarClick = (entry: YearlyData) => {
-    if (year === entry.year) {
-      setSearchParams({ year: null });
-    } else {
-      setSearchParams({ year: entry.year });
-    }
+  const handleBarClick = async (entry: YearlyData) => {
+    await setSearchParams({ year: entry.year });
   };
 
-  const handleSelectionChange = (key: React.Key | null) => {
+  const handleSelectionChange = async (key: React.Key | null) => {
     if (key) {
-      setSearchParams({ year: Number(key) });
+      await setSearchParams({ year: Number(key) });
     }
   };
 
@@ -79,7 +61,7 @@ export const AnnualRegistrationsChart = ({ data }: Props) => {
           className="max-w-xs"
           selectedKey={String(year)}
           onSelectionChange={handleSelectionChange}
-          defaultItems={sortedByYearDesc.map((item) => ({
+          defaultItems={availableYears.map((item) => ({
             key: String(item.year),
             label: String(item.year),
           }))}
@@ -91,7 +73,7 @@ export const AnnualRegistrationsChart = ({ data }: Props) => {
       </CardHeader>
       <CardBody>
         <ChartContainer config={chartConfig} className="h-[400px] w-full">
-          <BarChart data={chartData}>
+          <BarChart data={data}>
             <defs>
               <linearGradient id="selectedGradient" x1="0" y1="1" x2="0" y2="0">
                 <stop
@@ -125,10 +107,10 @@ export const AnnualRegistrationsChart = ({ data }: Props) => {
             <Bar
               dataKey="total"
               radius={[8, 8, 0, 0]}
-              onClick={(_, index) => handleBarClick(chartData[index])}
+              onClick={(_, index) => handleBarClick(data[index])}
               className="cursor-pointer"
             >
-              {chartData.map((entry) => (
+              {data.map((entry) => (
                 <Cell
                   key={entry.year}
                   fill={
