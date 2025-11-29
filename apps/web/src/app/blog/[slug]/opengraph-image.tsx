@@ -1,13 +1,18 @@
-import { getPostBySlug } from "@web/queries/posts";
+import { getAllPosts, getPostBySlug } from "@web/queries/posts";
 import { ImageResponse } from "next/og";
 
-type Props = {
+interface Props {
   params: Promise<{ slug: string }>;
-};
+}
 
 export const size = {
   width: 1200,
   height: 630,
+};
+
+export const generateStaticParams = async () => {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 };
 
 const Image = async ({ params }: Props) => {
