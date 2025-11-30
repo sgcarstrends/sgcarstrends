@@ -46,22 +46,37 @@ export const coeWorkflow = createWorkflow(
       `coe:year:${year}`,
     ]);
 
-    // Check if post already exists for this month
-    const existingPost = await getExistingPostByMonth<"coe">(month, "coe");
-
-    if (existingPost.length > 0) {
-      return {
-        message:
-          "Post already exists for this month. Skipped generation and social media.",
-      };
-    }
-
     // Generate blog post only when both bidding exercises are complete (biddingNo = 2)
     if (biddingNo === 2) {
-      const post = await generateCoePost(context, month);
+      // Step: Check if post exists and determine if social should publish
+      const { post: cachedPost, shouldPublishSocial } = await context.run(
+        "Check existing post",
+        async () => {
+          const posts = await getExistingPostByMonth<"coe">(month, "coe");
+          const [existingPost] = posts;
 
-      // Announce new blog post on social media
-      if (post?.success && post?.title) {
+          if (existingPost) {
+            // Post exists - skip social (already published in previous workflow)
+            return {
+              post: {
+                postId: existingPost.id,
+                title: existingPost.title,
+                slug: existingPost.slug,
+              },
+              shouldPublishSocial: false,
+            };
+          }
+
+          // No post - will generate and publish social
+          return { post: null, shouldPublishSocial: true };
+        },
+      );
+
+      // Step: Generate post only if none exists
+      const post = cachedPost ?? (await generateCoePost(context, month));
+
+      // Step: Publish to social media only if shouldPublishSocial is true
+      if (post?.title && shouldPublishSocial) {
         // Invalidate cache for new blog post
         await revalidateWebCache(context, ["posts:list"]);
 
@@ -76,7 +91,7 @@ export const coeWorkflow = createWorkflow(
     }
 
     return {
-      message: "COE data processed and published successfully",
+      message: "[COE] Data processed and published successfully",
     };
   },
   { ...options },
