@@ -168,6 +168,7 @@ const BlogPostPage = async ({ params }: Props) => {
             components={mdxComponents}
             options={{
               mdxOptions: {
+                format: "md",
                 remarkPlugins: [
                   remarkGfm,
                   [
