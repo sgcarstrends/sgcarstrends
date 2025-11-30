@@ -40,15 +40,7 @@ export const getAllPosts = async (): Promise<PostWithMetadata[]> => {
 
   try {
     const allPosts = await db
-      .select({
-        id: posts.id,
-        title: posts.title,
-        slug: posts.slug,
-        month: posts.month,
-        dataType: posts.dataType,
-        createdAt: posts.createdAt,
-        metadata: posts.metadata,
-      })
+      .select()
       .from(posts)
       .orderBy(desc(posts.createdAt));
 
