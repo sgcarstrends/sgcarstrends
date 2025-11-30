@@ -1,3 +1,5 @@
+import { WEB_URL } from "@admin/config";
+
 /**
  * Revalidates web app cache for updated data
  */
@@ -5,9 +7,6 @@ export const revalidateWebCache = async (
   tags: string[],
 ): Promise<{ success: boolean; error?: string }> => {
   try {
-    const webUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "https://sgcarstrends.com";
     const revalidateToken = process.env.NEXT_PUBLIC_REVALIDATE_TOKEN;
 
     if (!revalidateToken) {
@@ -20,7 +19,7 @@ export const revalidateWebCache = async (
       };
     }
 
-    const response = await fetch(`${webUrl}/api/revalidate`, {
+    const response = await fetch(`${WEB_URL}/api/revalidate`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
