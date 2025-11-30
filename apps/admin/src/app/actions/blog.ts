@@ -35,7 +35,7 @@ export const getAllPosts = async (): Promise<PostWithMetadata[]> => {
   });
 
   if (!session) {
-    throw new Error("Unauthorized");
+    throw new Error("Unauthorised");
   }
 
   try {
@@ -62,7 +62,7 @@ export const regeneratePost = async (params: {
   if (!session) {
     return {
       success: false,
-      error: "Unauthorized",
+      error: "Unauthorised",
     };
   }
 
