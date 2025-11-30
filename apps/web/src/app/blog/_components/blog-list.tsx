@@ -2,8 +2,7 @@
 
 import { Tab, Tabs } from "@heroui/tabs";
 import type { SelectPost } from "@sgcarstrends/database";
-import { BlogPost } from "@web/app/blog/_components/blog-post";
-import { HeroPost } from "@web/app/blog/_components/hero-post";
+import { Post } from "@web/app/blog/_components/post";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 
@@ -36,7 +35,7 @@ const PostsGrid = ({ posts }: PostsGridProps) => {
             ease: "easeOut",
           }}
         >
-          <BlogPost post={post} />
+          <Post.Card post={post} />
         </motion.div>
       ))}
     </div>
@@ -113,7 +112,7 @@ export const BlogList = ({ posts }: Props) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <HeroPost post={heroPost} />
+            <Post.Hero post={heroPost} />
           </motion.div>
 
           {/* Second Post - 40% width */}
@@ -124,7 +123,7 @@ export const BlogList = ({ posts }: Props) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
             >
-              <BlogPost post={secondPost} />
+              <Post.Card post={secondPost} />
             </motion.div>
           )}
         </div>

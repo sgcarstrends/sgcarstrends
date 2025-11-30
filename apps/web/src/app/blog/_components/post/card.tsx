@@ -1,56 +1,30 @@
 "use client";
 
-import { Card, CardBody, CardFooter } from "@heroui/card";
+import { CardBody, CardFooter, Card as HeroCard } from "@heroui/card";
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
 import Typography from "@web/components/typography";
 import Image from "next/image";
+import {
+  formatDate,
+  getCategoryConfig,
+  getExcerpt,
+  getPostImage,
+} from "./utils";
 
 type Props = {
   post: SelectPost;
 };
 
-// Category configuration for labels and colors
-const categoryConfig: Record<string, { label: string; className: string }> = {
-  coe: { label: "COE TRENDS", className: "text-primary" },
-  cars: { label: "EV MARKET", className: "text-success" },
-};
-
-// Default images by category (generic, no brand logos)
-// Images from Unsplash - Singapore traffic and EV charging themes
-const categoryImages: Record<string, string> = {
-  coe: "https://images.unsplash.com/photo-1565967511849-76a60a516170?w=800&h=500&fit=crop", // Singapore Marina Bay skyline
-  cars: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop", // EV charging cable/plug
-  default:
-    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&h=500&fit=crop", // Car on road
-};
-
-const getPostImage = (post: SelectPost): string => {
-  const metadata = post.metadata as any;
-  if (metadata?.image) return metadata.image;
-  return categoryImages[metadata?.dataType] || categoryImages.default;
-};
-
-const getCategoryConfig = (post: SelectPost) => {
-  const metadata = post.metadata as any;
-  const dataType = metadata?.dataType || "default";
-  return (
-    categoryConfig[dataType] || {
-      label: "INSIGHTS",
-      className: "text-secondary",
-    }
-  );
-};
-
-export const BlogPost = ({ post }: Props) => {
-  const metadata = post.metadata as any;
+export const Card = ({ post }: Props) => {
   const publishedDate = post.publishedAt ?? post.createdAt;
   const category = getCategoryConfig(post);
-  const imageUrl = getPostImage(post);
+  const imageUrl = getPostImage(post, "card");
+  const excerpt = getExcerpt(post);
 
   return (
     <Link href={`/blog/${post.slug}`} className="block h-full">
-      <Card
+      <HeroCard
         className="group h-full overflow-hidden border-none bg-content1 shadow-sm transition-shadow duration-300 hover:shadow-md"
         isPressable
       >
@@ -74,13 +48,7 @@ export const BlogPost = ({ post }: Props) => {
               {category.label}
             </span>
             <span className="text-default-400">·</span>
-            <Typography.Caption>
-              {new Date(publishedDate).toLocaleDateString("en-SG", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
-            </Typography.Caption>
+            <Typography.Caption>{formatDate(publishedDate)}</Typography.Caption>
           </div>
 
           {/* Title */}
@@ -89,9 +57,9 @@ export const BlogPost = ({ post }: Props) => {
           </Typography.H3>
 
           {/* Excerpt */}
-          {metadata?.excerpt && (
+          {excerpt && (
             <Typography.TextSm className="line-clamp-2 text-default-500">
-              {metadata.excerpt}
+              {excerpt}
             </Typography.TextSm>
           )}
         </CardBody>
@@ -104,7 +72,7 @@ export const BlogPost = ({ post }: Props) => {
             </span>
           </span>
         </CardFooter>
-      </Card>
+      </HeroCard>
     </Link>
   );
 };

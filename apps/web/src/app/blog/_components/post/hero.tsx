@@ -1,58 +1,30 @@
 "use client";
 
 import { Card, CardBody } from "@heroui/card";
-import { Chip, type ChipProps } from "@heroui/chip";
+import { Chip } from "@heroui/chip";
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
 import Typography from "@web/components/typography";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import {
+  formatDate,
+  getCategoryConfig,
+  getExcerpt,
+  getPostImage,
+  getReadingTime,
+} from "./utils";
 
 type Props = {
   post: SelectPost;
 };
 
-// Category configuration for labels and colors
-const categoryConfig: Record<
-  string,
-  { label: string; color: ChipProps["color"] }
-> = {
-  coe: { label: "COE ANALYSIS", color: "primary" },
-  cars: { label: "EV MARKET", color: "success" },
-};
-
-// Default images by category (generic, no brand logos)
-// Images from Unsplash - Singapore traffic and EV charging themes
-const categoryImages: Record<string, string> = {
-  coe: "https://images.unsplash.com/photo-1565967511849-76a60a516170?w=1200&h=800&fit=crop", // Singapore Marina Bay skyline
-  cars: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop", // EV charging cable/plug
-  default:
-    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1200&h=800&fit=crop", // Car on road
-};
-
-const getPostImage = (post: SelectPost): string => {
-  const metadata = post.metadata as any;
-  if (metadata?.image) return metadata.image;
-  return categoryImages[metadata?.dataType] || categoryImages.default;
-};
-
-const getCategoryConfig = (post: SelectPost) => {
-  const metadata = post.metadata as any;
-  const dataType = metadata?.dataType || "default";
-  return (
-    categoryConfig[dataType] || {
-      label: "INSIGHTS",
-      color: "secondary",
-    }
-  );
-};
-
-export const HeroPost = ({ post }: Props) => {
-  const metadata = post.metadata as any;
+export const Hero = ({ post }: Props) => {
   const publishedDate = post.publishedAt ?? post.createdAt;
   const category = getCategoryConfig(post);
-  const imageUrl = getPostImage(post);
-  const readingTime = metadata?.readingTime || 5;
+  const imageUrl = getPostImage(post, "hero");
+  const readingTime = getReadingTime(post);
+  const excerpt = getExcerpt(post);
 
   return (
     <motion.div
@@ -95,11 +67,7 @@ export const HeroPost = ({ post }: Props) => {
                     {category.label}
                   </Chip>
                   <Typography.Caption>
-                    {new Date(publishedDate).toLocaleDateString("en-SG", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
+                    {formatDate(publishedDate)}
                   </Typography.Caption>
                 </div>
 
@@ -109,9 +77,9 @@ export const HeroPost = ({ post }: Props) => {
                 </Typography.H2>
 
                 {/* Excerpt */}
-                {metadata?.excerpt && (
+                {excerpt && (
                   <Typography.Text className="line-clamp-3 text-default-600">
-                    {metadata.excerpt}
+                    {excerpt}
                   </Typography.Text>
                 )}
 
