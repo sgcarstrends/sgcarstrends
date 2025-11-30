@@ -82,7 +82,7 @@ async function revalidateWebCache(slug: string): Promise<void> {
         "x-revalidate-token": revalidateToken,
       },
       body: JSON.stringify({
-        tags: ["all-blogs", "blog", `blog-${slug}`],
+        tags: ["posts:list", "posts:recent", `posts:slug:${slug}`],
       }),
     });
 

@@ -88,7 +88,7 @@ export const regeneratePost = async (params: {
 
     // Invalidate cache for new blog post
     if (result.success) {
-      await revalidateWebCache(["posts"]);
+      await revalidateWebCache(["posts:list", "posts:recent"]);
     }
 
     return {
