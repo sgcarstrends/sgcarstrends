@@ -1,16 +1,13 @@
 "use client";
 
-import { Card, CardBody } from "@heroui/card";
-import { Chip } from "@heroui/chip";
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
-import Typography from "@web/components/typography";
-import { motion } from "framer-motion";
+import { isMockPost } from "@web/app/blog/_data/mock-posts";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import Image from "next/image";
 import {
   formatDate,
   getCategoryConfig,
-  getExcerpt,
   getPostImage,
   getReadingTime,
 } from "./utils";
@@ -19,81 +16,62 @@ type Props = {
   post: SelectPost;
 };
 
+/**
+ * Bloomberg-style Hero Card
+ *
+ * Large editorial card with text overlaid on image.
+ * Used for featured/hero posts in the blog list.
+ */
 export const Hero = ({ post }: Props) => {
   const publishedDate = post.publishedAt ?? post.createdAt;
   const category = getCategoryConfig(post);
   const imageUrl = getPostImage(post, "hero");
   const readingTime = getReadingTime(post);
-  const excerpt = getExcerpt(post);
+  const isMock = isMockPost(post.id);
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    >
-      <Link href={`/blog/${post.slug}`} className="block">
-        <Card
-          className="group overflow-hidden border-none bg-content1 shadow-sm transition-shadow duration-300 hover:shadow-lg"
-          isPressable
-        >
-          <CardBody className="p-0">
-            <div className="flex flex-col gap-6 md:flex-row">
-              {/* Image Section */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden md:aspect-auto md:w-1/2">
-                <Image
-                  src={imageUrl}
-                  alt={`Cover image for ${post.title}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  priority
-                />
-              </div>
+  const heroContent = (
+    <Link href={`/blog/${post.slug}`} className="group block h-full">
+      <article className="relative aspect-[16/10] w-full overflow-hidden rounded-lg md:aspect-[21/12]">
+        {/* Background Image */}
+        <Image
+          src={imageUrl}
+          alt={`Cover image for ${post.title}`}
+          fill
+          sizes="(max-width: 768px) 100vw, 60vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          priority
+        />
 
-              {/* Content Section */}
-              <div className="flex flex-1 flex-col justify-center gap-4 p-6 md:py-8 md:pr-8 md:pl-0">
-                {/* Category & Date */}
-                <div className="flex items-center gap-3">
-                  <Chip
-                    size="sm"
-                    color={category.color}
-                    variant="flat"
-                    classNames={{
-                      base: "h-6",
-                      content: "text-xs font-semibold tracking-wide",
-                    }}
-                  >
-                    {category.label}
-                  </Chip>
-                  <Typography.Caption>
-                    {formatDate(publishedDate)}
-                  </Typography.Caption>
-                </div>
+        {/* Dark Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
 
-                {/* Title */}
-                <Typography.H2 className="line-clamp-3 transition-colors group-hover:text-primary">
-                  {post.title}
-                </Typography.H2>
+        {/* Content - Bottom aligned */}
+        <div className="absolute inset-0 flex flex-col justify-end p-6">
+          {/* Category */}
+          <span className="mb-3 font-bold text-white/70 text-xs uppercase tracking-[0.2em] drop-shadow-md">
+            {category.label}
+          </span>
 
-                {/* Excerpt */}
-                {excerpt && (
-                  <Typography.Text className="line-clamp-3 text-default-600">
-                    {excerpt}
-                  </Typography.Text>
-                )}
+          {/* Title */}
+          <h2 className="mb-3 line-clamp-3 max-w-2xl font-bold text-2xl text-white leading-tight drop-shadow-lg md:text-3xl">
+            {post.title}
+          </h2>
 
-                {/* Reading Time */}
-                <div className="mt-auto flex items-center justify-between pt-2">
-                  <Typography.TextSm className="text-default-500">
-                    {readingTime} min read
-                  </Typography.TextSm>
-                </div>
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      </Link>
-    </motion.div>
+          {/* Metadata */}
+          <div className="flex items-center gap-3 text-sm text-white/70 drop-shadow-md">
+            <span>{formatDate(publishedDate)}</span>
+            <span className="h-1 w-1 rounded-full bg-white/50" />
+            <span>{readingTime} min read</span>
+          </div>
+        </div>
+      </article>
+    </Link>
   );
+
+  // Wrap mock posts with UnreleasedFeature indicator
+  if (isMock) {
+    return <UnreleasedFeature>{heroContent}</UnreleasedFeature>;
+  }
+
+  return heroContent;
 };

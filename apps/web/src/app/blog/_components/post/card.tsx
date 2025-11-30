@@ -1,78 +1,76 @@
 "use client";
 
-import { CardBody, CardFooter, Card as HeroCard } from "@heroui/card";
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
-import Typography from "@web/components/typography";
+import { isMockPost } from "@web/app/blog/_data/mock-posts";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import Image from "next/image";
 import {
   formatDate,
   getCategoryConfig,
-  getExcerpt,
   getPostImage,
+  getReadingTime,
 } from "./utils";
 
 type Props = {
   post: SelectPost;
 };
 
+/**
+ * Bloomberg-style Card
+ *
+ * Editorial card design with text overlaid on image.
+ * Features dark gradient overlay and drop shadows for legibility.
+ */
 export const Card = ({ post }: Props) => {
   const publishedDate = post.publishedAt ?? post.createdAt;
   const category = getCategoryConfig(post);
   const imageUrl = getPostImage(post, "card");
-  const excerpt = getExcerpt(post);
+  const readingTime = getReadingTime(post);
+  const isMock = isMockPost(post.id);
 
-  return (
-    <Link href={`/blog/${post.slug}`} className="block h-full">
-      <HeroCard
-        className="group h-full overflow-hidden border-none bg-content1 shadow-sm transition-shadow duration-300 hover:shadow-md"
-        isPressable
-      >
-        {/* Image Section */}
-        <div className="relative aspect-[16/10] w-full overflow-hidden">
-          <Image
-            src={imageUrl}
-            alt={`Cover image for ${post.title}`}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        </div>
+  const cardContent = (
+    <Link href={`/blog/${post.slug}`} className="group block h-full">
+      <article className="relative aspect-[16/10] w-full overflow-hidden rounded-lg">
+        {/* Background Image */}
+        <Image
+          src={imageUrl}
+          alt={`Cover image for ${post.title}`}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
 
-        <CardBody className="flex flex-col gap-2 p-4">
-          {/* Category & Date */}
-          <div className="flex items-center gap-2">
-            <span
-              className={`font-semibold text-xs uppercase tracking-wide ${category.className}`}
-            >
-              {category.label}
-            </span>
-            <span className="text-default-400">·</span>
-            <Typography.Caption>{formatDate(publishedDate)}</Typography.Caption>
-          </div>
+        {/* Dark Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
+
+        {/* Content - Bottom aligned */}
+        <div className="absolute inset-0 flex flex-col justify-end p-4">
+          {/* Category */}
+          <span className="mb-2 font-bold text-[10px] text-white/70 uppercase tracking-[0.2em] drop-shadow-md">
+            {category.label}
+          </span>
 
           {/* Title */}
-          <Typography.H3 className="line-clamp-2 text-lg transition-colors group-hover:text-primary">
+          <h3 className="mb-2 line-clamp-2 font-bold text-lg text-white leading-tight drop-shadow-lg">
             {post.title}
-          </Typography.H3>
+          </h3>
 
-          {/* Excerpt */}
-          {excerpt && (
-            <Typography.TextSm className="line-clamp-2 text-default-500">
-              {excerpt}
-            </Typography.TextSm>
-          )}
-        </CardBody>
-
-        <CardFooter className="px-4 pt-0 pb-4">
-          <span className="group/link flex items-center gap-1 font-medium text-primary text-sm transition-colors">
-            Read analysis
-            <span className="transition-transform duration-200 group-hover/link:translate-x-1">
-              →
-            </span>
-          </span>
-        </CardFooter>
-      </HeroCard>
+          {/* Metadata */}
+          <div className="flex items-center gap-2 text-white/70 text-xs drop-shadow-md">
+            <span>{formatDate(publishedDate)}</span>
+            <span className="h-1 w-1 rounded-full bg-white/50" />
+            <span>{readingTime} min read</span>
+          </div>
+        </div>
+      </article>
     </Link>
   );
+
+  // Wrap mock posts with UnreleasedFeature indicator
+  if (isMock) {
+    return <UnreleasedFeature>{cardContent}</UnreleasedFeature>;
+  }
+
+  return cardContent;
 };

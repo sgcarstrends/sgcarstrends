@@ -59,11 +59,16 @@ export const getPostImage = (
   size: keyof typeof imageSizes = "card",
 ): string => {
   const metadata = post.metadata as Record<string, unknown>;
+  // Check for heroImage first (new editorial layout), then image, then category default
+  const heroImage = metadata?.heroImage as string | undefined;
   const customImage = metadata?.image as string | undefined;
   const dataType = (metadata?.dataType as string) || "default";
 
   const baseUrl =
-    customImage || categoryImages[dataType] || categoryImages.default;
+    heroImage ||
+    customImage ||
+    categoryImages[dataType] ||
+    categoryImages.default;
   return getImageUrl(baseUrl, size);
 };
 

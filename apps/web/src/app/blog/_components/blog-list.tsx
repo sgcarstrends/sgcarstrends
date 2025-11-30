@@ -104,10 +104,10 @@ export const BlogList = ({ posts }: Props) => {
 
       {/* Magazine Layout: Hero + Second Post side by side */}
       {heroPost && (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
-          {/* Hero Post - 60% width */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          {/* Hero Post - 2/3 width */}
           <motion.div
-            className="lg:col-span-3"
+            className="lg:col-span-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -115,10 +115,10 @@ export const BlogList = ({ posts }: Props) => {
             <Post.Hero post={heroPost} />
           </motion.div>
 
-          {/* Second Post - 40% width */}
+          {/* Second Post - 1/3 width */}
           {secondPost && (
             <motion.div
-              className="lg:col-span-2"
+              className="lg:col-span-1"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}

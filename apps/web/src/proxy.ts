@@ -35,7 +35,7 @@ export const proxy = async (request: NextRequest) => {
       default-src 'self';
       script-src 'self' 'unsafe-inline' *.sgcarstrends.com *.vercel-scripts.com vercel.live;
       style-src 'self' 'unsafe-inline';
-      img-src 'self' blob: data:;
+      img-src 'self' blob: data: *.unsplash.com;
       connect-src *;
       font-src 'self';
       frame-src 'self' vercel.live;

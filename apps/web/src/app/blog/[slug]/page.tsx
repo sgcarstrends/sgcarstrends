@@ -1,21 +1,28 @@
 import { Button } from "@heroui/button";
 import { Separator } from "@sgcarstrends/ui/components/separator";
 import { updatePostTags } from "@web/app/blog/_actions/tags";
+import { ArticleHeader } from "@web/app/blog/_components/article-header";
+import { HorizontalTOC } from "@web/app/blog/_components/horizontal-toc";
+import {
+  type Highlight,
+  KeyHighlights,
+} from "@web/app/blog/_components/key-highlights";
 import { mdxComponents } from "@web/app/blog/_components/mdx-components";
 import { ProgressBar } from "@web/app/blog/_components/progress-bar";
 import { RelatedPosts } from "@web/app/blog/_components/related-posts";
-import { ViewCounter } from "@web/app/blog/_components/view-counter";
-import { BetaChip } from "@web/components/shared/chips";
+import {
+  getAllPostsWithMocks as getAllPosts,
+  getPostWithMocks as getPostBySlug,
+} from "@web/app/blog/_data/mock-posts-helper"; // TODO: Remove and import from "@web/queries/posts" instead
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
 import { getPostViewCount } from "@web/lib/data/posts";
-import { getAllPosts, getPostBySlug } from "@web/queries/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { Suspense } from "react";
 import readingTime from "reading-time";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
@@ -112,9 +119,12 @@ const BlogPostPage = async ({ params }: Props) => {
     excerpt?: string;
     tags?: string[];
     readingTime?: number;
+    heroImage?: string;
+    highlights?: Highlight[];
   };
   const publishedDate = post.publishedAt || post.createdAt;
   const initialViewCount = await getPostViewCount(post.id);
+  const heroImage = metadata?.heroImage;
 
   // Update post tags in Redis for related posts functionality
   if (metadata?.tags && metadata.tags.length > 0) {
@@ -139,29 +149,48 @@ const BlogPostPage = async ({ params }: Props) => {
     },
   };
 
+  const readingTimeText = readingTime(post.content).text;
+
   return (
     <>
       <StructuredData data={structuredData} />
       <ProgressBar />
-      <div className="container mx-auto flex w-full flex-col gap-8">
-        <div className="flex items-center justify-center gap-2 text-muted-foreground">
-          <BetaChip />
-          <span>&middot;</span>
-          <span>
-            {new Date(publishedDate).toLocaleDateString("en-SG", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </span>
-          <span>&middot;</span>
-          <span>{readingTime(post.content).text}</span>
-          <span>&middot;</span>
-          <Suspense fallback={null}>
-            <ViewCounter postId={post.id} initialCount={initialViewCount} />
-          </Suspense>
-        </div>
 
+      {/* Article Header - Hybrid style: centered with gradient title */}
+      <ArticleHeader
+        title={post.title}
+        publishedAt={publishedDate}
+        readingTimeText={readingTimeText}
+        tags={metadata?.tags}
+        postId={post.id}
+        initialViewCount={initialViewCount}
+      />
+
+      {/* Hero Image - Full width with subtle bottom fade */}
+      {heroImage && (
+        <div className="relative">
+          <Image
+            src={heroImage}
+            alt={post.title}
+            width={1200}
+            height={514}
+            className="aspect-[21/9] w-full object-cover"
+            priority
+          />
+          {/* Subtle bottom fade to blend with content */}
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
+        </div>
+      )}
+
+      {/* Main Content - Single column, centered */}
+      <div className="mx-auto max-w-3xl px-6 pt-8">
+        {/* Horizontal TOC */}
+        <HorizontalTOC />
+
+        {/* Key Highlights */}
+        <KeyHighlights highlights={metadata?.highlights} />
+
+        {/* Article Content */}
         <article className="prose dark:prose-invert max-w-none">
           <MDXRemote
             source={post.content}
@@ -197,10 +226,13 @@ const BlogPostPage = async ({ params }: Props) => {
           />
         </article>
 
-        <RelatedPosts currentPostId={post.id} />
+        {/* Related Posts */}
+        <div className="mt-12">
+          <RelatedPosts currentPostId={post.id} />
+        </div>
 
-        <Separator className="my-2" />
-        <div className="flex justify-center">
+        <Separator className="my-6" />
+        <div className="flex justify-center pb-8">
           <Button color="primary" variant="ghost">
             <Link href="/blog" className="flex items-center gap-2">
               <Undo2 className="size-4" />

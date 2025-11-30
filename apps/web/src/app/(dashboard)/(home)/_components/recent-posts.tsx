@@ -1,7 +1,5 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
-import { Divider } from "@heroui/divider";
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
 import { Post } from "@web/app/blog/_components/post";
@@ -18,30 +16,28 @@ export const RecentPosts = ({ posts }: RecentPostsProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
+      className="flex flex-col gap-4"
     >
-      <Card className="border-none bg-content1 shadow-sm">
-        <CardHeader className="flex items-center justify-between px-4 pt-4 pb-0">
-          <Typography.H3 className="text-lg">Recent Posts</Typography.H3>
-          <Link
-            href="/blog"
-            className="group flex items-center gap-1 text-primary text-sm"
-          >
-            View all
-            <span className="transition-transform duration-200 group-hover:translate-x-1">
-              →
-            </span>
-          </Link>
-        </CardHeader>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <Typography.H3 className="text-lg">Recent Posts</Typography.H3>
+        <Link
+          href="/blog"
+          className="group flex items-center gap-1 text-primary text-sm"
+        >
+          View all
+          <span className="transition-transform duration-200 group-hover:translate-x-1">
+            →
+          </span>
+        </Link>
+      </div>
 
-        <CardBody className="flex flex-col gap-0 p-0">
-          {posts.map((post, index) => (
-            <div key={post.id}>
-              {index > 0 && <Divider className="my-0" />}
-              <Post.Compact post={post} />
-            </div>
-          ))}
-        </CardBody>
-      </Card>
+      {/* Recent Posts Stack */}
+      <div className="flex flex-col gap-4">
+        {posts.map((post) => (
+          <Post.Card key={post.id} post={post} />
+        ))}
+      </div>
     </motion.div>
   );
 };
