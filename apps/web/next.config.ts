@@ -35,6 +35,10 @@ const nextConfig: NextConfig = {
         hostname: "*.blob.vercel-storage.com",
         pathname: "/logos/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
   },
   logging: {

@@ -1,65 +1,108 @@
 "use client";
 
+import { Card, CardBody, CardFooter } from "@heroui/card";
+import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
-import { Badge } from "@sgcarstrends/ui/components/badge";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
 import Typography from "@web/components/typography";
 import Image from "next/image";
-import Link from "next/link";
 
 type Props = {
   post: SelectPost;
 };
 
+// Category configuration for labels and colors
+const categoryConfig: Record<string, { label: string; className: string }> = {
+  coe: { label: "COE TRENDS", className: "text-primary" },
+  cars: { label: "EV MARKET", className: "text-success" },
+};
+
+// Default images by category (generic, no brand logos)
+// Images from Unsplash - Singapore traffic and EV charging themes
+const categoryImages: Record<string, string> = {
+  coe: "https://images.unsplash.com/photo-1565967511849-76a60a516170?w=800&h=500&fit=crop", // Singapore Marina Bay skyline
+  cars: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop", // EV charging cable/plug
+  default:
+    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&h=500&fit=crop", // Car on road
+};
+
+const getPostImage = (post: SelectPost): string => {
+  const metadata = post.metadata as any;
+  if (metadata?.image) return metadata.image;
+  return categoryImages[metadata?.dataType] || categoryImages.default;
+};
+
+const getCategoryConfig = (post: SelectPost) => {
+  const metadata = post.metadata as any;
+  const dataType = metadata?.dataType || "default";
+  return (
+    categoryConfig[dataType] || {
+      label: "INSIGHTS",
+      className: "text-secondary",
+    }
+  );
+};
+
 export const BlogPost = ({ post }: Props) => {
   const metadata = post.metadata as any;
   const publishedDate = post.publishedAt ?? post.createdAt;
+  const category = getCategoryConfig(post);
+  const imageUrl = getPostImage(post);
 
   return (
-    <Link href={`/blog/${post.slug}`}>
-      <Card className="h-full">
-        {/* Cover Image */}
-        <div className="-mt-6 relative hidden aspect-video w-full md:block">
+    <Link href={`/blog/${post.slug}`} className="block h-full">
+      <Card
+        className="group h-full overflow-hidden border-none bg-content1 shadow-sm transition-shadow duration-300 hover:shadow-md"
+        isPressable
+      >
+        {/* Image Section */}
+        <div className="relative aspect-[16/10] w-full overflow-hidden">
           <Image
-            src={`/blog/${post.slug}/opengraph-image`}
+            src={imageUrl}
             alt={`Cover image for ${post.title}`}
             fill
-            sizes="100vw"
-            unoptimized
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
 
-        <CardHeader>
-          <CardTitle className="text-xl">{post.title}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex-1">
-          <div className="flex flex-col gap-4">
-            <Typography.Text>{metadata?.excerpt}</Typography.Text>
-            <div className="flex gap-2">
-              {metadata?.tags?.map((tag: string) => (
-                <Badge key={tag} variant="outline" className="text-small">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <div className="flex items-center justify-between">
-            <Typography.TextSm>
+        <CardBody className="flex flex-col gap-2 p-4">
+          {/* Category & Date */}
+          <div className="flex items-center gap-2">
+            <span
+              className={`font-semibold text-xs uppercase tracking-wide ${category.className}`}
+            >
+              {category.label}
+            </span>
+            <span className="text-default-400">·</span>
+            <Typography.Caption>
               {new Date(publishedDate).toLocaleDateString("en-SG", {
                 year: "numeric",
-                month: "long",
+                month: "short",
                 day: "numeric",
               })}
-            </Typography.TextSm>
+            </Typography.Caption>
           </div>
+
+          {/* Title */}
+          <Typography.H3 className="line-clamp-2 text-lg transition-colors group-hover:text-primary">
+            {post.title}
+          </Typography.H3>
+
+          {/* Excerpt */}
+          {metadata?.excerpt && (
+            <Typography.TextSm className="line-clamp-2 text-default-500">
+              {metadata.excerpt}
+            </Typography.TextSm>
+          )}
+        </CardBody>
+
+        <CardFooter className="px-4 pt-0 pb-4">
+          <span className="group/link flex items-center gap-1 font-medium text-primary text-sm transition-colors">
+            Read analysis
+            <span className="transition-transform duration-200 group-hover/link:translate-x-1">
+              →
+            </span>
+          </span>
         </CardFooter>
       </Card>
     </Link>
