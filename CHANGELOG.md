@@ -1,3 +1,19 @@
+## [4.26.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.26.0...v4.26.1) (2025-11-30)
+
+### Bug Fixes
+
+* **admin:** align cache tags with web app format ([e1ddbf9](https://github.com/sgcarstrends/sgcarstrends/commit/e1ddbf9b40caad1ec6315d9dbfa3ae016257dc70))
+
+## [4.26.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.25.1...v4.26.0) (2025-11-30)
+
+### Features
+
+* **admin:** add Vercel related projects ([b1bd972](https://github.com/sgcarstrends/sgcarstrends/commit/b1bd9721c08fec388d59b18bf95e333fe72bcd36))
+
+### Bug Fixes
+
+* **admin:** use British/Singapore English spelling ([04825b2](https://github.com/sgcarstrends/sgcarstrends/commit/04825b2e7ec74c791102186eb69bca938c92e8f0))
+
 ## [4.25.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.25.0...v4.25.1) (2025-11-29)
 
 ### Bug Fixes

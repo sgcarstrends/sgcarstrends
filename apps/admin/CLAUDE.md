@@ -117,7 +117,7 @@ For detailed spacing conventions, examples, and rationale, see [apps/web/CLAUDE.
 ### Dashboard Overview
 
 - Uses shadcn/ui Card, Badge, and Button components
-- System status monitoring with color-coded Badge variants
+- System status monitoring with colour-coded Badge variants
 - Quick action grid using responsive Card layouts
 - Recent activity feed with custom status indicators
 

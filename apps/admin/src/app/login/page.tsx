@@ -125,7 +125,7 @@ const LoginPage = () => {
           </CardContent>
         </Card>
         <div className="text-balance px-6 text-center text-muted-foreground text-xs">
-          Protected admin area - Authorized users only
+          Protected admin area - Authorised users only
         </div>
       </div>
     </div>

@@ -69,11 +69,7 @@ export const revalidateWebCache = async (
 ): Promise<void> => {
   return context.run("Revalidate web cache", async () => {
     try {
-      const stage = process.env.STAGE || "dev";
-      const webUrl =
-        stage === "prod"
-          ? "https://sgcarstrends.com"
-          : `https://${stage}.sgcarstrends.com`;
+      const webUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
       const revalidateToken = process.env.NEXT_PUBLIC_REVALIDATE_TOKEN;
 

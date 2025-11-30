@@ -1,6 +1,6 @@
 {
   "name": "@sgcarstrends/admin",
-  "version": "4.25.1",
+  "version": "4.26.1",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -22,6 +22,7 @@
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/ui": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
+    "@vercel/related-projects": "catalog:",
     "ai": "catalog:",
     "better-auth": "^1.4.3",
     "drizzle-orm": "0.44.3",

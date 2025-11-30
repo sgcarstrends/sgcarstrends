@@ -22,7 +22,7 @@ export const getMaintenanceConfig = async (): Promise<MaintenanceConfig> => {
   });
 
   if (!session) {
-    throw new Error("Unauthorized");
+    throw new Error("Unauthorised");
   }
 
   try {
@@ -54,7 +54,7 @@ export const updateMaintenanceConfig = async (
   if (!session) {
     return {
       success: false,
-      error: "Unauthorized",
+      error: "Unauthorised",
     };
   }
 

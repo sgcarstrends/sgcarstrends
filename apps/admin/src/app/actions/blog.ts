@@ -35,20 +35,12 @@ export const getAllPosts = async (): Promise<PostWithMetadata[]> => {
   });
 
   if (!session) {
-    throw new Error("Unauthorized");
+    throw new Error("Unauthorised");
   }
 
   try {
     const allPosts = await db
-      .select({
-        id: posts.id,
-        title: posts.title,
-        slug: posts.slug,
-        month: posts.month,
-        dataType: posts.dataType,
-        createdAt: posts.createdAt,
-        metadata: posts.metadata,
-      })
+      .select()
       .from(posts)
       .orderBy(desc(posts.createdAt));
 
@@ -70,7 +62,7 @@ export const regeneratePost = async (params: {
   if (!session) {
     return {
       success: false,
-      error: "Unauthorized",
+      error: "Unauthorised",
     };
   }
 
@@ -96,7 +88,7 @@ export const regeneratePost = async (params: {
 
     // Invalidate cache for new blog post
     if (result.success) {
-      await revalidateWebCache(["posts"]);
+      await revalidateWebCache(["posts:list", "posts:recent"]);
     }
 
     return {
