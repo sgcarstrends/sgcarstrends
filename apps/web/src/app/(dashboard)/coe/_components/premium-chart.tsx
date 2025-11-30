@@ -21,116 +21,70 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@sgcarstrends/ui/components/select";
-import useStore from "@web/app/store";
+import { type Period, periods } from "@web/app/(dashboard)/coe/search-params";
 import {
   currencyTooltipFormatter,
   MonthXAxis,
   PriceYAxis,
 } from "@web/components/charts/shared";
-import type { COEBiddingResult, COECategory, Month } from "@web/types";
+import type { COEBiddingResult } from "@web/types";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { addYears, format, parse, subMonths } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  parseAsArrayOf,
+  parseAsString,
+  parseAsStringLiteral,
+  useQueryState,
+} from "nuqs";
+import { useMemo } from "react";
 import { CartesianGrid, Line, LineChart } from "recharts";
 
 interface Props {
   data: COEBiddingResult[];
-  months: Month[];
 }
 
-interface TimeRange {
-  timeRange: string;
-  label: string;
-}
+const PERIOD_LABELS: Record<Period, string> = {
+  "12m": "Last 12 Months",
+  "5y": "Last 5 Years",
+  "10y": "Last 10 Years",
+  ytd: "Year to Date",
+  all: "All Time",
+};
 
-const LAST_12_MONTHS = (30 * 12).toString();
-const LAST_5_YEARS = (5 * 30 * 12).toString();
-const LAST_10_YEARS = (10 * 30 * 12).toString();
+const defaultCategories = ["Category A", "Category B", "Category E"];
 
-const TIME_RANGES: TimeRange[] = [
-  { timeRange: LAST_12_MONTHS, label: "Last 12 Months" },
-  { timeRange: LAST_5_YEARS, label: "Last 5 Years" },
-  { timeRange: LAST_10_YEARS, label: "Last 10 Years" },
-  { timeRange: "YTD", label: "Year to Date" },
-  { timeRange: "ALL", label: "All Time" },
-];
-
-export const COEPremiumChart = ({ data, months }: Props) => {
-  const categories = useStore((state) => state.categories);
-  const [timeRange, setTimeRange] = useState(LAST_12_MONTHS);
-  const latestMonth = months[0];
-  const earliestMonth = months[months.length - 1];
-
-  const dateOneYearAgo = format(
-    addYears(parseInt(latestMonth, 10), -1),
-    "yyyy-MM",
+export const COEPremiumChart = ({ data }: Props) => {
+  const [period, setPeriod] = useQueryState(
+    "period",
+    parseAsStringLiteral(periods)
+      .withDefault("12m")
+      .withOptions({ shallow: false }),
   );
-
-  const [, setStart] = useQueryState("start", {
-    defaultValue: dateOneYearAgo,
-    shallow: false,
-  });
-  const [, setEnd] = useQueryState("end", {
-    defaultValue: latestMonth,
-    shallow: false,
-  });
-
-  const updateRouterWithTimeRange = useCallback(() => {
-    const formatMonth = (date: Date) => {
-      const year = date.getFullYear();
-      const month = `0${date.getMonth() + 1}`.slice(-2); // Note: getMonth() returns 0-based month
-      return `${year}-${month}`;
-    };
-
-    const timeRangesMap: Record<string, number> = {
-      [LAST_12_MONTHS]: 12,
-      [LAST_5_YEARS]: 5 * 12,
-      [LAST_10_YEARS]: 10 * 12,
-      YTD: 0,
-      ALL: Number.POSITIVE_INFINITY,
-    };
-
-    const currentYear = new Date().getFullYear();
-    const formatDate = (month: string, duration: number) =>
-      formatMonth(subMonths(parse(month, "yyyy-MM", new Date()), duration));
-
-    const duration = timeRangesMap[timeRange as keyof typeof timeRangesMap];
-    const setFromDate = () => {
-      switch (timeRange) {
-        case "YTD":
-          return `${currentYear}-01`;
-        case "ALL":
-          return earliestMonth;
-        default:
-          return formatDate(latestMonth, duration);
-      }
-    };
-
-    void setStart(setFromDate());
-    void setEnd(latestMonth);
-  }, [earliestMonth, latestMonth, setStart, setEnd, timeRange]);
-
-  useEffect(() => {
-    updateRouterWithTimeRange();
-  }, [updateRouterWithTimeRange]);
+  const [categories] = useQueryState(
+    "categories",
+    parseAsArrayOf(parseAsString).withDefault(defaultCategories),
+  );
 
   const filteredData = useMemo(() => {
     return data.map((item) =>
-      Object.entries(item).reduce((acc: Record<string, any>, [key, value]) => {
-        if (
-          key === "month" ||
-          (key.startsWith("Category") && categories[key as COECategory])
-        ) {
-          acc[key] = value;
-        }
-        return acc;
-      }, {}),
+      Object.entries(item).reduce(
+        (acc: Record<string, unknown>, [key, value]) => {
+          if (
+            key === "month" ||
+            (key.startsWith("Category") && categories.includes(key))
+          ) {
+            acc[key] = value;
+          }
+          return acc;
+        },
+        {},
+      ),
     );
   }, [categories, data]);
 
   const chartConfig: ChartConfig = {};
+
+  const periodLabel = PERIOD_LABELS[period].toLowerCase();
 
   return (
     <Card>
@@ -138,24 +92,23 @@ export const COEPremiumChart = ({ data, months }: Props) => {
         <div className="grid flex-1 gap-1">
           <CardTitle>Quota Premium ($)</CardTitle>
           <CardDescription>
-            {`Showing ${TIME_RANGES.find((range) => range.timeRange === timeRange)?.label.toLowerCase()} of COE prices`}
+            {`Showing ${periodLabel} of COE prices`}
           </CardDescription>
         </div>
         <div>
-          <Select value={timeRange} onValueChange={setTimeRange}>
+          <Select
+            value={period}
+            onValueChange={(value) => setPeriod(value as Period)}
+          >
             <SelectTrigger className="rounded-lg sm:ml-auto">
               <SelectValue placeholder="Last 12 months" />
             </SelectTrigger>
             <SelectContent className="rounded-xl">
-              {TIME_RANGES.map(({ timeRange, label }) => (
-                <SelectItem
-                  key={timeRange}
-                  value={timeRange}
-                  className="rounded-lg"
-                >
+              {periods.map((p) => (
+                <SelectItem key={p} value={p} className="rounded-lg">
                   <div className="flex items-center rounded-lg">
                     <CalendarIcon className="mr-2 size-4" />
-                    {label}
+                    {PERIOD_LABELS[p]}
                   </div>
                 </SelectItem>
               ))}
@@ -167,7 +120,7 @@ export const COEPremiumChart = ({ data, months }: Props) => {
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <LineChart
             data={filteredData}
-            aria-label={`COE premium trends chart showing ${TIME_RANGES.find((range) => range.timeRange === timeRange)?.label.toLowerCase()} data for selected categories`}
+            aria-label={`COE premium trends chart showing ${periodLabel} data for selected categories`}
           >
             <CartesianGrid />
             <MonthXAxis tickFormatter={formatDateToMonthYear} />
@@ -191,19 +144,17 @@ export const COEPremiumChart = ({ data, months }: Props) => {
                 />
               }
             />
-            {Object.entries(categories)
-              .filter(([, value]) => value)
-              .map(([category], index) => (
-                <Line
-                  key={category}
-                  dataKey={category}
-                  name={category}
-                  type="natural"
-                  stroke={`var(--chart-${index + 1})`}
-                  strokeWidth={2}
-                  dot={false}
-                />
-              ))}
+            {categories.map((category, index) => (
+              <Line
+                key={category}
+                dataKey={category}
+                name={category}
+                type="natural"
+                stroke={`var(--chart-${index + 1})`}
+                strokeWidth={2}
+                dot={false}
+              />
+            ))}
             <ChartLegend />
           </LineChart>
         </ChartContainer>
@@ -214,14 +165,10 @@ export const COEPremiumChart = ({ data, months }: Props) => {
             </h4>
             <p>
               This chart displays Certificate of Entitlement (COE) premium
-              trends over{" "}
-              {TIME_RANGES.find(
-                (range) => range.timeRange === timeRange,
-              )?.label.toLowerCase()}
-              . COE premiums represent the cost of obtaining the right to own
-              and operate a vehicle in Singapore for 10 years. Higher premiums
-              typically indicate increased demand for vehicles or reduced quota
-              availability.
+              trends over {periodLabel}. COE premiums represent the cost of
+              obtaining the right to own and operate a vehicle in Singapore for
+              10 years. Higher premiums typically indicate increased demand for
+              vehicles or reduced quota availability.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-3 rounded-lg bg-muted/30 p-3 sm:grid-cols-3">
@@ -233,16 +180,13 @@ export const COEPremiumChart = ({ data, months }: Props) => {
             </div>
             <div className="text-center">
               <div className="font-semibold text-foreground text-lg">
-                {Object.entries(categories).filter(([, value]) => value).length}
+                {categories.length}
               </div>
               <div className="text-muted-foreground text-xs">Categories</div>
             </div>
             <div className="text-center">
               <div className="font-semibold text-foreground text-lg">
-                {timeRange === "ALL"
-                  ? "All Time"
-                  : TIME_RANGES.find((range) => range.timeRange === timeRange)
-                      ?.label || "Custom"}
+                {PERIOD_LABELS[period]}
               </div>
               <div className="text-muted-foreground text-xs">Time Range</div>
             </div>

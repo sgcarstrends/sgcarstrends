@@ -1,4 +1,5 @@
 import type { CarMarketShareData } from "@web/queries/cars";
+import { format, subMonths } from "date-fns";
 
 export const calculateCarMarketShareInsights = (
   data: CarMarketShareData[],
@@ -67,4 +68,112 @@ export const getRankingEmoji = (rank: number): string => {
     default:
       return `#${rank}`;
   }
+};
+
+/**
+ * Get previous month and previous year month strings for comparison
+ */
+export const getComparisonMonths = (
+  month: string,
+): { previousMonthStr: string; previousYearStr: string } => {
+  const currentDate = new Date(`${month}-01`);
+  const previousMonthDate = subMonths(currentDate, 1);
+  const previousYearDate = subMonths(currentDate, 12);
+
+  return {
+    previousMonthStr: format(previousMonthDate, "yyyy-MM"),
+    previousYearStr: format(previousYearDate, "yyyy-MM"),
+  };
+};
+
+export const MARKET_SHARE_COLOURS = [
+  "#3b82f6",
+  "#10b981",
+  "#8b5cf6",
+  "#f59e0b",
+  "#ef4444",
+  "#06b6d4",
+  "#6366f1",
+  "#f97316",
+  "#14b8a6",
+  "#84cc16",
+] as const;
+
+interface CategoryData {
+  name: string;
+  count: number;
+}
+
+/**
+ * Calculate market share data with percentages and colours
+ */
+export const calculateMarketShareData = (
+  categoryData: CategoryData[],
+  total: number,
+): CarMarketShareData[] => {
+  return categoryData.map((item, index) => ({
+    name: item.name,
+    count: item.count,
+    percentage: (item.count / total) * 100,
+    colour: MARKET_SHARE_COLOURS[index % MARKET_SHARE_COLOURS.length],
+  }));
+};
+
+/**
+ * Find the dominant type from market share data
+ */
+export const findDominantType = (
+  data: CarMarketShareData[],
+): { name: string; percentage: number } => {
+  const dominant = data.reduce(
+    (max, current) => (current.percentage > max.percentage ? current : max),
+    data[0] ?? { name: "Unknown", percentage: 0, count: 0, colour: "#000000" },
+  );
+
+  return {
+    name: dominant.name,
+    percentage: dominant.percentage,
+  };
+};
+
+interface TopTypeData {
+  name: string;
+  total: number;
+}
+
+/**
+ * Calculate top performers data with rankings and percentages
+ */
+export const calculateTopPerformersData = (
+  topFuelType: TopTypeData,
+  topVehicleType: TopTypeData,
+  topMakes: Array<{ make: string; total: number }>,
+  total: number,
+) => {
+  const topFuelTypes = [
+    {
+      name: topFuelType.name,
+      count: topFuelType.total,
+      percentage: (topFuelType.total / total) * 100,
+      rank: 1,
+    },
+  ];
+
+  const topVehicleTypes = [
+    {
+      name: topVehicleType.name,
+      count: topVehicleType.total,
+      percentage: (topVehicleType.total / total) * 100,
+      rank: 1,
+    },
+  ];
+
+  const topMakesData = topMakes.map((make, index) => ({
+    make: make.make,
+    count: make.total,
+    percentage: (make.total / total) * 100,
+    rank: index + 1,
+  }));
+
+  return { topFuelTypes, topVehicleTypes, topMakes: topMakesData };
 };

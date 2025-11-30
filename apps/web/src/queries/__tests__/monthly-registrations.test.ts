@@ -1,10 +1,9 @@
-import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it } from "vitest";
 import { getCarsComparison, getCarsData } from "../cars/monthly-registrations";
 import {
   cacheLifeMock,
   cacheTagMock,
-  queueSelect,
+  queueBatch,
   resetDbMocks,
 } from "./test-utils";
 
@@ -14,14 +13,15 @@ describe("monthly registration queries", () => {
   });
 
   it("aggregates monthly registrations by fuel and vehicle type", async () => {
-    queueSelect(
+    // db.batch returns array of results for all queries
+    queueBatch([
       [
         { name: "Electric", count: 10 },
         { name: "Hybrid", count: 2 },
       ],
       [{ name: "SUV", count: 5 }],
       [{ total: 12 }],
-    );
+    ]);
 
     const result = await getCarsData("2024-06");
 
@@ -34,24 +34,23 @@ describe("monthly registration queries", () => {
       ],
       vehicleType: [{ name: "SUV", count: 5 }],
     });
-    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.monthlyData);
-    expect(cacheTagMock).toHaveBeenCalledWith(
-      ...CACHE_TAG.cars.dataset("2024-06"),
-    );
+    expect(cacheLifeMock).toHaveBeenCalledWith("max");
+    expect(cacheTagMock).toHaveBeenCalledWith("cars:month:2024-06");
   });
 
   it("provides comparisons for previous month and year", async () => {
-    queueSelect(
-      [{ label: "Electric", count: 8 }],
-      [{ label: "SUV", count: 6 }],
-      [{ total: 8 }],
-      [{ label: "Petrol", count: 3 }],
-      [{ label: "Sedan", count: 4 }],
-      [{ total: 3 }],
-      [],
-      [],
-      [{ total: 0 }],
-    );
+    // db.batch returns array of 9 results (3 months × 3 query types)
+    queueBatch([
+      [{ label: "Electric", count: 8 }], // currentMonth fuelType
+      [{ label: "SUV", count: 6 }], // currentMonth vehicleType
+      [{ total: 8 }], // currentMonth total
+      [{ label: "Petrol", count: 3 }], // previousMonth fuelType
+      [{ label: "Sedan", count: 4 }], // previousMonth vehicleType
+      [{ total: 3 }], // previousMonth total
+      [], // previousYear fuelType
+      [], // previousYear vehicleType
+      [{ total: 0 }], // previousYear total
+    ]);
 
     const result = await getCarsComparison("2024-06");
 
@@ -73,8 +72,6 @@ describe("monthly registration queries", () => {
       fuelType: [],
       vehicleType: [],
     });
-    expect(cacheTagMock).toHaveBeenCalledWith(
-      ...CACHE_TAG.cars.comparison("2024-06"),
-    );
+    expect(cacheTagMock).toHaveBeenCalledWith("cars:month:2024-06");
   });
 });

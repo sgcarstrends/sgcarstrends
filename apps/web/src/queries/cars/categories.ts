@@ -102,7 +102,7 @@ export const getTopType = async (
  * Get all distinct values for a type, optionally filtered by month
  * @param config - Type configuration (FUEL_TYPE or VEHICLE_TYPE)
  * @param month - Optional month filter in format "YYYY-MM"
- * @returns Array of distinct type values
+ * @returns Array of distinct type values (raw database results)
  * @example
  * const allFuelTypes = await getDistinctTypes(FUEL_TYPE);
  * const januaryVehicleTypes = await getDistinctTypes(VEHICLE_TYPE, "2024-01");
@@ -110,86 +110,75 @@ export const getTopType = async (
 export const getDistinctTypes = async (
   config: TypeConfig,
   month?: string,
-): Promise<string[]> => {
+): Promise<Array<{ value: string | null }>> => {
   const whereConditions = [];
 
   if (month) {
     whereConditions.push(eq(cars.month, month));
   }
 
-  const results = await db
+  return db
     .selectDistinct({ value: config.column })
     .from(cars)
     .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
     .orderBy(config.column);
-
-  return results
-    .map((r) => r.value ?? "Unknown")
-    .filter((v): v is string => v !== null);
 };
 
 /**
- * Detailed data for a specific type value
- */
-export interface TypeDetailData {
-  total: number;
-  data: Array<{
-    month: string;
-    make: string;
-    type: string;
-    count: number;
-  }>;
-}
-
-/**
- * Get detailed registration data for a specific type value
+ * Get total registration count for a specific type value
  * @param config - Type configuration (FUEL_TYPE or VEHICLE_TYPE)
  * @param typeValue - The type value to filter by (e.g., "Petrol", "Passenger Car")
  * @param month - Optional month filter in format "YYYY-MM"
- * @returns Detailed data including total and breakdown by make
- * @example
- * const petrolData = await getTypeDetails(FUEL_TYPE, "petrol", "2024-01");
- * const passengerCarData = await getTypeDetails(VEHICLE_TYPE, "passenger-car");
+ * @returns Raw total result
  */
-export const getTypeDetails = async (
+export const getTypeTotal = async (
   config: TypeConfig,
   typeValue: string,
   month?: string,
-): Promise<TypeDetailData> => {
+) => {
   const pattern = typeValue.replaceAll("-", "%");
-  const whereConditions = [sql`lower(${config.column}) LIKE lower(${pattern})`];
+  const whereConditions = [sql`${config.column} ILIKE ${pattern}`];
 
   if (month) {
     whereConditions.push(eq(cars.month, month));
   }
 
-  const [totalResult, data] = await Promise.all([
-    db
-      .select({
-        total: sql<number>`sum(${cars.number})`.mapWith(Number),
-      })
-      .from(cars)
-      .where(and(...whereConditions)),
-    db
-      .select({
-        month: cars.month,
-        make: cars.make,
-        type: config.column,
-        count: sql<number>`sum(${cars.number})`.mapWith(Number),
-      })
-      .from(cars)
-      .where(and(...whereConditions))
-      .groupBy(cars.month, cars.make, config.column)
-      .orderBy(desc(sql<number>`sum(${cars.number})`)),
-  ]);
+  return db
+    .select({
+      total: sql<number>`sum(${cars.number})`.mapWith(Number),
+    })
+    .from(cars)
+    .where(and(...whereConditions));
+};
 
-  return {
-    total: totalResult[0]?.total ?? 0,
-    data: data.map((d) => ({
-      month: d.month ?? "",
-      make: d.make ?? "Unknown",
-      type: d.type ?? "Unknown",
-      count: d.count,
-    })),
-  };
+/**
+ * Get detailed registration breakdown for a specific type value
+ * @param config - Type configuration (FUEL_TYPE or VEHICLE_TYPE)
+ * @param typeValue - The type value to filter by (e.g., "Petrol", "Passenger Car")
+ * @param month - Optional month filter in format "YYYY-MM"
+ * @returns Raw breakdown data by month/make/type
+ */
+export const getTypeBreakdown = async (
+  config: TypeConfig,
+  typeValue: string,
+  month?: string,
+) => {
+  const pattern = typeValue.replaceAll("-", "%");
+  const whereConditions = [sql`${config.column} ILIKE ${pattern}`];
+
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  return db
+    .select({
+      month: cars.month,
+      make: cars.make,
+      type: config.column,
+      count: sql<number>`sum(${cars.number})`.mapWith(Number),
+    })
+    .from(cars)
+    .where(and(...whereConditions))
+    .groupBy(cars.month, cars.make, config.column)
+    .orderBy(desc(sql<number>`sum(${cars.number})`));
 };

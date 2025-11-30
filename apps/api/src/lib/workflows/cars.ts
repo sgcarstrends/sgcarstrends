@@ -1,6 +1,7 @@
 import { SITE_URL } from "@api/config";
 import { socialMediaManager } from "@api/config/platforms";
 import { getCarsLatestMonth } from "@api/features/cars/queries";
+import { getExistingPostByMonth } from "@api/features/posts/queries";
 import { options } from "@api/lib/workflows/options";
 import { generateCarPost } from "@api/lib/workflows/posts";
 import { updateCars } from "@api/lib/workflows/update-cars";
@@ -35,21 +36,47 @@ export const carsWorkflow = createWorkflow(
     const { month } = await getCarsLatestMonth();
 
     // Invalidate cache for updated car data
+    const year = month.split("-")[0];
     await revalidateWebCache(context, [
-      "cars",
-      `cars-${month}`,
-      `cars-comparison-${month}`,
-      `cars-types-${month}`,
-      `cars-makes-${month}`,
-      "cars-months",
-      "stats-yearly",
-      "latest-cars-month",
+      `cars:month:${month}`,
+      `cars:year:${year}`,
+      "cars:months",
+      "cars:makes",
+      "cars:annual",
     ]);
 
-    const post = await generateCarPost(context, month);
+    // Step: Check if post exists and determine if social should publish
+    const { post: cachedPost, shouldPublishSocial } = await context.run(
+      "Check existing post",
+      async () => {
+        const posts = await getExistingPostByMonth<"cars">(month, "cars");
+        const [existingPost] = posts;
 
-    // Announce new blog post on social media
-    if (post?.success && post?.title) {
+        if (existingPost) {
+          // Post exists - skip social (already published in previous workflow)
+          return {
+            post: {
+              postId: existingPost.id,
+              title: existingPost.title,
+              slug: existingPost.slug,
+            },
+            shouldPublishSocial: false,
+          };
+        }
+
+        // No post - will generate and publish social
+        return { post: null, shouldPublishSocial: true };
+      },
+    );
+
+    // Step: Generate post only if none exists
+    const post = cachedPost ?? (await generateCarPost(context, month));
+
+    // Step: Publish to social media only if shouldPublishSocial is true
+    if (post?.title && shouldPublishSocial) {
+      // Invalidate cache for new blog post
+      await revalidateWebCache(context, ["posts:list"]);
+
       const link = `${SITE_URL}/blog/${post.slug}`;
       const message = `📰 New Blog Post: ${post.title}`;
 
@@ -60,7 +87,7 @@ export const carsWorkflow = createWorkflow(
     }
 
     return {
-      message: "Car data processed and published successfully",
+      message: "[CARS] Data processed and published successfully",
     };
   },
   { ...options },

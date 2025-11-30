@@ -1,6 +1,6 @@
 {
   "name": "@sgcarstrends/admin",
-  "version": "4.23.0",
+  "version": "4.25.1",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "catalog:",
+    "@better-auth/passkey": "^1.4.3",
     "@langfuse/otel": "catalog:",
     "@neondatabase/serverless": "1.0.1",
     "@sgcarstrends/ai": "workspace:*",
@@ -22,7 +23,7 @@
     "@sgcarstrends/ui": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
     "ai": "catalog:",
-    "better-auth": "^1.3.34",
+    "better-auth": "^1.4.3",
     "drizzle-orm": "0.44.3",
     "lucide-react": "^0.482.0",
     "next": "catalog:",

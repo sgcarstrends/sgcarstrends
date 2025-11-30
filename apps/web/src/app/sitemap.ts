@@ -1,7 +1,7 @@
 import { slugify } from "@sgcarstrends/utils";
 import { SITE_LINKS, SITE_URL } from "@web/config";
-import { getAllPosts } from "@web/lib/data/posts";
 import { getDistinctMakes } from "@web/queries/cars";
+import { getAllPosts } from "@web/queries/posts";
 import type { MetadataRoute } from "next";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
@@ -15,11 +15,6 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
     //   lastModified: new Date(),
     //   changeFrequency: "monthly" as const,
     // },
-    {
-      url: `${SITE_URL}/visitors`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-    },
     {
       url: `${SITE_URL}/blog`,
       lastModified: new Date(),

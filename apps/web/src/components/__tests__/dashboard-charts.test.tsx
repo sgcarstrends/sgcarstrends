@@ -5,40 +5,9 @@ import {
   TopPerformersBar,
   TrendAreaChart,
 } from "@web/components/charts";
-import { GeoChart } from "@web/components/geo-chart";
-import { PageViewsChart } from "@web/components/page-views-chart";
-import { ReferrerChart } from "@web/components/referrer-chart";
 import { TopMakesByYear } from "@web/components/top-makes-by-year";
 import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-registrations-by-year";
-import { VisitorTrendsChart } from "@web/components/visitor-trends-chart";
-import { VisitorsAnalytics } from "@web/components/visitors-analytics";
-import type { AnalyticsData } from "@web/types/analytics";
 import { vi } from "vitest";
-
-const analyticsData: AnalyticsData = {
-  totalViews: 1000,
-  uniqueVisitors: 750,
-  dailyViews: [
-    { date: "2024-01-01", count: 120 },
-    { date: "2024-01-02", count: 140 },
-  ],
-  topReferrers: [
-    { referrer: "https://www.google.com/search?q=coe", count: 400 },
-    { referrer: "https://twitter.com/sgcars", count: 200 },
-  ],
-  topPages: [
-    { pathname: "/cars", count: 300 },
-    { pathname: "/visitors", count: 200 },
-  ],
-  topCountries: [
-    { flag: "🇸🇬", country: "Singapore", count: 600 },
-    { flag: "🇲🇾", country: "Malaysia", count: 150 },
-  ],
-  topCities: [
-    { flag: "🇸🇬", country: "Singapore", city: "Singapore", count: 400 },
-    { flag: "🇮🇩", country: "Indonesia", city: "Jakarta", count: 80 },
-  ],
-};
 
 describe("Dashboard visualisations", () => {
   let getBoundingClientRectSpy: ReturnType<typeof vi.spyOn>;
@@ -61,74 +30,6 @@ describe("Dashboard visualisations", () => {
 
   afterAll(() => {
     getBoundingClientRectSpy.mockRestore();
-  });
-
-  it("renders the visitors analytics panels with fallback rows", () => {
-    const { getByText } = render(<VisitorsAnalytics data={analyticsData} />);
-    expect(getByText("Top Sources")).toBeInTheDocument();
-    expect(getByText("Direct / None")).toBeInTheDocument();
-    expect(getByText("/cars")).toBeInTheDocument();
-    expect(getByText("Singapore, Singapore")).toBeInTheDocument();
-  });
-
-  it("defaults to direct traffic when no referrers are recorded", () => {
-    render(
-      <VisitorsAnalytics
-        data={{
-          ...analyticsData,
-          topReferrers: [],
-        }}
-      />,
-    );
-
-    expect(screen.getAllByText("Direct / None").length).toBeGreaterThan(0);
-  });
-
-  it("renders charts for visitor trends", () => {
-    render(<VisitorTrendsChart data={analyticsData.dailyViews} />);
-    expect(screen.getByText("Visitor Trends")).toBeInTheDocument();
-  });
-
-  it("renders GeoChart card heading", () => {
-    const { getByText } = render(
-      <GeoChart data={analyticsData.topCountries} />,
-    );
-    expect(getByText("Top Countries")).toBeInTheDocument();
-    expect(getByText("Visitor distribution by country")).toBeInTheDocument();
-  });
-
-  it("renders PageViews chart heading", () => {
-    const { getByText } = render(
-      <PageViewsChart
-        data={[
-          {
-            pathname: "/very/long/page/path/that/needs/truncation",
-            count: 100,
-          },
-        ]}
-      />,
-    );
-
-    expect(getByText("Popular Pages")).toBeInTheDocument();
-  });
-
-  it("falls back when no referrer data exists", () => {
-    render(<ReferrerChart data={[]} totalViews={0} />);
-    expect(screen.getByText("No referrer data available")).toBeInTheDocument();
-  });
-
-  it("renders ReferrerChart heading", () => {
-    const { getByText } = render(
-      <ReferrerChart
-        totalViews={500}
-        data={[
-          { referrer: "https://www.google.com", count: 200 },
-          { referrer: "https://www.facebook.com/groups", count: 180 },
-        ]}
-      />,
-    );
-
-    expect(getByText("Traffic Sources")).toBeInTheDocument();
   });
 
   it("renders market share donut with legend", () => {

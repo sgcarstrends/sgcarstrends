@@ -21,7 +21,6 @@ platform. It uses Drizzle ORM v0.44.3 with PostgreSQL to manage:
 - **Car Registration Data**: Monthly vehicle registration statistics by make, fuel type, and vehicle type
 - **COE Bidding Results**: Certificate of Entitlement bidding data and Prevailing Quota Premium rates
 - **Blog Posts**: LLM-generated blog content with metadata and SEO information
-- **Analytics**: Page views and visitor tracking data
 
 ## Commands
 
@@ -46,8 +45,7 @@ src/
 │   ├── index.ts         # Main schema exports
 │   ├── cars.ts          # Car registration table schema
 │   ├── coe.ts           # COE bidding tables (coe, pqp)
-│   ├── posts.ts         # Blog posts table schema
-│   └── analytics.ts     # Analytics tracking table schema
+│   └── posts.ts         # Blog posts table schema
 ├── client.ts            # Drizzle client setup
 ├── index.ts             # Package entry point (re-exports schema & client)
 ├── drizzle.config.ts    # Drizzle configuration
@@ -148,22 +146,6 @@ Stores LLM-generated blog content with comprehensive metadata.
 - Unique constraint on `slug` for URL routing
 - Compound unique constraint on `month` + `dataType` to prevent duplicate posts
 
-### Analytics (`analyticsTable`)
-
-Tracks page views and visitor metrics for performance monitoring.
-
-**Columns:**
-
-- `id`: Serial primary key (auto-incrementing integer)
-- `date`: Timestamp with timezone, default now() (event timestamp)
-- `pathname`: Text, NOT NULL (page URL path)
-- `referrer`: Text (referring URL)
-- `country`: Text (visitor country)
-- `flag`: Text (country flag emoji)
-- `city`: Text (visitor city)
-- `latitude`: Text (geographic coordinate)
-- `longitude`: Text (geographic coordinate)
-
 ## TypeScript Integration
 
 ### Type Exports
@@ -176,14 +158,12 @@ export type InsertCar = typeof cars.$inferInsert;
 export type InsertCOE = typeof coe.$inferInsert;
 export type InsertPqp = typeof pqp.$inferInsert;
 export type InsertPost = typeof posts.$inferInsert;
-export type InsertAnalytics = typeof analyticsTable.$inferInsert;
 
 // Select types (for query results)
 export type SelectCar = typeof cars.$inferSelect;
 export type SelectCOE = typeof coe.$inferSelect;
 export type SelectPqp = typeof pqp.$inferSelect;
 export type SelectPost = typeof posts.$inferSelect;
-export type SelectAnalytics = typeof analyticsTable.$inferSelect;
 ```
 
 ### Usage in Applications
@@ -218,7 +198,7 @@ const carData: SelectCar[] = await db.select().from(cars);
 ### Schema Design Patterns
 
 - **Column naming**: `camelCase` (e.g., `vehicleClass`, `biddingNo`)
-- **Primary keys**: UUID for most tables, serial for analytics
+- **Primary keys**: UUID for all tables
 - **Constraints**: NOT NULL for core columns, defaults for numeric fields
 - **Timestamps**: Include `createdAt`/`modifiedAt` for audit trails
 

@@ -1,5 +1,4 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import type { Comparison, Registration } from "@web/types/cars";
 import { format, subMonths } from "date-fns";
 import { desc, eq, sql } from "drizzle-orm";
@@ -7,8 +6,8 @@ import { cacheLife, cacheTag } from "next/cache";
 
 export const getCarsData = async (month: string): Promise<Registration> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
-  cacheTag(...CACHE_TAG.cars.dataset(month));
+  cacheLife("max");
+  cacheTag(`cars:month:${month}`);
 
   const fuelTypeQuery = db
     .select({
@@ -37,7 +36,7 @@ export const getCarsData = async (month: string): Promise<Registration> => {
     .from(cars)
     .where(eq(cars.month, month));
 
-  const [fuelType, vehicleType, totalResult] = await Promise.all([
+  const [fuelType, vehicleType, totalResult] = await db.batch([
     fuelTypeQuery,
     vehicleTypeQuery,
     totalQuery,
@@ -55,8 +54,8 @@ export const getCarsData = async (month: string): Promise<Registration> => {
 
 export const getCarsComparison = async (month: string): Promise<Comparison> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
-  cacheTag(...CACHE_TAG.cars.comparison(month));
+  cacheLife("max");
+  cacheTag(`cars:month:${month}`);
 
   const currentDate = new Date(`${month}-01`);
   const previousMonthDate = subMonths(currentDate, 1);
@@ -64,8 +63,8 @@ export const getCarsComparison = async (month: string): Promise<Comparison> => {
   const previousYearDate = subMonths(currentDate, 12);
   const previousYearStr = format(previousYearDate, "yyyy-MM");
 
-  const getMonthData = async (m: string) => {
-    const fuelTypeQuery = db
+  const createFuelTypeQuery = (m: string) =>
+    db
       .select({
         label: cars.fuelType,
         count: sql<number>`sum(${cars.number})`.mapWith(Number),
@@ -75,7 +74,8 @@ export const getCarsComparison = async (month: string): Promise<Comparison> => {
       .groupBy(cars.fuelType)
       .orderBy(desc(sql<number>`sum(${cars.number})`));
 
-    const vehicleTypeQuery = db
+  const createVehicleTypeQuery = (m: string) =>
+    db
       .select({
         label: cars.vehicleType,
         count: sql<number>`sum(${cars.number})`.mapWith(Number),
@@ -85,36 +85,55 @@ export const getCarsComparison = async (month: string): Promise<Comparison> => {
       .groupBy(cars.vehicleType)
       .orderBy(desc(sql<number>`sum(${cars.number})`));
 
-    const totalResult = await db
+  const createTotalQuery = (m: string) =>
+    db
       .select({
         total: sql<number>`sum(${cars.number})`.mapWith(Number),
       })
       .from(cars)
       .where(eq(cars.month, m));
 
-    const [fuelType, vehicleType] = await Promise.all([
-      fuelTypeQuery,
-      vehicleTypeQuery,
-    ]);
-
-    return {
-      period: m,
-      total: totalResult[0]?.total ?? 0,
-      fuelType,
-      vehicleType,
-    };
-  };
-
-  const [currentMonthData, previousMonthData, previousYearData] =
-    await Promise.all([
-      getMonthData(month),
-      getMonthData(previousMonthStr),
-      getMonthData(previousYearStr),
-    ]);
+  // Execute all 9 queries in a single batch (3 months × 3 query types)
+  const [
+    currentFuelType,
+    currentVehicleType,
+    currentTotal,
+    previousMonthFuelType,
+    previousMonthVehicleType,
+    previousMonthTotal,
+    previousYearFuelType,
+    previousYearVehicleType,
+    previousYearTotal,
+  ] = await db.batch([
+    createFuelTypeQuery(month),
+    createVehicleTypeQuery(month),
+    createTotalQuery(month),
+    createFuelTypeQuery(previousMonthStr),
+    createVehicleTypeQuery(previousMonthStr),
+    createTotalQuery(previousMonthStr),
+    createFuelTypeQuery(previousYearStr),
+    createVehicleTypeQuery(previousYearStr),
+    createTotalQuery(previousYearStr),
+  ]);
 
   return {
-    currentMonth: currentMonthData,
-    previousMonth: previousMonthData,
-    previousYear: previousYearData,
+    currentMonth: {
+      period: month,
+      total: currentTotal[0]?.total ?? 0,
+      fuelType: currentFuelType,
+      vehicleType: currentVehicleType,
+    },
+    previousMonth: {
+      period: previousMonthStr,
+      total: previousMonthTotal[0]?.total ?? 0,
+      fuelType: previousMonthFuelType,
+      vehicleType: previousMonthVehicleType,
+    },
+    previousYear: {
+      period: previousYearStr,
+      total: previousYearTotal[0]?.total ?? 0,
+      fuelType: previousYearFuelType,
+      vehicleType: previousYearVehicleType,
+    },
   };
 };

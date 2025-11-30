@@ -48,12 +48,6 @@ exports[`Navbar > should render correctly 1`] = `
         </a>
         <a
           class="hover:text-primary"
-          href="/visitors"
-        >
-          Visitors
-        </a>
-        <a
-          class="hover:text-primary"
           href="/faq"
         >
           FAQ

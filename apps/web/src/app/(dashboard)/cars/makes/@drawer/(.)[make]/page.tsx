@@ -1,5 +1,3 @@
-"use cache";
-
 import { MakeDrawer } from "@web/app/(dashboard)/cars/_components/makes";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes/make-detail";
 import { fetchMakePageData } from "@web/lib/cars/make-data";

@@ -1,15 +1,16 @@
-import { QuotaPremiumTicker } from "@web/components/quota-premium-ticker";
-import { getLatestCoeResults } from "@web/queries/coe";
+// import { QuotaPremiumTicker } from "@web/components/quota-premium-ticker";
+// import { getLatestCoeResults } from "@web/queries/coe";
 import type { PropsWithChildren } from "react";
 
 interface Props extends PropsWithChildren {}
 
 const Layout = async ({ children }: Props) => {
-  const data = await getLatestCoeResults();
+  // const data = await getLatestCoeResults();
 
   return (
     <>
-      <QuotaPremiumTicker data={data} />
+      {/*TODO: Temporary disable*/}
+      {/*<QuotaPremiumTicker data={data} />*/}
       {children}
     </>
   );

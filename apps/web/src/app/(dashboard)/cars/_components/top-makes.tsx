@@ -1,12 +1,5 @@
-"use client";
-
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Progress,
-} from "@heroui/react";
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { Progress } from "@heroui/progress";
 import { slugify } from "@sgcarstrends/utils";
 import Typography from "@web/components/typography";
 import type { FuelType } from "@web/types/cars";

@@ -5,19 +5,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import { redis } from "@sgcarstrends/utils";
 import {
-  getDefaultEndDate,
-  getDefaultStartDate,
   loadSearchParams,
+  type Period,
 } from "@web/app/(dashboard)/coe/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
 import Typography from "@web/components/typography";
-import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { SITE_TITLE, SITE_URL } from "@web/config";
+import { fetchCOEPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
-import { getCoeResultsFiltered } from "@web/queries/coe";
 import type { COEResult } from "@web/types";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -39,17 +37,16 @@ export const generateMetadata = (): Metadata => {
   });
 };
 
-const COEBiddingPage = async ({ searchParams }: Props) => {
-  const { start, end } = await loadSearchParams(searchParams);
-  const defaultStart = await getDefaultStartDate();
-  const defaultEnd = await getDefaultEndDate();
-  const startDate = start || defaultStart;
-  const endDate = end || defaultEnd;
+const Page = async ({ searchParams }: Props) => {
+  const { period } = await loadSearchParams(searchParams);
 
-  const [coeResults, lastUpdated] = await Promise.all([
-    getCoeResultsFiltered(undefined, startDate, endDate),
-    redis.get<number>(LAST_UPDATED_COE_KEY),
-  ]);
+  return <COEBiddingPageContent period={period} />;
+};
+
+export default Page;
+
+const COEBiddingPageContent = async ({ period }: { period: Period }) => {
+  const { coeResults, lastUpdated } = await fetchCOEPageData(period);
 
   // Group results by bidding round
   const biddingRounds = coeResults.reduce<Record<string, COEResult[]>>(
@@ -120,5 +117,3 @@ const COEBiddingPage = async ({ searchParams }: Props) => {
     </>
   );
 };
-
-export default COEBiddingPage;

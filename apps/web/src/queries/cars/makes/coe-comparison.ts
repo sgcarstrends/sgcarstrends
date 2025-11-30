@@ -1,8 +1,6 @@
 import { cars, coe, db } from "@sgcarstrends/database";
-import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
-import type { COECategory } from "@web/types";
-import { subMonths } from "date-fns";
-import { and, desc, gte, inArray, lte, sql } from "drizzle-orm";
+import { getDateRange24Months } from "@web/lib/coe/calculations";
+import { and, asc, avg, gte, ilike, inArray, lte, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface MakeCoeComparisonData {
@@ -12,93 +10,74 @@ export interface MakeCoeComparisonData {
   categoryBPremium: number;
 }
 
-const getDateRange24Months = () => {
-  const currentDate = new Date();
-  const startDate = subMonths(currentDate, 24);
-
-  const startMonth = startDate.toISOString().slice(0, 7);
-  const endMonth = currentDate.toISOString().slice(0, 7);
-
-  return { startMonth, endMonth };
-};
-
 export const getMakeCoeComparison = async (
   make: string,
 ): Promise<MakeCoeComparisonData[]> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
 
   const { startMonth, endMonth } = getDateRange24Months();
-  cacheTag(
-    ...CACHE_TAG.cars.makes(make),
-    ...CACHE_TAG.coe.range(startMonth, endMonth),
-  );
+  cacheTag(`cars:make:${make}`);
 
   const pattern = make.replaceAll("-", "%");
 
-  // Fetch make registrations by month
-  const makeRegistrations = await db
-    .select({
-      month: cars.month,
-      count: sql<number>`sum(${cars.number})`.mapWith(Number),
-    })
-    .from(cars)
-    .where(
-      and(
-        sql`lower(${cars.make}) LIKE lower(${pattern})`,
-        gte(cars.month, startMonth),
-        lte(cars.month, endMonth),
-      ),
-    )
-    .groupBy(cars.month)
-    .orderBy(desc(cars.month));
+  // Execute both queries in parallel using db.batch()
+  const [makeRegistrations, coePremiums] = await db.batch([
+    // Query 1: Fetch make registrations by month
+    db
+      .select({
+        month: cars.month,
+        count: sql<number>`sum(${cars.number})`.mapWith(Number),
+      })
+      .from(cars)
+      .where(
+        and(
+          ilike(cars.make, pattern),
+          gte(cars.month, startMonth),
+          lte(cars.month, endMonth),
+        ),
+      )
+      .groupBy(cars.month)
+      .orderBy(asc(cars.month)),
 
-  // Fetch COE premiums for both Category A and B
-  const coePremiums = await db
-    .select({
-      month: coe.month,
-      vehicleClass: coe.vehicleClass,
-      premium: coe.premium,
-      biddingNo: coe.biddingNo,
-    })
-    .from(coe)
-    .where(
-      and(
-        gte(coe.month, startMonth),
-        lte(coe.month, endMonth),
-        inArray(coe.vehicleClass, ["Category A", "Category B"]),
-      ),
-    )
-    .orderBy(desc(coe.month), desc(coe.biddingNo));
+    // Query 2: Fetch COE premium averages for Category A and B using CASE WHEN
+    db
+      .select({
+        month: coe.month,
+        categoryAPremium: avg(
+          sql`CASE WHEN ${coe.vehicleClass} = 'Category A' THEN ${coe.premium} END`,
+        ).mapWith(Number),
+        categoryBPremium: avg(
+          sql`CASE WHEN ${coe.vehicleClass} = 'Category B' THEN ${coe.premium} END`,
+        ).mapWith(Number),
+      })
+      .from(coe)
+      .where(
+        and(
+          gte(coe.month, startMonth),
+          lte(coe.month, endMonth),
+          inArray(coe.vehicleClass, ["Category A", "Category B"]),
+        ),
+      )
+      .groupBy(coe.month)
+      .orderBy(asc(coe.month)),
+  ]);
 
-  // Get latest bidding per month for each category
-  const coeByMonth = new Map<
-    string,
-    { categoryA: number; categoryB: number }
-  >();
-
-  for (const result of coePremiums) {
-    const monthData = coeByMonth.get(result.month) ?? {
-      categoryA: 0,
-      categoryB: 0,
-    };
-
-    // Only update if this is a higher bidding number (latest)
-    const category = result.vehicleClass as COECategory;
-
-    if (category === "Category A" && monthData.categoryA === 0) {
-      monthData.categoryA = result.premium;
-    } else if (category === "Category B" && monthData.categoryB === 0) {
-      monthData.categoryB = result.premium;
-    }
-
-    coeByMonth.set(result.month, monthData);
-  }
+  // Create a Map for efficient COE premium lookup by month
+  const coePremiumMap = new Map(
+    coePremiums.map((coe) => [
+      coe.month,
+      {
+        categoryA: coe.categoryAPremium ?? 0,
+        categoryB: coe.categoryBPremium ?? 0,
+      },
+    ]),
+  );
 
   return makeRegistrations.map(({ month, count }) => ({
     month,
     registrations: count,
-    categoryAPremium: coeByMonth.get(month)?.categoryA ?? 0,
-    categoryBPremium: coeByMonth.get(month)?.categoryB ?? 0,
+    categoryAPremium: coePremiumMap.get(month)?.categoryA ?? 0,
+    categoryBPremium: coePremiumMap.get(month)?.categoryB ?? 0,
   }));
 };

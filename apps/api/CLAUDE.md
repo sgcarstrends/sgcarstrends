@@ -80,11 +80,33 @@ The API follows a feature-based architecture in `src/features/`:
 
 The API uses a workflow-based system for data processing:
 
-- **Workflow Runtime** (`src/lib/workflows/workflow.ts`): Common workflow helpers, step runner, Redis timestamps
+- **Workflow Runtime** (`src/lib/workflows/workflow.ts`): Common workflow helpers, step runner, Redis timestamps, cache revalidation
 - **Data Updaters** (`src/lib/workflows/update-cars.ts`, `src/lib/workflows/update-coe.ts`): Automated data fetching and processing
 - **Blog Generation** (`src/lib/workflows/posts.ts`): Orchestrates LLM-powered blog post creation using `@sgcarstrends/ai` package
 - **Main Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`): Main workflow orchestrators exposed as routes
 - **Social Publishing**: Automated posting to platforms when data updates occur
+- **Cache Revalidation**: Triggers granular cache invalidation on the web app after data updates
+
+### Cache Revalidation
+
+Workflows invalidate web app caches using granular cache tags via the `revalidateWebCache()` helper:
+
+**Cars Workflow** invalidates:
+- `cars:month:{month}` - Specific month's data
+- `cars:year:{year}` - Year-specific data
+- `cars:months` - Available months list
+- `cars:makes` - Makes list (in case new makes appear)
+- `cars:annual` - Annual totals
+- `posts:list` - Blog post list (when new post generated)
+
+**COE Workflow** invalidates:
+- `coe:results` - All COE results
+- `coe:latest` - Latest COE results
+- `coe:months` - Available COE months
+- `coe:year:{year}` - Year-specific data
+- `posts:list` - Blog post list (when new post generated)
+
+See `apps/web/CLAUDE.md` for complete cache tag documentation and the web app's `/api/revalidate` endpoint.
 
 ### Authentication & Security
 

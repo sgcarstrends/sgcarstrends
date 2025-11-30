@@ -82,6 +82,10 @@ const dashboardItems: NavigationItem[] = [
     title: "Overview",
     url: "/",
   },
+  {
+    title: "Annual",
+    url: "/annual",
+  },
 ];
 
 const socialMedia: SocialMedia[] = [
@@ -196,12 +200,6 @@ export const navLinks: NavLinks = {
       icon: HelpCircle,
       description: "Frequently asked questions about COE and car buying",
       show: true,
-    },
-    {
-      title: "Visitors",
-      url: "/visitors",
-      icon: BarChart3,
-      description: "Website traffic and visitor analytics",
     },
   ],
   socialMedia: sortByName(socialMedia, { sortKey: "title" }),

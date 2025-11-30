@@ -1,4 +1,3 @@
-import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it, vi } from "vitest";
 import { getPopularMakes } from "../cars/makes/current-year-popular-makes";
 import {
@@ -15,6 +14,7 @@ import {
   cacheLifeMock,
   cacheTagMock,
   dbMock,
+  queueBatch,
   queueSelect,
   resetDbMocks,
 } from "./test-utils";
@@ -25,7 +25,8 @@ describe("car make breakdown queries", () => {
   });
 
   it("returns make details with summed totals", async () => {
-    queueSelect(
+    // getMakeDetails now uses db.batch with 2 queries
+    queueBatch([
       [{ total: 42 }],
       [
         {
@@ -35,7 +36,7 @@ describe("car make breakdown queries", () => {
           count: 42,
         },
       ],
-    );
+    ]);
 
     const result = await getMakeDetails("toyota-prius", "2024-01");
 
@@ -53,10 +54,11 @@ describe("car make breakdown queries", () => {
   });
 
   it("returns fuel type aggregates for battery electric vehicles", async () => {
-    queueSelect(
+    // getFuelTypeData now uses db.batch with 2 queries
+    queueBatch([
       [{ total: 12 }],
       [{ month: "2024-02", make: "Tesla", fuelType: "Electric", count: 12 }],
-    );
+    ]);
 
     const result = await getFuelTypeData("battery-electric", "2024-02");
 
@@ -74,10 +76,11 @@ describe("car make breakdown queries", () => {
   });
 
   it("returns vehicle type aggregates for sport utility vehicles", async () => {
-    queueSelect(
+    // getVehicleTypeData now uses db.batch with 2 queries
+    queueBatch([
       [{ total: 9 }],
       [{ month: "2024-03", make: "BMW", vehicleType: "SUV", count: 9 }],
-    );
+    ]);
 
     const result = await getVehicleTypeData("sport-utility", "2024-03");
 
@@ -137,11 +140,9 @@ describe("popular makes queries", () => {
 
     const result = await getPopularMakes("2023");
 
-    expect(result).toEqual(["Tesla", "BMW"]);
-    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.statistics);
-    expect(cacheTagMock).toHaveBeenCalledWith(
-      ...CACHE_TAG.cars.popularMakes("2023"),
-    );
+    expect(result).toEqual([{ make: "Tesla" }, { make: "BMW" }]);
+    expect(cacheLifeMock).toHaveBeenCalledWith("max");
+    expect(cacheTagMock).toHaveBeenCalledWith("cars:year:2023");
   });
 
   it("loads current year when year argument is omitted", async () => {
@@ -149,10 +150,9 @@ describe("popular makes queries", () => {
 
     const result = await getPopularMakes();
 
-    expect(result).toEqual(["Honda"]);
-    expect(cacheTagMock).toHaveBeenCalledWith(
-      ...CACHE_TAG.cars.popularMakes("latest"),
-    );
+    expect(result).toEqual([{ make: "Honda" }]);
+    // cacheTag is only called when year is explicitly provided
+    expect(cacheTagMock).not.toHaveBeenCalled();
   });
 
   it("falls back to calendar year when latest month query returns no results", async () => {
@@ -163,7 +163,7 @@ describe("popular makes queries", () => {
 
     try {
       const result = await getPopularMakes();
-      expect(result).toEqual(["Mazda"]);
+      expect(result).toEqual([{ make: "Mazda" }]);
     } finally {
       vi.useRealTimers();
     }

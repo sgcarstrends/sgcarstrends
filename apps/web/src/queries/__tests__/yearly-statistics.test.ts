@@ -1,4 +1,3 @@
-import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
 import { describe, expect, it } from "vitest";
 import {
   getTopMakesByYear,
@@ -17,28 +16,31 @@ describe("yearly statistics queries", () => {
   });
 
   it("aggregates yearly registration totals", async () => {
-    queueSelect([{ year: "2022", total: 123 }]);
+    queueSelect([{ year: 2022, total: 123 }]);
 
     const result = await getYearlyRegistrations();
 
     expect(result).toEqual([{ year: 2022, total: 123 }]);
-    expect(cacheLifeMock).toHaveBeenCalledWith(CACHE_LIFE.statistics);
-    expect(cacheTagMock).toHaveBeenCalledWith(...CACHE_TAG.cars.statsYearly());
+    expect(cacheLifeMock).toHaveBeenCalledWith("max");
+    expect(cacheTagMock).toHaveBeenCalledWith("cars:annual");
   });
 
   it("returns top makes for an explicit year", async () => {
-    queueSelect([{ make: "Tesla", value: 50 }]);
+    // Queue results in order of db.select() calls:
+    // 1. latestYearSubquery (embedded in SQL, not awaited directly), 2. main query
+    queueSelect(
+      [], // latestYearSubquery (created but not used when year is provided)
+      [{ make: "Tesla", value: 50 }], // main query result
+    );
 
     const result = await getTopMakesByYear(2024, 1);
 
     expect(result).toEqual([{ make: "Tesla", value: 50 }]);
-    expect(cacheTagMock).toHaveBeenCalledWith(
-      ...CACHE_TAG.cars.statsTopMakes("2024"),
-    );
+    expect(cacheTagMock).toHaveBeenCalledWith("cars:year:2024");
   });
 
   it("derives latest year when no year is supplied", async () => {
-    queueSelect([{ year: "2021" }], [{ make: "Toyota", value: 80 }]);
+    queueSelect([{ year: 2021 }], [{ make: "Toyota", value: 80 }]);
 
     const result = await getTopMakesByYear();
 
@@ -46,7 +48,9 @@ describe("yearly statistics queries", () => {
   });
 
   it("returns an empty list when no data is present", async () => {
-    queueSelect([]);
+    // Queue results in order of db.select() calls:
+    // 1. latestYearSubquery, 2. main query (empty)
+    queueSelect([], []);
 
     const result = await getTopMakesByYear();
 

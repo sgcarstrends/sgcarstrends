@@ -1,20 +1,18 @@
-import { getLatestMonth } from "@web/utils/months";
-import { addYears, format } from "date-fns";
-import { createLoader, parseAsString } from "nuqs/server";
+import {
+  createLoader,
+  parseAsArrayOf,
+  parseAsString,
+  parseAsStringLiteral,
+} from "nuqs/server";
 
-export const getDefaultEndDate = async (): Promise<string> => {
-  return await getLatestMonth("coe");
-};
+export const periods = ["12m", "5y", "10y", "ytd", "all"] as const;
+export type Period = (typeof periods)[number];
 
-export const getDefaultStartDate = async (): Promise<string> => {
-  const latestMonth = await getLatestMonth("coe");
-  const latestDate = new Date(`${latestMonth}-01`);
-  return format(addYears(latestDate, -1), "yyyy-MM");
-};
+const defaultCategories = ["Category A", "Category B", "Category E"];
 
 export const coeSearchParams = {
-  start: parseAsString.withDefault(""),
-  end: parseAsString.withDefault(""),
+  period: parseAsStringLiteral(periods).withDefault("12m"),
+  categories: parseAsArrayOf(parseAsString).withDefault(defaultCategories),
 };
 
 export const loadSearchParams = createLoader(coeSearchParams);

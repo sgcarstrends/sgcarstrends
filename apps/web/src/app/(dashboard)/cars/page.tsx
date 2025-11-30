@@ -21,7 +21,6 @@ import {
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
@@ -65,7 +64,6 @@ const Page = async ({ searchParams }: Props) => {
 
 export default Page;
 
-// Main component with aggressive caching
 const CarsPage = async ({
   month,
   months,
@@ -73,10 +71,6 @@ const CarsPage = async ({
   month: string;
   months: string[];
 }) => {
-  "use cache";
-  cacheLife("max"); // 30-day revalidate, 1-year expire
-  cacheTag("cars"); // On-demand revalidation
-
   const [cars, comparison, topTypes, topMakes] = await Promise.all([
     getCarsData(month),
     getCarsComparison(month),

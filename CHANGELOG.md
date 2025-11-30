@@ -1,3 +1,88 @@
+## [4.25.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.25.0...v4.25.1) (2025-11-29)
+
+### Bug Fixes
+
+* **ai:** filter non-AI spans in Langfuse ([cc9a179](https://github.com/sgcarstrends/sgcarstrends/commit/cc9a179fb3d2dce195bf1ec0251b86c869960d10))
+
+## [4.25.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.8...v4.25.0) (2025-11-29)
+
+### Features
+
+* **web:** add annual registrations page ([6193a43](https://github.com/sgcarstrends/sgcarstrends/commit/6193a4364cf5564e93fd1ecb31d574b93e64c130))
+* **web:** add trend colours to sparkline ([c752f0d](https://github.com/sgcarstrends/sgcarstrends/commit/c752f0dab10ef23e031f6cc0d91577d1b539ecb7))
+
+### Bug Fixes
+
+* **api:** use correct domain for blog URLs ([0b2c491](https://github.com/sgcarstrends/sgcarstrends/commit/0b2c49141e8a2b2049c6396983d93174fb09cfa8))
+* **web:** add cache headers to blog OG image ([02ba601](https://github.com/sgcarstrends/sgcarstrends/commit/02ba601571c05a3ae2669ffb2e9d6b2edb44bd14))
+* **web:** add force-static to OG image route ([795f3aa](https://github.com/sgcarstrends/sgcarstrends/commit/795f3aaec5f6085bc0edb3403dd9953568666135))
+* **web:** improve COE sparkline layout for tablets ([9e0b352](https://github.com/sgcarstrends/sgcarstrends/commit/9e0b352edde01c43ea1a60607675b21b003ecef2))
+* **web:** increase registration chart height ([f4c25ed](https://github.com/sgcarstrends/sgcarstrends/commit/f4c25ed6353d44e5f322dc703887ccf85e4ee7ff))
+
+### Performance Improvements
+
+* **web:** add cache to blog OG image route ([967b88b](https://github.com/sgcarstrends/sgcarstrends/commit/967b88ba23945361b97b42158a81c4f285cd4bdc))
+* **web:** add Suspense sections to homepage ([09abf3b](https://github.com/sgcarstrends/sgcarstrends/commit/09abf3bea228b75ebb4a4ab4afd034d4d8b1876b))
+
+## [4.24.8](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.7...v4.24.8) (2025-11-29)
+
+### Performance Improvements
+
+* **web:** static generate blog OG images ([b1e5a18](https://github.com/sgcarstrends/sgcarstrends/commit/b1e5a18d604fcebe288eea5f9cfba6f0fd21ae5e))
+
+## [4.24.7](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.6...v4.24.7) (2025-11-26)
+
+### Performance Improvements
+
+* **web:** add cache life to analytics query ([e4fb96c](https://github.com/sgcarstrends/sgcarstrends/commit/e4fb96cd65d0f64b83b51065c16d2bc1b45a50ad))
+* **web:** remove Cars page-level cache ([3cb1b4b](https://github.com/sgcarstrends/sgcarstrends/commit/3cb1b4bec220e0b8e5a3861c0de0992013c0eb33))
+* **web:** remove COE page-level cache ([b2dcdce](https://github.com/sgcarstrends/sgcarstrends/commit/b2dcdce5e5d1122cd5c18858f1213f78cd5e0965))
+* **web:** remove remaining page-level cache ([9fd39b5](https://github.com/sgcarstrends/sgcarstrends/commit/9fd39b583f535e82baef3d1be3782822004ee703))
+* **web:** replace visitors page HTTP fetch with direct query ([5dc5606](https://github.com/sgcarstrends/sgcarstrends/commit/5dc5606d32d26c7022b94f6910404ad69ef7dd18))
+
+## [4.24.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.5...v4.24.6) (2025-11-23)
+
+### Performance Improvements
+
+* **web:** optimise max cacheLife for monthly data ([3d31bcc](https://github.com/sgcarstrends/sgcarstrends/commit/3d31bcc61f41fa95c1b3714f987c321e0bf06dd7))
+
+## [4.24.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.4...v4.24.5) (2025-11-23)
+
+### Reverts
+
+* Revert "chore: use bun runtime for Vercel" ([8999eeb](https://github.com/sgcarstrends/sgcarstrends/commit/8999eeb20ed64fbb85213a75f6d417e0ddbd210e))
+* Revert "feat: enable bun for Vercel" ([bf12d83](https://github.com/sgcarstrends/sgcarstrends/commit/bf12d83abed0b6e1c1771250defe068f6e80f29c))
+
+## [4.24.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.3...v4.24.4) (2025-11-22)
+
+### Bug Fixes
+
+* **web:** filter zero registrations in fuel type query ([3d07902](https://github.com/sgcarstrends/sgcarstrends/commit/3d07902f2990cd4302ce251b53b9cb5ecc153ecd))
+
+## [4.24.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.2...v4.24.3) (2025-11-22)
+
+### Performance Improvements
+
+* **web:** optimize COE comparison query ([b6a791c](https://github.com/sgcarstrends/sgcarstrends/commit/b6a791c9e855e3cacd0a75b878342279e161165d))
+
+## [4.24.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.1...v4.24.2) (2025-11-22)
+
+### Performance Improvements
+
+* **web:** batch analytics queries ([550a9a2](https://github.com/sgcarstrends/sgcarstrends/commit/550a9a2a8eb8ac7ecd1c8feecdc9f05a41680a7a))
+
+## [4.24.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.24.0...v4.24.1) (2025-11-22)
+
+### Performance Improvements
+
+* **web:** add cache directives to queries ([5069acc](https://github.com/sgcarstrends/sgcarstrends/commit/5069acc6bc8b3a405529de86ebeab4bad3db07cb))
+
+## [4.24.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.23.0...v4.24.0) (2025-11-21)
+
+### Features
+
+* **admin:** add cache revalidation to blog actions ([cdb03da](https://github.com/sgcarstrends/sgcarstrends/commit/cdb03daf81aa361d525b6f476a24b99c94b07851))
+
 ## [4.23.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.22.1...v4.23.0) (2025-11-21)
 
 ### Features

@@ -5,14 +5,15 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import { getCarsLatestMonth, getCOELatestMonth } from "@web/lib/data/months";
-import { getAllPosts } from "@web/lib/data/posts";
 import {
   getDistinctFuelTypes,
   getDistinctVehicleTypes,
   getPopularMakes,
 } from "@web/queries/cars";
+import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getLatestCoeResults } from "@web/queries/coe";
+import { getCOELatestMonth } from "@web/queries/coe/latest-month";
+import { getAllPosts } from "@web/queries/posts";
 
 export const GET = async () => {
   // Fetch all dynamic data in parallel
@@ -73,7 +74,7 @@ ${SITE_TITLE} provides real-time access to Singapore's official vehicle registra
 
 ## Popular Car Makes (Current Year)
 
-${popularMakes.join(", ")}
+${popularMakes.map(({ make }) => make).join(", ")}
 
 ## Main Sections
 
@@ -139,7 +140,6 @@ ${recentPosts.map((post) => `- [${post.title}](${SITE_URL}/blog/${post.slug})`).
 - [About](${SITE_URL}/about): About ${SITE_TITLE} platform
 - [FAQ](${SITE_URL}/faq): Frequently asked questions
 - [Contact](${SITE_URL}/contact): Get in touch with the team
-- [Visitors](${SITE_URL}/visitors): Platform analytics and visitor information
 
 ## Optional
 

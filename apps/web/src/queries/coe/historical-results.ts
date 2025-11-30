@@ -1,7 +1,8 @@
 import { coe, db } from "@sgcarstrends/database";
-import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
+import type { Period } from "@web/app/(dashboard)/coe/search-params";
+import { getDateRangeFromPeriod } from "@web/lib/coe/calculations";
 import type { COEResult } from "@web/types";
-import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
+import { and, asc, desc, gte, lte } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface CoeMarketShareData {
@@ -14,52 +15,48 @@ export interface CoeMarketShareData {
 
 export const getCoeResults = async (): Promise<COEResult[]> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
-  cacheTag(...CACHE_TAG.coe.all());
+  cacheLife("max");
+  cacheTag("coe:results");
 
   const results = await db
     .select()
     .from(coe)
-    .orderBy(desc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
+    .orderBy(asc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
 };
 
-export const getCoeResultsFiltered = async (
-  month?: string,
-  start?: string,
-  end?: string,
+export const getCoeResultsByPeriod = async (
+  period: Period = "12m",
 ): Promise<COEResult[]> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
+  cacheLife("max");
+  cacheTag(`coe:period:${period}`);
 
-  if (month) {
-    cacheTag(...CACHE_TAG.coe.entry(month));
-  } else if (start || end) {
-    cacheTag(...CACHE_TAG.coe.range(start ?? "all", end ?? "all"));
-  } else {
-    cacheTag(...CACHE_TAG.coe.all());
+  // Get latest and earliest months for period calculation
+  const monthsResult = await db
+    .selectDistinct({ month: coe.month })
+    .from(coe)
+    .orderBy(desc(coe.month));
+
+  if (monthsResult.length === 0) {
+    return [];
   }
 
-  const filters = [];
+  const latestMonth = monthsResult[0].month;
+  const earliestMonth = monthsResult[monthsResult.length - 1].month;
 
-  if (month) {
-    filters.push(eq(coe.month, month));
-  }
-  if (start) {
-    filters.push(gte(coe.month, start));
-  }
-  if (end) {
-    filters.push(lte(coe.month, end));
-  }
-
-  const whereClause = filters.length > 0 ? and(...filters) : undefined;
+  const { start, end } = getDateRangeFromPeriod(
+    period,
+    latestMonth,
+    earliestMonth,
+  );
 
   const results = await db
     .select()
     .from(coe)
-    .where(whereClause)
-    .orderBy(desc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
+    .where(and(gte(coe.month, start), lte(coe.month, end)))
+    .orderBy(asc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
 };

@@ -34,6 +34,7 @@ const createQueryBuilder = <T>(factory: ResultFactory<T>) => {
 
 const selectQueue: ResultFactory<unknown>[] = [];
 const selectDistinctQueue: ResultFactory<unknown>[] = [];
+const batchQueue: ResultFactory<unknown[]>[] = [];
 
 const dequeue = (queue: ResultFactory<unknown>[]) => {
   const factory = queue.shift() ?? [];
@@ -43,6 +44,19 @@ const dequeue = (queue: ResultFactory<unknown>[]) => {
 const mockDb = {
   select: vi.fn(() => dequeue(selectQueue)),
   selectDistinct: vi.fn(() => dequeue(selectDistinctQueue)),
+  batch: vi.fn(
+    async (
+      queries: Array<{ then: (fn: (v: unknown) => void) => Promise<unknown> }>,
+    ) => {
+      // If batchQueue has a result, use it
+      if (batchQueue.length > 0) {
+        const factory = batchQueue.shift();
+        return resolveFactory(factory ?? []);
+      }
+      // Otherwise resolve each query in the batch
+      return Promise.all(queries.map((q) => q));
+    },
+  ),
   query: {
     cars: {
       findFirst: vi.fn(),
@@ -73,14 +87,20 @@ export const queueSelectDistinct = (...results: ResultFactory<unknown>[]) => {
   selectDistinctQueue.push(...results);
 };
 
+export const queueBatch = (...results: ResultFactory<unknown[]>[]) => {
+  batchQueue.push(...results);
+};
+
 export const resetDbMocks = () => {
   selectQueue.length = 0;
   selectDistinctQueue.length = 0;
-  mockDb.select.mockReset();
-  mockDb.selectDistinct.mockReset();
+  batchQueue.length = 0;
+  mockDb.select.mockClear();
+  mockDb.selectDistinct.mockClear();
+  mockDb.batch.mockClear();
   mockDb.query.cars.findFirst.mockReset();
-  cacheLifeMock.mockReset();
-  cacheTagMock.mockReset();
+  cacheLifeMock.mockClear();
+  cacheTagMock.mockClear();
 };
 
 export const dbMock = mockDb;

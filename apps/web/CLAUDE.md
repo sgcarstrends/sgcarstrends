@@ -88,9 +88,9 @@ Route-specific components live alongside their consuming routes using private fo
 
 #### Co-located Actions (`_actions/`)
 
-Route-specific server actions use private folders:
+Route-specific server actions (mutations only) use private folders:
 
-- **Blog**: `app/blog/_actions/` - View counting, related posts, tag management
+- **Blog**: `app/blog/_actions/` - View incrementing, tag updates (mutations only; reads are in `lib/data/posts.ts`)
 
 #### Centralised vs Co-located
 
@@ -152,6 +152,132 @@ connection configured in `src/config/db.ts`.
 
 **Caching**: Redis (Upstash) for API response caching, rate limiting, and blog view tracking.
 
+**Cache Components & Optimization** (Next.js 16):
+
+The application implements Next.js 16 Cache Components with `"use cache"` directives optimized for monthly data updates:
+
+- **Cache Directives**: All data fetching queries use `"use cache"` with `cacheLife("max")` for monthly data
+- **Cache Profile**: Custom "max" profile optimized for CPU efficiency (30-day revalidation aligned with monthly updates)
+- **Cache Tags**: Granular tags for precise on-demand invalidation (e.g., `cars:month:2024-01`, `coe:period:12m`)
+- **Tagged Queries**: All queries include cache tags for manual revalidation via `revalidateTag()`
+- **Cache Configuration**: `next.config.ts` defines custom "max" profile with 30-day stale/revalidate, 1-year expire
+- **Revalidation Strategy**: On-demand via `revalidateTag()` when monthly data arrives (bypasses 30-day cache)
+
+**Cache Tag Patterns**:
+
+Granular cache tags enable precise invalidation without over-fetching:
+
+| Tag Pattern | Description | Example |
+|-------------|-------------|---------|
+| `cars:month:{month}` | Month-specific car data | `cars:month:2024-01` |
+| `cars:year:{year}` | Year-specific car data | `cars:year:2024` |
+| `cars:make:{make}` | Make-specific car data | `cars:make:toyota` |
+| `cars:fuel:{fuelType}` | Fuel type-specific data | `cars:fuel:electric` |
+| `cars:vehicle:{vehicleType}` | Vehicle type-specific data | `cars:vehicle:saloon` |
+| `cars:category:{category}` | Category-specific data | `cars:category:saloon` |
+| `cars:makes` | Car makes list | - |
+| `cars:months` | Available months list | - |
+| `cars:annual` | Yearly registration totals | - |
+| `coe:results` | All COE results | - |
+| `coe:latest` | Latest COE results | - |
+| `coe:period:{period}` | Period-filtered COE data | `coe:period:12m` |
+| `coe:category:{category}` | Category-specific COE data | `coe:category:A` |
+| `coe:year:{year}` | Year-specific COE data | `coe:year:2024` |
+| `coe:months` | Available COE months list | - |
+| `coe:pqp` | PQP rates data | - |
+| `posts:list` | Blog post list | - |
+| `posts:slug:{slug}` | Individual blog post | `posts:slug:jan-2024-analysis` |
+| `posts:views:{postId}` | Individual post view count | `posts:views:abc123` |
+| `posts:popular` | Popular posts list | - |
+| `posts:related:{postId}` | Related posts for a post | `posts:related:abc123` |
+
+**Cache Strategy Best Practices**:
+
+- Use `"use cache"` directive at the top of async functions that fetch data
+- Apply `cacheLife("max")` for monthly data (30-day client/server cache)
+- Tag with granular scopes based on query parameters for precise invalidation
+- Trigger `revalidateTag()` when new data arrives to bypass automatic revalidation
+- See `cache-components` skill for implementation patterns
+
+**CPU Optimization**:
+
+The custom "max" profile minimizes Vercel Fluid Compute usage:
+- **Client cache (stale)**: 30 days - users get instant page loads for 30 days, minimal server requests
+- **Server cache (revalidate)**: 30 days - ~1 automatic regeneration/month (aligns with monthly data cycle)
+- **Cache expiration (expire)**: 1 year - long-term cache persistence across traffic gaps
+- **On-demand revalidation**: Manual `revalidateTag()` triggers immediate cache refresh when new data arrives
+- **Result**: ~2 regenerations/month (1 automatic + 1 manual) vs ~30 with daily checks = **15x CPU savings**
+
+**Cache Implementation Examples**:
+
+```typescript
+import {cacheLife, cacheTag} from "next/cache";
+
+// Static list query - uses simple tag
+export const getDistinctMakes = async () => {
+    "use cache";
+    cacheLife("max");
+    cacheTag("cars:makes");  // Static tag for makes list
+
+    return db.selectDistinct({make: cars.make}).from(cars).orderBy(cars.make);
+};
+
+// Parameterised query - uses dynamic tag
+export const getTopTypes = async (month: string) => {
+    "use cache";
+    cacheLife("max");
+    cacheTag(`cars:month:${month}`);  // Dynamic tag includes parameter
+
+    return db.select(...).from(cars).where(eq(cars.month, month));
+};
+
+// Multiple parameters - uses multiple tags
+export const getCarMarketShareData = async (month: string, category: string) => {
+    "use cache";
+    cacheLife("max");
+    cacheTag(`cars:month:${month}`, `cars:category:${category}`);
+
+    // Query implementation
+};
+```
+
+This pattern is used across all query functions in `src/queries/cars/` and `src/queries/coe/` directories.
+
+**On-demand Cache Revalidation**:
+
+When new monthly data arrives, trigger targeted cache invalidation. In Next.js 16, `revalidateTag()` requires a second
+argument specifying the cache profile (use `"max"` for stale-while-revalidate semantics):
+
+```typescript
+import {revalidateTag} from "next/cache";
+
+// Invalidate specific month's car data
+revalidateTag("cars:month:2024-01", "max");
+
+// Invalidate specific make's data
+revalidateTag("cars:make:toyota", "max");
+
+// Invalidate COE results
+revalidateTag("coe:results", "max");
+revalidateTag("coe:latest", "max");
+
+// Invalidate COE results for a specific period
+revalidateTag("coe:period:12m", "max");
+
+// Invalidate COE category data
+revalidateTag("coe:category:A", "max");
+
+// Invalidate PQP rates
+revalidateTag("coe:pqp", "max");
+
+// Invalidate static lists when new data adds new entries
+revalidateTag("cars:makes", "max");
+revalidateTag("cars:months", "max");
+revalidateTag("coe:months", "max");
+```
+
+This precisely invalidates only affected caches, avoiding unnecessary regeneration of unrelated queries.
+
 **Data Queries**: Organized in `src/queries/` directory with comprehensive test coverage:
 
 - **Car Queries** (`queries/cars/`): Registration data, market insights, makes, yearly statistics, filter options
@@ -200,7 +326,8 @@ philosophy inspired by Vercel, Linear, and Stripe. Uses lighter font weights (se
 secondary headings/labels, normal for body text) with hierarchy driven by size and spacing.
 See [Typography System](#typography-system) section below.
 
-**UI Components**: Base UI components (shadcn/ui) are imported from the shared `@sgcarstrends/ui` package. HeroUI components are also used throughout the application for professional design system integration.
+**UI Components**: Base UI components (shadcn/ui) are imported from the shared `@sgcarstrends/ui` package. HeroUI
+components are also used throughout the application for professional design system integration.
 
 **Charts**: Recharts-based components in `src/components/charts/` for data visualization.
 
@@ -361,7 +488,8 @@ A standardized approach to spacing and layout for consistent, maintainable compo
 
 - **Avoid `space-y-*`**: Use `flex flex-col gap-*` instead for better layout control
 - **Avoid `margin-top`**: Use `gap-*` or `padding` for spacing between elements
-- **Prefer even gap values**: `gap-2`, `gap-4`, `gap-6`, `gap-8` (odd values like `gap-1` only sparingly for specific cases)
+- **Prefer even gap values**: `gap-2`, `gap-4`, `gap-6`, `gap-8` (odd values like `gap-1` only sparingly for specific
+  cases)
 
 **Guidelines**:
 
@@ -373,47 +501,54 @@ A standardized approach to spacing and layout for consistent, maintainable compo
 - ❌ Avoid `mt-*`/`margin-top` for spacing between sibling elements (use `gap-*` instead)
 - ⚠️ Exception: `mt-*` acceptable only for icon alignment with text (e.g., `mt-1` for small icons)
 
-**Rationale**: `gap-*` provides more predictable spacing in modern layouts, works consistently with flexbox/grid, and avoids margin collapsing issues that can occur with `space-y-*` and `margin-top`.
+**Rationale**: `gap-*` provides more predictable spacing in modern layouts, works consistently with flexbox/grid, and
+avoids margin collapsing issues that can occur with `space-y-*` and `margin-top`.
 
 **Examples**:
 
 ```typescript
 // ✅ Preferred: flex with gap for vertical spacing
-<div className="flex flex-col gap-4">
-  <CardComponent />
-  <CardComponent />
-  <CardComponent />
-</div>
+<div className = "flex flex-col gap-4" >
+    <CardComponent / >
+    <CardComponent / >
+    <CardComponent / >
+    </div>
 
-// ✅ Grid with even gap values
-<div className="grid grid-cols-2 gap-6">
-  <Item />
-  <Item />
-</div>
+    // ✅ Grid with even gap values
+    < div
+className = "grid grid-cols-2 gap-6" >
+    <Item / >
+    <Item / >
+    </div>
 
-// ✅ Horizontal flex with gap
-<div className="flex items-center gap-2">
-  <Icon className="size-4" />
-  <span>Text content</span>
-</div>
+    // ✅ Horizontal flex with gap
+    < div
+className = "flex items-center gap-2" >
+<Icon className = "size-4" / >
+    <span>Text
+content < /span>
+< /div>
 
 // ❌ Avoid: space-y utilities (legacy pattern)
-<div className="space-y-4">
-  <CardComponent />
-  <CardComponent />
+< div
+className = "space-y-4" >
+<CardComponent / >
+<CardComponent / >
 </div>
 
 // ❌ Avoid: margin-top for sibling spacing
-<div>
-  <CardComponent />
-  <CardComponent className="mt-4" />
-</div>
+< div >
+<CardComponent / >
+<CardComponent className = "mt-4" / >
+    </div>
 
-// ⚠️ Acceptable exception: icon vertical alignment
-<div className="flex items-center gap-2">
-  <Icon className="mt-1 size-4" />
-  <span className="text-sm">Aligned text</span>
-</div>
+    // ⚠️ Acceptable exception: icon vertical alignment
+    < div
+className = "flex items-center gap-2" >
+<Icon className = "mt-1 size-4" / >
+<span className = "text-sm" > Aligned
+text < /span>
+< /div>
 ```
 
 **Spacing Scale Reference**:
@@ -427,6 +562,7 @@ A standardized approach to spacing and layout for consistent, maintainable compo
 **Migration from Legacy Patterns**:
 
 When refactoring existing code:
+
 1. Replace `<div className="space-y-4">` with `<div className="flex flex-col gap-4">`
 2. Remove `mt-*` from child elements when parent uses `gap-*`
 3. Convert `space-y-*` values to equivalent `gap-*` (space-y-2 → gap-2, space-y-4 → gap-4, etc.)
@@ -540,6 +676,7 @@ The web application uses Vercel Related Projects for automatic API URL resolutio
 ### Deployment
 
 Multi-stage deployment via SST with domain mapping:
+
 - **dev**: `dev.sgcarstrends.com`
 - **staging**: `staging.sgcarstrends.com`
 - **prod**: `sgcarstrends.com` (apex domain)
@@ -548,7 +685,7 @@ See `sst-deployment` skill for deployment workflows and infrastructure details.
 
 ## Development Notes
 
-- **Package Manager**: Uses pnpm v10.13.1
+- **Package Manager**: Uses pnpm v10.22.0
 - **TypeScript**: Strict mode enabled
 - **Turbopack**: Enabled for faster builds and development
 - **Feature Flags**: Controlled via `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`

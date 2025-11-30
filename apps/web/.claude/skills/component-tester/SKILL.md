@@ -1,6 +1,6 @@
 ---
 name: component-tester
-description: Run Vitest tests for a specific component with coverage. Use this when making changes to React components to ensure tests pass and coverage is maintained.
+description: Run Vitest tests for a specific component with coverage. Use when making changes to React components to ensure tests pass and coverage is maintained.
 ---
 
 # Component Tester Skill

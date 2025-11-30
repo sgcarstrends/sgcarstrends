@@ -1,17 +1,25 @@
-import { getPostBySlug } from "@web/lib/data/posts";
+import { getAllPosts, getPostBySlug } from "@web/queries/posts";
 import { ImageResponse } from "next/og";
 
-type Props = {
+interface Props {
   params: Promise<{ slug: string }>;
-};
+}
 
 export const size = {
   width: 1200,
   height: 630,
 };
 
+export const dynamic = "force-static";
+
+export async function generateStaticParams() {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({ slug: post.slug }));
+}
+
 const Image = async ({ params }: Props) => {
   const { slug } = await params;
+
   const post = await getPostBySlug(slug);
 
   if (!post) {
@@ -118,6 +126,10 @@ const Image = async ({ params }: Props) => {
     </div>,
     {
       ...size,
+      headers: {
+        "Cache-Control":
+          "public, max-age=31536000, s-maxage=31536000, immutable",
+      },
     },
   );
 };

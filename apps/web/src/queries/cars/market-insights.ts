@@ -1,8 +1,12 @@
 import { cars, db } from "@sgcarstrends/database";
-import { CACHE_LIFE, CACHE_TAG } from "@web/lib/cache";
+import {
+  calculateMarketShareData,
+  calculateTopPerformersData,
+  findDominantType,
+} from "@web/lib/cars/calculations";
 import { getCarsData } from "@web/queries";
 import type { FuelType, TopType } from "@web/types/cars";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, gt, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface CarMarketShareData {
@@ -54,8 +58,8 @@ interface TopMake {
 
 export const getTopTypes = async (month: string): Promise<TopType> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
-  cacheTag(...CACHE_TAG.cars.types(month));
+  cacheLife("max");
+  cacheTag(`cars:month:${month}`);
 
   const topFuelTypeQuery = db
     .select({
@@ -79,7 +83,7 @@ export const getTopTypes = async (month: string): Promise<TopType> => {
     .orderBy(desc(sql<number>`sum(${cars.number})`))
     .limit(1);
 
-  const [topFuelTypeResult, topVehicleTypeResult] = await Promise.all([
+  const [topFuelTypeResult, topVehicleTypeResult] = await db.batch([
     topFuelTypeQuery,
     topVehicleTypeQuery,
   ]);
@@ -95,6 +99,10 @@ export const getTopTypes = async (month: string): Promise<TopType> => {
 };
 
 export const getTopMakes = async (month: string): Promise<TopMake[]> => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(`cars:month:${month}`);
+
   return db
     .select({
       make: cars.make,
@@ -111,8 +119,8 @@ export const getTopMakesByFuelType = async (
   month: string,
 ): Promise<FuelType[]> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
-  cacheTag(...CACHE_TAG.cars.makes(month));
+  cacheLife("max");
+  cacheTag(`cars:month:${month}`);
 
   const fuelTypeResults = await db
     .select({
@@ -120,14 +128,16 @@ export const getTopMakesByFuelType = async (
       total: sql<number>`sum(${cars.number})`.mapWith(Number),
     })
     .from(cars)
-    .where(eq(cars.month, month))
+    .where(and(eq(cars.month, month), gt(cars.number, 0)))
     .groupBy(cars.fuelType)
     .orderBy(desc(sql<number>`sum(${cars.number})`));
 
-  const topMakesByFuelType: FuelType[] = [];
+  if (fuelTypeResults.length === 0) {
+    return [];
+  }
 
-  for (const { fuelType, total } of fuelTypeResults) {
-    const topMakes = await db
+  const topMakesQueries = fuelTypeResults.map(({ fuelType }) =>
+    db
       .select({
         make: cars.make,
         count: sql<number>`sum(${cars.number})`.mapWith(Number),
@@ -136,16 +146,22 @@ export const getTopMakesByFuelType = async (
       .where(and(eq(cars.month, month), eq(cars.fuelType, fuelType)))
       .groupBy(cars.make)
       .orderBy(desc(sql<number>`sum(${cars.number})`))
-      .limit(5);
+      .limit(5),
+  );
 
-    topMakesByFuelType.push({
-      fuelType,
-      total,
-      makes: topMakes.map(({ make, count }) => ({ make, count })),
-    });
-  }
+  // Use db.batch() for single network round-trip
+  const topMakesResults = await db.batch(
+    topMakesQueries as [
+      (typeof topMakesQueries)[0],
+      ...(typeof topMakesQueries)[number][],
+    ],
+  );
 
-  return topMakesByFuelType;
+  return fuelTypeResults.map(({ fuelType, total }, index) => ({
+    fuelType,
+    total,
+    makes: topMakesResults[index].map(({ make, count }) => ({ make, count })),
+  }));
 };
 
 export const getCarMarketShareData = async (
@@ -153,51 +169,22 @@ export const getCarMarketShareData = async (
   category: "fuelType" | "vehicleType",
 ): Promise<CarMarketShareResponse> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
-  cacheTag(...CACHE_TAG.cars.marketShare(category, month));
+  cacheLife("max");
+  cacheTag(`cars:month:${month}`, `cars:category:${category}`);
 
   const response = await getCarsData(month);
-
   const categoryData = response[category];
   const total = response.total;
 
-  const marketShareData = categoryData.map((item, index) => ({
-    name: item.name,
-    count: item.count,
-    percentage: (item.count / total) * 100,
-    colour: [
-      "#3b82f6",
-      "#10b981",
-      "#8b5cf6",
-      "#f59e0b",
-      "#ef4444",
-      "#06b6d4",
-      "#6366f1",
-      "#f97316",
-      "#14b8a6",
-      "#84cc16",
-    ][index % 10],
-  }));
-
-  const dominantType = marketShareData.reduce(
-    (max, current) => (current.percentage > max.percentage ? current : max),
-    marketShareData[0] ?? {
-      name: "Unknown",
-      percentage: 0,
-      count: 0,
-      colour: "#000000",
-    },
-  );
+  const marketShareData = calculateMarketShareData(categoryData, total);
+  const dominantType = findDominantType(marketShareData);
 
   return {
     month: response.month,
     total,
     category,
     data: marketShareData,
-    dominantType: {
-      name: dominantType.name,
-      percentage: dominantType.percentage,
-    },
+    dominantType,
   };
 };
 
@@ -205,45 +192,29 @@ export const getCarTopPerformersData = async (
   month: string,
 ): Promise<CarTopPerformersData> => {
   "use cache";
-  cacheLife(CACHE_LIFE.monthlyData);
-  cacheTag(...CACHE_TAG.cars.topPerformers(month));
+  cacheLife("max");
+  cacheTag(`cars:month:${month}`);
 
-  const [topTypes, topMakes] = await Promise.all([
+  const [topTypes, topMakes, carsData] = await Promise.all([
     getTopTypes(month),
     getTopMakes(month),
+    getCarsData(month),
   ]);
 
-  const carsData = await getCarsData(month);
-  const total = carsData.total;
-
-  const topFuelTypes = [
-    {
-      name: topTypes.topFuelType.name,
-      count: topTypes.topFuelType.total,
-      percentage: (topTypes.topFuelType.total / total) * 100,
-      rank: 1,
-    },
-  ];
-
-  const topVehicleTypes = [
-    {
-      name: topTypes.topVehicleType.name,
-      count: topTypes.topVehicleType.total,
-      percentage: (topTypes.topVehicleType.total / total) * 100,
-      rank: 1,
-    },
-  ];
-
-  const topMakesData = topMakes.map((make, index) => ({
-    make: make.make,
-    count: make.total,
-    percentage: (make.total / total) * 100,
-    rank: index + 1,
-  }));
+  const {
+    topFuelTypes,
+    topVehicleTypes,
+    topMakes: topMakesData,
+  } = calculateTopPerformersData(
+    topTypes.topFuelType,
+    topTypes.topVehicleType,
+    topMakes,
+    carsData.total,
+  );
 
   return {
     month: topTypes.month,
-    total,
+    total: carsData.total,
     topFuelTypes,
     topVehicleTypes,
     topMakes: topMakesData,
