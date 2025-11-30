@@ -1,3 +1,9 @@
+## [4.26.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.26.0...v4.26.1) (2025-11-30)
+
+### Bug Fixes
+
+* **admin:** align cache tags with web app format ([e1ddbf9](https://github.com/sgcarstrends/sgcarstrends/commit/e1ddbf9b40caad1ec6315d9dbfa3ae016257dc70))
+
 ## [4.26.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.25.1...v4.26.0) (2025-11-30)
 
 ### Features
