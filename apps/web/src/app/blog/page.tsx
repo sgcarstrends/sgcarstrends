@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
 };
 
-const Page = async () => {
+export default async function BlogPage() {
   const posts = await getAllPosts();
 
   return (
@@ -57,6 +57,4 @@ const Page = async () => {
       </section>
     </>
   );
-};
-
-export default Page;
+}
