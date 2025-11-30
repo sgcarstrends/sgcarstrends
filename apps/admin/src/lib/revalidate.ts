@@ -19,14 +19,17 @@ export const revalidateWebCache = async (
       };
     }
 
-    const response = await fetch(`${WEB_URL}/api/revalidate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-revalidate-token": revalidateToken,
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL || WEB_URL}/api/revalidate`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-revalidate-token": revalidateToken,
+        },
+        body: JSON.stringify({ tags }),
       },
-      body: JSON.stringify({ tags }),
-    });
+    );
 
     if (!response.ok) {
       const error = await response.text();
