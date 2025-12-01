@@ -16,7 +16,9 @@ describe("SubscribeForm", () => {
   it("should render email input and subscribe button", () => {
     render(<SubscribeForm />);
 
-    expect(screen.getByPlaceholderText("Enter your email")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("john.doe@example.com"),
+    ).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /subscribe/i }),
     ).toBeInTheDocument();
@@ -31,7 +33,7 @@ describe("SubscribeForm", () => {
 
   it("should have required email input", () => {
     render(<SubscribeForm />);
-    const input = screen.getByPlaceholderText("Enter your email");
+    const input = screen.getByPlaceholderText("john.doe@example.com");
 
     expect(input).toHaveAttribute("required");
     expect(input).toHaveAttribute("type", "email");
