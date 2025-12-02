@@ -19,6 +19,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { after } from "next/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import readingTime from "reading-time";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -114,7 +115,9 @@ const BlogPostPage = async ({ params }: Props) => {
 
   // Update post tags in Redis for related posts functionality
   if (post.tags && post.tags.length > 0) {
-    updatePostTags(post.id, post.tags).catch(console.error);
+    after(async () => {
+      await updatePostTags(post.id, post.tags);
+    });
   }
 
   const structuredData: WithContext<BlogPosting> = {
