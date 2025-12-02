@@ -179,22 +179,18 @@ const BlogPostPage = async ({ params }: Props) => {
 
         {/* Hero Image - Full width with subtle bottom fade */}
         {heroImage && (
-          <div className="relative">
-            <Image
-              src={heroImage}
-              alt={post.title}
-              width={1200}
-              height={514}
-              className="aspect-[21/9] w-full object-cover"
-              priority
-            />
-            {/* Subtle bottom fade to blend with content */}
-            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
-          </div>
+          <Image
+            src={heroImage}
+            alt={post.title}
+            width={1200}
+            height={514}
+            className="aspect-[21/9] w-full object-cover"
+            priority
+          />
         )}
 
         {/* Main Content - Single column, centered */}
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-6 py-8">
+        <div className="container mx-auto flex flex-col gap-8 py-8">
           {/* Horizontal TOC */}
           <HorizontalTOC />
 
