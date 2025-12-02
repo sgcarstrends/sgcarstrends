@@ -22,7 +22,7 @@ export const ArticleHeader = ({
   const displayTags = tags.length > 0 ? tags.slice(0, 2) : ["Market Update"];
 
   return (
-    <header className="border-default-200 border-b bg-background py-8">
+    <header className="border-default-200 border-b py-8">
       <div className="mx-auto max-w-3xl px-6 text-center">
         {/* Dynamic Tags - Centered with Chips */}
         <div className="mb-4 flex items-center justify-center gap-2">

@@ -164,91 +164,94 @@ const BlogPostPage = async ({ params }: Props) => {
       <StructuredData data={structuredData} />
       <ProgressBar />
 
-      {/* Article Header - Hybrid style: centered with gradient title */}
-      <ArticleHeader
-        title={post.title}
-        publishedAt={publishedDate}
-        readingTimeText={readingTimeText}
-        tags={post.tags ?? undefined}
-        postId={post.id}
-        initialViewCount={initialViewCount}
-      />
-
-      {/* Hero Image - Full width with subtle bottom fade */}
-      {heroImage && (
-        <div className="relative">
-          <Image
-            src={heroImage}
-            alt={post.title}
-            width={1200}
-            height={514}
-            className="aspect-[21/9] w-full object-cover"
-            priority
-          />
-          {/* Subtle bottom fade to blend with content */}
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
-        </div>
-      )}
-
-      {/* Main Content - Single column, centered */}
-      <div className="mx-auto max-w-3xl px-6 pt-8">
-        {/* Horizontal TOC */}
-        <HorizontalTOC />
-
-        {/* Key Highlights */}
-        <KeyHighlights
-          highlights={post.highlights as Highlight[] | undefined}
+      {/* Full-width white content wrapper */}
+      <div className="flex flex-col">
+        {/* Article Header - Hybrid style: centered with gradient title */}
+        <ArticleHeader
+          title={post.title}
+          publishedAt={publishedDate}
+          readingTimeText={readingTimeText}
+          tags={post.tags ?? undefined}
+          postId={post.id}
+          initialViewCount={initialViewCount}
         />
 
-        {/* Article Content */}
-        <article className="prose dark:prose-invert max-w-none">
-          <MDXRemote
-            source={post.content}
-            components={mdxComponents}
-            options={{
-              mdxOptions: {
-                format: "md",
-                remarkPlugins: [
-                  remarkGfm,
-                  [
-                    remarkToc,
-                    {
-                      heading: "Table of Contents|Contents|TOC",
-                      maxDepth: 3,
-                      tight: true,
-                    },
-                  ],
-                ],
-                rehypePlugins: [
-                  rehypeSlug,
-                  [
-                    rehypeAutolinkHeadings,
-                    {
-                      behavior: "append",
-                      properties: {
-                        className: ["permalink"],
-                      },
-                    },
-                  ],
-                ],
-              },
-            }}
+        {/* Hero Image - Full width with subtle bottom fade */}
+        {heroImage && (
+          <div className="relative">
+            <Image
+              src={heroImage}
+              alt={post.title}
+              width={1200}
+              height={514}
+              className="aspect-[21/9] w-full object-cover"
+              priority
+            />
+            {/* Subtle bottom fade to blend with content */}
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
+          </div>
+        )}
+
+        {/* Main Content - Single column, centered */}
+        <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-6 py-8">
+          {/* Horizontal TOC */}
+          <HorizontalTOC />
+
+          {/* Key Highlights */}
+          <KeyHighlights
+            highlights={post.highlights as Highlight[] | undefined}
           />
-        </article>
 
-        {/* Related Posts */}
-        <div className="mt-12">
-          <RelatedPosts currentPostId={post.id} />
-        </div>
+          {/* Article Content */}
+          <article className="prose dark:prose-invert max-w-none">
+            <MDXRemote
+              source={post.content}
+              components={mdxComponents}
+              options={{
+                mdxOptions: {
+                  format: "md",
+                  remarkPlugins: [
+                    remarkGfm,
+                    [
+                      remarkToc,
+                      {
+                        heading: "Table of Contents|Contents|TOC",
+                        maxDepth: 3,
+                        tight: true,
+                      },
+                    ],
+                  ],
+                  rehypePlugins: [
+                    rehypeSlug,
+                    [
+                      rehypeAutolinkHeadings,
+                      {
+                        behavior: "append",
+                        properties: {
+                          className: ["permalink"],
+                        },
+                      },
+                    ],
+                  ],
+                },
+              }}
+            />
+          </article>
 
-        <Separator className="my-6" />
-        <div className="flex justify-center pb-8">
-          <Button color="primary" variant="ghost">
-            <Link href="/blog" className="flex items-center gap-2">
-              <Undo2 className="size-4" />
-              <span>Back to blog</span>
-            </Link>
-          </Button>
+          {/* Related Posts */}
+          <div className="mt-12">
+            <RelatedPosts currentPostId={post.id} />
+          </div>
+
+          <Separator className="my-6" />
+          <div className="flex justify-center pb-8">
+            <Button color="primary" variant="ghost">
+              <Link href="/blog" className="flex items-center gap-2">
+                <Undo2 className="size-4" />
+                <span>Back to blog</span>
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </>
