@@ -18,13 +18,13 @@ export const TableOfContents = () => {
     const article = document.querySelector("article");
     if (!article) return;
 
-    const elements = article.querySelectorAll("h2, h3");
+    const elements = article.querySelectorAll("h2");
     const items: TocItem[] = Array.from(elements)
       .filter((el) => el.id) // Only include elements with IDs
       .map((el) => ({
         id: el.id,
         text: el.textContent || "",
-        level: el.tagName === "H2" ? 2 : 3,
+        level: 2,
       }));
 
     setHeadings(items);
@@ -41,10 +41,8 @@ export const TableOfContents = () => {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Find the first heading that is intersecting
         const visibleEntries = entries.filter((entry) => entry.isIntersecting);
         if (visibleEntries.length > 0) {
-          // Get the topmost visible heading
           const topEntry = visibleEntries.reduce((prev, current) =>
             prev.boundingClientRect.top < current.boundingClientRect.top
               ? prev
@@ -59,7 +57,6 @@ export const TableOfContents = () => {
       },
     );
 
-    // Observe all heading elements
     for (const { id } of headings) {
       const element = document.getElementById(id);
       if (element) {
@@ -75,11 +72,11 @@ export const TableOfContents = () => {
   }
 
   return (
-    <nav className="mb-6 border border-default-200 bg-background p-6">
-      <h3 className="mb-4 border-default-200 border-b pb-2 font-bold text-default-500 text-sm uppercase tracking-wider">
-        In This Article
-      </h3>
-      <div className="flex flex-col gap-2">
+    <nav className="mb-12 border-foreground border-b-2 pb-6">
+      <div className="mb-4 font-bold text-foreground/60 text-xs uppercase tracking-[0.3em]">
+        In This Report
+      </div>
+      <div className="flex flex-wrap gap-x-6 gap-y-2">
         {headings.map((heading, idx) => (
           <a
             key={heading.id}
@@ -93,24 +90,23 @@ export const TableOfContents = () => {
               }
             }}
             className={cn(
-              "group flex items-start gap-2 text-sm transition-colors",
-              heading.level === 3 && "pl-4",
+              "group flex items-center gap-2 font-bold text-sm underline-offset-4 transition-colors hover:underline",
               activeId === heading.id
-                ? "font-medium text-foreground"
-                : "text-default-600 hover:text-foreground",
+                ? "text-foreground"
+                : "text-foreground hover:text-foreground",
             )}
           >
             <span
               className={cn(
-                "mt-0.5 text-xs transition-colors",
+                "text-xs transition-opacity",
                 activeId === heading.id
                   ? "text-primary"
-                  : "text-default-400 group-hover:text-default-500",
+                  : "text-primary/60 group-hover:text-primary",
               )}
             >
-              {idx + 1}.
+              {String(idx + 1).padStart(2, "0")}
             </span>
-            <span className="hover:underline">{heading.text}</span>
+            <span>{heading.text}</span>
           </a>
         ))}
       </div>

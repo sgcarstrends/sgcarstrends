@@ -2,7 +2,6 @@ import { Button } from "@heroui/button";
 import { Separator } from "@sgcarstrends/ui/components/separator";
 import { updatePostTags } from "@web/app/blog/_actions/tags";
 import { BlogHero } from "@web/app/blog/_components/blog-hero";
-import { HorizontalTOC } from "@web/app/blog/_components/horizontal-toc";
 import {
   type Highlight,
   KeyHighlights,
@@ -10,6 +9,7 @@ import {
 import { mdxComponents } from "@web/app/blog/_components/mdx-components";
 import { ProgressBar } from "@web/app/blog/_components/progress-bar";
 import { RelatedPosts } from "@web/app/blog/_components/related-posts";
+import { TableOfContents } from "@web/app/blog/_components/table-of-contents";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
 import { getPostViewCount } from "@web/lib/data/posts";
@@ -179,8 +179,8 @@ const BlogPostPage = async ({ params }: Props) => {
 
         {/* Main Content - Single column, centered */}
         <div className="container mx-auto flex flex-col gap-8">
-          {/* Horizontal TOC */}
-          <HorizontalTOC />
+          {/* Table of Contents */}
+          <TableOfContents />
 
           {/* Key Highlights */}
           <KeyHighlights
