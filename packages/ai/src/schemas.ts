@@ -19,7 +19,9 @@ export const postSchema = z.object({
     .array(z.string())
     .min(1)
     .max(10)
-    .describe('3-5 topic tags like "Electric Vehicles", "Market Analysis"'),
+    .describe(
+      '3-5 tags in Title Case: first tag is dataType ("Cars" or "COE"), followed by 2-4 generic topic tags',
+    ),
   highlights: z
     .array(highlightSchema)
     .min(3)
