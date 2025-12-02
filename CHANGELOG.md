@@ -1,3 +1,19 @@
+## [4.27.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.26.1...v4.27.0) (2025-12-02)
+
+### Features
+
+* **ai:** add hero image to blog posts ([4967339](https://github.com/sgcarstrends/sgcarstrends/commit/4967339a7e877032c870bcccf26c22c104576e0b))
+* **ai:** add tag constants and vocabulary ([5f3c8a2](https://github.com/sgcarstrends/sgcarstrends/commit/5f3c8a2a3604760cf7444df29a0399ea7d40ba73))
+* **web:** add blog style preview page ([e5baa7d](https://github.com/sgcarstrends/sgcarstrends/commit/e5baa7d30bd5a4d9caadf1fc08e2176a918dcac8))
+* **web:** add blog UI components and mock data ([94f66da](https://github.com/sgcarstrends/sgcarstrends/commit/94f66da06bf7e52ffa76938bdf7dab485f200732))
+* **web:** add post counts to blog category tabs ([15054fd](https://github.com/sgcarstrends/sgcarstrends/commit/15054fdfc7145b87fb673479bb373e1e1a130136))
+* **web:** revamp blog page with editorial design ([905cee2](https://github.com/sgcarstrends/sgcarstrends/commit/905cee21eb32a9d373fa57ccd564eb7bc5c1a457))
+
+### Bug Fixes
+
+* **web:** resolve type narrowing in after() ([535a82a](https://github.com/sgcarstrends/sgcarstrends/commit/535a82ae3159a437f31274f5f277925a5c0b60c7))
+* **web:** use md format for blog MDX parsing ([4a9e7f2](https://github.com/sgcarstrends/sgcarstrends/commit/4a9e7f2666757b310911ae9748edba5e998f5f26))
+
 ## [4.26.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.26.0...v4.26.1) (2025-11-30)
 
 ### Bug Fixes
