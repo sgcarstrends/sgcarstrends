@@ -115,8 +115,9 @@ const BlogPostPage = async ({ params }: Props) => {
 
   // Update post tags in Redis for related posts functionality
   if (post.tags && post.tags.length > 0) {
+    const tags = post.tags;
     after(async () => {
-      await updatePostTags(post.id, post.tags);
+      await updatePostTags(post.id, tags);
     });
   }
 
