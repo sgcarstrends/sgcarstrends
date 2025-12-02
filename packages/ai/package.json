@@ -15,6 +15,7 @@
     "@sgcarstrends/utils": "workspace:*",
     "@upstash/workflow": "^0.2.12",
     "ai": "catalog:",
-    "drizzle-orm": "0.44.3"
+    "drizzle-orm": "0.44.3",
+    "zod": "catalog:"
   }
 }

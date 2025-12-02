@@ -107,8 +107,11 @@ All commands use pnpm as the package manager.
     - **src/db**: Schema definitions for cars, COE, and posts tables
     - **migrations**: Database migration files with version tracking
 - **packages/ai**: AI-powered blog generation shared package
-    - **src/generate-post.ts**: Core blog content generation with Code Execution Tool
-    - **src/config.ts**: System instructions and prompts for cars/COE analysis
+    - **src/generate-post.ts**: 2-step blog generation (analysis → structured output)
+    - **src/config.ts**: System instructions and prompts for analysis and generation steps
+    - **src/schemas.ts**: Zod schemas for structured output (postSchema, highlightSchema)
+    - **src/tags.ts**: Tag constants and types (CARS_TAGS, COE_TAGS)
+    - **src/hero-images.ts**: Hero image URLs and helpers
     - **src/queries.ts**: Database queries for data aggregation
     - **src/save-post.ts**: Post persistence with idempotency
     - **src/instrumentation.ts**: Langfuse telemetry setup
@@ -236,7 +239,7 @@ PostgreSQL with Drizzle ORM using **camelCase** column naming:
 
 ## Shared Packages
 
-- **`@sgcarstrends/ai`**: AI-powered blog generation with Code Execution Tool, Langfuse telemetry, and comprehensive system instructions for accurate market analysis
+- **`@sgcarstrends/ai`**: AI-powered blog generation with 2-step flow (analysis → structured output), Zod validation, hero images, tag constants, and Langfuse telemetry
 - **`@sgcarstrends/database`**: Drizzle ORM schemas and migrations
 - **`@sgcarstrends/types`**: Shared TypeScript interfaces
 - **`@sgcarstrends/ui`**: Shared UI component library with shadcn/ui, Radix UI primitives, and Tailwind CSS

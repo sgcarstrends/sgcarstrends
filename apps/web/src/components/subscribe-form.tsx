@@ -28,14 +28,14 @@ export const SubscribeForm = () => {
           });
         }
       }}
-      className="flex flex-col gap-2 lg:flex-row"
+      className="flex w-full flex-col gap-2 lg:max-w-fit lg:flex-row"
     >
       <Input
         type="email"
         id="email"
         name="email"
         autoComplete="email"
-        placeholder="Enter your email"
+        placeholder="john.doe@example.com"
         radius="full"
         startContent={<Mail size={16} />}
         variant="bordered"

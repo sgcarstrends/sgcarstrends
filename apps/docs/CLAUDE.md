@@ -67,7 +67,7 @@ at [docs.sgcarstrends.com](https://docs.sgcarstrends.com).
 
 - Keep API examples current with actual endpoint responses
 - Update architecture diagrams when system changes occur
-- Verify all code examples work with the current API version (v4.11.0)
+- Verify all code examples work with the current API version (v4.26.1)
 - Include rate limiting and authentication information in all API docs
 
 ### Mintlify Best Practices

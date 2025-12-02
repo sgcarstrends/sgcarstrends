@@ -15,7 +15,7 @@ This ensures you have access to the latest API documentation for Drizzle ORM fea
 
 ## Package Overview
 
-The `@sgcarstrends/database` package (v4.11.0) provides the database schema, types, and migration system for the SG Cars Trends
+The `@sgcarstrends/database` package (v4.26.1) provides the database schema, types, and migration system for the SG Cars Trends
 platform. It uses Drizzle ORM v0.44.3 with PostgreSQL to manage:
  
 - **Car Registration Data**: Monthly vehicle registration statistics by make, fuel type, and vehicle type
@@ -126,7 +126,7 @@ Stores monthly PQP rates for immediate vehicle registration. Formerly named `coe
 
 ### Blog Posts (`posts`)
 
-Stores LLM-generated blog content with comprehensive metadata.
+Stores LLM-generated blog content with structured output from AI generation.
 
 **Columns:**
 
@@ -134,7 +134,12 @@ Stores LLM-generated blog content with comprehensive metadata.
 - `title`: Text, NOT NULL (blog post title)
 - `slug`: Text, NOT NULL, UNIQUE (URL-friendly identifier)
 - `content`: Text, NOT NULL (Markdown content)
-- `metadata`: JSONB (flexible metadata storage)
+- `excerpt`: Text (2-3 sentence summary for meta description)
+- `heroImage`: Text (Unsplash URL for blog post header)
+- `tags`: Text[] (category tags in Title Case)
+- `highlights`: JSONB (key statistics for visual display: value, label, detail)
+- `status`: Text, default "draft" (publication status)
+- `metadata`: JSONB (flexible metadata storage: LLM response info, token usage)
 - `month`: Text (source data month, YYYY-MM format)
 - `dataType`: Text (source data type: "cars" or "coe")
 - `createdAt`: Timestamp, NOT NULL, default now() (creation date)

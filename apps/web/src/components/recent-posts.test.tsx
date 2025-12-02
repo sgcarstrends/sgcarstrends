@@ -2,12 +2,34 @@ import type { SelectPost } from "@sgcarstrends/database";
 import { render, screen } from "@testing-library/react";
 import { RecentPosts } from "@web/app/(dashboard)/(home)/_components/recent-posts";
 
-vi.mock("next/link", () => ({
-  default: ({ href, children, ...props }: any) => (
+vi.mock("@heroui/link", () => ({
+  Link: ({ href, children, ...props }: any) => (
     <a href={href} {...props}>
       {children}
     </a>
   ),
+}));
+
+vi.mock("framer-motion", () => ({
+  motion: {
+    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  },
+}));
+
+vi.mock("@web/app/blog/_components/post", () => ({
+  Post: {
+    Card: ({ post }: { post: SelectPost }) => (
+      <article data-testid={`post-card-${post.id}`}>
+        <a href={`/blog/${post.slug}`}>{post.title}</a>
+        <span data-testid={`post-date-${post.id}`}>
+          {new Date(post.publishedAt ?? post.createdAt).toLocaleDateString(
+            "en-SG",
+            { day: "numeric", month: "short" },
+          )}
+        </span>
+      </article>
+    ),
+  },
 }));
 
 describe("RecentPosts", () => {

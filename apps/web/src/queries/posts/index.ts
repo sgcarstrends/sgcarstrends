@@ -1,5 +1,5 @@
 import { db, posts } from "@sgcarstrends/database";
-import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
+import { and, count, desc, eq, inArray, isNotNull } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getAllPosts() {
@@ -48,4 +48,16 @@ export async function getPostsByIds(postIds: string[]) {
     where: and(inArray(posts.id, postIds), isNotNull(posts.publishedAt)),
     orderBy: desc(posts.publishedAt),
   });
+}
+
+export async function getPostCountsByCategory() {
+  "use cache";
+  cacheLife("max");
+  cacheTag("posts:list");
+
+  return db
+    .select({ category: posts.dataType, count: count() })
+    .from(posts)
+    .where(isNotNull(posts.publishedAt))
+    .groupBy(posts.dataType);
 }

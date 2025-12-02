@@ -16,7 +16,7 @@ other libraries used in this admin dashboard.
 
 ## Project Overview
 
-This is the admin dashboard (v4.11.0) for SG Cars Trends, built with Next.js 15.4.7 and shadcn/ui components. The dashboard provides
+This is the admin dashboard (v4.26.1) for SG Cars Trends, built with Next.js 15.4.7 and shadcn/ui components. The dashboard provides
 administrative functionality for managing the SG Cars Trends platform, including content management, data oversight, and
 system monitoring.
 
