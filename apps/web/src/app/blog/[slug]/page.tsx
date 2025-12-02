@@ -10,13 +10,10 @@ import {
 import { mdxComponents } from "@web/app/blog/_components/mdx-components";
 import { ProgressBar } from "@web/app/blog/_components/progress-bar";
 import { RelatedPosts } from "@web/app/blog/_components/related-posts";
-import {
-  getAllPostsWithMocks as getAllPosts,
-  getPostWithMocks as getPostBySlug,
-} from "@web/app/blog/_data/mock-posts-helper"; // TODO: Remove and import from "@web/queries/posts" instead
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
 import { getPostViewCount } from "@web/lib/data/posts";
+import { getAllPosts, getPostBySlug } from "@web/queries/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -104,11 +101,6 @@ const BlogPostPage = async ({ params }: Props) => {
     notFound();
   }
 
-  const metadata = post.metadata as {
-    featured?: boolean;
-    modelVersion?: string;
-    readingTime?: number;
-  };
   const publishedDate = post.publishedAt || post.createdAt;
   const initialViewCount = await getPostViewCount(post.id);
 
@@ -136,6 +128,25 @@ const BlogPostPage = async ({ params }: Props) => {
     mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
     wordCount: post.content.split(/\s+/).length,
     inLanguage: "en-SG",
+    author: {
+      "@type": "Organization",
+      name: "SG Cars Trends",
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "SG Cars Trends",
+      url: SITE_URL,
+    },
+    image: heroImage
+      ? {
+          "@type": "ImageObject",
+          url: heroImage,
+        }
+      : undefined,
+    keywords: post.tags?.join(", "),
+    articleSection:
+      post.dataType === "cars" ? "Market Analysis" : "COE Bidding",
     isPartOf: {
       "@type": "Blog",
       name: "SG Cars Trends Blog",

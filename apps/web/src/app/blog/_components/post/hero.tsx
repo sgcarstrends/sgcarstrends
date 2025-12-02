@@ -2,8 +2,6 @@
 
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
-import { isMockPost } from "@web/app/blog/_data/mock-posts";
-import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import Image from "next/image";
 import {
   formatDate,
@@ -27,9 +25,8 @@ export const Hero = ({ post }: Props) => {
   const category = getCategoryConfig(post);
   const imageUrl = getPostImage(post, "hero");
   const readingTime = getReadingTime(post);
-  const isMock = isMockPost(post.id);
 
-  const heroContent = (
+  return (
     <Link href={`/blog/${post.slug}`} className="group block h-full">
       <article className="relative aspect-[16/10] w-full overflow-hidden rounded-lg md:aspect-[21/12]">
         {/* Background Image */}
@@ -67,11 +64,4 @@ export const Hero = ({ post }: Props) => {
       </article>
     </Link>
   );
-
-  // Wrap mock posts with UnreleasedFeature indicator
-  if (isMock) {
-    return <UnreleasedFeature>{heroContent}</UnreleasedFeature>;
-  }
-
-  return heroContent;
 };

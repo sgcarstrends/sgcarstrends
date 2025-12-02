@@ -1,9 +1,9 @@
 import { BlogList } from "@web/app/blog/_components/blog-list";
-import { getAllPostsWithMocks as getAllPosts } from "@web/app/blog/_data/mock-posts-helper"; // TODO: Remove and import from "@web/queries/posts" instead
 import { StructuredData } from "@web/components/structured-data";
 import { SubscribeForm } from "@web/components/subscribe-form";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { getAllPosts } from "@web/queries/posts";
 import type { Metadata } from "next";
 import type { Blog, WithContext } from "schema-dts";
 
