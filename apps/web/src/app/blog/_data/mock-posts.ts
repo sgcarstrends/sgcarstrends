@@ -61,10 +61,6 @@ export const mockPosts: SelectPost[] = [
 
 Singapore's car market in November 2025 continues its remarkable shift towards electrification, with Electric Vehicles (EVs) maintaining their dominant position.
 
-## Key Highlights
-
-Electric vehicles secured over half of all new registrations, marking a significant milestone in Singapore's green transportation journey.
-
 ## Fuel Type Analysis
 
 | Fuel Type | Registrations | Percentage |
@@ -81,14 +77,15 @@ The trend towards electrification shows no signs of slowing down.`,
     createdAt: new Date(now.getTime() - oneDay),
     modifiedAt: new Date(now.getTime() - oneDay),
     publishedAt: new Date(now.getTime() - oneDay),
+    heroImage: HERO_IMAGES.evCharging,
+    highlights: sampleHighlights,
+    excerpt:
+      "Singapore's November 2025 car market sees EVs claim over 54% of new registrations, continuing the electrification momentum.",
+    tags: ["Electric Vehicles", "Market Analysis", "November 2025"],
+    month: "2025-11",
+    dataType: "cars",
     metadata: {
       featured: true,
-      excerpt:
-        "Singapore's November 2025 car market sees EVs claim over 54% of new registrations, continuing the electrification momentum.",
-      tags: ["Electric Vehicles", "Market Analysis", "November 2025"],
-      dataType: "cars",
-      heroImage: HERO_IMAGES.evCharging,
-      highlights: sampleHighlights,
     },
   },
   {
@@ -114,30 +111,31 @@ The surge reflects continued strong demand despite economic headwinds.`,
     createdAt: new Date(now.getTime() - 2 * oneDay),
     modifiedAt: new Date(now.getTime() - 2 * oneDay),
     publishedAt: new Date(now.getTime() - 2 * oneDay),
+    heroImage: HERO_IMAGES.cityTraffic,
+    highlights: [
+      {
+        value: "$125,000",
+        label: "Cat B COE",
+        detail: "Highest in 6 months",
+      },
+      {
+        value: "+13.6%",
+        label: "Biggest Jump",
+        detail: "Category B leads increases",
+      },
+      {
+        value: "2,847",
+        label: "Total Bids",
+        detail: "Strong demand continues",
+      },
+    ],
+    excerpt:
+      "COE prices climb across all categories with Cat B seeing the largest jump at 13.6%.",
+    tags: ["COE", "Bidding Results", "Market Trends"],
+    month: "2025-11",
+    dataType: "coe",
     metadata: {
       featured: false,
-      excerpt:
-        "COE prices climb across all categories with Cat B seeing the largest jump at 13.6%.",
-      tags: ["COE", "Bidding Results", "Market Trends"],
-      dataType: "coe",
-      heroImage: HERO_IMAGES.cityTraffic,
-      highlights: [
-        {
-          value: "$125,000",
-          label: "Cat B COE",
-          detail: "Highest in 6 months",
-        },
-        {
-          value: "+13.6%",
-          label: "Biggest Jump",
-          detail: "Category B leads increases",
-        },
-        {
-          value: "2,847",
-          label: "Total Bids",
-          detail: "Strong demand continues",
-        },
-      ],
     },
   },
   {
@@ -164,30 +162,31 @@ BYD's competitive pricing and expanded model lineup have driven this change.`,
     createdAt: new Date(now.getTime() - 3 * oneDay),
     modifiedAt: new Date(now.getTime() - 3 * oneDay),
     publishedAt: new Date(now.getTime() - 3 * oneDay),
+    heroImage: HERO_IMAGES.carShowroom,
+    highlights: [
+      {
+        value: "28.5%",
+        label: "BYD Market Share",
+        detail: "Now #1 EV brand in Singapore",
+      },
+      {
+        value: "1,250",
+        label: "BYD Units Sold",
+        detail: "Up 45% from previous month",
+      },
+      {
+        value: "6.2%",
+        label: "Lead Over Tesla",
+        detail: "Gap widening each month",
+      },
+    ],
+    excerpt:
+      "BYD captures 28.5% of the EV market, surpassing Tesla with competitive pricing strategy.",
+    tags: ["Electric Vehicles", "BYD", "Tesla", "Brand Analysis"],
+    month: "2025-10",
+    dataType: "cars",
     metadata: {
       featured: false,
-      excerpt:
-        "BYD captures 28.5% of the EV market, surpassing Tesla with competitive pricing strategy.",
-      tags: ["Electric Vehicles", "BYD", "Tesla", "Brand Analysis"],
-      dataType: "cars",
-      heroImage: HERO_IMAGES.carShowroom,
-      highlights: [
-        {
-          value: "28.5%",
-          label: "BYD Market Share",
-          detail: "Now #1 EV brand in Singapore",
-        },
-        {
-          value: "1,250",
-          label: "BYD Units Sold",
-          detail: "Up 45% from previous month",
-        },
-        {
-          value: "6.2%",
-          label: "Lead Over Tesla",
-          detail: "Gap widening each month",
-        },
-      ],
     },
   },
   {
@@ -256,45 +255,46 @@ The data suggests that this segment will remain robust through at least 2027, pr
     createdAt: new Date(now.getTime() - 4 * oneDay),
     modifiedAt: new Date(now.getTime() - 4 * oneDay),
     publishedAt: new Date(now.getTime() - 4 * oneDay),
+    heroImage: HERO_IMAGES.teslaWhite,
+    highlights: [
+      {
+        value: "36.5%",
+        label: "Hybrid Market Share",
+        detail: "Up 5.3pp from previous quarter",
+      },
+      {
+        value: "+21.3%",
+        label: "Sales Growth",
+        detail: "1,847 units sold in Q3 2025",
+      },
+      {
+        value: "42",
+        label: "Models Available",
+        detail: "10.5% increase in choice",
+      },
+      {
+        value: "4.1L",
+        label: "Best Efficiency",
+        detail: "Toyota Prius leads the segment",
+      },
+      {
+        value: "45%",
+        label: "Cost-Driven Buyers",
+        detail: "Primary purchase motivation",
+      },
+      {
+        value: "2027",
+        label: "Growth Horizon",
+        detail: "Projected strong demand",
+      },
+    ],
+    excerpt:
+      "A comprehensive analysis of Singapore's hybrid vehicle market, examining growth trends, consumer preferences, and the role of electrified powertrains in the transition to sustainable mobility.",
+    tags: ["Hybrid Vehicles", "Market Analysis", "Sustainability", "Trends"],
+    month: "2025-09",
+    dataType: "cars",
     metadata: {
       featured: true,
-      excerpt:
-        "A comprehensive analysis of Singapore's hybrid vehicle market, examining growth trends, consumer preferences, and the role of electrified powertrains in the transition to sustainable mobility.",
-      tags: ["Hybrid Vehicles", "Market Analysis", "Sustainability", "Trends"],
-      dataType: "cars",
-      heroImage: HERO_IMAGES.teslaWhite,
-      highlights: [
-        {
-          value: "36.5%",
-          label: "Hybrid Market Share",
-          detail: "Up 5.3pp from previous quarter",
-        },
-        {
-          value: "+21.3%",
-          label: "Sales Growth",
-          detail: "1,847 units sold in Q3 2025",
-        },
-        {
-          value: "42",
-          label: "Models Available",
-          detail: "10.5% increase in choice",
-        },
-        {
-          value: "4.1L",
-          label: "Best Efficiency",
-          detail: "Toyota Prius leads the segment",
-        },
-        {
-          value: "45%",
-          label: "Cost-Driven Buyers",
-          detail: "Primary purchase motivation",
-        },
-        {
-          value: "2027",
-          label: "Growth Horizon",
-          detail: "Projected strong demand",
-        },
-      ],
     },
   },
 ];

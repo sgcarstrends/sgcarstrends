@@ -99,13 +99,7 @@ export const GENERATION_INSTRUCTIONS = {
        - 2-3 sentences highlighting the most significant findings
        - Set the context for readers
 
-    3. KEY HIGHLIGHTS:
-       - H2 section with 3-5 bullet points
-       - Focus on the most interesting or surprising statistics
-       - Include specific numbers and percentages
-       - Use trend indicators (increased, decreased, surged, declined)
-
-    4. DATA TABLES:
+    3. DATA TABLES:
        - Include these 2 tables in markdown format with H3 headers:
          a) "Fuel Type Breakdown": Group and sum registrations by fuel_type
          b) "Vehicle Type Breakdown": Group and sum registrations by vehicle_type
@@ -119,7 +113,7 @@ export const GENERATION_INSTRUCTIONS = {
        - Format numbers with commas (e.g., 1,234)
        - Align columns properly
 
-    5. DETAILED ANALYSIS:
+    4. DETAILED ANALYSIS:
        - H2 section with subsections (H3) covering:
          * Fuel Type Trends: Analyse petrol, hybrid, electric vehicle adoption
          * Popular Makes and Models: Discuss top performing brands
@@ -129,7 +123,7 @@ export const GENERATION_INSTRUCTIONS = {
        - Reference Singapore context (e.g., EV incentives, government policies, charging infrastructure)
        - Connect to broader trends (sustainability, economic factors)
 
-    6. MARKET IMPLICATIONS:
+    5. MARKET IMPLICATIONS:
        - H2 section discussing what the data means for:
          * Prospective car buyers
          * The automotive industry
@@ -188,14 +182,7 @@ export const GENERATION_INSTRUCTIONS = {
        - 2-3 sentences highlighting the most significant premium movements
        - Set context for what happened in the market
 
-    3. KEY HIGHLIGHTS:
-       - H2 section with 3-5 bullet points
-       - Focus on the most significant premium changes
-       - Include specific numbers and percentage changes
-       - Highlight which categories saw biggest movements
-       - Use trend indicators (surged, dropped, remained stable)
-
-    4. DATA TABLES:
+    3. DATA TABLES:
        - Include these 2 tables in markdown format with H3 headers:
          a) "First Bidding Exercise Results": Filter data where biddingNo = 1
          b) "Second Bidding Exercise Results": Filter data where biddingNo = 2
@@ -211,7 +198,7 @@ export const GENERATION_INSTRUCTIONS = {
        - Format numbers with commas
        - Align columns properly
 
-    5. DETAILED ANALYSIS:
+    4. DETAILED ANALYSIS:
        - H2 section with subsections (H3) covering:
          * Bidding Competition: Analyse over-subscription rates for each category
          * Premium Movements: Discuss price changes and what drove them
@@ -221,7 +208,7 @@ export const GENERATION_INSTRUCTIONS = {
        - Reference Singapore context (quota adjustments, seasonal patterns, economic factors)
        - Explain what the numbers mean for different buyer segments
 
-    6. BUYER IMPLICATIONS:
+    5. BUYER IMPLICATIONS:
        - H2 section titled "What This Means for Car Buyers"
        - Provide practical insights for:
          * Category A buyers (small cars)
