@@ -9,6 +9,7 @@ import {
   GENERATION_INSTRUCTIONS,
   GENERATION_PROMPTS,
 } from "./config";
+import { getHeroImage } from "./hero-images";
 import { shutdownTracing, startTracing } from "./instrumentation";
 import { savePost } from "./save-post";
 import { type GeneratedPost, postSchema } from "./schemas";
@@ -143,6 +144,9 @@ export const generateAndSavePost = async (
 
     console.log(`${dataType} blog post generated, saving to database...`);
 
+    // Get hero image for this data type
+    const heroImage = getHeroImage(dataType);
+
     // Save to database using structured output fields directly
     const post = await savePost({
       title: object.title,
@@ -150,6 +154,7 @@ export const generateAndSavePost = async (
       excerpt: object.excerpt,
       tags: object.tags,
       highlights: object.highlights,
+      heroImage,
       month,
       dataType,
       responseMetadata: {
