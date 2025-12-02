@@ -1,7 +1,7 @@
 import { Button } from "@heroui/button";
 import { Separator } from "@sgcarstrends/ui/components/separator";
 import { updatePostTags } from "@web/app/blog/_actions/tags";
-import { ArticleHeader } from "@web/app/blog/_components/article-header";
+import { BlogHero } from "@web/app/blog/_components/blog-hero";
 import { HorizontalTOC } from "@web/app/blog/_components/horizontal-toc";
 import {
   type Highlight,
@@ -10,18 +10,15 @@ import {
 import { mdxComponents } from "@web/app/blog/_components/mdx-components";
 import { ProgressBar } from "@web/app/blog/_components/progress-bar";
 import { RelatedPosts } from "@web/app/blog/_components/related-posts";
-import {
-  getAllPostsWithMocks as getAllPosts,
-  getPostWithMocks as getPostBySlug,
-} from "@web/app/blog/_data/mock-posts-helper"; // TODO: Remove and import from "@web/queries/posts" instead
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
 import { getPostViewCount } from "@web/lib/data/posts";
+import { getAllPosts, getPostBySlug } from "@web/queries/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { after } from "next/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import readingTime from "reading-time";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -104,11 +101,6 @@ const BlogPostPage = async ({ params }: Props) => {
     notFound();
   }
 
-  const metadata = post.metadata as {
-    featured?: boolean;
-    modelVersion?: string;
-    readingTime?: number;
-  };
   const publishedDate = post.publishedAt || post.createdAt;
   const initialViewCount = await getPostViewCount(post.id);
 
@@ -122,7 +114,10 @@ const BlogPostPage = async ({ params }: Props) => {
 
   // Update post tags in Redis for related posts functionality
   if (post.tags && post.tags.length > 0) {
-    updatePostTags(post.id, post.tags).catch(console.error);
+    const tags = post.tags;
+    after(async () => {
+      await updatePostTags(post.id, tags);
+    });
   }
 
   const structuredData: WithContext<BlogPosting> = {
@@ -136,6 +131,25 @@ const BlogPostPage = async ({ params }: Props) => {
     mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
     wordCount: post.content.split(/\s+/).length,
     inLanguage: "en-SG",
+    author: {
+      "@type": "Organization",
+      name: "SG Cars Trends",
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "SG Cars Trends",
+      url: SITE_URL,
+    },
+    image: heroImage
+      ? {
+          "@type": "ImageObject",
+          url: heroImage,
+        }
+      : undefined,
+    keywords: post.tags?.join(", "),
+    articleSection:
+      post.dataType === "cars" ? "Market Analysis" : "COE Bidding",
     isPartOf: {
       "@type": "Blog",
       name: "SG Cars Trends Blog",
@@ -150,91 +164,79 @@ const BlogPostPage = async ({ params }: Props) => {
       <StructuredData data={structuredData} />
       <ProgressBar />
 
-      {/* Article Header - Hybrid style: centered with gradient title */}
-      <ArticleHeader
-        title={post.title}
-        publishedAt={publishedDate}
-        readingTimeText={readingTimeText}
-        tags={post.tags ?? undefined}
-        postId={post.id}
-        initialViewCount={initialViewCount}
-      />
-
-      {/* Hero Image - Full width with subtle bottom fade */}
-      {heroImage && (
-        <div className="relative">
-          <Image
-            src={heroImage}
-            alt={post.title}
-            width={1200}
-            height={514}
-            className="aspect-[21/9] w-full object-cover"
-            priority
-          />
-          {/* Subtle bottom fade to blend with content */}
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
-        </div>
-      )}
-
-      {/* Main Content - Single column, centered */}
-      <div className="mx-auto max-w-3xl px-6 pt-8">
-        {/* Horizontal TOC */}
-        <HorizontalTOC />
-
-        {/* Key Highlights */}
-        <KeyHighlights
-          highlights={post.highlights as Highlight[] | undefined}
+      {/* Full-width content wrapper */}
+      <div className="flex flex-col">
+        {/* Bloomberg-style Hero with overlaid title */}
+        <BlogHero
+          title={post.title}
+          heroImage={heroImage}
+          publishedAt={publishedDate}
+          readingTimeText={readingTimeText}
+          tags={post.tags ?? undefined}
+          postId={post.id}
+          initialViewCount={initialViewCount}
         />
 
-        {/* Article Content */}
-        <article className="prose dark:prose-invert max-w-none">
-          <MDXRemote
-            source={post.content}
-            components={mdxComponents}
-            options={{
-              mdxOptions: {
-                format: "md",
-                remarkPlugins: [
-                  remarkGfm,
-                  [
-                    remarkToc,
-                    {
-                      heading: "Table of Contents|Contents|TOC",
-                      maxDepth: 3,
-                      tight: true,
-                    },
-                  ],
-                ],
-                rehypePlugins: [
-                  rehypeSlug,
-                  [
-                    rehypeAutolinkHeadings,
-                    {
-                      behavior: "append",
-                      properties: {
-                        className: ["permalink"],
-                      },
-                    },
-                  ],
-                ],
-              },
-            }}
+        {/* Main Content - Single column, centered */}
+        <div className="container mx-auto flex flex-col gap-8">
+          {/* Horizontal TOC */}
+          <HorizontalTOC />
+
+          {/* Key Highlights */}
+          <KeyHighlights
+            highlights={post.highlights as Highlight[] | undefined}
           />
-        </article>
 
-        {/* Related Posts */}
-        <div className="mt-12">
-          <RelatedPosts currentPostId={post.id} />
-        </div>
+          {/* Article Content */}
+          <article className="prose dark:prose-invert max-w-none">
+            <MDXRemote
+              source={post.content}
+              components={mdxComponents}
+              options={{
+                mdxOptions: {
+                  format: "md",
+                  remarkPlugins: [
+                    remarkGfm,
+                    [
+                      remarkToc,
+                      {
+                        heading: "Table of Contents|Contents|TOC",
+                        maxDepth: 3,
+                        tight: true,
+                      },
+                    ],
+                  ],
+                  rehypePlugins: [
+                    rehypeSlug,
+                    [
+                      rehypeAutolinkHeadings,
+                      {
+                        behavior: "append",
+                        properties: {
+                          className: ["permalink"],
+                        },
+                      },
+                    ],
+                  ],
+                },
+              }}
+            />
+          </article>
 
-        <Separator className="my-6" />
-        <div className="flex justify-center pb-8">
-          <Button color="primary" variant="ghost">
-            <Link href="/blog" className="flex items-center gap-2">
-              <Undo2 className="size-4" />
-              <span>Back to blog</span>
-            </Link>
-          </Button>
+          {/* Related Posts */}
+          <div className="mt-12">
+            <RelatedPosts currentPostId={post.id} />
+          </div>
+
+          <Separator className="my-6" />
+          <div className="flex justify-center pb-8">
+            <Button color="primary" variant="ghost">
+              <Link href="/blog" className="flex items-center gap-2">
+                <Undo2 className="size-4" />
+                <span>Back to blog</span>
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </>

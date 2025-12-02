@@ -72,8 +72,11 @@ export const HorizontalTOC = () => {
   }
 
   return (
-    <nav className="mb-8 border-default-200 border-b pb-6">
-      <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+    <nav className="mb-12 border-foreground border-b-2 pb-6">
+      <div className="mb-4 font-bold text-foreground/60 text-xs uppercase tracking-[0.3em]">
+        In This Report
+      </div>
+      <div className="flex flex-wrap gap-x-6 gap-y-2">
         {headings.map((heading, idx) => (
           <a
             key={heading.id}
@@ -87,15 +90,15 @@ export const HorizontalTOC = () => {
               }
             }}
             className={cn(
-              "group flex items-center gap-2 text-sm transition-colors",
+              "group flex items-center gap-2 font-bold text-sm underline-offset-4 transition-colors hover:underline",
               activeId === heading.id
                 ? "text-foreground"
-                : "text-default-600 hover:text-foreground",
+                : "text-foreground hover:text-foreground",
             )}
           >
             <span
               className={cn(
-                "font-bold text-xs transition-opacity",
+                "text-xs transition-opacity",
                 activeId === heading.id
                   ? "text-primary"
                   : "text-primary/60 group-hover:text-primary",

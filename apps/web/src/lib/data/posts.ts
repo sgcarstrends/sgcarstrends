@@ -111,7 +111,8 @@ export async function getRelatedPosts(postId: string, limit: number = 3) {
     const relatedPostIds = Array.from(scoredPosts.entries())
       .sort(([, a], [, b]) => b - a)
       .slice(0, limit)
-      .map(([postId]) => postId);
+      .map(([postId]) => postId)
+      .filter((id) => id?.trim().length > 0);
 
     if (relatedPostIds.length === 0) {
       return [];

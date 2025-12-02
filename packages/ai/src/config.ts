@@ -145,7 +145,7 @@ export const GENERATION_INSTRUCTIONS = {
     - title: SEO-optimised title (STRICTLY max 60 chars). Do NOT include this in the content.
     - excerpt: 2-3 sentence summary for meta description (STRICTLY max 300 chars - be concise!)
     - content: Full markdown blog post starting from H2 (Executive Summary). Do NOT include the H1 title.
-    - tags: 3-5 topic tags (e.g., "Electric Vehicles", "Market Analysis", "Toyota")
+    - tags: 3-5 topic tags in Title Case. First tag MUST be "Cars", followed by 2-4 tags from: "Registrations", "Fuel Types", "Vehicle Types", "Monthly Update", "New Registration", "Market Trends"
     - highlights: 3-6 key statistics for visual display, each with:
       * value: The metric (e.g., "52.60%", "12,345")
       * label: Short label (e.g., "Electric Vehicles Lead")
@@ -232,7 +232,7 @@ export const GENERATION_INSTRUCTIONS = {
     - title: SEO-optimised title (STRICTLY max 60 chars). Do NOT include this in the content.
     - excerpt: 2-3 sentence summary for meta description (STRICTLY max 300 chars - be concise!)
     - content: Full markdown blog post starting from H2 (Executive Summary). Do NOT include the H1 title.
-    - tags: 3-5 topic tags (e.g., "COE Bidding", "Category A", "Premium Prices")
+    - tags: 3-5 topic tags in Title Case. First tag MUST be "COE", followed by 2-4 tags from: "Quota Premium", "1st Bidding Round", "2nd Bidding Round", "Monthly Update", "PQP"
     - highlights: 3-6 key statistics for visual display, each with:
       * value: The metric (e.g., "$95,000", "2.5x", "+15%")
       * label: Short label (e.g., "Category B Premium")
