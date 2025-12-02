@@ -11,14 +11,19 @@ export const categoryConfig: Record<
   }
 > = {
   coe: {
-    label: "COE TRENDS",
+    label: "COE",
     className: "text-primary",
     color: "primary",
   },
   cars: {
-    label: "EV MARKET",
+    label: "Cars",
     className: "text-success",
     color: "success",
+  },
+  default: {
+    label: "Insights",
+    className: "text-secondary",
+    color: "secondary",
   },
 };
 
@@ -29,12 +34,12 @@ export const defaultCategory = {
   color: "secondary" as ChipProps["color"],
 };
 
-// Default images by category (generic, no brand logos)
-// Base URLs without size parameters - append ?w=X&h=Y&fit=crop as needed
+// Default images by category (Singapore-focused)
+// Base URLs without size parameters - getImageUrl adds ?w=X&h=Y&fit=crop as needed
 export const categoryImages: Record<string, string> = {
-  coe: "https://images.unsplash.com/photo-1565967511849-76a60a516170", // Singapore Marina Bay skyline
-  cars: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64", // EV charging cable/plug
-  default: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8", // Car on road
+  cars: "https://images.unsplash.com/photo-1519043916581-33ecfdba3b1c", // Singapore highway with cars
+  coe: "https://images.unsplash.com/photo-1519045550819-021aa92e9312", // Marina Bay Sands beside road
+  default: "https://images.unsplash.com/photo-1519043916581-33ecfdba3b1c", // Singapore highway with cars
 };
 
 // Image sizes for different contexts
@@ -58,25 +63,18 @@ export const getPostImage = (
   post: SelectPost,
   size: keyof typeof imageSizes = "card",
 ): string => {
-  const metadata = post.metadata as Record<string, unknown>;
-  // Check for heroImage first (new editorial layout), then image, then category default
-  const heroImage = metadata?.heroImage as string | undefined;
-  const customImage = metadata?.image as string | undefined;
-  const dataType = (metadata?.dataType as string) || "default";
-
+  // Use top-level fields (flattened schema) with category fallback
   const baseUrl =
-    heroImage ||
-    customImage ||
-    categoryImages[dataType] ||
+    post.heroImage ||
+    categoryImages[post.dataType ?? "default"] ||
     categoryImages.default;
   return getImageUrl(baseUrl, size);
 };
 
 // Get category configuration for a post
 export const getCategoryConfig = (post: SelectPost) => {
-  const metadata = post.metadata as Record<string, unknown>;
-  const dataType = (metadata?.dataType as string) || "default";
-  return categoryConfig[dataType] || defaultCategory;
+  // Use top-level dataType field (flattened schema)
+  return categoryConfig[post.dataType ?? "default"] || defaultCategory;
 };
 
 // Get reading time from post metadata with default fallback
@@ -85,10 +83,9 @@ export const getReadingTime = (post: SelectPost): number => {
   return (metadata?.readingTime as number) || 5;
 };
 
-// Get excerpt from post metadata
+// Get excerpt from post (top-level field in flattened schema)
 export const getExcerpt = (post: SelectPost): string | undefined => {
-  const metadata = post.metadata as Record<string, unknown>;
-  return metadata?.excerpt as string | undefined;
+  return post.excerpt ?? undefined;
 };
 
 // Format date for display

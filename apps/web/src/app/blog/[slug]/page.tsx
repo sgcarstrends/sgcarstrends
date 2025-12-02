@@ -46,15 +46,6 @@ export const generateMetadata = async ({
 
   const canonical = `/blog/${post.slug}`;
 
-  const metadata = post.metadata as {
-    featured?: boolean;
-    modelVersion?: string;
-    excerpt?: string;
-    tags?: string[];
-    readingTime?: number;
-  };
-  const excerpt = metadata?.excerpt || "";
-
   const publishedDate = post.publishedAt ?? post.createdAt;
   const modifiedDate = post.modifiedAt;
 
@@ -63,19 +54,19 @@ export const generateMetadata = async ({
 
   return {
     title: post.title,
-    description: excerpt,
-    keywords: metadata?.tags ?? [],
+    description: post.excerpt || "",
+    keywords: post.tags ?? [],
     authors: [{ name: "SG Cars Trends AI", url: SITE_URL }],
     creator: "SG Cars Trends",
     publisher: "SG Cars Trends",
     openGraph: {
       title: post.title,
-      description: excerpt,
+      description: post.excerpt || "",
       type: "article",
       publishedTime: publishedDate.toISOString(),
       modifiedTime: modifiedDate.toISOString(),
       authors: ["SG Cars Trends"],
-      tags: metadata?.tags ?? [],
+      tags: post.tags ?? [],
       url: `${SITE_URL}${canonical}`,
       images: [
         {
@@ -89,7 +80,7 @@ export const generateMetadata = async ({
     twitter: {
       card: "summary_large_image",
       title: post.title,
-      description: excerpt,
+      description: post.excerpt || "",
       images: [ogImageUrl],
       creator: "@sgcarstrends",
       site: "@sgcarstrends",
@@ -116,26 +107,29 @@ const BlogPostPage = async ({ params }: Props) => {
   const metadata = post.metadata as {
     featured?: boolean;
     modelVersion?: string;
-    excerpt?: string;
-    tags?: string[];
     readingTime?: number;
-    heroImage?: string;
-    highlights?: Highlight[];
   };
   const publishedDate = post.publishedAt || post.createdAt;
   const initialViewCount = await getPostViewCount(post.id);
-  const heroImage = metadata?.heroImage;
+
+  // Fallback hero images based on data type
+  const defaultHeroImages: Record<string, string> = {
+    cars: "https://images.unsplash.com/photo-1519043916581-33ecfdba3b1c?w=1200&h=514&fit=crop",
+    coe: "https://images.unsplash.com/photo-1519045550819-021aa92e9312?w=1200&h=514&fit=crop",
+  };
+  const heroImage =
+    post.heroImage || defaultHeroImages[post.dataType ?? "cars"];
 
   // Update post tags in Redis for related posts functionality
-  if (metadata?.tags && metadata.tags.length > 0) {
-    updatePostTags(post.id, metadata.tags).catch(console.error);
+  if (post.tags && post.tags.length > 0) {
+    updatePostTags(post.id, post.tags).catch(console.error);
   }
 
   const structuredData: WithContext<BlogPosting> = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
-    description: metadata?.excerpt,
+    description: post.excerpt ?? undefined,
     datePublished: publishedDate.toISOString(),
     dateModified: post.modifiedAt.toISOString(),
     url: `${SITE_URL}/blog/${post.slug}`,
@@ -161,7 +155,7 @@ const BlogPostPage = async ({ params }: Props) => {
         title={post.title}
         publishedAt={publishedDate}
         readingTimeText={readingTimeText}
-        tags={metadata?.tags}
+        tags={post.tags ?? undefined}
         postId={post.id}
         initialViewCount={initialViewCount}
       />
@@ -188,7 +182,9 @@ const BlogPostPage = async ({ params }: Props) => {
         <HorizontalTOC />
 
         {/* Key Highlights */}
-        <KeyHighlights highlights={metadata?.highlights} />
+        <KeyHighlights
+          highlights={post.highlights as Highlight[] | undefined}
+        />
 
         {/* Article Content */}
         <article className="prose dark:prose-invert max-w-none">
