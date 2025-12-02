@@ -1,7 +1,7 @@
 import { Button } from "@heroui/button";
 import { Separator } from "@sgcarstrends/ui/components/separator";
 import { updatePostTags } from "@web/app/blog/_actions/tags";
-import { ArticleHeader } from "@web/app/blog/_components/article-header";
+import { BlogHero } from "@web/app/blog/_components/blog-hero";
 import { HorizontalTOC } from "@web/app/blog/_components/horizontal-toc";
 import {
   type Highlight,
@@ -16,7 +16,6 @@ import { getPostViewCount } from "@web/lib/data/posts";
 import { getAllPosts, getPostBySlug } from "@web/queries/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { after } from "next/server";
@@ -165,11 +164,12 @@ const BlogPostPage = async ({ params }: Props) => {
       <StructuredData data={structuredData} />
       <ProgressBar />
 
-      {/* Full-width white content wrapper */}
+      {/* Full-width content wrapper */}
       <div className="flex flex-col">
-        {/* Article Header - Hybrid style: centered with gradient title */}
-        <ArticleHeader
+        {/* Bloomberg-style Hero with overlaid title */}
+        <BlogHero
           title={post.title}
+          heroImage={heroImage}
           publishedAt={publishedDate}
           readingTimeText={readingTimeText}
           tags={post.tags ?? undefined}
@@ -177,20 +177,8 @@ const BlogPostPage = async ({ params }: Props) => {
           initialViewCount={initialViewCount}
         />
 
-        {/* Hero Image - Full width with subtle bottom fade */}
-        {heroImage && (
-          <Image
-            src={heroImage}
-            alt={post.title}
-            width={1200}
-            height={514}
-            className="aspect-[21/9] w-full object-cover"
-            priority
-          />
-        )}
-
         {/* Main Content - Single column, centered */}
-        <div className="container mx-auto flex flex-col gap-8 py-8">
+        <div className="container mx-auto flex flex-col gap-8">
           {/* Horizontal TOC */}
           <HorizontalTOC />
 
