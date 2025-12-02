@@ -1,37 +1,46 @@
 import { db, posts } from "@sgcarstrends/database";
 import { slugify } from "@sgcarstrends/utils";
-import type { LanguageModelResponseMetadata, LanguageModelUsage } from "ai";
+import type { Highlight } from "./schemas";
 
-export interface PostMetadata {
-  month: string;
-  dataType: "cars" | "coe";
-  responseId: LanguageModelResponseMetadata["id"];
-  modelId: LanguageModelResponseMetadata["modelId"];
-  timestamp: LanguageModelResponseMetadata["timestamp"];
-  usage: LanguageModelUsage;
+export interface TokenUsage {
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
 }
 
-export interface BlogPost {
+export interface PostParams {
   title: string;
   content: string;
-  metadata: PostMetadata;
+  excerpt: string;
+  tags: string[];
+  highlights: Highlight[];
+  month: string;
+  dataType: "cars" | "coe";
+  responseMetadata: {
+    responseId: string;
+    modelId: string;
+    timestamp: Date;
+    usage?: TokenUsage;
+  };
 }
 
-export const savePost = async (data: BlogPost) => {
+export const savePost = async (data: PostParams) => {
   const slug = slugify(data.title);
-  const { month, dataType } = data.metadata;
 
-  // Use INSERT with ON CONFLICT DO UPDATE (upsert) for idempotent operation
   const [post] = await db
     .insert(posts)
     .values({
       title: data.title,
       slug,
       content: data.content,
-      metadata: data.metadata,
+      excerpt: data.excerpt,
+      tags: data.tags,
+      highlights: data.highlights,
+      status: "published",
+      metadata: data.responseMetadata,
+      month: data.month,
+      dataType: data.dataType,
       publishedAt: new Date(),
-      month,
-      dataType,
     })
     .onConflictDoUpdate({
       target: [posts.month, posts.dataType],
@@ -39,14 +48,17 @@ export const savePost = async (data: BlogPost) => {
         title: data.title,
         slug,
         content: data.content,
-        metadata: data.metadata,
+        excerpt: data.excerpt,
+        tags: data.tags,
+        highlights: data.highlights,
+        metadata: data.responseMetadata,
         modifiedAt: new Date(),
       },
     })
     .returning();
 
   console.log(
-    `[BLOG_SAVE] Post saved successfully - id: ${post.id}, slug: ${post.slug}, month: ${month}, category: ${dataType}`,
+    `[BLOG_SAVE] Post saved successfully - id: ${post.id}, slug: ${post.slug}, month: ${data.month}, category: ${data.dataType}`,
   );
 
   // Invalidate cache for the blog post

@@ -3,14 +3,14 @@ packages:
   - packages/*
 
 catalog:
-  '@ai-sdk/google': ^2.0.32
+  '@ai-sdk/google': ^2.0.44
   '@langfuse/otel': ^4.4.2
   '@types/node': ^22.16.4
   '@types/react': ^19.2.0
   '@types/react-dom': ^19.2.0
   '@vercel/related-projects': ^1.0.0
   '@vitest/coverage-v8': ^3.2.4
-  ai: ^5.0.52
+  ai: ^5.0.105
   date-fns: ^3.6.0
   next: ^16.0.3
   react: ^19.2.0
