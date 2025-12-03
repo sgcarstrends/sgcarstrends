@@ -144,10 +144,10 @@ async function syncPostTags(postId: string, tags: string[]): Promise<void> {
     // Add new tags (bidirectional mapping)
     {
       const pipeline = redis.pipeline();
-      for (let tag of tags) {
-        tag = slugify(tag);
-        pipeline.zadd(`tags:${tag}:posts`, { score: 1, member: postId });
-        pipeline.sadd(`posts:${postId}:tags`, tag);
+      for (const tag of tags) {
+        const tagSlug = slugify(tag);
+        pipeline.zadd(`tags:${tagSlug}:posts`, { score: 1, member: postId });
+        pipeline.sadd(`posts:${postId}:tags`, tagSlug);
       }
       await pipeline.exec();
     }
