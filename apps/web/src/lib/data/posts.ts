@@ -27,25 +27,27 @@ async function getTagSimilarPosts(
       return [];
     }
 
-    const similarPosts = new Map<string, number>();
-
+    // Pipeline all zrange calls for single round-trip
+    const pipeline = redis.pipeline();
     for (const tag of tags) {
-      const postsWithTag = await redis.smembers(`tags:${tag}:posts`);
+      pipeline.zrange(`tags:${tag}:posts`, 0, -1);
+    }
+    const results = await pipeline.exec();
 
-      for (const otherPostId of postsWithTag) {
-        if (otherPostId !== postId) {
-          similarPosts.set(
-            otherPostId,
-            (similarPosts.get(otherPostId) ?? 0) + 1,
-          );
+    // Score posts by number of matching tags
+    const scoredPosts = new Map<string, number>();
+    for (const posts of results) {
+      for (const id of posts as string[]) {
+        if (id !== postId) {
+          scoredPosts.set(id, (scoredPosts.get(id) ?? 0) + 1);
         }
       }
     }
 
-    return Array.from(similarPosts.entries())
-      .sort(([, a], [, b]) => b - a)
-      .slice(0, limit)
-      .map(([postId, score]) => ({ postId, score }));
+    return Array.from(scoredPosts.entries())
+      .map(([postId, score]) => ({ postId, score }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, limit);
   } catch (error) {
     console.error("Error getting tag similar posts:", error);
     return [];
@@ -121,8 +123,8 @@ export async function getRelatedPosts(postId: string, limit: number = 3) {
     const relatedPostsData = await getPostsByIds(relatedPostIds);
 
     return relatedPostIds.flatMap((id) => {
-      const post = relatedPostsData.find((p) => p.id === id);
-      return post ? [post] : [];
+      const matchingPost = relatedPostsData.find((post) => post.id === id);
+      return matchingPost ? [matchingPost] : [];
     });
   } catch (error) {
     console.error("Error getting related posts:", error);
