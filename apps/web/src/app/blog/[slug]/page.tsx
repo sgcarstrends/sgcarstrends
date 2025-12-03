@@ -1,4 +1,5 @@
 import { Button } from "@heroui/button";
+import { Card, CardBody } from "@heroui/card";
 import { Separator } from "@sgcarstrends/ui/components/separator";
 import { BlogHero } from "@web/app/blog/_components/blog-hero";
 import {
@@ -171,6 +172,29 @@ const BlogPostPage = async ({ params }: Props) => {
         <div className="container mx-auto flex flex-col gap-8">
           {/* Table of Contents */}
           <TableOfContents />
+
+          {/* Excerpt / Executive Summary */}
+          {post.excerpt && (
+            <section>
+              <h2 className="mb-4 font-bold text-foreground/60 text-xs uppercase tracking-[0.3em]">
+                Executive Summary
+              </h2>
+              <Card
+                shadow="none"
+                radius="none"
+                classNames={{
+                  base: "bg-transparent border-l-4 border-primary",
+                  body: "py-0 pl-4",
+                }}
+              >
+                <CardBody>
+                  <p className="text-foreground/90 text-lg leading-relaxed md:text-xl">
+                    {post.excerpt}
+                  </p>
+                </CardBody>
+              </Card>
+            </section>
+          )}
 
           {/* Key Highlights */}
           <KeyHighlights

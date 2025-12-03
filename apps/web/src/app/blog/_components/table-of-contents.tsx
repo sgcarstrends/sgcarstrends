@@ -72,7 +72,7 @@ export const TableOfContents = () => {
   }
 
   return (
-    <nav className="mb-12 border-foreground border-b-2 pb-6">
+    <nav className="border-foreground border-b-2 pb-6">
       <div className="mb-4 font-bold text-foreground/60 text-xs uppercase tracking-[0.3em]">
         In This Report
       </div>
