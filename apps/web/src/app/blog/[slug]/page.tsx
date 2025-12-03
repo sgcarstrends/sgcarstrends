@@ -1,6 +1,5 @@
 import { Button } from "@heroui/button";
 import { Separator } from "@sgcarstrends/ui/components/separator";
-import { updatePostTags } from "@web/app/blog/_actions/tags";
 import { BlogHero } from "@web/app/blog/_components/blog-hero";
 import {
   type Highlight,
@@ -18,7 +17,6 @@ import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { after } from "next/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import readingTime from "reading-time";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -111,14 +109,6 @@ const BlogPostPage = async ({ params }: Props) => {
   };
   const heroImage =
     post.heroImage || defaultHeroImages[post.dataType ?? "cars"];
-
-  // Update post tags in Redis for related posts functionality
-  if (post.tags && post.tags.length > 0) {
-    const tags = post.tags;
-    after(async () => {
-      await updatePostTags(post.id, tags);
-    });
-  }
 
   const structuredData: WithContext<BlogPosting> = {
     "@context": "https://schema.org",

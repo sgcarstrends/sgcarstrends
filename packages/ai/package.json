@@ -13,7 +13,7 @@
     "@opentelemetry/sdk-trace-node": "^2.1.0",
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
-    "@upstash/workflow": "^0.2.12",
+    "@upstash/workflow": "catalog:",
     "ai": "catalog:",
     "drizzle-orm": "0.44.3",
     "zod": "catalog:"

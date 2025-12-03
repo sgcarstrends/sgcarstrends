@@ -21,12 +21,18 @@ catalogs:
     '@types/react-dom':
       specifier: ^19.2.0
       version: 19.2.0
+    '@upstash/workflow':
+      specifier: 0.3.0-rc
+      version: 0.3.0-rc
     '@vercel/related-projects':
       specifier: ^1.0.0
       version: 1.0.0
     '@vitest/coverage-v8':
       specifier: ^3.2.4
       version: 3.2.4
+    ai:
+      specifier: ^5.0.105
+      version: 5.0.105
     date-fns:
       specifier: ^3.6.0
       version: 3.6.0
@@ -60,7 +66,6 @@ catalogs:
 
 overrides:
   form-data@>=4.0.0 <4.0.4: '>=4.0.4'
-  ai: ^5.0.105
 
 importers:
 
@@ -158,7 +163,7 @@ importers:
         specifier: 'catalog:'
         version: 1.0.0
       ai:
-        specifier: ^5.0.105
+        specifier: 'catalog:'
         version: 5.0.105(zod@4.1.12)
       better-auth:
         specifier: ^1.4.3
@@ -258,13 +263,13 @@ importers:
         specifier: ^1.34.8
         version: 1.34.8
       '@upstash/workflow':
-        specifier: ^0.2.12
-        version: 0.2.22
+        specifier: 'catalog:'
+        version: 0.3.0-rc(zod@3.25.76)
       adm-zip:
         specifier: ^0.5.16
         version: 0.5.16
       ai:
-        specifier: ^5.0.105
+        specifier: 'catalog:'
         version: 5.0.105(zod@3.25.76)
       date-fns:
         specifier: 'catalog:'
@@ -548,10 +553,10 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@upstash/workflow':
-        specifier: ^0.2.12
-        version: 0.2.22
+        specifier: 'catalog:'
+        version: 0.3.0-rc(zod@3.25.76)
       ai:
-        specifier: ^5.0.105
+        specifier: 'catalog:'
         version: 5.0.105(zod@3.25.76)
       drizzle-orm:
         specifier: 0.44.3
@@ -726,27 +731,11 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/openai@1.3.24':
-    resolution: {integrity: sha512-GYXnGJTHRTZc4gJMSmFRgEQudjqd4PUN0ZjQhPwOAYH1yOAvQoG/Ikqs+HyISRbLPCrhbZnPKCNHuRU4OfpW0Q==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.0.0
-
-  '@ai-sdk/provider-utils@2.2.8':
-    resolution: {integrity: sha512-fqhG+4sCVv8x7nFzYnFo19ryhAa3w096Kmc3hWxMQfW/TubPOmt3A6tYZhl4mUfQWWQMsuSkLrtjlWuXBVSGQA==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.23.8
-
   '@ai-sdk/provider-utils@3.0.18':
     resolution: {integrity: sha512-ypv1xXMsgGcNKUP+hglKqtdDuMg68nWHucPPAhIENrbFAI+xCHiqPVN8Zllxyv1TNZwGWUghPxJXU+Mqps0YRQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
-
-  '@ai-sdk/provider@1.1.3':
-    resolution: {integrity: sha512-qZMxYJ0qqX/RfnuIaab+zp8UAeJn/ygXXAffR5I4N0n1IrvA6qBsjc8hXLmBiMV2zoXlifkacF7sEFnYnjBcqg==}
-    engines: {node: '>=18'}
 
   '@ai-sdk/provider@2.0.0':
     resolution: {integrity: sha512-6o7Y2SeO9vFKB8lArHXehNuusnpddKPk7xqL7T2/b+OvXMRIXUO1rR4wcv1hAFUAT9avGZshty3Wlua/XA7TvA==}
@@ -5665,8 +5654,10 @@ packages:
   '@upstash/redis@1.34.8':
     resolution: {integrity: sha512-eGJgOKc+2Uq4AdSM0lNx+WvFFhQeyhJ32SGNuSniLPg4lNb6m5h2AQ77qL+TgWiMZO8HCQ82Zsc/RlVBevCWTg==}
 
-  '@upstash/workflow@0.2.22':
-    resolution: {integrity: sha512-TaLIZ2iNTMQ796FdHj3KGC+8Zq3rVRjdHke+S+0Dj4FRj70ByfWqN3o4L7uY5r/CNhRpRjqbqgAmWguvI6z8xw==}
+  '@upstash/workflow@0.3.0-rc':
+    resolution: {integrity: sha512-YemPOnlMyxJX3I0nAX1irdZi2E52otUpcovy9wE38lKWEFy0SV7vCAp6zqRBXsN40XcAmDWwvC3xImKA2z77Pw==}
+    peerDependencies:
+      zod: ^3.25.0 || ^4.0.0
 
   '@vercel/analytics@1.5.0':
     resolution: {integrity: sha512-MYsBzfPki4gthY5HnYN7jgInhAZ7Ac1cYDoRWFomwGHWEX7odTEzbtg9kf/QSo7XEsEAqlQugA6gJ2WS2DEa3g==}
@@ -9945,9 +9936,6 @@ packages:
     resolution: {integrity: sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==}
     engines: {node: '>=4'}
 
-  secure-json-parse@2.7.0:
-    resolution: {integrity: sha512-6aU+Rwsezw7VR8/nyvKTx8QpWH9FrcYiXXlqC4z5d5XQBDRqtbfsRjnwGyqbi3gddNtWHuEk9OANUotL26qKUw==}
-
   selderee@0.11.0:
     resolution: {integrity: sha512-5TF+l7p4+OsnP8BCCvSyZiSPc4x4//p5uPwK8TCnVPJYRmU2aYKMpOXvw8zM5a5JvuuCGN1jmsMwuU2W02ukfA==}
 
@@ -11284,19 +11272,6 @@ snapshots:
       '@ai-sdk/provider-utils': 3.0.18(zod@4.1.12)
       zod: 4.1.12
 
-  '@ai-sdk/openai@1.3.24(zod@3.25.76)':
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.76)
-      zod: 3.25.76
-
-  '@ai-sdk/provider-utils@2.2.8(zod@3.25.76)':
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      nanoid: 3.3.11
-      secure-json-parse: 2.7.0
-      zod: 3.25.76
-
   '@ai-sdk/provider-utils@3.0.18(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
@@ -11310,10 +11285,6 @@ snapshots:
       '@standard-schema/spec': 1.0.0
       eventsource-parser: 3.0.6
       zod: 4.1.12
-
-  '@ai-sdk/provider@1.1.3':
-    dependencies:
-      json-schema: 0.4.0
 
   '@ai-sdk/provider@2.0.0':
     dependencies:
@@ -18242,11 +18213,9 @@ snapshots:
     dependencies:
       crypto-js: 4.2.0
 
-  '@upstash/workflow@0.2.22':
+  '@upstash/workflow@0.3.0-rc(zod@3.25.76)':
     dependencies:
-      '@ai-sdk/openai': 1.3.24(zod@3.25.76)
       '@upstash/qstash': 2.8.4
-      ai: 5.0.105(zod@3.25.76)
       zod: 3.25.76
 
   '@vercel/analytics@1.5.0(next@16.0.6(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)':
@@ -23144,8 +23113,6 @@ snapshots:
     dependencies:
       extend-shallow: 2.0.1
       kind-of: 6.0.3
-
-  secure-json-parse@2.7.0: {}
 
   selderee@0.11.0:
     dependencies:
