@@ -1,3 +1,15 @@
+## [4.29.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.28.0...v4.29.0) (2025-12-03)
+
+### Features
+
+* **web:** add excerpt to blog post page ([8c697b6](https://github.com/sgcarstrends/sgcarstrends/commit/8c697b6b037b32d481c626e46c67b7a0a2563413))
+* **web:** add prev/next navigation to blog posts ([5607acb](https://github.com/sgcarstrends/sgcarstrends/commit/5607acbef5ec3e9c5704336b82f4c152f41efb53))
+
+### Bug Fixes
+
+* patch CVE-2025-55182 - upgrade Next.js and React ([3b7fee0](https://github.com/sgcarstrends/sgcarstrends/commit/3b7fee05b876bbb3f7c779b8d368a2c1e4491296))
+* **web:** defer isNewPost check to client ([ee8bf71](https://github.com/sgcarstrends/sgcarstrends/commit/ee8bf711baed564561c7ec833775b72e7daee957))
+
 ## [4.28.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.27.0...v4.28.0) (2025-12-03)
 
 ### Features
