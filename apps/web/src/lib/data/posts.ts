@@ -21,7 +21,7 @@ async function getTagSimilarPosts(
   limit: number,
 ): Promise<Array<{ postId: string; score: number }>> {
   try {
-    const tags = await redis.smembers(`blog:post:tags:${postId}`);
+    const tags = await redis.smembers(`posts:${postId}:tags`);
 
     if (tags.length === 0) {
       return [];
@@ -30,7 +30,7 @@ async function getTagSimilarPosts(
     const similarPosts = new Map<string, number>();
 
     for (const tag of tags) {
-      const postsWithTag = await redis.smembers(`blog:tags:${tag}`);
+      const postsWithTag = await redis.smembers(`tags:${tag}:posts`);
 
       for (const otherPostId of postsWithTag) {
         if (otherPostId !== postId) {
