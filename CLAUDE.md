@@ -18,7 +18,7 @@ and others used in this project.
 
 This repository includes directory-specific CLAUDE.md files with detailed guidance for each component:
 
-- **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, tRPC, and social media
+- **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, and social media
   integration
 - **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 16, HeroUI, blog features, and
   analytics
@@ -93,7 +93,6 @@ All commands use pnpm as the package manager.
     - **src/lib/workflows**: Workflow-based data update system and social media integration
     - **src/routes**: API route handlers including workflow endpoints
     - **src/config**: Database, Redis, QStash, and platform configurations
-    - **src/trpc**: Type-safe tRPC router with authentication
 - **apps/web**: Next.js frontend application
     - **src/app**: Next.js App Router pages and layouts with blog functionality
     - **src/components**: React components with comprehensive tests

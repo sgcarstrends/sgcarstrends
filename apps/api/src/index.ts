@@ -1,16 +1,12 @@
 import { healthRoutes } from "@api/features/health";
 import { logosRoutes } from "@api/features/logos";
 import { workflowRoutes } from "@api/features/workflows";
-import { createTRPCContext } from "@api/trpc/context";
-import { appRouter } from "@api/trpc/router";
 import v1 from "@api/v1";
-import { trpcServer } from "@hono/trpc-server";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 import { Hono } from "hono";
 // import { Ratelimit } from "@upstash/ratelimit";
 import { handle } from "hono/aws-lambda";
-import { bearerAuth } from "hono/bearer-auth";
 import { compress } from "hono/compress";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
@@ -93,16 +89,6 @@ api.doc("/docs", {
 });
 
 api.get("/", Scalar({ url: "/docs" }));
-
-// Add tRPC middleware with authentication
-api.use(
-  "/trpc/*",
-  bearerAuth({ token: process.env.SG_CARS_TRENDS_API_TOKEN as string }),
-  trpcServer({
-    router: appRouter,
-    createContext: (_, c) => createTRPCContext(c),
-  }),
-);
 
 api.route("/workflows", workflowRoutes);
 api.route("/health", healthRoutes);

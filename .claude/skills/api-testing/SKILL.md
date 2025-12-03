@@ -14,7 +14,6 @@ This skill helps you write comprehensive API tests using Vitest for the Hono-bas
 - Validating request/response payloads
 - Testing middleware and error handling
 - Integration testing with database
-- Testing tRPC procedures
 - Testing workflows and background jobs
 - Authentication and authorization testing
 - Rate limiting and caching tests
@@ -91,8 +90,6 @@ apps/api/
 │   │   ├── cars.test.ts           # Cars endpoints
 │   │   ├── coe.test.ts            # COE endpoints
 │   │   └── health.test.ts         # Health check
-│   ├── trpc/
-│   │   └── router.test.ts         # tRPC procedures
 │   ├── workflows/
 │   │   ├── update-car-data.test.ts
 │   │   └── social-media.test.ts
@@ -236,64 +233,6 @@ describe("POST /api/v1/blog/posts", () => {
     });
 
     expect(res.status).toBe(409);
-  });
-});
-```
-
-## Testing tRPC Procedures
-
-### Create Test Caller
-
-```typescript
-// apps/api/__tests__/trpc/router.test.ts
-import { describe, it, expect } from "vitest";
-import { appRouter } from "../../src/trpc/router";
-
-describe("tRPC Router", () => {
-  const caller = appRouter.createCaller({
-    user: null, // Unauthenticated caller
-  });
-
-  describe("cars.getMakes", () => {
-    it("should return car makes", async () => {
-      const result = await caller.cars.getMakes({ month: "2024-01" });
-
-      expect(result).toBeDefined();
-      expect(Array.isArray(result)).toBe(true);
-    });
-
-    it("should validate input", async () => {
-      await expect(
-        caller.cars.getMakes({ month: "invalid" })
-      ).rejects.toThrow();
-    });
-  });
-
-  describe("blog.createPost (protected)", () => {
-    it("should require authentication", async () => {
-      await expect(
-        caller.blog.createPost({
-          title: "Test",
-          content: "Test",
-          slug: "test",
-        })
-      ).rejects.toThrow("Unauthorized");
-    });
-
-    it("should create post when authenticated", async () => {
-      const authenticatedCaller = appRouter.createCaller({
-        user: { id: "test-user", role: "admin" },
-      });
-
-      const result = await authenticatedCaller.blog.createPost({
-        title: "Test Post",
-        content: "Test content",
-        slug: "test-post",
-      });
-
-      expect(result).toHaveProperty("id");
-      expect(result.title).toBe("Test Post");
-    });
   });
 });
 ```
@@ -782,7 +721,6 @@ it("slow test", async () => {
 
 - Vitest Documentation: https://vitest.dev
 - Hono Testing: https://hono.dev/docs/guides/testing
-- tRPC Testing: https://trpc.io/docs/server/testing
 - Related files:
   - `apps/api/vitest.config.ts` - Vitest configuration
   - Root CLAUDE.md - Testing guidelines

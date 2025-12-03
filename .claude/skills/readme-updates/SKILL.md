@@ -78,7 +78,6 @@ pnpm dev
 
 ### Backend
 - **Hono** - Fast web framework for Edge
-- **tRPC** - End-to-end type-safe APIs
 - **Drizzle ORM** - TypeScript ORM
 - **PostgreSQL** - Relational database
 - **Upstash Redis** - Caching layer

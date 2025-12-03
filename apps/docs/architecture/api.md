@@ -42,13 +42,7 @@ graph TB
                 MonthsAPI[GET /v1/months - Available Data Months]
             end
         end
-        
-        subgraph "tRPC Integration"
-            TRPCRouter[/trpc/* - Type-safe API]
-            TRPCAuth[Bearer Auth Middleware]
-            TRPCContext[Context Creation]
-        end
-        
+
         subgraph "Workflow System"
             WorkflowRouter[/workflows Router]
             
@@ -101,11 +95,7 @@ graph TB
     V1Router --> CarsAPI
     V1Router --> COEAPI
     V1Router --> MonthsAPI
-    
-    %% tRPC flow
-    TRPCAuth --> TRPCRouter
-    TRPCRouter --> TRPCContext
-    
+
     %% Workflow system
     BearerAuth --> WorkflowRouter
     WorkflowRouter --> TriggerWorkflow
@@ -136,8 +126,7 @@ graph TB
     
     CarsWorkflow --> PostgreSQL
     COEWorkflow --> PostgreSQL
-    TRPCRouter --> PostgreSQL
-    
+
     %% Error handling
     ErrorHandler --> DiscordHook
     
@@ -148,8 +137,8 @@ graph TB
     classDef database fill:#e8f5e8
     classDef workflow fill:#fce4ec
     
-    class Logger,Compress,PrettyJSON,BearerAuth,ErrorHandler,TRPCAuth middleware
-    class Root,OpenAPI,HealthCheck,CarsAPI,COEAPI,MonthsAPI,TRPCRouter endpoint
+    class Logger,Compress,PrettyJSON,BearerAuth,ErrorHandler middleware
+    class Root,OpenAPI,HealthCheck,CarsAPI,COEAPI,MonthsAPI endpoint
     class QStash,LTA,SocialPlatforms,GeminiAI external
     class PostgreSQL,Redis database
     class TriggerWorkflow,CarsWorkflow,COEWorkflow,LinkedInHook,TwitterHook,DiscordHook,TelegramHook workflow
@@ -200,7 +189,7 @@ The API is built using **Hono**, a modern web framework optimized for edge compu
 **Bearer Token Authentication**
 - Validates `Authorization: Bearer <token>` headers
 - Uses `SG_CARS_TRENDS_API_TOKEN` environment variable
-- Applied to `/v1/*` and `/trpc/*` routes
+- Applied to `/v1/*` routes
 - Workflow endpoints also require authentication
 
 **Rate Limiting (Disabled)**
@@ -256,19 +245,6 @@ All v1 endpoints require Bearer authentication and return structured JSON respon
 - Returns list of months with available data
 - Used for frontend date picker population
 - Separate endpoints for cars and COE data availability
-
-#### tRPC Integration (`/trpc/*`)
-
-**Type-safe API Layer**
-- Full TypeScript integration with automatic type inference
-- Procedure-based architecture with input validation
-- Context creation with authentication state
-- Automatic serialization/deserialization
-
-**Authentication Integration**
-- Bearer token validation for all tRPC procedures
-- Context includes authentication state
-- Type-safe error handling
 
 ### Workflow Endpoints (`/workflows/*`)
 

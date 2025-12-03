@@ -23,7 +23,6 @@ bidding results. Key features include:
 - **Workflow System**: QStash-powered data processing workflows for automated updates
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Twitter, and Telegram
 - **Blog Generation**: LLM-powered blog post creation using Vercel AI SDK with Google Gemini
-- **tRPC Support**: Type-safe API endpoints with authentication
 - **Multi-stage Deployment**: SST-powered deployment to dev, staging, and production
 
 ## Commands
@@ -53,7 +52,6 @@ See `sst-deployment` skill for multi-environment deployment workflows.
 - **src/features/**: Feature modules (cars, coe, health, logos, months, workflows, newsletter, shared)
 - **src/v1/**: Versioned API routes (cars, coe, months) with bearer authentication
 - **src/routes/**: Workflow endpoints and social media webhooks
-- **src/trpc/**: Type-safe tRPC router with context creation
 - **src/lib/workflows/**: QStash workflows (cars, coe, posts, save-post, update-cars, update-coe, workflow, options)
 - **src/lib/social/**: Platform-specific social media posting logic
 - **src/config/**: Configuration for databases, Redis, QStash, and platforms
@@ -110,7 +108,7 @@ See `apps/web/CLAUDE.md` for complete cache tag documentation and the web app's 
 
 ### Authentication & Security
 
-- **Bearer Token Auth**: All /v1 routes and /trpc endpoints require `SG_CARS_TRENDS_API_TOKEN`
+- **Bearer Token Auth**: All /v1 routes require `SG_CARS_TRENDS_API_TOKEN`
 - **Workflow Authentication**: Workflow triggers protected by bearer authentication
 - **Rate Limiting**: Commented rate limiting implementation using Upstash Redis
 
@@ -128,7 +126,6 @@ See `apps/web/CLAUDE.md` for complete cache tag documentation and the web app's 
 - **GET /v1/coe**: COE bidding results
 - **GET /v1/months**: Available data months
 - **POST /workflows/trigger**: Trigger data update workflows
-- **All /trpc/** endpoints\*\*: Type-safe tRPC procedures
 
 ### Workflow Endpoints
 

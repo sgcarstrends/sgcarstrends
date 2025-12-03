@@ -225,13 +225,6 @@ graph LR
     CarService --> Cache[(Redis)]
     COEService --> Cache
     BlogService --> Cache
-
-    API --> tRPC[tRPC Router]
-    tRPC --> Protected[Protected Procedures]
-    tRPC --> Public[Public Procedures]
-
-    Protected --> Auth[Auth Middleware]
-    Auth --> DB
 ```
 
 ### 5. State Diagram (Workflow States)
