@@ -124,7 +124,9 @@ async function revalidateWebCache(slug: string): Promise<void> {
 
 /**
  * Syncs post tags to Redis for related posts functionality
- * Creates bidirectional mappings: posts:{id}:tags and tags:{slug}:posts
+ * Creates bidirectional mappings:
+ * - posts:{id}:tags (set) - tags for a post
+ * - tags:{slug}:posts (sorted set) - posts with this tag, score=1 for zunion aggregation
  */
 async function syncPostTags(postId: string, tags: string[]): Promise<void> {
   try {
@@ -133,7 +135,7 @@ async function syncPostTags(postId: string, tags: string[]): Promise<void> {
     if (existingTags.length > 0) {
       const pipeline = redis.pipeline();
       for (const tag of existingTags) {
-        pipeline.srem(`tags:${tag}:posts`, postId);
+        pipeline.zrem(`tags:${tag}:posts`, postId);
       }
       pipeline.del(`posts:${postId}:tags`);
       await pipeline.exec();
@@ -142,9 +144,9 @@ async function syncPostTags(postId: string, tags: string[]): Promise<void> {
     // Add new tags (bidirectional mapping)
     {
       const pipeline = redis.pipeline();
-      for (const t of tags) {
-        const tag = slugify(t);
-        pipeline.sadd(`tags:${tag}:posts`, postId);
+      for (let tag of tags) {
+        tag = slugify(tag);
+        pipeline.zadd(`tags:${tag}:posts`, { score: 1, member: postId });
         pipeline.sadd(`posts:${postId}:tags`, tag);
       }
       await pipeline.exec();
