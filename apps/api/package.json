@@ -35,7 +35,7 @@
     "@upstash/qstash": "^2.7.23",
     "@upstash/ratelimit": "^2.0.3",
     "@upstash/redis": "^1.34.8",
-    "@upstash/workflow": "^0.2.12",
+    "@upstash/workflow": "catalog:",
     "adm-zip": "^0.5.16",
     "ai": "catalog:",
     "date-fns": "catalog:",
