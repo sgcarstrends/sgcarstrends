@@ -4,6 +4,7 @@ import { Chip } from "@heroui/chip";
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import {
   formatDate,
   getCategoryConfig,
@@ -28,6 +29,12 @@ export const Card = ({ post }: Props) => {
   const imageUrl = getPostImage(post, "card");
   const readingTime = getReadingTime(post);
 
+  // Check if post is new only on client to avoid prerender issues with new Date()
+  const [isNew, setIsNew] = useState(false);
+  useEffect(() => {
+    setIsNew(isNewPost(post));
+  }, [post]);
+
   return (
     <Link href={`/blog/${post.slug}`} className="group block h-full">
       <article className="relative aspect-[16/10] w-full overflow-hidden rounded-lg">
@@ -44,7 +51,7 @@ export const Card = ({ post }: Props) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
 
         {/* NEW Badge */}
-        {isNewPost(post) && (
+        {isNew && (
           <Chip
             size="sm"
             color="warning"
