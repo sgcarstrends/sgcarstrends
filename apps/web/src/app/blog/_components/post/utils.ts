@@ -1,5 +1,6 @@
 import type { ChipProps } from "@heroui/chip";
 import type { SelectPost } from "@sgcarstrends/database";
+import { differenceInDays } from "date-fns";
 
 // Unified category configuration supporting both text styling and HeroUI Chip
 export const categoryConfig: Record<
@@ -99,4 +100,10 @@ export const formatDate = (
       : { month: "short", day: "numeric" };
 
   return new Date(date).toLocaleDateString("en-SG", options);
+};
+
+// Check if post is new (published within threshold days)
+export const isNewPost = (post: SelectPost, daysThreshold = 14): boolean => {
+  const publishedDate = post.publishedAt ?? post.createdAt;
+  return differenceInDays(new Date(), publishedDate) <= daysThreshold;
 };

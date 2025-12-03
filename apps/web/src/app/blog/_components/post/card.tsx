@@ -1,5 +1,6 @@
 "use client";
 
+import { Chip } from "@heroui/chip";
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
 import Image from "next/image";
@@ -8,6 +9,7 @@ import {
   getCategoryConfig,
   getPostImage,
   getReadingTime,
+  isNewPost,
 } from "./utils";
 
 type Props = {
@@ -40,6 +42,21 @@ export const Card = ({ post }: Props) => {
 
         {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
+
+        {/* NEW Badge */}
+        {isNewPost(post) && (
+          <Chip
+            size="sm"
+            color="warning"
+            variant="shadow"
+            classNames={{
+              base: "absolute top-4 right-4 z-10",
+              content: "font-bold text-xs tracking-wide",
+            }}
+          >
+            NEW
+          </Chip>
+        )}
 
         {/* Content - Bottom aligned */}
         <div className="absolute inset-0 flex flex-col justify-end p-4">

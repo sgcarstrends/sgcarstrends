@@ -8,8 +8,8 @@ export async function getPostViewCount(postId: string): Promise<number> {
   cacheTag(`posts:views:${postId}`);
 
   try {
-    const count = await redis.get<string>(`blog:views:${postId}`);
-    return Number.parseInt(count ?? "0", 10);
+    const score = await redis.zscore("blog:popular", postId);
+    return score ?? 0;
   } catch (error) {
     console.error("Error getting post view count:", error);
     return 0;
@@ -54,7 +54,7 @@ async function getTagSimilarPosts(
   }
 }
 
-async function getPopularPosts(
+export async function getPopularPosts(
   limit: number = 10,
 ): Promise<Array<{ postId: string; viewCount: number }>> {
   "use cache";
@@ -62,19 +62,17 @@ async function getPopularPosts(
   cacheTag("posts:popular");
 
   try {
-    const results = await redis.zrange<
-      Array<{ member: string; score: number }>
-    >("blog:popular", 0, limit - 1, {
-      withScores: true,
+    const results = await redis.zrange("blog:popular", 0, limit - 1, {
       rev: true,
+      withScores: true,
     });
 
+    // Handle flat array format: [member1, score1, member2, score2, ...]
     const popularPosts: Array<{ postId: string; viewCount: number }> = [];
-
-    for (const entry of results) {
+    for (let i = 0; i < results.length; i += 2) {
       popularPosts.push({
-        postId: entry.member,
-        viewCount: Number(entry.score),
+        postId: String(results[i]),
+        viewCount: Number(results[i + 1]),
       });
     }
 
@@ -130,4 +128,22 @@ export async function getRelatedPosts(postId: string, limit: number = 3) {
     console.error("Error getting related posts:", error);
     return [];
   }
+}
+
+export async function getPopularPostsWithData(limit = 5) {
+  "use cache";
+  cacheLife("max");
+  cacheTag("posts:popular");
+
+  const popular = await getPopularPosts(limit);
+  if (popular.length === 0) return [];
+
+  const postIds = popular.map((entry) => entry.postId);
+  const posts = await getPostsByIds(postIds);
+
+  // Preserve popularity order and attach view counts
+  return popular.flatMap(({ postId, viewCount }) => {
+    const post = posts.find((item) => item.id === postId);
+    return post ? [{ ...post, viewCount }] : [];
+  });
 }
