@@ -130,7 +130,6 @@ graph TB
 
 **API Service (Hono Framework)**
 - RESTful endpoints for data access (`/v1/cars`, `/v1/coe`, `/v1/months`)
-- tRPC integration for type-safe API calls
 - Workflow orchestration endpoints
 - Social media webhook handlers
 - Bearer token authentication
