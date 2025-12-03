@@ -1,3 +1,9 @@
+## [4.28.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.27.0...v4.28.0) (2025-12-03)
+
+### Features
+
+* **web:** add trending posts and NEW badge ([90c8089](https://github.com/sgcarstrends/sgcarstrends/commit/90c80896b825f4a030beffcb83bdeaa53174aaf0))
+
 ## [4.27.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.26.1...v4.27.0) (2025-12-02)
 
 ### Features
