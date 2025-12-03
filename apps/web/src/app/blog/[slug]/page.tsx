@@ -7,13 +7,19 @@ import {
   KeyHighlights,
 } from "@web/app/blog/_components/key-highlights";
 import { mdxComponents } from "@web/app/blog/_components/mdx-components";
+import { PostNavigation } from "@web/app/blog/_components/post-navigation";
 import { ProgressBar } from "@web/app/blog/_components/progress-bar";
 import { RelatedPosts } from "@web/app/blog/_components/related-posts";
 import { TableOfContents } from "@web/app/blog/_components/table-of-contents";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
 import { getPostViewCount } from "@web/lib/data/posts";
-import { getAllPosts, getPostBySlug } from "@web/queries/posts";
+import {
+  getAllPosts,
+  getNextPost,
+  getPostBySlug,
+  getPreviousPost,
+} from "@web/queries/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -101,7 +107,11 @@ const BlogPostPage = async ({ params }: Props) => {
   }
 
   const publishedDate = post.publishedAt || post.createdAt;
-  const initialViewCount = await getPostViewCount(post.id);
+  const [initialViewCount, previousPost, nextPost] = await Promise.all([
+    getPostViewCount(post.id),
+    getPreviousPost(publishedDate),
+    getNextPost(publishedDate),
+  ]);
 
   // Fallback hero images based on data type
   const defaultHeroImages: Record<string, string> = {
@@ -237,10 +247,11 @@ const BlogPostPage = async ({ params }: Props) => {
             />
           </article>
 
+          {/* Post Navigation */}
+          <PostNavigation previous={previousPost} next={nextPost} />
+
           {/* Related Posts */}
-          <div className="mt-12">
-            <RelatedPosts currentPostId={post.id} />
-          </div>
+          <RelatedPosts currentPostId={post.id} />
 
           <Separator className="my-6" />
           <div className="flex justify-center pb-8">
