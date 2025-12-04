@@ -1,3 +1,9 @@
+## [4.30.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.29.0...v4.30.0) (2025-12-04)
+
+### Features
+
+* **web:** add COE premium range display ([#615](https://github.com/sgcarstrends/sgcarstrends/issues/615)) ([eb23488](https://github.com/sgcarstrends/sgcarstrends/commit/eb23488dde416a26d3c9c47f43161ad02694069e))
+
 ## [4.29.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.28.0...v4.29.0) (2025-12-03)
 
 ### Features
