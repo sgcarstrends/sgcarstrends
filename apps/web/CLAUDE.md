@@ -97,7 +97,7 @@ Route-specific server actions (mutations only) use private folders:
 **Keep Centralised When:**
 
 - Component used by 3+ different routes
-- Part of design system (use `@sgcarstrends/ui` shared package for shadcn/ui components)
+- Part of design system (use HeroUI components via `@heroui/*` packages, or `@sgcarstrends/ui` for shadcn/ui chart components)
 - Shared business logic (`queries/`, `lib/`)
 - Server actions used across multiple routes (`actions/`)
 - Generic utilities (`components/shared/`)
@@ -326,10 +326,9 @@ philosophy inspired by Vercel, Linear, and Stripe. Uses lighter font weights (se
 secondary headings/labels, normal for body text) with hierarchy driven by size and spacing.
 See [Typography System](#typography-system) section below.
 
-**UI Components**: Base UI components (shadcn/ui) are imported from the shared `@sgcarstrends/ui` package. HeroUI
-components are also used throughout the application for professional design system integration.
+**UI Components**: HeroUI is the primary component library, imported directly from `@heroui/*` packages (e.g., `@heroui/button`, `@heroui/card`, `@heroui/table`). Chart components use shadcn/ui's chart library from `@sgcarstrends/ui/components/chart`.
 
-**Charts**: Recharts-based components in `src/components/charts/` for data visualization.
+**Charts**: Recharts-based shadcn/ui chart components from `@sgcarstrends/ui/components/chart` for data visualization.
 
 **Dashboard Components**: Interactive components for the homepage including:
 
@@ -693,14 +692,14 @@ See `sst-deployment` skill for deployment workflows and infrastructure details.
 
 ## UI Component Strategy
 
-The codebase uses HeroUI as the primary component library:
+The codebase has consolidated on **HeroUI as the primary component library**:
 
-- **New Features**: Use HeroUI components with TypeScript-first approach
-- **Component Selection**: Leverage HeroUI's professional design system for analytics interfaces
-- **Data Visualisation**: Utilise HeroUI's advanced table and chart components for market data
-- **Customisation**: Apply HeroUI's theming system to match Singapore car market branding
+- **UI Components**: Use HeroUI components imported from `@heroui/*` packages (e.g., `@heroui/button`, `@heroui/card`, `@heroui/table`, `@heroui/skeleton`)
+- **Chart Components**: Use shadcn/ui chart components from `@sgcarstrends/ui/components/chart` (Recharts-based)
+- **Component Selection**: Leverage HeroUI's professional design system for analytics interfaces, tables, forms, and navigation
+- **Customisation**: Apply HeroUI's theming system (`@heroui/theme` for `cn()` utility) to match Singapore car market branding
 - **Performance**: Take advantage of HeroUI's tree-shakeable, optimised components
-- **Legacy Code**: Gradually migrate existing shadcn/ui components to HeroUI equivalents
+- **Migration Complete**: All UI components have been migrated from shadcn/ui to HeroUI; shadcn/ui is retained only for chart components
 
 ## Documentation Reference
 
