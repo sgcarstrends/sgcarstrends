@@ -1,18 +1,12 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Select, SelectItem } from "@heroui/select";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@sgcarstrends/ui/components/select";
 import Typography from "@web/components/typography";
 import { useQueryStates } from "nuqs";
 import { useMemo } from "react";
@@ -259,19 +253,18 @@ export const KeyStatistics = ({ data }: Props) => {
             </div>
           </div>
           <Select
-            onValueChange={(value) => setSearchParams({ year: Number(value) })}
-            value={year.toString()}
+            aria-label="Select year"
+            placeholder="Select year"
+            className="max-w-xs"
+            selectedKeys={new Set([year.toString()])}
+            onSelectionChange={(keys) => {
+              const selected = Array.from(keys)[0];
+              if (selected) setSearchParams({ year: Number(selected) });
+            }}
           >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select year" />
-            </SelectTrigger>
-            <SelectContent>
-              {sortedByYearDesc.map((item) => (
-                <SelectItem key={item.year} value={item.year.toString()}>
-                  {item.year}
-                </SelectItem>
-              ))}
-            </SelectContent>
+            {sortedByYearDesc.map((item) => (
+              <SelectItem key={item.year.toString()}>{item.year}</SelectItem>
+            ))}
           </Select>
         </div>
 

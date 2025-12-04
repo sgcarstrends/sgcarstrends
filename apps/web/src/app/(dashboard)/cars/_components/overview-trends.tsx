@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import { slugify } from "@sgcarstrends/utils";
 import { TrendChart } from "@web/app/(dashboard)/cars/trend-chart";
 import { AnimatedNumber } from "@web/components/animated-number";
@@ -19,23 +13,23 @@ interface Props {
 export const CarOverviewTrends = ({ cars, total }: Props) => (
   <div className="grid grid-cols-1 gap-4">
     <Card>
-      <CardHeader>
-        <CardTitle>By Make</CardTitle>
-        <CardDescription>Top 10 makes</CardDescription>
+      <CardHeader className="flex flex-col items-start gap-2">
+        <Typography.H4>By Make</Typography.H4>
+        <Typography.TextSm>Top 10 makes</Typography.TextSm>
       </CardHeader>
-      <CardContent>
+      <CardBody>
         <TrendChart data={cars} />
-      </CardContent>
+      </CardBody>
     </Card>
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <Card>
-        <CardHeader>
-          <CardTitle>Stats</CardTitle>
-          <CardDescription>
+        <CardHeader className="flex flex-col items-start gap-2">
+          <Typography.H4>Stats</Typography.H4>
+          <Typography.TextSm>
             <Typography.Label>{total}</Typography.Label> registrations
-          </CardDescription>
+          </Typography.TextSm>
         </CardHeader>
-        <CardContent>
+        <CardBody>
           {cars.length > 0 &&
             cars.map(({ make, count }) => {
               const marketShare = (count: number) => count / total;
@@ -56,7 +50,7 @@ export const CarOverviewTrends = ({ cars, total }: Props) => (
                 </div>
               );
             })}
-        </CardContent>
+        </CardBody>
       </Card>
     </div>
   </div>

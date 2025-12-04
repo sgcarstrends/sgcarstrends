@@ -1,4 +1,4 @@
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { cn } from "@heroui/theme";
 import type { PropsWithChildren } from "react";
 
 interface ProgressProps extends PropsWithChildren {

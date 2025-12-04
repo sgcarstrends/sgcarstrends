@@ -1,18 +1,7 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@sgcarstrends/ui/components/tooltip";
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Tooltip } from "@heroui/tooltip";
 import { CategoryInfo } from "@web/app/(dashboard)/cars/_components/category-info";
 import type { COECategory } from "@web/types";
 import {
@@ -55,23 +44,18 @@ export const CoeCategories = () => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>COE Categories</CardTitle>
-        <CardDescription>
-          <TooltipProvider>
-            <Tooltip>
-              <span>Filter based on Category </span>
-              <TooltipTrigger>
-                <HelpCircleIcon className="size-4" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>You can only filter Categories C & D</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </CardDescription>
+      <CardHeader className="flex flex-col items-start gap-2">
+        <h3 className="font-medium text-foreground text-xl">COE Categories</h3>
+        <p className="inline-flex items-center gap-2 text-default-600 text-sm">
+          <span>Filter based on Category</span>
+          <Tooltip content="You can only filter Categories C & D">
+            <span className="cursor-help">
+              <HelpCircleIcon className="size-4" />
+            </span>
+          </Tooltip>
+        </p>
       </CardHeader>
-      <CardContent>
+      <CardBody>
         <div className="grid grid-cols-1 gap-4">
           <CategoryInfo
             icon={Car}
@@ -112,7 +96,7 @@ export const CoeCategories = () => {
             onToggle={toggleCategory}
           />
         </div>
-      </CardContent>
+      </CardBody>
     </Card>
   );
 };

@@ -27,8 +27,8 @@ Certificate of Entitlement) bidding results, and market trends.
 
 ### Prerequisites
 
-- Node.js 18+
-- pnpm 10.8.0+ (recommended package manager)
+- Node.js >= 22
+- pnpm 10.22.0
 
 ### Installation
 
@@ -86,17 +86,31 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 ```
 src/
-├── app/               # Next.js App Router - pages, layouts, API routes
-│   ├── (home)/       # Home page route group
-│   ├── api/          # API routes (analytics, OG images, revalidation)
-│   ├── cars/         # Car-related pages with parallel routes
-│   ├── coe/          # COE (Certificate of Entitlement) pages
-│   └── store/        # Zustand store slices
-├── components/       # React components with tests
-├── config/          # App configuration (DB, Redis, navigation)
-├── schema/          # Drizzle database schemas
-├── types/           # TypeScript definitions
-└── utils/           # Utility functions with comprehensive tests
+├── app/                           # Next.js App Router - pages, layouts, API routes
+│   ├── (dashboard)/              # Dashboard route group
+│   │   ├── (home)/
+│   │   │   └── _components/      # Home page-specific components (co-located)
+│   │   ├── cars/
+│   │   │   └── _components/      # Cars route-specific components (co-located)
+│   │   └── coe/
+│   │       └── _components/      # COE route-specific components (co-located)
+│   ├── (social)/                 # Social media redirect routes with UTM tracking
+│   ├── api/                      # API routes (analytics, OG images, revalidation)
+│   ├── blog/
+│   │   ├── _actions/             # Blog-specific server actions (co-located)
+│   │   └── _components/          # Blog-specific components (co-located)
+│   └── store/                    # Zustand store slices
+├── actions/                      # Server actions (newsletter subscription)
+├── queries/                      # Data fetching queries (cars, COE, logos) with tests
+├── components/                   # Shared React components
+│   ├── coe/                      # Shared COE components
+│   ├── dashboard/                # Shared dashboard components
+│   └── shared/                   # Generic shared components
+├── config/                       # App configuration (DB, Redis, navigation)
+├── lib/                          # Shared data fetching and business logic
+├── schema/                       # Drizzle database schemas
+├── types/                        # TypeScript definitions
+└── utils/                        # Utility functions with comprehensive tests
 ```
 
 ## Contributing

@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
 import {
   loadSearchParams,
@@ -128,13 +122,15 @@ const COECategoryPageContent = async ({
           <COEPremiumChart data={data} />
         </div>
         <Card>
-          <CardHeader>
-            <CardTitle>{category} Statistics</CardTitle>
-            <CardDescription>
+          <CardHeader className="flex flex-col items-start gap-2">
+            <h3 className="font-medium text-foreground text-xl">
+              {category} Statistics
+            </h3>
+            <p className="text-default-600 text-sm">
               Detailed statistics for {category} vehicles
-            </CardDescription>
+            </p>
           </CardHeader>
-          <CardContent>
+          <CardBody>
             {(() => {
               const stats = calculateCategoryStats(categoryResults);
               return (
@@ -158,7 +154,7 @@ const COECategoryPageContent = async ({
                 </div>
               );
             })()}
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
     </>

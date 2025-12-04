@@ -1,8 +1,6 @@
-"use client";
-
-import { Badge } from "@sgcarstrends/ui/components/badge";
-import { Card, CardContent } from "@sgcarstrends/ui/components/card";
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { Card, CardBody } from "@heroui/card";
+import { Chip } from "@heroui/chip";
+import { cn } from "@heroui/theme";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { formatGrowthRate } from "@web/utils/charts";
 import {
@@ -31,14 +29,14 @@ interface InsightCardsProps {
 }
 
 export const InsightCards = ({ insights }: InsightCardsProps) => {
-  const getDeltaVariant = (deltaType?: DeltaType) => {
+  const getDeltaColour = (deltaType?: DeltaType) => {
     switch (deltaType) {
       case "increase":
-        return "default";
+        return "success";
       case "decrease":
-        return "destructive";
+        return "danger";
       default:
-        return "secondary";
+        return "default";
     }
   };
 
@@ -65,7 +63,7 @@ export const InsightCards = ({ insights }: InsightCardsProps) => {
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
       {insights.map((insight) => (
         <Card key={insight.title}>
-          <CardContent className="flex flex-col gap-4 p-4 sm:p-6">
+          <CardBody className="flex flex-col gap-4 p-4 sm:p-6">
             <div className="flex items-start space-x-4">
               <div className="flex min-w-0 flex-1 flex-col gap-1">
                 <p className="font-medium text-gray-600 text-sm">
@@ -99,17 +97,18 @@ export const InsightCards = ({ insights }: InsightCardsProps) => {
 
             {insight.delta !== undefined && (
               <div className="flex items-center space-x-2">
-                <Badge
-                  variant={getDeltaVariant(insight.deltaType)}
-                  className="flex items-center space-x-1"
+                <Chip
+                  color={getDeltaColour(insight.deltaType)}
+                  size="sm"
+                  variant="flat"
+                  startContent={getDeltaIcon(insight.deltaType)}
                 >
-                  {getDeltaIcon(insight.deltaType)}
-                  <span>{formatGrowthRate(insight.delta)}</span>
-                </Badge>
+                  {formatGrowthRate(insight.delta)}
+                </Chip>
                 <p className="text-gray-500 text-xs">from previous month</p>
               </div>
             )}
-          </CardContent>
+          </CardBody>
         </Card>
       ))}
     </div>

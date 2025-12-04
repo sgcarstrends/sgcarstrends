@@ -264,7 +264,7 @@ See `shadcn-components` skill for adding new shadcn/ui components to this packag
 This package is consumed by:
 
 - **apps/admin**: Admin dashboard application
-- **apps/web** (potential): Web application (if migrated to shadcn/ui in the future)
+- **apps/web** (charts only): Web application uses this package only for shadcn/ui chart components; all other UI components use HeroUI
 
 ## Version Management
 
@@ -298,4 +298,4 @@ This package follows the monorepo's unified versioning strategy using semantic-r
 - **Theme Customisation**: Explore theme variants for different applications
 - **Component Testing**: Add unit tests using Vitest and Testing Library
 - **Bundle Optimisation**: Tree-shaking optimisations for better bundle sizes
-- **Migration Path**: Plan for migrating `apps/web` from HeroUI to shared shadcn/ui components
+- **Chart Components**: Maintain shadcn/ui chart components as the standard data visualization library for all apps

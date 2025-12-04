@@ -36,14 +36,18 @@ try {
   const data = tokeniser(cars);
 
   // Generate blog content
-  const { text, usage, response } = await generateBlogContent({
+  const { object, usage, response } = await generateBlogContent({
     data,
     month: "October 2024",
     dataType: "cars",
   });
 
-  console.log(text); // Markdown blog post
-  console.log(usage); // Token usage statistics
+  console.log(object.title);      // SEO-optimised title
+  console.log(object.excerpt);    // Meta description
+  console.log(object.content);    // Markdown content
+  console.log(object.tags);       // Category tags
+  console.log(object.highlights); // Key statistics
+  console.log(usage);             // Token usage statistics
 } finally {
   // Flush telemetry spans
   await shutdownTracing();
@@ -94,11 +98,11 @@ interface BlogGenerationParams {
 **Returns:**
 
 ```typescript
-{
-  text: string;           // Generated markdown content
+interface GenerateBlogContentResult {
+  object: GeneratedPost;  // Zod-validated structured output
   usage: {
-    promptTokens: number;
-    completionTokens: number;
+    inputTokens: number;
+    outputTokens: number;
     totalTokens: number;
   };
   response: {
@@ -106,6 +110,19 @@ interface BlogGenerationParams {
     modelId: string;
     timestamp: Date;
   };
+}
+
+// GeneratedPost structure (from postSchema)
+interface GeneratedPost {
+  title: string;      // SEO title, max 100 chars
+  excerpt: string;    // 2-3 sentence summary, max 500 chars
+  content: string;    // Full markdown blog post (without H1 title)
+  tags: string[];     // 3-5 tags in Title Case
+  highlights: Array<{
+    value: string;    // Metric value, e.g. "52.60%", "$125,000"
+    label: string;    // Short label, e.g. "Electric Vehicles Lead"
+    detail: string;   // Context, e.g. "2,081 units registered"
+  }>;
 }
 ```
 
@@ -167,26 +184,35 @@ LANGFUSE_HOST=https://cloud.langfuse.com
 
 ## How It Works
 
-### Code Execution Tool
+### 2-Step Generation Flow
 
-The package uses Google's Code Execution Tool, which allows Gemini to execute Python code during generation:
+The package uses a two-step approach for accuracy and type-safety:
 
+**Step 1: Analysis with Code Execution Tool**
 ```typescript
 tools: { code_execution: google.tools.codeExecution({}) }
 ```
 
-**Benefits:**
-
+Allows Gemini to execute Python code for:
 - ✅ Accurate data analysis and calculations
 - ✅ Proper table generation with verified numbers
 - ✅ No hallucinated statistics
 - ✅ Reliable percentage calculations
 
-**Without Code Execution Tool:**
+**Step 2: Structured Output Generation**
+```typescript
+output: schema(postSchema)
+```
 
-- ❌ Gemini guesses at calculations
-- ❌ Plausible but incorrect numbers
-- ❌ Hallucinated data
+Generates Zod-validated structured output ensuring:
+- ✅ Consistent title, excerpt, content, tags, highlights format
+- ✅ Type-safe response matching `postSchema`
+- ✅ Validated field constraints (title max 100 chars, 3-10 highlights, etc.)
+
+**Why Two Steps:**
+- Separation ensures both accuracy (Step 1) AND type-safety (Step 2)
+- Code Execution Tool prevents hallucinations in analysis
+- Structured output ensures consistent, validated format
 
 ### System Instructions
 
