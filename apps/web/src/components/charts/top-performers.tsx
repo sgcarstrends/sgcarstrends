@@ -7,6 +7,7 @@ import {
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import { ChartWidget } from "@web/components/charts/widget";
+import Typography from "@web/components/typography";
 import { getRankingEmoji } from "@web/lib/cars/calculations";
 import {
   formatNumber,
@@ -81,6 +82,25 @@ export const TopPerformersBar = ({
     [valueMap, showPercentages],
   );
 
+  // Calculate statistics for commentary
+  const performerStatistics = useMemo(() => {
+    if (!data || data.length === 0) return null;
+
+    const topItems = data.slice(0, maxItems);
+    const topPerformer = topItems[0];
+    const combinedTotal = topItems.reduce(
+      (accumulator, item) => accumulator + item.count,
+      0,
+    );
+
+    return {
+      topPerformerName: topPerformer?.name || "N/A",
+      topPerformerPercentage: topPerformer?.percentage || 0,
+      combinedTotal,
+      itemsShown: topItems.length,
+    };
+  }, [data, maxItems]);
+
   return (
     <ChartWidget
       title={title}
@@ -143,6 +163,42 @@ export const TopPerformersBar = ({
             />
           </BarChart>
         </ChartContainer>
+
+        {performerStatistics && (
+          <div className="flex flex-col gap-4">
+            <div>
+              <Typography.H4>Performance Rankings</Typography.H4>
+              <Typography.TextSm>
+                This chart ranks the top {performerStatistics.itemsShown}{" "}
+                performers by registration count.
+                {performerStatistics.topPerformerName !== "N/A" &&
+                  ` ${performerStatistics.topPerformerName} leads with ${formatPercentage(performerStatistics.topPerformerPercentage)} market share`}
+                , highlighting the dominant players in Singapore&apos;s
+                automotive market.
+              </Typography.TextSm>
+            </div>
+            <div className="grid grid-cols-1 gap-3 rounded-lg bg-muted/30 p-3 sm:grid-cols-3">
+              <div className="text-center">
+                <Typography.TextLg>
+                  {performerStatistics.topPerformerName}
+                </Typography.TextLg>
+                <Typography.Caption>Top Performer</Typography.Caption>
+              </div>
+              <div className="text-center">
+                <Typography.TextLg>
+                  {formatNumber(performerStatistics.combinedTotal)}
+                </Typography.TextLg>
+                <Typography.Caption>Combined Total</Typography.Caption>
+              </div>
+              <div className="text-center">
+                <Typography.TextLg>
+                  {performerStatistics.itemsShown}
+                </Typography.TextLg>
+                <Typography.Caption>Items Shown</Typography.Caption>
+              </div>
+            </div>
+          </div>
+        )}
 
         {data.length > maxItems && (
           <div className="text-center">
