@@ -4,6 +4,7 @@ import { Button } from "@heroui/button";
 import type { SelectCar } from "@sgcarstrends/database";
 import { slugify } from "@sgcarstrends/utils";
 import type { ColumnDef } from "@tanstack/react-table";
+import { formatVehicleType } from "@web/utils/format-vehicle-type";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
 
@@ -39,7 +40,7 @@ export const columns: ColumnDef<Partial<SelectCar>>[] = [
       const vehicleType: string = row.getValue("vehicleType");
       return (
         <Link href={`/cars/vehicle-types/${slugify(vehicleType)}`}>
-          {vehicleType}
+          {formatVehicleType(vehicleType)}
         </Link>
       );
     },

@@ -5,6 +5,7 @@ import {
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import type { RegistrationStat } from "@web/types/cars";
+import { formatVehicleType } from "@web/utils/format-vehicle-type";
 import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts";
 
 interface Props {
@@ -13,7 +14,7 @@ interface Props {
 
 export const BarChartByType = ({ data }: Props) => {
   const chartData = data.map(({ name, count }) => ({
-    label: name,
+    label: formatVehicleType(name),
     count,
     fill: "var(--primary)",
   }));

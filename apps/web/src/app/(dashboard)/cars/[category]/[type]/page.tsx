@@ -17,6 +17,7 @@ import {
   getDistinctVehicleTypes,
 } from "@web/queries/cars";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { formatVehicleTypeSlug } from "@web/utils/format-vehicle-type";
 import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -159,7 +160,9 @@ const TypePageContent = async ({
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <PageHeader
-          title={type}
+          title={
+            category === "vehicle-types" ? formatVehicleTypeSlug(type) : type
+          }
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector={true}

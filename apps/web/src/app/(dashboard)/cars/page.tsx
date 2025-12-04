@@ -19,6 +19,7 @@ import {
   getTopTypes,
 } from "@web/queries";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { formatVehicleType } from "@web/utils/format-vehicle-type";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -145,7 +146,7 @@ const CarsPage = async ({
                 }
               />
               <MetricCard
-                title={`Top Vehicle Type: ${topTypes.topVehicleType.name}`}
+                title={`Top Vehicle Type: ${formatVehicleType(topTypes.topVehicleType.name)}`}
                 value={topTypes.topVehicleType.total}
                 current={topTypes.topVehicleType.total}
                 previousMonth={

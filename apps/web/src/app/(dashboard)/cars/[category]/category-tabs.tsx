@@ -15,6 +15,7 @@ import type {
 import type { TypeItem } from "@web/types";
 import { formatPercentage } from "@web/utils/charts";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { formatVehicleType } from "@web/utils/format-vehicle-type";
 import { Suspense } from "react";
 
 interface Props {
@@ -125,13 +126,13 @@ export const CategoryTypesTabsView = ({
           ];
 
           return (
-            <Tab key={type.name} title={type.name}>
+            <Tab key={type.name} title={formatVehicleType(type.name)}>
               <div className="flex flex-col gap-6 py-4">
                 <InsightCards insights={typeInsights} />
 
                 <div className="text-center text-gray-500 text-sm">
-                  Detailed statistics for {type.name} {title.toLowerCase()} in{" "}
-                  {formatDateToMonthYear(month)}
+                  Detailed statistics for {formatVehicleType(type.name)}{" "}
+                  {title.toLowerCase()} in {formatDateToMonthYear(month)}
                 </div>
               </div>
             </Tab>
