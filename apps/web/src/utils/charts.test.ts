@@ -75,9 +75,9 @@ describe("formatGrowthRate", () => {
 
 describe("getColorForIndex", () => {
   it("should return color from palette for valid index", () => {
-    expect(getColorForIndex(0)).toBe("#3b82f6");
-    expect(getColorForIndex(1)).toBe("#10b981");
-    expect(getColorForIndex(2)).toBe("#8b5cf6");
+    expect(getColorForIndex(0)).toBe("#4747c7"); // navy-medium
+    expect(getColorForIndex(1)).toBe("#191970"); // navy-base
+    expect(getColorForIndex(2)).toBe("#10104a"); // navy-dark
   });
 
   it("should wrap around for indices beyond palette length", () => {

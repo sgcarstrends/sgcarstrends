@@ -48,11 +48,11 @@ export const formatMonthYear = (monthString: string): string => {
   return formatDateToMonthYear(monthString);
 };
 
-// Standard chart color palette for consistency
+// Standard chart color palette for consistency (Navy Blue theme)
 export const chartColorPalette = [
-  "#3b82f6", // blue
-  "#10b981", // emerald
-  "#8b5cf6", // violet
+  "#4747c7", // navy-medium (hsl 240 63% 45%)
+  "#191970", // navy-base (hsl 240 63% 27%)
+  "#10104a", // navy-dark (hsl 240 63% 18%)
   "#f59e0b", // amber
   "#ef4444", // rose
   "#06b6d4", // cyan
