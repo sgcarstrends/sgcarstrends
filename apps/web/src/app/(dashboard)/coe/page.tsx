@@ -1,13 +1,14 @@
 import { Button } from "@heroui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Progress } from "@heroui/progress";
+import { PremiumRangeCard } from "@web/app/(dashboard)/coe/_components/premium-range-card";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { calculateOverviewStats } from "@web/lib/coe/calculations";
+import { calculatePremiumRangeStats } from "@web/lib/coe/calculations";
 import { loadCOEOverviewPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getLatestCoeResults } from "@web/queries/coe";
@@ -59,8 +60,17 @@ const COEPricesPage = async () => {
     },
   };
 
-  const categories = ["Category A", "Category B", "Category E"];
-  const summaryStats = calculateOverviewStats(allCoeResults, categories);
+  const allCategories = [
+    "Category A",
+    "Category B",
+    "Category C",
+    "Category D",
+    "Category E",
+  ];
+  const premiumRangeStats = calculatePremiumRangeStats(
+    allCoeResults,
+    allCategories,
+  );
 
   // Get latest PQP rates
   const latestPqpData = Object.entries(pqpRates)[0];
@@ -110,46 +120,12 @@ const COEPricesPage = async () => {
               </div>
             </CardBody>
           </Card>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {summaryStats.map((stat) => (
-              <Card key={stat?.category}>
-                <CardHeader className="flex flex-col items-start gap-2">
-                  <h3 className="font-medium text-foreground text-xl">
-                    {stat?.category}
-                  </h3>
-                </CardHeader>
-                <CardBody>
-                  <div className="flex flex-col gap-4">
-                    <div className="grid grid-cols-1 gap-2 text-muted-foreground">
-                      <div>
-                        <div className="text-red-600">
-                          Record High:{" "}
-                          <span className="font-semibold">
-                            ${stat?.highest.toLocaleString()}
-                          </span>
-                        </div>
-                        <Typography.Caption>
-                          {stat?.highestRecord.date &&
-                            formatDateToMonthYear(stat.highestRecord.date)}
-                        </Typography.Caption>
-                      </div>
-                      <div>
-                        <div className="text-green-600">
-                          Record Low:{" "}
-                          <span className="font-semibold">
-                            ${stat?.lowest.toLocaleString()}
-                          </span>
-                        </div>
-                        <Typography.Caption>
-                          {stat?.lowestRecord.date &&
-                            formatDateToMonthYear(stat.lowestRecord.date)}
-                        </Typography.Caption>
-                      </div>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
-            ))}
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <Typography.H2>Premium Ranges</Typography.H2>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            <PremiumRangeCard stats={premiumRangeStats} />
           </div>
         </div>
 
@@ -166,7 +142,14 @@ const COEPricesPage = async () => {
           <CardBody>
             <div className="flex flex-col gap-4">
               {Object.entries(latestPqpRates)
-                .filter(([key]) => categories.includes(key))
+                .filter(([key]) =>
+                  [
+                    "Category A",
+                    "Category B",
+                    "Category C",
+                    "Category D",
+                  ].includes(key),
+                )
                 .map(([category, rate]) => (
                   <div
                     key={category}

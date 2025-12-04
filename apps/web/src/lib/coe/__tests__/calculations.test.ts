@@ -1,6 +1,9 @@
 import type { COECategory, COEResult } from "@web/types";
-import { describe, expect, it } from "vitest";
-import { groupCOEResultsByBidding } from "../calculations";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  calculatePremiumRangeStats,
+  groupCOEResultsByBidding,
+} from "../calculations";
 
 const createMockCOEResult = (overrides?: Partial<COEResult>): COEResult => ({
   month: "2024-01",
@@ -160,6 +163,181 @@ describe("COE Calculations", () => {
         biddingNo: 1,
         "Category A": 92000,
         "Category B": 102000,
+      });
+    });
+  });
+
+  describe("calculatePremiumRangeStats", () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2025-06-15"));
+    });
+
+    it("should calculate YTD and all-time premium ranges for categories", () => {
+      const mockResults: COEResult[] = [
+        // Historical data (2024)
+        createMockCOEResult({
+          month: "2024-01",
+          vehicleClass: "Category A",
+          premium: 80000,
+        }),
+        createMockCOEResult({
+          month: "2024-06",
+          vehicleClass: "Category A",
+          premium: 95000,
+        }),
+        // YTD data (2025)
+        createMockCOEResult({
+          month: "2025-01",
+          vehicleClass: "Category A",
+          premium: 88000,
+        }),
+        createMockCOEResult({
+          month: "2025-03",
+          vehicleClass: "Category A",
+          premium: 92000,
+        }),
+        createMockCOEResult({
+          month: "2025-05",
+          vehicleClass: "Category A",
+          premium: 85000,
+        }),
+      ];
+
+      const result = calculatePremiumRangeStats(mockResults, ["Category A"]);
+
+      expect(result).toHaveLength(1);
+      expect(result[0]).toEqual({
+        category: "Category A",
+        ytd: {
+          highest: 92000,
+          lowest: 85000,
+          highestDate: "2025-03",
+          lowestDate: "2025-05",
+        },
+        allTime: {
+          highest: 95000,
+          lowest: 80000,
+          highestDate: "2024-06",
+          lowestDate: "2024-01",
+        },
+      });
+    });
+
+    it("should return null YTD when no data exists for current year", () => {
+      const mockResults: COEResult[] = [
+        createMockCOEResult({
+          month: "2024-01",
+          vehicleClass: "Category A",
+          premium: 80000,
+        }),
+        createMockCOEResult({
+          month: "2024-12",
+          vehicleClass: "Category A",
+          premium: 95000,
+        }),
+      ];
+
+      const result = calculatePremiumRangeStats(mockResults, ["Category A"]);
+
+      expect(result).toHaveLength(1);
+      expect(result[0]?.ytd).toBeNull();
+      expect(result[0]?.allTime).toEqual({
+        highest: 95000,
+        lowest: 80000,
+        highestDate: "2024-12",
+        lowestDate: "2024-01",
+      });
+    });
+
+    it("should handle multiple categories", () => {
+      const mockResults: COEResult[] = [
+        createMockCOEResult({
+          month: "2025-01",
+          vehicleClass: "Category A",
+          premium: 90000,
+        }),
+        createMockCOEResult({
+          month: "2025-02",
+          vehicleClass: "Category A",
+          premium: 85000,
+        }),
+        createMockCOEResult({
+          month: "2025-01",
+          vehicleClass: "Category B",
+          premium: 100000,
+        }),
+        createMockCOEResult({
+          month: "2025-02",
+          vehicleClass: "Category B",
+          premium: 110000,
+        }),
+      ];
+
+      const result = calculatePremiumRangeStats(mockResults, [
+        "Category A",
+        "Category B",
+      ]);
+
+      expect(result).toHaveLength(2);
+
+      const categoryA = result.find((r) => r.category === "Category A");
+      expect(categoryA?.ytd?.highest).toBe(90000);
+      expect(categoryA?.ytd?.lowest).toBe(85000);
+
+      const categoryB = result.find((r) => r.category === "Category B");
+      expect(categoryB?.ytd?.highest).toBe(110000);
+      expect(categoryB?.ytd?.lowest).toBe(100000);
+    });
+
+    it("should filter out categories with no data", () => {
+      const mockResults: COEResult[] = [
+        createMockCOEResult({
+          month: "2025-01",
+          vehicleClass: "Category A",
+          premium: 90000,
+        }),
+      ];
+
+      const result = calculatePremiumRangeStats(mockResults, [
+        "Category A",
+        "Category B",
+        "Category C",
+      ]);
+
+      expect(result).toHaveLength(1);
+      expect(result[0]?.category).toBe("Category A");
+    });
+
+    it("should handle empty results array", () => {
+      const result = calculatePremiumRangeStats([], ["Category A"]);
+
+      expect(result).toEqual([]);
+    });
+
+    it("should handle single data point for YTD", () => {
+      const mockResults: COEResult[] = [
+        createMockCOEResult({
+          month: "2025-03",
+          vehicleClass: "Category A",
+          premium: 90000,
+        }),
+      ];
+
+      const result = calculatePremiumRangeStats(mockResults, ["Category A"]);
+
+      expect(result).toHaveLength(1);
+      expect(result[0]?.ytd).toEqual({
+        highest: 90000,
+        lowest: 90000,
+        highestDate: "2025-03",
+        lowestDate: "2025-03",
+      });
+      expect(result[0]?.allTime).toEqual({
+        highest: 90000,
+        lowest: 90000,
+        highestDate: "2025-03",
+        lowestDate: "2025-03",
       });
     });
   });
