@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { cn } from "@heroui/theme";
 import { incrementPostView } from "@web/app/blog/_actions/views";
 import { useEffect, useEffectEvent, useState } from "react";
 

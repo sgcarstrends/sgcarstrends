@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import { CoeCategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
 import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
 import {
@@ -81,13 +75,15 @@ const COEResultsPageContent = async ({ period }: { period: Period }) => {
         </div>
         <div className="grid grid-cols-1 gap-4">
           <Card>
-            <CardHeader>
-              <CardTitle>Overview</CardTitle>
-              <CardDescription>List of historical COE prices</CardDescription>
+            <CardHeader className="flex flex-col items-start gap-2">
+              <h3 className="font-medium text-foreground text-xl">Overview</h3>
+              <p className="text-default-600 text-sm">
+                List of historical COE prices
+              </p>
             </CardHeader>
-            <CardContent>
+            <CardBody>
               <TrendTable coeResults={coeResults} />
-            </CardContent>
+            </CardBody>
           </Card>
         </div>
       </div>

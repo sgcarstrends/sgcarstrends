@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@sgcarstrends/ui/components/button";
+import { Button } from "@heroui/button";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { COEResult } from "@web/types";
 import { formatCurrency } from "@web/utils/format-currency";
@@ -15,11 +15,11 @@ export const columns: ColumnDef<COEResult>[] = [
     accessorKey: "month",
     header: ({ column }) => (
       <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        variant="light"
+        onPress={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        endContent={<ArrowUpDown className="size-4" />}
       >
         Month
-        <ArrowUpDown className="ml-2 size-4" />
       </Button>
     ),
   },

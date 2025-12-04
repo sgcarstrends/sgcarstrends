@@ -1,13 +1,6 @@
-import { Button } from "@sgcarstrends/ui/components/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
-import { Progress } from "@sgcarstrends/ui/components/progress";
+import { Button } from "@heroui/button";
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { Progress } from "@heroui/progress";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
 import { PageHeader } from "@web/components/page-header";
@@ -94,16 +87,18 @@ const COEPricesPage = async () => {
         <div className="flex flex-col gap-4">
           <Typography.H2>Fun Facts</Typography.H2>
           <Card>
-            <CardHeader>
-              <CardTitle>Category A vs B</CardTitle>
-              <CardDescription>
+            <CardHeader className="flex flex-col items-start gap-2">
+              <h3 className="font-medium text-foreground text-xl">
+                Category A vs B
+              </h3>
+              <p className="text-default-600 text-sm">
                 Will the premium quota of Category A ever surpass Category B?
-              </CardDescription>
+              </p>
             </CardHeader>
-            <CardContent>
+            <CardBody>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2 text-muted-foreground">
-                  <Progress value={categoryAPercentage * 100} className="h-4" />
+                  <Progress value={categoryAPercentage * 100} size="md" />
                   <div className="text-center">
                     <span className="font-bold text-lg text-primary">
                       {formatPercent(categoryAPercentage, {
@@ -113,15 +108,17 @@ const COEPricesPage = async () => {
                   </div>
                 </div>
               </div>
-            </CardContent>
+            </CardBody>
           </Card>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {summaryStats.map((stat) => (
               <Card key={stat?.category}>
-                <CardHeader>
-                  <CardTitle>{stat?.category}</CardTitle>
+                <CardHeader className="flex flex-col items-start gap-2">
+                  <h3 className="font-medium text-foreground text-xl">
+                    {stat?.category}
+                  </h3>
                 </CardHeader>
-                <CardContent>
+                <CardBody>
                   <div className="flex flex-col gap-4">
                     <div className="grid grid-cols-1 gap-2 text-muted-foreground">
                       <div>
@@ -150,21 +147,23 @@ const COEPricesPage = async () => {
                       </div>
                     </div>
                   </div>
-                </CardContent>
+                </CardBody>
               </Card>
             ))}
           </div>
         </div>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Latest PQP Rates</CardTitle>
-            <CardDescription>
+          <CardHeader className="flex flex-col items-start gap-2">
+            <h3 className="font-medium text-foreground text-xl">
+              Latest PQP Rates
+            </h3>
+            <p className="text-default-600 text-sm">
               {latestPqpMonth &&
                 `Prevailing Quota Premium rates for ${formatDateToMonthYear(latestPqpMonth)}`}
-            </CardDescription>
+            </p>
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="flex flex-col gap-4">
               {Object.entries(latestPqpRates)
                 .filter(([key]) => categories.includes(key))
@@ -181,7 +180,7 @@ const COEPricesPage = async () => {
                   </div>
                 ))}
             </div>
-          </CardContent>
+          </CardBody>
           <CardFooter>
             <div className="flex w-full flex-col gap-2">
               <Typography.TextSm>

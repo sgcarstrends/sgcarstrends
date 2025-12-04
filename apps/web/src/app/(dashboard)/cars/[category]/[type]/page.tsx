@@ -1,16 +1,12 @@
-import { Badge } from "@sgcarstrends/ui/components/badge";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Chip } from "@heroui/chip";
 import { slugify } from "@sgcarstrends/utils";
 import { CarOverviewTrends } from "@web/app/(dashboard)/cars/_components/overview-trends";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/[category]/[type]/search-params";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCarsTypePageData } from "@web/lib/cars/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -171,13 +167,15 @@ const TypePageContent = async ({
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <Card>
-              <CardHeader>
-                <CardTitle>Registrations</CardTitle>
-                <Badge>{formattedMonth}</Badge>
+              <CardHeader className="flex flex-row items-center justify-between gap-2">
+                <Typography.H4>Registrations</Typography.H4>
+                <Chip size="sm" variant="flat">
+                  {formattedMonth}
+                </Chip>
               </CardHeader>
-              <CardContent className="font-bold text-4xl text-primary">
+              <CardBody className="font-bold text-4xl text-primary">
                 <AnimatedNumber value={cars.total} />
-              </CardContent>
+              </CardBody>
             </Card>
           </div>
         </div>

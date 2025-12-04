@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import {
   loadSearchParams,
   type Period,
@@ -82,13 +76,15 @@ const COEBiddingPageContent = async ({ period }: { period: Period }) => {
 
         <div className="grid grid-cols-1 gap-4">
           <Card>
-            <CardHeader>
-              <CardTitle>Bidding Analysis</CardTitle>
-              <CardDescription>
+            <CardHeader className="flex flex-col items-start gap-2">
+              <h3 className="font-medium text-foreground text-xl">
+                Bidding Analysis
+              </h3>
+              <p className="text-default-600 text-sm">
                 Certificate of Entitlement (COE) bidding results and statistics
-              </CardDescription>
+              </p>
             </CardHeader>
-            <CardContent>
+            <CardBody>
               <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div className="text-center">
                   <Typography.H3>
@@ -110,7 +106,7 @@ const COEBiddingPageContent = async ({ period }: { period: Period }) => {
                 </div>
               </div>
               <TrendTable coeResults={coeResults} />
-            </CardContent>
+            </CardBody>
           </Card>
         </div>
       </div>

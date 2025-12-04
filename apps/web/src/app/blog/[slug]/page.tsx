@@ -1,6 +1,6 @@
 import { Button } from "@heroui/button";
 import { Card, CardBody } from "@heroui/card";
-import { Separator } from "@sgcarstrends/ui/components/separator";
+import { Divider } from "@heroui/divider";
 import { BlogHero } from "@web/app/blog/_components/blog-hero";
 import {
   type Highlight,
@@ -253,7 +253,7 @@ const BlogPostPage = async ({ params }: Props) => {
           {/* Related Posts */}
           <RelatedPosts currentPostId={post.id} />
 
-          <Separator className="my-6" />
+          <Divider className="my-6" />
           <div className="flex justify-center pb-8">
             <Button color="primary" variant="ghost">
               <Link href="/blog" className="flex items-center gap-2">

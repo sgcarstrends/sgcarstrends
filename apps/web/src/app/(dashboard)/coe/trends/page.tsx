@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import { CoeCategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
 import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
 import {
@@ -72,13 +66,15 @@ const COETrendsPageContent = async ({ period }: { period: Period }) => {
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Card>
-            <CardHeader>
-              <CardTitle>Market Trends</CardTitle>
-              <CardDescription>
+            <CardHeader className="flex flex-col items-start gap-2">
+              <h3 className="font-medium text-foreground text-xl">
+                Market Trends
+              </h3>
+              <p className="text-default-600 text-sm">
                 Latest price movements and trends
-              </CardDescription>
+              </p>
             </CardHeader>
-            <CardContent>
+            <CardBody>
               <div className="flex flex-col gap-4">
                 {trendInsights.map((insight) => (
                   <div
@@ -106,17 +102,19 @@ const COETrendsPageContent = async ({ period }: { period: Period }) => {
                   </div>
                 ))}
               </div>
-            </CardContent>
+            </CardBody>
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle>Price Statistics</CardTitle>
-              <CardDescription>
+            <CardHeader className="flex flex-col items-start gap-2">
+              <h3 className="font-medium text-foreground text-xl">
+                Price Statistics
+              </h3>
+              <p className="text-default-600 text-sm">
                 Historical price ranges and averages
-              </CardDescription>
+              </p>
             </CardHeader>
-            <CardContent>
+            <CardBody>
               <div className="flex flex-col gap-4">
                 {trendInsights.map((insight) => (
                   <div key={insight?.category} className="border-b pb-2">
@@ -138,7 +136,7 @@ const COETrendsPageContent = async ({ period }: { period: Period }) => {
                   </div>
                 ))}
               </div>
-            </CardContent>
+            </CardBody>
           </Card>
         </div>
       </div>

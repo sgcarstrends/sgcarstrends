@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import { slugify } from "@sgcarstrends/utils";
 import { BarChartByType } from "@web/app/(dashboard)/cars/bar-chart-by-type";
 import Typography from "@web/components/typography";
@@ -47,11 +41,11 @@ export const StatCard = ({
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+      <CardHeader className="flex flex-col items-start gap-2">
+        <Typography.H4>{title}</Typography.H4>
+        <Typography.TextSm>{description}</Typography.TextSm>
       </CardHeader>
-      <CardContent className="flex-1">
+      <CardBody className="flex-1">
         <BarChartByType data={data} />
         {Object.keys(data).includes(FUEL_TYPE.OTHERS) && (
           <p className="text-muted-foreground italic">
@@ -98,7 +92,7 @@ export const StatCard = ({
         {/*    })}*/}
         {/*  </TableBody>*/}
         {/*</Table>*/}
-      </CardContent>
+      </CardBody>
     </Card>
   );
 };

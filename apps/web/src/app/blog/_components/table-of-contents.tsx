@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { cn } from "@heroui/theme";
 import { useEffect, useState } from "react";
 
 interface TocItem {

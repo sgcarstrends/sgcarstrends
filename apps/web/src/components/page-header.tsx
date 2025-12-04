@@ -1,4 +1,4 @@
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { cn } from "@heroui/theme";
 import { LastUpdated } from "@web/components/shared/last-updated";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import Typography from "@web/components/typography";

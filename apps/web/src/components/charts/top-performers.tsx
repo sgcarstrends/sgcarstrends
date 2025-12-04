@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge } from "@sgcarstrends/ui/components/badge";
+import { Chip } from "@heroui/chip";
 import {
   ChartContainer,
   ChartTooltip,
@@ -92,15 +92,18 @@ export const TopPerformersBar = ({
         {showRankings && chartData.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {chartData.slice(0, 3).map((item, index) => (
-              <Badge
+              <Chip
                 key={item.name}
-                variant={index === 0 ? "default" : "secondary"}
-                className="flex items-center gap-1"
+                color={index === 0 ? "primary" : "default"}
+                variant="flat"
+                size="sm"
+                startContent={<span>{getRankingEmoji(item.rank)}</span>}
+                endContent={
+                  <span className="text-xs">({item.percentage})</span>
+                }
               >
-                <span>{getRankingEmoji(item.rank)}</span>
                 <span className="max-w-[100px] truncate">{item.name}</span>
-                <span className="text-xs">({item.percentage})</span>
-              </Badge>
+              </Chip>
             ))}
           </div>
         )}

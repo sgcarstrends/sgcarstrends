@@ -1,5 +1,5 @@
 import { Skeleton as HeroUISkeleton } from "@heroui/skeleton";
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { cn } from "@heroui/theme";
 
 interface SkeletonProps {
   className?: string;

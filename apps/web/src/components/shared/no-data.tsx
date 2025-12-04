@@ -1,12 +1,8 @@
 "use client";
 
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@sgcarstrends/ui/components/alert";
-import { Button } from "@sgcarstrends/ui/components/button";
-import { AlertCircle, Home, RotateCcw } from "lucide-react";
+import { Alert } from "@heroui/alert";
+import { Button } from "@heroui/button";
+import { Home, RotateCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const NoData = () => {
@@ -14,20 +10,24 @@ const NoData = () => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-      <Alert variant="destructive">
-        <AlertCircle className="size-4" />
-        <AlertTitle>No Data Available</AlertTitle>
-        <AlertDescription>
-          The requested page does not exist or no data is available.
-        </AlertDescription>
-      </Alert>
+      <Alert
+        color="danger"
+        title="No Data Available"
+        description="The requested page does not exist or no data is available."
+      />
       <div className="flex items-center gap-2">
-        <Button variant="outline" onClick={() => router.push("/")}>
-          <Home className="mr-2 size-4" />
+        <Button
+          variant="bordered"
+          onPress={() => router.push("/")}
+          startContent={<Home className="size-4" />}
+        >
           Go Home
         </Button>
-        <Button variant="outline" onClick={() => router.back()}>
-          <RotateCcw className="mr-2 size-4" />
+        <Button
+          variant="bordered"
+          onPress={() => router.back()}
+          startContent={<RotateCcw className="size-4" />}
+        >
           Go Back
         </Button>
       </div>
