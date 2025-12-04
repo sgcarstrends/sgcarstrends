@@ -212,6 +212,22 @@ export interface OverviewStats {
   };
 }
 
+export interface PremiumRangeStats {
+  category: string;
+  ytd: {
+    highest: number;
+    lowest: number;
+    highestDate?: string;
+    lowestDate?: string;
+  } | null;
+  allTime: {
+    highest: number;
+    lowest: number;
+    highestDate?: string;
+    lowestDate?: string;
+  };
+}
+
 /**
  * Calculate overview statistics for COE categories across all data.
  * Returns highest/lowest premiums with dates for specified categories.
@@ -256,6 +272,74 @@ export const calculateOverviewStats = (
       };
     })
     .filter((x) => x !== null) as OverviewStats[];
+};
+
+/**
+ * Calculate premium range statistics for COE categories.
+ * Returns YTD (current year) and all-time min/max premiums with dates.
+ */
+export const calculatePremiumRangeStats = (
+  allResults: COEResult[],
+  categories: string[],
+): PremiumRangeStats[] => {
+  const currentYear = new Date().getFullYear().toString();
+
+  return categories
+    .map((category) => {
+      const categoryData = allResults.filter(
+        (item) => item.vehicleClass === category,
+      );
+
+      if (categoryData.length === 0) return null;
+
+      // All-time stats
+      const allTimePremiums = categoryData.map(({ premium }) => premium);
+      const allTimeHighest = Math.max(...allTimePremiums);
+      const allTimeLowest = Math.min(...allTimePremiums);
+      const allTimeHighestRecord = categoryData.find(
+        ({ premium }) => premium === allTimeHighest,
+      );
+      const allTimeLowestRecord = categoryData.find(
+        ({ premium }) => premium === allTimeLowest,
+      );
+
+      // YTD stats (filter by current year)
+      const ytdData = categoryData.filter((item) =>
+        item.month.startsWith(currentYear),
+      );
+
+      let ytdStats: PremiumRangeStats["ytd"] = null;
+      if (ytdData.length > 0) {
+        const ytdPremiums = ytdData.map(({ premium }) => premium);
+        const ytdHighest = Math.max(...ytdPremiums);
+        const ytdLowest = Math.min(...ytdPremiums);
+        const ytdHighestRecord = ytdData.find(
+          ({ premium }) => premium === ytdHighest,
+        );
+        const ytdLowestRecord = ytdData.find(
+          ({ premium }) => premium === ytdLowest,
+        );
+
+        ytdStats = {
+          highest: ytdHighest,
+          lowest: ytdLowest,
+          highestDate: ytdHighestRecord?.month,
+          lowestDate: ytdLowestRecord?.month,
+        };
+      }
+
+      return {
+        category,
+        ytd: ytdStats,
+        allTime: {
+          highest: allTimeHighest,
+          lowest: allTimeLowest,
+          highestDate: allTimeHighestRecord?.month,
+          lowestDate: allTimeLowestRecord?.month,
+        },
+      };
+    })
+    .filter((x) => x !== null) as PremiumRangeStats[];
 };
 
 /**
