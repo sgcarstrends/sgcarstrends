@@ -15,8 +15,8 @@ SGCarsTrends API provides data and insights about car trends in Singapore. Built
 
 ### Prerequisites
 
-- Node.js 18+
-- pnpm
+- Node.js >= 22
+- pnpm 10.22.0
 
 ### Installation
 
