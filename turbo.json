@@ -84,8 +84,9 @@
     },
     "push": {
       "cache": false,
+      "env": ["DATABASE_URL"],
       "inputs": ["src/schema/**/*.ts", "drizzle.config.ts"],
-      "env": ["DATABASE_URL"]
+      "interactive": true
     },
     "drop": {
       "cache": false,

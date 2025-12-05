@@ -20,6 +20,7 @@ import {
   Gavel,
   HelpCircle,
   type LucideIcon,
+  TrendingDown,
   TrendingUp,
 } from "lucide-react";
 
@@ -153,6 +154,15 @@ export const navLinks: NavLinks = {
       description: "Analysis of saloons, hatchbacks, SUVs and more",
       iconColor: "text-purple-500",
     },
+    // TODO: To be enabled
+    // {
+    //   title: "Deregistrations",
+    //   url: "/cars/deregistrations",
+    //   icon: TrendingDown,
+    //   description: "Monthly vehicle deregistration statistics",
+    //   badge: "new",
+    //   iconColor: "text-red-500",
+    // },
   ],
   coe: [
     {
