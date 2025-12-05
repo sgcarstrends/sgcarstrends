@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card, CardBody } from "@heroui/card";
 import {
   ChartContainer,
   ChartTooltip,
@@ -27,11 +27,8 @@ export const TrendsChart = ({ data }: TrendsChartProps) => {
 
   if (data.length === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <Typography.H3>Historical Trends</Typography.H3>
-        </CardHeader>
-        <CardBody>
+      <Card className="bg-default-50">
+        <CardBody className="p-4">
           <Typography.TextSm>No trend data available</Typography.TextSm>
         </CardBody>
       </Card>
@@ -39,18 +36,17 @@ export const TrendsChart = ({ data }: TrendsChartProps) => {
   }
 
   return (
-    <Card>
-      <CardHeader className="flex flex-col items-start gap-1">
-        <Typography.H3>Historical Trends</Typography.H3>
-        <Typography.TextSm className="text-default-500">
-          Monthly deregistration totals
-        </Typography.TextSm>
-      </CardHeader>
-      <CardBody>
-        <ChartContainer config={chartConfig} className="h-[300px] w-full">
+    <Card className="bg-default-50">
+      <CardBody className="p-4">
+        <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <AreaChart
             data={formattedData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
           >
             <defs>
               <linearGradient id="trendsGradient" x1="0" y1="0" x2="0" y2="1">
@@ -66,12 +62,17 @@ export const TrendsChart = ({ data }: TrendsChartProps) => {
                 />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="hsl(var(--heroui-default-200))"
+              vertical={true}
+            />
             <XAxis
               dataKey="month"
               tickLine={false}
               axisLine={false}
               className="text-xs"
+              tick={{ fill: "hsl(var(--heroui-default-500))" }}
             />
             <YAxis
               tickLine={false}
@@ -79,6 +80,7 @@ export const TrendsChart = ({ data }: TrendsChartProps) => {
               width={60}
               tickFormatter={formatNumber}
               className="text-xs"
+              tick={{ fill: "hsl(var(--heroui-default-500))" }}
             />
             <ChartTooltip
               cursor={{ fill: "hsl(var(--muted))", opacity: 0.3 }}

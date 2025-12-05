@@ -1,15 +1,14 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card, CardBody } from "@heroui/card";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
-import Typography from "@web/components/typography";
 import type { CategoryWithPercentage } from "@web/lib/deregistrations/transforms";
 import { formatNumber, formatPercentage } from "@web/utils/charts";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 
 interface Props {
   data: CategoryWithPercentage[];
@@ -21,30 +20,41 @@ export const CategoryBreakdown = ({ data, month }: Props) => {
     total: { label: "Deregistrations", color: "hsl(var(--heroui-primary))" },
   } as const;
 
+  // Sort by total descending for better visualization
+  const sortedData = [...data].sort((a, b) => b.total - a.total);
+
   return (
-    <Card>
-      <CardHeader className="flex flex-col items-start gap-1">
-        <Typography.H3>Deregistrations by Category</Typography.H3>
-        <Typography.TextSm className="text-default-500">
-          {month}
-        </Typography.TextSm>
-      </CardHeader>
-      <CardBody>
-        <ChartContainer config={chartConfig} className="h-[400px] w-full">
-          <BarChart data={data} layout="vertical">
-            <CartesianGrid horizontal={false} strokeDasharray="3 3" />
+    <Card className="h-full">
+      <CardBody className="p-4">
+        <h3 className="mb-3 font-medium text-default-500 text-xs uppercase tracking-wider">
+          Distribution
+        </h3>
+        <ChartContainer config={chartConfig} className="h-[300px] w-full">
+          <BarChart data={sortedData} layout="vertical">
+            <CartesianGrid
+              horizontal={false}
+              strokeDasharray="3 3"
+              stroke="hsl(var(--heroui-default-200))"
+            />
             <XAxis
               type="number"
               tickLine={false}
               axisLine={false}
               tickFormatter={formatNumber}
+              tick={{ fill: "hsl(var(--heroui-default-500))" }}
             />
             <YAxis
               type="category"
               dataKey="category"
               tickLine={false}
               axisLine={false}
-              width={180}
+              width={100}
+              tick={{ fill: "hsl(var(--heroui-default-600))" }}
+              tickFormatter={(value: string) =>
+                value
+                  .replace("Category ", "")
+                  .replace("Vehicles Exempted From VQS", "VQS")
+              }
             />
             <ChartTooltip
               cursor={{ fill: "hsl(var(--muted))", opacity: 0.3 }}
@@ -58,11 +68,11 @@ export const CategoryBreakdown = ({ data, month }: Props) => {
                 />
               }
             />
-            <Bar
-              dataKey="total"
-              radius={[0, 4, 4, 0]}
-              fill="hsl(var(--heroui-primary))"
-            />
+            <Bar dataKey="total" radius={[0, 4, 4, 0]}>
+              {sortedData.map((entry) => (
+                <Cell key={entry.category} fill={entry.colour} />
+              ))}
+            </Bar>
           </BarChart>
         </ChartContainer>
       </CardBody>
