@@ -11,7 +11,7 @@ import { getRankingEmoji } from "@web/lib/cars/calculations";
 import {
   formatNumber,
   formatPercentage,
-  getColorForIndex,
+  getColourForIndex,
 } from "@web/utils/charts";
 import { useCallback, useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
@@ -49,14 +49,14 @@ export const TopPerformersBar = ({
       value: item.count,
       percentage: formatPercentage(item.percentage),
       rank: item.rank,
-      fill: getColorForIndex(index),
+      fill: getColourForIndex(index),
     }));
 
     const chartConfig = Object.fromEntries([
       ["value", { label: "Value", color: "hsl(var(--chart-1))" }],
       ...topItems.map((item, index) => [
         item.name,
-        { label: item.name, color: getColorForIndex(index) },
+        { label: item.name, color: getColourForIndex(index) },
       ]),
     ]);
 

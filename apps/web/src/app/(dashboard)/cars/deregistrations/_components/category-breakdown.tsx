@@ -7,23 +7,18 @@ import {
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import Typography from "@web/components/typography";
+import type { CategoryWithPercentage } from "@web/lib/deregistrations/transforms";
+import { formatNumber, formatPercentage } from "@web/utils/charts";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-interface CategoryData {
-  category: string;
-  total: number;
-}
-
 interface Props {
-  data: CategoryData[];
+  data: CategoryWithPercentage[];
   month: string;
 }
 
 export const CategoryBreakdown = ({ data, month }: Props) => {
-  const numberFormatter = new Intl.NumberFormat("en-SG");
-
   const chartConfig = {
-    total: { label: "Deregistrations", color: "hsl(var(--heroui-danger))" },
+    total: { label: "Deregistrations", color: "hsl(var(--heroui-primary))" },
   } as const;
 
   return (
@@ -42,7 +37,7 @@ export const CategoryBreakdown = ({ data, month }: Props) => {
               type="number"
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => numberFormatter.format(value)}
+              tickFormatter={formatNumber}
             />
             <YAxis
               type="category"
@@ -55,14 +50,18 @@ export const CategoryBreakdown = ({ data, month }: Props) => {
               cursor={{ fill: "hsl(var(--muted))", opacity: 0.3 }}
               content={
                 <ChartTooltipContent
-                  formatter={(value) => numberFormatter.format(value as number)}
+                  formatter={(value, _name, item) => {
+                    const percentage = (item.payload as CategoryWithPercentage)
+                      .percentage;
+                    return `${formatNumber(value as number)} (${formatPercentage(percentage)})`;
+                  }}
                 />
               }
             />
             <Bar
               dataKey="total"
-              fill="hsl(var(--heroui-danger))"
               radius={[0, 4, 4, 0]}
+              fill="hsl(var(--heroui-primary))"
             />
           </BarChart>
         </ChartContainer>
