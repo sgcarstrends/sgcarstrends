@@ -156,7 +156,7 @@ const DeregistrationsPage = async ({ searchParams }: Props) => {
   // Get previous month total for comparison
   const currentMonthIndex = months.indexOf(month);
   const previousMonth =
-    currentMonthIndex < months.length - 1
+    currentMonthIndex >= 0 && currentMonthIndex < months.length - 1
       ? months[currentMonthIndex + 1]
       : null;
   const previousMonthResult = previousMonth
