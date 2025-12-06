@@ -1,3 +1,9 @@
+## [4.31.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.31.0...v4.31.1) (2025-12-06)
+
+### Bug Fixes
+
+* standardise to NEXT_PUBLIC_SITE_URL ([3d5850a](https://github.com/sgcarstrends/sgcarstrends/commit/3d5850abb2a3030cb535417ea7fa27f337373f51))
+
 ## [4.31.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.30.0...v4.31.0) (2025-12-06)
 
 ### Features
