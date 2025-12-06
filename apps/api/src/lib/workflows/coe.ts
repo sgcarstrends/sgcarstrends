@@ -1,10 +1,10 @@
 import { SITE_URL } from "@api/config";
 import { socialMediaManager } from "@api/config/platforms";
 import { getCoeLatestMonth } from "@api/features/coe/queries";
-import { getExistingPostByMonth } from "@api/features/posts/queries";
 import { options } from "@api/lib/workflows/options";
 import { generateCoePost } from "@api/lib/workflows/posts";
 import {
+  checkExistingPost,
   processTask,
   publishToAllPlatforms,
   revalidateCache,
@@ -36,45 +36,44 @@ export const coeWorkflow = createWorkflow(
     }
 
     const { month, biddingNo } = await getCoeLatestMonth();
-
-    // Collect cache tags to invalidate
     const year = month.split("-")[0];
-    const cacheTags = ["coe:latest", "coe:months", `coe:year:${year}`];
 
-    // Generate blog post only when both bidding exercises are complete (biddingNo = 2)
-    if (biddingNo === 2) {
-      // Check if post exists
-      const posts = await getExistingPostByMonth<"coe">(month, "coe");
-      const [existingPost] = posts;
+    // Step: Revalidate data cache (always runs)
+    await revalidateCache(context, [
+      "coe:latest",
+      "coe:months",
+      `coe:year:${year}`,
+    ]);
 
-      const cachedPost = existingPost
-        ? {
-            postId: existingPost.id,
-            title: existingPost.title,
-            slug: existingPost.slug,
-          }
-        : null;
-      const shouldPublishSocial = !existingPost;
-
-      // Generate post only if none exists
-      const post = cachedPost ?? (await generateCoePost(context, month));
-
-      // Publish to social media only if shouldPublishSocial is true
-      if (post?.title && shouldPublishSocial) {
-        cacheTags.push("posts:list");
-
-        const link = `${SITE_URL}/blog/${post.slug}`;
-        const message = `📰 New Blog Post: ${post.title}`;
-
-        await publishToAllPlatforms(context, socialMediaManager, {
-          message,
-          link,
-        });
-      }
+    // Only generate blog post when both bidding exercises are complete
+    if (biddingNo !== 2) {
+      return {
+        message:
+          "[COE] Data processed. Waiting for second bidding exercise to generate post.",
+      };
     }
 
-    // Revalidate all cache tags once at the end
-    await revalidateCache(context, cacheTags);
+    // Step: Check if post already exists (always runs when biddingNo === 2)
+    const existingPost = await checkExistingPost(context, month, "coe");
+    if (existingPost) {
+      return {
+        message:
+          "[COE] Data processed. Post already exists, skipping social media.",
+      };
+    }
+
+    // Step: Generate new post (only runs if no existing post)
+    const post = await generateCoePost(context, month);
+
+    // Step: Publish to social media
+    const link = `${SITE_URL}/blog/${post.slug}`;
+    await publishToAllPlatforms(context, socialMediaManager, {
+      message: `📰 New Blog Post: ${post.title}`,
+      link,
+    });
+
+    // Step: Revalidate posts cache
+    await revalidateCache(context, ["posts:list"]);
 
     return {
       message: "[COE] Data processed and published successfully",

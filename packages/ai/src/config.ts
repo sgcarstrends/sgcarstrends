@@ -5,7 +5,6 @@ export interface BlogGenerationParams {
 }
 
 export interface BlogResult {
-  success: boolean;
   month: string;
   postId: string;
   title: string;
