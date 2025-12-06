@@ -92,7 +92,6 @@ jobs:
           QSTASH_NEXT_SIGNING_KEY: ${{ secrets.QSTASH_NEXT_SIGNING_KEY }}
           QSTASH_TOKEN: ${{ secrets.QSTASH_TOKEN }}
           QSTASH_URL: ${{ secrets.QSTASH_URL }}
-          SITE_URL: ${{ vars.SITE_URL }}
           WORKFLOWS_BASE_URL: ${{ vars.WORKFLOWS_BASE_URL }}
           RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}

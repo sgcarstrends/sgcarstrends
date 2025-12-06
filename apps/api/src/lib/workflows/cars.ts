@@ -1,4 +1,4 @@
-import { SITE_URL } from "@api/config";
+import { NEXT_PUBLIC_SITE_URL } from "@api/config";
 import { socialMediaManager } from "@api/config/platforms";
 import { getCarsLatestMonth } from "@api/features/cars/queries";
 import { options } from "@api/lib/workflows/options";
@@ -56,7 +56,7 @@ export const carsWorkflow = createWorkflow(
     const post = await generateCarPost(context, month);
 
     // Step: Publish to social media
-    const link = `${SITE_URL}/blog/${post.slug}`;
+    const link = `${NEXT_PUBLIC_SITE_URL}/blog/${post.slug}`;
     await publishToAllPlatforms(context, socialMediaManager, {
       message: `📰 New Blog Post: ${post.title}`,
       link,

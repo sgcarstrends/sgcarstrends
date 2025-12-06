@@ -176,7 +176,7 @@ Required for local development (.env.local):
 - `QSTASH_CURRENT_SIGNING_KEY`: QStash current signing key for signature verification
 - `QSTASH_NEXT_SIGNING_KEY`: QStash next signing key for signature verification
 - `WORKFLOWS_BASE_URL`: Base URL for workflow endpoints (e.g., `https://api.dev.aws.sgcarstrends.com/workflows`)
-- `SITE_URL`: Web application URL for social media post links (e.g., `https://dev.sgcarstrends.com`)
+- `NEXT_PUBLIC_SITE_URL`: Web application URL for social media post links (e.g., `https://dev.sgcarstrends.com`)
 - `BLOB_READ_WRITE_TOKEN`: Vercel Blob authentication token for logos storage
 - `GOOGLE_GENERATIVE_AI_API_KEY`: Google Gemini API key for blog generation (used by Vercel AI SDK)
 - `LANGFUSE_PUBLIC_KEY`: Langfuse public key for LLM observability (optional)
