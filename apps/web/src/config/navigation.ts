@@ -20,7 +20,6 @@ import {
   Gavel,
   HelpCircle,
   type LucideIcon,
-  TrendingDown,
   TrendingUp,
 } from "lucide-react";
 

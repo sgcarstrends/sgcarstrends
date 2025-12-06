@@ -24,7 +24,7 @@ export const CategoryTrendsTable = ({ data }: Props) => {
         <div className="flex flex-col gap-2">
           {data.map((cat) => {
             const firstValue = cat.trend[0]?.value ?? 0;
-            const lastValue = cat.trend[cat.trend.length - 1]?.value ?? 0;
+            const lastValue = cat.trend.at(-1)?.value ?? 0;
             const change = lastValue - firstValue;
             const isUp = change > 0;
 
