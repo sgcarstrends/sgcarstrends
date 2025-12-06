@@ -136,7 +136,6 @@ Workflow-aware blog generation function for use in QStash workflows.
 **Returns:**
 ```typescript
 interface GenerateAndSaveResult {
-  success: boolean;
   month: string;
   postId: string;
   title: string;
