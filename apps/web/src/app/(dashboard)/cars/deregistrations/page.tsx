@@ -85,7 +85,9 @@ const toCategorySparklines = (
   currentMonthCategories: { category: string; total: number }[],
   monthCount = SPARKLINE_MONTH_COUNT,
 ): CategorySparklineData[] => {
-  const sortedMonths = [...new Set(data.map((record) => record.month))].sort();
+  const sortedMonths = [...new Set(data.map((record) => record.month))].sort(
+    (a, b) => new Date(a).getTime() - new Date(b).getTime(),
+  );
   const recentMonths = sortedMonths.slice(-monthCount);
 
   return currentMonthCategories.map(({ category, total }) => {
