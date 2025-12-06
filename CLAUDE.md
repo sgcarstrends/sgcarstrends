@@ -51,8 +51,8 @@ for effective development and maintenance.
 
 ## Project Overview
 
-SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data and
-Certificate of Entitlement (COE) bidding results. The monorepo includes:
+SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data,
+Certificate of Entitlement (COE) bidding results, and vehicle deregistration statistics. The monorepo includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
 - **Web Application**: Next.js 16 frontend with Cache Components, component co-location, interactive charts, analytics,
@@ -103,7 +103,7 @@ All commands use pnpm as the package manager.
     - **architecture/**: Complete system architecture documentation with Mermaid diagrams
     - **diagrams/**: Source Mermaid diagram files for architecture documentation
 - **packages/database**: Database schema and migrations using Drizzle ORM
-    - **src/db**: Schema definitions for cars, COE, and posts tables
+    - **src/schema**: Schema definitions for cars, COE, deregistrations, and posts tables
     - **migrations**: Database migration files with version tracking
 - **packages/ai**: AI-powered blog generation shared package
     - **src/generate-post.ts**: 2-step blog generation (analysis → structured output)
@@ -168,6 +168,7 @@ The project uses **pnpm with catalog** for centralised dependency version manage
 - Classes: `PascalCase`
 - Constants: `UPPER_CASE`
 - **Files**: Avoid redundant prefixes (✅ `cars/make.ts` not ❌ `cars/cars-make.ts`)
+- **Variables**: Use descriptive names (✅ `record`, `result`, `item` not ❌ `r`, `d`, `i`)
 - Import groups: 1) built-in, 2) external, 3) internal
 
 ### Commit Messages
@@ -226,7 +227,7 @@ See `domain-management` skill for DNS configuration and routing details.
 
 PostgreSQL with Drizzle ORM using **camelCase** column naming:
 
-- `cars`, `coe`, `pqp`, `posts`
+- `cars`, `coe`, `pqp`, `deregistrations`, `posts`
 
 **Naming Strategy:**
 - Table names: `snake_case` (e.g., `cars`, `coe`, `pqp`)
