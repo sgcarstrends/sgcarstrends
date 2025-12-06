@@ -4,13 +4,13 @@ import { getCarsLatestMonth } from "@api/features/cars/queries";
 import { getExistingPostByMonth } from "@api/features/posts/queries";
 import { options } from "@api/lib/workflows/options";
 import { generateCarPost } from "@api/lib/workflows/posts";
-import { updateCars } from "@api/lib/workflows/update-cars";
 import {
   processTask,
   publishToAllPlatforms,
-  revalidateWebCache,
+  revalidateCache,
   type WorkflowStep,
-} from "@api/lib/workflows/workflow";
+} from "@api/lib/workflows/steps";
+import { updateCars } from "@api/lib/workflows/update-cars";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const carsWorkflow = createWorkflow(
@@ -35,47 +35,35 @@ export const carsWorkflow = createWorkflow(
     // Get latest updated month for cars from the database
     const { month } = await getCarsLatestMonth();
 
-    // Invalidate cache for updated car data
+    // Collect cache tags to invalidate
     const year = month.split("-")[0];
-    await revalidateWebCache(context, [
+    const cacheTags = [
       `cars:month:${month}`,
       `cars:year:${year}`,
       "cars:months",
       "cars:makes",
       "cars:annual",
-    ]);
+    ];
 
-    // Step: Check if post exists and determine if social should publish
-    const { post: cachedPost, shouldPublishSocial } = await context.run(
-      "Check existing post",
-      async () => {
-        const posts = await getExistingPostByMonth<"cars">(month, "cars");
-        const [existingPost] = posts;
+    // Check if post exists
+    const posts = await getExistingPostByMonth<"cars">(month, "cars");
+    const [existingPost] = posts;
 
-        if (existingPost) {
-          // Post exists - skip social (already published in previous workflow)
-          return {
-            post: {
-              postId: existingPost.id,
-              title: existingPost.title,
-              slug: existingPost.slug,
-            },
-            shouldPublishSocial: false,
-          };
+    const cachedPost = existingPost
+      ? {
+          postId: existingPost.id,
+          title: existingPost.title,
+          slug: existingPost.slug,
         }
-
-        // No post - will generate and publish social
-        return { post: null, shouldPublishSocial: true };
-      },
-    );
+      : null;
+    const shouldPublishSocial = !existingPost;
 
     // Step: Generate post only if none exists
     const post = cachedPost ?? (await generateCarPost(context, month));
 
-    // Step: Publish to social media only if shouldPublishSocial is true
+    // Publish to social media only if shouldPublishSocial is true
     if (post?.title && shouldPublishSocial) {
-      // Invalidate cache for new blog post
-      await revalidateWebCache(context, ["posts:list"]);
+      cacheTags.push("posts:list");
 
       const link = `${SITE_URL}/blog/${post.slug}`;
       const message = `📰 New Blog Post: ${post.title}`;
@@ -85,6 +73,9 @@ export const carsWorkflow = createWorkflow(
         link,
       });
     }
+
+    // Revalidate all cache tags once at the end
+    await revalidateCache(context, cacheTags);
 
     return {
       message: "[CARS] Data processed and published successfully",

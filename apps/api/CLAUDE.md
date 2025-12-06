@@ -52,7 +52,8 @@ See `sst-deployment` skill for multi-environment deployment workflows.
 - **src/features/**: Feature modules (cars, coe, health, logos, months, workflows, newsletter, shared)
 - **src/v1/**: Versioned API routes (cars, coe, months) with bearer authentication
 - **src/routes/**: Workflow endpoints and social media webhooks
-- **src/lib/workflows/**: QStash workflows (cars, coe, posts, save-post, update-cars, update-coe, workflow, options)
+- **src/lib/workflows/**: QStash workflows (cars, coe, deregistration, posts, save-post, update-cars, update-coe, update-deregistration, options)
+- **src/lib/workflows/steps/**: Reusable workflow step functions (process-task, publish-to-all-platforms, revalidate-cache)
 - **src/lib/social/**: Platform-specific social media posting logic
 - **src/config/**: Configuration for databases, Redis, QStash, and platforms
 - **src/utils/**: Utility functions for file processing, caching, and responses
@@ -79,7 +80,10 @@ The API follows a feature-based architecture in `src/features/`:
 
 The API uses a workflow-based system for data processing:
 
-- **Workflow Runtime** (`src/lib/workflows/workflow.ts`): Common workflow helpers, step runner, Redis timestamps, cache revalidation
+- **Workflow Steps** (`src/lib/workflows/steps/`): Reusable step functions inspired by Vercel WDK's `"use step"` pattern
+  - `process-task.ts`: Task processing with Redis timestamp tracking
+  - `publish-to-all-platforms.ts`: Social media publishing (returns `PublishResults`)
+  - `revalidate-cache.ts`: Non-blocking cache revalidation
 - **Data Updaters** (`src/lib/workflows/update-cars.ts`, `src/lib/workflows/update-coe.ts`, `src/lib/workflows/update-deregistration.ts`): Automated data fetching and processing from LTA DataMall
 - **Blog Generation** (`src/lib/workflows/posts.ts`): Orchestrates LLM-powered blog post creation using `@sgcarstrends/ai` package
 - **Main Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`, `src/lib/workflows/deregistration.ts`): Main workflow orchestrators exposed as routes
@@ -88,7 +92,7 @@ The API uses a workflow-based system for data processing:
 
 ### Cache Revalidation
 
-Workflows invalidate web app caches using granular cache tags via the `revalidateWebCache()` helper:
+Workflows invalidate web app caches using granular cache tags via the `revalidateCache()` step:
 
 **Cars Workflow** invalidates:
 - `cars:month:{month}` - Specific month's data
