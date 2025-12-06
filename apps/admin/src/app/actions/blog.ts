@@ -87,12 +87,10 @@ export const regeneratePost = async (params: {
     });
 
     // Invalidate cache for new blog post
-    if (result.success) {
-      await revalidateWebCache(["posts:list", "posts:recent"]);
-    }
+    await revalidateWebCache(["posts:list", "posts:recent"]);
 
     return {
-      success: result.success,
+      success: true,
       postId: result.postId,
     };
   } catch (error) {

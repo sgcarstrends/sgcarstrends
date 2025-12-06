@@ -18,7 +18,6 @@ import { type GeneratedPost, postSchema } from "./schemas";
  * Result of generating and saving a blog post
  */
 export interface GenerateAndSaveResult {
-  success: boolean;
   month: string;
   postId: string;
   title: string;
@@ -168,7 +167,6 @@ export const generateAndSavePost = async (
     console.log(`${dataType} blog post saved successfully`);
 
     return {
-      success: true,
       month,
       postId: post.id,
       title: post.title,

@@ -1,5 +1,5 @@
 import {
-  generatePost,
+  generateAndSavePost,
   getCarsAggregatedByMonth,
   getCoeForMonth,
 } from "@sgcarstrends/ai";
@@ -10,14 +10,10 @@ export const generateCarPost = async (
   context: WorkflowContext,
   month: string,
 ) => {
-  // Get car data from database
-  const cars = await getCarsAggregatedByMonth(month);
-  const data = tokeniser(cars);
-
-  return generatePost(context, {
-    data,
-    month,
-    dataType: "cars",
+  return context.run("Generate blog post for cars", async () => {
+    const cars = await getCarsAggregatedByMonth(month);
+    const data = tokeniser(cars);
+    return generateAndSavePost({ data, month, dataType: "cars" });
   });
 };
 
@@ -25,13 +21,9 @@ export const generateCoePost = async (
   context: WorkflowContext,
   month: string,
 ) => {
-  // Get COE data from database for both bidding exercises
-  const coe = await getCoeForMonth(month);
-  const data = tokeniser(coe);
-
-  return generatePost(context, {
-    data,
-    month,
-    dataType: "coe",
+  return context.run("Generate blog post for coe", async () => {
+    const coe = await getCoeForMonth(month);
+    const data = tokeniser(coe);
+    return generateAndSavePost({ data, month, dataType: "coe" });
   });
 };

@@ -1,11 +1,11 @@
 import { getDeregistrationsLatestMonth } from "@api/features/deregistrations/queries";
 import { options } from "@api/lib/workflows/options";
-import { updateDeregistration } from "@api/lib/workflows/update-deregistration";
 import {
   processTask,
-  revalidateWebCache,
+  revalidateCache,
   type WorkflowStep,
-} from "@api/lib/workflows/workflow";
+} from "@api/lib/workflows/steps";
+import { updateDeregistration } from "@api/lib/workflows/update-deregistration";
 import { createWorkflow } from "@upstash/workflow/hono";
 
 export const deregistrationWorkflow = createWorkflow(
@@ -36,10 +36,8 @@ export const deregistrationWorkflow = createWorkflow(
       };
     }
 
-    const year = month.split("-")[0];
-    await revalidateWebCache(context, [
+    await revalidateCache(context, [
       `deregistrations:month:${month}`,
-      `deregistrations:year:${year}`,
       "deregistrations:months",
     ]);
 
