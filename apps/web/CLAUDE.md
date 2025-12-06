@@ -56,9 +56,10 @@ src/
 │   │   └── _components/           # Blog-specific components (co-located)
 │   └── store/                     # Zustand store slices
 ├── actions/                       # Server actions (newsletter subscription)
-├── queries/                       # Data fetching queries (cars, COE, logos)
+├── queries/                       # Data fetching queries (cars, COE, deregistrations, logos)
 │   ├── cars/                      # Car data queries with comprehensive tests
 │   ├── coe/                       # COE data queries with comprehensive tests
+│   ├── deregistrations/           # Deregistration data queries (monthly, category breakdowns)
 │   ├── logos/                     # Logo queries
 │   └── __tests__/                 # Comprehensive query test suite
 ├── components/                    # Shared React components
@@ -85,6 +86,7 @@ Route-specific components live alongside their consuming routes using private fo
 - **Blog**: `app/blog/_components/` - Progress bar, view counter, related posts, blog list
 - **Cars**: `app/(dashboard)/cars/_components/` - Category tabs, make selectors, trend charts
 - **COE**: `app/(dashboard)/coe/_components/` - COE categories, premium charts, PQP components
+- **Deregistrations**: `app/(dashboard)/cars/deregistrations/_components/` - Category charts, trends, breakdown tables
 
 #### Co-located Actions (`_actions/`)
 
@@ -141,8 +143,7 @@ All non-route folders in `app/` use underscore prefix to prevent routing conflic
 
 ### Data Architecture
 
-**Database**: Uses Drizzle ORM with PostgreSQL for car registration data, COE bidding results, and blog posts. Database
-connection configured in `src/config/db.ts`.
+**Database**: Uses Drizzle ORM with PostgreSQL for car registration data, COE bidding results, vehicle deregistrations, and blog posts. Database connection configured in `src/config/db.ts`.
 
 **State Management**: Zustand store with persistence in `src/app/store.ts` manages:
 
@@ -185,6 +186,9 @@ Granular cache tags enable precise invalidation without over-fetching:
 | `coe:year:{year}` | Year-specific COE data | `coe:year:2024` |
 | `coe:months` | Available COE months list | - |
 | `coe:pqp` | PQP rates data | - |
+| `deregistrations:month:{month}` | Month-specific deregistration data | `deregistrations:month:2024-01` |
+| `deregistrations:year:{year}` | Year-specific deregistration data | `deregistrations:year:2024` |
+| `deregistrations:months` | Available deregistration months | - |
 | `posts:list` | Blog post list | - |
 | `posts:slug:{slug}` | Individual blog post | `posts:slug:jan-2024-analysis` |
 | `posts:views:{postId}` | Individual post view count | `posts:views:abc123` |
@@ -274,6 +278,10 @@ revalidateTag("coe:pqp", "max");
 revalidateTag("cars:makes", "max");
 revalidateTag("cars:months", "max");
 revalidateTag("coe:months", "max");
+
+// Invalidate deregistration data
+revalidateTag("deregistrations:month:2024-01", "max");
+revalidateTag("deregistrations:months", "max");
 ```
 
 This precisely invalidates only affected caches, avoiding unnecessary regeneration of unrelated queries.
@@ -282,6 +290,7 @@ This precisely invalidates only affected caches, avoiding unnecessary regenerati
 
 - **Car Queries** (`queries/cars/`): Registration data, market insights, makes, yearly statistics, filter options
 - **COE Queries** (`queries/coe/`): Historical results, latest results, available months, PQP rates
+- **Deregistration Queries** (`queries/deregistrations/`): Monthly deregistration data, category breakdowns, available months, totals by month
 - **Logo Queries** (`queries/logos/`): Dynamic logo loading via `@sgcarstrends/logos` package with Vercel Blob storage
 - All queries include comprehensive unit tests in `queries/__tests__/`
 

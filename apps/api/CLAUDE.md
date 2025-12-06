@@ -16,8 +16,8 @@ and others used in this project.
 
 ## Project Overview
 
-The SG Cars Trends API is a Hono-based REST API service that provides Singapore vehicle registration data and COE
-bidding results. Key features include:
+The SG Cars Trends API is a Hono-based REST API service that provides Singapore vehicle registration data, COE
+bidding results, and vehicle deregistration statistics. Key features include:
 
 - **REST API**: OpenAPI-documented endpoints using Hono framework
 - **Workflow System**: QStash-powered data processing workflows for automated updates
@@ -65,6 +65,7 @@ The API follows a feature-based architecture in `src/features/`:
 
 - **cars**: Car registration data endpoints
 - **coe**: COE bidding results endpoints
+- **deregistrations**: Vehicle deregistration data queries
 - **health**: Health check endpoint
 - **logos**: Car brand logo API (placeholder - awaiting storage migration)
 - **months**: Available data months endpoint
@@ -79,9 +80,9 @@ The API follows a feature-based architecture in `src/features/`:
 The API uses a workflow-based system for data processing:
 
 - **Workflow Runtime** (`src/lib/workflows/workflow.ts`): Common workflow helpers, step runner, Redis timestamps, cache revalidation
-- **Data Updaters** (`src/lib/workflows/update-cars.ts`, `src/lib/workflows/update-coe.ts`): Automated data fetching and processing
+- **Data Updaters** (`src/lib/workflows/update-cars.ts`, `src/lib/workflows/update-coe.ts`, `src/lib/workflows/update-deregistration.ts`): Automated data fetching and processing from LTA DataMall
 - **Blog Generation** (`src/lib/workflows/posts.ts`): Orchestrates LLM-powered blog post creation using `@sgcarstrends/ai` package
-- **Main Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`): Main workflow orchestrators exposed as routes
+- **Main Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`, `src/lib/workflows/deregistration.ts`): Main workflow orchestrators exposed as routes
 - **Social Publishing**: Automated posting to platforms when data updates occur
 - **Cache Revalidation**: Triggers granular cache invalidation on the web app after data updates
 
@@ -103,6 +104,11 @@ Workflows invalidate web app caches using granular cache tags via the `revalidat
 - `coe:months` - Available COE months
 - `coe:year:{year}` - Year-specific data
 - `posts:list` - Blog post list (when new post generated)
+
+**Deregistrations Workflow** invalidates:
+- `deregistrations:month:{month}` - Specific month's deregistration data
+- `deregistrations:year:{year}` - Year-specific deregistration data
+- `deregistrations:months` - Available deregistration months list
 
 See `apps/web/CLAUDE.md` for complete cache tag documentation and the web app's `/api/revalidate` endpoint.
 
@@ -131,6 +137,7 @@ See `apps/web/CLAUDE.md` for complete cache tag documentation and the web app's 
 
 - **POST /workflows/cars**: Car data processing workflow
 - **POST /workflows/coe**: COE data processing workflow
+- **POST /workflows/deregistrations**: Vehicle deregistration data processing workflow
 - **POST /workflows/linkedin**: LinkedIn posting webhook
 - **POST /workflows/twitter**: Twitter posting webhook
 - **POST /workflows/discord**: Discord posting webhook

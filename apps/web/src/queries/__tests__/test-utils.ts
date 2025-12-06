@@ -69,6 +69,7 @@ vi.mock("@sgcarstrends/database", () => ({
   cars: {},
   coe: {},
   pqp: {},
+  deregistrations: {},
 }));
 
 export const cacheLifeMock = vi.fn();

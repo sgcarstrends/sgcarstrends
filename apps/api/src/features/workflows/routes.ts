@@ -9,6 +9,7 @@ import {
 import { WorkflowTriggerResponseSchema } from "@api/features/workflows/schemas";
 import { carsWorkflow } from "@api/lib/workflows/cars";
 import { coeWorkflow } from "@api/lib/workflows/coe";
+import { deregistrationWorkflow } from "@api/lib/workflows/deregistration";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { serveMany } from "@upstash/workflow/hono";
 import { bearerAuth } from "hono/bearer-auth";
@@ -53,7 +54,7 @@ app.openapi(
   }),
   async (c) => {
     try {
-      const endpoints = ["cars", "coe"];
+      const endpoints = ["cars", "coe", "deregistrations"];
       const workflows = endpoints.map((endpoint) => {
         const workflowRunId: string = crypto.randomUUID();
 
@@ -121,6 +122,7 @@ app.post(
   serveMany({
     cars: carsWorkflow,
     coe: coeWorkflow,
+    deregistrations: deregistrationWorkflow,
     newsletter: newsletterWorkflow,
   }),
 );

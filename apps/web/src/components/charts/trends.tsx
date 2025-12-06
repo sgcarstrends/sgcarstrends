@@ -9,7 +9,7 @@ import {
 } from "@sgcarstrends/ui/components/chart";
 import { ChartWidget } from "@web/components/charts/widget";
 import {
-  chartColorPalette,
+  chartColourPalette,
   formatMonthYear,
   formatNumber,
 } from "@web/utils/charts";
@@ -38,7 +38,7 @@ export const TrendAreaChart = ({
   title,
   subtitle,
   categories,
-  colours = chartColorPalette.slice(0, categories.length),
+  colours = chartColourPalette.slice(0, categories.length),
   showTotal = false,
   valueFormatter = formatNumber,
 }: TrendAreaChartProps) => {

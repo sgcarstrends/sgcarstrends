@@ -8,4 +8,9 @@ export {
   type SelectCOE,
   type SelectPqp,
 } from "./coe";
+export {
+  deregistrations,
+  type InsertDeregistration,
+  type SelectDeregistration,
+} from "./deregistration";
 export { type InsertPost, posts, type SelectPost } from "./posts";

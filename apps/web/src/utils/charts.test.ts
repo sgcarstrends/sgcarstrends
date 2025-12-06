@@ -4,7 +4,7 @@ import {
   formatGrowthRate,
   formatNumber,
   formatPercentage,
-  getColorForIndex,
+  getColourForIndex,
 } from "./charts";
 
 describe("formatNumber", () => {
@@ -73,23 +73,23 @@ describe("formatGrowthRate", () => {
   });
 });
 
-describe("getColorForIndex", () => {
-  it("should return color from palette for valid index", () => {
-    expect(getColorForIndex(0)).toBe("#3b82f6");
-    expect(getColorForIndex(1)).toBe("#10b981");
-    expect(getColorForIndex(2)).toBe("#8b5cf6");
+describe("getColourForIndex", () => {
+  it("should return colour from palette for valid index", () => {
+    expect(getColourForIndex(0)).toBe("#3b82f6");
+    expect(getColourForIndex(1)).toBe("#10b981");
+    expect(getColourForIndex(2)).toBe("#8b5cf6");
   });
 
   it("should wrap around for indices beyond palette length", () => {
-    const firstColor = getColorForIndex(0);
-    const wrappedColor = getColorForIndex(10);
-    expect(wrappedColor).toBe(firstColor);
+    const firstColour = getColourForIndex(0);
+    const wrappedColour = getColourForIndex(10);
+    expect(wrappedColour).toBe(firstColour);
   });
 
   it("should return undefined for negative indices", () => {
     // JavaScript modulo with negative numbers gives negative results
     // which results in undefined when accessing array
-    const color = getColorForIndex(-1);
-    expect(color).toBeUndefined();
+    const colour = getColourForIndex(-1);
+    expect(colour).toBeUndefined();
   });
 });

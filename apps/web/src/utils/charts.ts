@@ -48,8 +48,7 @@ export const formatMonthYear = (monthString: string): string => {
   return formatDateToMonthYear(monthString);
 };
 
-// Standard chart color palette for consistency
-export const chartColorPalette = [
+export const chartColourPalette = [
   "#3b82f6", // blue
   "#10b981", // emerald
   "#8b5cf6", // violet
@@ -62,8 +61,8 @@ export const chartColorPalette = [
   "#84cc16", // lime
 ] as const;
 
-export const getColorForIndex = (index: number): string => {
-  return chartColorPalette[index % chartColorPalette.length];
+export const getColourForIndex = (index: number): string => {
+  return chartColourPalette[index % chartColourPalette.length];
 };
 
 export const chartCategories = {
