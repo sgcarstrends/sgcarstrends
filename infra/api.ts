@@ -46,6 +46,7 @@ export const api = new sst.aws.Function("Api", {
     LANGFUSE_HOST: process.env.LANGFUSE_HOST,
 
     // QStash/Upstash
+    QSTASH_URL: process.env.QSTASH_URL as string,
     QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
     QSTASH_CURRENT_SIGNING_KEY: process.env
       .QSTASH_CURRENT_SIGNING_KEY as string,
