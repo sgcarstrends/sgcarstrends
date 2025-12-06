@@ -37,6 +37,38 @@ const verifyQStash = createMiddleware(async (c, next) => {
   return next();
 });
 
+const workflowResponses = (successDescription: string) => ({
+  200: {
+    description: successDescription,
+    content: {
+      "application/json": {
+        schema: WorkflowTriggerResponseSchema,
+      },
+    },
+  },
+  401: {
+    description: "Unauthorized - Invalid QStash signature",
+  },
+  500: {
+    description: "Internal server error",
+    content: {
+      "application/json": {
+        schema: WorkflowTriggerResponseSchema,
+      },
+    },
+  },
+});
+
+const getErrorMessage = (error: unknown): string => {
+  if (error instanceof NewsletterBroadcastError) {
+    return error.message;
+  }
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return "Unknown workflow error";
+};
+
 app.openapi(
   createRoute({
     method: "post",
@@ -46,27 +78,7 @@ app.openapi(
     description:
       "Trigger both cars and COE data update workflows for fetching latest data from LTA DataMall. Requires QStash signature verification.",
     tags: ["Workflows"],
-    responses: {
-      200: {
-        description: "Workflows triggered successfully",
-        content: {
-          "application/json": {
-            schema: WorkflowTriggerResponseSchema,
-          },
-        },
-      },
-      401: {
-        description: "Unauthorized - Invalid QStash signature",
-      },
-      500: {
-        description: "Internal server error",
-        content: {
-          "application/json": {
-            schema: WorkflowTriggerResponseSchema,
-          },
-        },
-      },
-    },
+    responses: workflowResponses("Workflows triggered successfully"),
   }),
   async (c) => {
     try {
@@ -98,7 +110,7 @@ app.openapi(
         {
           success: false,
           message: "Failed to trigger workflows",
-          error: error.message,
+          error: getErrorMessage(error),
         },
         500,
       );
@@ -115,27 +127,7 @@ app.openapi(
     description:
       "Trigger the monthly newsletter broadcast workflow. Requires QStash signature verification.",
     tags: ["Workflows"],
-    responses: {
-      200: {
-        description: "Newsletter workflow triggered successfully",
-        content: {
-          "application/json": {
-            schema: WorkflowTriggerResponseSchema,
-          },
-        },
-      },
-      401: {
-        description: "Unauthorized - Invalid QStash signature",
-      },
-      500: {
-        description: "Internal server error",
-        content: {
-          "application/json": {
-            schema: WorkflowTriggerResponseSchema,
-          },
-        },
-      },
-    },
+    responses: workflowResponses("Newsletter workflow triggered successfully"),
   }),
   async (c) => {
     try {
@@ -147,18 +139,11 @@ app.openapi(
         workflowRunIds: [workflowRunId],
       });
     } catch (error) {
-      const message =
-        error instanceof NewsletterBroadcastError
-          ? error.message
-          : error instanceof Error
-            ? error.message
-            : "Unknown workflow error";
-
       return c.json(
         {
           success: false,
           message: "Failed to trigger newsletter workflow",
-          error: message,
+          error: getErrorMessage(error),
         },
         500,
       );
