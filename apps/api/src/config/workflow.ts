@@ -1,7 +1,5 @@
-import { API_DOMAINS, SITE_DOMAINS } from "@api/config/domains";
-
-export const WORKFLOWS_BASE_URL = `https://${API_DOMAINS[process.env.STAGE as keyof typeof API_DOMAINS]}/workflows`;
-export const SITE_URL = `https://${SITE_DOMAINS[process.env.STAGE as keyof typeof SITE_DOMAINS]}`;
+export const WORKFLOWS_BASE_URL = process.env.WORKFLOWS_BASE_URL as string;
+export const SITE_URL = process.env.SITE_URL as string;
 
 export const CACHE_TTL = 24 * 60 * 60;
 
