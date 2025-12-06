@@ -5,7 +5,7 @@ import { cacheLife, cacheTag } from "next/cache";
 /**
  * Get available months in descending order (for dropdowns/selectors)
  */
-export const getDeregistrationsAvailableMonths = async () => {
+export const getDeregistrationsMonths = async () => {
   "use cache";
   cacheLife("max");
   cacheTag("deregistrations:months");

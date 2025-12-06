@@ -22,16 +22,17 @@ export const getDeregistrationsByCategory = async (month: string) => {
 };
 
 /**
- * Get deregistration data for a specific month
+ * Get total deregistrations for a specific month
  */
-export const getDeregistrationsByMonth = async (month: string) => {
+export const getDeregistrationsTotalByMonth = async (month: string) => {
   "use cache";
   cacheLife("max");
   cacheTag(`deregistrations:month:${month}`);
 
   return db
-    .select()
+    .select({
+      total: sql<number>`cast(sum(${deregistrations.number}) as integer)`,
+    })
     .from(deregistrations)
-    .where(eq(deregistrations.month, month))
-    .orderBy(desc(deregistrations.number));
+    .where(eq(deregistrations.month, month));
 };

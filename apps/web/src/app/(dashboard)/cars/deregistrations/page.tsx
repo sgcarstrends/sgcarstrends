@@ -1,22 +1,21 @@
 import { Card, CardBody } from "@heroui/card";
+import type { SelectDeregistration } from "@sgcarstrends/database";
 import { CategoryBreakdown } from "@web/app/(dashboard)/cars/deregistrations/_components/category-breakdown";
-import { DeregistrationsCategoryChart } from "@web/app/(dashboard)/cars/deregistrations/_components/deregistrations-category-chart";
+import { CategoryChart } from "@web/app/(dashboard)/cars/deregistrations/_components/category-chart";
+import { CategoryTrendsTable } from "@web/app/(dashboard)/cars/deregistrations/_components/category-trends-table";
 import { TrendsChart } from "@web/app/(dashboard)/cars/deregistrations/_components/trends-chart";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/deregistrations/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import {
-  toCategorySparklines,
-  toMonthlyTotals,
-  toPercentageDistribution,
-} from "@web/lib/deregistrations/transforms";
 import { createPageMetadata } from "@web/lib/metadata";
 import {
-  getAllDeregistrations,
+  getDeregistrations,
   getDeregistrationsByCategory,
+  getDeregistrationsTotalByMonth,
 } from "@web/queries/deregistrations";
+import { chartColourPalette, formatNumber } from "@web/utils/charts";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import {
   fetchMonthsForDeregistrations,
@@ -25,6 +24,109 @@ import {
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
+
+// Category constants and colours
+const DEREGISTRATION_CATEGORIES = [
+  "Category A",
+  "Category B",
+  "Category C",
+  "Category D",
+  "Vehicles Exempted From VQS",
+  "Taxis",
+] as const;
+
+type DeregistrationCategory = (typeof DEREGISTRATION_CATEGORIES)[number];
+
+const DEREGISTRATION_CATEGORY_COLOURS: Record<DeregistrationCategory, string> =
+  {
+    "Category A": chartColourPalette[0],
+    "Category B": chartColourPalette[1],
+    "Category C": chartColourPalette[2],
+    "Category D": chartColourPalette[3],
+    "Vehicles Exempted From VQS": chartColourPalette[4],
+    Taxis: chartColourPalette[5],
+  };
+
+const getCategoryColour = (category: string): string => {
+  if (category in DEREGISTRATION_CATEGORY_COLOURS) {
+    return DEREGISTRATION_CATEGORY_COLOURS[category as DeregistrationCategory];
+  }
+  return chartColourPalette[0];
+};
+
+// Data transformation functions
+const SPARKLINE_MONTH_COUNT = 12;
+
+interface MonthlyTotal {
+  month: string;
+  total: number;
+}
+
+const toMonthlyTotals = (data: SelectDeregistration[]): MonthlyTotal[] => {
+  const grouped = data.reduce<Record<string, number>>((acc, record) => {
+    acc[record.month] = (acc[record.month] ?? 0) + (record.number ?? 0);
+    return acc;
+  }, {});
+
+  return Object.entries(grouped)
+    .map(([month, total]) => ({ month, total }))
+    .sort((a, b) => a.month.localeCompare(b.month));
+};
+
+interface CategorySparklineData {
+  category: string;
+  total: number;
+  trend: { value: number }[];
+  colour: string;
+}
+
+const toCategorySparklines = (
+  data: SelectDeregistration[],
+  currentMonthCategories: { category: string; total: number }[],
+  monthCount = SPARKLINE_MONTH_COUNT,
+): CategorySparklineData[] => {
+  const sortedMonths = [...new Set(data.map((record) => record.month))].sort();
+  const recentMonths = sortedMonths.slice(-monthCount);
+
+  return currentMonthCategories.map(({ category, total }) => {
+    const trend = recentMonths.map((month) => {
+      const monthRecords = data.filter(
+        (record) => record.month === month && record.category === category,
+      );
+      const value = monthRecords.reduce(
+        (sum, record) => sum + (record.number ?? 0),
+        0,
+      );
+      return { value };
+    });
+
+    return {
+      category,
+      total,
+      trend,
+      colour: getCategoryColour(category),
+    };
+  });
+};
+
+interface CategoryWithPercentage {
+  category: string;
+  total: number;
+  percentage: number;
+  colour: string;
+}
+
+const toPercentageDistribution = (
+  data: { category: string; total: number }[],
+): CategoryWithPercentage[] => {
+  const grandTotal = data.reduce((sum, item) => sum + item.total, 0);
+
+  return data.map((item) => ({
+    ...item,
+    percentage: grandTotal > 0 ? (item.total / grandTotal) * 100 : 0,
+    colour: getCategoryColour(item.category),
+  }));
+};
 
 const title = "Vehicle Deregistrations";
 const description =
@@ -78,15 +180,13 @@ const DeregistrationsPage = async ({ searchParams }: Props) => {
 
   const [categories, allDeregistrations] = await Promise.all([
     getDeregistrationsByCategory(month),
-    getAllDeregistrations(),
+    getDeregistrations(),
   ]);
 
   const totalDeregistrations = categories.reduce(
     (sum, item) => sum + item.total,
     0,
   );
-
-  const formattedMonth = formatDateToMonthYear(month);
 
   const trendsData = toMonthlyTotals(allDeregistrations);
   const categoryCardsData = toCategorySparklines(
@@ -95,18 +195,16 @@ const DeregistrationsPage = async ({ searchParams }: Props) => {
   );
   const categoryBreakdownData = toPercentageDistribution(categories);
 
-  // Calculate previous month total for comparison
-  const sortedMonths = [
-    ...new Set(allDeregistrations.map((r) => r.month)),
-  ].sort();
-  const currentMonthIndex = sortedMonths.indexOf(month);
+  // Get previous month total for comparison
+  const currentMonthIndex = months.indexOf(month);
   const previousMonth =
-    currentMonthIndex > 0 ? sortedMonths[currentMonthIndex - 1] : null;
-  const previousMonthTotal = previousMonth
-    ? allDeregistrations
-        .filter((r) => r.month === previousMonth)
-        .reduce((sum, r) => sum + (r.number ?? 0), 0)
-    : undefined;
+    currentMonthIndex < months.length - 1
+      ? months[currentMonthIndex + 1]
+      : null;
+  const previousMonthResult = previousMonth
+    ? await getDeregistrationsTotalByMonth(previousMonth)
+    : null;
+  const previousMonthTotal = previousMonthResult?.[0]?.total;
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -131,10 +229,7 @@ const DeregistrationsPage = async ({ searchParams }: Props) => {
         <PageHeader title="Vehicle Deregistrations" />
 
         {/* Interactive Category Chart */}
-        <DeregistrationsCategoryChart
-          data={allDeregistrations}
-          months={months}
-        />
+        <CategoryChart data={allDeregistrations} months={months} />
 
         {/* Metrics Bar - All in one row */}
         <section>
@@ -143,21 +238,21 @@ const DeregistrationsPage = async ({ searchParams }: Props) => {
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
                 {/* Total */}
                 <div className="col-span-2 border-default-200 sm:col-span-1 sm:border-r sm:pr-4">
-                  <div className="flex flex-col gap-0.5">
+                  <div className="flex flex-col gap-2">
                     <span className="font-medium text-default-500 text-xs uppercase tracking-wider">
                       Total
                     </span>
                     <div className="font-bold text-3xl text-foreground">
-                      {totalDeregistrations.toLocaleString()}
+                      {formatNumber(totalDeregistrations)}
                     </div>
                     {previousMonthTotal !== undefined && (
                       <span
                         className={`text-xs ${totalDeregistrations > previousTotal ? "text-danger" : "text-success"}`}
                       >
                         {totalDeregistrations > previousTotal ? "▲" : "▼"}{" "}
-                        {Math.abs(
-                          totalDeregistrations - previousTotal,
-                        ).toLocaleString()}
+                        {formatNumber(
+                          Math.abs(totalDeregistrations - previousTotal),
+                        )}
                       </span>
                     )}
                   </div>
@@ -165,16 +260,16 @@ const DeregistrationsPage = async ({ searchParams }: Props) => {
 
                 {/* Category metrics */}
                 {categoryCardsData.map((cat) => (
-                  <div key={cat.category} className="flex flex-col gap-0.5">
+                  <div key={cat.category} className="flex flex-col gap-2">
                     <span className="truncate font-medium text-default-500 text-xs uppercase tracking-wider">
                       {cat.category
                         .replace("Category ", "Cat ")
                         .replace("Vehicles Exempted From VQS", "VQS")}
                     </span>
                     <div className="font-bold text-foreground text-xl">
-                      {cat.total.toLocaleString()}
+                      {formatNumber(cat.total)}
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2">
                       <div
                         className="h-1.5 w-8 rounded-full"
                         style={{ backgroundColor: cat.colour }}
@@ -199,81 +294,12 @@ const DeregistrationsPage = async ({ searchParams }: Props) => {
 
           {/* Category Breakdown - Compact */}
           <div className="lg:col-span-1">
-            <CategoryBreakdown
-              data={categoryBreakdownData}
-              month={formattedMonth}
-            />
+            <CategoryBreakdown data={categoryBreakdownData} />
           </div>
         </section>
 
         {/* Sparklines Table */}
-        <section>
-          <Card>
-            <CardBody className="p-4">
-              <h3 className="mb-3 font-medium text-default-500 text-xs uppercase tracking-wider">
-                Category Trends (12 months)
-              </h3>
-              <div className="flex flex-col gap-2">
-                {categoryCardsData.map((cat) => {
-                  const firstValue = cat.trend[0]?.value ?? 0;
-                  const lastValue = cat.trend[cat.trend.length - 1]?.value ?? 0;
-                  const change = lastValue - firstValue;
-                  const isUp = change > 0;
-
-                  return (
-                    <div
-                      key={cat.category}
-                      className="grid grid-cols-12 items-center gap-2 rounded-lg bg-default-50 px-3 py-2"
-                    >
-                      <div className="col-span-3 flex items-center gap-2">
-                        <div
-                          className="size-2 shrink-0 rounded-full"
-                          style={{ backgroundColor: cat.colour }}
-                        />
-                        <span className="truncate text-sm">
-                          {cat.category.replace(
-                            "Vehicles Exempted From VQS",
-                            "VQS Exempted",
-                          )}
-                        </span>
-                      </div>
-                      <div className="col-span-6">
-                        <div className="flex h-6 items-end gap-px">
-                          {cat.trend.map((point, i) => {
-                            const max = Math.max(
-                              ...cat.trend.map((p) => p.value),
-                            );
-                            const height =
-                              max > 0 ? (point.value / max) * 100 : 0;
-                            return (
-                              <div
-                                key={`${cat.category}-${i}`}
-                                className="flex-1 rounded-t-sm transition-all"
-                                style={{
-                                  height: `${Math.max(height, 4)}%`,
-                                  backgroundColor: cat.colour,
-                                  opacity: 0.3 + (i / cat.trend.length) * 0.7,
-                                }}
-                              />
-                            );
-                          })}
-                        </div>
-                      </div>
-                      <div className="col-span-2 text-right font-medium text-sm">
-                        {cat.total.toLocaleString()}
-                      </div>
-                      <div
-                        className={`col-span-1 text-right text-xs ${isUp ? "text-danger" : "text-success"}`}
-                      >
-                        {isUp ? "▲" : "▼"} {Math.abs(change)}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </CardBody>
-          </Card>
-        </section>
+        <CategoryTrendsTable data={categoryCardsData} />
       </div>
     </>
   );

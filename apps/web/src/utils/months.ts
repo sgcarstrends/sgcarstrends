@@ -3,24 +3,24 @@ import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getCoeMonths } from "@web/queries/coe";
 import { getCOELatestMonth } from "@web/queries/coe/latest-month";
 import {
-  getDeregistrationsAvailableMonths,
   getDeregistrationsLatestMonth,
+  getDeregistrationsMonths,
 } from "@web/queries/deregistrations";
 import type { Month } from "@web/types";
 
 export const fetchMonthsForCars = async (): Promise<Month[]> => {
   const results = await getCarsMonths();
-  return results.map((r) => r.month);
+  return results.map((result) => result.month);
 };
 
 export const fetchMonthsForCOE = async (): Promise<Month[]> => {
   const results = await getCoeMonths();
-  return results.map((r) => r.month);
+  return results.map((result) => result.month);
 };
 
 export const fetchMonthsForDeregistrations = async (): Promise<Month[]> => {
-  const results = await getDeregistrationsAvailableMonths();
-  return results.map((r) => r.month);
+  const results = await getDeregistrationsMonths();
+  return results.map((result) => result.month);
 };
 
 export const getLatestMonth = async (

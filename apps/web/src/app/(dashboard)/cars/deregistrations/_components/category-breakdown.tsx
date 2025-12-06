@@ -6,16 +6,21 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
-import type { CategoryWithPercentage } from "@web/lib/deregistrations/transforms";
 import { formatNumber, formatPercentage } from "@web/utils/charts";
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 
-interface Props {
-  data: CategoryWithPercentage[];
-  month: string;
+interface CategoryWithPercentage {
+  category: string;
+  total: number;
+  percentage: number;
+  colour: string;
 }
 
-export const CategoryBreakdown = ({ data, month }: Props) => {
+interface Props {
+  data: CategoryWithPercentage[];
+}
+
+export const CategoryBreakdown = ({ data }: Props) => {
   const chartConfig = {
     total: { label: "Deregistrations", color: "hsl(var(--heroui-primary))" },
   } as const;

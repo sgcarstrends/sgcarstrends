@@ -10,19 +10,71 @@ import {
 } from "@sgcarstrends/ui/components/chart";
 import { deregistrationsSearchParams } from "@web/app/(dashboard)/cars/deregistrations/search-params";
 import Typography from "@web/components/typography";
-import { toPercentageDistribution } from "@web/lib/deregistrations/transforms";
-import { formatNumber, formatPercentage } from "@web/utils/charts";
+import {
+  chartColourPalette,
+  formatNumber,
+  formatPercentage,
+} from "@web/utils/charts";
+import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { useQueryStates } from "nuqs";
 import type React from "react";
 import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
+
+// Category colours
+const DEREGISTRATION_CATEGORIES = [
+  "Category A",
+  "Category B",
+  "Category C",
+  "Category D",
+  "Vehicles Exempted From VQS",
+  "Taxis",
+] as const;
+
+type DeregistrationCategory = (typeof DEREGISTRATION_CATEGORIES)[number];
+
+const DEREGISTRATION_CATEGORY_COLOURS: Record<DeregistrationCategory, string> =
+  {
+    "Category A": chartColourPalette[0],
+    "Category B": chartColourPalette[1],
+    "Category C": chartColourPalette[2],
+    "Category D": chartColourPalette[3],
+    "Vehicles Exempted From VQS": chartColourPalette[4],
+    Taxis: chartColourPalette[5],
+  };
+
+const getCategoryColour = (category: string): string => {
+  if (category in DEREGISTRATION_CATEGORY_COLOURS) {
+    return DEREGISTRATION_CATEGORY_COLOURS[category as DeregistrationCategory];
+  }
+  return chartColourPalette[0];
+};
+
+interface CategoryWithPercentage {
+  category: string;
+  total: number;
+  percentage: number;
+  colour: string;
+}
+
+const toPercentageDistribution = (
+  data: { category: string; total: number }[],
+): CategoryWithPercentage[] => {
+  const grandTotal = data.reduce((sum, item) => sum + item.total, 0);
+
+  return data.map((item) => ({
+    ...item,
+    percentage: grandTotal > 0 ? (item.total / grandTotal) * 100 : 0,
+    colour: getCategoryColour(item.category),
+  }));
+};
 
 interface Props {
   data: SelectDeregistration[];
   months: string[];
 }
 
-export const DeregistrationsCategoryChart = ({ data, months }: Props) => {
+export const CategoryChart = ({ data, months }: Props) => {
   const [{ month, category }, setSearchParams] = useQueryStates(
     deregistrationsSearchParams,
   );
@@ -31,9 +83,9 @@ export const DeregistrationsCategoryChart = ({ data, months }: Props) => {
 
   // Compute category breakdown client-side based on selected month
   const categoryBreakdownData = useMemo(() => {
-    const monthData = data.filter((r) => r.month === currentMonth);
-    const grouped = monthData.reduce<Record<string, number>>((acc, r) => {
-      acc[r.category] = (acc[r.category] ?? 0) + (r.number ?? 0);
+    const monthData = data.filter((record) => record.month === currentMonth);
+    const grouped = monthData.reduce<Record<string, number>>((acc, record) => {
+      acc[record.category] = (acc[record.category] ?? 0) + (record.number ?? 0);
       return acc;
     }, {});
     const categories = Object.entries(grouped).map(([cat, total]) => ({
@@ -68,14 +120,6 @@ export const DeregistrationsCategoryChart = ({ data, months }: Props) => {
     }
   };
 
-  const formatMonthLabel = (month: string) => {
-    const date = new Date(month);
-    return date.toLocaleDateString("en-SG", {
-      month: "short",
-      year: "numeric",
-    });
-  };
-
   return (
     <Card>
       <CardHeader className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
@@ -90,7 +134,7 @@ export const DeregistrationsCategoryChart = ({ data, months }: Props) => {
           ) : (
             <Typography.Text className="text-default-500">
               {formatNumber(totalDeregistrations)} total deregistrations for{" "}
-              {formatMonthLabel(currentMonth)}
+              {formatDateToMonthYear(currentMonth)}
             </Typography.Text>
           )}
         </div>
@@ -102,7 +146,7 @@ export const DeregistrationsCategoryChart = ({ data, months }: Props) => {
           onSelectionChange={handleMonthChange}
           defaultItems={months.map((month) => ({
             key: month,
-            label: formatMonthLabel(month),
+            label: formatDateToMonthYear(month),
           }))}
         >
           {(item) => (

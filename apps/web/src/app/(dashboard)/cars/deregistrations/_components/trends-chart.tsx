@@ -7,9 +7,13 @@ import {
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import Typography from "@web/components/typography";
-import type { MonthlyTotal } from "@web/lib/deregistrations/transforms";
 import { formatMonthYear, formatNumber } from "@web/utils/charts";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+
+interface MonthlyTotal {
+  month: string;
+  total: number;
+}
 
 interface TrendsChartProps {
   data: MonthlyTotal[];

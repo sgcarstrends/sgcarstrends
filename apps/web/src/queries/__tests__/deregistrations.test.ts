@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
-  getDeregistrationsAvailableMonths,
+  getDeregistrations,
   getDeregistrationsByCategory,
-  getDeregistrationsByMonth,
   getDeregistrationsLatestMonth,
+  getDeregistrationsMonths,
+  getDeregistrationsTotalByMonth,
 } from "../deregistrations";
 import {
   cacheLifeMock,
@@ -38,7 +39,7 @@ describe("deregistrations queries", () => {
     });
   });
 
-  describe("getDeregistrationsAvailableMonths", () => {
+  describe("getDeregistrationsMonths", () => {
     it("should return available months in descending order", async () => {
       queueSelectDistinct([
         { month: "2024-01" },
@@ -46,7 +47,7 @@ describe("deregistrations queries", () => {
         { month: "2023-11" },
       ]);
 
-      const result = await getDeregistrationsAvailableMonths();
+      const result = await getDeregistrationsMonths();
 
       expect(result).toEqual([
         { month: "2024-01" },
@@ -60,7 +61,7 @@ describe("deregistrations queries", () => {
     it("should return empty array when no data exists", async () => {
       queueSelectDistinct([]);
 
-      const result = await getDeregistrationsAvailableMonths();
+      const result = await getDeregistrationsMonths();
 
       expect(result).toEqual([]);
     });
@@ -96,23 +97,53 @@ describe("deregistrations queries", () => {
     });
   });
 
-  describe("getDeregistrationsByMonth", () => {
-    it("should return all deregistration records for a month", async () => {
+  describe("getDeregistrations", () => {
+    it("should return all deregistrations ordered by month ascending", async () => {
       queueSelect([
-        { month: "2024-01", category: "Category A", number: 1500 },
-        { month: "2024-01", category: "Category B", number: 800 },
+        { month: "2023-11", category: "Category A", number: 100 },
+        { month: "2023-12", category: "Category A", number: 150 },
+        { month: "2024-01", category: "Category A", number: 200 },
       ]);
 
-      const result = await getDeregistrationsByMonth("2024-01");
+      const result = await getDeregistrations();
 
       expect(result).toEqual([
-        { month: "2024-01", category: "Category A", number: 1500 },
-        { month: "2024-01", category: "Category B", number: 800 },
+        { month: "2023-11", category: "Category A", number: 100 },
+        { month: "2023-12", category: "Category A", number: 150 },
+        { month: "2024-01", category: "Category A", number: 200 },
       ]);
+      expect(cacheLifeMock).toHaveBeenCalledWith("max");
+      expect(cacheTagMock).toHaveBeenCalledWith("deregistrations:months");
+    });
+
+    it("should return empty array when no data exists", async () => {
+      queueSelect([]);
+
+      const result = await getDeregistrations();
+
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe("getDeregistrationsTotalByMonth", () => {
+    it("should return total deregistrations for a month", async () => {
+      queueSelect([{ total: 2500 }]);
+
+      const result = await getDeregistrationsTotalByMonth("2024-01");
+
+      expect(result).toEqual([{ total: 2500 }]);
       expect(cacheLifeMock).toHaveBeenCalledWith("max");
       expect(cacheTagMock).toHaveBeenCalledWith(
         "deregistrations:month:2024-01",
       );
+    });
+
+    it("should return empty array when no data for month", async () => {
+      queueSelect([]);
+
+      const result = await getDeregistrationsTotalByMonth("2024-01");
+
+      expect(result).toEqual([]);
     });
   });
 });
