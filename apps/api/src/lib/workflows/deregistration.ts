@@ -36,10 +36,8 @@ export const deregistrationWorkflow = createWorkflow(
       };
     }
 
-    const year = month.split("-")[0];
     await revalidateCache(context, [
       `deregistrations:month:${month}`,
-      `deregistrations:year:${year}`,
       "deregistrations:months",
     ]);
 

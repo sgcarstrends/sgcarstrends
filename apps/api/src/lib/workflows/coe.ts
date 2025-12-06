@@ -39,12 +39,7 @@ export const coeWorkflow = createWorkflow(
 
     // Collect cache tags to invalidate
     const year = month.split("-")[0];
-    const cacheTags = [
-      "coe:results",
-      "coe:latest",
-      "coe:months",
-      `coe:year:${year}`,
-    ];
+    const cacheTags = ["coe:latest", "coe:months", `coe:year:${year}`];
 
     // Generate blog post only when both bidding exercises are complete (biddingNo = 2)
     if (biddingNo === 2) {

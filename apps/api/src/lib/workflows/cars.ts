@@ -41,8 +41,6 @@ export const carsWorkflow = createWorkflow(
       `cars:month:${month}`,
       `cars:year:${year}`,
       "cars:months",
-      "cars:makes",
-      "cars:annual",
     ];
 
     // Check if post exists
