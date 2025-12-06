@@ -6,15 +6,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import type { CategoryWithPercentage } from "@web/app/(dashboard)/cars/deregistrations/_components/constants";
 import { formatNumber, formatPercentage } from "@web/utils/charts";
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
-
-interface CategoryWithPercentage {
-  category: string;
-  total: number;
-  percentage: number;
-  colour: string;
-}
 
 interface Props {
   data: CategoryWithPercentage[];

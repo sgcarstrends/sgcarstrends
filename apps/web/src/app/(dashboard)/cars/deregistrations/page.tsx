@@ -3,6 +3,10 @@ import type { SelectDeregistration } from "@sgcarstrends/database";
 import { CategoryBreakdown } from "@web/app/(dashboard)/cars/deregistrations/_components/category-breakdown";
 import { CategoryChart } from "@web/app/(dashboard)/cars/deregistrations/_components/category-chart";
 import { CategoryTrendsTable } from "@web/app/(dashboard)/cars/deregistrations/_components/category-trends-table";
+import {
+  getCategoryColour,
+  toPercentageDistribution,
+} from "@web/app/(dashboard)/cars/deregistrations/_components/constants";
 import { TrendsChart } from "@web/app/(dashboard)/cars/deregistrations/_components/trends-chart";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/deregistrations/search-params";
 import { PageHeader } from "@web/components/page-header";
@@ -15,7 +19,7 @@ import {
   getDeregistrationsByCategory,
   getDeregistrationsTotalByMonth,
 } from "@web/queries/deregistrations";
-import { chartColourPalette, formatNumber } from "@web/utils/charts";
+import { formatNumber } from "@web/utils/charts";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import {
   fetchMonthsForDeregistrations,
@@ -24,35 +28,6 @@ import {
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
-
-// Category constants and colours
-const DEREGISTRATION_CATEGORIES = [
-  "Category A",
-  "Category B",
-  "Category C",
-  "Category D",
-  "Vehicles Exempted From VQS",
-  "Taxis",
-] as const;
-
-type DeregistrationCategory = (typeof DEREGISTRATION_CATEGORIES)[number];
-
-const DEREGISTRATION_CATEGORY_COLOURS: Record<DeregistrationCategory, string> =
-  {
-    "Category A": chartColourPalette[0],
-    "Category B": chartColourPalette[1],
-    "Category C": chartColourPalette[2],
-    "Category D": chartColourPalette[3],
-    "Vehicles Exempted From VQS": chartColourPalette[4],
-    Taxis: chartColourPalette[5],
-  };
-
-const getCategoryColour = (category: string): string => {
-  if (category in DEREGISTRATION_CATEGORY_COLOURS) {
-    return DEREGISTRATION_CATEGORY_COLOURS[category as DeregistrationCategory];
-  }
-  return chartColourPalette[0];
-};
 
 // Data transformation functions
 const SPARKLINE_MONTH_COUNT = 12;
@@ -109,25 +84,6 @@ const toCategorySparklines = (
       colour: getCategoryColour(category),
     };
   });
-};
-
-interface CategoryWithPercentage {
-  category: string;
-  total: number;
-  percentage: number;
-  colour: string;
-}
-
-const toPercentageDistribution = (
-  data: { category: string; total: number }[],
-): CategoryWithPercentage[] => {
-  const grandTotal = data.reduce((sum, item) => sum + item.total, 0);
-
-  return data.map((item) => ({
-    ...item,
-    percentage: grandTotal > 0 ? (item.total / grandTotal) * 100 : 0,
-    colour: getCategoryColour(item.category),
-  }));
 };
 
 const title = "Vehicle Deregistrations";
