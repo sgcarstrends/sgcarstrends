@@ -81,9 +81,10 @@ The API follows a feature-based architecture in `src/features/`:
 The API uses a workflow-based system for data processing:
 
 - **Workflow Steps** (`src/lib/workflows/steps/`): Reusable step functions inspired by Vercel WDK's `"use step"` pattern
-  - `process-task.ts`: Task processing with Redis timestamp tracking
+  - `check-existing-post.ts`: Check if a blog post already exists for a given month and data type
+  - `process-task.ts`: Task processing with Redis timestamp tracking (exports `WorkflowStep` interface)
   - `publish-to-all-platforms.ts`: Social media publishing (returns `PublishResults`)
-  - `revalidate-cache.ts`: Non-blocking cache revalidation
+  - `revalidate-cache.ts`: Non-blocking cache revalidation with error handling
 - **Data Updaters** (`src/lib/workflows/update-cars.ts`, `src/lib/workflows/update-coe.ts`, `src/lib/workflows/update-deregistration.ts`): Automated data fetching and processing from LTA DataMall
 - **Blog Generation** (`src/lib/workflows/posts.ts`): Orchestrates LLM-powered blog post creation using `@sgcarstrends/ai` package
 - **Main Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`, `src/lib/workflows/deregistration.ts`): Main workflow orchestrators exposed as routes
