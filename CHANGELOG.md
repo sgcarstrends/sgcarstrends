@@ -1,3 +1,11 @@
+## [4.31.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.30.0...v4.31.0) (2025-12-06)
+
+### Features
+
+* add vehicle deregistrations feature ([678cc6a](https://github.com/sgcarstrends/sgcarstrends/commit/678cc6a143d61deb5913e14d63567aafaaef4c40))
+* **web:** add deregistrations charts and cards ([6c5ba34](https://github.com/sgcarstrends/sgcarstrends/commit/6c5ba345cbc7f28d06d48a1000fe936671bc7624))
+* **web:** client-side month filter for dereg ([5da328d](https://github.com/sgcarstrends/sgcarstrends/commit/5da328d29bf52a5292d88dc5695f208fadfcccbe))
+
 ## [4.30.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.29.0...v4.30.0) (2025-12-04)
 
 ### Features
