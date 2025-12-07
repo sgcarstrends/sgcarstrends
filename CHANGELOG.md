@@ -1,3 +1,9 @@
+## [4.32.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.31.1...v4.32.0) (2025-12-07)
+
+### Features
+
+* **web:** add share buttons to all pages ([bc3925f](https://github.com/sgcarstrends/sgcarstrends/commit/bc3925fed4242b57b3eb0a47c3ba3279a9d21e70))
+
 ## [4.31.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.31.0...v4.31.1) (2025-12-06)
 
 ### Bug Fixes
