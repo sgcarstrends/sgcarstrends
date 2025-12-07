@@ -1,52 +1,147 @@
 "use client";
 
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
+} from "@heroui/navbar";
 import { cn } from "@heroui/react";
+import { Tooltip } from "@heroui/tooltip";
 import { BrandLogo } from "@web/components/brand-logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
-const NAV_ITEMS = [
+interface NavItem {
+  href: string;
+  label: string;
+  comingSoon?: boolean;
+}
+
+const NAV_ITEMS: NavItem[] = [
   { href: "/", label: "Dashboard" },
+  { href: "/about", label: "About", comingSoon: true },
   { href: "/blog", label: "Blog" },
   { href: "/faq", label: "FAQ" },
 ];
 
 export const Header = () => {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isActive = (path: string) => {
     if (path === "/") {
-      // Dashboard is active when pathname doesn't match any other nav item
-      const otherNavItems = NAV_ITEMS.filter((item) => item.href !== "/");
-      return !otherNavItems.some((item) => pathname.startsWith(item.href));
+      // Dashboard active for home, cars, coe routes (all dashboard content)
+      return (
+        !pathname.startsWith("/blog") &&
+        !pathname.startsWith("/faq") &&
+        !pathname.startsWith("/about")
+      );
     }
     return pathname.startsWith(path);
   };
 
   return (
-    <header className="sticky top-0 z-40 px-6 py-4">
-      <div className="mx-auto flex max-w-fit items-center justify-center gap-4 rounded-full px-8 py-2 shadow-lg backdrop-blur-md">
-        <Link href="/">
-          <BrandLogo />
-        </Link>
-        <nav className="flex items-center gap-4">
-          {NAV_ITEMS.map(({ href, label }) => {
+    <Navbar
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+      maxWidth="2xl"
+      isBordered={false}
+      position="sticky"
+    >
+      {/* Brand and Mobile Toggle */}
+      <NavbarContent justify="start">
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="md:hidden"
+        />
+        <NavbarBrand>
+          <Link href="/" className="flex items-center gap-2">
+            <BrandLogo />
+          </Link>
+        </NavbarBrand>
+      </NavbarContent>
+
+      {/* Desktop Navigation */}
+      <NavbarContent className="hidden gap-1 md:flex" justify="center">
+        {NAV_ITEMS.map(({ href, label, comingSoon }) => {
+          const active = isActive(href);
+
+          if (comingSoon) {
             return (
+              <NavbarItem key={href}>
+                <Tooltip content="Coming Soon" placement="bottom">
+                  <span
+                    className={cn(
+                      "cursor-not-allowed rounded-full px-4 py-2 font-medium text-sm",
+                      "text-default-400",
+                    )}
+                  >
+                    {label}
+                  </span>
+                </Tooltip>
+              </NavbarItem>
+            );
+          }
+
+          return (
+            <NavbarItem key={href}>
               <Link
-                key={href}
                 href={href}
                 className={cn(
-                  "hover:text-primary",
-                  isActive(href) &&
-                    "font-semibold text-primary underline decoration-2 underline-offset-4",
+                  "rounded-full px-4 py-2 font-medium text-sm transition-all duration-200",
+                  active
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-foreground/70 hover:bg-default-100 hover:text-foreground",
                 )}
               >
                 {label}
               </Link>
+            </NavbarItem>
+          );
+        })}
+      </NavbarContent>
+
+      {/* Mobile Menu */}
+      <NavbarMenu className="bg-background/95 pt-6 backdrop-blur-xl">
+        {NAV_ITEMS.map(({ href, label, comingSoon }) => {
+          const active = isActive(href);
+
+          if (comingSoon) {
+            return (
+              <NavbarMenuItem key={href}>
+                <span className="flex w-full cursor-not-allowed items-center justify-between py-3 text-default-400 text-lg">
+                  {label}
+                  <span className="rounded-full bg-default-100 px-2 py-0.5 text-default-500 text-xs">
+                    Coming Soon
+                  </span>
+                </span>
+              </NavbarMenuItem>
             );
-          })}
-        </nav>
-      </div>
-    </header>
+          }
+
+          return (
+            <NavbarMenuItem key={href}>
+              <Link
+                href={href}
+                className={cn(
+                  "block w-full py-3 text-lg transition-colors",
+                  active
+                    ? "font-semibold text-primary"
+                    : "text-foreground/70 hover:text-foreground",
+                )}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {label}
+              </Link>
+            </NavbarMenuItem>
+          );
+        })}
+      </NavbarMenu>
+    </Navbar>
   );
 };
