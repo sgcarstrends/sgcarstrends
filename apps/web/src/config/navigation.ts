@@ -11,12 +11,14 @@ import { sortByName } from "@web/utils/sorting";
 import {
   BarChart3,
   Calculator,
+  Calendar,
   Car,
   CarFront,
   FilePlus,
   FileText,
   Fuel,
   HelpCircle,
+  LayoutDashboard,
   type LucideIcon,
   TrendingUp,
 } from "lucide-react";
@@ -43,6 +45,13 @@ export interface NavLinks {
   coe: NavigationItem[];
   general: NavigationItem[];
   socialMedia: SocialMedia[];
+}
+
+export interface NavigationSection {
+  name: string;
+  href: string;
+  icon: LucideIcon;
+  children: NavigationItem[];
 }
 
 const socialMedia: SocialMedia[] = [
@@ -149,3 +158,19 @@ export const navLinks: NavLinks = {
   ],
   socialMedia: sortByName(socialMedia, { sortKey: "title" }),
 };
+
+const dashboardItems: NavigationItem[] = [
+  { title: "Overview", url: "/", icon: LayoutDashboard },
+  { title: "Annual", url: "/annual", icon: Calendar },
+];
+
+export const navigationSections: NavigationSection[] = [
+  {
+    name: "Overview",
+    href: "/",
+    icon: LayoutDashboard,
+    children: dashboardItems,
+  },
+  { name: "Cars", href: "/cars", icon: Car, children: navLinks.cars },
+  { name: "COE", href: "/coe", icon: BarChart3, children: navLinks.coe },
+];
