@@ -17,16 +17,16 @@ const getInsightIcon = (insight: KeyInsight) => {
   switch (insight.type) {
     case "mover":
       return insight.direction === "up" ? (
-        <ArrowUpIcon className="size-6" />
+        <ArrowUpIcon className="size-4" />
       ) : (
-        <ArrowDownIcon className="size-6" />
+        <ArrowDownIcon className="size-4" />
       );
     case "record":
-      return <TrophyIcon className="size-6" />;
+      return <TrophyIcon className="size-4" />;
     case "demand":
-      return <FlameIcon className="size-6" />;
+      return <FlameIcon className="size-4" />;
     default:
-      return <TrendingUpIcon className="size-6" />;
+      return <TrendingUpIcon className="size-4" />;
   }
 };
 
@@ -51,11 +51,11 @@ export const KeyInsights = ({ insights }: KeyInsightsProps) => {
 
   return (
     <Card className="overflow-hidden">
-      <CardBody className="p-6">
+      <CardBody>
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-2 text-primary">
-            <TrendingUpIcon className="size-6" />
-            <span className="font-medium">Key Insights</span>
+            <TrendingUpIcon className="size-4" />
+            <span className="font-semibold">Key Insights</span>
           </div>
           <div className="h-6 w-px bg-divider" />
           <div className="flex flex-wrap items-center gap-4">
