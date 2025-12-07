@@ -50,7 +50,7 @@ const CategoryRow = ({
       <div className="flex items-center gap-3">
         <div className="h-6 w-2 rounded-full bg-primary" />
         <span
-          className={`font-medium ${isPrimary ? "text-base text-foreground" : "text-default-600 text-sm"}`}
+          className={`font-medium ${isPrimary ? "text-foreground" : "text-default-600 text-sm"}`}
         >
           {category}
         </span>
@@ -222,11 +222,7 @@ export const BiddingRoundCards = ({
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <RoundCard roundNumber={1} data={firstRound} />
         {hasSecondRound ? (
-          <RoundCard
-            roundNumber={2}
-            data={secondRound}
-            comparisonData={firstRound}
-          />
+          <RoundCard roundNumber={2} data={secondRound} />
         ) : (
           <RoundCard roundNumber={2} data={[]} isPlaceholder />
         )}

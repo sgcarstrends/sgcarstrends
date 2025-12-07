@@ -571,13 +571,12 @@ export interface KeyInsight {
 }
 
 /**
- * Generate key insights from COE data combining biggest movers,
- * near-record prices, and demand metrics.
+ * Generate key insights from COE data combining biggest movers
+ * and near-record prices.
  */
 export const generateKeyInsights = (
   movers: PremiumMover[],
   nearRecords: NearRecordStatus[],
-  demandMetrics: DemandMetrics[],
   limit = 4,
 ): KeyInsight[] => {
   const insights: KeyInsight[] = [];
@@ -609,17 +608,6 @@ export const generateKeyInsights = (
       });
     }
   });
-
-  // Add highest demand insight
-  const topDemand = demandMetrics[0];
-  if (topDemand && topDemand.oversubscriptionRatio > 1.5) {
-    insights.push({
-      type: "demand",
-      category: topDemand.category,
-      message: `${topDemand.category} saw highest demand (${topDemand.oversubscriptionRatio.toFixed(1)}x oversubscribed)`,
-      value: topDemand.oversubscriptionRatio,
-    });
-  }
 
   return insights.slice(0, limit);
 };

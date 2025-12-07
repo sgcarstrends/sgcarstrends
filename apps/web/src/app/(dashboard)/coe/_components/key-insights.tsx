@@ -1,6 +1,5 @@
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import Typography from "@web/components/typography";
 import type { KeyInsight } from "@web/lib/coe/calculations";
 import {
   ArrowDownIcon,
@@ -18,16 +17,16 @@ const getInsightIcon = (insight: KeyInsight) => {
   switch (insight.type) {
     case "mover":
       return insight.direction === "up" ? (
-        <ArrowUpIcon className="size-4" />
+        <ArrowUpIcon className="size-6" />
       ) : (
-        <ArrowDownIcon className="size-4" />
+        <ArrowDownIcon className="size-6" />
       );
     case "record":
-      return <TrophyIcon className="size-4" />;
+      return <TrophyIcon className="size-6" />;
     case "demand":
-      return <FlameIcon className="size-4" />;
+      return <FlameIcon className="size-6" />;
     default:
-      return <TrendingUpIcon className="size-4" />;
+      return <TrendingUpIcon className="size-6" />;
   }
 };
 
@@ -52,25 +51,19 @@ export const KeyInsights = ({ insights }: KeyInsightsProps) => {
 
   return (
     <Card className="overflow-hidden">
-      <CardBody className="p-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 text-default-500">
-            <TrendingUpIcon className="size-4" />
-            <span className="font-medium text-sm">Key Insights</span>
+      <CardBody className="p-6">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-2 text-primary">
+            <TrendingUpIcon className="size-6" />
+            <span className="font-medium">Key Insights</span>
           </div>
-          <div className="h-4 w-px bg-divider" />
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="h-6 w-px bg-divider" />
+          <div className="flex flex-wrap items-center gap-4">
             {insights.map((insight, index) => (
               <Chip
                 key={`${insight.type}-${insight.category}-${index}`}
-                size="sm"
                 color={getInsightColor(insight)}
-                variant="flat"
                 startContent={getInsightIcon(insight)}
-                classNames={{
-                  base: "h-auto py-1.5 px-2.5",
-                  content: "text-xs font-medium",
-                }}
               >
                 {insight.message}
               </Chip>
