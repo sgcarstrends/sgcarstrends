@@ -95,11 +95,7 @@ const COEOverviewPage = async () => {
 
         {/* ROW 1: Hero Metrics - 5 Category Cards */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          <LatestCoePremium
-            results={latestResults}
-            trends={coeTrends}
-            movers={movers}
-          />
+          <LatestCoePremium results={latestResults} trends={coeTrends} />
         </div>
 
         {/* ROW 2: Key Insights */}
