@@ -4,7 +4,7 @@ import { Tab, Tabs } from "@heroui/tabs";
 import { usePathname } from "next/navigation";
 
 const SECTIONS = [
-  { key: "/", title: "Dashboard" },
+  { key: "/", title: "Overview" },
   { key: "/cars", title: "Cars" },
   { key: "/coe", title: "COE" },
 ];
