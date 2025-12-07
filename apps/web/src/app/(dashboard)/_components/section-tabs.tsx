@@ -22,10 +22,10 @@ export const SectionTabs = () => {
   return (
     <div>
       <Tabs
+        disableAnimation
         color="primary"
         radius="full"
         selectedKey={selectedKey}
-        variant="underlined"
       >
         {SECTIONS.map(({ key, title }) => (
           <Tab key={key} href={key} title={title} />
