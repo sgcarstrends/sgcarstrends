@@ -167,9 +167,7 @@ describe("Navigation", () => {
       expect(tabs).toBeInTheDocument();
 
       expect(screen.getByText("Overview")).toBeInTheDocument();
-      expect(screen.getByText("Historical Results")).toBeInTheDocument();
-      expect(screen.getByText("Trends Analysis")).toBeInTheDocument();
-      expect(screen.getByText("Bidding Results")).toBeInTheDocument();
+      expect(screen.getByText("Results")).toBeInTheDocument();
       expect(screen.getByText("PQP Rates")).toBeInTheDocument();
     });
   });

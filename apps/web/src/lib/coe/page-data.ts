@@ -6,7 +6,6 @@ import {
   calculateDemandMetrics,
   calculateNearRecords,
   calculatePremiumRangeStats,
-  calculateTrendInsights,
   generateKeyInsights,
   groupCOEResultsByBidding,
 } from "@web/lib/coe/calculations";
@@ -52,7 +51,7 @@ const ALL_CATEGORIES = [
  * Uses getAllCoeCategoryTrends() to fetch all 5 categories in a single batched query
  * instead of 5 separate getCoeCategoryTrends() calls
  *
- * @returns COE trends by category, latest results, all results, PQP rates, key insights, and last updated timestamp
+ * @returns COE trends, latest results, PQP rates, premium range stats, movers, key insights, and last updated timestamp
  */
 export const loadCOEOverviewPageData = async () => {
   const [coeTrends, latestAndPrevious, allCoeResults, pqpRates, lastUpdated] =
@@ -79,25 +78,14 @@ export const loadCOEOverviewPageData = async () => {
   const demandMetrics = calculateDemandMetrics(latestResults);
   const keyInsights = generateKeyInsights(movers, nearRecords, demandMetrics);
 
-  // Calculate trend insights for Market Trends and Price Statistics cards
-  const chartData = groupCOEResultsByBidding(allCoeResults);
-  const trendInsights =
-    chartData.length > 0 ? calculateTrendInsights(chartData) : [];
-
   return {
     coeTrends,
     latestResults,
-    previousResults,
-    allCoeResults,
     pqpRates,
     lastUpdated,
-    // Key insights data
     premiumRangeStats,
     movers,
-    nearRecords,
-    demandMetrics,
     keyInsights,
-    trendInsights,
   };
 };
 
