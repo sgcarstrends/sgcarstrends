@@ -5,6 +5,7 @@ import { CarOverviewTrends } from "@web/app/(dashboard)/cars/_components/overvie
 import { loadSearchParams } from "@web/app/(dashboard)/cars/[category]/[type]/search-params";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -166,7 +167,12 @@ const TypePageContent = async ({
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector={true}
-        />
+        >
+          <ShareButtons
+            url={`${SITE_URL}/cars/${category}/${type}?month=${month}`}
+            title={`${category === "vehicle-types" ? formatVehicleTypeSlug(type) : type} - ${formattedMonth} - ${SITE_TITLE}`}
+          />
+        </PageHeader>
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <Card>

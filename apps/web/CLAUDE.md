@@ -355,6 +355,13 @@ See [Typography System](#typography-system) section below.
 
 **Layout**: Shared layout components (Header, Footer) with responsive design and blog navigation.
 
+**Social Sharing**: `ShareButtons` component (`src/components/share-buttons.tsx`) provides social media sharing across all pages:
+
+- Responsive design: native Web Share API on mobile, individual buttons (X, LinkedIn, copy link) on desktop
+- CSS-only responsive behaviour using Tailwind classes (`flex md:hidden` / `hidden md:flex`)
+- Integrated into all statistics pages, blog posts, and dashboard views
+- Share utilities in `src/utils/share.ts` for URL generation and clipboard operations
+
 ### Typography System
 
 A modern, semantic typography system for consistent visual hierarchy across the application.

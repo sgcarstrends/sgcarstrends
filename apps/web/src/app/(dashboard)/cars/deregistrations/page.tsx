@@ -10,6 +10,7 @@ import {
 import { TrendsChart } from "@web/app/(dashboard)/cars/deregistrations/_components/trends-chart";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/deregistrations/search-params";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -184,7 +185,12 @@ const DeregistrationsPage = async ({ searchParams }: Props) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-8">
         {/* Header */}
-        <PageHeader title="Vehicle Deregistrations" />
+        <PageHeader title="Vehicle Deregistrations">
+          <ShareButtons
+            url={`${SITE_URL}/cars/deregistrations`}
+            title={`Vehicle Deregistrations - ${SITE_TITLE}`}
+          />
+        </PageHeader>
 
         {/* Interactive Category Chart */}
         <CategoryChart data={allDeregistrations} months={months} />

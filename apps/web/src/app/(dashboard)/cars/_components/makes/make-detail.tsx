@@ -7,11 +7,13 @@ import {
   CoeComparisonChart,
   MakeTrendChart,
 } from "@web/app/(dashboard)/cars/_components/makes";
+import { ShareButtons } from "@web/components/share-buttons";
 import { LastUpdated } from "@web/components/shared/last-updated";
 import NoData from "@web/components/shared/no-data";
 import { columns } from "@web/components/tables/columns/cars-make-columns";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { MakeCoeComparisonData } from "@web/queries/cars/makes/coe-comparison";
 import type { Make } from "@web/types";
 import Image from "next/image";
@@ -57,7 +59,13 @@ export const MakeDetail = ({
           </div>
           <div className="flex flex-col items-start gap-2">
             {!!lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
-            <MakeSelector makes={makes} selectedMake={make} />
+            <div className="flex items-center gap-2">
+              <MakeSelector makes={makes} selectedMake={make} />
+              <ShareButtons
+                url={`${SITE_URL}/cars/makes/${make}`}
+                title={`${cars.make} Cars - ${SITE_TITLE}`}
+              />
+            </div>
           </div>
         </div>
       </div>

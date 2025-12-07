@@ -6,8 +6,10 @@ import {
   type Period,
 } from "@web/app/(dashboard)/coe/search-params";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import { fetchCOEPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
@@ -64,7 +66,12 @@ const COEResultsPageContent = async ({ period }: { period: Period }) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <PageHeader title="Historical Results" lastUpdated={lastUpdated} />
+        <PageHeader title="Historical Results" lastUpdated={lastUpdated}>
+          <ShareButtons
+            url={`${SITE_URL}/coe/results`}
+            title={`COE Historical Results - ${SITE_TITLE}`}
+          />
+        </PageHeader>
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
           <div className="xl:col-span-9">
             <COEPremiumChart data={data} />

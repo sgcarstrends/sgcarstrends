@@ -1,4 +1,5 @@
 import { AnnualRegistrationsChart } from "@web/app/(dashboard)/(home)/annual/_components/annual-registrations-chart";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -45,8 +46,14 @@ const AnnualPage = async () => {
     <>
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
-        <div className="flex flex-col">
-          <Typography.H1>Annual Registrations</Typography.H1>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <Typography.H1>Annual Registrations</Typography.H1>
+            <ShareButtons
+              url={`${SITE_URL}/annual`}
+              title={`Annual Car Registrations - ${SITE_TITLE}`}
+            />
+          </div>
           <Typography.TextLg className="text-default-500">
             Total new car registrations in Singapore by year
           </Typography.TextLg>

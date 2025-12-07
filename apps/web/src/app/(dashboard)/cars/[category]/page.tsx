@@ -1,5 +1,6 @@
 import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -133,7 +134,12 @@ const CategoryPageContent = async ({
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector={true}
-        />
+        >
+          <ShareButtons
+            url={`${SITE_URL}${config.urlPath}?month=${month}`}
+            title={`${formattedMonth} ${config.title} - ${SITE_TITLE}`}
+          />
+        </PageHeader>
 
         {categoryData && categoryData.length > 0 ? (
           <CategoryTypesTabsView
