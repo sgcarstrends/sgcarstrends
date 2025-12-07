@@ -406,54 +406,32 @@ A modern, semantic typography system for consistent visual hierarchy across the 
 
 **Usage Examples**:
 
-```typescript
+```tsx
 import Typography from "@web/components/typography";
 
 // Page heading
-<Typography.H1>COE
-Overview < /Typography.H1>
+<Typography.H1>COE Overview</Typography.H1>
 
 // Section heading
-< Typography.H2 > Fun
-Facts < /Typography.H2>
+<Typography.H2>Fun Facts</Typography.H2>
 
 // Card title
-< Typography.H3 > Category
-A
-vs
-B < /Typography.H3>
+<Typography.H3>Category A vs B</Typography.H3>
 
 // Lead paragraph
-< Typography.TextLg > Explore
-COE
-trends
-and
-analysis. < /Typography.TextLg>
+<Typography.TextLg>Explore COE trends and analysis.</Typography.TextLg>
 
 // Body text
-< Typography.Text > The
-latest
-COE
-results
-show
-...
-</Typography.Text>
+<Typography.Text>The latest COE results show...</Typography.Text>
 
 // Small helper text
-< Typography.TextSm > Updated
-daily
-from
-LTA < /Typography.TextSm>
+<Typography.TextSm>Updated daily from LTA</Typography.TextSm>
 
 // Form label
-< Typography.Label > Select
-Month < /Typography.Label>
+<Typography.Label>Select Month</Typography.Label>
 
 // Metadata/timestamp
-< Typography.Caption > Last
-updated: 29
-Oct
-2025 < /Typography.Caption>
+<Typography.Caption>Last updated: 29 Oct 2025</Typography.Caption>
 ```
 
 **When to Use Each Component**:
@@ -488,6 +466,27 @@ These defaults provide proper visual hierarchy while allowing override via `clas
 - Font weight reductions (H1/H2 remain semibold; H3/H4 changed to medium) for modern hierarchy
 - All components now include HeroUI semantic colour defaults for consistent theming
 
+**Enforcement Rules**:
+
+- ✅ Always use `Typography.H4` for CardHeader titles (not raw `<h3>`)
+- ✅ Always use `Typography.TextSm` for CardHeader descriptions (not raw `<p>`)
+- ✅ Use `Typography.H2` for section headings in blog components
+- ✅ Use `Typography.H3` for card titles and subsections
+- ❌ Avoid raw heading tags (`<h1>`, `<h2>`, `<h3>`, `<h4>`) outside of MDX content
+- ⚠️ Exception: Raw tags allowed only for MDX blog content and image overlay text
+
+**CardHeader Pattern** (standard for all cards):
+
+```tsx
+import { CardHeader } from "@heroui/card";
+import Typography from "@web/components/typography";
+
+<CardHeader className="flex flex-col items-start gap-2">
+  <Typography.H4>Card Title</Typography.H4>
+  <Typography.TextSm>Card description text</Typography.TextSm>
+</CardHeader>
+```
+
 ### Layout & Spacing Conventions
 
 A standardized approach to spacing and layout for consistent, maintainable component design.
@@ -521,49 +520,43 @@ avoids margin collapsing issues that can occur with `space-y-*` and `margin-top`
 
 **Examples**:
 
-```typescript
+```tsx
 // ✅ Preferred: flex with gap for vertical spacing
-<div className = "flex flex-col gap-4" >
-    <CardComponent / >
-    <CardComponent / >
-    <CardComponent / >
-    </div>
+<div className="flex flex-col gap-4">
+  <CardComponent />
+  <CardComponent />
+  <CardComponent />
+</div>
 
-    // ✅ Grid with even gap values
-    < div
-className = "grid grid-cols-2 gap-6" >
-    <Item / >
-    <Item / >
-    </div>
+// ✅ Grid with even gap values
+<div className="grid grid-cols-2 gap-6">
+  <Item />
+  <Item />
+</div>
 
-    // ✅ Horizontal flex with gap
-    < div
-className = "flex items-center gap-2" >
-<Icon className = "size-4" / >
-    <span>Text
-content < /span>
-< /div>
+// ✅ Horizontal flex with gap
+<div className="flex items-center gap-2">
+  <Icon className="size-4" />
+  <span>Text content</span>
+</div>
 
 // ❌ Avoid: space-y utilities (legacy pattern)
-< div
-className = "space-y-4" >
-<CardComponent / >
-<CardComponent / >
+<div className="space-y-4">
+  <CardComponent />
+  <CardComponent />
 </div>
 
 // ❌ Avoid: margin-top for sibling spacing
-< div >
-<CardComponent / >
-<CardComponent className = "mt-4" / >
-    </div>
+<div>
+  <CardComponent />
+  <CardComponent className="mt-4" />
+</div>
 
-    // ⚠️ Acceptable exception: icon vertical alignment
-    < div
-className = "flex items-center gap-2" >
-<Icon className = "mt-1 size-4" / >
-<span className = "text-sm" > Aligned
-text < /span>
-< /div>
+// ⚠️ Acceptable exception: icon vertical alignment
+<div className="flex items-center gap-2">
+  <Icon className="mt-1 size-4" />
+  <span className="text-sm">Aligned text</span>
+</div>
 ```
 
 **Spacing Scale Reference**:
@@ -582,6 +575,159 @@ When refactoring existing code:
 2. Remove `mt-*` from child elements when parent uses `gap-*`
 3. Convert `space-y-*` values to equivalent `gap-*` (space-y-2 → gap-2, space-y-4 → gap-4, etc.)
 4. Keep only icon alignment `mt-*` cases (document with comments if needed)
+
+### Colour System
+
+A professional colour scheme optimised for HeroUI integration and automotive industry data visualisation (see GitHub issue #406).
+
+**Brand Colour Palette**:
+
+| Role | Colour | Hex | HSL | Usage |
+|------|-------|-----|-----|-------|
+| Primary | Navy Blue | `#191970` | `hsl(240, 63%, 27%)` | Headers, footers, primary buttons, key accents |
+| Secondary | Slate Gray | `#708090` | `hsl(210, 13%, 50%)` | Card containers, borders, secondary buttons |
+| Accent | Cyan | `#00FFFF` | `hsl(180, 100%, 50%)` | Chart highlights, links, hover states |
+| Background | Powder Blue | `#B0E0E6` | `hsl(187, 52%, 80%)` | Chart areas, subtle textures |
+| Text | Dark Slate Gray | `#2F4F4F` | `hsl(180, 25%, 25%)` | Body text, icons |
+
+**CSS Variable Mapping** (in `globals.css`):
+
+```css
+:root {
+  --primary: hsl(240, 63%, 27%);           /* Navy Blue */
+  --primary-foreground: hsl(0, 0%, 100%);  /* White text on primary */
+  --secondary: hsl(210, 13%, 50%);         /* Slate Gray */
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(180, 100%, 50%);           /* Cyan */
+  --accent-foreground: hsl(180, 25%, 25%);
+  --muted: hsl(187, 52%, 80%);             /* Powder Blue */
+  --muted-foreground: hsl(180, 25%, 25%);
+  --foreground: hsl(180, 25%, 25%);        /* Dark Slate Gray */
+  --background: hsl(0, 0%, 100%);          /* White */
+}
+```
+
+**Semantic Colour Usage**:
+
+- `text-primary` / `bg-primary` - Navy Blue for brand elements
+- `text-foreground` - Dark Slate Gray for body text
+- `text-default-900` - Strong emphasis (H4 headings)
+- `text-default-600` - Secondary text (TextSm)
+- `text-muted-foreground` - Captions/metadata
+
+**Opacity Scale**:
+
+- `text-foreground/60` - Secondary text
+- `text-foreground/40` - Muted text
+- ⚠️ Reserve `text-white` only for image overlays
+
+**Chart Colours**:
+
+- Use Navy Blue primary shades for chart elements
+- Accent Cyan for highlights and interactive elements
+- Avoid hardcoded hex values; use CSS variables where possible
+
+**Accessibility Requirements (WCAG AA)**:
+
+- Normal text: Minimum 4.5:1 contrast ratio
+- Large text: Minimum 3:1 contrast ratio
+- Interactive elements: Minimum 3:1 for focus indicators
+- Information must not be conveyed by colour alone
+
+### Modern Dashboard Design
+
+A pill-based, sidebar-free design system for professional automotive analytics dashboards.
+
+**Design Principles**:
+
+- No sidebar - horizontal navigation only
+- Pill-shaped interactive elements (`rounded-full`)
+- Large rounded cards (`rounded-2xl` or `rounded-3xl`)
+- Professional automotive industry aesthetic
+- Generous whitespace and grid-based layouts
+
+**Navigation Style**:
+
+```tsx
+// Horizontal pill tab navigation
+<div className="flex items-center gap-2 rounded-full border p-1">
+  <Button className="rounded-full" color="primary">Dashboard</Button>
+  <Button className="rounded-full" variant="light">Calendar</Button>
+  <Button className="rounded-full" variant="light">Projects</Button>
+</div>
+```
+
+- Active tab: `bg-primary text-primary-foreground rounded-full`
+- Inactive tabs: `rounded-full` with `variant="light"` or `border`
+- Tab group container with subtle border
+
+**Card Design**:
+
+- Large rounded corners: `rounded-2xl` or `rounded-3xl`
+- Soft shadows: `shadow-sm` or custom subtle shadow
+- White/light backgrounds with generous padding (`p-6`)
+- Optional coloured accent borders or backgrounds
+
+```tsx
+<Card className="rounded-2xl shadow-sm">
+  <CardHeader className="flex flex-col items-start gap-2">
+    <Typography.H4>Card Title</Typography.H4>
+    <Typography.TextSm>Description</Typography.TextSm>
+  </CardHeader>
+  <CardBody>{/* Content */}</CardBody>
+</Card>
+```
+
+**Button Styles**:
+
+- ✅ Pill-shaped: `rounded-full` for all buttons
+- Primary: `color="primary"` with filled background
+- Secondary: `variant="bordered"` with outline
+- Icon buttons: Circular with `rounded-full`
+
+**Status Badges/Chips**:
+
+```tsx
+<Chip className="rounded-full" color="success" size="sm">
+  <span className="mr-1">●</span> Done
+</Chip>
+<Chip className="rounded-full" color="warning" size="sm">
+  <span className="mr-1">●</span> Waiting
+</Chip>
+<Chip className="rounded-full" color="danger" size="sm">
+  <span className="mr-1">●</span> Failed
+</Chip>
+```
+
+**Metrics Display**:
+
+- Large bold numbers for primary values
+- Small percentage change indicators with up/down arrows
+- Subtle background cards for metric groups
+
+```tsx
+<div className="flex flex-col gap-1">
+  <Typography.Caption>Total Registrations</Typography.Caption>
+  <div className="flex items-baseline gap-2">
+    <span className="font-bold text-3xl">46,500</span>
+    <Chip className="rounded-full" color="success" size="sm">+2.5%</Chip>
+  </div>
+</div>
+```
+
+**Data Visualisation**:
+
+- Dot matrix charts for activity/heatmaps
+- Soft curved progress bars (not sharp rectangles)
+- Donut/ring charts over pie charts
+- Muted colour palettes with one accent colour
+
+**Layout Principles**:
+
+- Grid-based card layout: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6`
+- Generous whitespace between sections: `gap-8` or `gap-10`
+- Breadcrumb navigation for hierarchy
+- Horizontal scrolling tabs for mobile
 
 ### Blog Features
 
