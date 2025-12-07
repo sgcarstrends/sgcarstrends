@@ -10,7 +10,6 @@ import {
   NavbarMenuToggle,
 } from "@heroui/navbar";
 import { cn } from "@heroui/react";
-import { Tooltip } from "@heroui/tooltip";
 import { BrandLogo } from "@web/components/brand-logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,12 +18,11 @@ import { useState } from "react";
 interface NavItem {
   href: string;
   label: string;
-  comingSoon?: boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
   { href: "/", label: "Dashboard" },
-  { href: "/about", label: "About", comingSoon: true },
+  // { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
   { href: "/faq", label: "FAQ" },
 ];
@@ -68,25 +66,8 @@ export const Header = () => {
 
       {/* Desktop Navigation */}
       <NavbarContent className="hidden gap-1 md:flex" justify="center">
-        {NAV_ITEMS.map(({ href, label, comingSoon }) => {
+        {NAV_ITEMS.map(({ href, label }) => {
           const active = isActive(href);
-
-          if (comingSoon) {
-            return (
-              <NavbarItem key={href}>
-                <Tooltip content="Coming Soon" placement="bottom">
-                  <span
-                    className={cn(
-                      "cursor-not-allowed rounded-full px-4 py-2 font-medium text-sm",
-                      "text-default-400",
-                    )}
-                  >
-                    {label}
-                  </span>
-                </Tooltip>
-              </NavbarItem>
-            );
-          }
 
           return (
             <NavbarItem key={href}>
@@ -96,7 +77,7 @@ export const Header = () => {
                   "rounded-full px-4 py-2 font-medium text-sm transition-all duration-200",
                   active
                     ? "bg-primary text-primary-foreground shadow-sm"
-                    : "text-foreground/70 hover:bg-default-100 hover:text-foreground",
+                    : "bg-default-100 text-foreground hover:bg-default-200",
                 )}
               >
                 {label}
@@ -108,21 +89,8 @@ export const Header = () => {
 
       {/* Mobile Menu */}
       <NavbarMenu className="bg-background/95 pt-6 backdrop-blur-xl">
-        {NAV_ITEMS.map(({ href, label, comingSoon }) => {
+        {NAV_ITEMS.map(({ href, label }) => {
           const active = isActive(href);
-
-          if (comingSoon) {
-            return (
-              <NavbarMenuItem key={href}>
-                <span className="flex w-full cursor-not-allowed items-center justify-between py-3 text-default-400 text-lg">
-                  {label}
-                  <span className="rounded-full bg-default-100 px-2 py-0.5 text-default-500 text-xs">
-                    Coming Soon
-                  </span>
-                </span>
-              </NavbarMenuItem>
-            );
-          }
 
           return (
             <NavbarMenuItem key={href}>
