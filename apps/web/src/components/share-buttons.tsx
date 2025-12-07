@@ -33,18 +33,6 @@ const SHARE_PLATFORMS: ShareButtonConfig[] = [
 export const ShareButtons = ({ url, title, className }: ShareButtonsProps) => {
   const [copied, setCopied] = useState(false);
 
-  const handleShare = useCallback(
-    (platform: SharePlatform) => {
-      const shareUrl = getShareUrl({ platform, url, title });
-      window.open(
-        shareUrl,
-        "_blank",
-        "noopener,noreferrer,width=600,height=400",
-      );
-    },
-    [url, title],
-  );
-
   const handleCopyLink = useCallback(async () => {
     const success = await copyToClipboard(url);
     if (success) {
@@ -78,11 +66,14 @@ export const ShareButtons = ({ url, title, className }: ShareButtonsProps) => {
         {SHARE_PLATFORMS.map(({ platform, label, icon: Icon }) => (
           <Tooltip key={platform} content={label}>
             <Button
+              as="a"
+              href={getShareUrl({ platform, url, title })}
+              target="_blank"
+              rel="noopener noreferrer"
               isIconOnly
               variant="light"
               size="sm"
               className={buttonClassName}
-              onPress={() => handleShare(platform)}
               aria-label={label}
             >
               <Icon className="size-4" />

@@ -14,13 +14,6 @@ vi.mock("@heroui/toast", () => ({
   addToast: vi.fn(),
 }));
 
-// Mock window.open
-const mockWindowOpen = vi.fn();
-Object.defineProperty(window, "open", {
-  value: mockWindowOpen,
-  writable: true,
-});
-
 describe("ShareButtons", () => {
   const defaultProps = {
     url: "https://sgcarstrends.com/cars",
@@ -43,30 +36,38 @@ describe("ShareButtons", () => {
     expect(screen.getByLabelText("Copy link")).toBeInTheDocument();
   });
 
-  it("should open Twitter share URL when X button is clicked", () => {
+  it("should have correct Twitter share URL as anchor", () => {
     render(<ShareButtons {...defaultProps} />);
 
-    const twitterButton = screen.getByLabelText("Share on X");
-    fireEvent.click(twitterButton);
+    const twitterLink = screen.getByLabelText("Share on X");
 
-    expect(mockWindowOpen).toHaveBeenCalled();
-    const [url, target] = mockWindowOpen.mock.calls[0];
-    expect(url).toContain("twitter.com/intent/tweet");
-    expect(url).toContain(encodeURIComponent(defaultProps.url));
-    expect(target).toBe("_blank");
+    expect(twitterLink).toHaveAttribute(
+      "href",
+      expect.stringContaining("twitter.com/intent/tweet"),
+    );
+    expect(twitterLink).toHaveAttribute(
+      "href",
+      expect.stringContaining(encodeURIComponent(defaultProps.url)),
+    );
+    expect(twitterLink).toHaveAttribute("target", "_blank");
+    expect(twitterLink).toHaveAttribute("rel", "noopener noreferrer");
   });
 
-  it("should open LinkedIn share URL when LinkedIn button is clicked", () => {
+  it("should have correct LinkedIn share URL as anchor", () => {
     render(<ShareButtons {...defaultProps} />);
 
-    const linkedinButton = screen.getByLabelText("Share on LinkedIn");
-    fireEvent.click(linkedinButton);
+    const linkedinLink = screen.getByLabelText("Share on LinkedIn");
 
-    expect(mockWindowOpen).toHaveBeenCalled();
-    const [url, target] = mockWindowOpen.mock.calls[0];
-    expect(url).toContain("linkedin.com/sharing/share-offsite");
-    expect(url).toContain(encodeURIComponent(defaultProps.url));
-    expect(target).toBe("_blank");
+    expect(linkedinLink).toHaveAttribute(
+      "href",
+      expect.stringContaining("linkedin.com/sharing/share-offsite"),
+    );
+    expect(linkedinLink).toHaveAttribute(
+      "href",
+      expect.stringContaining(encodeURIComponent(defaultProps.url)),
+    );
+    expect(linkedinLink).toHaveAttribute("target", "_blank");
+    expect(linkedinLink).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("should copy link to clipboard when copy button is clicked", async () => {
@@ -83,15 +84,25 @@ describe("ShareButtons", () => {
   it("should apply custom className", () => {
     render(<ShareButtons {...defaultProps} className="custom-class" />);
 
-    const buttons = screen.getAllByRole("button");
-    buttons.forEach((button) => {
-      expect(button).toHaveClass("custom-class");
-    });
+    // Check mobile button
+    const mobileButton = screen.getByLabelText("Share");
+    expect(mobileButton).toHaveClass("custom-class");
+
+    // Check desktop links and button
+    const twitterLink = screen.getByLabelText("Share on X");
+    const linkedinLink = screen.getByLabelText("Share on LinkedIn");
+    const copyButton = screen.getByLabelText("Copy link");
+
+    expect(twitterLink).toHaveClass("custom-class");
+    expect(linkedinLink).toHaveClass("custom-class");
+    expect(copyButton).toHaveClass("custom-class");
   });
 
-  it("should render 4 buttons total (1 mobile + 3 desktop)", () => {
+  it("should render 4 interactive elements", () => {
     render(<ShareButtons {...defaultProps} />);
 
+    // 4 buttons total: mobile share, twitter (as="a"), linkedin (as="a"), copy link
+    // HeroUI Button with as="a" still has role="button"
     const buttons = screen.getAllByRole("button");
     expect(buttons).toHaveLength(4);
   });
