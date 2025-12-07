@@ -10,31 +10,38 @@ export interface MonthBiddingRounds {
 }
 
 /**
- * Get both bidding rounds for the latest month.
+ * Get both bidding rounds for a specific month or the latest month.
  * Returns 1st and 2nd round data separately, with secondRound being empty
  * if the 2nd bidding hasn't occurred yet.
+ *
+ * @param month - Optional month to fetch (YYYY-MM format). If not provided, fetches the latest month.
  */
-export const getMonthBiddingRounds = async (): Promise<MonthBiddingRounds> => {
+export const getMonthBiddingRounds = async (
+  month?: string,
+): Promise<MonthBiddingRounds> => {
   "use cache";
   cacheLife("max");
-  cacheTag("coe:latest", "coe:bidding-rounds");
+  cacheTag("coe:bidding-rounds", month ? `coe:month:${month}` : "coe:latest");
 
-  // Get the latest month
-  const [latestMonthResult] = await db
-    .select({ month: max(coe.month) })
-    .from(coe);
+  let targetMonth = month;
 
-  const latestMonth = latestMonthResult?.month;
+  // If no month specified, get the latest month
+  if (!targetMonth) {
+    const [latestMonthResult] = await db
+      .select({ month: max(coe.month) })
+      .from(coe);
+    targetMonth = latestMonthResult?.month ?? undefined;
+  }
 
-  if (!latestMonth) {
+  if (!targetMonth) {
     return { month: "", firstRound: [], secondRound: [] };
   }
 
-  // Get all results for the latest month (both rounds)
+  // Get all results for the target month (both rounds)
   const monthResults = await db
     .select()
     .from(coe)
-    .where(eq(coe.month, latestMonth))
+    .where(eq(coe.month, targetMonth))
     .orderBy(asc(coe.biddingNo), asc(coe.vehicleClass));
 
   // Split by bidding round
@@ -46,7 +53,7 @@ export const getMonthBiddingRounds = async (): Promise<MonthBiddingRounds> => {
   ) as COEResult[];
 
   return {
-    month: latestMonth,
+    month: targetMonth,
     firstRound,
     secondRound,
   };

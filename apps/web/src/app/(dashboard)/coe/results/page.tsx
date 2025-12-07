@@ -44,15 +44,16 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const COEResultsPage = async ({ searchParams }: Props) => {
-  const { period } = await loadSearchParams(searchParams);
+  const { period, month } = await loadSearchParams(searchParams);
   const {
     coeResults,
     chartData,
     lastUpdated,
+    months,
     biddingMonth,
     firstRound,
     secondRound,
-  } = await loadResultsPageData(period);
+  } = await loadResultsPageData(period, month ?? undefined);
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -71,7 +72,12 @@ const COEResultsPage = async ({ searchParams }: Props) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-6">
-        <PageHeader title="COE Results" lastUpdated={lastUpdated}>
+        <PageHeader
+          title="COE Results"
+          lastUpdated={lastUpdated}
+          months={months}
+          showMonthSelector
+        >
           <ShareButtons
             url={`${SITE_URL}/coe/results`}
             title={`COE Results - ${SITE_TITLE}`}

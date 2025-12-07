@@ -3,7 +3,6 @@ import type { Period } from "@web/app/(dashboard)/coe/search-params";
 import { LAST_UPDATED_COE_KEY } from "@web/config";
 import {
   calculateBiggestMovers,
-  calculateDemandMetrics,
   calculateNearRecords,
   calculatePremiumRangeStats,
   generateKeyInsights,
@@ -75,8 +74,7 @@ export const loadCOEOverviewPageData = async () => {
   // Calculate key insights data
   const movers = calculateBiggestMovers(latestResults, previousResults);
   const nearRecords = calculateNearRecords(latestResults, premiumRangeStats);
-  const demandMetrics = calculateDemandMetrics(latestResults);
-  const keyInsights = generateKeyInsights(movers, nearRecords, demandMetrics);
+  const keyInsights = generateKeyInsights(movers, nearRecords);
 
   return {
     coeTrends,
@@ -93,22 +91,27 @@ export const loadCOEOverviewPageData = async () => {
  * Load data for the COE Results page
  *
  * Loads period-filtered COE results with chart data for trends and historical analysis.
- * Also fetches same-month bidding rounds (1st and 2nd) for the latest month.
+ * Also fetches bidding rounds (1st and 2nd) for the selected or latest month.
  *
  * @param period - Time period for filtering (12m, 5y, 10y, ytd, all)
+ * @param month - Optional specific month to show bidding rounds for (YYYY-MM format)
  * @returns COE results, grouped chart data, bidding rounds, and last updated timestamp
  */
-export const loadResultsPageData = async (period: Period = "12m") => {
+export const loadResultsPageData = async (
+  period: Period = "12m",
+  month?: string,
+) => {
   const [periodData, monthRounds] = await Promise.all([
     fetchCOEPageData(period),
-    getMonthBiddingRounds(),
+    getMonthBiddingRounds(month),
   ]);
 
   return {
     coeResults: periodData.coeResults,
     chartData: periodData.data,
     lastUpdated: periodData.lastUpdated,
-    // Same-month bidding rounds
+    months: periodData.months,
+    // Bidding rounds for selected month
     biddingMonth: monthRounds.month,
     firstRound: monthRounds.firstRound,
     secondRound: monthRounds.secondRound,
