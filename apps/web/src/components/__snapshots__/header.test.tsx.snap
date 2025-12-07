@@ -76,18 +76,8 @@ exports[`Navbar > should render correctly 1`] = `
         <li
           class="text-medium whitespace-nowrap box-border list-none data-[active=true]:font-semibold"
         >
-          <span
-            class="cursor-not-allowed rounded-full px-4 py-2 font-medium text-sm text-default-400"
-            tabindex="0"
-          >
-            About
-          </span>
-        </li>
-        <li
-          class="text-medium whitespace-nowrap box-border list-none data-[active=true]:font-semibold"
-        >
           <a
-            class="rounded-full px-4 py-2 font-medium text-sm transition-all duration-200 text-foreground/70 hover:bg-default-100 hover:text-foreground"
+            class="rounded-full px-4 py-2 font-medium text-sm transition-all duration-200 bg-default-100 text-foreground hover:bg-default-200"
             href="/blog"
           >
             Blog
@@ -97,7 +87,7 @@ exports[`Navbar > should render correctly 1`] = `
           class="text-medium whitespace-nowrap box-border list-none data-[active=true]:font-semibold"
         >
           <a
-            class="rounded-full px-4 py-2 font-medium text-sm transition-all duration-200 text-foreground/70 hover:bg-default-100 hover:text-foreground"
+            class="rounded-full px-4 py-2 font-medium text-sm transition-all duration-200 bg-default-100 text-foreground hover:bg-default-200"
             href="/faq"
           >
             FAQ
