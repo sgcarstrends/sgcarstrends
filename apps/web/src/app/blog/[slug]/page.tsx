@@ -170,6 +170,7 @@ const BlogPostPage = async ({ params }: Props) => {
         {/* Bloomberg-style Hero with overlaid title */}
         <BlogHero
           title={post.title}
+          slug={post.slug}
           heroImage={heroImage}
           publishedAt={publishedDate}
           readingTimeText={readingTimeText}

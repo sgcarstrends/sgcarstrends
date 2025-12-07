@@ -4,6 +4,7 @@ import {
   type Period,
 } from "@web/app/(dashboard)/coe/search-params";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
 import Typography from "@web/components/typography";
@@ -72,7 +73,12 @@ const COEBiddingPageContent = async ({ period }: { period: Period }) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <PageHeader title="Bidding Results" lastUpdated={lastUpdated} />
+        <PageHeader title="Bidding Results" lastUpdated={lastUpdated}>
+          <ShareButtons
+            url={`${SITE_URL}/coe/bidding`}
+            title={`COE Bidding Results - ${SITE_TITLE}`}
+          />
+        </PageHeader>
 
         <div className="grid grid-cols-1 gap-4">
           <Card>

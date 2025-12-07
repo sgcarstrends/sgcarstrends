@@ -5,8 +5,10 @@ import {
   type Period,
 } from "@web/app/(dashboard)/coe/search-params";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import {
   calculateCategoryStats,
   groupCOEResultsByBidding,
@@ -117,7 +119,12 @@ const COECategoryPageContent = async ({
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <PageHeader title={`${category} Analysis`} lastUpdated={lastUpdated} />
+        <PageHeader title={`${category} Analysis`} lastUpdated={lastUpdated}>
+          <ShareButtons
+            url={`${SITE_URL}/coe/categories/${categorySlug}`}
+            title={`COE ${category} Analysis - ${SITE_TITLE}`}
+          />
+        </PageHeader>
         <div className="grid grid-cols-1 gap-4">
           <COEPremiumChart data={data} />
         </div>

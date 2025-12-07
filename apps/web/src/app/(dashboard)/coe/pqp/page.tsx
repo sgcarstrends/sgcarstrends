@@ -8,9 +8,10 @@ import {
   TrendsChart,
 } from "@web/app/(dashboard)/coe/_components/pqp";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import { LAST_UPDATED_COE_KEY, SITE_URL } from "@web/config";
+import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getPQPOverview } from "@web/queries/coe";
 import type { Pqp } from "@web/types/coe";
@@ -56,7 +57,12 @@ const PQPRatesPage = async () => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <AnimatedSection order={0}>
-          <PageHeader title="PQP RATES" lastUpdated={lastUpdated} />
+          <PageHeader title="PQP RATES" lastUpdated={lastUpdated}>
+            <ShareButtons
+              url={`${SITE_URL}/coe/pqp`}
+              title={`COE PQP Rates - ${SITE_TITLE}`}
+            />
+          </PageHeader>
         </AnimatedSection>
 
         <AnimatedSection order={1}>

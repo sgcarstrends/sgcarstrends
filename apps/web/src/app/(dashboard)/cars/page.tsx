@@ -3,6 +3,7 @@ import { CategoryTabs } from "@web/app/(dashboard)/cars/category-tabs";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
 import { CarRegistration } from "@web/app/(dashboard)/cars/trends-compare-button";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { MetricCard } from "@web/components/shared/metric-card";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
@@ -114,7 +115,12 @@ const CarsPage = async ({
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector={true}
-        />
+        >
+          <ShareButtons
+            url={`${SITE_URL}/cars?month=${month}`}
+            title={`${formattedMonth} Car Registrations - ${SITE_TITLE}`}
+          />
+        </PageHeader>
 
         <UnreleasedFeature>
           <CarRegistration />

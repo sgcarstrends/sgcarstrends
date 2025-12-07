@@ -1,9 +1,12 @@
 import { ViewCounter } from "@web/app/blog/_components/view-counter";
+import { ShareButtons } from "@web/components/share-buttons";
+import { SITE_URL } from "@web/config";
 import Image from "next/image";
 import { Suspense } from "react";
 
 interface BlogHeroProps {
   title: string;
+  slug: string;
   heroImage: string;
   publishedAt: Date;
   readingTimeText: string;
@@ -14,6 +17,7 @@ interface BlogHeroProps {
 
 export const BlogHero = ({
   title,
+  slug,
   heroImage,
   publishedAt,
   readingTimeText,
@@ -22,6 +26,7 @@ export const BlogHero = ({
   initialViewCount,
 }: BlogHeroProps) => {
   const categoryLabel = tags.length > 0 ? tags[0] : "Market Analysis";
+  const shareUrl = `${SITE_URL}/blog/${slug}`;
 
   return (
     <div className="relative mb-12 aspect-[4/3] w-full overflow-hidden md:aspect-[21/9]">
@@ -58,6 +63,12 @@ export const BlogHero = ({
               className="text-inherit"
             />
           </Suspense>
+          <span className="size-2 rounded-full bg-white/50" />
+          <ShareButtons
+            url={shareUrl}
+            title={title}
+            className="text-white/80 hover:bg-white/10 hover:text-white"
+          />
         </div>
       </div>
     </div>

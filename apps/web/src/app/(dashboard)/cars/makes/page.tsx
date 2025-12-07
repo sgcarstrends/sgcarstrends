@@ -2,6 +2,7 @@ import type { CarLogo } from "@logos/types";
 import { redis } from "@sgcarstrends/utils";
 import { MakesList } from "@web/app/(dashboard)/cars/_components/makes";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -62,7 +63,12 @@ const CarMakesPage = async () => {
           subtitle="List of car makes registered in Singapore."
           lastUpdated={lastUpdated}
           months={months}
-        />
+        >
+          <ShareButtons
+            url={`${SITE_URL}/cars/makes`}
+            title={`Car Makes - ${SITE_TITLE}`}
+          />
+        </PageHeader>
         <Suspense fallback={null}>
           <MakesList makes={makes} popularMakes={popular} logos={logos} />
         </Suspense>

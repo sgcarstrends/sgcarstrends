@@ -5,6 +5,7 @@ import { PremiumRangeCard } from "@web/app/(dashboard)/coe/_components/premium-r
 import { AnimatedNumber } from "@web/components/animated-number";
 import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -88,7 +89,12 @@ const COEPricesPage = async () => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-6">
-        <PageHeader title="COE Overview" lastUpdated={lastUpdated} />
+        <PageHeader title="COE Overview" lastUpdated={lastUpdated}>
+          <ShareButtons
+            url={`${SITE_URL}/coe`}
+            title={`COE Overview - ${SITE_TITLE}`}
+          />
+        </PageHeader>
 
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
           <LatestCoePremium results={latestResults} trends={coeTrends} />
