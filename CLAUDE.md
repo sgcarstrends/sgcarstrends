@@ -168,7 +168,7 @@ The project uses **pnpm with catalog** for centralised dependency version manage
 - Classes: `PascalCase`
 - Constants: `UPPER_CASE`
 - **Files**: Avoid redundant prefixes (✅ `cars/make.ts` not ❌ `cars/cars-make.ts`)
-- **Variables**: Use descriptive names (✅ `record`, `result`, `item` not ❌ `r`, `d`, `i`)
+- **Variables**: Use descriptive names (✅ `record`, `result`, `item` not ❌ `p`, `d`, `r`, `i`)
 - Import groups: 1) built-in, 2) external, 3) internal
 
 ### Commit Messages

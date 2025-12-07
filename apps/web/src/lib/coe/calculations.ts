@@ -415,3 +415,211 @@ export const getDateRangeFromPeriod = (
       return { start: earliestMonth, end: latestMonth };
   }
 };
+
+// ============================================================================
+// Key Insights Calculation Functions
+// ============================================================================
+
+export interface PremiumMover {
+  category: string;
+  latestPremium: number;
+  previousPremium: number;
+  change: number;
+  direction: "up" | "down" | "unchanged";
+}
+
+/**
+ * Calculate premium change between latest and previous bidding rounds.
+ * Returns categories sorted by absolute change percentage.
+ */
+export const calculateBiggestMovers = (
+  latestResults: COEResult[],
+  previousResults: COEResult[],
+): PremiumMover[] => {
+  return latestResults
+    .map((latest) => {
+      const previous = previousResults.find(
+        (p) => p.vehicleClass === latest.vehicleClass,
+      );
+
+      if (!previous || previous.premium === 0) {
+        return {
+          category: latest.vehicleClass,
+          latestPremium: latest.premium,
+          previousPremium: 0,
+          change: 0,
+          direction: "unchanged" as const,
+        };
+      }
+
+      const change =
+        ((latest.premium - previous.premium) / previous.premium) * 100;
+
+      return {
+        category: latest.vehicleClass,
+        latestPremium: latest.premium,
+        previousPremium: previous.premium,
+        change,
+        direction:
+          change > 0
+            ? ("up" as const)
+            : change < 0
+              ? ("down" as const)
+              : ("unchanged" as const),
+      };
+    })
+    .sort((a, b) => Math.abs(b.change) - Math.abs(a.change));
+};
+
+export interface NearRecordStatus {
+  category: string;
+  currentPremium: number;
+  allTimeHigh: number;
+  allTimeLow: number;
+  nearHigh: boolean;
+  nearLow: boolean;
+  percentFromHigh: number;
+  percentFromLow: number;
+}
+
+/**
+ * Check if categories are within a threshold of all-time records.
+ * Default threshold is 5% of the record value.
+ */
+export const calculateNearRecords = (
+  latestResults: COEResult[],
+  allTimeStats: PremiumRangeStats[],
+  thresholdPercent = 5,
+): NearRecordStatus[] => {
+  return latestResults
+    .map((result) => {
+      const stats = allTimeStats.find(
+        (s) => s.category === result.vehicleClass,
+      );
+
+      if (!stats) return null;
+
+      const { allTime } = stats;
+      const current = result.premium;
+
+      const percentFromHigh =
+        allTime.highest > 0
+          ? ((allTime.highest - current) / allTime.highest) * 100
+          : 0;
+
+      const percentFromLow =
+        allTime.lowest > 0
+          ? ((current - allTime.lowest) / allTime.lowest) * 100
+          : 0;
+
+      return {
+        category: result.vehicleClass,
+        currentPremium: current,
+        allTimeHigh: allTime.highest,
+        allTimeLow: allTime.lowest,
+        nearHigh: percentFromHigh <= thresholdPercent,
+        nearLow: current <= allTime.lowest * (1 + thresholdPercent / 100),
+        percentFromHigh,
+        percentFromLow,
+      };
+    })
+    .filter((x) => x !== null);
+};
+
+export interface DemandMetrics {
+  category: string;
+  quota: number;
+  bidsReceived: number;
+  bidsSuccess: number;
+  oversubscriptionRatio: number;
+  successRate: number;
+}
+
+/**
+ * Calculate demand and oversubscription metrics for COE categories.
+ * - Oversubscription ratio: bidsReceived / quota (higher = more demand)
+ * - Success rate: bidsSuccess / quota (closer to 1 = filled quota)
+ */
+export const calculateDemandMetrics = (
+  results: COEResult[],
+): DemandMetrics[] => {
+  return results
+    .map((result) => {
+      const { vehicleClass, quota, bidsReceived, bidsSuccess } = result;
+
+      const oversubscriptionRatio = quota > 0 ? bidsReceived / quota : 0;
+      const successRate = quota > 0 ? bidsSuccess / quota : 0;
+
+      return {
+        category: vehicleClass,
+        quota,
+        bidsReceived,
+        bidsSuccess,
+        oversubscriptionRatio,
+        successRate,
+      };
+    })
+    .sort((a, b) => b.oversubscriptionRatio - a.oversubscriptionRatio);
+};
+
+export interface KeyInsight {
+  type: "mover" | "record" | "demand" | "spread";
+  category?: string;
+  message: string;
+  value?: number;
+  direction?: "up" | "down";
+}
+
+/**
+ * Generate key insights from COE data combining biggest movers,
+ * near-record prices, and demand metrics.
+ */
+export const generateKeyInsights = (
+  movers: PremiumMover[],
+  nearRecords: NearRecordStatus[],
+  demandMetrics: DemandMetrics[],
+  limit = 4,
+): KeyInsight[] => {
+  const insights: KeyInsight[] = [];
+
+  // Add biggest movers (top 2)
+  movers.slice(0, 2).forEach((mover) => {
+    if (Math.abs(mover.change) >= 1) {
+      const direction = mover.direction === "up" ? "up" : "down";
+      const arrow = direction === "up" ? "↑" : "↓";
+      insights.push({
+        type: "mover",
+        category: mover.category,
+        message: `${mover.category} ${arrow} ${Math.abs(mover.change).toFixed(1)}% from last round`,
+        value: mover.change,
+        direction,
+      });
+    }
+  });
+
+  // Add near-record insights
+  nearRecords.forEach((record) => {
+    if (record.nearHigh) {
+      insights.push({
+        type: "record",
+        category: record.category,
+        message: `${record.category} at ${(100 - record.percentFromHigh).toFixed(0)}% of all-time high`,
+        value: 100 - record.percentFromHigh,
+        direction: "up",
+      });
+    }
+  });
+
+  // Add highest demand insight
+  const topDemand = demandMetrics[0];
+  if (topDemand && topDemand.oversubscriptionRatio > 1.5) {
+    insights.push({
+      type: "demand",
+      category: topDemand.category,
+      message: `${topDemand.category} saw highest demand (${topDemand.oversubscriptionRatio.toFixed(1)}x oversubscribed)`,
+      value: topDemand.oversubscriptionRatio,
+    });
+  }
+
+  return insights.slice(0, limit);
+};

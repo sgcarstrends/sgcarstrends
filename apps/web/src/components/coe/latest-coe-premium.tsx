@@ -10,9 +10,9 @@ interface LatestCoePremiumProps {
   trends?: Record<COECategory, CoeMonthlyPremium[]>;
 }
 
-const calculateTrend = (
-  data: { value: number }[],
-): "up" | "down" | "neutral" | undefined => {
+type Trend = "up" | "down" | "neutral";
+
+const calculateTrend = (data: { value: number }[]): Trend | undefined => {
   if (data.length < 2) return undefined;
 
   const first = data[0].value;
@@ -21,6 +21,20 @@ const calculateTrend = (
   if (last > first) return "up";
   if (last < first) return "down";
   return "neutral";
+};
+
+// For COE: price up = bad (danger/red), price down = good (success/green)
+const getTrendColour = (trend?: Trend): string => {
+  switch (trend) {
+    case "up":
+      return "hsl(var(--heroui-danger))";
+    case "down":
+      return "hsl(var(--heroui-success))";
+    case "neutral":
+      return "hsl(var(--heroui-warning))";
+    default:
+      return "hsl(var(--heroui-primary))";
+  }
 };
 
 export const LatestCoePremium = ({
@@ -52,7 +66,10 @@ export const LatestCoePremium = ({
                   </div>
                 </div>
                 {sparklineData.length > 0 && (
-                  <Sparkline data={sparklineData} trend={trend} />
+                  <Sparkline
+                    data={sparklineData}
+                    colour={getTrendColour(trend)}
+                  />
                 )}
               </div>
             </CardBody>

@@ -11,33 +11,20 @@ interface SparklineData {
   value: number;
 }
 
-type Trend = "up" | "down" | "neutral";
-
 interface SparklineProps {
   data: SparklineData[];
   dataKey?: string;
   height?: string;
-  trend?: Trend;
+  colour?: string;
 }
 
-const getTrendColor = (trend?: Trend): string => {
-  switch (trend) {
-    case "up":
-      return "hsl(var(--heroui-success))";
-    case "down":
-      return "hsl(var(--heroui-danger))";
-    case "neutral":
-      return "hsl(var(--heroui-warning))";
-    default:
-      return "hsl(var(--heroui-primary))";
-  }
-};
+const DEFAULT_COLOUR = "hsl(var(--heroui-primary))";
 
 export const Sparkline = ({
   data,
   dataKey = "value",
   height = "h-16",
-  trend,
+  colour = DEFAULT_COLOUR,
 }: SparklineProps) => {
   const chartConfig = {} satisfies ChartConfig;
 
@@ -45,22 +32,22 @@ export const Sparkline = ({
     return null;
   }
 
-  const strokeColor = getTrendColor(trend);
-  const gradientId = `sparklineGradient-${trend ?? "default"}`;
+  const strokeColour = colour;
+  const gradientId = `sparklineGradient-${colour.replace(/[^a-zA-Z0-9]/g, "")}`;
 
   return (
     <ChartContainer config={chartConfig} className={cn("w-full", height)}>
       <AreaChart data={data}>
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={strokeColor} stopOpacity={0.1} />
-            <stop offset="100%" stopColor={strokeColor} stopOpacity={0} />
+            <stop offset="0%" stopColor={strokeColour} stopOpacity={0.1} />
+            <stop offset="100%" stopColor={strokeColour} stopOpacity={0} />
           </linearGradient>
         </defs>
         <Area
           type="monotone"
           dataKey={dataKey}
-          stroke={strokeColor}
+          stroke={strokeColour}
           strokeWidth={2}
           fill={`url(#${gradientId})`}
           dot={false}

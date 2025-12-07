@@ -1,29 +1,26 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
-import { CoeCategories } from "@web/app/(dashboard)/coe/_components/coe-categories";
+import { BiddingRoundCards } from "@web/app/(dashboard)/coe/_components/bidding-round-cards";
 import { COEPremiumChart } from "@web/app/(dashboard)/coe/_components/premium-chart";
-import {
-  loadSearchParams,
-  type Period,
-} from "@web/app/(dashboard)/coe/search-params";
+import { loadSearchParams } from "@web/app/(dashboard)/coe/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { fetchCOEPageData } from "@web/lib/coe/page-data";
+import { loadResultsPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
-import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
 import { getLatestCoeResults } from "@web/queries/coe";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
+import type { WebPage, WithContext } from "schema-dts";
 
 interface Props {
   searchParams: Promise<SearchParams>;
 }
 
-const title = "COE Historical Results";
+const title = "COE Results";
 const description =
-  "Explore historical Certificate of Entitlement (COE) price trends and bidding results for car registrations in Singapore.";
+  "Complete historical COE bidding results for Singapore. Explore trends, analyze price movements, and view detailed data for all vehicle categories.";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const results = await getLatestCoeResults();
@@ -42,58 +39,74 @@ export const generateMetadata = async (): Promise<Metadata> => {
     description,
     canonical: "/coe/results",
     images,
+    includeAuthors: true,
   });
 };
 
-const Page = async ({ searchParams }: Props) => {
+const COEResultsPage = async ({ searchParams }: Props) => {
   const { period } = await loadSearchParams(searchParams);
+  const {
+    coeResults,
+    chartData,
+    lastUpdated,
+    biddingMonth,
+    firstRound,
+    secondRound,
+  } = await loadResultsPageData(period);
 
-  return <COEResultsPageContent period={period} />;
-};
-
-export default Page;
-
-const COEResultsPageContent = async ({ period }: { period: Period }) => {
-  const { coeResults, lastUpdated, data } = await fetchCOEPageData(period);
-
-  const structuredData = createWebPageStructuredData(
-    title,
+  const structuredData: WithContext<WebPage> = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
     description,
-    "/coe/results",
-  );
+    url: `${SITE_URL}/coe/results`,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_TITLE,
+      url: SITE_URL,
+    },
+  };
 
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-4">
-        <PageHeader title="Historical Results" lastUpdated={lastUpdated}>
+      <div className="flex flex-col gap-6">
+        <PageHeader title="COE Results" lastUpdated={lastUpdated}>
           <ShareButtons
             url={`${SITE_URL}/coe/results`}
-            title={`COE Historical Results - ${SITE_TITLE}`}
+            title={`COE Results - ${SITE_TITLE}`}
           />
         </PageHeader>
-        <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
-          <div className="xl:col-span-9">
-            <COEPremiumChart data={data} />
-          </div>
-          <div className="xl:col-span-3">
-            <CoeCategories />
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-4">
-          <Card>
-            <CardHeader className="flex flex-col items-start gap-2">
-              <h3 className="font-medium text-foreground text-xl">Overview</h3>
-              <p className="text-default-600 text-sm">
-                List of historical COE prices
-              </p>
-            </CardHeader>
-            <CardBody>
-              <TrendTable coeResults={coeResults} />
-            </CardBody>
-          </Card>
-        </div>
+
+        {/* Bidding Rounds for Current Month */}
+        {firstRound.length > 0 && (
+          <BiddingRoundCards
+            month={biddingMonth}
+            firstRound={firstRound}
+            secondRound={secondRound}
+          />
+        )}
+
+        {/* Premium Chart - Full Width */}
+        <COEPremiumChart data={chartData} />
+
+        {/* Historical Data Table - Full Width */}
+        <Card>
+          <CardHeader className="flex flex-col items-start gap-2">
+            <h3 className="font-medium text-foreground text-xl">
+              Historical Data
+            </h3>
+            <p className="text-default-600 text-sm">
+              Complete list of historical COE prices
+            </p>
+          </CardHeader>
+          <CardBody>
+            <TrendTable coeResults={coeResults} />
+          </CardBody>
+        </Card>
       </div>
     </>
   );
 };
+
+export default COEResultsPage;
