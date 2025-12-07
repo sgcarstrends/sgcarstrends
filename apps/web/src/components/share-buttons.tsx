@@ -76,7 +76,7 @@ export const ShareButtons = ({ url, title, className }: ShareButtonsProps) => {
               className={buttonClassName}
               aria-label={label}
             >
-              <Icon className="size-4" />
+              <Icon className="size-4" color="currentColor" />
             </Button>
           </Tooltip>
         ))}
