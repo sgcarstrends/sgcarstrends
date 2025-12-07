@@ -21,11 +21,6 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-export interface MainSection {
-  name: string;
-  href: string;
-}
-
 export interface NavigationItem {
   title: string;
   url: string;
@@ -35,12 +30,6 @@ export interface NavigationItem {
   badge?: "beta" | "new";
   iconColor?: string;
   matchPrefix?: boolean;
-}
-
-export interface NavigationSection {
-  name: string;
-  href: string;
-  children: NavigationItem[];
 }
 
 export interface SocialMedia {
@@ -55,36 +44,6 @@ export interface NavLinks {
   general: NavigationItem[];
   socialMedia: SocialMedia[];
 }
-
-export const mainSections: MainSection[] = [
-  {
-    name: "Dashboard",
-    href: "/",
-  },
-  {
-    name: "Cars",
-    href: "/cars",
-  },
-  {
-    name: "COE",
-    href: "/coe",
-  },
-  // {
-  //   name: "Misc",
-  //   href: "/misc",
-  // },
-];
-
-const dashboardItems: NavigationItem[] = [
-  {
-    title: "Overview",
-    url: "/",
-  },
-  {
-    title: "Annual",
-    url: "/annual",
-  },
-];
 
 const socialMedia: SocialMedia[] = [
   {
@@ -151,15 +110,6 @@ export const navLinks: NavLinks = {
       description: "Analysis of saloons, hatchbacks, SUVs and more",
       iconColor: "text-purple-500",
     },
-    // TODO: To be enabled
-    // {
-    //   title: "Deregistrations",
-    //   url: "/cars/deregistrations",
-    //   icon: TrendingDown,
-    //   description: "Monthly vehicle deregistration statistics",
-    //   badge: "new",
-    //   iconColor: "text-red-500",
-    // },
   ],
   coe: [
     {
@@ -199,21 +149,3 @@ export const navLinks: NavLinks = {
   ],
   socialMedia: sortByName(socialMedia, { sortKey: "title" }),
 };
-
-export const navigationSections: NavigationSection[] = [
-  {
-    name: "Dashboard",
-    href: "/",
-    children: dashboardItems,
-  },
-  {
-    name: "Cars",
-    href: "/cars",
-    children: navLinks.cars,
-  },
-  {
-    name: "COE",
-    href: "/coe",
-    children: navLinks.coe,
-  },
-];
