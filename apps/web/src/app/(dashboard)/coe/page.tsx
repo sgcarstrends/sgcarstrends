@@ -85,13 +85,15 @@ const COEOverviewPage = async () => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-8">
         <PageHeader title="COE Overview" lastUpdated={lastUpdated}>
           <ShareButtons
             url={`${SITE_URL}/coe`}
             title={`COE Overview - ${SITE_TITLE}`}
           />
         </PageHeader>
+
+        <Typography.H2>Latest COE Results</Typography.H2>
 
         {/* ROW 1: Hero Metrics - 5 Category Cards */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
