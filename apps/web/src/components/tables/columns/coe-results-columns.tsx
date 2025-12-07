@@ -1,14 +1,18 @@
 "use client";
 
 import { Button } from "@heroui/button";
+import { Chip } from "@heroui/chip";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { COEResult } from "@web/types";
 import { formatCurrency } from "@web/utils/format-currency";
 import { formatOrdinal } from "@web/utils/format-ordinal";
 import { ArrowUpDown } from "lucide-react";
 
-// const formatPercent = (value: any) =>
-//   Intl.NumberFormat("en-SG", { style: "percent" }).format(value);
+const formatPercent = (value: number) =>
+  Intl.NumberFormat("en-SG", {
+    style: "percent",
+    maximumFractionDigits: 1,
+  }).format(value);
 
 export const columns: ColumnDef<COEResult>[] = [
   {
@@ -39,22 +43,36 @@ export const columns: ColumnDef<COEResult>[] = [
     cell: ({ row }) =>
       `${formatOrdinal(row.getValue<number>("biddingNo"))} Round`,
   },
-  // { accessorKey: "quota", header: "Quota" },
-  // { accessorKey: "bidsReceived", header: "Bids Received" },
-  // {
-  //   accessorKey: "bidsSuccess",
-  //   header: "Bids Success",
-  //   cell: ({ row }) =>
-  //     `${row.getValue("bidsSuccess") as number} (${formatPercent((row.getValue("bidsSuccess") as number) / (row.getValue("bidsReceived") as number))})`,
-  // },
-  // {
-  //   accessorKey: "oversubscribed",
-  //   header: "Oversubscribed (%)",
-  //   cell: ({ row }) =>
-  //     formatPercent(
-  //       (row.getValue("bidsReceived") as number) /
-  //         (row.getValue("quota") as number) -
-  //         1,
-  //     ),
-  // },
+  {
+    accessorKey: "quota",
+    header: "Quota",
+    cell: ({ row }) => row.getValue<number>("quota").toLocaleString(),
+  },
+  {
+    id: "demand",
+    header: "Demand",
+    cell: ({ row }) => {
+      const quota = row.original.quota;
+      const bidsReceived = row.original.bidsReceived;
+      const ratio = quota > 0 ? bidsReceived / quota : 0;
+      const isHigh = ratio > 1.5;
+
+      return (
+        <Chip size="sm" variant="flat" color={isHigh ? "warning" : "default"}>
+          {ratio.toFixed(1)}x
+        </Chip>
+      );
+    },
+  },
+  {
+    id: "successRate",
+    header: "Success Rate",
+    cell: ({ row }) => {
+      const quota = row.original.quota;
+      const bidsSuccess = row.original.bidsSuccess;
+      const rate = quota > 0 ? bidsSuccess / quota : 0;
+
+      return formatPercent(rate);
+    },
+  },
 ];

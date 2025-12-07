@@ -101,7 +101,7 @@ export const COEPremiumChart = ({ data }: Props) => {
           ))}
         </Select>
       </CardHeader>
-      <CardBody className="flex flex-col gap-4 p-6">
+      <CardBody className="p-6">
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <LineChart
             data={filteredData}
@@ -143,40 +143,6 @@ export const COEPremiumChart = ({ data }: Props) => {
             <ChartLegend />
           </LineChart>
         </ChartContainer>
-        <div className="flex flex-col gap-4">
-          <div className="text-muted-foreground text-sm">
-            <h4 className="mb-2 font-semibold text-foreground">
-              Chart Description
-            </h4>
-            <p>
-              This chart displays Certificate of Entitlement (COE) premium
-              trends over {periodLabel}. COE premiums represent the cost of
-              obtaining the right to own and operate a vehicle in Singapore for
-              10 years. Higher premiums typically indicate increased demand for
-              vehicles or reduced quota availability.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-3 rounded-lg bg-muted/30 p-3 sm:grid-cols-3">
-            <div className="text-center">
-              <div className="font-semibold text-foreground text-lg">
-                {filteredData.length > 0 ? filteredData.length : 0}
-              </div>
-              <div className="text-muted-foreground text-xs">Data Points</div>
-            </div>
-            <div className="text-center">
-              <div className="font-semibold text-foreground text-lg">
-                {categories.length}
-              </div>
-              <div className="text-muted-foreground text-xs">Categories</div>
-            </div>
-            <div className="text-center">
-              <div className="font-semibold text-foreground text-lg">
-                {PERIOD_LABELS[period]}
-              </div>
-              <div className="text-muted-foreground text-xs">Time Range</div>
-            </div>
-          </div>
-        </div>
       </CardBody>
     </Card>
   );
