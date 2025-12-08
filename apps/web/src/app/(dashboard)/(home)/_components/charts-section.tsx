@@ -29,10 +29,10 @@ function ChartsSectionSkeleton() {
   );
 }
 
-export function ChartsSection() {
+export const ChartsSection = () => {
   return (
     <Suspense fallback={<ChartsSectionSkeleton />}>
       <ChartsSectionContent />
     </Suspense>
   );
-}
+};

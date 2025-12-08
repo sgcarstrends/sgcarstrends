@@ -4,7 +4,7 @@ import { Drawer, DrawerContent, useDisclosure } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { type ReactNode, useEffect } from "react";
 
-export function MakeDrawer({ children }: { children: ReactNode }) {
+export const MakeDrawer = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -26,4 +26,4 @@ export function MakeDrawer({ children }: { children: ReactNode }) {
       <DrawerContent>{children}</DrawerContent>
     </Drawer>
   );
-}
+};

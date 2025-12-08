@@ -8,10 +8,10 @@ async function PostsSectionContent() {
   return <RecentPosts posts={posts} />;
 }
 
-export function PostsSection() {
+export const PostsSection = () => {
   return (
     <Suspense fallback={<ListSkeleton count={3} />}>
       <PostsSectionContent />
     </Suspense>
   );
-}
+};
