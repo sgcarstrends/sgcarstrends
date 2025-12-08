@@ -8,10 +8,10 @@ async function KeyStatisticsSectionContent() {
   return <KeyStatistics data={yearlyData} />;
 }
 
-export const KeyStatisticsSection = () => {
+export function KeyStatisticsSection() {
   return (
     <Suspense fallback={<SkeletonCard className="h-96" />}>
       <KeyStatisticsSectionContent />
     </Suspense>
   );
-};
+}

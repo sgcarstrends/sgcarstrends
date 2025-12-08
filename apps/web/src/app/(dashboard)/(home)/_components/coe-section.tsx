@@ -34,10 +34,10 @@ function CoeSectionSkeleton() {
   );
 }
 
-export const CoeSection = () => {
+export function CoeSection() {
   return (
     <Suspense fallback={<CoeSectionSkeleton />}>
       <CoeSectionContent />
     </Suspense>
   );
-};
+}

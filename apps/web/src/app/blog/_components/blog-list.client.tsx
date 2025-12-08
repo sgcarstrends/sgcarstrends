@@ -47,7 +47,7 @@ const PostsGrid = ({ posts }: PostsGridProps) => {
   );
 };
 
-export const BlogListClient = ({ posts, counts }: Props) => {
+export function BlogListClient({ posts, counts }: Props) {
   const [selectedTab, setSelectedTab] = useState("all");
 
   const filteredPosts = useMemo(() => {
@@ -119,4 +119,4 @@ export const BlogListClient = ({ posts, counts }: Props) => {
       {remainingPosts.length > 0 && <PostsGrid posts={remainingPosts} />}
     </div>
   );
-};
+}
