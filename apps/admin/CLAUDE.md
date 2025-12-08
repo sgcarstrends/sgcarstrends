@@ -112,6 +112,37 @@ The admin dashboard follows modern spacing conventions for consistent, maintaina
 
 For detailed spacing conventions, examples, and rationale, see [apps/web/CLAUDE.md - Layout & Spacing Conventions](../web/CLAUDE.md#layout--spacing-conventions).
 
+### Component Naming Conventions
+
+Component naming follows domain + role patterns for clarity and consistency.
+
+**Core Rules:**
+
+| Rule | Description |
+|------|-------------|
+| PascalCase | All components use PascalCase (`DashboardCard`, not `dashboardCard`) |
+| Domain + Role | Combine context with role (`SystemStatus`, `ActivityFeed`, `QuickActions`) |
+| Compound Components | Use `.` notation for subparts (`DataTable.Header`, `DataTable.Row`) |
+| No Suffixes | Avoid Container, Wrapper, Component suffixes |
+| No Layout Names | Avoid Left, Big, Red, TwoColumn in names |
+
+**Examples:**
+
+```typescript
+// ✅ Good naming
+export const SystemStatus = () => {};
+export const ActivityFeed = () => {};
+export const QuickActions = () => {};
+
+// ❌ Bad naming
+export const StatusContainer = () => {};  // Suffix
+export const LeftNavigation = () => {};   // Layout description
+```
+
+**File Naming:** kebab-case matching component (`SystemStatus` → `system-status.tsx`)
+
+See `component-naming` skill for detailed guidance.
+
 ## Key Features
 
 ### Dashboard Overview
