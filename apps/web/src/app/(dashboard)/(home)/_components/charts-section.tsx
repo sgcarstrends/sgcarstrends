@@ -1,6 +1,6 @@
+import { RegistrationTrend } from "@web/components/registration-trend";
 import { SkeletonChart } from "@web/components/shared/skeleton";
-import { TopMakesByYear } from "@web/components/top-makes-by-year";
-import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-registrations-by-year";
+import { TopMakesChart } from "@web/components/top-makes-chart";
 import { getTopMakesByYear, getYearlyRegistrations } from "@web/queries/cars";
 import { Suspense } from "react";
 
@@ -14,8 +14,8 @@ async function ChartsSectionContent() {
 
   return (
     <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-      <TotalNewCarRegistrationsByYear data={yearlyData} />
-      {latestYear && <TopMakesByYear topMakes={topMakes} year={latestYear} />}
+      <RegistrationTrend data={yearlyData} />
+      {latestYear && <TopMakesChart topMakes={topMakes} year={latestYear} />}
     </section>
   );
 }

@@ -362,6 +362,39 @@ See [Typography System](#typography-system) section below.
 - Integrated into all statistics pages, blog posts, and dashboard views
 - Share utilities in `src/utils/share.ts` for URL generation and clipboard operations
 
+### Component Naming Conventions
+
+Component naming follows domain + role patterns for clarity and consistency.
+
+**Core Rules:**
+
+| Rule | Description |
+|------|-------------|
+| PascalCase | All components use PascalCase (`TrendChart`, not `trendChart`) |
+| Domain + Role | Combine context with role (`TrendChart`, `HeroPost`, `MetricCard`) |
+| Compound Components | Use `.` notation for subparts (`HeroPost.Image`, `HeroPost.Title`) |
+| No Suffixes | Avoid Container, Wrapper, Component suffixes |
+| No Layout Names | Avoid Left, Big, Red, TwoColumn in names |
+
+**Examples:**
+
+```typescript
+// ✅ Good naming
+export const TrendChart = () => {};
+export const HeroPost = () => {};
+HeroPost.Image = () => {};
+HeroPost.Title = () => {};
+
+// ❌ Bad naming
+export const Chart = () => {};           // Too generic
+export const ChartWrapper = () => {};    // Suffix
+export const LeftSidebar = () => {};     // Layout description
+```
+
+**File Naming:** kebab-case matching component (`TrendChart` → `trend-chart.tsx`)
+
+See `component-naming` skill for detailed guidance and validation checklist.
+
 ### Typography System
 
 A modern, semantic typography system for consistent visual hierarchy across the application.

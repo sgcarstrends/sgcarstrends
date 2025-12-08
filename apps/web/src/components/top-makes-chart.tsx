@@ -21,12 +21,12 @@ interface TopMake {
   value: number;
 }
 
-interface Top5CarMakesByYearProps {
+interface TopMakesChartProps {
   topMakes: TopMake[];
   year: number;
 }
 
-export const TopMakesByYear = ({ topMakes, year }: Top5CarMakesByYearProps) => {
+export const TopMakesChart = ({ topMakes, year }: TopMakesChartProps) => {
   const data = [...topMakes].sort((a, b) => b.value - a.value);
   const chartConfig = Object.fromEntries(
     data.map(({ make }) => [

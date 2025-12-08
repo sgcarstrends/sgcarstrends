@@ -1,7 +1,7 @@
 import { TopMakes } from "@web/app/(dashboard)/cars/_components/top-makes";
 import { CategoryTabs } from "@web/app/(dashboard)/cars/category-tabs";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
-import { CarRegistration } from "@web/app/(dashboard)/cars/trends-compare-button";
+import { TrendsCompareButton } from "@web/app/(dashboard)/cars/trends-compare-button";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { MetricCard } from "@web/components/shared/metric-card";
@@ -123,7 +123,7 @@ const CarsPage = async ({
         </PageHeader>
 
         <UnreleasedFeature>
-          <CarRegistration />
+          <TrendsCompareButton />
         </UnreleasedFeature>
 
         {/*TODO: Improvise*/}

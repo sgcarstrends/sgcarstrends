@@ -1,4 +1,4 @@
-// import { QuotaPremiumTicker } from "@web/components/quota-premium-ticker";
+// import { PremiumBanner } from "@web/components/premium-banner";
 // import { getLatestCoeResults } from "@web/queries/coe";
 import type { PropsWithChildren } from "react";
 
@@ -10,7 +10,7 @@ const Layout = async ({ children }: Props) => {
   return (
     <>
       {/*TODO: Temporary disable*/}
-      {/*<QuotaPremiumTicker data={data} />*/}
+      {/*<PremiumBanner data={data} />*/}
       {children}
     </>
   );

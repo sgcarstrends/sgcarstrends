@@ -14,13 +14,11 @@ interface YearTotal {
   total: number;
 }
 
-interface TotalNewCarRegistrationsByYearProps {
+interface RegistrationTrendProps {
   data: YearTotal[];
 }
 
-export const TotalNewCarRegistrationsByYear = ({
-  data,
-}: TotalNewCarRegistrationsByYearProps) => {
+export const RegistrationTrend = ({ data }: RegistrationTrendProps) => {
   const chartConfig = {
     total: {
       label: "Total",
@@ -31,7 +29,7 @@ export const TotalNewCarRegistrationsByYear = ({
   return (
     <Card>
       <CardHeader>
-        <h3>Total New Car Registrations by Year</h3>
+        <h3>Yearly Registration Trend</h3>
       </CardHeader>
       <CardBody>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">

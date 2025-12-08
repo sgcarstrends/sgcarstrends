@@ -5,8 +5,8 @@ import {
   TopPerformersBar,
   TrendAreaChart,
 } from "@web/components/charts";
-import { TopMakesByYear } from "@web/components/top-makes-by-year";
-import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-registrations-by-year";
+import { RegistrationTrend } from "@web/components/registration-trend";
+import { TopMakesChart } from "@web/components/top-makes-chart";
 import { vi } from "vitest";
 
 describe("Dashboard visualisations", () => {
@@ -32,7 +32,7 @@ describe("Dashboard visualisations", () => {
     getBoundingClientRectSpy.mockRestore();
   });
 
-  it("renders market share donut with legend", () => {
+  it("should render market share donut with legend", () => {
     const handleValueChange = vi.fn();
     const { getByText } = render(
       <MarketShareDonut
@@ -49,7 +49,7 @@ describe("Dashboard visualisations", () => {
     expect(screen.getAllByText("Brand A").length).toBeGreaterThan(0);
   });
 
-  it("creates stacked area chart with total overlay", () => {
+  it("should create stacked area chart with total overlay", () => {
     render(
       <TrendAreaChart
         data={[
@@ -66,7 +66,7 @@ describe("Dashboard visualisations", () => {
     expect(screen.getByText("COE Growth")).toBeInTheDocument();
   });
 
-  it("highlights top performers with ranking badges", () => {
+  it("should highlight top performers with ranking badges", () => {
     render(
       <TopPerformersBar
         title="Top Makes"
@@ -82,7 +82,7 @@ describe("Dashboard visualisations", () => {
     expect(screen.queryByText(/Showing top/)).not.toBeInTheDocument();
   });
 
-  it("shows informational footer when more performers are available", async () => {
+  it("should show informational footer when more performers are available", async () => {
     const { findByText } = render(
       <TopPerformersBar
         title="Top Makes"
@@ -98,7 +98,7 @@ describe("Dashboard visualisations", () => {
     expect(await findByText(/Showing top 10 of 12 items/i)).toBeInTheDocument();
   });
 
-  it("renders insight cards with delta indicators", () => {
+  it("should render insight cards with delta indicators", () => {
     render(
       <InsightCards
         insights={[
@@ -116,14 +116,14 @@ describe("Dashboard visualisations", () => {
     expect(screen.getByText("+5.2%")).toBeInTheDocument();
   });
 
-  it("renders an empty state when no insights exist", () => {
+  it("should render an empty state when no insights exist", () => {
     render(<InsightCards insights={[]} />);
     expect(screen.getByText("No insights available")).toBeInTheDocument();
   });
 
-  it("renders top makes list for a year", () => {
+  it("should render top makes list for a year", () => {
     render(
-      <TopMakesByYear
+      <TopMakesChart
         year={2024}
         topMakes={[
           { make: "Tesla", value: 1200 },
@@ -135,9 +135,9 @@ describe("Dashboard visualisations", () => {
     expect(screen.getByText("Top 2 Car Makes (2024)")).toBeInTheDocument();
   });
 
-  it("renders yearly registration totals", () => {
+  it("should render yearly registration trend", () => {
     render(
-      <TotalNewCarRegistrationsByYear
+      <RegistrationTrend
         data={[
           { year: 2023, total: 32000 },
           { year: 2024, total: 34000 },
@@ -145,8 +145,6 @@ describe("Dashboard visualisations", () => {
       />,
     );
 
-    expect(
-      screen.getByText("Total New Car Registrations by Year"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Yearly Registration Trend")).toBeInTheDocument();
   });
 });
