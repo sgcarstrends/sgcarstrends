@@ -10,7 +10,7 @@ interface Props {
   data: COEResult[];
 }
 
-export const QuotaPremiumTicker = ({ data = [] }: Props) => {
+export const PremiumBanner = ({ data = [] }: Props) => {
   const setBannerContent = useStore(({ setBannerContent }) => setBannerContent);
 
   useEffect(() => {

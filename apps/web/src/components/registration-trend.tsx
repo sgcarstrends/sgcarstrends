@@ -14,13 +14,11 @@ interface YearTotal {
   total: number;
 }
 
-interface TotalNewCarRegistrationsByYearProps {
+interface RegistrationTrendProps {
   data: YearTotal[];
 }
 
-export const TotalNewCarRegistrationsByYear = ({
-  data,
-}: TotalNewCarRegistrationsByYearProps) => {
+export const RegistrationTrend = ({ data }: RegistrationTrendProps) => {
   const chartConfig = {
     total: {
       label: "Total",

@@ -6,11 +6,11 @@ import { Footer } from "@web/components/footer";
 import { MaintenanceNotice } from "@web/components/maintenance-notice";
 import { MetricsComparison } from "@web/components/metrics-comparison";
 import { PageHeader } from "@web/components/page-header";
+import { PremiumBanner } from "@web/components/premium-banner";
 import { Progress } from "@web/components/progress";
-import { QuotaPremiumTicker } from "@web/components/quota-premium-ticker";
 import { MetricCard } from "@web/components/shared/metric-card";
 import { StructuredData } from "@web/components/structured-data";
-import { TrendsComparisonBottomSheet } from "@web/components/trends-comparison-bottom-sheet";
+import { TrendsComparison } from "@web/components/trends-comparison";
 import type { Announcement as AnnouncementType, COEResult } from "@web/types";
 import type { ReactElement } from "react";
 import { vi } from "vitest";
@@ -125,14 +125,14 @@ describe("Site shell components", () => {
     });
   });
 
-  describe("QuotaPremiumTicker", () => {
+  describe("PremiumBanner", () => {
     const data: COEResult[] = [
       createCoeResult("Category B", 42000),
       createCoeResult("Category A", 40000),
     ];
 
-    it("populates the global banner with sorted categories and cleans up on unmount", () => {
-      const { unmount } = render(<QuotaPremiumTicker data={data} />);
+    it("should populate the global banner with sorted categories and clean up on unmount", () => {
+      const { unmount } = render(<PremiumBanner data={data} />);
 
       expect(mockStoreState.setBannerContent).toHaveBeenCalledTimes(1);
       const bannerNode = mockStoreState.setBannerContent.mock
@@ -221,11 +221,9 @@ describe("Site shell components", () => {
       expect(screen.getByText("50%")).toBeInTheDocument();
     });
 
-    it("renders TrendsComparisonBottomSheet content when open", () => {
+    it("should render TrendsComparison content when open", () => {
       const handleChange = vi.fn();
-      render(
-        <TrendsComparisonBottomSheet isOpen onOpenChange={handleChange} />,
-      );
+      render(<TrendsComparison isOpen onOpenChange={handleChange} />);
 
       expect(screen.getByText("Trends Comparison")).toBeInTheDocument();
     });

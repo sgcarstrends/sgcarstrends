@@ -2,15 +2,15 @@
 
 import { Drawer, DrawerBody, DrawerContent, DrawerHeader } from "@heroui/react";
 
-interface TrendsComparisonBottomSheetProps {
+interface TrendsComparisonProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
 }
 
-export const TrendsComparisonBottomSheet = ({
+export const TrendsComparison = ({
   isOpen,
   onOpenChange,
-}: TrendsComparisonBottomSheetProps) => {
+}: TrendsComparisonProps) => {
   return (
     <Drawer
       isOpen={isOpen}

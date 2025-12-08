@@ -5,8 +5,8 @@ import {
   TopPerformersBar,
   TrendAreaChart,
 } from "@web/components/charts";
-import { TopMakesByYear } from "@web/components/top-makes-by-year";
-import { TotalNewCarRegistrationsByYear } from "@web/components/total-new-car-registrations-by-year";
+import { RegistrationTrend } from "@web/components/registration-trend";
+import { TopMakesChart } from "@web/components/top-makes-chart";
 import { vi } from "vitest";
 
 describe("Dashboard visualisations", () => {
@@ -121,9 +121,9 @@ describe("Dashboard visualisations", () => {
     expect(screen.getByText("No insights available")).toBeInTheDocument();
   });
 
-  it("renders top makes list for a year", () => {
+  it("should render top makes list for a year", () => {
     render(
-      <TopMakesByYear
+      <TopMakesChart
         year={2024}
         topMakes={[
           { make: "Tesla", value: 1200 },
@@ -135,9 +135,9 @@ describe("Dashboard visualisations", () => {
     expect(screen.getByText("Top 2 Car Makes (2024)")).toBeInTheDocument();
   });
 
-  it("renders yearly registration totals", () => {
+  it("should render yearly registration totals", () => {
     render(
-      <TotalNewCarRegistrationsByYear
+      <RegistrationTrend
         data={[
           { year: 2023, total: 32000 },
           { year: 2024, total: 34000 },
