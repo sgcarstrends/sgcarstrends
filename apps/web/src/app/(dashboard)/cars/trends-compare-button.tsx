@@ -5,7 +5,7 @@ import { BetaChip } from "@web/components/shared/chips";
 import { TrendsComparison } from "@web/components/trends-comparison";
 import { TrendingUp } from "lucide-react";
 
-export function TrendsCompareButton() {
+export const TrendsCompareButton = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -25,4 +25,4 @@ export function TrendsCompareButton() {
       <TrendsComparison isOpen={isOpen} onOpenChange={onOpenChange} />
     </>
   );
-}
+};
