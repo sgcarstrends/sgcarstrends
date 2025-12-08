@@ -29,7 +29,7 @@ export const RegistrationTrend = ({ data }: RegistrationTrendProps) => {
   return (
     <Card>
       <CardHeader>
-        <h3>Total New Car Registrations by Year</h3>
+        <h3>Yearly Registration Trend</h3>
       </CardHeader>
       <CardBody>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">

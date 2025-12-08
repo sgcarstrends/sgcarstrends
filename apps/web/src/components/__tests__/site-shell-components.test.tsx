@@ -77,7 +77,7 @@ describe("Site shell components", () => {
   });
 
   describe("Announcement", () => {
-    it("prioritises path specific announcements", () => {
+    it("should prioritise path-specific announcements", () => {
       announcementsFixture.push(
         { content: "Cars update", paths: ["/cars"] },
         { content: "Global update" },
@@ -89,7 +89,7 @@ describe("Site shell components", () => {
       expect(screen.getByText(/Cars update/)).toBeInTheDocument();
     });
 
-    it("falls back to global announcements", () => {
+    it("should fall back to global announcements", () => {
       announcementsFixture.push({ content: "Global notice" });
       mockPathname = "/unknown";
 
@@ -98,14 +98,14 @@ describe("Site shell components", () => {
       expect(screen.getByText("Global notice")).toBeInTheDocument();
     });
 
-    it("renders nothing when configured list is empty", () => {
+    it("should render nothing when configured list is empty", () => {
       const { container } = render(<Announcement />);
       expect(container).toBeEmptyDOMElement();
     });
   });
 
   describe("Banner", () => {
-    it("shows banner content from the store", () => {
+    it("should show banner content from the store", () => {
       mockStoreState.bannerContent = (
         <span data-testid="banner-content">Hello COE</span>
       );
@@ -117,7 +117,7 @@ describe("Site shell components", () => {
       );
     });
 
-    it("returns null when no banner content is set", () => {
+    it("should return null when no banner content is set", () => {
       mockStoreState.bannerContent = null;
 
       const { container } = render(<Banner />);
@@ -147,7 +147,7 @@ describe("Site shell components", () => {
   });
 
   describe("MaintenanceNotice", () => {
-    it("renders the maintenance copy and runs the hook", () => {
+    it("should render the maintenance copy and run the hook", () => {
       render(<MaintenanceNotice />);
       expect(screen.getByText(/Pit Stop in Progress/i)).toBeInTheDocument();
       expect(mockUseMaintenance).toHaveBeenCalled();
@@ -155,7 +155,7 @@ describe("Site shell components", () => {
   });
 
   describe("Footer", () => {
-    it("renders asynchronous footer content with version information", async () => {
+    it("should render asynchronous footer content with version information", async () => {
       const footer = await Footer();
       const { getByText } = render(footer);
       expect(getByText(/All rights reserved/)).toBeInTheDocument();
@@ -164,7 +164,7 @@ describe("Site shell components", () => {
   });
 
   describe("PageHeader", () => {
-    it("shows last updated date, month selector, and action area", () => {
+    it("should show last updated date, month selector, and action area", () => {
       render(
         <PageHeader
           title="COE Trends"
@@ -188,7 +188,7 @@ describe("Site shell components", () => {
   });
 
   describe("StructuredData", () => {
-    it("injects JSON-LD script", () => {
+    it("should inject JSON-LD script", () => {
       const data = {
         "@context": "https://schema.org",
         "@type": "Organization",
@@ -206,7 +206,7 @@ describe("Site shell components", () => {
   });
 
   describe("Misc components", () => {
-    it("renders ComingSoon label", () => {
+    it("should render ComingSoon label", () => {
       render(
         <ComingSoon>
           <span>Trends</span>
@@ -216,7 +216,7 @@ describe("Site shell components", () => {
       expect(screen.getByText("Coming Soon")).toBeInTheDocument();
     });
 
-    it("renders Progress content", () => {
+    it("should render Progress content", () => {
       render(<Progress value={0.5}>50%</Progress>);
       expect(screen.getByText("50%")).toBeInTheDocument();
     });
@@ -230,13 +230,13 @@ describe("Site shell components", () => {
   });
 
   describe("MetricsComparison", () => {
-    it("indicates positive growth", () => {
+    it("should indicate positive growth", () => {
       render(<MetricsComparison current={110} previousMonth={100} />);
       expect(screen.getByText("vs last month")).toBeInTheDocument();
       expect(screen.getByText("10%")).toBeInTheDocument();
     });
 
-    it("indicates negative growth", () => {
+    it("should indicate negative growth", () => {
       render(<MetricsComparison current={90} previousMonth={100} />);
       expect(screen.getByText("vs last month")).toBeInTheDocument();
       expect(screen.getByText("10%")).toBeInTheDocument();
@@ -244,7 +244,7 @@ describe("Site shell components", () => {
   });
 
   describe("MetricCard", () => {
-    it("combines metric value and comparison", () => {
+    it("should combine metric value and comparison", () => {
       render(
         <MetricCard
           title="COE Premiums"
