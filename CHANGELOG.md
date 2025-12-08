@@ -1,3 +1,9 @@
+## [4.32.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.32.0...v4.32.1) (2025-12-08)
+
+### Bug Fixes
+
+* **web:** add New badge to hero post ([8bf685b](https://github.com/sgcarstrends/sgcarstrends/commit/8bf685b6d32531a7438bb819413a579b1ca1fec9))
+
 ## [4.32.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.31.1...v4.32.0) (2025-12-07)
 
 ### Features
