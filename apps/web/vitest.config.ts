@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   test: {
     globals: true,
+    environment: "jsdom",
     coverage: {
       include: ["src"],
       exclude: [
@@ -29,8 +30,14 @@ export default defineConfig({
       ],
       reporter: ["text", "text-summary", "json", "html", "lcov"],
       reportsDirectory: "./coverage",
+      thresholds: {
+        autoUpdate: (newThreshold) => Math.floor(newThreshold / 5) * 5,
+        lines: 75,
+        functions: 70,
+        branches: 60,
+        statements: 75,
+      },
     },
-    environment: "jsdom",
     exclude: [...configDefaults.exclude, "tests"],
     setupFiles: "./setup-tests.ts",
   },
