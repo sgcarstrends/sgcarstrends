@@ -16,8 +16,13 @@ export const proxy = async (request: NextRequest) => {
   const isOnMaintenancePage =
     request.nextUrl.pathname.startsWith("/maintenance");
 
-  // Maintenance enabled, user NOT on maintenance page → redirect TO maintenance
-  if (isMaintenanceMode && !isOnMaintenancePage) {
+  // Check for maintenance bypass token
+  const bypassToken = request.nextUrl.searchParams.get("bypass");
+  const validBypassToken = process.env.MAINTENANCE_BYPASS_TOKEN;
+  const hasBypass = validBypassToken && bypassToken === validBypassToken;
+
+  // Maintenance enabled, user NOT on maintenance page, NO valid bypass → redirect TO maintenance
+  if (isMaintenanceMode && !isOnMaintenancePage && !hasBypass) {
     const maintenanceUrl = new URL("/maintenance", request.url);
     maintenanceUrl.searchParams.set("from", request.url);
     return NextResponse.redirect(maintenanceUrl);
