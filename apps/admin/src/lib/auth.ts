@@ -11,6 +11,13 @@ export const auth = betterAuth({
     schema,
     usePlural: true,
   }),
+  advanced: {
+    crossSubDomainCookies: {
+      enabled: true,
+      domain: "sgcarstrends.com",
+    },
+  },
+  trustedOrigins: ["https://*.sgcarstrends.com"],
   plugins: [
     admin(),
     nextCookies(), // Make sure this is the last plugin in the array

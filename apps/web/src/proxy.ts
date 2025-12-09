@@ -1,5 +1,7 @@
 import crypto from "node:crypto";
+import { db, sessions } from "@sgcarstrends/database";
 import { redis } from "@sgcarstrends/utils";
+import { and, eq, gt } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 
 interface AppConfig {
@@ -16,13 +18,30 @@ export const proxy = async (request: NextRequest) => {
   const isOnMaintenancePage =
     request.nextUrl.pathname.startsWith("/maintenance");
 
-  // Check for maintenance bypass token
-  const bypassToken = request.nextUrl.searchParams.get("bypass");
-  const validBypassToken = process.env.MAINTENANCE_BYPASS_TOKEN;
-  const hasBypass = validBypassToken && bypassToken === validBypassToken;
+  // Check for admin session bypass (via cross-subdomain cookie from admin.sgcarstrends.com)
+  let hasAdminSession = false;
+  if (isMaintenanceMode) {
+    const sessionToken = request.cookies.get(
+      "better-auth.session_token",
+    )?.value;
+    if (sessionToken) {
+      const [session] = await db
+        .select({ id: sessions.id })
+        .from(sessions)
+        .where(
+          and(
+            eq(sessions.token, sessionToken),
+            gt(sessions.expiresAt, new Date()),
+          ),
+        )
+        .limit(1);
 
-  // Maintenance enabled, user NOT on maintenance page, NO valid bypass → redirect TO maintenance
-  if (isMaintenanceMode && !isOnMaintenancePage && !hasBypass) {
+      hasAdminSession = !!session;
+    }
+  }
+
+  // Maintenance enabled, user NOT on maintenance page, NO admin session → redirect TO maintenance
+  if (isMaintenanceMode && !isOnMaintenancePage && !hasAdminSession) {
     const maintenanceUrl = new URL("/maintenance", request.url);
     maintenanceUrl.searchParams.set("from", request.url);
     return NextResponse.redirect(maintenanceUrl);
