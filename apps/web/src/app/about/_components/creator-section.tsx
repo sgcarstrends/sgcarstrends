@@ -1,8 +1,9 @@
 "use client";
 
+import { Chip } from "@heroui/chip";
+import { Link } from "@heroui/link";
 import { cn } from "@heroui/theme";
 import { Code2, Heart } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 export const CreatorSection = () => {
@@ -45,12 +46,17 @@ export const CreatorSection = () => {
           )}
         >
           {/* Icon */}
-          <div className="flex items-center gap-2">
-            <Code2 className="h-5 w-5 text-primary" />
-            <span className="font-medium text-primary text-sm uppercase tracking-widest">
-              Behind the Data
-            </span>
-          </div>
+          <Chip
+            variant="light"
+            startContent={<Code2 className="h-4 w-4" />}
+            classNames={{
+              base: "bg-transparent",
+              content:
+                "font-medium text-primary text-sm uppercase tracking-widest",
+            }}
+          >
+            Behind the Data
+          </Chip>
 
           {/* Main content */}
           <div className="flex flex-col gap-4">
@@ -63,7 +69,8 @@ export const CreatorSection = () => {
               SG Cars Trends is an independent project created by{" "}
               <Link
                 href="https://ruchern.dev"
-                className="font-medium text-primary transition-colors hover:text-primary/80 hover:underline"
+                isExternal
+                className="font-medium text-primary transition-colors hover:text-primary/80"
               >
                 Ru Chern
               </Link>

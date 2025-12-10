@@ -1,5 +1,6 @@
 "use client";
 
+import { Card, CardBody } from "@heroui/card";
 import { cn } from "@heroui/theme";
 import { CheckCircle, Database, RefreshCw, Shield } from "lucide-react";
 import Link from "next/link";
@@ -92,24 +93,26 @@ export const DataSection = () => {
               </p>
 
               {/* LTA Badge */}
-              <div className="flex items-center gap-3 rounded-xl border border-default-200 bg-background p-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-secondary">
-                  <Database className="h-6 w-6 text-default-600" />
-                </div>
-                <div>
-                  <div className="font-medium text-foreground text-sm">
-                    Data Provider
+              <Card className="border-default-200">
+                <CardBody className="flex flex-row items-center gap-3 p-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-secondary">
+                    <Database className="h-6 w-6 text-default-600" />
                   </div>
-                  <Link
-                    href="https://datamall.lta.gov.sg"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary text-sm hover:underline"
-                  >
-                    LTA DataMall
-                  </Link>
-                </div>
-              </div>
+                  <div>
+                    <div className="font-medium text-foreground text-sm">
+                      Data Provider
+                    </div>
+                    <Link
+                      href="https://datamall.lta.gov.sg"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary text-sm hover:underline"
+                    >
+                      LTA DataMall
+                    </Link>
+                  </div>
+                </CardBody>
+              </Card>
             </div>
           </div>
 
@@ -117,28 +120,30 @@ export const DataSection = () => {
           <div className="lg:col-span-8">
             <div className="grid gap-6 sm:grid-cols-2">
               {features.map((feature, index) => (
-                <div
+                <Card
                   key={feature.title}
                   className={cn(
-                    "group flex flex-col gap-4 rounded-2xl border border-default-200/80 bg-background p-6 transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5",
+                    "group border-default-200/80 transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5",
                     isVisible
                       ? "translate-y-0 opacity-100"
                       : "translate-y-8 opacity-0",
                   )}
                   style={{ transitionDelay: `${index * 100}ms` }}
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary transition-colors group-hover:bg-primary/5">
-                    <feature.icon className="h-6 w-6 text-default-600 transition-colors group-hover:text-primary" />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="font-semibold text-foreground">
-                      {feature.title}
-                    </h3>
-                    <p className="text-default-600 text-sm leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
+                  <CardBody className="flex flex-col gap-4 p-6">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary transition-colors group-hover:bg-primary/5">
+                      <feature.icon className="h-6 w-6 text-default-600 transition-colors group-hover:text-primary" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="font-semibold text-foreground">
+                        {feature.title}
+                      </h3>
+                      <p className="text-default-600 text-sm leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </CardBody>
+                </Card>
               ))}
             </div>
           </div>

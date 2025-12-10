@@ -1,5 +1,6 @@
 "use client";
 
+import { Card, CardBody } from "@heroui/card";
 import { cn } from "@heroui/theme";
 import { useEffect, useRef, useState } from "react";
 
@@ -73,19 +74,26 @@ const StatItem = ({ value, suffix, label, delay = 0 }: StatItemProps) => {
   }, [delay]);
 
   return (
-    <div
-      ref={ref}
-      className={cn(
-        "group relative flex flex-col gap-2 rounded-2xl border border-default-200/50 bg-background/50 p-6 backdrop-blur-sm transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5",
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
-      )}
-    >
-      <div className="font-semibold text-4xl text-foreground tracking-tight lg:text-5xl">
-        <AnimatedNumber value={value} suffix={suffix} isVisible={isVisible} />
-      </div>
-      <div className="text-default-600 text-sm">{label}</div>
-      {/* Subtle accent line */}
-      <div className="absolute right-6 bottom-0 left-6 h-0.5 scale-x-0 bg-gradient-to-r from-primary to-primary/60 transition-transform duration-300 group-hover:scale-x-100" />
+    <div ref={ref}>
+      <Card
+        className={cn(
+          "group relative border-default-200/50 bg-background/50 backdrop-blur-sm transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5",
+          isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
+        )}
+      >
+        <CardBody className="flex flex-col gap-2 p-6">
+          <div className="font-semibold text-4xl text-foreground tracking-tight lg:text-5xl">
+            <AnimatedNumber
+              value={value}
+              suffix={suffix}
+              isVisible={isVisible}
+            />
+          </div>
+          <div className="text-default-600 text-sm">{label}</div>
+        </CardBody>
+        {/* Subtle accent line */}
+        <div className="absolute right-6 bottom-0 left-6 h-0.5 scale-x-0 bg-gradient-to-r from-primary to-primary/60 transition-transform duration-300 group-hover:scale-x-100" />
+      </Card>
     </div>
   );
 };

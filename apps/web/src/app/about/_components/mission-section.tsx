@@ -1,5 +1,6 @@
 "use client";
 
+import { Card, CardBody } from "@heroui/card";
 import { cn } from "@heroui/theme";
 import { useEffect, useRef, useState } from "react";
 
@@ -97,24 +98,28 @@ export const MissionSection = () => {
             )}
             style={{ transitionDelay: "200ms" }}
           >
-            <div className="flex flex-col gap-2">
-              <div className="font-semibold text-foreground">
-                Data-Driven Decisions
-              </div>
-              <p className="text-default-600 text-sm leading-relaxed">
-                Move beyond gut feelings with historical trends and real-time
-                insights.
-              </p>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="font-semibold text-foreground">
-                Always Up-to-Date
-              </div>
-              <p className="text-default-600 text-sm leading-relaxed">
-                Fresh data after every COE bidding round and monthly
-                registration release.
-              </p>
-            </div>
+            <Card className="border-none bg-transparent shadow-none">
+              <CardBody className="flex flex-col gap-2 p-0">
+                <div className="font-semibold text-foreground">
+                  Data-Driven Decisions
+                </div>
+                <p className="text-default-600 text-sm leading-relaxed">
+                  Move beyond gut feelings with historical trends and real-time
+                  insights.
+                </p>
+              </CardBody>
+            </Card>
+            <Card className="border-none bg-transparent shadow-none">
+              <CardBody className="flex flex-col gap-2 p-0">
+                <div className="font-semibold text-foreground">
+                  Always Up-to-Date
+                </div>
+                <p className="text-default-600 text-sm leading-relaxed">
+                  Fresh data after every COE bidding round and monthly
+                  registration release.
+                </p>
+              </CardBody>
+            </Card>
           </div>
         </div>
       </div>

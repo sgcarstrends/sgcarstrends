@@ -1,5 +1,6 @@
 "use client";
 
+import { Chip } from "@heroui/chip";
 import { cn } from "@heroui/theme";
 import { useEffect, useRef, useState } from "react";
 
@@ -42,10 +43,17 @@ export const HeroSection = () => {
                 : "translate-y-4 opacity-0",
             )}
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 font-medium text-primary-foreground/80 text-sm">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
+            <Chip
+              color="primary"
+              variant="dot"
+              classNames={{
+                base: "border-primary/30 bg-primary/10",
+                content: "font-medium text-primary-foreground/80",
+                dot: "bg-primary",
+              }}
+            >
               Singapore&apos;s Car Market Intelligence
-            </span>
+            </Chip>
           </div>
 
           {/* Main headline */}

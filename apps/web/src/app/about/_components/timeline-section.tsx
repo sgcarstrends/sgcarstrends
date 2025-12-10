@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar } from "@heroui/avatar";
 import { cn } from "@heroui/theme";
 import { useEffect, useRef, useState } from "react";
 
@@ -45,7 +46,7 @@ const timelineData: TimelineItem[] = [
   },
 ];
 
-const TimelineItem = ({
+const TimelineItemComponent = ({
   item,
   index,
   isVisible,
@@ -64,16 +65,20 @@ const TimelineItem = ({
     >
       {/* Timeline line and dot */}
       <div className="relative flex flex-col items-center">
-        <div
-          className={cn(
-            "relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 bg-background font-medium text-sm transition-colors",
-            item.highlight
-              ? "border-primary text-primary"
-              : "border-default-300 text-default-600 group-hover:border-primary/50",
-          )}
-        >
-          {item.date}
-        </div>
+        <Avatar
+          name={item.date}
+          classNames={{
+            base: cn(
+              "relative z-10 h-12 w-12 border-2 bg-background transition-colors",
+              item.highlight
+                ? "border-primary text-primary"
+                : "border-default-300 text-default-600 group-hover:border-primary/50",
+            ),
+            name: "font-medium text-sm",
+          }}
+          showFallback
+          getInitials={() => item.date}
+        />
         {index < timelineData.length - 1 && (
           <div className="absolute top-12 h-full w-0.5 bg-gradient-to-b from-default-300 to-default-200" />
         )}
@@ -149,7 +154,7 @@ export const TimelineSection = () => {
         <div className="lg:col-span-8">
           <div className="flex flex-col">
             {timelineData.map((item, index) => (
-              <TimelineItem
+              <TimelineItemComponent
                 key={item.date}
                 item={item}
                 index={index}
