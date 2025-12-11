@@ -48,7 +48,7 @@ export const StatsSection = () => {
   const shouldReduceMotion = useReducedMotion();
 
   const stats = [
-    { value: 5, suffix: "+", label: "Years of historical data" },
+    { value: 10, suffix: "+", label: "Years of historical data" },
     { value: 50, suffix: "+", label: "Car makes tracked" },
     { value: 120, suffix: "+", label: "COE bidding rounds analysed" },
     { value: 10000, suffix: "+", label: "Monthly data points" },
@@ -63,7 +63,7 @@ export const StatsSection = () => {
             By the Numbers
           </Typography.Label>
           <Typography.H2 className="max-w-lg lg:text-4xl">
-            Comprehensive coverage of Singapore&apos;s automotive landscape
+            Singapore car market data at a glance
           </Typography.H2>
         </div>
 

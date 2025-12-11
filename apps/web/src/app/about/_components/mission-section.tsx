@@ -57,15 +57,15 @@ export const MissionSection = () => {
               <Typography.TextLg className="text-default-600">
                 We built SG Cars Trends to change that. By aggregating official
                 data from the Land Transport Authority and presenting it through
-                intuitive visualisations, we&apos;re democratising access to
-                market intelligence that was previously scattered across
-                government portals and industry reports.
+                intuitive visualisations, we hope to make this data easier to
+                find and explore, rather than scattered across government
+                portals and industry reports.
               </Typography.TextLg>
               <Typography.TextLg className="text-default-600">
                 Whether you&apos;re a first-time buyer trying to time your
                 purchase, a dealer analysing market trends, or simply curious
-                about Singapore&apos;s automotive landscape—we&apos;ve got you
-                covered.
+                about Singapore&apos;s automotive landscape—this site might
+                help.
               </Typography.TextLg>
             </div>
           </motion.div>
@@ -83,8 +83,7 @@ export const MissionSection = () => {
               <CardBody className="flex flex-col gap-2 p-0">
                 <Typography.H4>Data-Driven Decisions</Typography.H4>
                 <Typography.TextSm>
-                  Move beyond gut feelings with historical trends and real-time
-                  insights.
+                  Historical trends to help inform your decisions.
                 </Typography.TextSm>
               </CardBody>
             </Card>

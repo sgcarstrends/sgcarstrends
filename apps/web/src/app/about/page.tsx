@@ -11,7 +11,7 @@ import { TimelineSection } from "./_components/timeline-section";
 
 const title = "About";
 const description =
-  "Learn about SG Cars Trends, Singapore's comprehensive platform for car registration statistics, COE bidding results, and automotive market insights. Built to make car market data accessible and meaningful.";
+  "Learn about SG Cars Trends, a platform for exploring Singapore car registration statistics, COE bidding results, and market data. Built to make car market information easier to find and understand.";
 
 export const metadata: Metadata = {
   title,
@@ -57,7 +57,7 @@ const AboutPage = () => {
     url: SITE_URL,
     logo: `${SITE_URL}/icon.png`,
     description:
-      "Singapore's comprehensive platform for car registration statistics, COE bidding results, and automotive market insights.",
+      "A platform for exploring Singapore car registration statistics, COE bidding results, and market data.",
     sameAs: [
       "https://twitter.com/sgcarstrends",
       "https://github.com/sgcarstrends",

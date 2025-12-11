@@ -3,7 +3,7 @@
 import { Card, CardBody } from "@heroui/card";
 import Typography from "@web/components/typography";
 import { motion, useReducedMotion } from "framer-motion";
-import { CheckCircle, Database, RefreshCw, Shield } from "lucide-react";
+import { Database, RefreshCw, Shield } from "lucide-react";
 import Link from "next/link";
 import {
   fadeInUpVariants,
@@ -28,13 +28,7 @@ const features = [
     icon: Shield,
     title: "Data Integrity",
     description:
-      "We maintain strict data validation processes to ensure accuracy. Historical records are preserved without modification.",
-  },
-  {
-    icon: CheckCircle,
-    title: "API Access",
-    description:
-      "Developers and researchers can access our data programmatically through our RESTful API for custom analysis and integrations.",
+      "Data is validated to match the source. Historical records are preserved without modification.",
   },
 ];
 
@@ -67,11 +61,11 @@ export const DataSection = () => {
                 Data Transparency
               </Typography.Label>
               <Typography.H2 className="lg:text-4xl">
-                Built on trust and accuracy
+                Where the data comes from
               </Typography.H2>
               <Typography.Text className="text-default-600">
-                We believe in complete transparency about where our data comes
-                from and how it&apos;s processed.
+                Here&apos;s where the data comes from and how it&apos;s
+                processed.
               </Typography.Text>
 
               {/* LTA Badge */}

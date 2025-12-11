@@ -60,8 +60,8 @@ export const CommunitySection = () => {
                 >
                   Ru Chern
                 </Link>
-                , a software engineer passionate about making data accessible
-                and meaningful.
+                , a software engineer who wanted to make this data easier to
+                explore.
               </Typography.TextLg>
             </div>
 

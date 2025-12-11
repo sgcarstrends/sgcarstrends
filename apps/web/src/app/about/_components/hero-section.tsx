@@ -116,7 +116,7 @@ export const HeroSection = () => {
                 dot: "bg-primary shadow-[0_0_8px_rgba(59,130,246,0.5)]",
               }}
             >
-              Singapore&apos;s Car Market Intelligence
+              Singapore Car Market Data
             </Chip>
           </motion.div>
 
@@ -169,9 +169,8 @@ export const HeroSection = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={entranceTransition(0.3)}
           >
-            We transform complex vehicle registration data and COE bidding
-            results into clear, actionable insights. Because understanding the
-            market shouldn&apos;t require a spreadsheet.
+            Vehicle registration data and COE bidding results, presented in a
+            way that&apos;s easier to understand. No spreadsheets required.
           </motion.p>
         </div>
       </div>

@@ -117,11 +117,11 @@ export const TimelineSection = () => {
               Our Journey
             </Typography.Label>
             <Typography.H2 className="lg:text-4xl">
-              From side project to Singapore&apos;s car data platform
+              How this project started
             </Typography.H2>
             <Typography.Text className="text-default-600">
-              What started as a personal tool to track COE prices has grown into
-              a comprehensive platform serving thousands of users monthly.
+              What started as a personal tool to track COE prices is now a free
+              resource for anyone interested in Singapore&apos;s car market.
             </Typography.Text>
           </motion.div>
         </div>
