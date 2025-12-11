@@ -866,6 +866,65 @@ A pill-based, sidebar-free design system for professional automotive analytics d
 - Canonical URLs and social media meta tags
 - Automatic sitemap integration
 
+### OpenGraph Images
+
+Dynamic OG images for social media sharing using Next.js `ImageResponse` API. See `opengraph-images` skill for detailed implementation patterns.
+
+**File Locations**:
+
+| File | Type | Purpose |
+|------|------|---------|
+| `src/app/opengraph-image.png` | Static | Homepage OG image |
+| `src/app/about/opengraph-image.tsx` | Dynamic | About page with custom fonts |
+| `src/app/blog/[slug]/opengraph-image.tsx` | Dynamic | Blog posts with dynamic titles |
+
+**Standard Structure**:
+
+OG images follow a three-part layout:
+
+1. **Eyebrow chip** - Page context indicator (e.g., "Behind the Data", "Blog")
+2. **Main headline** - Two lines with gradient text on second line
+3. **Subheadline** - Supporting description text
+
+**Required Exports**:
+
+```typescript
+export const alt = "Page Title - SG Cars Trends";
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+```
+
+**Font Loading**:
+
+Custom Geist fonts loaded from `assets/fonts/`:
+
+```typescript
+const [geistRegular, geistSemiBold, geistBold] = await Promise.all([
+  readFile(join(process.cwd(), "assets/fonts/Geist-Regular.ttf")),
+  readFile(join(process.cwd(), "assets/fonts/Geist-SemiBold.ttf")),
+  readFile(join(process.cwd(), "assets/fonts/Geist-Bold.ttf")),
+]);
+```
+
+**Eyebrow Text Guidelines**:
+
+| Page Type | Eyebrow Text |
+|-----------|--------------|
+| Homepage | Singapore Car Market Data |
+| About | Behind the Data |
+| Blog Post | Blog / Analysis / Insights |
+| COE | COE Bidding Results |
+| Cars | Vehicle Registrations |
+
+**Important Constraints**:
+
+- Use inline `style` objects only (no CSS classes)
+- Flexbox supported, Grid not supported
+- Font files must be loaded explicitly (`.ttf`)
+- Server-side only (no React hooks)
+
+**Testing**: Visit `/about/opengraph-image` directly in browser, or use social debuggers (Facebook, Twitter, LinkedIn).
+
 ### Testing Strategy
 
 **Unit Tests**: Co-located with components using Vitest and Testing Library. Run tests before commits.

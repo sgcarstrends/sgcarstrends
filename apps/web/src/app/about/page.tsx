@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
 };
 
-const AboutPage = () => {
+export default async function AboutPage() {
   const webPageSchema: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -108,6 +108,4 @@ const AboutPage = () => {
       </div>
     </>
   );
-};
-
-export default AboutPage;
+}
