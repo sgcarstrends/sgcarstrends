@@ -37,7 +37,10 @@ const StatItem = ({ value, suffix = "", label }: StatItemProps) => {
           <div className="text-default-600 text-sm">{label}</div>
         </CardBody>
         {/* Subtle accent line */}
-        <div className="absolute right-6 bottom-0 left-6 h-0.5 scale-x-0 bg-gradient-to-r from-primary to-primary/60 transition-transform duration-300 group-hover:scale-x-100" />
+        <div
+          className="absolute right-6 bottom-0 left-6 h-0.5 scale-x-0 bg-gradient-to-r from-primary to-primary/60 transition-transform duration-300 group-hover:scale-x-100"
+          aria-hidden="true"
+        />
       </Card>
     </motion.div>
   );

@@ -10,7 +10,10 @@ export const CreatorSection = () => {
   return (
     <section className="-mx-6 relative overflow-hidden px-6 py-20 lg:py-28">
       {/* Subtle decorative elements */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+        aria-hidden="true"
+      >
         <div className="absolute top-20 left-10 h-px w-32 bg-gradient-to-r from-transparent via-default-300 to-transparent opacity-50" />
         <div className="absolute top-40 right-20 h-px w-24 bg-gradient-to-r from-transparent via-default-300 to-transparent opacity-40" />
         <div className="absolute bottom-32 left-1/4 h-px w-40 bg-gradient-to-r from-transparent via-default-300 to-transparent opacity-30" />

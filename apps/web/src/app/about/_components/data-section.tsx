@@ -42,6 +42,7 @@ export const DataSection = () => {
           backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--muted-foreground) / 0.15) 1px, transparent 0)`,
           backgroundSize: "24px 24px",
         }}
+        aria-hidden="true"
       />
 
       <div className="container relative mx-auto">

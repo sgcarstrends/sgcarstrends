@@ -93,9 +93,9 @@ export default async function AboutPage() {
 
   return (
     <>
-      <StructuredData data={webPageSchema} />
-      <StructuredData data={organizationSchema} />
-      <StructuredData data={personSchema} />
+      <StructuredData
+        data={[webPageSchema, organizationSchema, personSchema]}
+      />
 
       <div className="flex flex-col">
         <HeroSection />

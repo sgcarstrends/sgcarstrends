@@ -20,6 +20,7 @@ export const HeroSection = () => {
             initial={{ width: 0, opacity: 0 }}
             animate={{ width: "6rem", opacity: 1 }}
             transition={entranceTransition(0)}
+            aria-hidden="true"
           />
 
           {/* Eyebrow chip */}

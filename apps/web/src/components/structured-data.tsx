@@ -2,7 +2,7 @@ import Script from "next/script";
 import type { Thing, WithContext } from "schema-dts";
 
 interface Props<T extends Thing> {
-  data: WithContext<T>;
+  data: WithContext<T> | WithContext<T>[];
 }
 
 export const StructuredData = <T extends Thing>({ data }: Props<T>) => (

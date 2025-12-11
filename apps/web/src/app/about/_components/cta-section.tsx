@@ -48,7 +48,6 @@ export const CtaSection = () => {
                 target="_blank"
                 variant="bordered"
                 className="gap-2 rounded-full border-default-300 px-5 text-foreground transition-all hover:border-primary hover:bg-primary/5"
-                aria-label={title}
               >
                 <Icon className="size-4" />
                 <span>{title}</span>

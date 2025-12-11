@@ -116,7 +116,7 @@ export default async function Image() {
           name: "Geist",
           data: geistBold,
           style: "normal",
-          weight: 400,
+          weight: 700,
         },
       ],
       headers: {
