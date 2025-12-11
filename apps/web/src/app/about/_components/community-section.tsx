@@ -79,14 +79,14 @@ export const CommunitySection = () => {
           >
             <div className="flex flex-col items-center gap-4 text-center">
               <Typography.Label className="text-primary uppercase tracking-widest">
-                Stay Connected
+                Stay Updated
               </Typography.Label>
               <Typography.H2 className="text-primary-foreground">
-                Join our growing community
+                Follow for the Latest Updates
               </Typography.H2>
               <Typography.TextLg className="max-w-xl text-primary-foreground/70">
-                Follow us on social media for the latest updates, insights, and
-                discussions about Singapore&apos;s car market.
+                Get notified when new COE results, car registration data, and
+                market insights are published.
               </Typography.TextLg>
             </div>
 
