@@ -2,7 +2,8 @@
 
 import { Avatar } from "@heroui/avatar";
 import { cn } from "@heroui/theme";
-import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { fadeInUpVariants } from "./variants";
 
 interface TimelineItem {
   date: string;
@@ -46,22 +47,29 @@ const timelineData: TimelineItem[] = [
   },
 ];
 
-const TimelineItemComponent = ({
-  item,
-  index,
-  isVisible,
-}: {
+interface TimelineItemComponentProps {
   item: TimelineItem;
   index: number;
-  isVisible: boolean;
-}) => {
+}
+
+const TimelineItemComponent = ({ item, index }: TimelineItemComponentProps) => {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <div
-      className={cn(
-        "group relative flex gap-6 transition-all duration-500 lg:gap-8",
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
-      )}
-      style={{ transitionDelay: `${index * 150}ms` }}
+    <motion.div
+      className="group relative flex gap-6 lg:gap-8"
+      initial={shouldReduceMotion ? undefined : { opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={
+        shouldReduceMotion
+          ? undefined
+          : {
+              duration: 0.5,
+              delay: index * 0.15,
+              ease: [0.4, 0, 0.2, 1],
+            }
+      }
     >
       {/* Timeline line and dot */}
       <div className="relative flex flex-col items-center">
@@ -98,44 +106,24 @@ const TimelineItemComponent = ({
           {item.description}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 export const TimelineSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 },
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section ref={sectionRef} className="py-20 lg:py-28">
+    <section className="py-20 lg:py-28">
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
         {/* Header */}
         <div className="lg:col-span-4">
-          <div
-            className={cn(
-              "sticky top-24 flex flex-col gap-4 transition-all duration-700",
-              isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-8 opacity-0",
-            )}
+          <motion.div
+            className="sticky top-24 flex flex-col gap-4"
+            variants={shouldReduceMotion ? undefined : fadeInUpVariants}
+            initial={shouldReduceMotion ? undefined : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
           >
             <span className="font-medium text-primary text-sm uppercase tracking-widest">
               Our Journey
@@ -147,7 +135,7 @@ export const TimelineSection = () => {
               What started as a personal tool to track COE prices has grown into
               a comprehensive platform serving thousands of users monthly.
             </p>
-          </div>
+          </motion.div>
         </div>
 
         {/* Timeline */}
@@ -158,7 +146,6 @@ export const TimelineSection = () => {
                 key={item.date}
                 item={item}
                 index={index}
-                isVisible={isVisible}
               />
             ))}
           </div>

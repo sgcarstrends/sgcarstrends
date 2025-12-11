@@ -1,44 +1,29 @@
 "use client";
 
 import { Button } from "@heroui/button";
-import { cn } from "@heroui/theme";
 import { navLinks } from "@web/config/navigation";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { staggerContainerVariants, staggerItemVariants } from "./variants";
 
 export const ConnectSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 },
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section ref={sectionRef} className="py-20 lg:py-28">
-      <div
-        className={cn(
-          "flex flex-col items-center gap-12 text-center transition-all duration-700",
-          isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
-        )}
+    <section className="py-20 lg:py-28">
+      <motion.div
+        className="flex flex-col items-center gap-12 text-center"
+        variants={shouldReduceMotion ? undefined : staggerContainerVariants}
+        initial={shouldReduceMotion ? undefined : "hidden"}
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
       >
         {/* Header */}
-        <div className="flex max-w-xl flex-col gap-4">
+        <motion.div
+          className="flex max-w-xl flex-col gap-4"
+          variants={shouldReduceMotion ? undefined : staggerItemVariants}
+        >
           <span className="font-medium text-primary text-sm uppercase tracking-widest">
             Stay Connected
           </span>
@@ -49,15 +34,12 @@ export const ConnectSection = () => {
             Follow us on social media for the latest updates, insights, and
             discussions about Singapore&apos;s car market.
           </p>
-        </div>
+        </motion.div>
 
         {/* Social links */}
-        <div
-          className={cn(
-            "flex flex-wrap items-center justify-center gap-3 transition-all duration-700",
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
-          )}
-          style={{ transitionDelay: "100ms" }}
+        <motion.div
+          className="flex flex-wrap items-center justify-center gap-3"
+          variants={shouldReduceMotion ? undefined : staggerItemVariants}
         >
           {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (
             <Button
@@ -74,15 +56,12 @@ export const ConnectSection = () => {
               <span>{title}</span>
             </Button>
           ))}
-        </div>
+        </motion.div>
 
         {/* CTA */}
-        <div
-          className={cn(
-            "flex flex-col items-center gap-4 border-default-200 border-t pt-12 transition-all duration-700 sm:flex-row sm:gap-6",
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
-          )}
-          style={{ transitionDelay: "200ms" }}
+        <motion.div
+          className="flex flex-col items-center gap-4 border-default-200 border-t pt-12 sm:flex-row sm:gap-6"
+          variants={shouldReduceMotion ? undefined : staggerItemVariants}
         >
           <Button
             as={Link}
@@ -103,8 +82,8 @@ export const ConnectSection = () => {
           >
             Read Market Insights
           </Button>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

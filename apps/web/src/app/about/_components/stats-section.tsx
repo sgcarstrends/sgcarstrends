@@ -1,104 +1,51 @@
 "use client";
 
 import { Card, CardBody } from "@heroui/card";
-import { cn } from "@heroui/theme";
-import { useEffect, useRef, useState } from "react";
+import { AnimatedNumber } from "@web/components/animated-number";
+import { motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
+import { staggerContainerVariants, staggerItemVariants } from "./variants";
 
 interface StatItemProps {
   value: number;
   suffix?: string;
   label: string;
-  delay?: number;
 }
 
-const AnimatedNumber = ({
-  value,
-  suffix = "",
-  isVisible,
-}: {
-  value: number;
-  suffix?: string;
-  isVisible: boolean;
-}) => {
-  const [displayValue, setDisplayValue] = useState(0);
-
-  useEffect(() => {
-    if (!isVisible) return;
-
-    const duration = 2000;
-    const steps = 60;
-    const stepValue = value / steps;
-    let current = 0;
-
-    const timer = setInterval(() => {
-      current += stepValue;
-      if (current >= value) {
-        setDisplayValue(value);
-        clearInterval(timer);
-      } else {
-        setDisplayValue(Math.floor(current));
-      }
-    }, duration / steps);
-
-    return () => clearInterval(timer);
-  }, [isVisible, value]);
+const StatItem = ({ value, suffix = "", label }: StatItemProps) => {
+  const shouldReduceMotion = useReducedMotion();
+  const [isInView, setIsInView] = useState(false);
 
   return (
-    <span className="tabular-nums">
-      {displayValue.toLocaleString()}
-      {suffix}
-    </span>
-  );
-};
-
-const StatItem = ({ value, suffix, label, delay = 0 }: StatItemProps) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setIsVisible(true), delay);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.3 },
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, [delay]);
-
-  return (
-    <div ref={ref}>
-      <Card
-        className={cn(
-          "group relative border-default-200/50 bg-background/50 backdrop-blur-sm transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5",
-          isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
-        )}
-      >
+    <motion.div
+      variants={shouldReduceMotion ? undefined : staggerItemVariants}
+      onViewportEnter={() => setIsInView(true)}
+      viewport={{ once: true }}
+    >
+      <Card className="group border-default-200/50 bg-background/50 backdrop-blur-sm transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
         <CardBody className="flex flex-col gap-2 p-6">
           <div className="font-semibold text-4xl text-foreground tracking-tight lg:text-5xl">
-            <AnimatedNumber
-              value={value}
-              suffix={suffix}
-              isVisible={isVisible}
-            />
+            {isInView ? (
+              <>
+                <AnimatedNumber value={value} />
+                {suffix}
+              </>
+            ) : (
+              <span className="tabular-nums">0{suffix}</span>
+            )}
           </div>
           <div className="text-default-600 text-sm">{label}</div>
         </CardBody>
         {/* Subtle accent line */}
         <div className="absolute right-6 bottom-0 left-6 h-0.5 scale-x-0 bg-gradient-to-r from-primary to-primary/60 transition-transform duration-300 group-hover:scale-x-100" />
       </Card>
-    </div>
+    </motion.div>
   );
 };
 
 export const StatsSection = () => {
+  const shouldReduceMotion = useReducedMotion();
+
   const stats = [
     { value: 5, suffix: "+", label: "Years of historical data" },
     { value: 50, suffix: "+", label: "Car makes tracked" },
@@ -120,17 +67,22 @@ export const StatsSection = () => {
         </div>
 
         {/* Stats grid - asymmetric */}
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
-          {stats.map((stat, index) => (
+        <motion.div
+          className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6"
+          variants={shouldReduceMotion ? undefined : staggerContainerVariants}
+          initial={shouldReduceMotion ? undefined : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          {stats.map((stat) => (
             <StatItem
               key={stat.label}
               value={stat.value}
               suffix={stat.suffix}
               label={stat.label}
-              delay={index * 100}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

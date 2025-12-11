@@ -1,43 +1,27 @@
 "use client";
 
 import { Card, CardBody } from "@heroui/card";
-import { cn } from "@heroui/theme";
-import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { fadeInUpVariants } from "./variants";
 
 export const MissionSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 },
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section ref={sectionRef} className="py-20 lg:py-28">
+    <section className="py-20 lg:py-28">
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
         {/* Left column - Pull quote */}
         <div className="lg:col-span-5">
-          <div
-            className={cn(
-              "sticky top-24 transition-all duration-700",
-              isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-8 opacity-0",
-            )}
+          <motion.div
+            className="sticky top-24"
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={
+              shouldReduceMotion
+                ? undefined
+                : { duration: 0.7, ease: [0.16, 1, 0.3, 1] }
+            }
           >
             <blockquote className="relative">
               <div className="-left-4 lg:-left-8 absolute top-0 font-serif text-8xl text-primary/20">
@@ -48,19 +32,21 @@ export const MissionSection = () => {
                 maze blindfolded.
               </p>
             </blockquote>
-          </div>
+          </motion.div>
         </div>
 
         {/* Right column - Mission text */}
         <div className="flex flex-col gap-8 lg:col-span-7">
-          <div
-            className={cn(
-              "flex flex-col gap-6 transition-all duration-700",
-              isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-8 opacity-0",
-            )}
-            style={{ transitionDelay: "100ms" }}
+          <motion.div
+            className="flex flex-col gap-6"
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={
+              shouldReduceMotion
+                ? undefined
+                : { duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }
+            }
           >
             <h2 className="font-semibold text-3xl text-foreground tracking-tight lg:text-4xl">
               Our Mission
@@ -86,17 +72,16 @@ export const MissionSection = () => {
                 covered.
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Key points */}
-          <div
-            className={cn(
-              "grid gap-6 border-default-200 border-t pt-8 transition-all duration-700 sm:grid-cols-2",
-              isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-8 opacity-0",
-            )}
-            style={{ transitionDelay: "200ms" }}
+          <motion.div
+            className="grid gap-6 border-default-200 border-t pt-8 sm:grid-cols-2"
+            variants={shouldReduceMotion ? undefined : fadeInUpVariants}
+            initial={shouldReduceMotion ? undefined : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            transition={shouldReduceMotion ? undefined : { delay: 0.2 }}
           >
             <Card className="border-none bg-transparent shadow-none">
               <CardBody className="flex flex-col gap-2 p-0">
@@ -120,7 +105,7 @@ export const MissionSection = () => {
                 </p>
               </CardBody>
             </Card>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -2,48 +2,27 @@
 
 import { Chip } from "@heroui/chip";
 import { Link } from "@heroui/link";
-import { cn } from "@heroui/theme";
+import { motion, useReducedMotion } from "framer-motion";
 import { Code2, Heart } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { fadeInUpVariants } from "./variants";
 
 export const CreatorSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 },
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section
-      ref={sectionRef}
-      className="-mx-6 relative overflow-hidden bg-foreground px-6 py-20 lg:py-28"
-    >
+    <section className="-mx-6 relative overflow-hidden bg-foreground px-6 py-20 lg:py-28">
       {/* Subtle gradient accent */}
       <div className="pointer-events-none absolute inset-0">
         <div className="-right-1/4 absolute top-0 h-[400px] w-[400px] rounded-full bg-primary/10 blur-3xl" />
       </div>
 
       <div className="container relative mx-auto">
-        <div
-          className={cn(
-            "mx-auto flex max-w-2xl flex-col items-center gap-8 text-center transition-all duration-700",
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
-          )}
+        <motion.div
+          className="mx-auto flex max-w-2xl flex-col items-center gap-8 text-center"
+          variants={shouldReduceMotion ? undefined : fadeInUpVariants}
+          initial={shouldReduceMotion ? undefined : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
         >
           {/* Icon */}
           <Chip
@@ -85,7 +64,7 @@ export const CreatorSection = () => {
             If you find it useful, consider sharing it with others who might
             benefit.
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

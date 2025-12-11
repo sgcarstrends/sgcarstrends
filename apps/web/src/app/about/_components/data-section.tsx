@@ -1,10 +1,14 @@
 "use client";
 
 import { Card, CardBody } from "@heroui/card";
-import { cn } from "@heroui/theme";
+import { motion, useReducedMotion } from "framer-motion";
 import { CheckCircle, Database, RefreshCw, Shield } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import {
+  fadeInUpVariants,
+  staggerContainerVariants,
+  staggerItemVariants,
+} from "./variants";
 
 const features = [
   {
@@ -34,32 +38,10 @@ const features = [
 ];
 
 export const DataSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 },
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section
-      ref={sectionRef}
-      className="-mx-6 relative overflow-hidden bg-secondary px-6 py-20 lg:py-28"
-    >
+    <section className="-mx-6 relative overflow-hidden bg-secondary px-6 py-20 lg:py-28">
       {/* Subtle background pattern */}
       <div
         className="pointer-events-none absolute inset-0 opacity-50"
@@ -73,13 +55,12 @@ export const DataSection = () => {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           {/* Left column - Header */}
           <div className="lg:col-span-4">
-            <div
-              className={cn(
-                "sticky top-24 flex flex-col gap-6 transition-all duration-700",
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-8 opacity-0",
-              )}
+            <motion.div
+              className="sticky top-24 flex flex-col gap-6"
+              variants={shouldReduceMotion ? undefined : fadeInUpVariants}
+              initial={shouldReduceMotion ? undefined : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
             >
               <span className="font-medium text-primary text-sm uppercase tracking-widest">
                 Data Transparency
@@ -113,39 +94,45 @@ export const DataSection = () => {
                   </div>
                 </CardBody>
               </Card>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right column - Features grid */}
           <div className="lg:col-span-8">
-            <div className="grid gap-6 sm:grid-cols-2">
-              {features.map((feature, index) => (
-                <Card
+            <motion.div
+              className="grid gap-6 sm:grid-cols-2"
+              variants={
+                shouldReduceMotion ? undefined : staggerContainerVariants
+              }
+              initial={shouldReduceMotion ? undefined : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+            >
+              {features.map((feature) => (
+                <motion.div
                   key={feature.title}
-                  className={cn(
-                    "group border-default-200/80 transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5",
-                    isVisible
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-8 opacity-0",
-                  )}
-                  style={{ transitionDelay: `${index * 100}ms` }}
+                  variants={
+                    shouldReduceMotion ? undefined : staggerItemVariants
+                  }
                 >
-                  <CardBody className="flex flex-col gap-4 p-6">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary transition-colors group-hover:bg-primary/5">
-                      <feature.icon className="h-6 w-6 text-default-600 transition-colors group-hover:text-primary" />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <h3 className="font-semibold text-foreground">
-                        {feature.title}
-                      </h3>
-                      <p className="text-default-600 text-sm leading-relaxed">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </CardBody>
-                </Card>
+                  <Card className="group h-full border-default-200/80 transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+                    <CardBody className="flex flex-col gap-4 p-6">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary transition-colors group-hover:bg-primary/5">
+                        <feature.icon className="h-6 w-6 text-default-600 transition-colors group-hover:text-primary" />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <h3 className="font-semibold text-foreground">
+                          {feature.title}
+                        </h3>
+                        <p className="text-default-600 text-sm leading-relaxed">
+                          {feature.description}
+                        </p>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
