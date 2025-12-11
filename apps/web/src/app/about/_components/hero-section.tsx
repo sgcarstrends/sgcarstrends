@@ -25,7 +25,7 @@ export const HeroSection = () => {
         backgroundSize: "200% 200%",
         animation: shouldReduceMotion
           ? undefined
-          : "gradient-shift 15s ease infinite",
+          : "gradient-flow 15s ease infinite",
       }}
     >
       {/* Animated gradient orbs - smoother, slower animation */}
@@ -35,7 +35,7 @@ export const HeroSection = () => {
           style={{
             animation: shouldReduceMotion
               ? undefined
-              : "float 20s ease-in-out infinite",
+              : "float-gentle 20s ease-in-out infinite",
           }}
         />
         <div
@@ -43,7 +43,7 @@ export const HeroSection = () => {
           style={{
             animation: shouldReduceMotion
               ? undefined
-              : "float 25s ease-in-out infinite reverse",
+              : "float-gentle 25s ease-in-out infinite reverse",
           }}
         />
         <div
@@ -175,39 +175,6 @@ export const HeroSection = () => {
           </motion.p>
         </div>
       </div>
-
-      {/* CSS Keyframes */}
-      <style jsx>{`
-        @keyframes gradient-shift {
-          0%,
-          100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-        @keyframes float {
-          0%,
-          100% {
-            transform: translate(0, 0);
-          }
-          50% {
-            transform: translate(30px, -30px);
-          }
-        }
-        @keyframes pulse-soft {
-          0%,
-          100% {
-            opacity: 0.5;
-            transform: translate(-50%, -50%) scale(1);
-          }
-          50% {
-            opacity: 0.8;
-            transform: translate(-50%, -50%) scale(1.1);
-          }
-        }
-      `}</style>
     </section>
   );
 };
