@@ -1,11 +1,11 @@
 import Script from "next/script";
 import type { Thing, WithContext } from "schema-dts";
 
-interface Props<T extends Thing> {
-  data: WithContext<T> | WithContext<T>[];
+interface Props {
+  data: WithContext<Thing> | WithContext<Thing>[];
 }
 
-export const StructuredData = <T extends Thing>({ data }: Props<T>) => (
+export const StructuredData = ({ data }: Props) => (
   <Script
     id="structured-data"
     type="application/ld+json"
