@@ -2,8 +2,7 @@ import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
 import type { Organization, Person, WebPage, WithContext } from "schema-dts";
-import { ConnectSection } from "./_components/connect-section";
-import { CreatorSection } from "./_components/creator-section";
+import { CommunitySection } from "./_components/community-section";
 import { DataSection } from "./_components/data-section";
 import { HeroSection } from "./_components/hero-section";
 import { MissionSection } from "./_components/mission-section";
@@ -103,8 +102,7 @@ const AboutPage = () => {
         <MissionSection />
         <DataSection />
         <TimelineSection />
-        <CreatorSection />
-        <ConnectSection />
+        <CommunitySection />
       </div>
     </>
   );

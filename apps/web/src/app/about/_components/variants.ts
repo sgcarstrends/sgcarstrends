@@ -37,17 +37,3 @@ export const staggerItemVariants: Variants = {
     },
   },
 };
-
-// Hero entrance animation (faster, more dramatic)
-export const heroEntranceVariants: Variants = {
-  hidden: { opacity: 0, y: 24, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};

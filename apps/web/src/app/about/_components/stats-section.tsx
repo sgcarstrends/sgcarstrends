@@ -2,6 +2,7 @@
 
 import { Card, CardBody } from "@heroui/card";
 import { AnimatedNumber } from "@web/components/animated-number";
+import Typography from "@web/components/typography";
 import { motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import { staggerContainerVariants, staggerItemVariants } from "./variants";
@@ -58,12 +59,12 @@ export const StatsSection = () => {
       <div className="flex flex-col gap-12">
         {/* Section header */}
         <div className="flex flex-col gap-4">
-          <span className="font-medium text-primary text-sm uppercase tracking-widest">
+          <Typography.Label className="text-primary uppercase tracking-widest">
             By the Numbers
-          </span>
-          <h2 className="max-w-lg font-semibold text-3xl text-foreground tracking-tight lg:text-4xl">
+          </Typography.Label>
+          <Typography.H2 className="max-w-lg lg:text-4xl">
             Comprehensive coverage of Singapore&apos;s automotive landscape
-          </h2>
+          </Typography.H2>
         </div>
 
         {/* Stats grid - asymmetric */}

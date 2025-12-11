@@ -2,6 +2,7 @@
 
 import { Avatar } from "@heroui/avatar";
 import { cn } from "@heroui/theme";
+import Typography from "@web/components/typography";
 import { motion, useReducedMotion } from "framer-motion";
 import { fadeInUpVariants } from "./variants";
 
@@ -94,17 +95,17 @@ const TimelineItemComponent = ({ item, index }: TimelineItemComponentProps) => {
 
       {/* Content */}
       <div className="flex flex-col gap-2 pb-12">
-        <h3
+        <Typography.H3
           className={cn(
-            "font-semibold text-lg",
+            "text-lg",
             item.highlight ? "text-primary" : "text-foreground",
           )}
         >
           {item.title}
-        </h3>
-        <p className="max-w-md text-default-600 leading-relaxed">
+        </Typography.H3>
+        <Typography.Text className="max-w-md text-default-600">
           {item.description}
-        </p>
+        </Typography.Text>
       </div>
     </motion.div>
   );
@@ -125,16 +126,16 @@ export const TimelineSection = () => {
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
           >
-            <span className="font-medium text-primary text-sm uppercase tracking-widest">
+            <Typography.Label className="text-primary uppercase tracking-widest">
               Our Journey
-            </span>
-            <h2 className="font-semibold text-3xl text-foreground tracking-tight lg:text-4xl">
+            </Typography.Label>
+            <Typography.H2 className="lg:text-4xl">
               From side project to Singapore&apos;s car data platform
-            </h2>
-            <p className="text-default-600 leading-relaxed">
+            </Typography.H2>
+            <Typography.Text className="text-default-600">
               What started as a personal tool to track COE prices has grown into
               a comprehensive platform serving thousands of users monthly.
-            </p>
+            </Typography.Text>
           </motion.div>
         </div>
 

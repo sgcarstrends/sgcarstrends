@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardBody } from "@heroui/card";
+import Typography from "@web/components/typography";
 import { motion, useReducedMotion } from "framer-motion";
 import { CheckCircle, Database, RefreshCw, Shield } from "lucide-react";
 import Link from "next/link";
@@ -62,16 +63,16 @@ export const DataSection = () => {
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
             >
-              <span className="font-medium text-primary text-sm uppercase tracking-widest">
+              <Typography.Label className="text-primary uppercase tracking-widest">
                 Data Transparency
-              </span>
-              <h2 className="font-semibold text-3xl text-foreground tracking-tight lg:text-4xl">
+              </Typography.Label>
+              <Typography.H2 className="lg:text-4xl">
                 Built on trust and accuracy
-              </h2>
-              <p className="text-default-600 leading-relaxed">
+              </Typography.H2>
+              <Typography.Text className="text-default-600">
                 We believe in complete transparency about where our data comes
                 from and how it&apos;s processed.
-              </p>
+              </Typography.Text>
 
               {/* LTA Badge */}
               <Card className="border-default-200">
@@ -121,12 +122,10 @@ export const DataSection = () => {
                         <feature.icon className="h-6 w-6 text-default-600 transition-colors group-hover:text-primary" />
                       </div>
                       <div className="flex flex-col gap-2">
-                        <h3 className="font-semibold text-foreground">
-                          {feature.title}
-                        </h3>
-                        <p className="text-default-600 text-sm leading-relaxed">
+                        <Typography.H4>{feature.title}</Typography.H4>
+                        <Typography.TextSm>
                           {feature.description}
-                        </p>
+                        </Typography.TextSm>
                       </div>
                     </CardBody>
                   </Card>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardBody } from "@heroui/card";
+import Typography from "@web/components/typography";
 import { motion, useReducedMotion } from "framer-motion";
 import { fadeInUpVariants } from "./variants";
 
@@ -23,11 +24,8 @@ export const MissionSection = () => {
                 : { duration: 0.7, ease: [0.16, 1, 0.3, 1] }
             }
           >
-            <blockquote className="relative">
-              <div className="-left-4 lg:-left-8 absolute top-0 font-serif text-8xl text-primary/20">
-                &ldquo;
-              </div>
-              <p className="relative font-medium text-2xl text-foreground leading-relaxed lg:text-3xl">
+            <blockquote className="border-primary border-l-4 pl-6">
+              <p className="font-medium text-2xl text-foreground leading-relaxed lg:text-3xl">
                 Car buying in Singapore shouldn&apos;t feel like navigating a
                 maze blindfolded.
               </p>
@@ -48,29 +46,27 @@ export const MissionSection = () => {
                 : { duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }
             }
           >
-            <h2 className="font-semibold text-3xl text-foreground tracking-tight lg:text-4xl">
-              Our Mission
-            </h2>
-            <div className="flex flex-col gap-4 text-default-600 text-lg leading-relaxed">
-              <p>
+            <Typography.H2 className="lg:text-4xl">Our Mission</Typography.H2>
+            <div className="flex flex-col gap-4">
+              <Typography.TextLg className="text-default-600">
                 Singapore&apos;s car market is uniquely complex. Between COE
                 premiums that swing wildly, registration quotas that change
                 monthly, and a maze of vehicle categories, making informed
                 decisions feels nearly impossible.
-              </p>
-              <p>
+              </Typography.TextLg>
+              <Typography.TextLg className="text-default-600">
                 We built SG Cars Trends to change that. By aggregating official
                 data from the Land Transport Authority and presenting it through
                 intuitive visualisations, we&apos;re democratising access to
                 market intelligence that was previously scattered across
                 government portals and industry reports.
-              </p>
-              <p>
+              </Typography.TextLg>
+              <Typography.TextLg className="text-default-600">
                 Whether you&apos;re a first-time buyer trying to time your
                 purchase, a dealer analysing market trends, or simply curious
                 about Singapore&apos;s automotive landscape—we&apos;ve got you
                 covered.
-              </p>
+              </Typography.TextLg>
             </div>
           </motion.div>
 
@@ -85,24 +81,20 @@ export const MissionSection = () => {
           >
             <Card className="border-none bg-transparent shadow-none">
               <CardBody className="flex flex-col gap-2 p-0">
-                <div className="font-semibold text-foreground">
-                  Data-Driven Decisions
-                </div>
-                <p className="text-default-600 text-sm leading-relaxed">
+                <Typography.H4>Data-Driven Decisions</Typography.H4>
+                <Typography.TextSm>
                   Move beyond gut feelings with historical trends and real-time
                   insights.
-                </p>
+                </Typography.TextSm>
               </CardBody>
             </Card>
             <Card className="border-none bg-transparent shadow-none">
               <CardBody className="flex flex-col gap-2 p-0">
-                <div className="font-semibold text-foreground">
-                  Always Up-to-Date
-                </div>
-                <p className="text-default-600 text-sm leading-relaxed">
+                <Typography.H4>Always Up-to-Date</Typography.H4>
+                <Typography.TextSm>
                   Fresh data after every COE bidding round and monthly
                   registration release.
-                </p>
+                </Typography.TextSm>
               </CardBody>
             </Card>
           </motion.div>
