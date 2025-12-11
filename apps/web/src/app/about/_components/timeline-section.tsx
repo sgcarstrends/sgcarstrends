@@ -15,35 +15,22 @@ interface TimelineItem {
 
 const timelineData: TimelineItem[] = [
   {
-    date: "2020",
+    date: "2023",
     title: "Project Inception",
     description:
-      "Started as a personal project to track COE prices and car registration trends.",
-  },
-  {
-    date: "2021",
-    title: "Public Launch",
-    description:
-      "Launched sgcarstrends.com with comprehensive COE and registration data.",
-  },
-  {
-    date: "2023",
-    title: "API & Blog Features",
-    description:
-      "Introduced public API access and AI-powered market analysis blog posts.",
-    highlight: true,
+      "Started as a personal project to track car registration trends and COE prices.",
   },
   {
     date: "2024",
-    title: "Enhanced Analytics",
+    title: "Going Live",
     description:
-      "Added advanced visualisations, fuel type breakdowns, and deregistration tracking.",
+      "Launched the platform and made car market data free for everyone.",
   },
   {
     date: "2025",
-    title: "Continued Growth",
+    title: "AI & Social Media",
     description:
-      "Expanding coverage and building new features based on community feedback.",
+      "Added AI-written blog posts, social media updates, and car deregistration data.",
     highlight: true,
   },
 ];
