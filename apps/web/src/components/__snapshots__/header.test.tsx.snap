@@ -78,6 +78,16 @@ exports[`Navbar > should render correctly 1`] = `
         >
           <a
             class="rounded-full px-4 py-2 font-medium text-sm transition-all duration-200 bg-default-100 text-foreground hover:bg-default-200"
+            href="/about"
+          >
+            About
+          </a>
+        </li>
+        <li
+          class="text-medium whitespace-nowrap box-border list-none data-[active=true]:font-semibold"
+        >
+          <a
+            class="rounded-full px-4 py-2 font-medium text-sm transition-all duration-200 bg-default-100 text-foreground hover:bg-default-200"
             href="/blog"
           >
             Blog
