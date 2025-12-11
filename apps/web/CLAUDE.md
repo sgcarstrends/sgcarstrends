@@ -395,6 +395,80 @@ export const LeftSidebar = () => {};     // Layout description
 
 See `component-naming` skill for detailed guidance and validation checklist.
 
+### Animation Patterns
+
+A consistent approach to animations using Framer Motion (motion package v12+) for scroll-triggered reveals and entrance effects.
+
+**Design Philosophy**:
+
+- Declarative animations with Motion's `whileInView` and `initial`/`animate`
+- Accessibility-first with `useReducedMotion()` hook
+- Shared variants for consistency across components
+- CSS for hover states and infinite animations
+
+**Key Files**:
+
+| File | Purpose |
+|------|---------|
+| `src/app/about/_components/variants.ts` | Shared animation variants |
+| `src/components/animated-number.tsx` | Number animation component |
+
+**Standard Variants**:
+
+```typescript
+import { fadeInUpVariants, staggerContainerVariants, staggerItemVariants } from "./variants";
+```
+
+- `fadeInUpVariants` - Base fade-in-up for section content
+- `staggerContainerVariants` - Container for staggered children
+- `staggerItemVariants` - Individual stagger item
+- `heroEntranceVariants` - Dramatic hero entrance
+
+**Usage Pattern**:
+
+```typescript
+import { motion, useReducedMotion } from "framer-motion";
+import { fadeInUpVariants } from "./variants";
+
+export const Section = () => {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      variants={shouldReduceMotion ? undefined : fadeInUpVariants}
+      initial={shouldReduceMotion ? undefined : "hidden"}
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+    >
+      {/* Content */}
+    </motion.div>
+  );
+};
+```
+
+**Guidelines**:
+
+- ✅ Always use `useReducedMotion()` for accessibility
+- ✅ Pass `undefined` to variants/initial when reduced motion preferred
+- ✅ Use shared variants from `variants.ts`
+- ✅ Use `viewport={{ once: true }}` for scroll-triggered animations
+- ✅ Keep hover states as CSS transitions (Tailwind `transition-*`)
+- ✅ Use CSS keyframes for infinite/background animations
+- ❌ Avoid inline animation definitions (use variants)
+- ❌ Avoid skipping reduced motion checks
+
+**When to Use CSS vs Motion**:
+
+| Use Case | Recommendation |
+|----------|----------------|
+| Scroll-triggered reveals | Motion (`whileInView`) |
+| Entrance animations | Motion (`initial`/`animate`) |
+| Staggered lists | Motion (`staggerChildren`) |
+| Hover states | CSS (Tailwind `transition-*`) |
+| Infinite loops | CSS keyframes |
+
+See `framer-motion-animations` skill for detailed patterns and migration guidance.
+
 ### Typography System
 
 A modern, semantic typography system for consistent visual hierarchy across the application.
@@ -791,6 +865,65 @@ A pill-based, sidebar-free design system for professional automotive analytics d
 - JSON-LD structured data for search engines
 - Canonical URLs and social media meta tags
 - Automatic sitemap integration
+
+### OpenGraph Images
+
+Dynamic OG images for social media sharing using Next.js `ImageResponse` API. See `opengraph-images` skill for detailed implementation patterns.
+
+**File Locations**:
+
+| File | Type | Purpose |
+|------|------|---------|
+| `src/app/opengraph-image.png` | Static | Homepage OG image |
+| `src/app/about/opengraph-image.tsx` | Dynamic | About page with custom fonts |
+| `src/app/blog/[slug]/opengraph-image.tsx` | Dynamic | Blog posts with dynamic titles |
+
+**Standard Structure**:
+
+OG images follow a three-part layout:
+
+1. **Eyebrow chip** - Page context indicator (e.g., "Behind the Data", "Blog")
+2. **Main headline** - Two lines with gradient text on second line
+3. **Subheadline** - Supporting description text
+
+**Required Exports**:
+
+```typescript
+export const alt = "Page Title - SG Cars Trends";
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+```
+
+**Font Loading**:
+
+Custom Geist fonts loaded from `assets/fonts/`:
+
+```typescript
+const [geistRegular, geistSemiBold, geistBold] = await Promise.all([
+  readFile(join(process.cwd(), "assets/fonts/Geist-Regular.ttf")),
+  readFile(join(process.cwd(), "assets/fonts/Geist-SemiBold.ttf")),
+  readFile(join(process.cwd(), "assets/fonts/Geist-Bold.ttf")),
+]);
+```
+
+**Eyebrow Text Guidelines**:
+
+| Page Type | Eyebrow Text |
+|-----------|--------------|
+| Homepage | Singapore Car Market Data |
+| About | Behind the Data |
+| Blog Post | Blog / Analysis / Insights |
+| COE | COE Bidding Results |
+| Cars | Vehicle Registrations |
+
+**Important Constraints**:
+
+- Use inline `style` objects only (no CSS classes)
+- Flexbox supported, Grid not supported
+- Font files must be loaded explicitly (`.ttf`)
+- Server-side only (no React hooks)
+
+**Testing**: Visit `/about/opengraph-image` directly in browser, or use social debuggers (Facebook, Twitter, LinkedIn).
 
 ### Testing Strategy
 

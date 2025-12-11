@@ -2,15 +2,9 @@ import { Button } from "@heroui/button";
 import { Divider } from "@heroui/divider";
 import { BrandLogo } from "@web/components/brand-logo";
 import Typography from "@web/components/typography";
-import { navLinks } from "@web/config/navigation";
+import { NAV_ITEMS, navLinks } from "@web/config/navigation";
 import Link from "next/link";
 import { version } from "../../package.json";
-
-const NAV_ITEMS = [
-  { href: "/", label: "Dashboard" },
-  { href: "/blog", label: "Blog" },
-  { href: "/faq", label: "FAQ" },
-];
 
 const CURRENT_YEAR = new Date().getFullYear();
 

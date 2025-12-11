@@ -22,6 +22,7 @@ import {
   type LucideIcon,
   TrendingUp,
 } from "lucide-react";
+import type { Route } from "next";
 
 export interface NavigationItem {
   title: string;
@@ -174,3 +175,16 @@ export const navigationSections: NavigationSection[] = [
   { name: "Cars", href: "/cars", icon: Car, children: navLinks.cars },
   { name: "COE", href: "/coe", icon: BarChart3, children: navLinks.coe },
 ];
+
+export type NavItem = {
+  href: Route;
+  label: string;
+};
+
+export const NAV_ITEMS = [
+  { href: "/", label: "Dashboard" },
+  { href: "/about", label: "About" },
+  { href: "/blog", label: "Blog" },
+  { href: "/faq", label: "FAQ" },
+  // { href: "/newsletter", label: "Newsletter" },
+] as const satisfies readonly NavItem[];

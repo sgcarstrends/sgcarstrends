@@ -11,27 +11,16 @@ import {
 } from "@heroui/navbar";
 import { cn } from "@heroui/react";
 import { BrandLogo } from "@web/components/brand-logo";
+import { NAV_ITEMS, type NavItem } from "@web/config/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-
-interface NavItem {
-  href: string;
-  label: string;
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { href: "/", label: "Dashboard" },
-  // { href: "/about", label: "About" },
-  { href: "/blog", label: "Blog" },
-  { href: "/faq", label: "FAQ" },
-];
 
 export const Header = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isActive = (path: string) => {
+  const isActive = (path: NavItem["href"]) => {
     if (path === "/") {
       // Dashboard active for home, cars, coe routes (all dashboard content)
       return (
