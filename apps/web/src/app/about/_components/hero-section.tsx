@@ -1,20 +1,14 @@
 "use client";
 
 import { Chip } from "@heroui/chip";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
 export const HeroSection = () => {
-  const shouldReduceMotion = useReducedMotion();
-
-  // Staggered delays for hero entrance elements
-  const entranceTransition = (delay: number) =>
-    shouldReduceMotion
-      ? undefined
-      : {
-          duration: 1,
-          delay,
-          ease: [0.16, 1, 0.3, 1] as const,
-        };
+  const entranceTransition = (delay: number) => ({
+    duration: 1,
+    delay,
+    ease: [0.16, 1, 0.3, 1] as const,
+  });
 
   return (
     <section className="py-32 lg:py-40">
@@ -23,18 +17,14 @@ export const HeroSection = () => {
           {/* Decorative line */}
           <motion.div
             className="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent lg:hidden"
-            initial={shouldReduceMotion ? undefined : { width: 0, opacity: 0 }}
+            initial={{ width: 0, opacity: 0 }}
             animate={{ width: "6rem", opacity: 1 }}
             transition={entranceTransition(0)}
           />
 
           {/* Eyebrow chip */}
           <motion.div
-            initial={
-              shouldReduceMotion
-                ? undefined
-                : { opacity: 0, y: 24, scale: 0.95 }
-            }
+            initial={{ opacity: 0, y: 24, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={entranceTransition(0.1)}
           >
@@ -54,11 +44,7 @@ export const HeroSection = () => {
           {/* Main headline */}
           <motion.h1
             className="font-bold text-5xl text-foreground tracking-tighter lg:text-7xl"
-            initial={
-              shouldReduceMotion
-                ? undefined
-                : { opacity: 0, y: 32, scale: 0.98 }
-            }
+            initial={{ opacity: 0, y: 32, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={entranceTransition(0.15)}
           >
@@ -71,11 +57,7 @@ export const HeroSection = () => {
           {/* Subheadline */}
           <motion.p
             className="max-w-2xl text-foreground/70 text-lg leading-relaxed lg:text-xl lg:leading-relaxed"
-            initial={
-              shouldReduceMotion
-                ? undefined
-                : { opacity: 0, y: 32, scale: 0.98 }
-            }
+            initial={{ opacity: 0, y: 32, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={entranceTransition(0.3)}
           >

@@ -2,12 +2,10 @@
 
 import { Card, CardBody } from "@heroui/card";
 import Typography from "@web/components/typography";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { fadeInUpVariants } from "./variants";
 
 export const MissionSection = () => {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <section className="py-20 lg:py-28">
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -15,14 +13,10 @@ export const MissionSection = () => {
         <div className="lg:col-span-5">
           <motion.div
             className="sticky top-24"
-            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 32 }}
+            initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={
-              shouldReduceMotion
-                ? undefined
-                : { duration: 0.7, ease: [0.16, 1, 0.3, 1] }
-            }
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <blockquote className="border-primary border-l-4 pl-6">
               <p className="font-medium text-2xl text-foreground leading-relaxed lg:text-3xl">
@@ -37,14 +31,10 @@ export const MissionSection = () => {
         <div className="flex flex-col gap-8 lg:col-span-7">
           <motion.div
             className="flex flex-col gap-6"
-            initial={shouldReduceMotion ? undefined : { opacity: 0, y: 32 }}
+            initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={
-              shouldReduceMotion
-                ? undefined
-                : { duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }
-            }
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           >
             <Typography.H2 className="lg:text-4xl">Our Mission</Typography.H2>
             <div className="flex flex-col gap-4">
@@ -73,11 +63,11 @@ export const MissionSection = () => {
           {/* Key points */}
           <motion.div
             className="grid gap-6 border-default-200 border-t pt-8 sm:grid-cols-2"
-            variants={shouldReduceMotion ? undefined : fadeInUpVariants}
-            initial={shouldReduceMotion ? undefined : "hidden"}
+            variants={fadeInUpVariants}
+            initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            transition={shouldReduceMotion ? undefined : { delay: 0.2 }}
+            transition={{ delay: 0.2 }}
           >
             <Card className="border-none bg-transparent shadow-none">
               <CardBody className="flex flex-col gap-2 p-0">

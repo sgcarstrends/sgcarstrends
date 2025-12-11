@@ -3,7 +3,7 @@
 import { Card, CardBody } from "@heroui/card";
 import { AnimatedNumber } from "@web/components/animated-number";
 import Typography from "@web/components/typography";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { staggerContainerVariants, staggerItemVariants } from "./variants";
 
@@ -14,12 +14,11 @@ interface StatItemProps {
 }
 
 const StatItem = ({ value, suffix = "", label }: StatItemProps) => {
-  const shouldReduceMotion = useReducedMotion();
   const [isInView, setIsInView] = useState(false);
 
   return (
     <motion.div
-      variants={shouldReduceMotion ? undefined : staggerItemVariants}
+      variants={staggerItemVariants}
       onViewportEnter={() => setIsInView(true)}
       viewport={{ once: true }}
     >
@@ -45,8 +44,6 @@ const StatItem = ({ value, suffix = "", label }: StatItemProps) => {
 };
 
 export const StatsSection = () => {
-  const shouldReduceMotion = useReducedMotion();
-
   const stats = [
     { value: 10, suffix: "+", label: "Years of historical data" },
     { value: 50, suffix: "+", label: "Car makes tracked" },
@@ -70,8 +67,8 @@ export const StatsSection = () => {
         {/* Stats grid - asymmetric */}
         <motion.div
           className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6"
-          variants={shouldReduceMotion ? undefined : staggerContainerVariants}
-          initial={shouldReduceMotion ? undefined : "hidden"}
+          variants={staggerContainerVariants}
+          initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >

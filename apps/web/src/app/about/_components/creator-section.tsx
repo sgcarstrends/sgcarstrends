@@ -2,13 +2,11 @@
 
 import { Link } from "@heroui/link";
 import Typography from "@web/components/typography";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { staggerContainerVariants, staggerItemVariants } from "./variants";
 
 export const CreatorSection = () => {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <section className="-mx-6 relative overflow-hidden px-6 py-20 lg:py-28">
       {/* Subtle decorative elements */}
@@ -21,14 +19,14 @@ export const CreatorSection = () => {
       <div className="container relative mx-auto">
         <motion.div
           className="flex flex-col items-center"
-          variants={shouldReduceMotion ? undefined : staggerContainerVariants}
-          initial={shouldReduceMotion ? undefined : "hidden"}
+          variants={staggerContainerVariants}
+          initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
         >
           <motion.div
             className="mx-auto flex max-w-2xl flex-col items-center gap-8 text-center"
-            variants={shouldReduceMotion ? undefined : staggerItemVariants}
+            variants={staggerItemVariants}
           >
             <Typography.Label className="text-primary uppercase tracking-widest">
               Behind the Data
