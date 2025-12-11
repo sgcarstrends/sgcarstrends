@@ -1,3 +1,15 @@
+## [4.33.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.32.1...v4.33.0) (2025-12-11)
+
+### Features
+
+* **web:** add about page opengraph image ([4d74739](https://github.com/sgcarstrends/sgcarstrends/commit/4d74739733eaebea3265e4afc84b3c99dcaf0c9f))
+* **web:** add about page with SEO ([0fffc67](https://github.com/sgcarstrends/sgcarstrends/commit/0fffc6770427c8530dcae0b6e0904877ec445233))
+
+### Reverts
+
+* use export function for TrendsCompareButton ([580a350](https://github.com/sgcarstrends/sgcarstrends/commit/580a350fc2401f2ed4467b06f87ae377a416a0b0))
+* **web:** use export function for top-level components ([e3893ec](https://github.com/sgcarstrends/sgcarstrends/commit/e3893ec431967617b88de8cca5cd07279377e11d))
+
 ## [4.32.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.32.0...v4.32.1) (2025-12-08)
 
 ### Bug Fixes
