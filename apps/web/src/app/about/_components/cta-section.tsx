@@ -5,7 +5,7 @@ import Typography from "@web/components/typography";
 import { navLinks } from "@web/config/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import NextLink from "next/link";
+import Link from "next/link";
 import { staggerContainerVariants, staggerItemVariants } from "./variants";
 
 export const CtaSection = () => {
@@ -64,21 +64,23 @@ export const CtaSection = () => {
             variants={shouldReduceMotion ? undefined : staggerItemVariants}
           >
             <Button
-              as={NextLink}
+              as={Link}
               href="/"
               color="primary"
+              radius="full"
               size="lg"
-              className="gap-2 rounded-full px-8"
+              className="gap-2 px-8"
             >
               Explore the Dashboard
               <ArrowRight className="size-4" />
             </Button>
             <Button
-              as={NextLink}
+              as={Link}
               href="/blog"
-              variant="light"
+              variant="bordered"
+              radius="full"
               size="lg"
-              className="gap-2 rounded-full px-8 text-foreground"
+              className="gap-2 px-8 text-foreground"
             >
               Read Market Insights
             </Button>
