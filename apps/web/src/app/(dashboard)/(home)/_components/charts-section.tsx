@@ -1,4 +1,5 @@
 import { getTopMakesByYear, getYearlyRegistrations } from "@web/queries/cars";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -28,9 +29,9 @@ async function YearlyChartContent() {
         </div>
         <Link
           href="/annual"
-          className="font-medium text-primary text-xs hover:underline"
+          className="flex size-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"
         >
-          View details →
+          <ArrowUpRight className="size-6" />
         </Link>
       </div>
       <div className="flex h-[160px] items-end gap-4">
@@ -72,9 +73,9 @@ async function TopMakesContent() {
         <h2 className="font-semibold text-foreground">Top Makes</h2>
         <Link
           href="/cars"
-          className="font-medium text-primary text-xs hover:underline"
+          className="flex size-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"
         >
-          View all
+          <ArrowUpRight className="size-6" />
         </Link>
       </div>
       <div className="flex flex-col gap-3">

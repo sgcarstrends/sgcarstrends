@@ -1,5 +1,11 @@
 import { AnimatedNumber } from "@web/components/animated-number";
 import { getYearlyRegistrations } from "@web/queries/cars";
+import {
+  ArrowUpRight,
+  BarChart3,
+  TrendingDown,
+  TrendingUp,
+} from "lucide-react";
 import Link from "next/link";
 
 export async function SummaryCard() {
@@ -20,40 +26,14 @@ export async function SummaryCard() {
   return (
     <div className="col-span-12 rounded-3xl border-2 border-primary bg-white p-6 lg:col-span-4">
       <div className="mb-4 flex items-center justify-between">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
-          <svg
-            className="h-6 w-6 text-primary"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-            />
-          </svg>
+        <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10">
+          <BarChart3 className="size-6 text-primary" />
         </div>
         <Link
           href="/cars"
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"
+          className="flex size-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"
         >
-          <svg
-            className="h-5 w-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M7 17L17 7M17 7H7M17 7v10"
-            />
-          </svg>
+          <ArrowUpRight className="size-6" />
         </Link>
       </div>
       <p className="text-default-500 text-sm">
@@ -70,24 +50,11 @@ export async function SummaryCard() {
               : "bg-danger-100 text-danger"
           }`}
         >
-          <svg
-            className="h-3 w-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d={
-                isPositive
-                  ? "M5 10l7-7m0 0l7 7m-7-7v18"
-                  : "M19 14l-7 7m0 0l-7-7m7 7V3"
-              }
-            />
-          </svg>
+          {isPositive ? (
+            <TrendingUp className="size-4" />
+          ) : (
+            <TrendingDown className="size-4" />
+          )}
           {isPositive ? "+" : ""}
           {changePercent}%
         </span>

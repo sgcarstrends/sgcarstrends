@@ -1,6 +1,7 @@
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
 import { Post } from "@web/app/blog/_components/post";
+import { ArrowUpRight } from "lucide-react";
 
 interface RecentPostsProps {
   posts: SelectPost[];
@@ -16,9 +17,9 @@ export const RecentPosts = ({ posts }: RecentPostsProps) => {
         <h2 className="font-semibold text-foreground">Recent Posts</h2>
         <Link
           href="/blog"
-          className="font-medium text-primary text-xs hover:underline"
+          className="flex size-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"
         >
-          View all →
+          <ArrowUpRight className="size-6" />
         </Link>
       </div>
 
