@@ -1,3 +1,9 @@
+## [4.33.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.0...v4.33.1) (2025-12-12)
+
+### Bug Fixes
+
+* patch CVE-2025-55183 - upgrade React/Next ([a91b84e](https://github.com/sgcarstrends/sgcarstrends/commit/a91b84e9d071bab38f5a8a4117359a3fbd415f9f))
+
 ## [4.33.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.32.1...v4.33.0) (2025-12-11)
 
 ### Features
