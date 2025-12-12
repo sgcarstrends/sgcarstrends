@@ -34,7 +34,7 @@ export const TopMakesChart = ({ topMakes, year }: TopMakesChartProps) => {
       make,
       {
         label: make,
-        color: `var(--primary)`,
+        color: `var(--chart-1)`,
       },
     ]),
   ) as ChartConfig;
@@ -66,7 +66,7 @@ export const TopMakesChart = ({ topMakes, year }: TopMakesChartProps) => {
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <Bar dataKey="value" fill="var(--primary)" radius={4}>
+            <Bar dataKey="value" fill="var(--chart-1)" radius={4}>
               <LabelList
                 dataKey="make"
                 position="insideLeft"

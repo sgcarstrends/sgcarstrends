@@ -46,7 +46,7 @@ export const TrendChart = ({ data }: Props) => {
             hide
           />
           <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
-          <Bar dataKey="count" fill="var(--primary)">
+          <Bar dataKey="count" fill="var(--chart-1)">
             <LabelList
               dataKey="make"
               position="insideLeft"

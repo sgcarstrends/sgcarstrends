@@ -49,16 +49,12 @@ export const formatMonthYear = (monthString: string): string => {
 };
 
 export const chartColourPalette = [
-  "#3b82f6", // blue
-  "#10b981", // emerald
-  "#8b5cf6", // violet
-  "#f59e0b", // amber
-  "#ef4444", // rose
-  "#06b6d4", // cyan
-  "#6366f1", // indigo
-  "#f97316", // orange
-  "#14b8a6", // teal
-  "#84cc16", // lime
+  "#191970", // Navy Blue
+  "#2E4A8E", // Medium Blue
+  "#4A6AAE", // Light Blue
+  "#708090", // Slate Gray
+  "#94A3B8", // Light Slate
+  "#B8C4CE", // Pale Slate
 ] as const;
 
 export const getColourForIndex = (index: number): string => {
@@ -66,12 +62,12 @@ export const getColourForIndex = (index: number): string => {
 };
 
 export const chartCategories = {
-  primary: "#3b82f6",
-  secondary: "#10b981",
+  primary: "#191970", // Navy Blue
+  secondary: "#2E4A8E", // Medium Blue
   success: "#22c55e",
   warning: "#f59e0b",
   danger: "#ef4444",
-  info: "#06b6d4",
+  info: "#4A6AAE", // Light Blue
 } as const;
 
 export const createDataFormatter = (

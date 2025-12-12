@@ -3,13 +3,13 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-// Navy Blue color shades for progress bars (using CSS variables)
+// Navy Blue gradient palette for progress bars
 const MAKE_COLORS = [
-  "hsl(var(--heroui-primary))",
-  "hsl(var(--heroui-primary) / 0.8)",
-  "hsl(var(--heroui-primary) / 0.6)",
-  "hsl(var(--heroui-default-500))",
-  "hsl(var(--heroui-default-400))",
+  "#191970", // Navy Blue (primary)
+  "#2E4A8E", // Medium Blue
+  "#4A6AAE", // Light Blue
+  "#708090", // Slate Gray
+  "#94A3B8", // Light Slate
 ];
 
 async function YearlyChartContent() {

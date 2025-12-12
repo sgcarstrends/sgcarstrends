@@ -16,7 +16,7 @@ export const BarChartByType = ({ data }: Props) => {
   const chartData = data.map(({ name, count }) => ({
     label: formatVehicleType(name),
     count,
-    fill: "var(--primary)",
+    fill: "var(--chart-1)",
   }));
   const totalRegistrations = chartData.reduce(
     (sum, item) => sum + item.count,

@@ -23,7 +23,7 @@ export const RegistrationTrend = ({ data }: RegistrationTrendProps) => {
   const chartConfig = {
     total: {
       label: "Total",
-      color: "var(--primary)",
+      color: "var(--chart-1)",
     },
   } satisfies ChartConfig;
 
@@ -48,7 +48,11 @@ export const RegistrationTrend = ({ data }: RegistrationTrendProps) => {
               axisLine={false}
             />
             <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
-            <Line dataKey="total" fill="var(--primary)" />
+            <Line
+              dataKey="total"
+              fill="var(--chart-1)"
+              stroke="var(--chart-1)"
+            />
           </LineChart>
         </ChartContainer>
       </CardBody>
