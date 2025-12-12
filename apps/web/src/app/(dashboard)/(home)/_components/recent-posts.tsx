@@ -1,43 +1,43 @@
-"use client";
-
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
 import { Post } from "@web/app/blog/_components/post";
-import Typography from "@web/components/typography";
-import { motion } from "framer-motion";
 
 interface RecentPostsProps {
   posts: SelectPost[];
 }
 
 export const RecentPosts = ({ posts }: RecentPostsProps) => {
+  const [featuredPost, ...otherPosts] = posts;
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="flex flex-col gap-4"
-    >
+    <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <Typography.H3 className="text-lg">Recent Posts</Typography.H3>
+      <div className="mb-5 flex items-center justify-between">
+        <h2 className="font-semibold text-foreground">Recent Posts</h2>
         <Link
           href="/blog"
-          className="group flex items-center gap-1 text-primary text-sm"
+          className="font-medium text-primary text-xs hover:underline"
         >
-          View all
-          <span className="transition-transform duration-200 group-hover:translate-x-1">
-            →
-          </span>
+          View all →
         </Link>
       </div>
 
-      {/* Recent Posts Stack */}
-      <div className="flex flex-col gap-4">
-        {posts.map((post) => (
-          <Post.Card key={post.id} post={post} />
-        ))}
+      {/* Posts Grid - Featured + Stack */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {/* Featured Post - Large */}
+        {featuredPost && (
+          <div className="lg:row-span-2">
+            <Post.Card post={featuredPost} />
+          </div>
+        )}
+
+        {/* Stacked Posts - Smaller */}
+        <div className="flex flex-col gap-4">
+          {otherPosts.map((post) => (
+            <Post.Card key={post.id} post={post} />
+          ))}
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 };

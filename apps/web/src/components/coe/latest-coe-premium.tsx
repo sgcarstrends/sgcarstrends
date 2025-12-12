@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { Sparkline } from "@web/components/charts/sparkline";
@@ -51,7 +53,10 @@ export const LatestCoePremium = ({
         const trend = calculateTrend(sparklineData);
 
         return (
-          <Card key={result.vehicleClass}>
+          <Card
+            key={result.vehicleClass}
+            className="group hover:-translate-y-1 rounded-2xl border border-default-200 shadow-card-soft transition-all duration-300 hover:border-primary/20 hover:shadow-card-hover"
+          >
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Typography.H4>{result.vehicleClass}</Typography.H4>
@@ -60,8 +65,10 @@ export const LatestCoePremium = ({
             <CardBody>
               <div className="grid grid-cols-2 items-center gap-2">
                 <div className="flex items-baseline gap-1">
-                  <span className="font-medium text-default-600">S$</span>
-                  <div className="font-bold text-2xl text-primary">
+                  <Typography.Caption className="font-medium text-default-600">
+                    S$
+                  </Typography.Caption>
+                  <div className="bg-gradient-to-br from-primary to-primary/70 bg-clip-text font-bold text-2xl text-transparent">
                     <AnimatedNumber value={result.premium} />
                   </div>
                 </div>

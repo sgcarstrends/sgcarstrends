@@ -1,11 +1,15 @@
-import { ChartsSection } from "@web/app/(dashboard)/(home)/_components/charts-section";
+import {
+  TopMakesSection,
+  YearlyChart,
+} from "@web/app/(dashboard)/(home)/_components/charts-section";
 import { CoeSection } from "@web/app/(dashboard)/(home)/_components/coe-section";
-import { KeyStatisticsSection } from "@web/app/(dashboard)/(home)/_components/key-statistics-section";
+import { MarketOverview } from "@web/app/(dashboard)/(home)/_components/market-overview";
 import { PostsSection } from "@web/app/(dashboard)/(home)/_components/posts-section";
+import { SummaryCard } from "@web/app/(dashboard)/(home)/_components/summary-card";
 import { StructuredData } from "@web/components/structured-data";
-import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import type { WebSite, WithContext } from "schema-dts";
 
 export const metadata: Metadata = {
@@ -32,29 +36,67 @@ const structuredData: WithContext<WebSite> = {
     "Analysis of new car registration trends in Singapore. Insights on popular makes, fuel and vehicle types",
 };
 
+function SummaryCardSkeleton() {
+  return (
+    <div className="col-span-12 rounded-3xl border-2 border-primary bg-white p-6 lg:col-span-4">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="h-12 w-12 animate-pulse rounded-2xl bg-default-200" />
+        <div className="h-10 w-10 animate-pulse rounded-full bg-default-200" />
+      </div>
+      <div className="h-4 w-32 animate-pulse rounded bg-default-200" />
+      <div className="mt-2 h-10 w-28 animate-pulse rounded bg-default-200" />
+      <div className="mt-4 h-6 w-40 animate-pulse rounded-full bg-default-200" />
+    </div>
+  );
+}
+
+function MarketOverviewSkeleton() {
+  return (
+    <div className="col-span-12 rounded-3xl border border-default-200 bg-white p-6 lg:col-span-8">
+      <div className="mb-4 h-6 w-36 animate-pulse rounded bg-default-200" />
+      <div className="grid grid-cols-3 gap-4">
+        {/* biome-ignore lint/suspicious/noArrayIndexKey: Static skeleton list */}
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="rounded-2xl bg-default-100 p-4">
+            <div className="h-4 w-16 animate-pulse rounded bg-default-200" />
+            <div className="mt-2 h-7 w-20 animate-pulse rounded bg-default-200" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const HomePage = () => {
   return (
     <>
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
-        <Typography.H1>Overview</Typography.H1>
-        {/* COE section loads first - most important above-the-fold */}
-        <CoeSection />
+        {/* Header */}
+        <div className="flex items-end justify-between">
+          <div>
+            <p className="text-default-500 text-sm">Welcome back</p>
+            <h1 className="font-bold text-3xl text-foreground">Overview</h1>
+          </div>
+        </div>
 
-        {/* Main dashboard grid */}
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-          <main className="flex flex-col gap-8 lg:col-span-3">
-            {/* Charts section */}
-            <ChartsSection />
+        {/* Bento Grid */}
+        <div className="grid grid-cols-12 gap-5">
+          {/* Row 1: Summary + COE Results */}
+          <Suspense fallback={<SummaryCardSkeleton />}>
+            <SummaryCard />
+          </Suspense>
+          <CoeSection />
 
-            {/* Key Statistics */}
-            <KeyStatisticsSection />
-          </main>
+          {/* Row 2: Top Makes + Posts */}
+          <TopMakesSection />
+          <PostsSection />
 
-          {/* Sidebar */}
-          <aside className="flex flex-col gap-4">
-            <PostsSection />
-          </aside>
+          {/* Row 3: Yearly Chart + Market Overview */}
+          <YearlyChart />
+          <Suspense fallback={<MarketOverviewSkeleton />}>
+            <MarketOverview />
+          </Suspense>
         </div>
       </section>
     </>

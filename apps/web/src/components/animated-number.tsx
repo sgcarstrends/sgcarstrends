@@ -18,5 +18,13 @@ export const AnimatedNumber = ({ value, from = 0 }: Props) => {
     spring.set(value);
   }, [spring, value]);
 
-  return <motion.span>{display}</motion.span>;
+  return (
+    <motion.span
+      key={value}
+      animate={{ scale: [1, 1.02, 1] }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
+      {display}
+    </motion.span>
+  );
 };

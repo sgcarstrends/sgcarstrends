@@ -7,6 +7,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import Typography from "@web/components/typography";
 import {
   Bar,
   BarChart,
@@ -39,13 +40,16 @@ export const TopMakesChart = ({ topMakes, year }: TopMakesChartProps) => {
   ) as ChartConfig;
 
   return (
-    <Card>
-      <CardHeader>
-        <h3>
+    <Card className="rounded-2xl border border-default-200 shadow-card-soft">
+      <CardHeader className="flex flex-col items-start gap-2 pb-4">
+        <Typography.H4>
           Top {topMakes.length} Car Makes ({year})
-        </h3>
+        </Typography.H4>
+        <Typography.TextSm className="text-default-600">
+          Most popular vehicle brands by registration volume
+        </Typography.TextSm>
       </CardHeader>
-      <CardBody>
+      <CardBody className="pt-2">
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <BarChart data={data} layout="vertical">
             <CartesianGrid horizontal={false} />

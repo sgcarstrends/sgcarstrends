@@ -1,3 +1,4 @@
+import { KeyStatisticsSection } from "@web/app/(dashboard)/(home)/_components/key-statistics-section";
 import { AnnualRegistrationsChart } from "@web/app/(dashboard)/(home)/annual/_components/annual-registrations-chart";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
@@ -8,13 +9,13 @@ import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 
 export const metadata: Metadata = {
-  title: "Annual Car Registrations | Total New Registrations by Year",
+  title: "Annual Car Registrations & Statistics | Singapore Trends",
   description:
-    "View total new car registrations in Singapore by year. Interactive chart showing annual registration trends with detailed yearly breakdowns.",
+    "Comprehensive annual car registration statistics for Singapore. Interactive charts, year-over-year comparisons, and key insights including highest and lowest registration years.",
   openGraph: {
-    title: "Annual Car Registrations in Singapore",
+    title: "Annual Car Registrations & Statistics - Singapore",
     description:
-      "View total new car registrations in Singapore by year with interactive charts and yearly statistics.",
+      "Explore annual car registration trends in Singapore with interactive charts, year-over-year comparisons, and key statistics.",
     type: "website",
   },
   alternates: {
@@ -45,7 +46,7 @@ const AnnualPage = async () => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <section className="flex flex-col gap-8">
+      <section className="flex flex-col gap-10">
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <Typography.H1>Annual Registrations</Typography.H1>
@@ -63,6 +64,8 @@ const AnnualPage = async () => {
           data={yearlyData}
           availableYears={availableYears}
         />
+
+        <KeyStatisticsSection />
       </section>
     </>
   );

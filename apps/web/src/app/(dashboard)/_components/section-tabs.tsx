@@ -1,7 +1,7 @@
 "use client";
 
-import { Tab, Tabs } from "@heroui/tabs";
 import { navigationSections } from "@web/config/navigation";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export const SectionTabs = () => {
@@ -34,50 +34,48 @@ export const SectionTabs = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Section tabs */}
-      <Tabs
-        disableAnimation
-        color="primary"
-        radius="full"
-        selectedKey={sectionKey}
-        size="lg"
-        variant="underlined"
-      >
-        {navigationSections.map(({ name, href, icon: Icon }) => (
-          <Tab
-            key={href}
-            href={href}
-            title={
-              <div className="flex items-center gap-2">
-                <Icon className="size-5" />
-                <span>{name}</span>
-              </div>
-            }
-          />
-        ))}
-      </Tabs>
+      {/* Section tabs - Pill style */}
+      <nav className="flex w-fit items-center gap-1 rounded-full bg-white p-1.5 shadow-sm">
+        {navigationSections.map(({ name, href, icon: Icon }) => {
+          const isActive = sectionKey === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`flex items-center gap-2 rounded-full px-5 py-2.5 font-medium text-sm transition-colors ${
+                isActive
+                  ? "bg-[#191970] text-white"
+                  : "text-[#708090] hover:bg-[#F0F4F8]"
+              }`}
+            >
+              <Icon className="size-4" />
+              <span>{name}</span>
+            </Link>
+          );
+        })}
+      </nav>
 
-      {/* Sub-navigation tabs */}
+      {/* Sub-navigation tabs - Pill style */}
       {activeSection && activeSection.children.length > 0 && (
-        <Tabs
-          disableAnimation
-          color="primary"
-          radius="full"
-          selectedKey={subTabKey}
-        >
-          {activeSection.children.map(({ title, url, icon: Icon }) => (
-            <Tab
-              key={url}
-              href={url}
-              title={
-                <div className="flex items-center gap-2">
-                  {Icon && <Icon className="size-4" />}
-                  <span>{title}</span>
-                </div>
-              }
-            />
-          ))}
-        </Tabs>
+        <nav className="flex w-fit items-center gap-1 rounded-full bg-white/50 p-1">
+          {activeSection.children.map(({ title, url, icon: Icon }) => {
+            const isActive = subTabKey === url;
+            return (
+              <Link
+                key={url}
+                href={url}
+                className={`flex items-center gap-2 rounded-full px-4 py-2 font-medium text-sm transition-colors ${
+                  isActive
+                    ? "bg-white text-[#2F4F4F] shadow-sm"
+                    : "text-[#708090] hover:bg-white/50"
+                }`}
+              >
+                {Icon && <Icon className="size-4" />}
+                <span>{title}</span>
+              </Link>
+            );
+          })}
+        </nav>
       )}
     </div>
   );
