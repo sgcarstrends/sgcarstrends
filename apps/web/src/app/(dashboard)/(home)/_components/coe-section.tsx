@@ -1,5 +1,6 @@
 import { AnimatedNumber } from "@web/components/animated-number";
 import { getLatestCoeResults } from "@web/queries/coe";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -13,14 +14,11 @@ async function CoeSectionContent() {
       <div className="mb-5 flex items-center justify-between">
         <h2 className="font-semibold text-foreground">Latest COE Results</h2>
         <div className="flex items-center gap-3">
-          <span className="rounded-full bg-secondary-100 px-3 py-1 font-medium text-secondary text-xs">
-            Live
-          </span>
           <Link
             href="/coe"
-            className="font-medium text-primary text-xs hover:underline"
+            className="flex size-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"
           >
-            View all →
+            <ArrowUpRight className="size-6" />
           </Link>
         </div>
       </div>
