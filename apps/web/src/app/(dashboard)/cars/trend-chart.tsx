@@ -6,10 +6,15 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
-import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Cell, LabelList, XAxis, YAxis } from "recharts";
+
+interface MakeData {
+  make: string;
+  count: number;
+}
 
 interface Props {
-  data: any[];
+  data: MakeData[];
 }
 
 export const TrendChart = ({ data }: Props) => {
@@ -46,7 +51,16 @@ export const TrendChart = ({ data }: Props) => {
             hide
           />
           <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
-          <Bar dataKey="count" fill="var(--chart-1)">
+          <Bar dataKey="count" radius={4}>
+            {chartData.map((_, index) => (
+              <Cell
+                key={
+                  // biome-ignore lint/suspicious/noArrayIndexKey: Recharts Cell requires index-based keys
+                  `cell-${index}`
+                }
+                fill={`var(--chart-${index + 1})`}
+              />
+            ))}
             <LabelList
               dataKey="make"
               position="insideLeft"

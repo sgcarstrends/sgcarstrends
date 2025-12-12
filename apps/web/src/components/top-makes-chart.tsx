@@ -12,6 +12,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   LabelList,
   XAxis,
   YAxis,
@@ -30,11 +31,11 @@ interface TopMakesChartProps {
 export const TopMakesChart = ({ topMakes, year }: TopMakesChartProps) => {
   const data = [...topMakes].sort((a, b) => b.value - a.value);
   const chartConfig = Object.fromEntries(
-    data.map(({ make }) => [
+    data.map(({ make }, index) => [
       make,
       {
         label: make,
-        color: `var(--chart-1)`,
+        color: `var(--chart-${index + 1})`,
       },
     ]),
   ) as ChartConfig;
@@ -66,7 +67,16 @@ export const TopMakesChart = ({ topMakes, year }: TopMakesChartProps) => {
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <Bar dataKey="value" fill="var(--chart-1)" radius={4}>
+            <Bar dataKey="value" radius={4}>
+              {data.map((_, index) => (
+                <Cell
+                  key={
+                    // biome-ignore lint/suspicious/noArrayIndexKey: Recharts Cell requires index-based keys
+                    `cell-${index}`
+                  }
+                  fill={`var(--chart-${index + 1})`}
+                />
+              ))}
               <LabelList
                 dataKey="make"
                 position="insideLeft"

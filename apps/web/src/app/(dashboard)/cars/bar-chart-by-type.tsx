@@ -6,7 +6,7 @@ import {
 } from "@sgcarstrends/ui/components/chart";
 import type { RegistrationStat } from "@web/types/cars";
 import { formatVehicleType } from "@web/utils/format-vehicle-type";
-import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Cell, LabelList, XAxis, YAxis } from "recharts";
 
 interface Props {
   data: RegistrationStat[];
@@ -16,7 +16,6 @@ export const BarChartByType = ({ data }: Props) => {
   const chartData = data.map(({ name, count }) => ({
     label: formatVehicleType(name),
     count,
-    fill: "var(--chart-1)",
   }));
   const totalRegistrations = chartData.reduce(
     (sum, item) => sum + item.count,
@@ -49,6 +48,15 @@ export const BarChartByType = ({ data }: Props) => {
           />
           <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
           <Bar dataKey="count" radius={4}>
+            {chartData.map((_, index) => (
+              <Cell
+                key={
+                  // biome-ignore lint/suspicious/noArrayIndexKey: Recharts Cell requires index-based keys
+                  `cell-${index}`
+                }
+                fill={`var(--chart-${index + 1})`}
+              />
+            ))}
             <LabelList
               dataKey="label"
               position="insideLeft"

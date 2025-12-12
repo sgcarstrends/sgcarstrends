@@ -3,13 +3,14 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-// Navy Blue gradient palette for progress bars
-const MAKE_COLORS = [
+// Navy Blue gradient palette for charts
+const CHART_COLORS = [
   "#191970", // Navy Blue (primary)
   "#2E4A8E", // Medium Blue
   "#4A6AAE", // Light Blue
   "#708090", // Slate Gray
   "#94A3B8", // Light Slate
+  "#B8C4CE", // Pale Slate
 ];
 
 async function YearlyChartContent() {
@@ -47,11 +48,7 @@ async function YearlyChartContent() {
                 {(item.total / 1000).toFixed(1)}K
               </span>
               <div
-                className={`w-full rounded-t-xl transition-colors ${
-                  isLatest
-                    ? "bg-primary"
-                    : "bg-default-200 hover:bg-default-300"
-                }`}
+                className={`w-full rounded-t-xl transition-colors ${isLatest ? "bg-[var(--chart-1)]" : "bg-default-200 hover:bg-default-300"}`}
                 style={{ height: `${height}px` }}
               />
               <span className="text-default-500 text-xs">{item.year}</span>
@@ -96,7 +93,7 @@ async function TopMakesContent() {
                   className="h-full rounded-full transition-all"
                   style={{
                     width: `${(item.value / maxValue) * 100}%`,
-                    backgroundColor: MAKE_COLORS[i] ?? MAKE_COLORS[4],
+                    backgroundColor: CHART_COLORS[i % CHART_COLORS.length],
                   }}
                 />
               </div>

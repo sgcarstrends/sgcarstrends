@@ -3,10 +3,7 @@ import type { SelectDeregistration } from "@sgcarstrends/database";
 import { CategoryBreakdown } from "@web/app/(dashboard)/cars/deregistrations/_components/category-breakdown";
 import { CategoryChart } from "@web/app/(dashboard)/cars/deregistrations/_components/category-chart";
 import { CategoryTrendsTable } from "@web/app/(dashboard)/cars/deregistrations/_components/category-trends-table";
-import {
-  getCategoryColour,
-  toPercentageDistribution,
-} from "@web/app/(dashboard)/cars/deregistrations/_components/constants";
+import { toPercentageDistribution } from "@web/app/(dashboard)/cars/deregistrations/_components/constants";
 import { TrendsChart } from "@web/app/(dashboard)/cars/deregistrations/_components/trends-chart";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/deregistrations/search-params";
 import { PageHeader } from "@web/components/page-header";
@@ -66,7 +63,7 @@ const toCategorySparklines = (
   );
   const recentMonths = sortedMonths.slice(-monthCount);
 
-  return currentMonthCategories.map(({ category, total }) => {
+  return currentMonthCategories.map(({ category, total }, index) => {
     const trend = recentMonths.map((month) => {
       const monthRecords = data.filter(
         (record) => record.month === month && record.category === category,
@@ -82,7 +79,7 @@ const toCategorySparklines = (
       category,
       total,
       trend,
-      colour: getCategoryColour(category),
+      colour: `var(--chart-${index + 1})`,
     };
   });
 };
