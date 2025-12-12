@@ -14,7 +14,7 @@ catalog:
   '@vitest/ui': ^4.0.15
   ai: ^5.0.105
   date-fns: ^3.6.0
-  next: ^16.0.7
+  next: ^16.0.9
   react: ^19.2.1
   react-dom: ^19.2.1
   resend: ^6.1.2
