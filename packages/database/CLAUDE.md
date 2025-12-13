@@ -1,16 +1,3 @@
-# CLAUDE.md - Database Package
-
-This file provides guidance to Claude Code (claude.ai/code) when working with the database package in this repository.
-
-## Documentation Access
-
-When working with Drizzle ORM, use the Context7 MCP tools to get up-to-date documentation:
-
-1. Use `mcp__context7__resolve-library-id` to find the correct library ID for Drizzle
-2. Use `mcp__context7__get-library-docs` to retrieve comprehensive documentation and examples
-
-This ensures you have access to the latest API documentation for Drizzle ORM features and patterns.
-
 # SG Cars Trends Database - Developer Reference Guide
 
 ## Package Overview

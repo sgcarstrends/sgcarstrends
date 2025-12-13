@@ -1,17 +1,3 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Documentation Access
-
-When working with external libraries or frameworks, use the Context7 MCP tools to get up-to-date documentation:
-
-1. Use `mcp__context7__resolve-library-id` to find the correct library ID for any package
-2. Use `mcp__context7__get-library-docs` to retrieve comprehensive documentation and examples
-
-This ensures you have access to the latest API documentation for dependencies like Next.js, Radix UI, Tailwind CSS, and
-other libraries used in this admin dashboard.
-
 # SG Cars Trends Admin Dashboard
 
 ## Project Overview
