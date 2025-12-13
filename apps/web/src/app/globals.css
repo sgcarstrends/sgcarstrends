@@ -27,42 +27,63 @@
 }
 
 :root {
+  /* Background & Foreground - Professional colour scheme (Issue #406) */
   --background: hsl(0 0% 100%);
-  --foreground: hsl(222.2 84% 4.9%);
+  --foreground: hsl(180 25% 25%); /* #2F4F4F Dark Slate Gray */
+
+  /* Card & Popover */
   --card: hsl(0 0% 100%);
-  --card-foreground: hsl(222.2 84% 4.9%);
+  --card-foreground: hsl(180 25% 25%); /* #2F4F4F */
   --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(222.2 84% 4.9%);
-  --primary: hsl(221.2 83.2% 53.3%);
-  --primary-foreground: hsl(210 40% 98%);
-  --secondary: hsl(210 40% 96.1%);
-  --secondary-foreground: hsl(222.2 47.4% 11.2%);
-  --muted: hsl(210 40% 96.1%);
-  --muted-foreground: hsl(215.4 16.3% 46.9%);
-  --accent: hsl(210 40% 96.1%);
-  --accent-foreground: hsl(222.2 47.4% 11.2%);
-  --destructive: hsl(0 84.2% 60.2%);
-  --destructive-foreground: hsl(210 40% 98%);
-  --success: hsl(173 58% 39%);
-  --success-foreground: hsl(210 40% 98%);
-  --border: hsl(214.3 31.8% 91.4%);
-  --input: hsl(214.3 31.8% 91.4%);
-  --ring: hsl(221.2 83.2% 53.3%);
+  --popover-foreground: hsl(180 25% 25%); /* #2F4F4F */
+
+  /* Primary - Navy Blue */
+  --primary: hsl(240 63% 27%); /* #191970 */
+  --primary-foreground: hsl(0 0% 100%);
+
+  /* Secondary - Slate Gray */
+  --secondary: hsl(210 13% 50%); /* #708090 */
+  --secondary-foreground: hsl(0 0% 100%);
+
+  /* Muted - Light Blue-Gray */
+  --muted: hsl(213 32% 95%); /* #F0F4F8 */
+  --muted-foreground: hsl(180 25% 25%); /* #2F4F4F */
+
+  /* Accent - Dark Cyan */
+  --accent: hsl(180 100% 27%); /* #008B8B */
+  --accent-foreground: hsl(180 25% 25%); /* Dark Slate Gray */
+
+  /* Destructive - Red */
+  --destructive: hsl(0 72% 51%); /* #DC2626 */
+  --destructive-foreground: hsl(0 0% 100%);
+
+  /* Success - Dark Cyan */
+  --success: hsl(180 100% 27%); /* #008B8B */
+  --success-foreground: hsl(0 0% 100%);
+
+  /* Border - Light Slate */
+  --border: hsl(214 32% 91%); /* #E2E8F0 */
+  --input: hsl(214 32% 91%); /* #E2E8F0 */
+  --ring: hsl(240 63% 27%); /* Navy Blue for focus */
   --radius: 0.5rem;
+
+  /* Chart colours - Navy Blue gradient palette */
   --chart-1: hsl(240 64% 27%);
   --chart-2: hsl(220 51% 37%);
   --chart-3: hsl(220 41% 49%);
   --chart-4: hsl(210 14% 53%);
   --chart-5: hsl(215 23% 65%);
   --chart-6: hsl(212 17% 76%);
+
+  /* Sidebar */
   --sidebar-background: hsl(0 0% 98%);
-  --sidebar-foreground: hsl(240 5.3% 26.1%);
-  --sidebar-primary: hsl(240 5.9% 10%);
-  --sidebar-primary-foreground: hsl(0 0% 98%);
-  --sidebar-accent: hsl(240 4.8% 95.9%);
-  --sidebar-accent-foreground: hsl(240 5.9% 10%);
-  --sidebar-border: hsl(220 13% 91%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  --sidebar-foreground: hsl(180 25% 25%); /* #2F4F4F */
+  --sidebar-primary: hsl(240 63% 27%); /* Navy Blue */
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(213 32% 95%); /* Light Blue-Gray */
+  --sidebar-accent-foreground: hsl(180 25% 25%); /* #2F4F4F */
+  --sidebar-border: hsl(214 32% 91%); /* #E2E8F0 */
+  --sidebar-ring: hsl(240 63% 27%); /* Navy Blue */
   --sidebar: hsl(0 0% 98%);
 }
 

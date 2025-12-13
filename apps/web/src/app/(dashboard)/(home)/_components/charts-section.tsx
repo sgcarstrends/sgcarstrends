@@ -110,9 +110,8 @@ function YearlyChartSkeleton() {
     <div className="col-span-12 rounded-3xl bg-white p-6 lg:col-span-7">
       <div className="mb-5 h-6 w-40 animate-pulse rounded bg-default-200" />
       <div className="flex h-[160px] items-end gap-4">
-        {/* biome-ignore lint/suspicious/noArrayIndexKey: Static skeleton list */}
-        {[0, 1, 2, 3, 4, 5].map((i) => (
-          <div key={i} className="flex flex-1 flex-col items-center gap-2">
+        {[0, 1, 2, 3, 4, 5].map((num) => (
+          <div key={num} className="flex flex-1 flex-col items-center gap-2">
             <div className="h-4 w-8 animate-pulse rounded bg-default-200" />
             <div className="w-full animate-pulse rounded-t-xl bg-default-200" />
             <div className="h-4 w-8 animate-pulse rounded bg-default-200" />
@@ -128,9 +127,8 @@ function TopMakesSkeleton() {
     <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-4">
       <div className="mb-5 h-6 w-24 animate-pulse rounded bg-default-200" />
       <div className="flex flex-col gap-3">
-        {/* biome-ignore lint/suspicious/noArrayIndexKey: Static skeleton list */}
-        {[0, 1, 2, 3, 4].map((i) => (
-          <div key={i} className="flex items-center gap-3">
+        {[0, 1, 2, 3, 4].map((num) => (
+          <div key={num} className="flex items-center gap-3">
             <div className="h-5 w-5 animate-pulse rounded bg-default-200" />
             <div className="flex-1">
               <div className="mb-1 h-4 w-20 animate-pulse rounded bg-default-200" />

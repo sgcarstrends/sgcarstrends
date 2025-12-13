@@ -4,7 +4,6 @@ import {
   formatGrowthRate,
   formatNumber,
   formatPercentage,
-  getColourForIndex,
 } from "./charts";
 
 describe("formatNumber", () => {
@@ -70,26 +69,5 @@ describe("formatGrowthRate", () => {
 
   it("should format zero growth without sign", () => {
     expect(formatGrowthRate(0)).toBe("0.0%");
-  });
-});
-
-describe("getColourForIndex", () => {
-  it("should return colour from palette for valid index", () => {
-    expect(getColourForIndex(0)).toBe("#3b82f6");
-    expect(getColourForIndex(1)).toBe("#10b981");
-    expect(getColourForIndex(2)).toBe("#8b5cf6");
-  });
-
-  it("should wrap around for indices beyond palette length", () => {
-    const firstColour = getColourForIndex(0);
-    const wrappedColour = getColourForIndex(10);
-    expect(wrappedColour).toBe(firstColour);
-  });
-
-  it("should return undefined for negative indices", () => {
-    // JavaScript modulo with negative numbers gives negative results
-    // which results in undefined when accessing array
-    const colour = getColourForIndex(-1);
-    expect(colour).toBeUndefined();
   });
 });

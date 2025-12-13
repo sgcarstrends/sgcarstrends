@@ -6,7 +6,6 @@ import {
   formatNumber,
   formatPercent,
   formatPercentage,
-  getColourForIndex,
 } from "@web/utils/charts";
 import { describe, expect, it } from "vitest";
 
@@ -61,18 +60,6 @@ describe("formatGrowthRate", () => {
   it("should not add sign for negative or zero values", () => {
     expect(formatGrowthRate(-5.5)).toBe("-5.5%");
     expect(formatGrowthRate(0)).toBe("0.0%");
-  });
-});
-
-describe("getColourForIndex", () => {
-  it("should return colour from palette", () => {
-    expect(getColourForIndex(0)).toBe("#3b82f6");
-    expect(getColourForIndex(1)).toBe("#10b981");
-  });
-
-  it("should wrap around for large indices", () => {
-    expect(getColourForIndex(10)).toBe("#3b82f6");
-    expect(getColourForIndex(11)).toBe("#10b981");
   });
 });
 
