@@ -29,13 +29,13 @@
 :root {
   /* Background & Foreground - Professional colour scheme (Issue #406) */
   --background: hsl(0 0% 100%);
-  --foreground: hsl(180 25% 25%); /* #2F4F4F Dark Slate Gray */
+  --foreground: hsl(220 15% 20%); /* Blue-tinted gray, harmonizes with Navy Blue primary */
 
   /* Card & Popover */
   --card: hsl(0 0% 100%);
-  --card-foreground: hsl(180 25% 25%); /* #2F4F4F */
+  --card-foreground: hsl(220 15% 20%);
   --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(180 25% 25%); /* #2F4F4F */
+  --popover-foreground: hsl(220 15% 20%);
 
   /* Primary - Navy Blue */
   --primary: hsl(240 63% 27%); /* #191970 */
@@ -47,11 +47,11 @@
 
   /* Muted - Light Blue-Gray */
   --muted: hsl(213 32% 95%); /* #F0F4F8 */
-  --muted-foreground: hsl(180 25% 25%); /* #2F4F4F */
+  --muted-foreground: hsl(220 15% 20%);
 
   /* Accent - Dark Cyan */
   --accent: hsl(180 100% 27%); /* #008B8B */
-  --accent-foreground: hsl(180 25% 25%); /* Dark Slate Gray */
+  --accent-foreground: hsl(220 15% 20%);
 
   /* Destructive - Red */
   --destructive: hsl(0 72% 51%); /* #DC2626 */
@@ -77,11 +77,11 @@
 
   /* Sidebar */
   --sidebar-background: hsl(0 0% 98%);
-  --sidebar-foreground: hsl(180 25% 25%); /* #2F4F4F */
+  --sidebar-foreground: hsl(220 15% 20%);
   --sidebar-primary: hsl(240 63% 27%); /* Navy Blue */
   --sidebar-primary-foreground: hsl(0 0% 100%);
   --sidebar-accent: hsl(213 32% 95%); /* Light Blue-Gray */
-  --sidebar-accent-foreground: hsl(180 25% 25%); /* #2F4F4F */
+  --sidebar-accent-foreground: hsl(220 15% 20%);
   --sidebar-border: hsl(214 32% 91%); /* #E2E8F0 */
   --sidebar-ring: hsl(240 63% 27%); /* Navy Blue */
   --sidebar: hsl(0 0% 98%);
