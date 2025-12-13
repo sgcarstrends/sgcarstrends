@@ -182,11 +182,11 @@ pnpm install
 This project uses **pnpm catalog** for centralised dependency version management. Shared dependencies (React, Next.js, TypeScript, testing tools, etc.) are defined in `pnpm-workspace.yaml` and referenced by workspace packages using the `catalog:` protocol.
 
 **Key catalog packages:**
-- React ecosystem: `react` (19.2.1), `react-dom` (19.2.1), `next` (16.0.7)
+- React ecosystem: `react` (19.2.3), `react-dom` (19.2.3), `next` (16.0.10)
 - TypeScript & types: `typescript` (5.8.3), `@types/node` (22.16.4), `@types/react` (19.2.0), `@types/react-dom` (19.2.0)
-- Testing tools: `vitest` (3.2.4), `@vitest/coverage-v8` (3.2.4)
+- Testing tools: `vitest` (4.0.15), `@vitest/coverage-v8` (4.0.15)
 - AI & LLM: `ai` (5.0.105), `@ai-sdk/google` (2.0.44), `@langfuse/otel` (4.4.2)
-- Utilities: `date-fns` (3.6.0), `zod` (3.25.76), `resend` (6.1.2), `sonner` (2.0.7)
+- Utilities: `date-fns` (3.6.0), `zod` (4.1.13), `resend` (6.1.2), `sonner` (2.0.7)
 - Workflows: `@upstash/workflow` (0.3.0-rc)
 
 **Root-level dependencies** (not in catalog):

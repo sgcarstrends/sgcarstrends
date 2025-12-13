@@ -685,7 +685,7 @@ When refactoring existing code:
 
 ### Colour System
 
-A professional colour scheme optimised for HeroUI integration and automotive industry data visualisation (see GitHub issue #406).
+A professional colour scheme optimised for HeroUI integration and automotive industry data visualisation (see GitHub issue #406). See `design-language-system` skill for comprehensive colour guidelines, chart implementation patterns, and migration checklists.
 
 **Brand Colour Palette**:
 
