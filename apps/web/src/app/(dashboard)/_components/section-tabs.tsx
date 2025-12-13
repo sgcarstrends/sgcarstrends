@@ -44,8 +44,8 @@ export const SectionTabs = () => {
               href={href}
               className={`flex items-center gap-2 rounded-full px-5 py-2.5 font-medium text-sm transition-colors ${
                 isActive
-                  ? "bg-[#191970] text-white"
-                  : "text-[#708090] hover:bg-[#F0F4F8]"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-default-500 hover:bg-default-100"
               }`}
             >
               <Icon className="size-4" />
@@ -66,8 +66,8 @@ export const SectionTabs = () => {
                 href={url}
                 className={`flex items-center gap-2 rounded-full px-4 py-2 font-medium text-sm transition-colors ${
                   isActive
-                    ? "bg-white text-[#2F4F4F] shadow-sm"
-                    : "text-[#708090] hover:bg-white/50"
+                    ? "bg-white text-foreground shadow-sm"
+                    : "text-default-500 hover:bg-white/50"
                 }`}
               >
                 {Icon && <Icon className="size-4" />}

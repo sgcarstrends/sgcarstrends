@@ -71,7 +71,6 @@ export const MarketShareDonut = ({
               data={chartData}
               labelLine={false}
               innerRadius={variant === "donut" ? 40 : 0}
-              fill="#8884d8"
               dataKey="value"
               onClick={onValueChange}
             >
@@ -96,9 +95,11 @@ export const MarketShareDonut = ({
                     className="size-4 shrink-0 rounded-full"
                     style={{ backgroundColor: item.colour }}
                   />
-                  <span className="truncate text-gray-600">{item.name}</span>
+                  <span className="truncate text-default-600">{item.name}</span>
                 </div>
-                <span className="font-medium text-gray-900">{item.value}</span>
+                <span className="font-medium text-foreground">
+                  {item.value}
+                </span>
               </div>
             ))}
           </div>

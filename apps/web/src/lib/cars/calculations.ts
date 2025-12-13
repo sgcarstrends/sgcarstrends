@@ -86,19 +86,6 @@ export const getComparisonMonths = (
   };
 };
 
-export const MARKET_SHARE_COLOURS = [
-  "#3b82f6",
-  "#10b981",
-  "#8b5cf6",
-  "#f59e0b",
-  "#ef4444",
-  "#06b6d4",
-  "#6366f1",
-  "#f97316",
-  "#14b8a6",
-  "#84cc16",
-] as const;
-
 interface CategoryData {
   name: string;
   count: number;
@@ -115,7 +102,7 @@ export const calculateMarketShareData = (
     name: item.name,
     count: item.count,
     percentage: (item.count / total) * 100,
-    colour: MARKET_SHARE_COLOURS[index % MARKET_SHARE_COLOURS.length],
+    colour: `var(--chart-${index + 1})`,
   }));
 };
 
@@ -127,7 +114,12 @@ export const findDominantType = (
 ): { name: string; percentage: number } => {
   const dominant = data.reduce(
     (max, current) => (current.percentage > max.percentage ? current : max),
-    data[0] ?? { name: "Unknown", percentage: 0, count: 0, colour: "#000000" },
+    data[0] ?? {
+      name: "Unknown",
+      percentage: 0,
+      count: 0,
+      colour: "var(--chart-1)",
+    },
   );
 
   return {

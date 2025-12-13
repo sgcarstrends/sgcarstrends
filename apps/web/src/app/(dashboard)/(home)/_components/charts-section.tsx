@@ -3,16 +3,6 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-// Navy Blue gradient palette for charts
-const CHART_COLORS = [
-  "#191970", // Navy Blue (primary)
-  "#2E4A8E", // Medium Blue
-  "#4A6AAE", // Light Blue
-  "#708090", // Slate Gray
-  "#94A3B8", // Light Slate
-  "#B8C4CE", // Pale Slate
-];
-
 async function YearlyChartContent() {
   const yearlyData = await getYearlyRegistrations();
   const maxTotal = Math.max(...yearlyData.map((d) => d.total));
@@ -93,7 +83,7 @@ async function TopMakesContent() {
                   className="h-full rounded-full transition-all"
                   style={{
                     width: `${(item.value / maxValue) * 100}%`,
-                    backgroundColor: CHART_COLORS[i % CHART_COLORS.length],
+                    backgroundColor: `var(--chart-${i + 1})`,
                   }}
                 />
               </div>
