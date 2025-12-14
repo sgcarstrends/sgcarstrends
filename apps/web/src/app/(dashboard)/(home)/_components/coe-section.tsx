@@ -52,7 +52,7 @@ async function CoeSectionContent() {
             <div key={result.vehicleClass} className="rounded-2xl bg-muted p-4">
               <div className="mb-2 flex items-center justify-between">
                 <span className="font-medium text-default-500 text-xs">
-                  Cat {result.vehicleClass}
+                  {result.vehicleClass}
                 </span>
                 {trend === "up" && (
                   <span className="flex size-5 items-center justify-center rounded-full bg-danger text-[10px] text-white">

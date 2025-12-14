@@ -59,7 +59,7 @@ async function TopMakesContent() {
       <div className="mb-5 flex items-center justify-between">
         <h2 className="font-semibold text-foreground">Top Makes</h2>
         <Link
-          href="/cars"
+          href="/cars/makes"
           className="flex size-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"
         >
           <ArrowUpRight className="size-6" />
