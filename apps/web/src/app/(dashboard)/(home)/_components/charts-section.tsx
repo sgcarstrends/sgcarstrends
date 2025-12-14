@@ -5,7 +5,7 @@ import { Suspense } from "react";
 
 async function YearlyChartContent() {
   const yearlyData = await getYearlyRegistrations();
-  const maxTotal = Math.max(...yearlyData.map((d) => d.total));
+  const maxTotal = yearlyData.reduce((max, d) => Math.max(max, d.total), 0);
 
   return (
     <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-4">

@@ -102,6 +102,15 @@ describe("RecentPosts", () => {
     render(<RecentPosts posts={[]} />);
 
     expect(screen.getByText("Recent Posts")).toBeInTheDocument();
+    expect(screen.getByText("No recent posts available.")).toBeInTheDocument();
+  });
+
+  it("should render correctly with fewer than 3 posts", () => {
+    const singlePost = [mockPosts[0]];
+    render(<RecentPosts posts={singlePost} />);
+
+    expect(screen.getByText("First Post")).toBeInTheDocument();
+    expect(screen.queryByText("Second Post")).not.toBeInTheDocument();
   });
 
   it("should have links to blog posts", () => {
