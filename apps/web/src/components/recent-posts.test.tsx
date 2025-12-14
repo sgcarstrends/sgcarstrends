@@ -74,7 +74,9 @@ describe("RecentPosts", () => {
     render(<RecentPosts posts={mockPosts} />);
 
     expect(screen.getByText("Recent Posts")).toBeInTheDocument();
-    expect(screen.getByText("View all")).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "View all blog posts" }),
+    ).toBeInTheDocument();
   });
 
   it("should render all posts", () => {
@@ -115,7 +117,7 @@ describe("RecentPosts", () => {
   it("should have link to blog page", () => {
     render(<RecentPosts posts={mockPosts} />);
 
-    const link = screen.getByText("View all").closest("a");
+    const link = screen.getByRole("link", { name: "View all blog posts" });
     expect(link).toHaveAttribute("href", "/blog");
   });
 });
