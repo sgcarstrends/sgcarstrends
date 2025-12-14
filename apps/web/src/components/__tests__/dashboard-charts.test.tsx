@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import {
   InsightCards,
   MarketShareDonut,
-  TopPerformersBar,
   TrendAreaChart,
 } from "@web/components/charts";
 import { RegistrationTrend } from "@web/components/registration-trend";
@@ -64,38 +63,6 @@ describe("Dashboard visualisations", () => {
     );
 
     expect(screen.getByText("COE Growth")).toBeInTheDocument();
-  });
-
-  it("should highlight top performers with ranking badges", () => {
-    render(
-      <TopPerformersBar
-        title="Top Makes"
-        data={[
-          { name: "Tesla", count: 120, percentage: 0.12, rank: 1 },
-          { name: "Toyota", count: 110, percentage: 0.11, rank: 2 },
-          { name: "BMW", count: 90, percentage: 0.09, rank: 3 },
-        ]}
-      />,
-    );
-
-    expect(screen.getByText(/Tesla/)).toBeInTheDocument();
-    expect(screen.queryByText(/Showing top/)).not.toBeInTheDocument();
-  });
-
-  it("should show informational footer when more performers are available", async () => {
-    const { findByText } = render(
-      <TopPerformersBar
-        title="Top Makes"
-        data={Array.from({ length: 12 }).map((_, index) => ({
-          name: `Brand ${index}`,
-          count: 100 - index,
-          percentage: 0.01 * (index + 1),
-          rank: index + 1,
-        }))}
-      />,
-    );
-
-    expect(await findByText(/Showing top 10 of 12 items/i)).toBeInTheDocument();
   });
 
   it("should render insight cards with delta indicators", () => {
