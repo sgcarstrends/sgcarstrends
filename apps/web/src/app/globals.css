@@ -29,7 +29,8 @@
 :root {
   /* Background & Foreground - Professional colour scheme (Issue #406) */
   --background: hsl(0 0% 100%);
-  --foreground: hsl(220 15% 20%); /* Blue-tinted gray, harmonizes with Navy Blue primary */
+  /* Blue-tinted gray, harmonizes with Navy Blue primary */
+  --foreground: hsl(220 15% 20%);
 
   /* Card & Popover */
   --card: hsl(0 0% 100%);
