@@ -46,8 +46,8 @@ export async function SummaryCard() {
         <span
           className={`flex items-center gap-1 rounded-full px-2.5 py-1 font-medium text-xs ${
             isPositive
-              ? "bg-secondary-100 text-secondary"
-              : "bg-danger-100 text-danger"
+              ? "bg-success/20 text-success"
+              : "bg-danger/20 text-danger"
           }`}
         >
           {isPositive ? (

@@ -97,7 +97,7 @@ async function TopMakesContent() {
 
 function YearlyChartSkeleton() {
   return (
-    <div className="col-span-12 rounded-3xl bg-white p-6 lg:col-span-7">
+    <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-4">
       <div className="mb-5 h-6 w-40 animate-pulse rounded bg-default-200" />
       <div className="flex h-[160px] items-end gap-4">
         {[0, 1, 2, 3, 4, 5].map((num) => (

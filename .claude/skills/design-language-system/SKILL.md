@@ -30,10 +30,12 @@ This skill documents the professional colour scheme and design tokens for SG Car
 |------|--------|-----|-----|-------|
 | Primary | Navy Blue | `#191970` | `hsl(240, 63%, 27%)` | Headers, footers, primary buttons, key accents |
 | Secondary | Slate Gray | `#708090` | `hsl(210, 13%, 50%)` | Card containers, borders, secondary buttons |
-| Accent | Dark Cyan | `#008B8B` | `hsl(180, 100%, 27%)` | Positive trends, success states |
-| Foreground | Dark Slate Gray | `#2F4F4F` | `hsl(180, 25%, 25%)` | Body text, icons |
+| Accent | Steel Blue | `#4A6AAE` | `hsl(220, 40%, 49%)` | Interactive elements, links, hover states |
+| Foreground | Blue-Gray | `#2D3748` | `hsl(220, 15%, 20%)` | Body text, icons |
 | Muted | Light Blue-Gray | `#F0F4F8` | `hsl(213, 32%, 95%)` | Backgrounds, subtle textures |
 | Border | Light Slate | `#E2E8F0` | `hsl(214, 32%, 91%)` | Dividers, input borders |
+| Success | Green | `#22C55E` | `hsl(142, 71%, 45%)` | Positive trends, success states |
+| Destructive | Red | `#DC2626` | `hsl(0, 72%, 51%)` | Errors, negative trends, destructive actions |
 
 ## CSS Variables
 
@@ -44,35 +46,35 @@ Defined in `apps/web/src/app/globals.css`:
 ```css
 :root {
   /* Primary - Navy Blue */
-  --primary: hsl(240 63% 27%);
+  --primary: hsl(240 63% 27%); /* #191970 */
   --primary-foreground: hsl(0 0% 100%);
 
   /* Secondary - Slate Gray */
-  --secondary: hsl(210 13% 50%);
+  --secondary: hsl(210 13% 50%); /* #708090 */
   --secondary-foreground: hsl(0 0% 100%);
 
-  /* Foreground - Dark Slate Gray */
-  --foreground: hsl(180 25% 25%);
+  /* Foreground - Blue-Gray */
+  --foreground: hsl(220 15% 20%);
   --background: hsl(0 0% 100%);
 
   /* Muted - Light Blue-Gray */
-  --muted: hsl(213 32% 95%);
-  --muted-foreground: hsl(180 25% 25%);
+  --muted: hsl(213 32% 95%); /* #F0F4F8 */
+  --muted-foreground: hsl(220 15% 20%);
 
-  /* Accent - Dark Cyan */
-  --accent: hsl(180 100% 27%);
-  --accent-foreground: hsl(180 25% 25%);
+  /* Accent - Steel Blue */
+  --accent: hsl(220 40% 49%); /* #4A6AAE */
+  --accent-foreground: hsl(0 0% 100%);
 
-  /* Success - Dark Cyan */
-  --success: hsl(180 100% 27%);
+  /* Success - Green */
+  --success: hsl(142 71% 45%); /* #22C55E */
   --success-foreground: hsl(0 0% 100%);
 
   /* Destructive - Red */
-  --destructive: hsl(0 72% 51%);
+  --destructive: hsl(0 72% 51%); /* #DC2626 */
   --destructive-foreground: hsl(0 0% 100%);
 
   /* Border */
-  --border: hsl(214 32% 91%);
+  --border: hsl(214 32% 91%); /* #E2E8F0 */
 }
 ```
 

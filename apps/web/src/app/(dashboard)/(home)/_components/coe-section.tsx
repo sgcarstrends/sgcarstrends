@@ -3,21 +3,7 @@ import { getLatestAndPreviousCoeResults } from "@web/queries/coe";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
-
-type Trend = "up" | "down" | "neutral";
-
-const calculateTrend = (current: number, previous: number): Trend => {
-  if (current > previous) return "up";
-  if (current < previous) return "down";
-  return "neutral";
-};
-
-const calculateChangePercent = (current: number, previous: number): string => {
-  if (previous === 0) return "0.0%";
-  const change = ((current - previous) / previous) * 100;
-  const sign = change > 0 ? "+" : "";
-  return `${sign}${change.toFixed(1)}%`;
-};
+import { calculateChangePercent, calculateTrend } from "./coe-trend-utils";
 
 async function CoeSectionContent() {
   const { latest, previous } = await getLatestAndPreviousCoeResults();
@@ -32,6 +18,7 @@ async function CoeSectionContent() {
         <div className="flex items-center gap-3">
           <Link
             href="/coe"
+            aria-label="View all COE results"
             className="flex size-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"
           >
             <ArrowUpRight className="size-6" />
@@ -55,12 +42,20 @@ async function CoeSectionContent() {
                   {result.vehicleClass}
                 </span>
                 {trend === "up" && (
-                  <span className="flex size-5 items-center justify-center rounded-full bg-danger text-[10px] text-white">
+                  <span
+                    className="flex size-5 items-center justify-center rounded-full bg-danger text-white text-xs"
+                    aria-label="Price increased"
+                    role="img"
+                  >
                     ↑
                   </span>
                 )}
                 {trend === "down" && (
-                  <span className="flex size-5 items-center justify-center rounded-full bg-success text-[10px] text-white">
+                  <span
+                    className="flex size-5 items-center justify-center rounded-full bg-success text-white text-xs"
+                    aria-label="Price decreased"
+                    role="img"
+                  >
                     ↓
                   </span>
                 )}
