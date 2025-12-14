@@ -5,7 +5,8 @@ import { heroui } from "@heroui/react";
  *
  * Primary: Navy Blue (#191970) - Headers, footers, primary buttons, key accents
  * Secondary: Slate Gray (#708090) - Card containers, borders, secondary buttons
- * Success: Cyan (#008B8B) - Positive trends, chart highlights
+ * Accent: Steel Blue (#4A6AAE) - Links, highlights, interactive elements
+ * Success: Green (#22C55E) - Positive trends, confirmations
  * Foreground: Dark Slate Gray (#2F4F4F) - Body text, icons
  */
 export default heroui({
@@ -63,18 +64,18 @@ export default heroui({
           DEFAULT: "#708090",
         },
         success: {
-          50: "#E0FFFF", // Light Cyan
-          100: "#B2FFFF",
-          200: "#7FFFFF",
-          300: "#4DFFFF",
-          400: "#00CDCD",
-          500: "#008B8B", // Dark Cyan
-          600: "#007070",
-          700: "#005555",
-          800: "#003B3B",
-          900: "#002020",
+          50: "#F0FDF4",
+          100: "#DCFCE7",
+          200: "#BBF7D0",
+          300: "#86EFAC",
+          400: "#4ADE80",
+          500: "#22C55E", // Green
+          600: "#16A34A",
+          700: "#15803D",
+          800: "#166534",
+          900: "#14532D",
           foreground: "#FFFFFF",
-          DEFAULT: "#008B8B",
+          DEFAULT: "#22C55E",
         },
         warning: {
           50: "#FFFBEB",

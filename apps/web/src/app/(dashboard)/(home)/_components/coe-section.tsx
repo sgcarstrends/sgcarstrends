@@ -1,13 +1,29 @@
 import { AnimatedNumber } from "@web/components/animated-number";
-import { getLatestCoeResults } from "@web/queries/coe";
+import { getLatestAndPreviousCoeResults } from "@web/queries/coe";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
 type Trend = "up" | "down" | "neutral";
 
+const calculateTrend = (current: number, previous: number): Trend => {
+  if (current > previous) return "up";
+  if (current < previous) return "down";
+  return "neutral";
+};
+
+const calculateChangePercent = (current: number, previous: number): string => {
+  if (previous === 0) return "0.0%";
+  const change = ((current - previous) / previous) * 100;
+  const sign = change > 0 ? "+" : "";
+  return `${sign}${change.toFixed(1)}%`;
+};
+
 async function CoeSectionContent() {
-  const latestCoe = await getLatestCoeResults();
+  const { latest, previous } = await getLatestAndPreviousCoeResults();
+
+  // Create a map of previous results by vehicle class for easy lookup
+  const previousMap = new Map(previous.map((r) => [r.vehicleClass, r.premium]));
 
   return (
     <div className="col-span-12 rounded-3xl bg-white p-6 lg:col-span-8">
@@ -23,35 +39,28 @@ async function CoeSectionContent() {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {latestCoe.map((result, index) => {
-          // For demo, alternate trend indicators
-          const trend: Trend =
-            index % 3 === 0 ? "down" : index % 3 === 1 ? "up" : "neutral";
-          const changePercent =
-            trend === "up" ? "+2.5%" : trend === "down" ? "-1.8%" : "0.0%";
+        {latest.map((result) => {
+          const previousPremium =
+            previousMap.get(result.vehicleClass) ?? result.premium;
+          const trend = calculateTrend(result.premium, previousPremium);
+          const changePercent = calculateChangePercent(
+            result.premium,
+            previousPremium,
+          );
 
           return (
-            <div
-              key={result.vehicleClass}
-              className={`rounded-2xl p-4 ${
-                trend === "up"
-                  ? "bg-danger-50"
-                  : trend === "down"
-                    ? "bg-success-50"
-                    : "bg-default-100"
-              }`}
-            >
+            <div key={result.vehicleClass} className="rounded-2xl bg-muted p-4">
               <div className="mb-2 flex items-center justify-between">
                 <span className="font-medium text-default-500 text-xs">
                   Cat {result.vehicleClass}
                 </span>
                 {trend === "up" && (
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-danger text-[10px] text-white">
+                  <span className="flex size-5 items-center justify-center rounded-full bg-danger text-[10px] text-white">
                     ↑
                   </span>
                 )}
                 {trend === "down" && (
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-[10px] text-white">
+                  <span className="flex size-5 items-center justify-center rounded-full bg-success text-[10px] text-white">
                     ↓
                   </span>
                 )}
@@ -65,7 +74,7 @@ async function CoeSectionContent() {
                   trend === "up"
                     ? "text-danger"
                     : trend === "down"
-                      ? "text-secondary"
+                      ? "text-success"
                       : "text-default-500"
                 }`}
               >

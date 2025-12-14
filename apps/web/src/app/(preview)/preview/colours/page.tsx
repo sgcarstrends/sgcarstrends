@@ -1,135 +1,313 @@
-export default function ColourPreviewPage() {
-  const options = [
-    {
-      name: "Option 1: Neutral Dark Gray",
-      foreground: "hsl(0 0% 20%)",
-      description: "No color tint, pure gray",
-    },
-    {
-      name: "Option 2: Blue-tinted Gray",
-      foreground: "hsl(220 15% 20%)",
-      description: "Matches Navy Blue primary",
-    },
-    {
-      name: "Option 3: Near Black",
-      foreground: "hsl(0 0% 10%)",
-      description: "Very dark, high contrast",
-    },
-  ];
+"use client";
 
-  const primary = "hsl(240 63% 27%)"; // Navy Blue
+import { Button } from "@heroui/button";
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Chip } from "@heroui/chip";
+import { Link } from "@heroui/link";
+
+const accentOptions = [
+  {
+    name: "Steel Blue",
+    hex: "#4A6AAE",
+    hsl: "hsl(220, 40%, 49%)",
+    description: "Monochromatic - stays in the blue family",
+    recommended: true,
+  },
+  {
+    name: "Muted Teal",
+    hex: "#14B8A6",
+    hsl: "hsl(173, 80%, 40%)",
+    description: "Modern but subtle, desaturated cyan",
+    recommended: false,
+  },
+  {
+    name: "Gold/Amber",
+    hex: "#F59E0B",
+    hsl: "hsl(38, 92%, 50%)",
+    description: "Classic navy complement, adds warmth",
+    recommended: false,
+  },
+  {
+    name: "Soft Sky Blue",
+    hex: "#7DD3FC",
+    hsl: "hsl(198, 93%, 74%)",
+    description: "Light and airy, clean highlights",
+    recommended: false,
+  },
+];
+
+const AccentPreview = ({
+  colour,
+}: {
+  colour: (typeof accentOptions)[number];
+}) => {
+  const accentStyle = { backgroundColor: colour.hex };
+  const accentTextStyle = { color: colour.hex };
+  const accentBorderStyle = { borderColor: colour.hex };
 
   return (
-    <div className="min-h-screen bg-white p-8">
-      <h1 className="mb-8 font-bold text-2xl">Foreground Colour Options</h1>
+    <Card className="rounded-2xl">
+      <CardHeader className="flex flex-col items-start gap-2 pb-0">
+        <div className="flex w-full items-center justify-between">
+          <h3 className="font-medium text-xl">{colour.name}</h3>
+          {colour.recommended && (
+            <Chip className="rounded-full" color="success" size="sm">
+              Recommended
+            </Chip>
+          )}
+        </div>
+        <p className="text-default-600 text-sm">{colour.description}</p>
+        <div className="flex items-center gap-2">
+          <code className="rounded bg-default-100 px-2 py-1 font-mono text-xs">
+            {colour.hex}
+          </code>
+          <code className="rounded bg-default-100 px-2 py-1 font-mono text-xs">
+            {colour.hsl}
+          </code>
+        </div>
+      </CardHeader>
+      <CardBody className="flex flex-col gap-6">
+        {/* Colour swatch */}
+        <div className="flex items-center gap-4">
+          <div
+            className="size-16 rounded-xl shadow-sm"
+            style={accentStyle}
+            title={colour.name}
+          />
+          <div className="flex flex-col gap-1">
+            <span className="font-medium text-sm">Accent Colour</span>
+            <span className="text-default-500 text-xs">
+              For highlights, links, and interactive elements
+            </span>
+          </div>
+        </div>
 
-      <div className="mb-8 rounded-lg bg-gray-100 p-4">
-        <p className="text-sm">
-          <strong>Primary (Navy Blue):</strong>{" "}
-          <span
-            className="inline-block rounded px-2 py-1 text-white"
-            style={{ backgroundColor: primary }}
-          >
-            {primary}
-          </span>
-        </p>
-      </div>
-
-      <div className="grid gap-8 md:grid-cols-3">
-        {options.map((option) => (
-          <div key={option.name} className="rounded-xl border p-6 shadow-sm">
-            <div
-              className="mb-4 h-16 w-full rounded-lg"
-              style={{ backgroundColor: option.foreground }}
-            />
-
-            <h2
-              className="mb-2 font-semibold text-xl"
-              style={{ color: option.foreground }}
+        {/* Buttons */}
+        <div className="flex flex-col gap-2">
+          <span className="font-medium text-sm">Buttons</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              className="rounded-full text-white"
+              style={accentStyle}
+              size="sm"
             >
-              {option.name}
-            </h2>
+              Primary Action
+            </Button>
+            <Button
+              className="rounded-full border-2 bg-transparent"
+              style={{ ...accentBorderStyle, ...accentTextStyle }}
+              size="sm"
+            >
+              Secondary
+            </Button>
+            <Button
+              className="rounded-full bg-transparent"
+              style={accentTextStyle}
+              size="sm"
+            >
+              Text Button
+            </Button>
+          </div>
+        </div>
 
-            <p className="mb-4 text-sm" style={{ color: option.foreground }}>
-              {option.description}
+        {/* Chips */}
+        <div className="flex flex-col gap-2">
+          <span className="font-medium text-sm">Chips & Badges</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <Chip
+              className="rounded-full text-white"
+              style={accentStyle}
+              size="sm"
+            >
+              Active
+            </Chip>
+            <Chip
+              classNames={{
+                base: "rounded-full border-2 bg-transparent",
+                content: "",
+              }}
+              style={{ ...accentBorderStyle, ...accentTextStyle }}
+              size="sm"
+            >
+              Outlined
+            </Chip>
+            <Chip
+              classNames={{
+                base: "rounded-full",
+                content: "",
+              }}
+              style={{
+                backgroundColor: `${colour.hex}20`,
+                ...accentTextStyle,
+              }}
+              size="sm"
+            >
+              Subtle
+            </Chip>
+          </div>
+        </div>
+
+        {/* Links */}
+        <div className="flex flex-col gap-2">
+          <span className="font-medium text-sm">Links & Text</span>
+          <div className="flex flex-col gap-1">
+            <Link href="#" style={accentTextStyle} className="text-sm">
+              This is an accent link →
+            </Link>
+            <p className="text-sm">
+              Regular text with{" "}
+              <span style={accentTextStyle} className="font-medium">
+                highlighted keywords
+              </span>{" "}
+              inline.
             </p>
+          </div>
+        </div>
 
-            <code className="block rounded bg-gray-100 p-2 text-xs">
-              {option.foreground}
-            </code>
-
-            {/* Typography preview */}
-            <div className="mt-6 border-t pt-4">
-              <h3
-                className="mb-2 font-semibold text-4xl tracking-tight"
-                style={{ color: option.foreground }}
-              >
-                COE Overview
-              </h3>
-              <h4
-                className="mb-2 font-semibold text-3xl"
-                style={{ color: option.foreground }}
-              >
-                Section Title
-              </h4>
-              <h5
-                className="mb-2 font-medium text-2xl"
-                style={{ color: option.foreground }}
-              >
-                Card Title
-              </h5>
-              <p className="mb-4" style={{ color: option.foreground }}>
-                This is body text showing how paragraphs will look with this
-                foreground colour. The quick brown fox jumps over the lazy dog.
-              </p>
-              <p
-                className="text-sm opacity-60"
-                style={{ color: option.foreground }}
-              >
-                Secondary text with reduced opacity
-              </p>
+        {/* Progress/Indicators */}
+        <div className="flex flex-col gap-2">
+          <span className="font-medium text-sm">Progress & Indicators</span>
+          <div className="flex flex-col gap-2">
+            <div className="h-2 w-full overflow-hidden rounded-full bg-default-200">
+              <div
+                className="h-full rounded-full"
+                style={{ ...accentStyle, width: "65%" }}
+              />
             </div>
-
-            {/* With Primary Button */}
-            <div className="mt-6 border-t pt-4">
-              <p className="mb-2 text-gray-500 text-xs">With Primary Button:</p>
-              <button
-                type="button"
-                className="rounded-full px-4 py-2 text-white"
-                style={{ backgroundColor: primary }}
-              >
-                Primary Action
-              </button>
-              <span className="ml-3" style={{ color: option.foreground }}>
-                Adjacent text
-              </span>
+            <div className="flex items-center gap-2">
+              <span className="size-3 rounded-full" style={accentStyle} />
+              <span className="text-sm">Active indicator</span>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
 
-      {/* Current comparison */}
-      <div className="mt-12 rounded-xl border-2 border-orange-300 border-dashed p-6">
-        <h2 className="mb-4 font-semibold text-orange-600 text-xl">
-          Current (Dark Slate Gray - greenish tint)
-        </h2>
-        <div
-          className="mb-4 h-16 w-32 rounded-lg"
-          style={{ backgroundColor: "hsl(180 25% 25%)" }}
-        />
-        <h3
-          className="mb-2 font-semibold text-4xl tracking-tight"
-          style={{ color: "hsl(180 25% 25%)" }}
-        >
-          COE Overview
-        </h3>
-        <p style={{ color: "hsl(180 25% 25%)" }}>
-          This is the current foreground with the teal/cyan hue causing the
-          greenish appearance.
-        </p>
-        <code className="mt-2 block rounded bg-gray-100 p-2 text-xs">
-          hsl(180 25% 25%)
-        </code>
+        {/* Card with accent border */}
+        <div className="flex flex-col gap-2">
+          <span className="font-medium text-sm">Card Accent</span>
+          <div
+            className="rounded-xl border-2 border-l-4 bg-default-50 p-4"
+            style={{ borderLeftColor: colour.hex }}
+          >
+            <p className="font-medium text-sm">Featured Content</p>
+            <p className="text-default-500 text-xs">
+              Cards with accent left border for emphasis
+            </p>
+          </div>
+        </div>
+
+        {/* With Navy Blue context */}
+        <div className="flex flex-col gap-2">
+          <span className="font-medium text-sm">With Navy Blue Primary</span>
+          <div className="flex items-center gap-2 rounded-xl bg-primary p-4">
+            <Button
+              className="rounded-full text-white"
+              style={accentStyle}
+              size="sm"
+            >
+              Accent Button
+            </Button>
+            <span className="text-sm text-white/80">on navy background</span>
+          </div>
+        </div>
+      </CardBody>
+    </Card>
+  );
+};
+
+export default function ColourPreviewPage() {
+  return (
+    <div className="min-h-screen bg-white p-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-8">
+          <h1 className="font-semibold text-4xl text-foreground">
+            Accent Colour Preview
+          </h1>
+          <p className="mt-2 text-default-600 text-lg">
+            Compare accent colour options against the Navy Blue primary colour
+            scheme
+          </p>
+        </div>
+
+        {/* Current colours reference */}
+        <Card className="mb-8 rounded-2xl border-2 border-primary">
+          <CardHeader className="flex flex-col items-start gap-2">
+            <h2 className="font-medium text-xl">Current Brand Colours</h2>
+            <p className="text-default-600 text-sm">
+              These are the established primary and secondary colours
+            </p>
+          </CardHeader>
+          <CardBody>
+            <div className="flex flex-wrap gap-6">
+              <div className="flex items-center gap-3">
+                <div
+                  className="size-12 rounded-xl shadow-sm"
+                  style={{ backgroundColor: "#191970" }}
+                />
+                <div>
+                  <p className="font-medium text-sm">Navy Blue</p>
+                  <p className="text-default-500 text-xs">#191970 - Primary</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div
+                  className="size-12 rounded-xl shadow-sm"
+                  style={{ backgroundColor: "#708090" }}
+                />
+                <div>
+                  <p className="font-medium text-sm">Slate Gray</p>
+                  <p className="text-default-500 text-xs">
+                    #708090 - Secondary
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div
+                  className="size-12 rounded-xl border-2 border-danger border-dashed shadow-sm"
+                  style={{ backgroundColor: "#00FFFF" }}
+                />
+                <div>
+                  <p className="font-medium text-sm">Cyan (Current)</p>
+                  <p className="text-danger text-xs">#00FFFF - Too saturated</p>
+                </div>
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+
+        {/* Accent colour options */}
+        <div className="mb-8">
+          <h2 className="mb-4 font-semibold text-3xl">Accent Colour Options</h2>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {accentOptions.map((colour) => (
+              <AccentPreview key={colour.name} colour={colour} />
+            ))}
+          </div>
+        </div>
+
+        {/* Side by side comparison */}
+        <Card className="rounded-2xl">
+          <CardHeader className="flex flex-col items-start gap-2">
+            <h2 className="font-medium text-xl">
+              Side-by-Side Button Comparison
+            </h2>
+            <p className="text-default-600 text-sm">
+              All accent colours shown together for direct comparison
+            </p>
+          </CardHeader>
+          <CardBody>
+            <div className="flex flex-wrap gap-3">
+              {accentOptions.map((colour) => (
+                <Button
+                  key={colour.name}
+                  className="rounded-full text-white"
+                  style={{ backgroundColor: colour.hex }}
+                >
+                  {colour.name}
+                </Button>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
       </div>
     </div>
   );

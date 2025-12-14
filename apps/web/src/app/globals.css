@@ -49,16 +49,16 @@
   --muted: hsl(213 32% 95%); /* #F0F4F8 */
   --muted-foreground: hsl(220 15% 20%);
 
-  /* Accent - Dark Cyan */
-  --accent: hsl(180 100% 27%); /* #008B8B */
-  --accent-foreground: hsl(220 15% 20%);
+  /* Accent - Steel Blue */
+  --accent: hsl(220 40% 49%); /* #4A6AAE */
+  --accent-foreground: hsl(0 0% 100%);
 
   /* Destructive - Red */
   --destructive: hsl(0 72% 51%); /* #DC2626 */
   --destructive-foreground: hsl(0 0% 100%);
 
-  /* Success - Dark Cyan */
-  --success: hsl(180 100% 27%); /* #008B8B */
+  /* Success - Green */
+  --success: hsl(142 71% 45%); /* #22C55E */
   --success-foreground: hsl(0 0% 100%);
 
   /* Border - Light Slate */
