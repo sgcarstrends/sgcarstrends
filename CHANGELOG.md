@@ -1,3 +1,9 @@
+## [4.33.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.4...v4.33.5) (2025-12-14)
+
+### Bug Fixes
+
+* **web:** navigation styling on desktop ([f5a17cb](https://github.com/sgcarstrends/sgcarstrends/commit/f5a17cba9f5c971d93eeb0204c640aec8035ff8c))
+
 ## [4.33.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.3...v4.33.4) (2025-12-14)
 
 ### Bug Fixes
