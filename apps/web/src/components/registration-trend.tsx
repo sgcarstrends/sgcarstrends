@@ -7,6 +7,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import Typography from "@web/components/typography";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 interface YearTotal {
@@ -22,16 +23,20 @@ export const RegistrationTrend = ({ data }: RegistrationTrendProps) => {
   const chartConfig = {
     total: {
       label: "Total",
-      color: "var(--primary)",
+      color: "var(--chart-1)",
     },
   } satisfies ChartConfig;
 
   return (
-    <Card>
-      <CardHeader>
-        <h3>Yearly Registration Trend</h3>
+    <Card className="rounded-2xl border border-default-200 shadow-card-soft">
+      <CardHeader className="flex flex-col items-start gap-2 pb-4">
+        <Typography.H4>Yearly Registration Trend</Typography.H4>
+        <Typography.TextSm className="text-default-600">
+          Historical vehicle registration data from {data[0]?.year} to{" "}
+          {data[data.length - 1]?.year}
+        </Typography.TextSm>
       </CardHeader>
-      <CardBody>
+      <CardBody className="pt-2">
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <LineChart accessibilityLayer data={data}>
             <CartesianGrid vertical={false} />
@@ -43,7 +48,11 @@ export const RegistrationTrend = ({ data }: RegistrationTrendProps) => {
               axisLine={false}
             />
             <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
-            <Line dataKey="total" fill="var(--primary)" />
+            <Line
+              dataKey="total"
+              fill="var(--chart-1)"
+              stroke="var(--chart-1)"
+            />
           </LineChart>
         </ChartContainer>
       </CardBody>

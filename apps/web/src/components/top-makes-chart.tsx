@@ -7,10 +7,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import Typography from "@web/components/typography";
 import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   LabelList,
   XAxis,
   YAxis,
@@ -29,23 +31,26 @@ interface TopMakesChartProps {
 export const TopMakesChart = ({ topMakes, year }: TopMakesChartProps) => {
   const data = [...topMakes].sort((a, b) => b.value - a.value);
   const chartConfig = Object.fromEntries(
-    data.map(({ make }) => [
+    data.map(({ make }, index) => [
       make,
       {
         label: make,
-        color: `var(--primary)`,
+        color: `var(--chart-${index + 1})`,
       },
     ]),
   ) as ChartConfig;
 
   return (
-    <Card>
-      <CardHeader>
-        <h3>
+    <Card className="rounded-2xl border border-default-200 shadow-card-soft">
+      <CardHeader className="flex flex-col items-start gap-2 pb-4">
+        <Typography.H4>
           Top {topMakes.length} Car Makes ({year})
-        </h3>
+        </Typography.H4>
+        <Typography.TextSm className="text-default-600">
+          Most popular vehicle brands by registration volume
+        </Typography.TextSm>
       </CardHeader>
-      <CardBody>
+      <CardBody className="pt-2">
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <BarChart data={data} layout="vertical">
             <CartesianGrid horizontal={false} />
@@ -62,7 +67,16 @@ export const TopMakesChart = ({ topMakes, year }: TopMakesChartProps) => {
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <Bar dataKey="value" fill="var(--primary)" radius={4}>
+            <Bar dataKey="value" radius={4}>
+              {data.map((_, index) => (
+                <Cell
+                  key={
+                    // biome-ignore lint/suspicious/noArrayIndexKey: Recharts Cell requires index-based keys
+                    `cell-${index}`
+                  }
+                  fill={`var(--chart-${index + 1})`}
+                />
+              ))}
               <LabelList
                 dataKey="make"
                 position="insideLeft"

@@ -8,11 +8,7 @@ import {
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import { ChartWidget } from "@web/components/charts/widget";
-import {
-  chartColourPalette,
-  formatMonthYear,
-  formatNumber,
-} from "@web/utils/charts";
+import { formatMonthYear, formatNumber } from "@web/utils/charts";
 import { useMemo } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
@@ -28,7 +24,6 @@ interface TrendAreaChartProps {
   title: string;
   subtitle?: string;
   categories: string[];
-  colours?: string[];
   showTotal?: boolean;
   valueFormatter?: (value: number) => string;
 }
@@ -38,7 +33,6 @@ export const TrendAreaChart = ({
   title,
   subtitle,
   categories,
-  colours = chartColourPalette.slice(0, categories.length),
   showTotal = false,
   valueFormatter = formatNumber,
 }: TrendAreaChartProps) => {
@@ -53,10 +47,6 @@ export const TrendAreaChart = ({
     () => (showTotal ? ["total", ...categories] : categories),
     [showTotal, categories],
   );
-  const displayColours = useMemo(
-    () => (showTotal ? ["#6b7280", ...colours] : colours),
-    [showTotal, colours],
-  );
 
   // Only memoize the expensive chart config object creation
   const chartConfig = useMemo(() => {
@@ -65,11 +55,11 @@ export const TrendAreaChart = ({
         category,
         {
           label: category.charAt(0).toUpperCase() + category.slice(1),
-          color: displayColours[index] || `hsl(${index * 30}, 70%, 50%)`,
+          color: `var(--chart-${index + 1})`,
         },
       ]),
     );
-  }, [displayCategories, displayColours]);
+  }, [displayCategories]);
 
   return (
     <ChartWidget
@@ -110,8 +100,8 @@ export const TrendAreaChart = ({
               type="natural"
               dataKey={category}
               stackId="1"
-              stroke={displayColours[index]}
-              fill={displayColours[index]}
+              stroke={`var(--chart-${index + 1})`}
+              fill={`var(--chart-${index + 1})`}
               fillOpacity={0.8}
               strokeWidth={2}
               connectNulls={true}

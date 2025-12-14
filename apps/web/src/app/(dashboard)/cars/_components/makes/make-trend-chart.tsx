@@ -59,8 +59,8 @@ export const MakeTrendChart = ({ data }: Props) => {
             dataKey="count"
             type="monotone"
             dot={false}
-            fill="var(--primary)"
-            stroke="var(--primary)"
+            fill="var(--chart-1)"
+            stroke="var(--chart-1)"
             strokeWidth={2}
           />
         </LineChart>

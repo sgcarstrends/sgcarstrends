@@ -74,7 +74,9 @@ describe("RecentPosts", () => {
     render(<RecentPosts posts={mockPosts} />);
 
     expect(screen.getByText("Recent Posts")).toBeInTheDocument();
-    expect(screen.getByText("View all")).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "View all blog posts" }),
+    ).toBeInTheDocument();
   });
 
   it("should render all posts", () => {
@@ -100,6 +102,15 @@ describe("RecentPosts", () => {
     render(<RecentPosts posts={[]} />);
 
     expect(screen.getByText("Recent Posts")).toBeInTheDocument();
+    expect(screen.getByText("No recent posts available.")).toBeInTheDocument();
+  });
+
+  it("should render correctly with fewer than 3 posts", () => {
+    const singlePost = [mockPosts[0]];
+    render(<RecentPosts posts={singlePost} />);
+
+    expect(screen.getByText("First Post")).toBeInTheDocument();
+    expect(screen.queryByText("Second Post")).not.toBeInTheDocument();
   });
 
   it("should have links to blog posts", () => {
@@ -115,7 +126,7 @@ describe("RecentPosts", () => {
   it("should have link to blog page", () => {
     render(<RecentPosts posts={mockPosts} />);
 
-    const link = screen.getByText("View all").closest("a");
+    const link = screen.getByRole("link", { name: "View all blog posts" });
     expect(link).toHaveAttribute("href", "/blog");
   });
 });

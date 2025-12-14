@@ -48,32 +48,6 @@ export const formatMonthYear = (monthString: string): string => {
   return formatDateToMonthYear(monthString);
 };
 
-export const chartColourPalette = [
-  "#3b82f6", // blue
-  "#10b981", // emerald
-  "#8b5cf6", // violet
-  "#f59e0b", // amber
-  "#ef4444", // rose
-  "#06b6d4", // cyan
-  "#6366f1", // indigo
-  "#f97316", // orange
-  "#14b8a6", // teal
-  "#84cc16", // lime
-] as const;
-
-export const getColourForIndex = (index: number): string => {
-  return chartColourPalette[index % chartColourPalette.length];
-};
-
-export const chartCategories = {
-  primary: "#3b82f6",
-  secondary: "#10b981",
-  success: "#22c55e",
-  warning: "#f59e0b",
-  danger: "#ef4444",
-  info: "#06b6d4",
-} as const;
-
 export const createDataFormatter = (
   formatType: "number" | "percentage" | "currency" | "count" | "growth",
 ) => {

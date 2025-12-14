@@ -3,15 +3,6 @@ import type { CoeMarketShareData } from "@web/queries/coe";
 import type { COEBiddingResult, COEResult } from "@web/types";
 import { format, subMonths, subYears } from "date-fns";
 
-export const COE_CHART_COLOURS = [
-  "#dc2626", // red for Category A
-  "#ea580c", // orange for Category B
-  "#ca8a04", // yellow for Category C
-  "#16a34a", // green for Category D
-  "#2563eb", // blue for Category E
-  "#9333ea", // purple for Open
-] as const;
-
 export const COE_CATEGORY_MAP = {
   A: "Category A (Cars up to 1600cc & 130bhp)",
   B: "Category B (Cars above 1600cc or 130bhp)",

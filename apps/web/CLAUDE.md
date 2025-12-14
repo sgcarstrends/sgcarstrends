@@ -685,7 +685,7 @@ When refactoring existing code:
 
 ### Colour System
 
-A professional colour scheme optimised for HeroUI integration and automotive industry data visualisation (see GitHub issue #406).
+A professional colour scheme optimised for HeroUI integration and automotive industry data visualisation (see GitHub issue #406). See `design-language-system` skill for comprehensive colour guidelines, chart implementation patterns, and migration checklists.
 
 **Brand Colour Palette**:
 
@@ -728,11 +728,25 @@ A professional colour scheme optimised for HeroUI integration and automotive ind
 - `text-foreground/40` - Muted text
 - ⚠️ Reserve `text-white` only for image overlays
 
-**Chart Colours**:
+**Chart Colours (Navy Blue Gradient Palette)**:
 
-- Use Navy Blue primary shades for chart elements
-- Accent Cyan for highlights and interactive elements
-- Avoid hardcoded hex values; use CSS variables where possible
+CSS variables `--chart-1` through `--chart-6` define the chart colour palette:
+
+| Variable | Colour | Hex | Usage |
+|----------|--------|-----|-------|
+| `--chart-1` | Navy Blue | `#191970` | Primary/top ranking |
+| `--chart-2` | Medium Blue | `#2E4A8E` | Second ranking |
+| `--chart-3` | Light Blue | `#4A6AAE` | Third ranking |
+| `--chart-4` | Slate Gray | `#708090` | Fourth ranking |
+| `--chart-5` | Light Slate | `#94A3B8` | Fifth ranking |
+| `--chart-6` | Pale Slate | `#B8C4CE` | Sixth ranking |
+
+**Chart Implementation Guidelines**:
+
+- **Multi-series charts**: Use `var(--chart-N)` for each series (e.g., bars use gradient colours based on ranking)
+- **Single-highlight charts**: Use `var(--chart-1)` for highlighted element, `bg-default-200` for others
+- **Recharts Cell colouring**: Use index-based `fill={`var(--chart-${index + 1})`}` for per-bar colours
+- Avoid hardcoded hex values; always use CSS variables
 
 **Accessibility Requirements (WCAG AA)**:
 

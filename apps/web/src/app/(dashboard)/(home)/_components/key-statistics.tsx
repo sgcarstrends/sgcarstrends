@@ -128,7 +128,7 @@ const TrendChart = ({ data, chartColor, ariaLabel }: TrendChartProps) => {
   }
 
   const chartConfig = {
-    total: { label: "Total", color: "var(--primary)" },
+    total: { label: "Total", color: chartColor },
   } as const;
 
   return (
@@ -307,7 +307,7 @@ export const KeyStatistics = ({ data }: Props) => {
               {comparableAsc.length > 1 && (
                 <TrendChart
                   data={comparableAsc}
-                  chartColor="hsl(var(--chart-1))"
+                  chartColor="var(--chart-1)"
                   ariaLabel="Trend to highest year"
                 />
               )}
@@ -326,7 +326,7 @@ export const KeyStatistics = ({ data }: Props) => {
               {comparableAsc.length > 1 && (
                 <TrendChart
                   data={comparableAsc}
-                  chartColor="hsl(var(--chart-3))"
+                  chartColor="var(--chart-3)"
                   ariaLabel="Trend to lowest year"
                 />
               )}

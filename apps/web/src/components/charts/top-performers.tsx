@@ -8,11 +8,7 @@ import {
 } from "@sgcarstrends/ui/components/chart";
 import { ChartWidget } from "@web/components/charts/widget";
 import { getRankingEmoji } from "@web/lib/cars/calculations";
-import {
-  formatNumber,
-  formatPercentage,
-  getColourForIndex,
-} from "@web/utils/charts";
+import { formatNumber, formatPercentage } from "@web/utils/charts";
 import { useCallback, useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
@@ -49,14 +45,14 @@ export const TopPerformersBar = ({
       value: item.count,
       percentage: formatPercentage(item.percentage),
       rank: item.rank,
-      fill: getColourForIndex(index),
+      fill: `var(--chart-${index + 1})`,
     }));
 
     const chartConfig = Object.fromEntries([
-      ["value", { label: "Value", color: "hsl(var(--chart-1))" }],
+      ["value", { label: "Value", color: "var(--chart-1)" }],
       ...topItems.map((item, index) => [
         item.name,
-        { label: item.name, color: getColourForIndex(index) },
+        { label: item.name, color: `var(--chart-${index + 1})` },
       ]),
     ]);
 
