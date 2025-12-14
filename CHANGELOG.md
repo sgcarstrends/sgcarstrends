@@ -1,3 +1,9 @@
+## [4.33.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.3...v4.33.4) (2025-12-14)
+
+### Bug Fixes
+
+* **web:** section tabs overflow on mobile ([6bf3f65](https://github.com/sgcarstrends/sgcarstrends/commit/6bf3f65aa6291b49c0d75b840e5542045e0cd5ff))
+
 ## [4.33.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.2...v4.33.3) (2025-12-14)
 
 ### Bug Fixes
