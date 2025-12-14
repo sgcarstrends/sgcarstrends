@@ -35,14 +35,14 @@ export const SectionTabs = () => {
   return (
     <div className="flex flex-col gap-4">
       {/* Section tabs - Pill style */}
-      <nav className="flex w-fit items-center gap-1 rounded-full bg-white p-1.5 shadow-sm">
+      <nav className="flex w-full max-w-full items-center gap-1 overflow-x-auto rounded-full bg-white p-1.5 shadow-sm">
         {navigationSections.map(({ name, href, icon: Icon }) => {
           const isActive = sectionKey === href;
           return (
             <Link
               key={href}
               href={href}
-              className={`flex items-center gap-2 rounded-full px-5 py-2.5 font-medium text-sm transition-colors ${
+              className={`flex shrink-0 items-center gap-2 rounded-full px-5 py-2.5 font-medium text-sm transition-colors ${
                 isActive
                   ? "bg-primary text-primary-foreground"
                   : "text-default-500 hover:bg-default-100"
@@ -57,14 +57,14 @@ export const SectionTabs = () => {
 
       {/* Sub-navigation tabs - Pill style */}
       {activeSection && activeSection.children.length > 0 && (
-        <nav className="flex w-fit items-center gap-1 rounded-full bg-white/50 p-1">
+        <nav className="flex w-full max-w-full items-center gap-1 overflow-x-auto rounded-full bg-white/50 p-1">
           {activeSection.children.map(({ title, url, icon: Icon }) => {
             const isActive = subTabKey === url;
             return (
               <Link
                 key={url}
                 href={url}
-                className={`flex items-center gap-2 rounded-full px-4 py-2 font-medium text-sm transition-colors ${
+                className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2 font-medium text-sm transition-colors ${
                   isActive
                     ? "bg-white text-foreground shadow-sm"
                     : "text-default-500 hover:bg-white/50"
