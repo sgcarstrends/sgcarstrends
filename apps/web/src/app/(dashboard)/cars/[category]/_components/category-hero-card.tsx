@@ -23,7 +23,8 @@ export function CategoryHeroCard({
   rank,
   totalCategories,
 }: CategoryHeroCardProps) {
-  const marketSharePercentage = (count / totalRegistrations) * 100;
+  const marketSharePercentage =
+    totalRegistrations > 0 ? (count / totalRegistrations) * 100 : 0;
   const formattedMonth = formatDateToMonthYear(month);
 
   return (

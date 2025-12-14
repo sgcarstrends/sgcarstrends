@@ -1,17 +1,11 @@
 "use client";
 
 import { Tab, Tabs } from "@heroui/tabs";
-// import { MarketShareDonut } from "@web/components/charts";
 import Typography from "@web/components/typography";
-import type { CarMarketShareResponse } from "@web/queries/cars";
 import type { TypeItem } from "@web/types";
 import type { FuelType } from "@web/types/cars";
-// import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { formatVehicleType } from "@web/utils/format-vehicle-type";
-import {
-  // Suspense,
-  useMemo,
-} from "react";
+import { useMemo } from "react";
 import { CategoryHeroCard } from "./category-hero-card";
 import { TopMakesChart } from "./top-makes-chart";
 
@@ -19,7 +13,6 @@ interface CategoryTabsPanelProps {
   types: TypeItem[];
   month: string;
   title: string;
-  marketShare: CarMarketShareResponse;
   totalRegistrations: number;
   topMakesByFuelType?: FuelType[];
 }
@@ -28,7 +21,6 @@ export function CategoryTabsPanel({
   types,
   month,
   title,
-  // marketShare,
   totalRegistrations,
   topMakesByFuelType = [],
 }: CategoryTabsPanelProps) {

@@ -167,7 +167,6 @@ const CategoryPageContent = async ({
               types={categoryData}
               month={month}
               title={config.tabTitle}
-              marketShare={marketShare}
               totalRegistrations={cars.total}
               topMakesByFuelType={topMakesByFuelType}
             />

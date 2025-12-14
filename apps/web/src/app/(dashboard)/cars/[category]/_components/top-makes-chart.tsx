@@ -35,7 +35,7 @@ export function TopMakesChart({
     const chartData = makes.map((item, index) => ({
       name: item.make,
       value: item.count,
-      percentage: (item.count / total) * 100,
+      percentage: total > 0 ? (item.count / total) * 100 : 0,
       fill: `var(--chart-${index + 1})`,
     }));
 
