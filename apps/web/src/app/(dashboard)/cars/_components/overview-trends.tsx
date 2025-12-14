@@ -10,48 +10,50 @@ interface Props {
   total: number;
 }
 
-export const CarOverviewTrends = ({ cars, total }: Props) => (
-  <div className="grid grid-cols-1 gap-4">
-    <Card>
-      <CardHeader className="flex flex-col items-start gap-2">
-        <Typography.H4>By Make</Typography.H4>
-        <Typography.TextSm>Top 10 makes</Typography.TextSm>
-      </CardHeader>
-      <CardBody>
-        <TrendChart data={cars} />
-      </CardBody>
-    </Card>
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+export function CarOverviewTrends({ cars, total }: Props) {
+  return (
+    <div className="grid grid-cols-1 gap-4">
       <Card>
         <CardHeader className="flex flex-col items-start gap-2">
-          <Typography.H4>Stats</Typography.H4>
-          <Typography.TextSm>
-            <Typography.Label>{total}</Typography.Label> registrations
-          </Typography.TextSm>
+          <Typography.H4>By Make</Typography.H4>
+          <Typography.TextSm>Top 10 makes</Typography.TextSm>
         </CardHeader>
         <CardBody>
-          {cars.length > 0 &&
-            cars.map(({ make, count }) => {
-              const marketShare = (count: number) => count / total;
-
-              return (
-                <div
-                  key={make}
-                  className="flex items-center justify-between border-b py-2"
-                >
-                  <Link href={`/cars/makes/${slugify(make)}`}>{make}</Link>
-                  <div className="flex items-center gap-2">
-                    <AnimatedNumber value={count} />
-                    <progress
-                      className="progress w-32"
-                      value={marketShare(count)}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+          <TrendChart data={cars} />
         </CardBody>
       </Card>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <Card>
+          <CardHeader className="flex flex-col items-start gap-2">
+            <Typography.H4>Stats</Typography.H4>
+            <Typography.TextSm>
+              <Typography.Label>{total}</Typography.Label> registrations
+            </Typography.TextSm>
+          </CardHeader>
+          <CardBody>
+            {cars.length > 0 &&
+              cars.map(({ make, count }) => {
+                const marketShare = (count: number) => count / total;
+
+                return (
+                  <div
+                    key={make}
+                    className="flex items-center justify-between border-b py-2"
+                  >
+                    <Link href={`/cars/makes/${slugify(make)}`}>{make}</Link>
+                    <div className="flex items-center gap-2">
+                      <AnimatedNumber value={count} />
+                      <progress
+                        className="progress w-32"
+                        value={marketShare(count)}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+          </CardBody>
+        </Card>
+      </div>
     </div>
-  </div>
-);
+  );
+}

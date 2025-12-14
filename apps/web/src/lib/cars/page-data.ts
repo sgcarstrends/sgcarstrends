@@ -1,9 +1,10 @@
 import { loadLastUpdated } from "@web/lib/common";
 import {
   getCarMarketShareData,
+  getCarsComparison,
   getCarsData,
-  getCarTopPerformersData,
   getFuelTypeData,
+  getTopMakesByFuelType,
   getTopTypes,
   getVehicleTypeData,
 } from "@web/queries/cars";
@@ -20,16 +21,35 @@ export const loadCarsCategoryPageData = async (
   month: string,
   apiDataField: "fuelType" | "vehicleType",
 ) => {
-  const [lastUpdated, cars, topPerformers, marketShare, months] =
-    await Promise.all([
-      loadLastUpdated("cars"),
-      getCarsData(month),
-      getCarTopPerformersData(month),
-      getCarMarketShareData(month, apiDataField),
-      fetchMonthsForCars(),
-    ]);
+  const [
+    lastUpdated,
+    cars,
+    marketShare,
+    months,
+    comparison,
+    topMakesByFuelType,
+  ] = await Promise.all([
+    loadLastUpdated("cars"),
+    getCarsData(month),
+    getCarMarketShareData(month, apiDataField),
+    fetchMonthsForCars(),
+    getCarsComparison(month),
+    // Only fetch top makes by fuel type for fuel-types category
+    apiDataField === "fuelType"
+      ? getTopMakesByFuelType(month)
+      : Promise.resolve([]),
+  ]);
 
-  return { lastUpdated, cars, topPerformers, marketShare, months };
+  const previousTotal = comparison.previousMonth?.total ?? null;
+
+  return {
+    lastUpdated,
+    cars,
+    marketShare,
+    months,
+    previousTotal,
+    topMakesByFuelType,
+  };
 };
 
 /**

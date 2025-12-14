@@ -12,7 +12,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
-import { CategoryTypesTabsView } from "./category-tabs";
+import {
+  CategoryInsightsCard,
+  CategorySummaryCard,
+  CategoryTabsPanel,
+} from "./_components";
 
 interface Props {
   params: Promise<{ category: string }>;
@@ -103,8 +107,14 @@ const CategoryPageContent = async ({
     return notFound();
   }
 
-  const { lastUpdated, cars, topPerformers, marketShare, months } =
-    await loadCarsCategoryPageData(month, config.apiDataField);
+  const {
+    lastUpdated,
+    cars,
+    marketShare,
+    months,
+    previousTotal,
+    topMakesByFuelType,
+  } = await loadCarsCategoryPageData(month, config.apiDataField);
 
   const categoryData = cars?.[config.apiDataField] || [];
 
@@ -128,7 +138,7 @@ const CategoryPageContent = async ({
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-8">
         <PageHeader
           title={config.title}
           lastUpdated={lastUpdated}
@@ -142,15 +152,26 @@ const CategoryPageContent = async ({
         </PageHeader>
 
         {categoryData && categoryData.length > 0 ? (
-          <CategoryTypesTabsView
-            types={categoryData}
-            month={month}
-            category={config.apiEndpoint}
-            title={config.tabTitle}
-            topPerformers={topPerformers}
-            marketShare={marketShare}
-            totalRegistrations={cars.total}
-          />
+          <div className="grid grid-cols-12 gap-6">
+            <CategorySummaryCard
+              total={cars.total}
+              previousTotal={previousTotal}
+            />
+            <CategoryInsightsCard
+              categoriesCount={categoryData.length}
+              topPerformer={marketShare.dominantType}
+              month={month}
+              title={config.tabTitle}
+            />
+            <CategoryTabsPanel
+              types={categoryData}
+              month={month}
+              title={config.tabTitle}
+              marketShare={marketShare}
+              totalRegistrations={cars.total}
+              topMakesByFuelType={topMakesByFuelType}
+            />
+          </div>
         ) : (
           <div className="py-8 text-center">
             <Typography.Text>

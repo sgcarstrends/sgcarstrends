@@ -1,5 +1,5 @@
 import { cars, db } from "@sgcarstrends/database";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, gt, sql, sum } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export const getDistinctMakes = async () => {
@@ -26,9 +26,11 @@ export const getDistinctFuelTypes = async (
   }
 
   return db
-    .selectDistinct({ fuelType: cars.fuelType })
+    .select({ fuelType: cars.fuelType })
     .from(cars)
     .where(filters.length > 0 ? and(...filters) : undefined)
+    .groupBy(cars.fuelType)
+    .having(gt(sum(cars.number), 0))
     .orderBy(cars.fuelType);
 };
 
@@ -48,9 +50,11 @@ export const getDistinctVehicleTypes = async (
   }
 
   return db
-    .selectDistinct({ vehicleType: cars.vehicleType })
+    .select({ vehicleType: cars.vehicleType })
     .from(cars)
     .where(filters.length > 0 ? and(...filters) : undefined)
+    .groupBy(cars.vehicleType)
+    .having(gt(sum(cars.number), 0))
     .orderBy(cars.vehicleType);
 };
 
