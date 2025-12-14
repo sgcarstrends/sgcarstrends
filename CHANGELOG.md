@@ -1,3 +1,10 @@
+## [4.33.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.1...v4.33.2) (2025-12-14)
+
+### Bug Fixes
+
+* **web:** correct home page section links ([990cb42](https://github.com/sgcarstrends/sgcarstrends/commit/990cb426ad0231d5548658ed9ebfa39120a0d51a))
+* **web:** update tests for component changes ([8d4b0ba](https://github.com/sgcarstrends/sgcarstrends/commit/8d4b0ba1f24d312cda0fce4484369c4384af7ebd))
+
 ## [4.33.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.0...v4.33.1) (2025-12-12)
 
 ### Bug Fixes
