@@ -1,7 +1,7 @@
 import { cars, db } from "@sgcarstrends/database";
 import type { Comparison, Registration } from "@web/types/cars";
 import { format, subMonths } from "date-fns";
-import { desc, eq, sql } from "drizzle-orm";
+import { desc, eq, gt, sql, sum } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export const getCarsData = async (month: string): Promise<Registration> => {
@@ -17,6 +17,7 @@ export const getCarsData = async (month: string): Promise<Registration> => {
     .from(cars)
     .where(eq(cars.month, month))
     .groupBy(cars.fuelType)
+    .having(gt(sum(cars.number), 0))
     .orderBy(desc(sql<number>`sum(${cars.number})`));
 
   const vehicleTypeQuery = db
@@ -27,6 +28,7 @@ export const getCarsData = async (month: string): Promise<Registration> => {
     .from(cars)
     .where(eq(cars.month, month))
     .groupBy(cars.vehicleType)
+    .having(gt(sum(cars.number), 0))
     .orderBy(desc(sql<number>`sum(${cars.number})`));
 
   const totalQuery = db

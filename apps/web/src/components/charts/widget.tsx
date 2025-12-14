@@ -19,9 +19,11 @@ export const ChartWidget = ({
   if (isEmpty) {
     return (
       <Card>
-        <CardHeader className="flex flex-col items-start gap-2">
-          <h3 className="font-semibold text-foreground text-lg">{title}</h3>
-          {subtitle && <p className="text-default-600 text-sm">{subtitle}</p>}
+        <CardHeader>
+          <div className="flex flex-col gap-1">
+            <p className="font-medium">{title}</p>
+            {subtitle && <p className="text-default-500 text-sm">{subtitle}</p>}
+          </div>
         </CardHeader>
         <CardBody>
           <div className="flex h-60 items-center justify-center rounded-lg bg-default-100">
@@ -34,9 +36,11 @@ export const ChartWidget = ({
 
   return (
     <Card>
-      <CardHeader className="flex flex-col items-start gap-2">
-        <h3 className="font-semibold text-foreground text-lg">{title}</h3>
-        {subtitle && <p className="text-default-600 text-sm">{subtitle}</p>}
+      <CardHeader>
+        <div className="flex flex-col gap-1">
+          <p className="font-medium">{title}</p>
+          {subtitle && <p className="text-default-500 text-sm">{subtitle}</p>}
+        </div>
       </CardHeader>
       <CardBody>{children}</CardBody>
     </Card>

@@ -187,36 +187,3 @@ export const getCarMarketShareData = async (
     dominantType,
   };
 };
-
-export const getCarTopPerformersData = async (
-  month: string,
-): Promise<CarTopPerformersData> => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(`cars:month:${month}`);
-
-  const [topTypes, topMakes, carsData] = await Promise.all([
-    getTopTypes(month),
-    getTopMakes(month),
-    getCarsData(month),
-  ]);
-
-  const {
-    topFuelTypes,
-    topVehicleTypes,
-    topMakes: topMakesData,
-  } = calculateTopPerformersData(
-    topTypes.topFuelType,
-    topTypes.topVehicleType,
-    topMakes,
-    carsData.total,
-  );
-
-  return {
-    month: topTypes.month,
-    total: carsData.total,
-    topFuelTypes,
-    topVehicleTypes,
-    topMakes: topMakesData,
-  };
-};
