@@ -1,11 +1,11 @@
 import {
   TopMakesSection,
   YearlyChart,
-} from "@web/app/(dashboard)/(home)/_components/charts-section";
-import { CoeSection } from "@web/app/(dashboard)/(home)/_components/coe-section";
-import { MarketOverview } from "@web/app/(dashboard)/(home)/_components/market-overview";
-import { PostsSection } from "@web/app/(dashboard)/(home)/_components/posts-section";
-import { SummaryCard } from "@web/app/(dashboard)/(home)/_components/summary-card";
+} from "@web/app/(dashboard)/_components/charts-section";
+import { CoeSection } from "@web/app/(dashboard)/_components/coe-section";
+import { MarketOverview } from "@web/app/(dashboard)/_components/market-overview";
+import { PostsSection } from "@web/app/(dashboard)/_components/posts-section";
+import { SummaryCard } from "@web/app/(dashboard)/_components/summary-card";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";

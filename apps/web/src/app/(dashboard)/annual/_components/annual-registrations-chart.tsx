@@ -7,7 +7,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
-import { searchParams } from "@web/app/(dashboard)/(home)/annual/search-params";
+import { searchParams } from "@web/app/(dashboard)/annual/search-params";
 import Typography from "@web/components/typography";
 import { useQueryStates } from "nuqs";
 import type React from "react";
