@@ -1,3 +1,9 @@
+## [4.33.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.2...v4.33.3) (2025-12-14)
+
+### Bug Fixes
+
+* **web:** dashboard layout ([229822b](https://github.com/sgcarstrends/sgcarstrends/commit/229822bdc94c5d2bec95fad68010f6ec17a538b7))
+
 ## [4.33.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.1...v4.33.2) (2025-12-14)
 
 ### Bug Fixes
