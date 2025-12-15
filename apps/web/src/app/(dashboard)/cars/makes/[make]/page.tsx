@@ -1,17 +1,16 @@
 import type { CarLogo } from "@logos/types";
 import { redis } from "@sgcarstrends/utils";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
+import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
-import { LAST_UPDATED_CARS_KEY } from "@web/config";
+import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
-import {
-  checkMakeIfExist,
-  getDistinctMakes,
-  getMakeDetails,
-} from "@web/queries/cars";
+import { checkMakeIfExist, getMakeDetails } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import type { Make } from "@web/types";
+import { fetchMonthsForCars } from "@web/utils/months";
 import type { Metadata } from "next";
 
 interface Props {
@@ -38,27 +37,20 @@ export const generateMetadata = async ({
   });
 };
 
-const CarMakePage = async ({ params }: Props) => {
+export default async function CarMakePage({ params }: Props) {
   const { make } = await params;
 
-  const [
-    makeExists,
-    makeDetails,
-    makesResult,
-    lastUpdated,
-    coeComparison,
-    logo,
-  ] = await Promise.all([
-    checkMakeIfExist(make),
-    getMakeDetails(make),
-    getDistinctMakes(),
-    redis.get<number>(LAST_UPDATED_CARS_KEY),
-    getMakeCoeComparison(make),
-    redis.get<CarLogo>(`logo:${make}`),
-  ]);
+  const [makeExists, makeDetails, lastUpdated, coeComparison, logo, months] =
+    await Promise.all([
+      checkMakeIfExist(make),
+      getMakeDetails(make),
+      redis.get<number>(LAST_UPDATED_CARS_KEY),
+      getMakeCoeComparison(make),
+      redis.get<CarLogo>(`logo:${make}`),
+      fetchMonthsForCars(),
+    ]);
 
   const makeName = makeExists?.make ?? make.toUpperCase();
-  const makes = makesResult.map(({ make }) => make);
   const cars = {
     make: makeName,
     total: makeDetails.total,
@@ -76,16 +68,21 @@ const CarMakePage = async ({ params }: Props) => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <MakeDetail
-        make={make}
-        cars={cars}
-        makes={makes}
-        lastUpdated={lastUpdated}
-        logo={logo}
-        coeComparison={coeComparison}
-      />
+      <div className="flex flex-col gap-4">
+        <PageHeader
+          title={makeName}
+          subtitle={`Historical car registration trends and monthly breakdown for ${makeName} vehicles in Singapore.`}
+          lastUpdated={lastUpdated}
+          months={months}
+        >
+          <ShareButtons
+            url={`${SITE_URL}/cars/makes/${make}`}
+            title={`${makeName} Cars - ${SITE_TITLE}`}
+          />
+        </PageHeader>
+
+        <MakeDetail cars={cars} coeComparison={coeComparison} />
+      </div>
     </>
   );
-};
-
-export default CarMakePage;
+}

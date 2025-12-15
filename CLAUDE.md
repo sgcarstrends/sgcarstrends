@@ -12,13 +12,28 @@ Automatically use Context7 for code generation and library documentation.
 
 This repository includes directory-specific CLAUDE.md files with detailed guidance for each component:
 
+### Applications
+
 - **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, and social media
   integration
 - **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 16, HeroUI, blog features, and
   analytics
+- **[apps/admin/CLAUDE.md](apps/admin/CLAUDE.md)**: Administrative dashboard interface (unreleased) with shadcn/ui
+  components
+- **[apps/docs/CLAUDE.md](apps/docs/CLAUDE.md)**: Mintlify documentation site development and content guidelines
+
+### Packages
+
+- **[packages/ai/CLAUDE.md](packages/ai/CLAUDE.md)**: AI-powered blog generation with Vercel AI SDK, Google Gemini, and
+  Langfuse telemetry
 - **[packages/database/CLAUDE.md](packages/database/CLAUDE.md)**: Database schema management with Drizzle ORM,
   migrations, and TypeScript integration
+- **[packages/logos/CLAUDE.md](packages/logos/CLAUDE.md)**: Car logo management with Vercel Blob storage, Redis caching,
+  and brand normalisation
 - **[packages/ui/CLAUDE.md](packages/ui/CLAUDE.md)**: Shared UI components library with shadcn/ui and Tailwind CSS
+
+### Infrastructure
+
 - **[infra/CLAUDE.md](infra/CLAUDE.md)**: Infrastructure configuration with SST v3, AWS deployment, and domain
   management
 
@@ -75,8 +90,10 @@ All commands use pnpm as the package manager.
 | **Database** | `pnpm db:migrate` | Run migrations (see `schema-design` skill) |
 | | `pnpm db:generate` | Generate migrations |
 | **Docs** | `pnpm docs:dev` | Start docs server (see `mintlify-docs`, `broken-links` skills) |
+| | `pnpm docs:build` | Build documentation site |
 | **Deployment** | See `sst-deployment` skill | Multi-environment deployment workflows |
 | **Release** | See `release-management` skill | Automated releases with semantic-release |
+| **Auth** | `pnpm auth:generate` | Generate authentication schema |
 
 *See component CLAUDE.md files for service-specific commands and workflows.*
 
@@ -248,7 +265,8 @@ Automated via semantic-release with unified "v" prefix versioning (v1.0.0, v1.1.
 
 ## GitHub Actions
 
-**Active**: `release.yml`, `deploy-staging.yml`, `deploy-prod.yml`, `run-migrations.yml`, `test.yml`
+**Active**: `release.yml`, `deploy-staging.yml`, `deploy-prod.yml`, `run-migrations.yml`, `checks.yml`
+**Reusable**: `test.yml` (called by other workflows)
 **Disabled**: `deploy-pr.yml`, `cleanup-pr.yml`
 
 See `github-actions` skill for workflow management and automation.

@@ -1,64 +1,49 @@
 import { Avatar } from "@heroui/avatar";
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
-import { Chip } from "@heroui/chip";
+import { Card, CardBody } from "@heroui/card";
 import { slugify } from "@sgcarstrends/utils";
+import { searchParams } from "@web/app/(dashboard)/cars/makes/search-params";
 import Typography from "@web/components/typography";
 import type { Make } from "@web/types";
-import { TrendingUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { createSerializer } from "nuqs/server";
+
+const serialize = createSerializer(searchParams);
 
 interface MakeCardProps {
   make: Make;
-  isPopular?: boolean;
   logoUrl?: string;
 }
 
-export const MakeCard = ({
-  make,
-  isPopular = false,
-  logoUrl,
-}: MakeCardProps) => {
-  const href = `/cars/makes/${slugify(make)}`;
+export function MakeCard({ make, logoUrl }: MakeCardProps) {
+  const href = serialize("/cars/makes", { make: slugify(make) });
 
   return (
-    <Card
-      as={Link}
-      href={href}
-      isPressable
-      className="hover:ring-2 hover:ring-primary-600"
-    >
-      <CardHeader>
-        {isPopular && (
-          <Chip color="primary" size="sm" variant="solid">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="size-4" />
-              <span>Popular</span>
-            </div>
-          </Chip>
-        )}
-      </CardHeader>
+    <Card isPressable as={Link} href={href} className="p-4">
       <CardBody>
-        {logoUrl ? (
-          <Image
-            alt={`${make} Logo`}
-            src={logoUrl}
-            width={512}
-            height={512}
-            className="h-24 object-contain"
-          />
-        ) : (
-          <div className="flex justify-center">
-            <Avatar
-              name={make}
-              className="size-24 bg-primary object-contain text-2xl text-primary-foreground"
-            />
+        <div className="flex flex-col gap-2">
+          <div className="flex size-16 items-center justify-center">
+            {logoUrl ? (
+              <Image
+                alt={`${make} logo`}
+                src={logoUrl}
+                width={512}
+                height={512}
+                className="size-full object-contain"
+              />
+            ) : (
+              <Avatar
+                name={make.charAt(0) || "?"}
+                classNames={{
+                  base: "size-full bg-primary",
+                  name: "text-lg font-semibold text-primary-foreground",
+                }}
+              />
+            )}
           </div>
-        )}
+          <Typography.Label>{make}</Typography.Label>
+        </div>
       </CardBody>
-      <CardFooter>
-        <Typography.Text>{make}</Typography.Text>
-      </CardFooter>
     </Card>
   );
-};
+}

@@ -1,123 +1,132 @@
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { Avatar } from "@heroui/avatar";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import type { CarLogo } from "@logos/types";
 import type { SelectCar } from "@sgcarstrends/database";
 import { DataTable } from "@sgcarstrends/ui/components/data-table";
-import { MakeSelector } from "@web/app/(dashboard)/cars/_components/make-selector";
 import {
   CoeComparisonChart,
   MakeTrendChart,
 } from "@web/app/(dashboard)/cars/_components/makes";
-import { ShareButtons } from "@web/components/share-buttons";
-import { LastUpdated } from "@web/components/shared/last-updated";
 import NoData from "@web/components/shared/no-data";
 import { columns } from "@web/components/tables/columns/cars-make-columns";
 import Typography from "@web/components/typography";
-import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { MakeCoeComparisonData } from "@web/queries/cars/makes/coe-comparison";
-import type { Make } from "@web/types";
+import { Calendar, Car, TrendingUp } from "lucide-react";
 import Image from "next/image";
 
 interface MakeDetailProps {
-  make: string;
   cars: { make: string; total: number; data: Partial<SelectCar>[] };
-  makes: Make[];
-  lastUpdated?: number | null;
-  logo?: CarLogo | null;
   coeComparison: MakeCoeComparisonData[];
+  logo?: CarLogo | null;
 }
 
-export const MakeDetail = ({
-  make,
-  cars,
-  makes,
-  lastUpdated,
-  logo,
-  coeComparison,
-}: MakeDetailProps) => {
+export function MakeDetail({ cars, coeComparison, logo }: MakeDetailProps) {
   if (!cars) {
     return <NoData />;
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">
-          <div className="flex items-center gap-4">
-            {logo?.url && (
-              <UnreleasedFeature>
-                <Image
-                  alt={`${cars.make} logo`}
-                  src={logo.url}
-                  width={128}
-                  height={128}
-                  className="object-contain"
-                />
-              </UnreleasedFeature>
-            )}
-            <Typography.H1>{cars.make}</Typography.H1>
-          </div>
-          <div className="flex flex-col items-start gap-2">
-            {!!lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
-            <div className="flex items-center gap-2">
-              <MakeSelector makes={makes} selectedMake={make} />
-              <ShareButtons
-                url={`${SITE_URL}/cars/makes/${make}`}
-                title={`${cars.make} Cars - ${SITE_TITLE}`}
-              />
-            </div>
-          </div>
+    <div className="flex flex-col gap-6">
+      {/* Header with logo and make name */}
+      <div className="flex items-center gap-4 border-default-100 border-b pb-6">
+        <div className="flex size-16 items-center justify-center">
+          {logo?.url ? (
+            <Image
+              src={logo.url}
+              alt={`${cars.make} logo`}
+              width={48}
+              height={48}
+              className="object-contain"
+            />
+          ) : (
+            <Avatar
+              name={cars.make.charAt(0)}
+              classNames={{
+                base: "size-full bg-primary",
+                name: "text-xl font-semibold text-primary-foreground",
+              }}
+            />
+          )}
+        </div>
+        <div className="flex flex-col gap-1">
+          <Typography.H2>{cars.make}</Typography.H2>
+          <Typography.TextSm>Vehicle Registrations</Typography.TextSm>
         </div>
       </div>
 
-      <Card className="p-4">
-        <CardHeader>
-          <div className="flex flex-col gap-1">
-            <Typography.H3>Historical Trend</Typography.H3>
-            <Typography.TextSm>Past registrations</Typography.TextSm>
+      {/* Metric cards */}
+      <div className="grid grid-cols-3 gap-3">
+        <div className="flex flex-col gap-1.5 rounded-2xl bg-default-100 p-4">
+          <div className="flex items-center gap-1.5">
+            <Car className="size-3.5 text-primary" />
+            <Typography.Caption className="text-primary">
+              Total
+            </Typography.Caption>
           </div>
+          <span className="font-bold text-primary text-xl tabular-nums">
+            {cars.total.toLocaleString()}
+          </span>
+        </div>
+        <div className="flex flex-col gap-1.5 rounded-2xl bg-default-100 p-4">
+          <div className="flex items-center gap-1.5">
+            <TrendingUp className="size-3.5 text-success" />
+            <Typography.Caption className="text-success">
+              This Month
+            </Typography.Caption>
+          </div>
+          <span className="font-bold text-foreground text-xl tabular-nums">
+            {cars.data[0]?.number?.toLocaleString() ?? "N/A"}
+          </span>
+        </div>
+        <div className="flex flex-col gap-1.5 rounded-2xl bg-default-100 p-4">
+          <div className="flex items-center gap-1.5">
+            <Calendar className="size-3.5 text-default-500" />
+            <Typography.Caption>Tracked</Typography.Caption>
+          </div>
+          <span className="font-bold text-foreground text-xl tabular-nums">
+            {cars.data.length}
+            <span className="ml-1 font-normal text-default-400 text-sm">
+              mo
+            </span>
+          </span>
+        </div>
+      </div>
+
+      {/* Historical Trend Chart */}
+      <Card className="rounded-2xl border border-default-200 bg-white">
+        <CardHeader className="flex flex-row items-baseline justify-between">
+          <Typography.H4>Historical Trend</Typography.H4>
+          <Typography.Caption>Past registrations</Typography.Caption>
         </CardHeader>
         <CardBody>
           <MakeTrendChart data={cars.data.toReversed()} />
         </CardBody>
       </Card>
 
-      <Card className="p-4">
-        <CardHeader>
-          <div className="flex flex-col">
-            <Typography.H3>Registration vs COE Premium</Typography.H3>
-            <Typography.TextSm>
-              Correlation between registrations and COE premiums
-            </Typography.TextSm>
-          </div>
+      {/* COE Comparison Chart */}
+      <Card className="rounded-2xl border border-default-200 bg-white">
+        <CardHeader className="flex flex-col items-start gap-2">
+          <Typography.H4>Registration vs COE Premium</Typography.H4>
         </CardHeader>
-        <CardBody>
+        <CardBody className="flex flex-col gap-4">
           <CoeComparisonChart data={coeComparison} />
+          <Typography.Caption>
+            Bars show monthly registrations (left axis), lines show COE Category
+            A and B premiums (right axis).
+          </Typography.Caption>
         </CardBody>
-        <CardFooter>
-          <p className="text-default-500 text-sm">
-            Registration bars (left axis) show monthly vehicle purchases, while
-            COE premium lines (right axis) display Category A and B prices.
-            Rising premiums typically correlate with increased demand, though
-            luxury makes may respond differently to Category B changes versus
-            mass-market makes to Category A.
-          </p>
-        </CardFooter>
       </Card>
 
-      <Card className="p-4">
-        <CardHeader>
-          <div className="flex flex-col gap-1">
-            <Typography.H3>Summary</Typography.H3>
-            <Typography.TextSm>
-              Breakdown of fuel &amp; vehicle types by month
-            </Typography.TextSm>
-          </div>
+      {/* Summary Table */}
+      <Card className="rounded-2xl border border-default-200 bg-white">
+        <CardHeader className="flex flex-row items-baseline justify-between">
+          <Typography.H4>Summary</Typography.H4>
+          <Typography.Caption>Fuel & vehicle types by month</Typography.Caption>
         </CardHeader>
-        <CardBody>
+        <CardBody className="p-0">
           <DataTable columns={columns} data={cars.data} />
         </CardBody>
       </Card>
     </div>
   );
-};
+}

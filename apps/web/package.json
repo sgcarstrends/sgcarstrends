@@ -67,7 +67,7 @@
     "match-sorter": "^8.1.0",
     "next": "catalog:",
     "next-mdx-remote": "^5.0.0",
-    "nuqs": "^2.7.0",
+    "nuqs": "^2.8.5",
     "react": "catalog:",
     "react-dom": "catalog:",
     "reading-time": "^1.5.0",
