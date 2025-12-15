@@ -4,10 +4,10 @@ import type { CarLogo } from "@logos/types";
 import type { SelectCar } from "@sgcarstrends/database";
 import { slugify } from "@sgcarstrends/utils";
 import {
+  AllMakes,
   MakeDetailPanel,
   MakeDetailSheet,
   MakeSearch,
-  Makes,
   PopularMakes,
 } from "@web/app/(dashboard)/cars/_components/makes";
 import type { MakeCoeComparisonData } from "@web/queries/cars/makes/coe-comparison";
@@ -48,11 +48,11 @@ export function MakesDashboard({
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <main className="flex flex-col gap-6">
-          <MakeSearch makes={makes} logoUrlMap={logoUrlMap} />
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
+        <main className="flex flex-col gap-4 lg:col-span-2">
+          <MakeSearch makes={makes} />
           <PopularMakes makes={popularMakes} logoUrlMap={logoUrlMap} />
-          <Makes
+          <AllMakes
             title="All Makes"
             makes={makes}
             showLetterFilter
@@ -60,7 +60,9 @@ export function MakesDashboard({
           />
         </main>
 
-        <MakeDetailPanel selectedMakeData={selectedMakeData} />
+        <aside className="lg:col-span-3">
+          <MakeDetailPanel selectedMakeData={selectedMakeData} />
+        </aside>
       </div>
 
       <MakeDetailSheet selectedMakeData={selectedMakeData} />

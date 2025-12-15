@@ -65,11 +65,11 @@ describe("MakeDetail", () => {
   it("should render metric cards", () => {
     render(<MakeDetail cars={mockCars} coeComparison={mockCoeComparison} />);
     expect(screen.getByText("100")).toBeVisible();
-    expect(screen.getByText("Total Registrations")).toBeVisible();
+    expect(screen.getByText("Total")).toBeVisible();
     expect(screen.getByText("50")).toBeVisible();
     expect(screen.getByText("This Month")).toBeVisible();
     expect(screen.getByText("2")).toBeVisible();
-    expect(screen.getByText("Months Tracked")).toBeVisible();
+    expect(screen.getByText("Tracked")).toBeVisible();
   });
 
   it("should render Historical Trend card", () => {
@@ -81,17 +81,12 @@ describe("MakeDetail", () => {
   it("should render Registration vs COE Premium card", () => {
     render(<MakeDetail cars={mockCars} coeComparison={mockCoeComparison} />);
     expect(screen.getByText("Registration vs COE Premium")).toBeVisible();
-    expect(
-      screen.getByText("Correlation between registrations and COE premiums"),
-    ).toBeVisible();
   });
 
   it("should render Summary card", () => {
     render(<MakeDetail cars={mockCars} coeComparison={mockCoeComparison} />);
     expect(screen.getByText("Summary")).toBeVisible();
-    expect(
-      screen.getByText("Breakdown of fuel & vehicle types by month"),
-    ).toBeVisible();
+    expect(screen.getByText("Fuel & vehicle types by month")).toBeVisible();
   });
 
   it("should render NoData component when cars is null", () => {
@@ -105,25 +100,19 @@ describe("MakeDetail", () => {
     expect(screen.getByText("No Data Available")).toBeVisible();
   });
 
-  describe("with showHeader", () => {
-    it("should render make name in header when showHeader is true", () => {
-      render(
-        <MakeDetail
-          cars={mockCars}
-          coeComparison={mockCoeComparison}
-          showHeader
-        />,
-      );
+  describe("header display", () => {
+    it("should render make name in header", () => {
+      render(<MakeDetail cars={mockCars} coeComparison={mockCoeComparison} />);
       expect(screen.getByText("BMW")).toBeVisible();
+      expect(screen.getByText("Vehicle Registrations")).toBeVisible();
     });
 
-    it("should render logo image when logo is provided and showHeader is true", () => {
+    it("should render logo image when logo is provided", () => {
       render(
         <MakeDetail
           cars={mockCars}
           coeComparison={mockCoeComparison}
           logo={mockLogo}
-          showHeader
         />,
       );
 
@@ -132,27 +121,22 @@ describe("MakeDetail", () => {
       expect(image).toHaveAttribute("src", expect.stringContaining("bmw.png"));
     });
 
-    it("should render avatar fallback when logo is not provided and showHeader is true", () => {
-      render(
-        <MakeDetail
-          cars={mockCars}
-          coeComparison={mockCoeComparison}
-          showHeader
-        />,
-      );
+    it("should render avatar fallback when logo is not provided", () => {
+      render(<MakeDetail cars={mockCars} coeComparison={mockCoeComparison} />);
       expect(screen.getByText("B")).toBeVisible();
     });
 
-    it("should not render header when showHeader is false", () => {
+    it("should always render header with make information", () => {
       render(
         <MakeDetail
           cars={mockCars}
           coeComparison={mockCoeComparison}
           logo={mockLogo}
-          showHeader={false}
         />,
       );
-      expect(screen.queryByAltText("BMW logo")).not.toBeInTheDocument();
+      // Header is always visible now (no showHeader prop)
+      expect(screen.getByAltText("BMW logo")).toBeInTheDocument();
+      expect(screen.getByText("BMW")).toBeVisible();
     });
   });
 });

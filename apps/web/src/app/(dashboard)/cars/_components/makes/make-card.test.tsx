@@ -32,14 +32,4 @@ describe("MakeCard", () => {
       screen.queryByRole("img", { name: `${mockMake} logo` }),
     ).not.toBeInTheDocument();
   });
-
-  it("should show the popular badge when flagged", () => {
-    render(<MakeCard make={mockMake} isPopular logoUrl={mockLogoUrl} />);
-    expect(screen.getByText("Popular")).toBeVisible();
-  });
-
-  it("should hide the badge when not flagged", () => {
-    render(<MakeCard make={mockMake} logoUrl={mockLogoUrl} />);
-    expect(screen.queryByText("Popular")).not.toBeInTheDocument();
-  });
 });

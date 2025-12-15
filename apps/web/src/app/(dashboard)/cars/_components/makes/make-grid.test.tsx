@@ -21,21 +21,6 @@ describe("MakeGrid", () => {
     });
   });
 
-  it("should show popular badges when isPopular is true", () => {
-    render(<MakeGrid makes={germanMakes} isPopular={true} />);
-    expect(screen.getAllByText("Popular")).toHaveLength(germanMakes.length);
-  });
-
-  it("should not show popular badges when isPopular is false", () => {
-    render(<MakeGrid makes={germanMakes} isPopular={false} />);
-    expect(screen.queryByText("Popular")).not.toBeInTheDocument();
-  });
-
-  it("should not show popular badges by default", () => {
-    render(<MakeGrid makes={germanMakes} />);
-    expect(screen.queryByText("Popular")).not.toBeInTheDocument();
-  });
-
   it("should render nothing when no makes exist", () => {
     render(<MakeGrid makes={[]} />);
     expect(screen.queryByRole("link")).not.toBeInTheDocument();

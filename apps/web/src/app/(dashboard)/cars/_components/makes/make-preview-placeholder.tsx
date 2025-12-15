@@ -1,35 +1,42 @@
 import Typography from "@web/components/typography";
-import { Car, Sparkles } from "lucide-react";
+import { Car, MousePointerClick } from "lucide-react";
 
 export function MakePreviewPlaceholder() {
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-6 p-8 text-center">
+    <div className="flex h-full flex-col items-center justify-center gap-8 p-8 text-center">
       <div className="relative">
-        <div className="-inset-4 absolute rounded-full bg-primary/5" />
-        <div className="-inset-8 absolute rounded-full bg-primary/[0.02]" />
-        <div className="relative flex size-20 items-center justify-center rounded-2xl bg-default-100">
-          <Car className="size-10 text-default-400" />
+        {/* Main icon container */}
+        <div className="relative flex size-24 items-center justify-center rounded-2xl bg-default-100">
+          <Car className="size-12 text-default-300" strokeWidth={1.5} />
         </div>
-        <div className="-right-1 -top-1 absolute rounded-full bg-background p-1">
-          <Sparkles className="size-4 text-primary" />
+
+        {/* Floating action indicator */}
+        <div className="-right-2 -bottom-2 absolute flex size-8 items-center justify-center rounded-full bg-primary">
+          <MousePointerClick className="size-4 text-primary-foreground" />
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Typography.H3 className="text-default-700">
-          Select a Make
-        </Typography.H3>
-        <Typography.TextSm className="max-w-[200px] text-default-500">
-          Choose a car brand from the grid to see quick stats and details
+      <div className="flex flex-col gap-3">
+        <Typography.H3>Select a Make</Typography.H3>
+        <Typography.TextSm className="max-w-[220px]">
+          Choose a car brand from the grid to view registration stats, trends,
+          and COE analysis
         </Typography.TextSm>
       </div>
 
-      <div className="flex items-center gap-2 text-default-400">
-        <div className="h-px w-8 bg-default-200" />
-        <span className="text-xs uppercase tracking-wider">
-          or search above
-        </span>
-        <div className="h-px w-8 bg-default-200" />
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center gap-3 text-default-400">
+          <div className="h-px w-12 bg-default-200" />
+          <Typography.Caption className="uppercase tracking-widest">
+            or search
+          </Typography.Caption>
+          <div className="h-px w-12 bg-default-200" />
+        </div>
+
+        {/* Visual hint for search */}
+        <div className="mx-auto flex items-center gap-2 rounded-full border border-default-200 border-dashed px-4 py-2">
+          <Typography.Caption>Type to search makes...</Typography.Caption>
+        </div>
       </div>
     </div>
   );

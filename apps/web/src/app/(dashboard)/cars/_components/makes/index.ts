@@ -1,3 +1,4 @@
+export { AllMakes } from "./all-makes";
 export { CoeComparisonChart } from "./coe-comparison-chart";
 export { MakeCard } from "./make-card";
 export { MakeDetail } from "./make-detail";
@@ -7,6 +8,5 @@ export { MakeGrid } from "./make-grid";
 export { MakePreviewPlaceholder } from "./make-preview-placeholder";
 export { MakeSearch } from "./make-search";
 export { MakeTrendChart } from "./make-trend-chart";
-export { Makes } from "./makes";
 export { MakesDashboard } from "./makes-dashboard";
 export { PopularMakes } from "./popular-makes";

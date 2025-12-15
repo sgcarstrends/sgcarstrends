@@ -1,6 +1,5 @@
-import { Button } from "@heroui/button";
 import type { CarLogo } from "@logos/types";
-import { redis, slugify } from "@sgcarstrends/utils";
+import { redis } from "@sgcarstrends/utils";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
@@ -8,17 +7,11 @@ import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
 import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
-import {
-  checkMakeIfExist,
-  getDistinctMakes,
-  getMakeDetails,
-} from "@web/queries/cars";
+import { checkMakeIfExist, getMakeDetails } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import type { Make } from "@web/types";
 import { fetchMonthsForCars } from "@web/utils/months";
-import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 
 interface Props {
   params: Promise<{ make: Make }>;
@@ -42,11 +35,6 @@ export const generateMetadata = async ({
     canonical: `/cars/makes/${make}`,
     images,
   });
-};
-
-export const generateStaticParams = async () => {
-  const allMakes = await getDistinctMakes();
-  return allMakes.map(({ make }) => ({ make: slugify(make) }));
 };
 
 export default async function CarMakePage({ params }: Props) {
