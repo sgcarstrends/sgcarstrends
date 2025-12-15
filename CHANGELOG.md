@@ -1,3 +1,9 @@
+## [4.33.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.5...v4.33.6) (2025-12-15)
+
+### Bug Fixes
+
+* **web:** align data section with theme colours ([b6be852](https://github.com/sgcarstrends/sgcarstrends/commit/b6be852cffae1285e4f1aa78bce58e835cd71fa7))
+
 ## [4.33.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.4...v4.33.5) (2025-12-14)
 
 ### Bug Fixes
