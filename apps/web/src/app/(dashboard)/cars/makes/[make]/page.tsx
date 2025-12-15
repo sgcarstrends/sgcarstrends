@@ -1,5 +1,5 @@
 import type { CarLogo } from "@logos/types";
-import { redis, slugify } from "@sgcarstrends/utils";
+import { redis } from "@sgcarstrends/utils";
 import { MakeDetail } from "@web/app/(dashboard)/cars/_components/makes";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY } from "@web/config";
@@ -36,11 +36,6 @@ export const generateMetadata = async ({
     canonical: `/cars/makes/${make}`,
     images,
   });
-};
-
-export const generateStaticParams = async () => {
-  const allMakes = await getDistinctMakes();
-  return allMakes.map(({ make }) => ({ make: slugify(make) }));
 };
 
 const CarMakePage = async ({ params }: Props) => {
