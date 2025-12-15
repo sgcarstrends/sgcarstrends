@@ -43,12 +43,12 @@ pnpm format             # Format code with Biome
 src/
 ├── app/                           # Next.js App Router - pages, layouts, API routes
 │   ├── (dashboard)/
-│   │   ├── (home)/
-│   │   │   └── _components/       # Home page-specific components (co-located)
+│   │   ├── _components/           # Dashboard-specific components (co-located)
 │   │   ├── cars/
 │   │   │   └── _components/       # Cars route-specific components (co-located)
-│   │   └── coe/
-│   │       └── _components/       # COE route-specific components (co-located)
+│   │   ├── coe/
+│   │   │   └── _components/       # COE route-specific components (co-located)
+│   │   └── annual/                # Annual statistics routes
 │   ├── (social)/                  # Social media redirect routes with UTM tracking
 │   ├── api/                       # API routes (analytics, OG images, revalidation)
 │   ├── blog/
@@ -82,7 +82,7 @@ This application follows **Next.js 15/16 co-location best practices** using priv
 
 Route-specific components live alongside their consuming routes using private folders:
 
-- **Home**: `app/(dashboard)/(home)/_components/` - Key statistics, recent posts
+- **Dashboard**: `app/(dashboard)/_components/` - Key statistics, recent posts, section tabs, charts
 - **Blog**: `app/blog/_components/` - Progress bar, view counter, related posts, blog list
 - **Cars**: `app/(dashboard)/cars/_components/` - Category tabs, make selectors, trend charts
 - **COE**: `app/(dashboard)/coe/_components/` - COE categories, premium charts, PQP components
@@ -117,7 +117,7 @@ Route-specific server actions (mutations only) use private folders:
 ```typescript
 // ✅ Co-located components via path alias
 import {ProgressBar} from "@web/app/blog/_components/progress-bar";
-import {KeyStatistics} from "@web/app/(dashboard)/(home)/_components/key-statistics";
+import {KeyStatistics} from "@web/app/(dashboard)/_components/key-statistics";
 
 // ✅ Shared queries and actions via path alias
 import {getCarRegistrations} from "@web/queries/cars";
