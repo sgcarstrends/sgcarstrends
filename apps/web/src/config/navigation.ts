@@ -123,7 +123,7 @@ export const navLinks: NavLinks = {
   ],
   coe: [
     {
-      title: "Overview",
+      title: "Premiums",
       url: "/coe",
       icon: BarChart3,
       description: "Latest COE premiums and quick insights",
