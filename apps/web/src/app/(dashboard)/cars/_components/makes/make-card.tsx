@@ -33,7 +33,7 @@ export function MakeCard({ make, logoUrl }: MakeCardProps) {
               />
             ) : (
               <Avatar
-                name={make.charAt(0)}
+                name={make.charAt(0) || "?"}
                 classNames={{
                   base: "size-full bg-primary",
                   name: "text-lg font-semibold text-primary-foreground",

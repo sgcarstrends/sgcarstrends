@@ -38,11 +38,16 @@ export const AllMakes = ({
     }
   };
 
-  const activeMakes = showLetterFilter
-    ? selectedLetter === "ALL"
-      ? sortedMakes
-      : (groupedMakes[selectedLetter] ?? [])
-    : makes;
+  let activeMakes: Make[];
+  if (showLetterFilter) {
+    if (selectedLetter === "ALL") {
+      activeMakes = sortedMakes;
+    } else {
+      activeMakes = groupedMakes[selectedLetter] ?? [];
+    }
+  } else {
+    activeMakes = makes;
+  }
 
   if (makes.length === 0) return null;
 

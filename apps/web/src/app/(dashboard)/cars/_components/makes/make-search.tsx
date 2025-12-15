@@ -17,7 +17,11 @@ export function MakeSearch({ makes }: MakeSearchProps) {
   );
 
   const handleSelectionChange = (key: Key | null) => {
-    setMake(slugify(key as string));
+    if (key === null) {
+      setMake(null);
+    } else {
+      setMake(slugify(key as string));
+    }
   };
 
   return (

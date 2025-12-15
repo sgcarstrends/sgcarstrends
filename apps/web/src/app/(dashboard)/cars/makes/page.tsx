@@ -53,14 +53,14 @@ const CarMakesPage = async ({ searchParams }: PageProps) => {
 
   let selectedMakeData = null;
   if (selectedMakeSlug) {
-    const [makeExists, makeDetails, coeComparison, logo] = await Promise.all([
-      checkMakeIfExist(selectedMakeSlug),
-      getMakeDetails(selectedMakeSlug, month ?? undefined),
-      getMakeCoeComparison(selectedMakeSlug),
-      redis.get<CarLogo>(`logo:${selectedMakeSlug}`),
-    ]);
+    const makeExists = await checkMakeIfExist(selectedMakeSlug);
 
     if (makeExists) {
+      const [makeDetails, coeComparison, logo] = await Promise.all([
+        getMakeDetails(selectedMakeSlug, month ?? undefined),
+        getMakeCoeComparison(selectedMakeSlug),
+        redis.get<CarLogo>(`logo:${selectedMakeSlug}`),
+      ]);
       const makeName = makeExists.make;
       selectedMakeData = {
         make: makeName,

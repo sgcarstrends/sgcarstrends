@@ -34,8 +34,12 @@ export function MakeDetailSheet({ selectedMakeData }: MakeDetailSheetProps) {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (make && isMobile) {
-      setIsOpen(true);
+    if (isMobile) {
+      if (make) {
+        setIsOpen(true);
+      } else {
+        setIsOpen(false);
+      }
     }
   }, [make, isMobile]);
 
