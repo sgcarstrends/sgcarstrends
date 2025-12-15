@@ -29,14 +29,14 @@ export function MakeDetail({ cars, coeComparison, logo }: MakeDetailProps) {
     <div className="flex flex-col gap-6">
       {/* Header with logo and make name */}
       <div className="flex items-center gap-4 border-default-100 border-b pb-6">
-        <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-default-100 p-2">
+        <div className="flex size-16 items-center justify-center">
           {logo?.url ? (
             <Image
               src={logo.url}
               alt={`${cars.make} logo`}
               width={48}
               height={48}
-              className="size-full object-contain"
+              className="object-contain"
             />
           ) : (
             <Avatar
