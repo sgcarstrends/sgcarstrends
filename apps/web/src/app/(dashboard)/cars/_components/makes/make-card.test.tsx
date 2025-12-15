@@ -1,6 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import { MakeCard } from "./make-card";
 
+vi.mock("nuqs", () => ({
+  useQueryState: () => [null, vi.fn()],
+}));
+
+vi.mock("nuqs/server", () => ({
+  parseAsString: {},
+  createSerializer: () => (path: string) => path,
+  createLoader: () => vi.fn(),
+}));
+
 describe("MakeCard", () => {
   const germanMakes = ["AUDI", "BMW", "MERCEDES BENZ", "VOLKSWAGEN"];
   const mockMake = germanMakes[1];
@@ -13,13 +23,13 @@ describe("MakeCard", () => {
 
   it("should render the logo with the correct alt text when logoUrl is provided", () => {
     render(<MakeCard make={mockMake} logoUrl={mockLogoUrl} />);
-    expect(screen.getByRole("img", { name: `${mockMake} Logo` })).toBeVisible();
+    expect(screen.getByRole("img", { name: `${mockMake} logo` })).toBeVisible();
   });
 
   it("should not render the logo when logoUrl is not provided", () => {
     render(<MakeCard make={mockMake} />);
     expect(
-      screen.queryByRole("img", { name: `${mockMake} Logo` }),
+      screen.queryByRole("img", { name: `${mockMake} logo` }),
     ).not.toBeInTheDocument();
   });
 

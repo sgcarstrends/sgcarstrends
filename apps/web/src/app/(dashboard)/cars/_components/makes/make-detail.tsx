@@ -1,76 +1,77 @@
+import { Avatar } from "@heroui/avatar";
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import type { CarLogo } from "@logos/types";
 import type { SelectCar } from "@sgcarstrends/database";
 import { DataTable } from "@sgcarstrends/ui/components/data-table";
-import { MakeSelector } from "@web/app/(dashboard)/cars/_components/make-selector";
 import {
   CoeComparisonChart,
   MakeTrendChart,
 } from "@web/app/(dashboard)/cars/_components/makes";
-import { ShareButtons } from "@web/components/share-buttons";
-import { LastUpdated } from "@web/components/shared/last-updated";
 import NoData from "@web/components/shared/no-data";
 import { columns } from "@web/components/tables/columns/cars-make-columns";
 import Typography from "@web/components/typography";
-import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { MakeCoeComparisonData } from "@web/queries/cars/makes/coe-comparison";
-import type { Make } from "@web/types";
 import Image from "next/image";
 
 interface MakeDetailProps {
-  make: string;
   cars: { make: string; total: number; data: Partial<SelectCar>[] };
-  makes: Make[];
-  lastUpdated?: number | null;
-  logo?: CarLogo | null;
   coeComparison: MakeCoeComparisonData[];
+  logo?: CarLogo | null;
+  showHeader?: boolean;
 }
 
-export const MakeDetail = ({
-  make,
+export function MakeDetail({
   cars,
-  makes,
-  lastUpdated,
-  logo,
   coeComparison,
-}: MakeDetailProps) => {
+  logo,
+  showHeader = false,
+}: MakeDetailProps) {
   if (!cars) {
     return <NoData />;
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">
-          <div className="flex items-center gap-4">
-            {logo?.url && (
-              <UnreleasedFeature>
-                <Image
-                  alt={`${cars.make} logo`}
-                  src={logo.url}
-                  width={128}
-                  height={128}
-                  className="object-contain"
-                />
-              </UnreleasedFeature>
-            )}
-            <Typography.H1>{cars.make}</Typography.H1>
-          </div>
-          <div className="flex flex-col items-start gap-2">
-            {!!lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
-            <div className="flex items-center gap-2">
-              <MakeSelector makes={makes} selectedMake={make} />
-              <ShareButtons
-                url={`${SITE_URL}/cars/makes/${make}`}
-                title={`${cars.make} Cars - ${SITE_TITLE}`}
+    <div className="flex flex-col gap-4 p-4">
+      {showHeader && (
+        <div className="flex flex-col items-center gap-4 pb-4">
+          {logo?.url ? (
+            <div className="relative size-20 overflow-hidden rounded-2xl bg-default-100 p-3">
+              <Image
+                src={logo.url}
+                alt={`${cars.make} logo`}
+                fill
+                className="object-contain p-2"
               />
             </div>
-          </div>
+          ) : (
+            <Avatar name={cars.make.charAt(0)} size="lg" color="primary" />
+          )}
+          <Typography.H2 className="text-center">{cars.make}</Typography.H2>
         </div>
+      )}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <Card className="rounded-2xl">
+          <CardBody className="text-center">
+            <Typography.H3>{cars.total.toLocaleString()}</Typography.H3>
+            <Typography.Caption>Total Registrations</Typography.Caption>
+          </CardBody>
+        </Card>
+        <Card className="rounded-2xl">
+          <CardBody className="text-center">
+            <Typography.H3>
+              {cars.data[0]?.number?.toLocaleString() ?? "N/A"}
+            </Typography.H3>
+            <Typography.Caption>This Month</Typography.Caption>
+          </CardBody>
+        </Card>
+        <Card className="rounded-2xl">
+          <CardBody className="text-center">
+            <Typography.H3>{cars.data.length}</Typography.H3>
+            <Typography.Caption>Months Tracked</Typography.Caption>
+          </CardBody>
+        </Card>
       </div>
-
-      <Card className="p-4">
+      <Card className="rounded-2xl p-4">
         <CardHeader>
           <div className="flex flex-col gap-1">
             <Typography.H3>Historical Trend</Typography.H3>
@@ -82,7 +83,7 @@ export const MakeDetail = ({
         </CardBody>
       </Card>
 
-      <Card className="p-4">
+      <Card className="rounded-2xl p-4">
         <CardHeader>
           <div className="flex flex-col">
             <Typography.H3>Registration vs COE Premium</Typography.H3>
@@ -105,7 +106,7 @@ export const MakeDetail = ({
         </CardFooter>
       </Card>
 
-      <Card className="p-4">
+      <Card className="rounded-2xl p-4">
         <CardHeader>
           <div className="flex flex-col gap-1">
             <Typography.H3>Summary</Typography.H3>
@@ -120,4 +121,4 @@ export const MakeDetail = ({
       </Card>
     </div>
   );
-};
+}

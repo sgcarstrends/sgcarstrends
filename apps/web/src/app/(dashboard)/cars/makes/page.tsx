@@ -1,20 +1,32 @@
 import type { CarLogo } from "@logos/types";
 import { redis } from "@sgcarstrends/utils";
-import { MakesList } from "@web/app/(dashboard)/cars/_components/makes";
+import { MakesDashboard } from "@web/app/(dashboard)/cars/_components/makes";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
-import { getDistinctMakes, getPopularMakes } from "@web/queries/cars";
+import {
+  checkMakeIfExist,
+  getDistinctMakes,
+  getMakeDetails,
+  getPopularMakes,
+} from "@web/queries/cars";
+import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import { fetchMonthsForCars } from "@web/utils/months";
 import type { Metadata } from "next";
+import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
+import { loadSearchParams } from "./search-params";
 
 const title = "Makes";
 const description =
   "Comprehensive overview of car makes in Singapore. Explore popular brands, discover all available manufacturers, and view registration trends and market statistics.";
+
+interface PageProps {
+  searchParams: Promise<SearchParams>;
+}
 
 export const generateMetadata = async (): Promise<Metadata> => {
   return createPageMetadata({
@@ -24,7 +36,9 @@ export const generateMetadata = async (): Promise<Metadata> => {
   });
 };
 
-const CarMakesPage = async () => {
+const CarMakesPage = async ({ searchParams }: PageProps) => {
+  const { make: selectedMakeSlug, month } =
+    await loadSearchParams(searchParams);
   const logos = await redis.get<CarLogo[]>("logos:all");
 
   const [allMakes, popularMakes, months, lastUpdated] = await Promise.all([
@@ -37,9 +51,30 @@ const CarMakesPage = async () => {
   const makes = allMakes.map(({ make }) => make);
   const popular = popularMakes.map(({ make }) => make);
 
-  const title = "Car Makes Overview - Singapore Registration Trends";
-  const description =
-    "Comprehensive overview of car makes in Singapore. Explore popular brands, discover all available manufacturers, and view registration trends and market statistics.";
+  let selectedMakeData = null;
+  if (selectedMakeSlug) {
+    const [makeExists, makeDetails, coeComparison, logo] = await Promise.all([
+      checkMakeIfExist(selectedMakeSlug),
+      getMakeDetails(selectedMakeSlug, month ?? undefined),
+      getMakeCoeComparison(selectedMakeSlug),
+      redis.get<CarLogo>(`logo:${selectedMakeSlug}`),
+    ]);
+
+    if (makeExists) {
+      const makeName = makeExists.make;
+      selectedMakeData = {
+        make: makeName,
+        cars: {
+          make: makeName,
+          total: makeDetails.total,
+          data: makeDetails.data,
+        },
+        lastUpdated,
+        logo,
+        coeComparison,
+      };
+    }
+  }
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -65,12 +100,25 @@ const CarMakesPage = async () => {
           months={months}
         >
           <ShareButtons
-            url={`${SITE_URL}/cars/makes`}
-            title={`Car Makes - ${SITE_TITLE}`}
+            url={
+              selectedMakeSlug
+                ? `${SITE_URL}/cars/makes?make=${selectedMakeSlug}`
+                : `${SITE_URL}/cars/makes`
+            }
+            title={
+              selectedMakeData
+                ? `${selectedMakeData.make} Cars - ${SITE_TITLE}`
+                : `Car Makes - ${SITE_TITLE}`
+            }
           />
         </PageHeader>
         <Suspense fallback={null}>
-          <MakesList makes={makes} popularMakes={popular} logos={logos} />
+          <MakesDashboard
+            makes={makes}
+            popularMakes={popular}
+            logos={logos}
+            selectedMakeData={selectedMakeData}
+          />
         </Suspense>
       </div>
     </>

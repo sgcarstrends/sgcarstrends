@@ -8,21 +8,23 @@ interface MakeGridProps {
   logoUrlMap?: Record<string, string>;
 }
 
-export const MakeGrid = ({
+export function MakeGrid({
   makes,
   isPopular = false,
   logoUrlMap = {},
-}: MakeGridProps) => {
+}: MakeGridProps) {
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 xl:grid-cols-8">
-      {makes.map((make) => (
-        <MakeCard
-          key={make}
-          make={make}
-          isPopular={isPopular}
-          logoUrl={logoUrlMap[slugify(make)]}
-        />
-      ))}
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      {makes.map((make) => {
+        return (
+          <MakeCard
+            key={make}
+            make={make}
+            isPopular={isPopular}
+            logoUrl={logoUrlMap[slugify(make)]}
+          />
+        );
+      })}
     </div>
   );
-};
+}

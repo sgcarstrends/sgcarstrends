@@ -1,6 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import { MakeGrid } from "./make-grid";
 
+vi.mock("nuqs", () => ({
+  useQueryState: () => [null, vi.fn()],
+}));
+
+vi.mock("nuqs/server", () => ({
+  parseAsString: {},
+  createSerializer: () => (path: string) => path,
+  createLoader: () => vi.fn(),
+}));
+
 describe("MakeGrid", () => {
   const germanMakes = ["AUDI", "BMW", "MERCEDES BENZ", "VOLKSWAGEN"];
 
