@@ -2,7 +2,6 @@
 
 import type { CarLogo } from "@logos/types";
 import type { SelectCar } from "@sgcarstrends/database";
-import { useIsMobile } from "@sgcarstrends/ui/hooks/use-mobile";
 import { slugify } from "@sgcarstrends/utils";
 import {
   MakeDetailPanel,
@@ -13,9 +12,7 @@ import {
 } from "@web/app/(dashboard)/cars/_components/makes";
 import type { MakeCoeComparisonData } from "@web/queries/cars/makes/coe-comparison";
 import type { Make } from "@web/types";
-import { useQueryState } from "nuqs";
-import { parseAsString } from "nuqs/server";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 interface SelectedMakeData {
   make: string;
@@ -38,13 +35,6 @@ export function MakesDashboard({
   logos = [],
   selectedMakeData,
 }: MakesDashboardProps) {
-  const [make] = useQueryState(
-    "make",
-    parseAsString.withOptions({ shallow: false }),
-  );
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const isMobile = useIsMobile();
-
   const logoUrlMap = useMemo(() => {
     return (
       logos?.reduce<Record<string, string>>((acc, logo) => {
@@ -55,13 +45,6 @@ export function MakesDashboard({
       }, {}) ?? {}
     );
   }, [logos]);
-
-  // Open sheet on mobile when make is selected via query string
-  useEffect(() => {
-    if (make && isMobile) {
-      setSheetOpen(true);
-    }
-  }, [make, isMobile]);
 
   return (
     <>
@@ -80,11 +63,7 @@ export function MakesDashboard({
         <MakeDetailPanel selectedMakeData={selectedMakeData} />
       </div>
 
-      <MakeDetailSheet
-        open={sheetOpen}
-        onOpenChange={setSheetOpen}
-        selectedMakeData={selectedMakeData}
-      />
+      <MakeDetailSheet selectedMakeData={selectedMakeData} />
     </>
   );
 }

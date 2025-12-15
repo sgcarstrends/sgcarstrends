@@ -26,7 +26,6 @@ export function MakeDetailPanel({ selectedMakeData }: MakeDetailPanelProps) {
               cars={selectedMakeData.cars}
               coeComparison={selectedMakeData.coeComparison}
               logo={selectedMakeData.logo}
-              showHeader
             />
           ) : (
             <MakePreviewPlaceholder />

@@ -17,38 +17,30 @@ interface MakeDetailProps {
   cars: { make: string; total: number; data: Partial<SelectCar>[] };
   coeComparison: MakeCoeComparisonData[];
   logo?: CarLogo | null;
-  showHeader?: boolean;
 }
 
-export function MakeDetail({
-  cars,
-  coeComparison,
-  logo,
-  showHeader = false,
-}: MakeDetailProps) {
+export function MakeDetail({ cars, coeComparison, logo }: MakeDetailProps) {
   if (!cars) {
     return <NoData />;
   }
 
   return (
-    <div className="flex flex-col gap-4 p-4">
-      {showHeader && (
-        <div className="flex flex-col items-center gap-4 pb-4">
-          {logo?.url ? (
-            <div className="relative size-20 overflow-hidden rounded-2xl bg-default-100 p-3">
-              <Image
-                src={logo.url}
-                alt={`${cars.make} logo`}
-                fill
-                className="object-contain p-2"
-              />
-            </div>
-          ) : (
-            <Avatar name={cars.make.charAt(0)} size="lg" color="primary" />
-          )}
-          <Typography.H2 className="text-center">{cars.make}</Typography.H2>
-        </div>
-      )}
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col items-center gap-4 pb-4">
+        {logo?.url ? (
+          <div className="relative size-20 overflow-hidden rounded-2xl bg-default-100 p-3">
+            <Image
+              fill
+              src={logo.url}
+              alt={`${cars.make} logo`}
+              className="object-contain"
+            />
+          </div>
+        ) : (
+          <Avatar name={cars.make.charAt(0)} size="lg" color="primary" />
+        )}
+        <Typography.H2 className="text-center">{cars.make}</Typography.H2>
+      </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card className="rounded-2xl">
           <CardBody className="text-center">
