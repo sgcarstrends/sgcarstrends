@@ -18,9 +18,9 @@ interface MakeDetailPanelProps {
 
 export function MakeDetailPanel({ selectedMakeData }: MakeDetailPanelProps) {
   return (
-    <aside className="sticky top-20 hidden h-[calc(100vh-8rem)] lg:block">
-      <Card className="h-full overflow-hidden rounded-2xl shadow-sm">
-        <CardBody className="h-full overflow-y-auto p-0">
+    <aside className="sticky top-20 hidden h-[calc(100vh-8rem)] overflow-y-auto lg:block">
+      <Card>
+        <CardBody>
           {selectedMakeData ? (
             <MakeDetail
               cars={selectedMakeData.cars}
