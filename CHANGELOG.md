@@ -1,3 +1,9 @@
+## [4.35.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.34.0...v4.35.0) (2025-12-16)
+
+### Features
+
+* enable homepage for production ([5ac1212](https://github.com/sgcarstrends/sgcarstrends/commit/5ac1212974384a9a65bacbfc1415b679d99a0c04))
+
 ## [4.34.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.6...v4.34.0) (2025-12-16)
 
 ### Features
