@@ -6,11 +6,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getAllPosts();
 
   return [
-    // {
-    //   url: SITE_URL,
-    //   lastModified: new Date(),
-    //   changeFrequency: "monthly" as const,
-    // },
+    {
+      url: SITE_URL,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
     {
       url: `${SITE_URL}/blog`,
       lastModified: new Date(),

@@ -1,16 +1,6 @@
 import type { NextConfig } from "next";
-import type { Redirect } from "next/dist/lib/load-custom-routes";
 
 const ONE_DAY = 60 * 60 * 24;
-
-const isProd =
-  process.env.VERCEL_ENV === "production" ||
-  process.env.NEXT_PUBLIC_APP_ENV === "prod";
-
-let redirects: Redirect[] | PromiseLike<Redirect[]> = [];
-if (isProd) {
-  redirects = [{ source: "/", destination: "/cars", permanent: false }];
-}
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -80,9 +70,6 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
-  },
-  async redirects() {
-    return redirects;
   },
 };
 
