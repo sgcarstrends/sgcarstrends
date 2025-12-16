@@ -6,6 +6,7 @@ import { CoeSection } from "@web/app/(dashboard)/_components/coe-section";
 import { MarketOverview } from "@web/app/(dashboard)/_components/market-overview";
 import { PostsSection } from "@web/app/(dashboard)/_components/posts-section";
 import { SummaryCard } from "@web/app/(dashboard)/_components/summary-card";
+import { WelcomeSection } from "@web/app/(dashboard)/_components/welcome-section";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
@@ -72,27 +73,23 @@ const HomePage = () => {
     <>
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
-        {/* Header */}
-        <div className="flex items-end justify-between">
-          <div>
-            <p className="text-default-500 text-sm">Welcome back</p>
-            <h1 className="font-bold text-3xl text-foreground">Overview</h1>
-          </div>
-        </div>
-
         {/* Bento Grid */}
-        <div className="grid grid-cols-12 gap-5">
-          {/* Row 1: Summary + COE Results */}
+        <div className="grid grid-cols-12 gap-4">
+          {/* Row 1: Welcome + Summary Card */}
+          <WelcomeSection />
           <Suspense fallback={<SummaryCardSkeleton />}>
             <SummaryCard />
           </Suspense>
+          {/* Empty 4 cols reserved for future second card */}
+
+          {/* Row 2: COE Results */}
           <CoeSection />
 
-          {/* Row 2: Top Makes + Posts */}
+          {/* Row 3: Top Makes + Posts */}
           <TopMakesSection />
           <PostsSection />
 
-          {/* Row 3: Yearly Chart + Market Overview */}
+          {/* Row 4: Yearly Chart + Market Overview */}
           <YearlyChart />
           <Suspense fallback={<MarketOverviewSkeleton />}>
             <MarketOverview />
