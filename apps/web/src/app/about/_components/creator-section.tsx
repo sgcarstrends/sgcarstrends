@@ -41,7 +41,7 @@ export const CreatorSection = () => {
                 <Heart className="inline size-6 fill-red-500 text-red-500" /> in
                 Singapore
               </Typography.H2>
-              <Typography.TextLg className="text-foreground/70">
+              <Typography.TextLg className="text-default-600">
                 SG Cars Trends is an independent project created by{" "}
                 <Link
                   href="https://ruchern.dev"
@@ -55,7 +55,7 @@ export const CreatorSection = () => {
               </Typography.TextLg>
             </div>
 
-            <Typography.TextSm className="max-w-lg text-foreground/50">
+            <Typography.TextSm className="max-w-lg text-default-500">
               This platform is maintained in spare time alongside a full-time
               job. If you find it useful, consider sharing it with others who
               might benefit.

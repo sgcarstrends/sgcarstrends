@@ -28,7 +28,7 @@
 
 :root {
   /* Background & Foreground - Professional colour scheme (Issue #406) */
-  --background: hsl(0 0% 100%);
+  --background: hsl(213 32% 95%); /* #F0F4F8 - Light blue-gray (matches preview design) */
   /* Blue-tinted gray, harmonizes with Navy Blue primary */
   --foreground: hsl(220 15% 20%);
 

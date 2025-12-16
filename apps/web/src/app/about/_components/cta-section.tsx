@@ -28,7 +28,7 @@ export const CtaSection = () => {
               Stay Updated
             </Typography.Label>
             <Typography.H2>Follow for the Latest Updates</Typography.H2>
-            <Typography.TextLg className="max-w-xl text-foreground/70">
+            <Typography.TextLg className="max-w-xl text-default-600">
               Get notified when new COE results, car registration data, and
               market insights are published.
             </Typography.TextLg>

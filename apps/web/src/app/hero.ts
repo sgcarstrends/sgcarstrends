@@ -13,11 +13,11 @@ export default heroui({
   themes: {
     light: {
       colors: {
-        background: "#FFFFFF",
+        background: "#F0F4F8", // Light blue-gray (matches preview design)
         foreground: "#2F4F4F", // Dark Slate Gray
         divider: "#E2E8F0",
         focus: "#191970", // Navy Blue
-        content1: "#FFFFFF",
+        content1: "#FFFFFF", // Cards, panels
         content2: "#F8FAFC",
         content3: "#F1F5F9",
         content4: "#E2E8F0",

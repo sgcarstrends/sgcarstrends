@@ -34,7 +34,7 @@ export const HeroSection = () => {
               variant="dot"
               classNames={{
                 base: "border-primary/20 bg-primary/5 backdrop-blur-sm",
-                content: "font-medium text-foreground/90 tracking-wide text-sm",
+                content: "font-medium text-foreground tracking-wide text-sm",
                 dot: "bg-primary",
               }}
             >
@@ -57,7 +57,7 @@ export const HeroSection = () => {
 
           {/* Subheadline */}
           <motion.p
-            className="max-w-2xl text-foreground/70 text-lg leading-relaxed lg:text-xl lg:leading-relaxed"
+            className="max-w-2xl text-default-600 text-lg leading-relaxed lg:text-xl lg:leading-relaxed"
             initial={{ opacity: 0, y: 32, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={entranceTransition(0.3)}

@@ -59,7 +59,7 @@ const TimelineItemComponent = ({ item, index }: TimelineItemComponentProps) => {
           name={item.date}
           classNames={{
             base: cn(
-              "relative z-10 h-12 w-12 border-2 bg-background transition-colors",
+              "relative z-10 h-12 w-12 border-2 bg-card transition-colors",
               item.highlight
                 ? "border-primary text-primary"
                 : "border-default-300 text-default-600 group-hover:border-primary/50",
