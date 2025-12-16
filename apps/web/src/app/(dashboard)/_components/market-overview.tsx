@@ -1,3 +1,4 @@
+import Typography from "@web/components/typography";
 import { getYearlyRegistrations } from "@web/queries/cars";
 
 export async function MarketOverview() {
@@ -14,7 +15,7 @@ export async function MarketOverview() {
   return (
     <div className="col-span-12 rounded-3xl border border-default-200 bg-white p-6 lg:col-span-8">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="font-semibold text-foreground">Market Overview</h2>
+        <Typography.H3>Market Overview</Typography.H3>
         <span className="rounded-full bg-secondary/20 px-3 py-1 font-medium text-secondary text-xs">
           {currentYear?.year ?? new Date().getFullYear()}
         </span>

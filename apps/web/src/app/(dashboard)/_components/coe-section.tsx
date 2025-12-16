@@ -1,4 +1,5 @@
 import { AnimatedNumber } from "@web/components/animated-number";
+import Typography from "@web/components/typography";
 import { getLatestAndPreviousCoeResults } from "@web/queries/coe";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
@@ -14,7 +15,7 @@ async function CoeSectionContent() {
   return (
     <div className="col-span-12 rounded-3xl bg-white p-6">
       <div className="mb-5 flex items-center justify-between">
-        <h2 className="font-semibold text-foreground">Latest COE Results</h2>
+        <Typography.H3>Latest COE Results</Typography.H3>
         <div className="flex items-center gap-3">
           <Link
             href="/coe"

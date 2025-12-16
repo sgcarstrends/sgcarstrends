@@ -1,3 +1,4 @@
+import Typography from "@web/components/typography";
 import { getTopMakesByYear, getYearlyRegistrations } from "@web/queries/cars";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
@@ -11,9 +12,7 @@ async function YearlyChartContent() {
     <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-4">
       <div className="mb-5 flex items-center justify-between">
         <div>
-          <h2 className="font-semibold text-foreground">
-            Yearly Registrations
-          </h2>
+          <Typography.H3>Yearly Registrations</Typography.H3>
           <p className="text-default-500 text-sm">
             Total registrations over the years
           </p>
@@ -57,7 +56,7 @@ async function TopMakesContent() {
   return (
     <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-4">
       <div className="mb-5 flex items-center justify-between">
-        <h2 className="font-semibold text-foreground">Top Makes</h2>
+        <Typography.H3>Top Makes</Typography.H3>
         <Link
           href="/cars/makes"
           className="flex size-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"

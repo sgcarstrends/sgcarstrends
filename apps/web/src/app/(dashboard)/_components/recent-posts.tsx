@@ -1,6 +1,7 @@
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
 import { Post } from "@web/app/blog/_components/post";
+import Typography from "@web/components/typography";
 import { ArrowUpRight } from "lucide-react";
 
 interface RecentPostsProps {
@@ -12,7 +13,7 @@ export const RecentPosts = ({ posts }: RecentPostsProps) => {
     return (
       <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-8">
         <div className="mb-5 flex items-center justify-between">
-          <h2 className="font-semibold text-foreground">Recent Posts</h2>
+          <Typography.H3>Recent Posts</Typography.H3>
           <Link
             href="/blog"
             aria-label="View all blog posts"
@@ -31,7 +32,7 @@ export const RecentPosts = ({ posts }: RecentPostsProps) => {
   return (
     <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-8">
       <div className="mb-5 flex items-center justify-between">
-        <h2 className="font-semibold text-foreground">Recent Posts</h2>
+        <Typography.H3>Recent Posts</Typography.H3>
         <Link
           href="/blog"
           aria-label="View all blog posts"
