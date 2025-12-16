@@ -42,7 +42,7 @@ export const RecentPosts = ({ posts }: RecentPostsProps) => {
         </Link>
       </div>
 
-      <div className="grid auto-cols-fr grid-cols-1 gap-4 md:grid-flow-col">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {posts.slice(0, 3).map((post) => (
           <Post.Card key={post.id} post={post} />
         ))}
