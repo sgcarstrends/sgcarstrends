@@ -40,7 +40,7 @@ export const StatCard = ({
   };
 
   return (
-    <Card>
+    <Card className="p-3">
       <CardHeader className="flex flex-col items-start gap-2">
         <Typography.H4>{title}</Typography.H4>
         <Typography.TextSm>{description}</Typography.TextSm>

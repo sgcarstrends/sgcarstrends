@@ -54,12 +54,12 @@ export function TopMakesChart({
 
   if (!makes || makes.length === 0) {
     return (
-      <Card className="rounded-2xl shadow-sm">
+      <Card className="p-3">
         <CardHeader className="flex flex-col items-start gap-2">
           <Typography.H4>Top Makes</Typography.H4>
           <Typography.TextSm>No make data available</Typography.TextSm>
         </CardHeader>
-        <CardBody className="p-6">
+        <CardBody>
           <div className="flex h-60 items-center justify-center rounded-lg bg-default-100">
             <p className="text-default-500">No data available</p>
           </div>
@@ -69,7 +69,7 @@ export function TopMakesChart({
   }
 
   return (
-    <Card className="p-4">
+    <Card className="p-3">
       <CardHeader className="flex flex-col items-start gap-2">
         <Typography.H4>Top Makes - {title}</Typography.H4>
         <Typography.TextSm>{description}</Typography.TextSm>

@@ -75,7 +75,7 @@ export const COEPremiumChart = ({ data }: Props) => {
   const periodLabel = PERIOD_LABELS[period].toLowerCase();
 
   return (
-    <Card>
+    <Card className="p-3">
       <CardHeader className="flex flex-col gap-2 border-b lg:flex-row lg:items-center lg:justify-between">
         <div className="grid flex-1 gap-1">
           <h3 className="font-medium text-foreground text-xl">

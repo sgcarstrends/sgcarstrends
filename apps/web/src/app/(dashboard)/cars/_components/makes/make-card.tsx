@@ -19,7 +19,12 @@ export function MakeCard({ make, logoUrl }: MakeCardProps) {
   const href = serialize("/cars/makes", { make: slugify(make) });
 
   return (
-    <Card isPressable as={Link} href={href} className="p-4">
+    <Card
+      isPressable
+      as={Link}
+      href={href}
+      className="hover:-translate-y-1 p-3 transition-all duration-300 hover:shadow-lg"
+    >
       <CardBody>
         <div className="flex flex-col gap-2">
           <div className="flex size-16 items-center justify-center">

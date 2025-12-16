@@ -3,7 +3,7 @@ import { Skeleton } from "@heroui/skeleton";
 
 export const MetricCardSkeleton = () => {
   return (
-    <Card className="p-4">
+    <Card className="p-3">
       <CardHeader>
         <Skeleton className="h-6 w-3/4 rounded-lg" />
       </CardHeader>

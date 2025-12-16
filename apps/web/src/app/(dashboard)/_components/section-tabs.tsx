@@ -23,13 +23,11 @@ export const SectionTabs = () => {
   const activeKey = findActiveKey();
 
   return (
-    <nav className="flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-full bg-white p-1.5 shadow-sm">
+    <nav className="flex w-fit max-w-full items-center overflow-x-auto">
       {navigationSections.map((section, sectionIndex) => (
         <div key={section.name} className="flex shrink-0 items-center">
           {/* Divider between sections */}
-          {sectionIndex > 0 && (
-            <div className="mx-2 h-6 w-px shrink-0 bg-default-200" />
-          )}
+          {sectionIndex > 0 && <div className="mx-2 h-6 w-px shrink-0" />}
 
           {/* Section items */}
           <div className="flex shrink-0 items-center gap-1">

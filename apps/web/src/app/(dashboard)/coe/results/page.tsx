@@ -97,7 +97,7 @@ const COEResultsPage = async ({ searchParams }: Props) => {
         <COEPremiumChart data={chartData} />
 
         {/* Historical Data Table - Full Width */}
-        <Card>
+        <Card className="p-3">
           <CardHeader className="flex flex-col items-start gap-2">
             <h3 className="font-medium text-foreground text-xl">
               Historical Data

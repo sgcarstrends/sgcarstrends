@@ -269,7 +269,7 @@ export const KeyStatistics = ({ data }: Props) => {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <Card>
+          <Card className="p-3">
             <CardHeader>Year-over-year change</CardHeader>
             <CardBody className="flex flex-col gap-2">
               <p className="font-semibold text-2xl">
@@ -293,7 +293,7 @@ export const KeyStatistics = ({ data }: Props) => {
             </CardBody>
           </Card>
 
-          <Card>
+          <Card className="p-3">
             <CardHeader>Highest year on record</CardHeader>
             <CardBody className="flex flex-col gap-2">
               <p className="font-semibold text-2xl">
@@ -314,7 +314,7 @@ export const KeyStatistics = ({ data }: Props) => {
             </CardBody>
           </Card>
 
-          <Card>
+          <Card className="p-3">
             <CardHeader>Lowest year on record</CardHeader>
             <CardBody className="flex flex-col gap-2">
               <p className="font-semibold text-2xl">

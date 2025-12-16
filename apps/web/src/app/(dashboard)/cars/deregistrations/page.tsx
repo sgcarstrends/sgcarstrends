@@ -194,7 +194,7 @@ const DeregistrationsPage = async ({ searchParams }: Props) => {
 
         {/* Metrics Bar - All in one row */}
         <section>
-          <Card className="bg-default-50">
+          <Card className="bg-default-50 p-3">
             <CardBody className="p-4">
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
                 {/* Total */}

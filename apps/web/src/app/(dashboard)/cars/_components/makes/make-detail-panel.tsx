@@ -19,7 +19,7 @@ interface MakeDetailPanelProps {
 export function MakeDetailPanel({ selectedMakeData }: MakeDetailPanelProps) {
   return (
     <div className="sticky top-20 hidden h-[calc(100vh-8rem)] lg:block">
-      <Card className="h-full rounded-3xl border border-default-200 bg-white">
+      <Card className="h-full rounded-3xl border border-default-200 bg-white p-3">
         <CardBody className="h-full overflow-y-auto p-6">
           {selectedMakeData ? (
             <MakeDetail

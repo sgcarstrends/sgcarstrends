@@ -16,7 +16,7 @@ interface Props {
 
 export const CategoryTrendsTable = ({ data }: Props) => {
   return (
-    <Card>
+    <Card className="p-3">
       <CardBody className="p-4">
         <h3 className="mb-3 font-medium text-default-500 text-xs uppercase tracking-wider">
           Category Trends (12 months)

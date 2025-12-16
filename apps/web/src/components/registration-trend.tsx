@@ -28,7 +28,7 @@ export const RegistrationTrend = ({ data }: RegistrationTrendProps) => {
   } satisfies ChartConfig;
 
   return (
-    <Card className="rounded-2xl border border-default-200 shadow-card-soft">
+    <Card className="p-3">
       <CardHeader className="flex flex-col items-start gap-2 pb-4">
         <Typography.H4>Yearly Registration Trend</Typography.H4>
         <Typography.TextSm className="text-default-600">

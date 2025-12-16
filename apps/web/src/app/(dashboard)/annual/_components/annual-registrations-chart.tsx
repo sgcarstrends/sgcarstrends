@@ -44,7 +44,7 @@ export const AnnualRegistrationsChart = ({ data, availableYears }: Props) => {
   };
 
   return (
-    <Card>
+    <Card className="p-3">
       <CardHeader className="flex items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
           <Typography.H3>Total New Car Registrations by Year</Typography.H3>

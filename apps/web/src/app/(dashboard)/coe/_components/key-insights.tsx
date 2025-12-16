@@ -50,7 +50,7 @@ export const KeyInsights = ({ insights }: KeyInsightsProps) => {
   }
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden p-3">
       <CardBody>
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-2 text-primary">
