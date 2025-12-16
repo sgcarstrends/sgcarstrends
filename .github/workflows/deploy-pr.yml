@@ -49,7 +49,7 @@ jobs:
           role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: apps/web/.next/cache
           key: ${{ runner.os }}-nextjs-dev-${{ hashFiles('apps/web/**.[jt]s', 'apps/web/**.[jt]sx') }}
