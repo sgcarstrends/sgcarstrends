@@ -6,24 +6,18 @@
   "globalEnv": ["NODE_ENV", "CI"],
   "globalPassThroughEnv": ["GITHUB_TOKEN", "VERCEL_TOKEN"],
   "tasks": {
-    "topo": {
-      "dependsOn": ["^topo"]
-    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*", "tsconfig.json"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {
-      "dependsOn": ["topo"],
       "inputs": ["$TURBO_DEFAULT$"]
     },
     "format": {
-      "dependsOn": ["topo"],
       "inputs": ["$TURBO_DEFAULT$"]
     },
     "typecheck": {
-      "dependsOn": ["topo"],
       "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/tsconfig.json"]
     },
     "dev": {
@@ -37,7 +31,7 @@
       "persistent": true
     },
     "test": {
-      "dependsOn": ["topo", "^test"],
+      "dependsOn": ["^test"],
       "inputs": ["$TURBO_DEFAULT$", "test/**/*.ts", "tests/**/*.ts"]
     },
     "test:watch": {
@@ -46,12 +40,11 @@
       "interactive": true
     },
     "test:coverage": {
-      "dependsOn": ["topo", "^test:coverage"],
+      "dependsOn": ["^test:coverage"],
       "inputs": ["$TURBO_DEFAULT$", "test/**/*.ts", "tests/**/*.ts"],
       "outputs": ["coverage/**"]
     },
     "test:e2e": {
-      "dependsOn": ["topo"],
       "inputs": ["$TURBO_DEFAULT$", "tests/**/*.ts"],
       "outputs": ["test-results/**", "playwright-report/**"]
     },
