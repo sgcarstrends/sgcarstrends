@@ -83,7 +83,7 @@ export const RenewalCalculator = ({ data }: PQPCalculatorProps) => {
   );
 
   return (
-    <Card>
+    <Card className="p-3">
       <CardHeader className="flex-col items-start gap-2 p-4">
         <div className="flex items-center gap-2">
           <Calculator />
@@ -121,7 +121,7 @@ export const RenewalCalculator = ({ data }: PQPCalculatorProps) => {
               >
                 <div className="flex flex-col gap-4">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <Card className="border bg-default-50">
+                    <Card className="p-3">
                       <CardBody className="text-center">
                         <h4 className="mb-1 font-medium text-default-600 text-sm">
                           Current PQP Rate
@@ -135,7 +135,7 @@ export const RenewalCalculator = ({ data }: PQPCalculatorProps) => {
                       </CardBody>
                     </Card>
 
-                    <Card className="border bg-default-50">
+                    <Card className="p-3">
                       <CardBody className="text-center">
                         <h4 className="mb-1 font-medium text-default-600 text-sm">
                           Current COE Price
@@ -157,7 +157,7 @@ export const RenewalCalculator = ({ data }: PQPCalculatorProps) => {
         {selectedRecord && (
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <Card className="border">
+              <Card className="p-3">
                 <CardBody className="text-center">
                   <h4 className="font-medium text-default-500 text-sm">
                     PQP 5-Year Renewal (Estimate)
@@ -168,8 +168,8 @@ export const RenewalCalculator = ({ data }: PQPCalculatorProps) => {
                   <p
                     className={`text-sm ${
                       selectedRecord.pqpSavings5Year > 0
-                        ? "text-green-600"
-                        : "text-red-600"
+                        ? "text-success"
+                        : "text-danger"
                     }`}
                   >
                     {selectedRecord.pqpSavings5Year > 0 ? "Saves" : "Costs"}{" "}
@@ -180,7 +180,7 @@ export const RenewalCalculator = ({ data }: PQPCalculatorProps) => {
                 </CardBody>
               </Card>
 
-              <Card className="border">
+              <Card className="p-3">
                 <CardBody className="text-center">
                   <h4 className="font-medium text-default-500 text-sm">
                     PQP 10-Year Renewal (Estimate)
@@ -191,8 +191,8 @@ export const RenewalCalculator = ({ data }: PQPCalculatorProps) => {
                   <p
                     className={`text-sm ${
                       selectedRecord.pqpSavings10Year > 0
-                        ? "text-green-600"
-                        : "text-red-600"
+                        ? "text-success"
+                        : "text-danger"
                     }`}
                   >
                     {selectedRecord.pqpSavings10Year > 0 ? "Saves" : "Costs"}{" "}

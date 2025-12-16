@@ -23,7 +23,7 @@ export const CategoryBreakdown = ({ data }: Props) => {
   const sortedData = [...data].sort((a, b) => b.total - a.total);
 
   return (
-    <Card className="h-full">
+    <Card className="h-full p-3">
       <CardBody className="p-4">
         <h3 className="mb-3 font-medium text-default-500 text-xs uppercase tracking-wider">
           Distribution

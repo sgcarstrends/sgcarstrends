@@ -134,7 +134,7 @@ export const MaintenanceNotice = () => {
 
       {/* Status Section */}
       <motion.div variants={itemVariants}>
-        <Card>
+        <Card className="p-3">
           <CardBody>
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
@@ -179,7 +179,7 @@ export const MaintenanceNotice = () => {
           variants={cardGridVariants}
         >
           <motion.div variants={cardVariants}>
-            <Card className="border-1 border-primary-200">
+            <Card className="p-3">
               <CardBody className="flex flex-row items-start gap-3 p-4">
                 <Zap className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
@@ -193,7 +193,7 @@ export const MaintenanceNotice = () => {
             </Card>
           </motion.div>
           <motion.div variants={cardVariants}>
-            <Card className="border-1 border-primary-200">
+            <Card className="p-3">
               <CardBody className="flex flex-row items-start gap-3 p-4">
                 <Shield className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
@@ -206,7 +206,7 @@ export const MaintenanceNotice = () => {
             </Card>
           </motion.div>
           <motion.div variants={cardVariants}>
-            <Card className="border-1 border-primary-200">
+            <Card className="p-3">
               <CardBody className="flex flex-row items-start gap-3 p-4">
                 <TrendingUp className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>
@@ -219,7 +219,7 @@ export const MaintenanceNotice = () => {
             </Card>
           </motion.div>
           <motion.div variants={cardVariants}>
-            <Card className="border-1 border-primary-200">
+            <Card className="p-3">
               <CardBody className="flex flex-row items-start gap-3 p-4">
                 <Wrench className="mt-1 size-6 flex-shrink-0 text-primary" />
                 <div>

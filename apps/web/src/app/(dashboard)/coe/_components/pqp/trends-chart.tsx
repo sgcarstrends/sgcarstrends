@@ -21,7 +21,7 @@ const chartConfig: ChartConfig = {};
 
 export const TrendsChart = ({ data }: Props) => {
   return (
-    <Card className="p-4">
+    <Card className="p-3">
       <CardHeader>
         <div className="flex flex-col gap-1">
           <h3 className="font-semibold text-lg">PQP Trends</h3>

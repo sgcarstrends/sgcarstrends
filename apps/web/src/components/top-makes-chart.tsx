@@ -41,7 +41,7 @@ export const TopMakesChart = ({ topMakes, year }: TopMakesChartProps) => {
   ) as ChartConfig;
 
   return (
-    <Card className="rounded-2xl border border-default-200 shadow-card-soft">
+    <Card className="p-3">
       <CardHeader className="flex flex-col items-start gap-2 pb-4">
         <Typography.H4>
           Top {topMakes.length} Car Makes ({year})

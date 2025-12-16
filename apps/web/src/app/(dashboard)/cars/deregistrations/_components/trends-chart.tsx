@@ -31,7 +31,7 @@ export const TrendsChart = ({ data }: TrendsChartProps) => {
 
   if (data.length === 0) {
     return (
-      <Card className="bg-default-50">
+      <Card className="p-3">
         <CardBody className="p-4">
           <Typography.TextSm>No trend data available</Typography.TextSm>
         </CardBody>
@@ -40,7 +40,7 @@ export const TrendsChart = ({ data }: TrendsChartProps) => {
   }
 
   return (
-    <Card className="bg-default-50">
+    <Card className="p-3">
       <CardBody className="p-4">
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <AreaChart

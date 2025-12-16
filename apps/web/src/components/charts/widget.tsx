@@ -18,7 +18,7 @@ export const ChartWidget = ({
 }: ChartWidgetProps) => {
   if (isEmpty) {
     return (
-      <Card>
+      <Card className="p-3">
         <CardHeader>
           <div className="flex flex-col gap-1">
             <p className="font-medium">{title}</p>
@@ -35,7 +35,7 @@ export const ChartWidget = ({
   }
 
   return (
-    <Card>
+    <Card className="p-3">
       <CardHeader>
         <div className="flex flex-col gap-1">
           <p className="font-medium">{title}</p>

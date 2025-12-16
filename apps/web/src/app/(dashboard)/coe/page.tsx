@@ -106,7 +106,7 @@ const COEOverviewPage = async () => {
         {/* ROW 3: Bento Grid - Fun Facts + PQP Rates side by side */}
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {/* Fun Facts Card */}
-          <Card>
+          <Card className="p-3">
             <CardHeader className="flex flex-col items-start gap-2">
               <h3 className="font-medium text-foreground text-xl">
                 Category A vs B
@@ -139,7 +139,7 @@ const COEOverviewPage = async () => {
           </Card>
 
           {/* Latest PQP Rates Card */}
-          <Card>
+          <Card className="p-3">
             <CardHeader className="flex flex-col items-start gap-2">
               <h3 className="font-medium text-foreground text-xl">
                 Latest PQP Rates

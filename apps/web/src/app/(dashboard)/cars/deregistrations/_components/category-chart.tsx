@@ -73,7 +73,7 @@ export const CategoryChart = ({ data, months }: Props) => {
   };
 
   return (
-    <Card>
+    <Card className="p-3">
       <CardHeader className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div className="flex flex-col gap-1">
           <Typography.H3>Deregistrations by Category</Typography.H3>

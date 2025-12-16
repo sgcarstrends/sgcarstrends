@@ -55,7 +55,7 @@ export const LatestCoePremium = ({
         return (
           <Card
             key={result.vehicleClass}
-            className="group hover:-translate-y-1 rounded-2xl border border-default-200 shadow-card-soft transition-all duration-300 hover:border-primary/20 hover:shadow-card-hover"
+            className="hover:-translate-y-1 p-3 transition-all duration-300 hover:shadow-lg"
           >
             <CardHeader>
               <div className="flex items-center gap-2">

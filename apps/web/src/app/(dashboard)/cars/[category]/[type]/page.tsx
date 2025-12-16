@@ -175,7 +175,7 @@ const TypePageContent = async ({
         </PageHeader>
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <Card>
+            <Card className="p-3">
               <CardHeader className="flex flex-row items-center justify-between gap-2">
                 <Typography.H4>Registrations</Typography.H4>
                 <Chip size="sm" variant="flat">

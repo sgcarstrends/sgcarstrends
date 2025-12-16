@@ -43,7 +43,7 @@ export const CoeCategories = () => {
   );
 
   return (
-    <Card>
+    <Card className="p-3">
       <CardHeader className="flex flex-col items-start gap-2">
         <h3 className="font-medium text-foreground text-xl">COE Categories</h3>
         <p className="inline-flex items-center gap-2 text-default-600 text-sm">

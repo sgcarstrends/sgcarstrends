@@ -145,7 +145,7 @@ export const PremiumRangeCard = ({ stats }: PremiumRangeCardProps) => {
         return (
           <Card
             key={stat.category}
-            className="group relative overflow-hidden transition-shadow duration-300 hover:shadow-lg"
+            className="group relative overflow-hidden p-3 transition-shadow duration-300 hover:shadow-lg"
           >
             {/* Accent bar at top */}
             <div className="absolute top-0 right-0 left-0 h-1 bg-primary" />

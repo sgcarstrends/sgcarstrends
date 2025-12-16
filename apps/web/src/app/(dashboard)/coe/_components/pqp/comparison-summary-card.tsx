@@ -46,7 +46,7 @@ export const ComparisonSummaryCard = ({ data }: Props) => {
               ease: [0.4, 0, 0.2, 1],
             }}
           >
-            <Card className="p-4">
+            <Card className="p-3">
               <CardHeader>
                 <div className="font-bold text-lg">{item.category}</div>
               </CardHeader>
