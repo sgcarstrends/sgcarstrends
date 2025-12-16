@@ -14,6 +14,7 @@ import {
   Calendar,
   Car,
   CarFront,
+  FileMinus,
   FilePlus,
   FileText,
   Fuel,
@@ -96,6 +97,13 @@ export const navLinks: NavLinks = {
       icon: FilePlus,
       description: "Monthly car registration statistics and trends",
       iconColor: "text-blue-500",
+    },
+    {
+      title: "Deregistrations",
+      url: "/cars/deregistrations",
+      icon: FileMinus,
+      description: "Monthly vehicle deregistration statistics",
+      iconColor: "text-red-500",
     },
     {
       title: "Makes",
