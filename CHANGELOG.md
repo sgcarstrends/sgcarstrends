@@ -1,3 +1,9 @@
+## [4.34.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.6...v4.34.0) (2025-12-16)
+
+### Features
+
+* **web:** add deregistrations to navigation ([6989e39](https://github.com/sgcarstrends/sgcarstrends/commit/6989e39ebf92217379cebab45e27d783874d8a7c))
+
 ## [4.33.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.5...v4.33.6) (2025-12-15)
 
 ### Bug Fixes
