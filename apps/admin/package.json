@@ -24,7 +24,7 @@
     "@sgcarstrends/utils": "workspace:*",
     "@vercel/related-projects": "catalog:",
     "ai": "catalog:",
-    "better-auth": "^1.4.3",
+    "better-auth": "^1.4.5",
     "drizzle-orm": "0.44.3",
     "lucide-react": "^0.482.0",
     "next": "catalog:",
