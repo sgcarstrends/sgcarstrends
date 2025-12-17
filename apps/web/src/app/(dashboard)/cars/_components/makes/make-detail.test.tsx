@@ -2,11 +2,16 @@ import { render, screen } from "@testing-library/react";
 import type { Car } from "@web/types";
 import { MakeDetail } from "./make-detail";
 
-vi.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: vi.fn(),
-    back: vi.fn(),
-  }),
+vi.mock("framer-motion", () => ({
+  motion: {
+    div: ({
+      children,
+      className,
+    }: {
+      children: React.ReactNode;
+      className?: string;
+    }) => <div className={className}>{children}</div>,
+  },
 }));
 
 vi.mock("@web/app/(dashboard)/cars/_components/makes", () => ({
@@ -89,14 +94,8 @@ describe("MakeDetail", () => {
     expect(screen.getByText("Fuel & vehicle types by month")).toBeVisible();
   });
 
-  it("should render NoData component when cars is null", () => {
-    render(
-      <MakeDetail
-        // @ts-expect-error Testing null cars prop
-        cars={null}
-        coeComparison={mockCoeComparison}
-      />,
-    );
+  it("should render EmptyState component when cars is null", () => {
+    render(<MakeDetail cars={null} coeComparison={mockCoeComparison} />);
     expect(screen.getByText("No Data Available")).toBeVisible();
   });
 

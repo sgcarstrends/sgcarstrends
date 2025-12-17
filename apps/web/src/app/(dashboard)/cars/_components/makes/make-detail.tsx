@@ -7,7 +7,7 @@ import {
   CoeComparisonChart,
   MakeTrendChart,
 } from "@web/app/(dashboard)/cars/_components/makes";
-import NoData from "@web/components/shared/no-data";
+import { EmptyState } from "@web/components/shared/empty-state";
 import { columns } from "@web/components/tables/columns/cars-make-columns";
 import Typography from "@web/components/typography";
 import type { MakeCoeComparisonData } from "@web/queries/cars/makes/coe-comparison";
@@ -15,14 +15,14 @@ import { Calendar, Car, TrendingUp } from "lucide-react";
 import Image from "next/image";
 
 interface MakeDetailProps {
-  cars: { make: string; total: number; data: Partial<SelectCar>[] };
+  cars: { make: string; total: number; data: Partial<SelectCar>[] } | null;
   coeComparison: MakeCoeComparisonData[];
   logo?: CarLogo | null;
 }
 
 export function MakeDetail({ cars, coeComparison, logo }: MakeDetailProps) {
   if (!cars) {
-    return <NoData />;
+    return <EmptyState />;
   }
 
   return (
