@@ -2,13 +2,12 @@ import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import Typography from "@web/components/typography";
 import type { PremiumRangeStats } from "@web/lib/coe/calculations";
+import { formatCurrency } from "@web/utils/format-currency";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 
 interface PremiumRangeCardProps {
   stats: PremiumRangeStats[];
 }
-
-const formatCurrency = (value: number) => `S$${value.toLocaleString("en-SG")}`;
 
 interface RangeBarProps {
   lowest: number;

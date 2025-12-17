@@ -62,8 +62,7 @@ async function CoeSectionContent() {
                 )}
               </div>
               <p className="font-bold text-foreground text-lg tabular-nums">
-                S$
-                <AnimatedNumber value={result.premium} />
+                <AnimatedNumber value={result.premium} format="currency" />
               </p>
               <p
                 className={`mt-1 font-medium text-xs ${

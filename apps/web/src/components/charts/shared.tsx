@@ -1,4 +1,5 @@
 import { numberFormat } from "@ruchernchong/number-format";
+import { formatCurrency } from "@web/utils/format-currency";
 import type { CSSProperties, ReactNode } from "react";
 import { Label, XAxis, YAxis } from "recharts";
 
@@ -28,11 +29,7 @@ export const currencyTooltipFormatter = <T extends number | string>({
       />
       {name}
       <div className="ml-auto flex items-baseline gap-0.5 font-medium text-foreground tabular-nums">
-        {new Intl.NumberFormat("en-SG", {
-          style: "currency",
-          currency: "SGD",
-          minimumFractionDigits: 0,
-        }).format(numericValue)}
+        {formatCurrency(numericValue)}
       </div>
     </>
   );
@@ -44,7 +41,7 @@ interface PriceYAxisProps {
 }
 
 export const PriceYAxis = ({
-  label = "Price (S$)",
+  label = "Price ($)",
   hide = false,
 }: PriceYAxisProps) => (
   <YAxis

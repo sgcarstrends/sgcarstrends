@@ -3,6 +3,7 @@ import { Chip } from "@heroui/chip";
 import { AnimatedNumber } from "@web/components/animated-number";
 import Typography from "@web/components/typography";
 import type { COEResult } from "@web/types";
+import { formatCurrency } from "@web/utils/format-currency";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { formatOrdinal } from "@web/utils/format-ordinal";
 import { ArrowDownIcon, ArrowUpIcon, ClockIcon } from "lucide-react";
@@ -15,8 +16,6 @@ interface BiddingRoundCardsProps {
 
 const PRIMARY_CATEGORIES = ["Category A", "Category B"];
 const SECONDARY_CATEGORIES = ["Category C", "Category D", "Category E"];
-
-const formatCurrency = (value: number) => `S$${value.toLocaleString("en-SG")}`;
 
 const calculateChange = (current: number, previous: number): number => {
   if (previous === 0) return 0;
@@ -60,10 +59,7 @@ const CategoryRow = ({
           className={`font-semibold text-primary tabular-nums ${isPrimary ? "text-lg" : "text-sm"}`}
         >
           {isPrimary ? (
-            <>
-              <span className="text-primary-500">S$</span>
-              <AnimatedNumber value={premium} />
-            </>
+            <AnimatedNumber value={premium} format="currency" />
           ) : (
             formatCurrency(premium)
           )}

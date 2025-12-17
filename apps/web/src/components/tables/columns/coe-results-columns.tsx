@@ -35,7 +35,7 @@ export const columns: ColumnDef<COEResult>[] = [
   {
     accessorKey: "premium",
     header: "Quota Premium (S$)",
-    cell: ({ row }) => `S${formatCurrency(row.getValue<number>("premium"))}`,
+    cell: ({ row }) => formatCurrency(row.getValue<number>("premium")),
   },
   {
     accessorKey: "biddingNo",

@@ -64,13 +64,8 @@ export const LatestCoePremium = ({
             </CardHeader>
             <CardBody>
               <div className="grid grid-cols-2 items-center gap-2">
-                <div className="flex items-baseline gap-1">
-                  <Typography.Caption className="font-medium text-default-600">
-                    S$
-                  </Typography.Caption>
-                  <div className="bg-gradient-to-br from-primary to-primary/70 bg-clip-text font-bold text-2xl text-transparent">
-                    <AnimatedNumber value={result.premium} />
-                  </div>
+                <div className="bg-gradient-to-br from-primary to-primary/70 bg-clip-text font-bold text-2xl text-transparent">
+                  <AnimatedNumber value={result.premium} format="currency" />
                 </div>
                 {sparklineData.length > 0 && (
                   <Sparkline

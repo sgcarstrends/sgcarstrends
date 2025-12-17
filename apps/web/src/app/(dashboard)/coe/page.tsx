@@ -166,8 +166,7 @@ const COEOverviewPage = async () => {
                         {category}
                       </Typography.TextSm>
                       <span className="font-bold text-primary text-xl tabular-nums">
-                        S$
-                        <AnimatedNumber value={rate} />
+                        <AnimatedNumber value={rate} format="currency" />
                       </span>
                     </div>
                   ))}

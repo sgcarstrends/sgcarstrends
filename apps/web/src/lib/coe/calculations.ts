@@ -1,6 +1,7 @@
 import type { Period } from "@web/app/(dashboard)/coe/search-params";
 import type { CoeMarketShareData } from "@web/queries/coe";
 import type { COEBiddingResult, COEResult } from "@web/types";
+import { formatCurrency } from "@web/utils/format-currency";
 import { format, subMonths, subYears } from "date-fns";
 
 export const COE_CATEGORY_MAP = {
@@ -38,7 +39,7 @@ export const calculateCOEPremiumInsights = (
 
   if (premiumSpread > 50000) {
     insights.push(
-      `Large premium spread of $${Math.round(premiumSpread).toLocaleString()} between categories`,
+      `Large premium spread of ${formatCurrency(Math.round(premiumSpread))} between categories`,
     );
   }
 
