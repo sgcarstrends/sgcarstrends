@@ -2,13 +2,6 @@ import { render, screen } from "@testing-library/react";
 import type { RegistrationStat } from "@web/types/cars";
 import { StatCard } from "./shared/stat-card";
 
-vi.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: vi.fn(),
-  }),
-  useSearchParams: () => new URLSearchParams(),
-}));
-
 vi.mock("@web/app/(dashboard)/cars/bar-chart-by-type", () => ({
   BarChartByType: ({ data }: { data: RegistrationStat[] }) => (
     <div data-testid="bar-chart">
@@ -50,11 +43,6 @@ describe("StatCard", () => {
 
   it("should render with empty data", () => {
     render(<StatCard {...defaultProps} data={[]} />);
-    expect(screen.getByText("Test Title")).toBeInTheDocument();
-  });
-
-  it("should render with linkPrefix prop", () => {
-    render(<StatCard {...defaultProps} linkPrefix="makes" />);
     expect(screen.getByText("Test Title")).toBeInTheDocument();
   });
 });

@@ -1,44 +1,19 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
-import { slugify } from "@sgcarstrends/utils";
 import { BarChartByType } from "@web/app/(dashboard)/cars/bar-chart-by-type";
 import Typography from "@web/components/typography";
 import { FUEL_TYPE } from "@web/config";
 import type { RegistrationStat } from "@web/types/cars";
-import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   title: string;
   description: string;
   data: RegistrationStat[];
   total: number;
-  // TODO: Temporary solution
-  linkPrefix?: string;
 }
 
-export const StatCard = ({
-  title,
-  description,
-  data,
-  total,
-  // TODO: Temporary solution
-  linkPrefix,
-}: Props) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const _handleRowClick = (type: string) => {
-    router.push(`/cars/${linkPrefix}/${slugify(type)}?${searchParams}`);
-  };
-
-  const _getBadgeVariant = (value: number) => {
-    const percentage = (value / total) * 100;
-    if (percentage > 30) return "default";
-    if (percentage > 15) return "secondary";
-    return "outline";
-  };
-
+export const StatCard = ({ title, description, data }: Props) => {
   return (
     <Card className="p-3">
       <CardHeader className="flex flex-col items-start gap-2">

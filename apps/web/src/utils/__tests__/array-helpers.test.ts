@@ -184,4 +184,16 @@ describe("sortByField", () => {
 
     expect(data).toEqual(original);
   });
+
+  it("should convert non-primitive values to string for sorting", () => {
+    const data = [
+      { name: "A", active: true },
+      { name: "B", active: false },
+      { name: "C", active: true },
+    ];
+    const result = sortByField(data, "active", "asc");
+
+    expect(result[0].active).toBe(false);
+    expect(result[1].active).toBe(true);
+  });
 });

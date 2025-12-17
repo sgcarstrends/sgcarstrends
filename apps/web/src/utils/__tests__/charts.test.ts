@@ -3,6 +3,7 @@ import {
   customTooltipFormatter,
   formatCount,
   formatGrowthRate,
+  formatMonthYear,
   formatNumber,
   formatPercent,
   formatPercentage,
@@ -107,5 +108,12 @@ describe("customTooltipFormatter", () => {
   it("should use specified format type", () => {
     const result = customTooltipFormatter(25.5, "Growth", "percentage");
     expect(result).toEqual(["25.5%", "Growth"]);
+  });
+});
+
+describe("formatMonthYear", () => {
+  it("should format month string to month year", () => {
+    expect(formatMonthYear("2024-01")).toBe("Jan 2024");
+    expect(formatMonthYear("2023-12")).toBe("Dec 2023");
   });
 });
