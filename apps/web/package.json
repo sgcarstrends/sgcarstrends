@@ -6,11 +6,12 @@
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --inspect",
     "build": "next build",
     "lint": "biome check",
     "format": "biome format --write src",
     "start": "next start",
+    "analyse": "next experimental-analyze",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",

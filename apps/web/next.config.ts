@@ -39,6 +39,7 @@ const nextConfig: NextConfig = {
   transpilePackages: ["@sgcarstrends/ui"],
   experimental: {
     mcpServer: true,
+    turbopackFileSystemCacheForBuild: true,
     turbopackFileSystemCacheForDev: true,
     typedEnv: true,
   },
