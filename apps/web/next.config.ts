@@ -40,7 +40,6 @@ const nextConfig: NextConfig = {
   experimental: {
     mcpServer: true,
     turbopackFileSystemCacheForBuild: true,
-    turbopackFileSystemCacheForDev: true,
     typedEnv: true,
   },
   async headers() {
