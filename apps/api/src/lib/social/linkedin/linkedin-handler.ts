@@ -5,7 +5,6 @@ import type {
   PublishResult,
   SocialMessage,
 } from "@api/lib/social/interfaces/platform-handler";
-import { resharePost } from "@api/lib/social/linkedin/reshare-post";
 import { Stage } from "@api/types";
 import { Platform } from "@api/types/social-media";
 import { refreshLinkedInToken } from "@api/utils/linkedin";
@@ -81,14 +80,6 @@ export class LinkedInHandler implements PlatformHandler {
           error: "LinkedIn API did not return a created entity ID",
           platformResponse: response,
         };
-      }
-
-      // Reshare the post
-      try {
-        await resharePost({ createdEntityId, accessToken });
-      } catch (reshareError) {
-        // Log reshare error but don't fail the entire post
-        console.warn("LinkedIn reshare failed:", reshareError);
       }
 
       return {
