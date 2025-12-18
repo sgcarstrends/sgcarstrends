@@ -1,3 +1,9 @@
+## [4.35.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.35.0...v4.35.1) (2025-12-18)
+
+### Bug Fixes
+
+* **web:** resolve build type errors ([697c869](https://github.com/sgcarstrends/sgcarstrends/commit/697c8693291273b65daab0e9bfcda336aa736881))
+
 ## [4.35.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.34.0...v4.35.0) (2025-12-16)
 
 ### Features
