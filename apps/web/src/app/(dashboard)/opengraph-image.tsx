@@ -40,8 +40,8 @@ export default async function Image() {
           alignItems: "center",
           gap: 8,
           padding: "8px 16px",
-          backgroundColor: "rgba(37, 99, 235, 0.05)",
-          border: "1px solid rgba(37, 99, 235, 0.2)",
+          backgroundColor: "rgba(25, 25, 112, 0.05)",
+          border: "1px solid rgba(25, 25, 112, 0.2)",
           borderRadius: 9999,
           marginBottom: 32,
         }}
@@ -51,7 +51,7 @@ export default async function Image() {
             width: 8,
             height: 8,
             borderRadius: "50%",
-            backgroundColor: "#2563eb",
+            backgroundColor: "#191970",
           }}
         />
         <span
@@ -79,16 +79,16 @@ export default async function Image() {
           marginBottom: 24,
         }}
       >
-        <span>Track Car Registration</span>
+        <span>Car & COE</span>
         <span
           style={{
             backgroundImage:
-              "linear-gradient(to right, #2563eb, rgba(37, 99, 235, 0.7))",
+              "linear-gradient(to right, #191970, rgba(25, 25, 112, 0.7))",
             backgroundClip: "text",
             color: "transparent",
           }}
         >
-          & COE Trends
+          Trends
         </span>
       </div>
 
