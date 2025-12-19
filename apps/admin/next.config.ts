@@ -12,7 +12,9 @@ const nextConfig: NextConfig = {
   transpilePackages: ["@sgcarstrends/ui"],
   typedRoutes: true,
   experimental: {
-    turbopackFileSystemCacheForDev: true,
+    mcpServer: true,
+    turbopackFileSystemCacheForBuild: true,
+    typedEnv: true,
   },
 };
 

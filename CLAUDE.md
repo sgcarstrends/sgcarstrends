@@ -75,25 +75,25 @@ Certificate of Entitlement (COE) bidding results, and vehicle deregistration sta
 
 ## Commands
 
-All commands use pnpm as the package manager.
+All commands use Bun as the package manager.
 
 | Category | Command | Description |
 |----------|---------|-------------|
-| **Build/Dev** | `pnpm build` | Build all packages |
-| | `pnpm dev` | Start all development servers |
-| | `pnpm start:web` | Start production web server |
-| **Testing** | `pnpm test` | Run all tests (see `api-testing`, `e2e-testing`, `coverage-analysis` skills) |
-| | `pnpm test:watch` | Run tests in watch mode |
-| | `pnpm -F <package> test -- <path>` | Run specific test |
-| **Linting** | `pnpm lint` | Lint all packages (see `biome-config` skill) |
-| | `pnpm format` | Format all packages |
-| **Database** | `pnpm db:migrate` | Run migrations (see `schema-design` skill) |
-| | `pnpm db:generate` | Generate migrations |
-| **Docs** | `pnpm docs:dev` | Start docs server (see `mintlify-docs`, `broken-links` skills) |
-| | `pnpm docs:build` | Build documentation site |
+| **Build/Dev** | `bun run build` | Build all packages |
+| | `bun run dev` | Start all development servers |
+| | `bun run start:web` | Start production web server |
+| **Testing** | `bun run test` | Run all tests (see `api-testing`, `e2e-testing`, `coverage-analysis` skills) |
+| | `bun run test:watch` | Run tests in watch mode |
+| | `bun run --filter <package> test -- <path>` | Run specific test |
+| **Linting** | `bun run lint` | Lint all packages (see `biome-config` skill) |
+| | `bun run format` | Format all packages |
+| **Database** | `bun run db:migrate` | Run migrations (see `schema-design` skill) |
+| | `bun run db:generate` | Generate migrations |
+| **Docs** | `bun run docs:dev` | Start docs server (see `mintlify-docs`, `broken-links` skills) |
+| | `bun run docs:build` | Build documentation site |
 | **Deployment** | See `sst-deployment` skill | Multi-environment deployment workflows |
 | **Release** | See `release-management` skill | Automated releases with semantic-release |
-| **Auth** | `pnpm auth:generate` | Generate authentication schema |
+| **Auth** | `bun run auth:generate` | Generate authentication schema |
 
 *See component CLAUDE.md files for service-specific commands and workflows.*
 
@@ -151,9 +151,9 @@ The project uses Turbo for efficient monorepo task orchestration:
 
 ## Dependency Management
 
-The project uses **pnpm with catalog** for centralised dependency version management:
+The project uses **Bun with catalog** for centralised dependency version management:
 
-- Shared versions defined in `pnpm-workspace.yaml`
+- Shared versions defined in root `package.json` under `workspaces.catalog`
 - Workspace packages reference with `"package": "catalog:"`
 - Root-level CLI tools (SST, Turbo, Biome) available to all workspace packages
 - Ensures version consistency and simplifies upgrades

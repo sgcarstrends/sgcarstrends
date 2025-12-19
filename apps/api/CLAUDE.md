@@ -15,11 +15,11 @@ bidding results, and vehicle deregistration statistics. Key features include:
 
 ### Development Commands
 
-- **Start development server**: `pnpm dev` (runs SST dev with dev stage)
-- **Run tests**: `pnpm test` (Vitest run)
-- **Watch tests**: `pnpm test:watch` (Vitest watch mode)
-- **Test coverage**: `pnpm test:coverage` (generates V8 coverage reports)
-- **Lint code**: `pnpm lint` (Biome check)
+- **Start development server**: `bun run dev` (runs SST dev with dev stage)
+- **Run tests**: `bun run test` (Vitest run)
+- **Watch tests**: `bun run test:watch` (Vitest watch mode)
+- **Test coverage**: `bun run test:coverage` (generates V8 coverage reports)
+- **Lint code**: `bun run lint` (Biome check)
 
 ### Deployment Commands
 

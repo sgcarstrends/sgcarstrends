@@ -38,16 +38,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
-        with:
-          version: '10.22.0'
+      - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2
       - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
-          cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun install
 
       - uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708
         with:
@@ -62,7 +59,7 @@ jobs:
             ${{ runner.os }}-nextjs-staging-
 
       - name: Deploy
-        run: pnpm deploy:staging
+        run: bun run deploy:staging
         env:
           BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

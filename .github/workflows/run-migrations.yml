@@ -24,16 +24,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
-        with:
-          version: '10.22.0'
+      - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2
       - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
-          cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun install
 
       - uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708
         with:
@@ -42,6 +39,6 @@ jobs:
 
       - name: Run migrations
         working-directory: ./packages/database
-        run: pnpm migrate
+        run: bun run migrate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

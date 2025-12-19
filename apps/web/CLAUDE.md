@@ -8,20 +8,20 @@ Essential commands for development:
 
 ```bash
 # Development
-pnpm dev                 # Start development server with Turbopack
-pnpm build              # Build for production with Turbopack
-pnpm start              # Start production server
+bun run dev              # Start development server with Turbopack
+bun run build            # Build for production with Turbopack
+bun run start            # Start production server
 
 # Testing
-pnpm test               # Run unit tests with Vitest
-pnpm test:run           # Run tests once
-pnpm test:coverage      # Run tests with coverage report
-pnpm test:e2e           # Run Playwright E2E tests
-pnpm test:e2e:ui        # Run E2E tests with Playwright UI
+bun run test             # Run unit tests with Vitest
+bun run test:run         # Run tests once
+bun run test:coverage    # Run tests with coverage report
+bun run test:e2e         # Run Playwright E2E tests
+bun run test:e2e:ui      # Run E2E tests with Playwright UI
 
 # Code Quality
-pnpm lint               # Run Next.js ESLint
-pnpm format             # Format code with Biome
+bun run lint             # Run Next.js ESLint
+bun run format           # Format code with Biome
 
 # Deployment (see `sst-deployment` skill)
 ```
@@ -961,7 +961,7 @@ it("displays empty state when data is empty", () => {
 
 **E2E Tests**: Playwright tests in `tests/` directory covering critical user flows.
 
-**Coverage**: Generate coverage reports with `pnpm test:coverage`.
+**Coverage**: Generate coverage reports with `bun run test:coverage`.
 
 ### Environment Configuration
 
@@ -1026,7 +1026,7 @@ See `sst-deployment` skill for deployment workflows and infrastructure details.
 
 ## Development Notes
 
-- **Package Manager**: Uses pnpm v10.22.0
+- **Package Manager**: Uses Bun
 - **TypeScript**: Strict mode enabled
 - **Turbopack**: Enabled for faster builds and development
 - **Feature Flags**: Controlled via `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`
