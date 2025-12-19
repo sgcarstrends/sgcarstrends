@@ -13,7 +13,7 @@ export async function MarketOverview() {
           {summary.year}
         </Chip>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="rounded-2xl bg-default-100 p-4">
           <p className="text-default-500 text-sm">Total Cars</p>
           <p className="mt-1 font-bold text-2xl text-primary tabular-nums">
