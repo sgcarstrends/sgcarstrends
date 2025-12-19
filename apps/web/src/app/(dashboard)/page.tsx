@@ -4,6 +4,7 @@ import {
 } from "@web/app/(dashboard)/_components/charts-section";
 import { CoeSection } from "@web/app/(dashboard)/_components/coe-section";
 import { MarketOverview } from "@web/app/(dashboard)/_components/market-overview";
+import { MonthlyChangeSummary } from "@web/app/(dashboard)/_components/monthly-change-summary";
 import { PostsSection } from "@web/app/(dashboard)/_components/posts-section";
 import { SummaryCard } from "@web/app/(dashboard)/_components/summary-card";
 import { WelcomeSection } from "@web/app/(dashboard)/_components/welcome-section";
@@ -89,6 +90,20 @@ function MarketOverviewSkeleton() {
   );
 }
 
+function MonthlyChangeSummarySkeleton() {
+  return (
+    <div className="col-span-12 rounded-3xl border-2 border-primary bg-white p-6 lg:col-span-4">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="h-12 w-12 animate-pulse rounded-2xl bg-default-200" />
+        <div className="h-10 w-10 animate-pulse rounded-full bg-default-200" />
+      </div>
+      <div className="h-4 w-32 animate-pulse rounded bg-default-200" />
+      <div className="mt-2 h-10 w-28 animate-pulse rounded bg-default-200" />
+      <div className="mt-4 h-6 w-40 animate-pulse rounded-full bg-default-200" />
+    </div>
+  );
+}
+
 const HomePage = () => {
   return (
     <>
@@ -96,12 +111,14 @@ const HomePage = () => {
       <section className="flex flex-col gap-8">
         {/* Bento Grid */}
         <div className="grid grid-cols-12 gap-4">
-          {/* Row 1: Welcome + Summary Card */}
+          {/* Row 1: Welcome + Summary Cards */}
           <WelcomeSection />
           <Suspense fallback={<SummaryCardSkeleton />}>
             <SummaryCard />
           </Suspense>
-          {/* Empty 4 cols reserved for future second card */}
+          <Suspense fallback={<MonthlyChangeSummarySkeleton />}>
+            <MonthlyChangeSummary />
+          </Suspense>
 
           {/* Row 2: COE Results */}
           <CoeSection />
