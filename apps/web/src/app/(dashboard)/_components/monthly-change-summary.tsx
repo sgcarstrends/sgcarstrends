@@ -41,6 +41,7 @@ export async function MonthlyChangeSummary() {
         </div>
         <Link
           href={`/cars?month=${latestMonth}`}
+          aria-label="View monthly car registration details"
           className="flex size-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"
         >
           <ArrowUpRight className="size-6" />

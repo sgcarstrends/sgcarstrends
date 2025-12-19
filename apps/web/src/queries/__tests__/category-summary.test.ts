@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getCategorySummaryByYear } from "../cars/category-summary";
 import {
   cacheLifeMock,
@@ -54,13 +54,19 @@ describe("category summary queries", () => {
   });
 
   it("should return default values when no data exists", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2024-06-15"));
+
     // Queue: 1) latestYearSubquery builder, 2) main query (empty)
     queueSelect([], []);
 
     const result = await getCategorySummaryByYear();
 
+    expect(result.year).toBe(2024);
     expect(result.total).toBe(0);
     expect(result.electric).toBe(0);
     expect(result.hybrid).toBe(0);
+
+    vi.useRealTimers();
   });
 });
