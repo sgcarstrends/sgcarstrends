@@ -16,12 +16,28 @@ import type { WebSite, WithContext } from "schema-dts";
 export const metadata: Metadata = {
   title: "Singapore Car Registration & COE Trends | Latest Statistics",
   description:
-    "Track Singapore car registration trends, COE bidding results, and automotive market insights. Latest data from Land Transport Authority (LTA) with interactive charts and analysis.",
+    "Track Singapore car registration trends, COE bidding results, and automotive market insights. Latest data from Land Transport Authority (LTA) with interactive charts, EV and hybrid statistics, and AI-powered analysis.",
+  keywords: [
+    "Singapore car registration",
+    "COE prices",
+    "car trends Singapore",
+    "vehicle statistics",
+    "electric vehicles Singapore",
+    "hybrid cars",
+    "LTA data",
+  ],
   openGraph: {
     title: "Singapore Car Registration & COE Trends",
     description:
       "Track Singapore car registration trends and COE bidding results with interactive charts and latest market insights.",
     type: "website",
+    siteName: SITE_TITLE,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Singapore Car Registration & COE Trends",
+    description:
+      "Track Singapore car registration trends and COE bidding results with interactive charts.",
   },
   alternates: {
     canonical: "/",
@@ -34,7 +50,12 @@ const structuredData: WithContext<WebSite> = {
   name: SITE_TITLE,
   url: SITE_URL,
   description:
-    "Analysis of new car registration trends in Singapore. Insights on popular makes, fuel and vehicle types",
+    "Analysis of new car registration trends in Singapore. Insights on popular makes, fuel and vehicle types, COE bidding results, and market data.",
+  publisher: {
+    "@type": "Organization",
+    name: SITE_TITLE,
+    url: SITE_URL,
+  },
 };
 
 function SummaryCardSkeleton() {
