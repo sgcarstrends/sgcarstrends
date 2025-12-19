@@ -47,6 +47,7 @@
     "auth:generate": "turbo run auth:generate"
   },
   "dependencies": {
+    "@heroui/navbar": "^2.2.26",
     "sst": "3.17.21"
   },
   "devDependencies": {
