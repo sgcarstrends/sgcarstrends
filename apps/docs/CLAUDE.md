@@ -79,7 +79,7 @@ at [docs.sgcarstrends.com](https://docs.sgcarstrends.com).
 
 ### Available Commands
 
-- `bun run docs:dev`: Start development server
-- `bun run docs:build`: Build documentation
-- `bun run mintlify dev`: Start Mintlify dev server (when in apps/docs directory)
-- `bun run mintlify broken-links`: Check for broken links (when in apps/docs directory)
+- `pnpm docs:dev`: Start development server
+- `pnpm docs:build`: Build documentation
+- `pnpm mintlify dev`: Start Mintlify dev server (when in apps/docs directory)
+- `pnpm mintlify broken-links`: Check for broken links (when in apps/docs directory)

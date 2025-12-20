@@ -1,0 +1,29 @@
+packages:
+  - apps/*
+  - packages/*
+
+catalog:
+  '@ai-sdk/google': ^2.0.44
+  '@langfuse/otel': ^4.4.2
+  '@tailwindcss/postcss': ^4.1.11
+  '@types/node': ^22.16.4
+  '@types/react': ^19.2.0
+  '@types/react-dom': ^19.2.0
+  '@upstash/workflow': 0.3.0-rc
+  '@vercel/related-projects': ^1.0.0
+  '@vitest/coverage-v8': ^4.0.15
+  '@vitest/ui': ^4.0.15
+  ai: ^5.0.105
+  date-fns: ^3.6.0
+  next: ^16.1.0
+  react: ^19.2.3
+  react-dom: ^19.2.3
+  resend: ^6.1.2
+  sonner: ^2.0.7
+  tailwindcss: ^4.1.11
+  typescript: ^5.8.3
+  vitest: ^4.0.15
+  zod: ^4.1.13
+
+overrides:
+  form-data@>=4.0.0 <4.0.4: '>=4.0.4'

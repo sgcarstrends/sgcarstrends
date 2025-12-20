@@ -12,10 +12,10 @@ system monitoring.
 
 ### Development Commands
 
-- **Start development server**: `bun run dev` (uses Next.js with Turbopack for faster builds)
-- **Build for production**: `bun run build`
-- **Start production server**: `bun run start`
-- **Lint code**: `bun run lint` (Next.js ESLint)
+- **Start development server**: `pnpm dev` (uses Next.js with Turbopack for faster builds)
+- **Build for production**: `pnpm build`
+- **Start production server**: `pnpm start`
+- **Lint code**: `pnpm lint` (Next.js ESLint)
 
 ## Architecture
 
