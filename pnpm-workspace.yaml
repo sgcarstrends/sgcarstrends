@@ -23,7 +23,7 @@ catalog:
   tailwindcss: ^4.1.11
   typescript: ^5.8.3
   vitest: ^4.0.15
-  zod: ^4.1.13
+  zod: ^3.22.3
 
 overrides:
   form-data@>=4.0.0 <4.0.4: '>=4.0.4'
