@@ -35,11 +35,9 @@ apps/docs/
 │   ├── coe/
 │   │   ├── get-results.mdx     # GET /api/v1/coe/results
 │   │   └── get-latest.mdx      # GET /api/v1/coe/latest
-│   ├── blog/
-│   │   ├── get-posts.mdx       # GET /api/v1/blog/posts
-│   │   └── get-post.mdx        # GET /api/v1/blog/posts/:id
-│   └── trpc/
-│       └── procedures.mdx       # tRPC procedures
+│   └── blog/
+│       ├── get-posts.mdx       # GET /api/v1/blog/posts
+│       └── get-post.mdx        # GET /api/v1/blog/posts/:id
 └── openapi.yaml                 # OpenAPI specification
 ```
 

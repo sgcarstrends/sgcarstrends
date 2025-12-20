@@ -1,5 +1,7 @@
 import crypto from "node:crypto";
+import { db, sessions } from "@sgcarstrends/database";
 import { redis } from "@sgcarstrends/utils";
+import { and, eq, gt } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 
 interface AppConfig {
@@ -16,8 +18,30 @@ export const proxy = async (request: NextRequest) => {
   const isOnMaintenancePage =
     request.nextUrl.pathname.startsWith("/maintenance");
 
-  // Maintenance enabled, user NOT on maintenance page → redirect TO maintenance
-  if (isMaintenanceMode && !isOnMaintenancePage) {
+  // Check for admin session bypass (via cross-subdomain cookie from admin.sgcarstrends.com)
+  let hasAdminSession = false;
+  if (isMaintenanceMode) {
+    const sessionToken = request.cookies.get(
+      "better-auth.session_token",
+    )?.value;
+    if (sessionToken) {
+      const [session] = await db
+        .select({ id: sessions.id })
+        .from(sessions)
+        .where(
+          and(
+            eq(sessions.token, sessionToken),
+            gt(sessions.expiresAt, new Date()),
+          ),
+        )
+        .limit(1);
+
+      hasAdminSession = !!session;
+    }
+  }
+
+  // Maintenance enabled, user NOT on maintenance page, NO admin session → redirect TO maintenance
+  if (isMaintenanceMode && !isOnMaintenancePage && !hasAdminSession) {
     const maintenanceUrl = new URL("/maintenance", request.url);
     maintenanceUrl.searchParams.set("from", request.url);
     return NextResponse.redirect(maintenanceUrl);
@@ -35,7 +59,7 @@ export const proxy = async (request: NextRequest) => {
       default-src 'self';
       script-src 'self' 'unsafe-inline' *.sgcarstrends.com *.vercel-scripts.com vercel.live;
       style-src 'self' 'unsafe-inline';
-      img-src 'self' blob: data:;
+      img-src 'self' blob: data: *.unsplash.com;
       connect-src *;
       font-src 'self';
       frame-src 'self' vercel.live;

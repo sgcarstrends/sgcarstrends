@@ -1,29 +1,14 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Documentation Access
-
-When working with external libraries or frameworks, use the Context7 MCP tools to get up-to-date documentation:
-
-1. Use `mcp__context7__resolve-library-id` to find the correct library ID for any package
-2. Use `mcp__context7__get-library-docs` to retrieve comprehensive documentation and examples
-
-This ensures you have access to the latest API documentation for dependencies like Hono, Drizzle ORM, Vitest, QStash,
-and others used in this project.
-
 # SG Cars Trends API - Developer Reference Guide
 
 ## Project Overview
 
-The SG Cars Trends API is a Hono-based REST API service that provides Singapore vehicle registration data and COE
-bidding results. Key features include:
+The SG Cars Trends API is a Hono-based REST API service that provides Singapore vehicle registration data, COE
+bidding results, and vehicle deregistration statistics. Key features include:
 
 - **REST API**: OpenAPI-documented endpoints using Hono framework
 - **Workflow System**: QStash-powered data processing workflows for automated updates
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Twitter, and Telegram
 - **Blog Generation**: LLM-powered blog post creation using Vercel AI SDK with Google Gemini
-- **tRPC Support**: Type-safe API endpoints with authentication
 - **Multi-stage Deployment**: SST-powered deployment to dev, staging, and production
 
 ## Commands
@@ -53,8 +38,8 @@ See `sst-deployment` skill for multi-environment deployment workflows.
 - **src/features/**: Feature modules (cars, coe, health, logos, months, workflows, newsletter, shared)
 - **src/v1/**: Versioned API routes (cars, coe, months) with bearer authentication
 - **src/routes/**: Workflow endpoints and social media webhooks
-- **src/trpc/**: Type-safe tRPC router with context creation
-- **src/lib/workflows/**: QStash workflows (cars, coe, posts, save-post, update-cars, update-coe, workflow, options)
+- **src/lib/workflows/**: QStash workflows (cars, coe, deregistration, posts, save-post, update-cars, update-coe, update-deregistration, options)
+- **src/lib/workflows/steps/**: Reusable workflow step functions (process-task, publish-to-all-platforms, revalidate-cache)
 - **src/lib/social/**: Platform-specific social media posting logic
 - **src/config/**: Configuration for databases, Redis, QStash, and platforms
 - **src/utils/**: Utility functions for file processing, caching, and responses
@@ -67,6 +52,7 @@ The API follows a feature-based architecture in `src/features/`:
 
 - **cars**: Car registration data endpoints
 - **coe**: COE bidding results endpoints
+- **deregistrations**: Vehicle deregistration data queries
 - **health**: Health check endpoint
 - **logos**: Car brand logo API (placeholder - awaiting storage migration)
 - **months**: Available data months endpoint
@@ -80,16 +66,20 @@ The API follows a feature-based architecture in `src/features/`:
 
 The API uses a workflow-based system for data processing:
 
-- **Workflow Runtime** (`src/lib/workflows/workflow.ts`): Common workflow helpers, step runner, Redis timestamps, cache revalidation
-- **Data Updaters** (`src/lib/workflows/update-cars.ts`, `src/lib/workflows/update-coe.ts`): Automated data fetching and processing
+- **Workflow Steps** (`src/lib/workflows/steps/`): Reusable step functions inspired by Vercel WDK's `"use step"` pattern
+  - `check-existing-post.ts`: Check if a blog post already exists for a given month and data type
+  - `process-task.ts`: Task processing with Redis timestamp tracking (exports `WorkflowStep` interface)
+  - `publish-to-all-platforms.ts`: Social media publishing (returns `PublishResults`)
+  - `revalidate-cache.ts`: Non-blocking cache revalidation with error handling
+- **Data Updaters** (`src/lib/workflows/update-cars.ts`, `src/lib/workflows/update-coe.ts`, `src/lib/workflows/update-deregistration.ts`): Automated data fetching and processing from LTA DataMall
 - **Blog Generation** (`src/lib/workflows/posts.ts`): Orchestrates LLM-powered blog post creation using `@sgcarstrends/ai` package
-- **Main Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`): Main workflow orchestrators exposed as routes
+- **Main Workflows** (`src/lib/workflows/cars.ts`, `src/lib/workflows/coe.ts`, `src/lib/workflows/deregistration.ts`): Main workflow orchestrators exposed as routes
 - **Social Publishing**: Automated posting to platforms when data updates occur
 - **Cache Revalidation**: Triggers granular cache invalidation on the web app after data updates
 
 ### Cache Revalidation
 
-Workflows invalidate web app caches using granular cache tags via the `revalidateWebCache()` helper:
+Workflows invalidate web app caches using granular cache tags via the `revalidateCache()` step:
 
 **Cars Workflow** invalidates:
 - `cars:month:{month}` - Specific month's data
@@ -106,12 +96,17 @@ Workflows invalidate web app caches using granular cache tags via the `revalidat
 - `coe:year:{year}` - Year-specific data
 - `posts:list` - Blog post list (when new post generated)
 
+**Deregistrations Workflow** invalidates:
+- `deregistrations:month:{month}` - Specific month's deregistration data
+- `deregistrations:year:{year}` - Year-specific deregistration data
+- `deregistrations:months` - Available deregistration months list
+
 See `apps/web/CLAUDE.md` for complete cache tag documentation and the web app's `/api/revalidate` endpoint.
 
 ### Authentication & Security
 
-- **Bearer Token Auth**: All /v1 routes and /trpc endpoints require `SG_CARS_TRENDS_API_TOKEN`
-- **Workflow Authentication**: Workflow triggers protected by bearer authentication
+- **Bearer Token Auth**: All /v1 routes require `SG_CARS_TRENDS_API_TOKEN`
+- **Workflow Authentication**: Workflow triggers protected by QStash signature verification
 - **Rate Limiting**: Commented rate limiting implementation using Upstash Redis
 
 ## API Endpoints
@@ -128,12 +123,12 @@ See `apps/web/CLAUDE.md` for complete cache tag documentation and the web app's 
 - **GET /v1/coe**: COE bidding results
 - **GET /v1/months**: Available data months
 - **POST /workflows/trigger**: Trigger data update workflows
-- **All /trpc/** endpoints\*\*: Type-safe tRPC procedures
 
 ### Workflow Endpoints
 
 - **POST /workflows/cars**: Car data processing workflow
 - **POST /workflows/coe**: COE data processing workflow
+- **POST /workflows/deregistrations**: Vehicle deregistration data processing workflow
 - **POST /workflows/linkedin**: LinkedIn posting webhook
 - **POST /workflows/twitter**: Twitter posting webhook
 - **POST /workflows/discord**: Discord posting webhook
@@ -164,6 +159,10 @@ Required for local development (.env.local):
 - `UPSTASH_REDIS_REST_URL`: Redis caching URL
 - `UPSTASH_REDIS_REST_TOKEN`: Redis authentication
 - `UPSTASH_QSTASH_TOKEN`: QStash workflow token
+- `QSTASH_CURRENT_SIGNING_KEY`: QStash current signing key for signature verification
+- `QSTASH_NEXT_SIGNING_KEY`: QStash next signing key for signature verification
+- `WORKFLOWS_BASE_URL`: Base URL for workflow endpoints (e.g., `https://api.dev.aws.sgcarstrends.com/workflows`)
+- `NEXT_PUBLIC_SITE_URL`: Web application URL for social media post links (e.g., `https://dev.sgcarstrends.com`)
 - `BLOB_READ_WRITE_TOKEN`: Vercel Blob authentication token for logos storage
 - `GOOGLE_GENERATIVE_AI_API_KEY`: Google Gemini API key for blog generation (used by Vercel AI SDK)
 - `LANGFUSE_PUBLIC_KEY`: Langfuse public key for LLM observability (optional)

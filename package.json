@@ -1,6 +1,6 @@
 {
   "name": "sgcarstrends",
-  "version": "4.26.1",
+  "version": "4.36.0",
   "description": "Monorepo for SG Cars Trends",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -47,6 +47,7 @@
     "auth:generate": "turbo run auth:generate"
   },
   "dependencies": {
+    "@heroui/navbar": "^2.2.26",
     "sst": "3.17.21"
   },
   "devDependencies": {
@@ -65,7 +66,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
     "semantic-release": "^24.0.0",
-    "turbo": "^2.6.1",
+    "turbo": "^2.6.3",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },

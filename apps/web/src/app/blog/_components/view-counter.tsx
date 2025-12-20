@@ -1,14 +1,20 @@
 "use client";
 
+import { cn } from "@heroui/theme";
 import { incrementPostView } from "@web/app/blog/_actions/views";
 import { useEffect, useEffectEvent, useState } from "react";
 
 interface ViewCounterProps {
   postId: string;
   initialCount?: number;
+  className?: string;
 }
 
-export const ViewCounter = ({ postId, initialCount = 0 }: ViewCounterProps) => {
+export const ViewCounter = ({
+  postId,
+  initialCount = 0,
+  className,
+}: ViewCounterProps) => {
   const [views, setViews] = useState(initialCount);
 
   const increasePostView = useEffectEvent(() => {
@@ -20,7 +26,7 @@ export const ViewCounter = ({ postId, initialCount = 0 }: ViewCounterProps) => {
   }, []);
 
   return (
-    <span className="text-muted-foreground">
+    <span className={cn("text-muted-foreground", className)}>
       {views.toLocaleString()} {views === 1 ? "view" : "views"}
     </span>
   );

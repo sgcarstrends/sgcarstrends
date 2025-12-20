@@ -43,12 +43,12 @@ pnpm format             # Format code with Biome
 src/
 ├── app/                           # Next.js App Router - pages, layouts, API routes
 │   ├── (dashboard)/
-│   │   ├── (home)/
-│   │   │   └── _components/       # Home page-specific components (co-located)
+│   │   ├── _components/           # Dashboard-specific components (co-located)
 │   │   ├── cars/
 │   │   │   └── _components/       # Cars route-specific components (co-located)
-│   │   └── coe/
-│   │       └── _components/       # COE route-specific components (co-located)
+│   │   ├── coe/
+│   │   │   └── _components/       # COE route-specific components (co-located)
+│   │   └── annual/                # Annual statistics routes
 │   ├── (social)/                  # Social media redirect routes with UTM tracking
 │   ├── api/                       # API routes (analytics, OG images, revalidation)
 │   ├── blog/
@@ -56,9 +56,10 @@ src/
 │   │   └── _components/           # Blog-specific components (co-located)
 │   └── store/                     # Zustand store slices
 ├── actions/                       # Server actions (newsletter subscription)
-├── queries/                       # Data fetching queries (cars, COE, logos)
+├── queries/                       # Data fetching queries (cars, COE, deregistrations, logos)
 │   ├── cars/                      # Car data queries with comprehensive tests
 │   ├── coe/                       # COE data queries with comprehensive tests
+│   ├── deregistrations/           # Deregistration data queries (monthly, category breakdowns)
 │   ├── logos/                     # Logo queries
 │   └── __tests__/                 # Comprehensive query test suite
 ├── components/                    # Shared React components
@@ -81,10 +82,11 @@ This application follows **Next.js 15/16 co-location best practices** using priv
 
 Route-specific components live alongside their consuming routes using private folders:
 
-- **Home**: `app/(dashboard)/(home)/_components/` - Key statistics, recent posts
+- **Dashboard**: `app/(dashboard)/_components/` - Key statistics, recent posts, section tabs, charts
 - **Blog**: `app/blog/_components/` - Progress bar, view counter, related posts, blog list
 - **Cars**: `app/(dashboard)/cars/_components/` - Category tabs, make selectors, trend charts
 - **COE**: `app/(dashboard)/coe/_components/` - COE categories, premium charts, PQP components
+- **Deregistrations**: `app/(dashboard)/cars/deregistrations/_components/` - Category charts, trends, breakdown tables
 
 #### Co-located Actions (`_actions/`)
 
@@ -97,7 +99,7 @@ Route-specific server actions (mutations only) use private folders:
 **Keep Centralised When:**
 
 - Component used by 3+ different routes
-- Part of design system (use `@sgcarstrends/ui` shared package for shadcn/ui components)
+- Part of design system (use HeroUI components via `@heroui/*` packages, or `@sgcarstrends/ui` for shadcn/ui chart components)
 - Shared business logic (`queries/`, `lib/`)
 - Server actions used across multiple routes (`actions/`)
 - Generic utilities (`components/shared/`)
@@ -115,7 +117,7 @@ Route-specific server actions (mutations only) use private folders:
 ```typescript
 // ✅ Co-located components via path alias
 import {ProgressBar} from "@web/app/blog/_components/progress-bar";
-import {KeyStatistics} from "@web/app/(dashboard)/(home)/_components/key-statistics";
+import {KeyStatistics} from "@web/app/(dashboard)/_components/key-statistics";
 
 // ✅ Shared queries and actions via path alias
 import {getCarRegistrations} from "@web/queries/cars";
@@ -141,8 +143,7 @@ All non-route folders in `app/` use underscore prefix to prevent routing conflic
 
 ### Data Architecture
 
-**Database**: Uses Drizzle ORM with PostgreSQL for car registration data, COE bidding results, and blog posts. Database
-connection configured in `src/config/db.ts`.
+**Database**: Uses Drizzle ORM with PostgreSQL for car registration data, COE bidding results, vehicle deregistrations, and blog posts. Database connection configured in `src/config/db.ts`.
 
 **State Management**: Zustand store with persistence in `src/app/store.ts` manages:
 
@@ -185,6 +186,9 @@ Granular cache tags enable precise invalidation without over-fetching:
 | `coe:year:{year}` | Year-specific COE data | `coe:year:2024` |
 | `coe:months` | Available COE months list | - |
 | `coe:pqp` | PQP rates data | - |
+| `deregistrations:month:{month}` | Month-specific deregistration data | `deregistrations:month:2024-01` |
+| `deregistrations:year:{year}` | Year-specific deregistration data | `deregistrations:year:2024` |
+| `deregistrations:months` | Available deregistration months | - |
 | `posts:list` | Blog post list | - |
 | `posts:slug:{slug}` | Individual blog post | `posts:slug:jan-2024-analysis` |
 | `posts:views:{postId}` | Individual post view count | `posts:views:abc123` |
@@ -274,6 +278,10 @@ revalidateTag("coe:pqp", "max");
 revalidateTag("cars:makes", "max");
 revalidateTag("cars:months", "max");
 revalidateTag("coe:months", "max");
+
+// Invalidate deregistration data
+revalidateTag("deregistrations:month:2024-01", "max");
+revalidateTag("deregistrations:months", "max");
 ```
 
 This precisely invalidates only affected caches, avoiding unnecessary regeneration of unrelated queries.
@@ -282,6 +290,7 @@ This precisely invalidates only affected caches, avoiding unnecessary regenerati
 
 - **Car Queries** (`queries/cars/`): Registration data, market insights, makes, yearly statistics, filter options
 - **COE Queries** (`queries/coe/`): Historical results, latest results, available months, PQP rates
+- **Deregistration Queries** (`queries/deregistrations/`): Monthly deregistration data, category breakdowns, available months, totals by month
 - **Logo Queries** (`queries/logos/`): Dynamic logo loading via `@sgcarstrends/logos` package with Vercel Blob storage
 - All queries include comprehensive unit tests in `queries/__tests__/`
 
@@ -326,10 +335,9 @@ philosophy inspired by Vercel, Linear, and Stripe. Uses lighter font weights (se
 secondary headings/labels, normal for body text) with hierarchy driven by size and spacing.
 See [Typography System](#typography-system) section below.
 
-**UI Components**: Base UI components (shadcn/ui) are imported from the shared `@sgcarstrends/ui` package. HeroUI
-components are also used throughout the application for professional design system integration.
+**UI Components**: HeroUI is the primary component library, imported directly from `@heroui/*` packages (e.g., `@heroui/button`, `@heroui/card`, `@heroui/table`). Chart components use shadcn/ui's chart library from `@sgcarstrends/ui/components/chart`.
 
-**Charts**: Recharts-based components in `src/components/charts/` for data visualization.
+**Charts**: Recharts-based shadcn/ui chart components from `@sgcarstrends/ui/components/chart` for data visualization.
 
 **Dashboard Components**: Interactive components for the homepage including:
 
@@ -346,6 +354,120 @@ components are also used throughout the application for professional design syst
 - AI content attribution badges
 
 **Layout**: Shared layout components (Header, Footer) with responsive design and blog navigation.
+
+**Social Sharing**: `ShareButtons` component (`src/components/share-buttons.tsx`) provides social media sharing across all pages:
+
+- Responsive design: native Web Share API on mobile, individual buttons (X, LinkedIn, copy link) on desktop
+- CSS-only responsive behaviour using Tailwind classes (`flex md:hidden` / `hidden md:flex`)
+- Integrated into all statistics pages, blog posts, and dashboard views
+- Share utilities in `src/utils/share.ts` for URL generation and clipboard operations
+
+### Component Naming Conventions
+
+Component naming follows domain + role patterns for clarity and consistency.
+
+**Core Rules:**
+
+| Rule | Description |
+|------|-------------|
+| PascalCase | All components use PascalCase (`TrendChart`, not `trendChart`) |
+| Domain + Role | Combine context with role (`TrendChart`, `HeroPost`, `MetricCard`) |
+| Compound Components | Use `.` notation for subparts (`HeroPost.Image`, `HeroPost.Title`) |
+| No Suffixes | Avoid Container, Wrapper, Component suffixes |
+| No Layout Names | Avoid Left, Big, Red, TwoColumn in names |
+
+**Examples:**
+
+```typescript
+// ✅ Good naming
+export const TrendChart = () => {};
+export const HeroPost = () => {};
+HeroPost.Image = () => {};
+HeroPost.Title = () => {};
+
+// ❌ Bad naming
+export const Chart = () => {};           // Too generic
+export const ChartWrapper = () => {};    // Suffix
+export const LeftSidebar = () => {};     // Layout description
+```
+
+**File Naming:** kebab-case matching component (`TrendChart` → `trend-chart.tsx`)
+
+See `component-naming` skill for detailed guidance and validation checklist.
+
+### Animation Patterns
+
+A consistent approach to animations using Framer Motion (motion package v12+) for scroll-triggered reveals and entrance effects.
+
+**Design Philosophy**:
+
+- Declarative animations with Motion's `whileInView` and `initial`/`animate`
+- Accessibility-first with `useReducedMotion()` hook
+- Shared variants for consistency across components
+- CSS for hover states and infinite animations
+
+**Key Files**:
+
+| File | Purpose |
+|------|---------|
+| `src/app/about/_components/variants.ts` | Shared animation variants |
+| `src/components/animated-number.tsx` | Number animation component |
+
+**Standard Variants**:
+
+```typescript
+import { fadeInUpVariants, staggerContainerVariants, staggerItemVariants } from "./variants";
+```
+
+- `fadeInUpVariants` - Base fade-in-up for section content
+- `staggerContainerVariants` - Container for staggered children
+- `staggerItemVariants` - Individual stagger item
+- `heroEntranceVariants` - Dramatic hero entrance
+
+**Usage Pattern**:
+
+```typescript
+import { motion, useReducedMotion } from "framer-motion";
+import { fadeInUpVariants } from "./variants";
+
+export const Section = () => {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      variants={shouldReduceMotion ? undefined : fadeInUpVariants}
+      initial={shouldReduceMotion ? undefined : "hidden"}
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+    >
+      {/* Content */}
+    </motion.div>
+  );
+};
+```
+
+**Guidelines**:
+
+- ✅ Always use `useReducedMotion()` for accessibility
+- ✅ Pass `undefined` to variants/initial when reduced motion preferred
+- ✅ Use shared variants from `variants.ts`
+- ✅ Use `viewport={{ once: true }}` for scroll-triggered animations
+- ✅ Keep hover states as CSS transitions (Tailwind `transition-*`)
+- ✅ Use CSS keyframes for infinite/background animations
+- ❌ Avoid inline animation definitions (use variants)
+- ❌ Avoid skipping reduced motion checks
+
+**When to Use CSS vs Motion**:
+
+| Use Case | Recommendation |
+|----------|----------------|
+| Scroll-triggered reveals | Motion (`whileInView`) |
+| Entrance animations | Motion (`initial`/`animate`) |
+| Staggered lists | Motion (`staggerChildren`) |
+| Hover states | CSS (Tailwind `transition-*`) |
+| Infinite loops | CSS keyframes |
+
+See `framer-motion-animations` skill for detailed patterns and migration guidance.
 
 ### Typography System
 
@@ -391,54 +513,32 @@ A modern, semantic typography system for consistent visual hierarchy across the 
 
 **Usage Examples**:
 
-```typescript
+```tsx
 import Typography from "@web/components/typography";
 
 // Page heading
-<Typography.H1>COE
-Overview < /Typography.H1>
+<Typography.H1>COE Overview</Typography.H1>
 
 // Section heading
-< Typography.H2 > Fun
-Facts < /Typography.H2>
+<Typography.H2>Fun Facts</Typography.H2>
 
 // Card title
-< Typography.H3 > Category
-A
-vs
-B < /Typography.H3>
+<Typography.H3>Category A vs B</Typography.H3>
 
 // Lead paragraph
-< Typography.TextLg > Explore
-COE
-trends
-and
-analysis. < /Typography.TextLg>
+<Typography.TextLg>Explore COE trends and analysis.</Typography.TextLg>
 
 // Body text
-< Typography.Text > The
-latest
-COE
-results
-show
-...
-</Typography.Text>
+<Typography.Text>The latest COE results show...</Typography.Text>
 
 // Small helper text
-< Typography.TextSm > Updated
-daily
-from
-LTA < /Typography.TextSm>
+<Typography.TextSm>Updated daily from LTA</Typography.TextSm>
 
 // Form label
-< Typography.Label > Select
-Month < /Typography.Label>
+<Typography.Label>Select Month</Typography.Label>
 
 // Metadata/timestamp
-< Typography.Caption > Last
-updated: 29
-Oct
-2025 < /Typography.Caption>
+<Typography.Caption>Last updated: 29 Oct 2025</Typography.Caption>
 ```
 
 **When to Use Each Component**:
@@ -473,6 +573,27 @@ These defaults provide proper visual hierarchy while allowing override via `clas
 - Font weight reductions (H1/H2 remain semibold; H3/H4 changed to medium) for modern hierarchy
 - All components now include HeroUI semantic colour defaults for consistent theming
 
+**Enforcement Rules**:
+
+- ✅ Always use `Typography.H4` for CardHeader titles (not raw `<h3>`)
+- ✅ Always use `Typography.TextSm` for CardHeader descriptions (not raw `<p>`)
+- ✅ Use `Typography.H2` for section headings in blog components
+- ✅ Use `Typography.H3` for card titles and subsections
+- ❌ Avoid raw heading tags (`<h1>`, `<h2>`, `<h3>`, `<h4>`) outside of MDX content
+- ⚠️ Exception: Raw tags allowed only for MDX blog content and image overlay text
+
+**CardHeader Pattern** (standard for all cards):
+
+```tsx
+import { CardHeader } from "@heroui/card";
+import Typography from "@web/components/typography";
+
+<CardHeader className="flex flex-col items-start gap-2">
+  <Typography.H4>Card Title</Typography.H4>
+  <Typography.TextSm>Card description text</Typography.TextSm>
+</CardHeader>
+```
+
 ### Layout & Spacing Conventions
 
 A standardized approach to spacing and layout for consistent, maintainable component design.
@@ -506,49 +627,43 @@ avoids margin collapsing issues that can occur with `space-y-*` and `margin-top`
 
 **Examples**:
 
-```typescript
+```tsx
 // ✅ Preferred: flex with gap for vertical spacing
-<div className = "flex flex-col gap-4" >
-    <CardComponent / >
-    <CardComponent / >
-    <CardComponent / >
-    </div>
+<div className="flex flex-col gap-4">
+  <CardComponent />
+  <CardComponent />
+  <CardComponent />
+</div>
 
-    // ✅ Grid with even gap values
-    < div
-className = "grid grid-cols-2 gap-6" >
-    <Item / >
-    <Item / >
-    </div>
+// ✅ Grid with even gap values
+<div className="grid grid-cols-2 gap-6">
+  <Item />
+  <Item />
+</div>
 
-    // ✅ Horizontal flex with gap
-    < div
-className = "flex items-center gap-2" >
-<Icon className = "size-4" / >
-    <span>Text
-content < /span>
-< /div>
+// ✅ Horizontal flex with gap
+<div className="flex items-center gap-2">
+  <Icon className="size-4" />
+  <span>Text content</span>
+</div>
 
 // ❌ Avoid: space-y utilities (legacy pattern)
-< div
-className = "space-y-4" >
-<CardComponent / >
-<CardComponent / >
+<div className="space-y-4">
+  <CardComponent />
+  <CardComponent />
 </div>
 
 // ❌ Avoid: margin-top for sibling spacing
-< div >
-<CardComponent / >
-<CardComponent className = "mt-4" / >
-    </div>
+<div>
+  <CardComponent />
+  <CardComponent className="mt-4" />
+</div>
 
-    // ⚠️ Acceptable exception: icon vertical alignment
-    < div
-className = "flex items-center gap-2" >
-<Icon className = "mt-1 size-4" / >
-<span className = "text-sm" > Aligned
-text < /span>
-< /div>
+// ⚠️ Acceptable exception: icon vertical alignment
+<div className="flex items-center gap-2">
+  <Icon className="mt-1 size-4" />
+  <span className="text-sm">Aligned text</span>
+</div>
 ```
 
 **Spacing Scale Reference**:
@@ -567,6 +682,173 @@ When refactoring existing code:
 2. Remove `mt-*` from child elements when parent uses `gap-*`
 3. Convert `space-y-*` values to equivalent `gap-*` (space-y-2 → gap-2, space-y-4 → gap-4, etc.)
 4. Keep only icon alignment `mt-*` cases (document with comments if needed)
+
+### Colour System
+
+A professional colour scheme optimised for HeroUI integration and automotive industry data visualisation (see GitHub issue #406). See `design-language-system` skill for comprehensive colour guidelines, chart implementation patterns, and migration checklists.
+
+**Brand Colour Palette**:
+
+| Role | Colour | Hex | HSL | Usage |
+|------|-------|-----|-----|-------|
+| Primary | Navy Blue | `#191970` | `hsl(240, 63%, 27%)` | Headers, footers, primary buttons, key accents |
+| Secondary | Slate Gray | `#708090` | `hsl(210, 13%, 50%)` | Card containers, borders, secondary buttons |
+| Accent | Cyan | `#00FFFF` | `hsl(180, 100%, 50%)` | Chart highlights, links, hover states |
+| Background | Powder Blue | `#B0E0E6` | `hsl(187, 52%, 80%)` | Chart areas, subtle textures |
+| Text | Dark Slate Gray | `#2F4F4F` | `hsl(180, 25%, 25%)` | Body text, icons |
+
+**CSS Variable Mapping** (in `globals.css`):
+
+```css
+:root {
+  --primary: hsl(240, 63%, 27%);           /* Navy Blue */
+  --primary-foreground: hsl(0, 0%, 100%);  /* White text on primary */
+  --secondary: hsl(210, 13%, 50%);         /* Slate Gray */
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(180, 100%, 50%);           /* Cyan */
+  --accent-foreground: hsl(180, 25%, 25%);
+  --muted: hsl(187, 52%, 80%);             /* Powder Blue */
+  --muted-foreground: hsl(180, 25%, 25%);
+  --foreground: hsl(180, 25%, 25%);        /* Dark Slate Gray */
+  --background: hsl(0, 0%, 100%);          /* White */
+}
+```
+
+**Semantic Colour Usage**:
+
+- `text-primary` / `bg-primary` - Navy Blue for brand elements
+- `text-foreground` - Dark Slate Gray for body text
+- `text-default-900` - Strong emphasis (H4 headings)
+- `text-default-600` - Secondary text (TextSm)
+- `text-muted-foreground` - Captions/metadata
+
+**Opacity Scale**:
+
+- `text-foreground/60` - Secondary text
+- `text-foreground/40` - Muted text
+- ⚠️ Reserve `text-white` only for image overlays
+
+**Chart Colours (Navy Blue Gradient Palette)**:
+
+CSS variables `--chart-1` through `--chart-6` define the chart colour palette:
+
+| Variable | Colour | Hex | Usage |
+|----------|--------|-----|-------|
+| `--chart-1` | Navy Blue | `#191970` | Primary/top ranking |
+| `--chart-2` | Medium Blue | `#2E4A8E` | Second ranking |
+| `--chart-3` | Light Blue | `#4A6AAE` | Third ranking |
+| `--chart-4` | Slate Gray | `#708090` | Fourth ranking |
+| `--chart-5` | Light Slate | `#94A3B8` | Fifth ranking |
+| `--chart-6` | Pale Slate | `#B8C4CE` | Sixth ranking |
+
+**Chart Implementation Guidelines**:
+
+- **Multi-series charts**: Use `var(--chart-N)` for each series (e.g., bars use gradient colours based on ranking)
+- **Single-highlight charts**: Use `var(--chart-1)` for highlighted element, `bg-default-200` for others
+- **Recharts Cell colouring**: Use index-based `fill={`var(--chart-${index + 1})`}` for per-bar colours
+- Avoid hardcoded hex values; always use CSS variables
+
+**Accessibility Requirements (WCAG AA)**:
+
+- Normal text: Minimum 4.5:1 contrast ratio
+- Large text: Minimum 3:1 contrast ratio
+- Interactive elements: Minimum 3:1 for focus indicators
+- Information must not be conveyed by colour alone
+
+### Modern Dashboard Design
+
+A pill-based, sidebar-free design system for professional automotive analytics dashboards.
+
+**Design Principles**:
+
+- No sidebar - horizontal navigation only
+- Pill-shaped interactive elements (`rounded-full`)
+- Large rounded cards (`rounded-2xl` or `rounded-3xl`)
+- Professional automotive industry aesthetic
+- Generous whitespace and grid-based layouts
+
+**Navigation Style**:
+
+```tsx
+// Horizontal pill tab navigation
+<div className="flex items-center gap-2 rounded-full border p-1">
+  <Button className="rounded-full" color="primary">Dashboard</Button>
+  <Button className="rounded-full" variant="light">Calendar</Button>
+  <Button className="rounded-full" variant="light">Projects</Button>
+</div>
+```
+
+- Active tab: `bg-primary text-primary-foreground rounded-full`
+- Inactive tabs: `rounded-full` with `variant="light"` or `border`
+- Tab group container with subtle border
+
+**Card Design**:
+
+- Large rounded corners: `rounded-2xl` or `rounded-3xl`
+- Soft shadows: `shadow-sm` or custom subtle shadow
+- White/light backgrounds with generous padding (`p-6`)
+- Optional coloured accent borders or backgrounds
+
+```tsx
+<Card className="rounded-2xl shadow-sm">
+  <CardHeader className="flex flex-col items-start gap-2">
+    <Typography.H4>Card Title</Typography.H4>
+    <Typography.TextSm>Description</Typography.TextSm>
+  </CardHeader>
+  <CardBody>{/* Content */}</CardBody>
+</Card>
+```
+
+**Button Styles**:
+
+- ✅ Pill-shaped: `rounded-full` for all buttons
+- Primary: `color="primary"` with filled background
+- Secondary: `variant="bordered"` with outline
+- Icon buttons: Circular with `rounded-full`
+
+**Status Badges/Chips**:
+
+```tsx
+<Chip className="rounded-full" color="success" size="sm">
+  <span className="mr-1">●</span> Done
+</Chip>
+<Chip className="rounded-full" color="warning" size="sm">
+  <span className="mr-1">●</span> Waiting
+</Chip>
+<Chip className="rounded-full" color="danger" size="sm">
+  <span className="mr-1">●</span> Failed
+</Chip>
+```
+
+**Metrics Display**:
+
+- Large bold numbers for primary values
+- Small percentage change indicators with up/down arrows
+- Subtle background cards for metric groups
+
+```tsx
+<div className="flex flex-col gap-1">
+  <Typography.Caption>Total Registrations</Typography.Caption>
+  <div className="flex items-baseline gap-2">
+    <span className="font-bold text-3xl">46,500</span>
+    <Chip className="rounded-full" color="success" size="sm">+2.5%</Chip>
+  </div>
+</div>
+```
+
+**Data Visualisation**:
+
+- Dot matrix charts for activity/heatmaps
+- Soft curved progress bars (not sharp rectangles)
+- Donut/ring charts over pie charts
+- Muted colour palettes with one accent colour
+
+**Layout Principles**:
+
+- Grid-based card layout: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6`
+- Generous whitespace between sections: `gap-8` or `gap-10`
+- Breadcrumb navigation for hierarchy
+- Horizontal scrolling tabs for mobile
 
 ### Blog Features
 
@@ -597,6 +879,65 @@ When refactoring existing code:
 - JSON-LD structured data for search engines
 - Canonical URLs and social media meta tags
 - Automatic sitemap integration
+
+### OpenGraph Images
+
+Dynamic OG images for social media sharing using Next.js `ImageResponse` API. See `opengraph-images` skill for detailed implementation patterns.
+
+**File Locations**:
+
+| File | Type | Purpose |
+|------|------|---------|
+| `src/app/opengraph-image.png` | Static | Homepage OG image |
+| `src/app/about/opengraph-image.tsx` | Dynamic | About page with custom fonts |
+| `src/app/blog/[slug]/opengraph-image.tsx` | Dynamic | Blog posts with dynamic titles |
+
+**Standard Structure**:
+
+OG images follow a three-part layout:
+
+1. **Eyebrow chip** - Page context indicator (e.g., "Behind the Data", "Blog")
+2. **Main headline** - Two lines with gradient text on second line
+3. **Subheadline** - Supporting description text
+
+**Required Exports**:
+
+```typescript
+export const alt = "Page Title - SG Cars Trends";
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+```
+
+**Font Loading**:
+
+Custom Geist fonts loaded from `assets/fonts/`:
+
+```typescript
+const [geistRegular, geistSemiBold, geistBold] = await Promise.all([
+  readFile(join(process.cwd(), "assets/fonts/Geist-Regular.ttf")),
+  readFile(join(process.cwd(), "assets/fonts/Geist-SemiBold.ttf")),
+  readFile(join(process.cwd(), "assets/fonts/Geist-Bold.ttf")),
+]);
+```
+
+**Eyebrow Text Guidelines**:
+
+| Page Type | Eyebrow Text |
+|-----------|--------------|
+| Homepage | Singapore Car Market Data |
+| About | Behind the Data |
+| Blog Post | Blog / Analysis / Insights |
+| COE | COE Bidding Results |
+| Cars | Vehicle Registrations |
+
+**Important Constraints**:
+
+- Use inline `style` objects only (no CSS classes)
+- Flexbox supported, Grid not supported
+- Font files must be loaded explicitly (`.ttf`)
+- Server-side only (no React hooks)
+
+**Testing**: Visit `/about/opengraph-image` directly in browser, or use social debuggers (Facebook, Twitter, LinkedIn).
 
 ### Testing Strategy
 
@@ -693,27 +1034,11 @@ See `sst-deployment` skill for deployment workflows and infrastructure details.
 
 ## UI Component Strategy
 
-The codebase uses HeroUI as the primary component library:
+The codebase has consolidated on **HeroUI as the primary component library**:
 
-- **New Features**: Use HeroUI components with TypeScript-first approach
-- **Component Selection**: Leverage HeroUI's professional design system for analytics interfaces
-- **Data Visualisation**: Utilise HeroUI's advanced table and chart components for market data
-- **Customisation**: Apply HeroUI's theming system to match Singapore car market branding
+- **UI Components**: Use HeroUI components imported from `@heroui/*` packages (e.g., `@heroui/button`, `@heroui/card`, `@heroui/table`, `@heroui/skeleton`)
+- **Chart Components**: Use shadcn/ui chart components from `@sgcarstrends/ui/components/chart` (Recharts-based)
+- **Component Selection**: Leverage HeroUI's professional design system for analytics interfaces, tables, forms, and navigation
+- **Customisation**: Apply HeroUI's theming system (`@heroui/theme` for `cn()` utility) to match Singapore car market branding
 - **Performance**: Take advantage of HeroUI's tree-shakeable, optimised components
-- **Legacy Code**: Gradually migrate existing shadcn/ui components to HeroUI equivalents
-
-## Documentation Reference
-
-When Claude needs to refer to library documentation, use the Context7 MCP server:
-
-1. **Resolve Library ID**: Use `mcp__context7__resolve-library-id` to find the correct library identifier
-2. **Fetch Documentation**: Use `mcp__context7__get-library-docs` with the resolved ID to get up-to-date documentation
-3. **Common Libraries**: For this project, frequently referenced libraries include:
-    - Next.js (`/vercel/next.js`)
-    - React (`/facebook/react`)
-    - Tailwind CSS (`/tailwindlabs/tailwindcss`)
-    - Drizzle ORM (`/drizzle-team/drizzle-orm`)
-    - Zustand (`/pmndrs/zustand`)
-    - Vitest (`/vitest-dev/vitest`)
-    - Playwright (`/microsoft/playwright`)
-    - next-mdx-remote (for MDX blog content rendering)
+- **Migration Complete**: All UI components have been migrated from shadcn/ui to HeroUI; shadcn/ui is retained only for chart components

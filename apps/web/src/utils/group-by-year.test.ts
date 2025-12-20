@@ -24,4 +24,13 @@ describe("groupByYear", () => {
   it("should group an array of dates into its year", () => {
     expect(groupByYear(mockDates)).toStrictEqual(mockGroupedDates);
   });
+
+  it("should return falsy value as-is when dates is falsy", () => {
+    expect(groupByYear(undefined as unknown as string[])).toBeUndefined();
+    expect(groupByYear(null as unknown as string[])).toBeNull();
+  });
+
+  it("should return empty object for empty array", () => {
+    expect(groupByYear([])).toStrictEqual({});
+  });
 });

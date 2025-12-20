@@ -7,7 +7,7 @@ import { formatCurrency } from "@web/utils/format-currency";
 const createCategoryColumn = (category: string): ColumnDef<Pqp.TableRow> => ({
   accessorKey: category,
   header: category,
-  cell: ({ row }) => `S${formatCurrency(row.getValue<number>(category))}`,
+  cell: ({ row }) => formatCurrency(row.getValue<number>(category)),
 });
 
 export const columns: ColumnDef<Pqp.TableRow>[] = [

@@ -1,25 +1,13 @@
-# CLAUDE.md - Database Package
-
-This file provides guidance to Claude Code (claude.ai/code) when working with the database package in this repository.
-
-## Documentation Access
-
-When working with Drizzle ORM, use the Context7 MCP tools to get up-to-date documentation:
-
-1. Use `mcp__context7__resolve-library-id` to find the correct library ID for Drizzle
-2. Use `mcp__context7__get-library-docs` to retrieve comprehensive documentation and examples
-
-This ensures you have access to the latest API documentation for Drizzle ORM features and patterns.
-
 # SG Cars Trends Database - Developer Reference Guide
 
 ## Package Overview
 
-The `@sgcarstrends/database` package (v4.11.0) provides the database schema, types, and migration system for the SG Cars Trends
+The `@sgcarstrends/database` package (v4.26.1) provides the database schema, types, and migration system for the SG Cars Trends
 platform. It uses Drizzle ORM v0.44.3 with PostgreSQL to manage:
  
 - **Car Registration Data**: Monthly vehicle registration statistics by make, fuel type, and vehicle type
 - **COE Bidding Results**: Certificate of Entitlement bidding data and Prevailing Quota Premium rates
+- **Vehicle Deregistrations**: Monthly deregistration statistics by VQS category
 - **Blog Posts**: LLM-generated blog content with metadata and SEO information
 
 ## Commands
@@ -45,6 +33,7 @@ src/
 │   ├── index.ts         # Main schema exports
 │   ├── cars.ts          # Car registration table schema
 │   ├── coe.ts           # COE bidding tables (coe, pqp)
+│   ├── deregistration.ts # Vehicle deregistration table schema
 │   └── posts.ts         # Blog posts table schema
 ├── client.ts            # Drizzle client setup
 ├── index.ts             # Package entry point (re-exports schema & client)
@@ -124,9 +113,26 @@ Stores monthly PQP rates for immediate vehicle registration. Formerly named `coe
 - Individual index on `vehicleClass`
 - Index on `pqp` for sorting by rate
 
+### Deregistrations Table (`deregistrations`)
+
+Stores monthly vehicle deregistration data under the Vehicle Quota System (VQS) from LTA DataMall.
+
+**Columns:**
+
+- `id`: UUID primary key (auto-generated)
+- `month`: Text, NOT NULL (YYYY-MM format, e.g., "2024-01")
+- `category`: Text, NOT NULL (VQS category: "Category A", "Category B", "Category C", "Category D", "Vehicles Exempted From VQS", "Taxis")
+- `number`: Integer, default 0 (number of deregistrations)
+
+**Indexes:**
+
+- Compound index on `month` + `category` for efficient queries
+- Individual indexes on `month`, `category` for filtering
+- Index on `number` for deregistration volume sorting
+
 ### Blog Posts (`posts`)
 
-Stores LLM-generated blog content with comprehensive metadata.
+Stores LLM-generated blog content with structured output from AI generation.
 
 **Columns:**
 
@@ -134,7 +140,12 @@ Stores LLM-generated blog content with comprehensive metadata.
 - `title`: Text, NOT NULL (blog post title)
 - `slug`: Text, NOT NULL, UNIQUE (URL-friendly identifier)
 - `content`: Text, NOT NULL (Markdown content)
-- `metadata`: JSONB (flexible metadata storage)
+- `excerpt`: Text (2-3 sentence summary for meta description)
+- `heroImage`: Text (Unsplash URL for blog post header)
+- `tags`: Text[] (category tags in Title Case)
+- `highlights`: JSONB (key statistics for visual display: value, label, detail)
+- `status`: Text, default "draft" (publication status)
+- `metadata`: JSONB (flexible metadata storage: LLM response info, token usage)
 - `month`: Text (source data month, YYYY-MM format)
 - `dataType`: Text (source data type: "cars" or "coe")
 - `createdAt`: Timestamp, NOT NULL, default now() (creation date)
@@ -157,12 +168,14 @@ Each schema file exports corresponding TypeScript types:
 export type InsertCar = typeof cars.$inferInsert;
 export type InsertCOE = typeof coe.$inferInsert;
 export type InsertPqp = typeof pqp.$inferInsert;
+export type InsertDeregistration = typeof deregistrations.$inferInsert;
 export type InsertPost = typeof posts.$inferInsert;
 
 // Select types (for query results)
 export type SelectCar = typeof cars.$inferSelect;
 export type SelectCOE = typeof coe.$inferSelect;
 export type SelectPqp = typeof pqp.$inferSelect;
+export type SelectDeregistration = typeof deregistrations.$inferSelect;
 export type SelectPost = typeof posts.$inferSelect;
 ```
 
@@ -263,6 +276,9 @@ await db.select().from(coe).orderBy(desc(coe.month));
 
 // PQP: Prevailing quota premium rates
 await db.select().from(pqp).where(eq(pqp.month, "2024-01"));
+
+// Deregistrations: Monthly deregistration data by category
+await db.select().from(deregistrations).where(eq(deregistrations.month, "2024-01"));
 
 // Posts: Published blog content
 await db.select().from(posts).where(isNotNull(posts.publishedAt));

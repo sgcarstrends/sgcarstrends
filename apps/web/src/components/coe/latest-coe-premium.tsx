@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { Sparkline } from "@web/components/charts/sparkline";
@@ -10,9 +12,9 @@ interface LatestCoePremiumProps {
   trends?: Record<COECategory, CoeMonthlyPremium[]>;
 }
 
-const calculateTrend = (
-  data: { value: number }[],
-): "up" | "down" | "neutral" | undefined => {
+type Trend = "up" | "down" | "neutral";
+
+const calculateTrend = (data: { value: number }[]): Trend | undefined => {
   if (data.length < 2) return undefined;
 
   const first = data[0].value;
@@ -21,6 +23,20 @@ const calculateTrend = (
   if (last > first) return "up";
   if (last < first) return "down";
   return "neutral";
+};
+
+// For COE: price up = bad (danger/red), price down = good (success/green)
+const getTrendColour = (trend?: Trend): string => {
+  switch (trend) {
+    case "up":
+      return "hsl(var(--heroui-danger))";
+    case "down":
+      return "hsl(var(--heroui-success))";
+    case "neutral":
+      return "hsl(var(--heroui-warning))";
+    default:
+      return "hsl(var(--heroui-primary))";
+  }
 };
 
 export const LatestCoePremium = ({
@@ -37,7 +53,10 @@ export const LatestCoePremium = ({
         const trend = calculateTrend(sparklineData);
 
         return (
-          <Card key={result.vehicleClass}>
+          <Card
+            key={result.vehicleClass}
+            className="hover:-translate-y-1 p-3 transition-all duration-300 hover:shadow-lg"
+          >
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Typography.H4>{result.vehicleClass}</Typography.H4>
@@ -45,14 +64,14 @@ export const LatestCoePremium = ({
             </CardHeader>
             <CardBody>
               <div className="grid grid-cols-2 items-center gap-2">
-                <div className="flex items-baseline gap-1">
-                  <span className="font-medium text-default-600">S$</span>
-                  <div className="font-bold text-2xl text-primary">
-                    <AnimatedNumber value={result.premium} />
-                  </div>
+                <div className="bg-gradient-to-br from-primary to-primary/70 bg-clip-text font-bold text-2xl text-transparent">
+                  <AnimatedNumber value={result.premium} format="currency" />
                 </div>
                 {sparklineData.length > 0 && (
-                  <Sparkline data={sparklineData} trend={trend} />
+                  <Sparkline
+                    data={sparklineData}
+                    colour={getTrendColour(trend)}
+                  />
                 )}
               </div>
             </CardBody>

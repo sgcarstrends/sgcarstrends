@@ -1,0 +1,82 @@
+"use client";
+
+import { Card, CardBody } from "@heroui/card";
+import { formatNumber } from "@web/utils/charts";
+
+interface CategorySparklineData {
+  category: string;
+  total: number;
+  trend: { value: number }[];
+  colour: string;
+}
+
+interface Props {
+  data: CategorySparklineData[];
+}
+
+export const CategoryTrendsTable = ({ data }: Props) => {
+  return (
+    <Card className="p-3">
+      <CardBody className="p-4">
+        <h3 className="mb-3 font-medium text-default-500 text-xs uppercase tracking-wider">
+          Category Trends (12 months)
+        </h3>
+        <div className="flex flex-col gap-2">
+          {data.map((cat) => {
+            const firstValue = cat.trend[0]?.value ?? 0;
+            const lastValue = cat.trend.at(-1)?.value ?? 0;
+            const change = lastValue - firstValue;
+            const isUp = change > 0;
+
+            return (
+              <div
+                key={cat.category}
+                className="grid grid-cols-12 items-center gap-2 rounded-lg bg-default-50 px-3 py-2"
+              >
+                <div className="col-span-3 flex items-center gap-2">
+                  <div
+                    className="size-2 shrink-0 rounded-full"
+                    style={{ backgroundColor: cat.colour }}
+                  />
+                  <span className="truncate text-sm">
+                    {cat.category.replace(
+                      "Vehicles Exempted From VQS",
+                      "VQS Exempted",
+                    )}
+                  </span>
+                </div>
+                <div className="col-span-6">
+                  <div className="flex h-6 items-end gap-px">
+                    {cat.trend.map((point, i) => {
+                      const max = Math.max(...cat.trend.map((p) => p.value));
+                      const height = max > 0 ? (point.value / max) * 100 : 0;
+                      return (
+                        <div
+                          key={`${cat.category}-${i}`}
+                          className="flex-1 rounded-t-sm transition-all"
+                          style={{
+                            height: `${Math.max(height, 4)}%`,
+                            backgroundColor: cat.colour,
+                            opacity: 0.3 + (i / cat.trend.length) * 0.7,
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="col-span-2 text-right font-medium text-sm">
+                  {formatNumber(cat.total)}
+                </div>
+                <div
+                  className={`col-span-1 text-right text-xs ${isUp ? "text-danger" : "text-success"}`}
+                >
+                  {isUp ? "▲" : "▼"} {Math.abs(change)}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </CardBody>
+    </Card>
+  );
+};

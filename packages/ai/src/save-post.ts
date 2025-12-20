@@ -1,37 +1,48 @@
 import { db, posts } from "@sgcarstrends/database";
-import { slugify } from "@sgcarstrends/utils";
-import type { LanguageModelResponseMetadata, LanguageModelUsage } from "ai";
+import { redis, slugify } from "@sgcarstrends/utils";
+import type { Highlight } from "./schemas";
 
-export interface PostMetadata {
-  month: string;
-  dataType: "cars" | "coe";
-  responseId: LanguageModelResponseMetadata["id"];
-  modelId: LanguageModelResponseMetadata["modelId"];
-  timestamp: LanguageModelResponseMetadata["timestamp"];
-  usage: LanguageModelUsage;
+export interface TokenUsage {
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
 }
 
-export interface BlogPost {
+export interface PostParams {
   title: string;
   content: string;
-  metadata: PostMetadata;
+  excerpt: string;
+  tags: string[];
+  highlights: Highlight[];
+  heroImage: string;
+  month: string;
+  dataType: "cars" | "coe";
+  responseMetadata: {
+    responseId: string;
+    modelId: string;
+    timestamp: Date;
+    usage?: TokenUsage;
+  };
 }
 
-export const savePost = async (data: BlogPost) => {
+export const savePost = async (data: PostParams) => {
   const slug = slugify(data.title);
-  const { month, dataType } = data.metadata;
 
-  // Use INSERT with ON CONFLICT DO UPDATE (upsert) for idempotent operation
   const [post] = await db
     .insert(posts)
     .values({
       title: data.title,
       slug,
       content: data.content,
-      metadata: data.metadata,
+      excerpt: data.excerpt,
+      tags: data.tags,
+      highlights: data.highlights,
+      heroImage: data.heroImage,
+      status: "published",
+      metadata: data.responseMetadata,
+      month: data.month,
+      dataType: data.dataType,
       publishedAt: new Date(),
-      month,
-      dataType,
     })
     .onConflictDoUpdate({
       target: [posts.month, posts.dataType],
@@ -39,15 +50,24 @@ export const savePost = async (data: BlogPost) => {
         title: data.title,
         slug,
         content: data.content,
-        metadata: data.metadata,
+        excerpt: data.excerpt,
+        tags: data.tags,
+        highlights: data.highlights,
+        heroImage: data.heroImage,
+        metadata: data.responseMetadata,
         modifiedAt: new Date(),
       },
     })
     .returning();
 
   console.log(
-    `[BLOG_SAVE] Post saved successfully - id: ${post.id}, slug: ${post.slug}, month: ${month}, category: ${dataType}`,
+    `[BLOG_SAVE] Post saved successfully - id: ${post.id}, slug: ${post.slug}, month: ${data.month}, category: ${data.dataType}`,
   );
+
+  // Sync tags to Redis for related posts functionality
+  if (data.tags && data.tags.length > 0) {
+    await syncPostTags(post.id, data.tags);
+  }
 
   // Invalidate cache for the blog post
   await revalidateWebCache(post.slug);
@@ -97,6 +117,47 @@ async function revalidateWebCache(slug: string): Promise<void> {
   } catch (error) {
     console.error(
       "[BLOG_SAVE] Error invalidating cache:",
+      error instanceof Error ? error.message : String(error),
+    );
+  }
+}
+
+/**
+ * Syncs post tags to Redis for related posts functionality
+ * Creates bidirectional mappings:
+ * - posts:{id}:tags (set) - tags for a post
+ * - tags:{slug}:posts (sorted set) - posts with this tag, score=1 for zunion aggregation
+ */
+async function syncPostTags(postId: string, tags: string[]): Promise<void> {
+  try {
+    // Clear existing tags for this post
+    const existingTags = await redis.smembers(`posts:${postId}:tags`);
+    if (existingTags.length > 0) {
+      const pipeline = redis.pipeline();
+      for (const tag of existingTags) {
+        pipeline.zrem(`tags:${tag}:posts`, postId);
+      }
+      pipeline.del(`posts:${postId}:tags`);
+      await pipeline.exec();
+    }
+
+    // Add new tags (bidirectional mapping)
+    {
+      const pipeline = redis.pipeline();
+      for (const tag of tags) {
+        const tagSlug = slugify(tag);
+        pipeline.zadd(`tags:${tagSlug}:posts`, { score: 1, member: postId });
+        pipeline.sadd(`posts:${postId}:tags`, tagSlug);
+      }
+      await pipeline.exec();
+    }
+
+    console.log(
+      `[BLOG_SAVE] Tags synced for post ${postId}: ${tags.join(", ")}`,
+    );
+  } catch (error) {
+    console.error(
+      "[BLOG_SAVE] Failed to sync tags:",
       error instanceof Error ? error.message : String(error),
     );
   }

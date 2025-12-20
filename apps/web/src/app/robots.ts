@@ -3,8 +3,8 @@ import { AppEnv } from "@web/types";
 import type { MetadataRoute } from "next";
 
 const robots = (): MetadataRoute.Robots => {
-  // Protect API routes and Next.js data endpoints, but allow static assets
-  const protectedPaths = ["/api/", "/_next/data/"];
+  // Protect API routes, Next.js data endpoints, and preview pages
+  const protectedPaths = ["/api/", "/_next/data/", "/preview/"];
 
   // Support both Vercel (VERCEL_ENV) and SST (NEXT_PUBLIC_APP_ENV) deployments
   const isProduction =

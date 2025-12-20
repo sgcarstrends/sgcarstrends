@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Select, SelectItem } from "@heroui/select";
 import {
   type ChartConfig,
   ChartContainer,
@@ -14,13 +9,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@sgcarstrends/ui/components/select";
 import { type Period, periods } from "@web/app/(dashboard)/coe/search-params";
 import {
   currencyTooltipFormatter,
@@ -87,36 +75,33 @@ export const COEPremiumChart = ({ data }: Props) => {
   const periodLabel = PERIOD_LABELS[period].toLowerCase();
 
   return (
-    <Card>
+    <Card className="p-3">
       <CardHeader className="flex flex-col gap-2 border-b lg:flex-row lg:items-center lg:justify-between">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Quota Premium ($)</CardTitle>
-          <CardDescription>
+          <h3 className="font-medium text-foreground text-xl">
+            Quota Premium ($)
+          </h3>
+          <p className="text-default-600 text-sm">
             {`Showing ${periodLabel} of COE prices`}
-          </CardDescription>
+          </p>
         </div>
-        <div>
-          <Select
-            value={period}
-            onValueChange={(value) => setPeriod(value as Period)}
-          >
-            <SelectTrigger className="rounded-lg sm:ml-auto">
-              <SelectValue placeholder="Last 12 months" />
-            </SelectTrigger>
-            <SelectContent className="rounded-xl">
-              {periods.map((p) => (
-                <SelectItem key={p} value={p} className="rounded-lg">
-                  <div className="flex items-center rounded-lg">
-                    <CalendarIcon className="mr-2 size-4" />
-                    {PERIOD_LABELS[p]}
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <Select
+          aria-label="Select time period"
+          placeholder="Last 12 months"
+          className="max-w-xs"
+          selectedKeys={new Set([period])}
+          onSelectionChange={(keys) => {
+            const selected = Array.from(keys)[0];
+            if (selected) setPeriod(selected as Period);
+          }}
+          startContent={<CalendarIcon className="size-4" />}
+        >
+          {periods.map((p) => (
+            <SelectItem key={p}>{PERIOD_LABELS[p]}</SelectItem>
+          ))}
+        </Select>
       </CardHeader>
-      <CardContent className="flex flex-col gap-4 p-6">
+      <CardBody className="p-6">
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <LineChart
             data={filteredData}
@@ -158,41 +143,7 @@ export const COEPremiumChart = ({ data }: Props) => {
             <ChartLegend />
           </LineChart>
         </ChartContainer>
-        <div className="flex flex-col gap-4">
-          <div className="text-muted-foreground text-sm">
-            <h4 className="mb-2 font-semibold text-foreground">
-              Chart Description
-            </h4>
-            <p>
-              This chart displays Certificate of Entitlement (COE) premium
-              trends over {periodLabel}. COE premiums represent the cost of
-              obtaining the right to own and operate a vehicle in Singapore for
-              10 years. Higher premiums typically indicate increased demand for
-              vehicles or reduced quota availability.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-3 rounded-lg bg-muted/30 p-3 sm:grid-cols-3">
-            <div className="text-center">
-              <div className="font-semibold text-foreground text-lg">
-                {filteredData.length > 0 ? filteredData.length : 0}
-              </div>
-              <div className="text-muted-foreground text-xs">Data Points</div>
-            </div>
-            <div className="text-center">
-              <div className="font-semibold text-foreground text-lg">
-                {categories.length}
-              </div>
-              <div className="text-muted-foreground text-xs">Categories</div>
-            </div>
-            <div className="text-center">
-              <div className="font-semibold text-foreground text-lg">
-                {PERIOD_LABELS[period]}
-              </div>
-              <div className="text-muted-foreground text-xs">Time Range</div>
-            </div>
-          </div>
-        </div>
-      </CardContent>
+      </CardBody>
     </Card>
   );
 };

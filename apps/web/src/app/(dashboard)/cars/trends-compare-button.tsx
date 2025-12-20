@@ -2,10 +2,10 @@
 
 import { Button, useDisclosure } from "@heroui/react";
 import { BetaChip } from "@web/components/shared/chips";
-import { TrendsComparisonBottomSheet } from "@web/components/trends-comparison-bottom-sheet";
+import { TrendsComparison } from "@web/components/trends-comparison";
 import { TrendingUp } from "lucide-react";
 
-export const CarRegistration = () => {
+export function TrendsCompareButton() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -22,10 +22,7 @@ export const CarRegistration = () => {
         </Button>
       </div>
 
-      <TrendsComparisonBottomSheet
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-      />
+      <TrendsComparison isOpen={isOpen} onOpenChange={onOpenChange} />
     </>
   );
-};
+}

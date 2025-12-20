@@ -91,7 +91,6 @@ sgcarstrends/
 │   │   ├── src/v1/          # API endpoints for data access
 │   │   ├── src/lib/         # Workflows, social media, and LLM blog generation
 │   │   ├── src/routes/      # Workflow endpoints and webhooks
-│   │   ├── src/trpc/        # Type-safe tRPC router with authentication
 │   │   └── src/config/      # Database, Redis, QStash configurations
 │   ├── web/          # Next.js 16 frontend application
 │   │   ├── src/app/         # Next.js App Router pages and layouts
@@ -154,7 +153,7 @@ sgcarstrends/
 For developers working on this codebase, detailed component-specific guidance is available:
 
 - **[Root CLAUDE.md](CLAUDE.md)** - Overall project guidance and conventions
-- **[API Service](apps/api/CLAUDE.md)** - Hono framework, workflows, tRPC, and social media integration
+- **[API Service](apps/api/CLAUDE.md)** - Hono framework, workflows, and social media integration
 - **[Web Application](apps/web/CLAUDE.md)** - Next.js development, HeroUI components, and blog features
 - **[Database Package](packages/database/CLAUDE.md)** - Schema management, migrations, and TypeScript integration
 - **[UI Package](packages/ui/CLAUDE.md)** - Shared component library with shadcn/ui and Tailwind CSS
@@ -183,15 +182,17 @@ pnpm install
 This project uses **pnpm catalog** for centralised dependency version management. Shared dependencies (React, Next.js, TypeScript, testing tools, etc.) are defined in `pnpm-workspace.yaml` and referenced by workspace packages using the `catalog:` protocol.
 
 **Key catalog packages:**
-- React ecosystem: `react` (19.2.0), `react-dom` (19.2.0), `next` (16.0.0)
-- TypeScript & types: `typescript` (5.8.3), `@types/node`, `@types/react` (19.2.0), `@types/react-dom` (19.2.0)
-- Testing tools: `vitest` (3.2.4), `@vitest/coverage-v8` (3.2.4)
-- Utilities: `date-fns` (3.6.0), `zod` (3.25.76), `resend` (6.1.2), `superjson` (2.2.2)
+- React ecosystem: `react` (^19.2.3), `react-dom` (^19.2.3), `next` (^16.0.10)
+- TypeScript & types: `typescript` (^5.8.3), `@types/node` (^22.16.4), `@types/react` (^19.2.0), `@types/react-dom` (^19.2.0)
+- Testing tools: `vitest` (^4.0.15), `@vitest/coverage-v8` (^4.0.15)
+- AI & LLM: `ai` (^5.0.105), `@ai-sdk/google` (^2.0.44), `@langfuse/otel` (^4.4.2)
+- Utilities: `date-fns` (^3.6.0), `zod` (^4.1.13), `resend` (^6.1.2), `sonner` (^2.0.7)
+- Workflows: `@upstash/workflow` (0.3.0-rc)
 
 **Root-level dependencies** (not in catalog):
-- Build tools: `sst` (3.17.21), `turbo` (2.5.8)
-- Code quality: `@biomejs/biome` (2.3.0), `husky` (9.1.7), `lint-staged` (16.1.5)
-- Release management: `semantic-release` (24.0.0)
+- Build tools: `sst` (3.17.21), `turbo` (^2.6.1)
+- Code quality: `@biomejs/biome` (2.3.0), `husky` (^9.1.7), `lint-staged` (^16.1.5)
+- Release management: `semantic-release` (^24.0.0)
 
 This ensures version consistency across all workspace packages and simplifies dependency upgrades.
 
@@ -266,9 +267,6 @@ pnpm deploy:web:dev        # Deploy web to dev
 - `POST /workflows/twitter` - Twitter posting webhook
 - `POST /workflows/discord` - Discord posting webhook
 - `POST /workflows/telegram` - Telegram posting webhook
-
-### tRPC (Authenticated)
-- `POST /trpc/*` - Type-safe tRPC procedures with bearer authentication
 
 ## Repo Activity
 

@@ -88,7 +88,7 @@ export const CoeComparisonChart = ({ data }: Props) => {
         <Bar
           dataKey="registrations"
           yAxisId="registrations"
-          fill="var(--primary)"
+          fill="var(--chart-1)"
           radius={[4, 4, 0, 0]}
           maxBarSize={40}
         />
@@ -98,7 +98,7 @@ export const CoeComparisonChart = ({ data }: Props) => {
           yAxisId="premium"
           type="monotone"
           dot={false}
-          stroke="var(--chart-1)"
+          stroke="var(--chart-2)"
           strokeWidth={2}
         />
 
@@ -107,7 +107,7 @@ export const CoeComparisonChart = ({ data }: Props) => {
           yAxisId="premium"
           type="monotone"
           dot={false}
-          stroke="var(--chart-2)"
+          stroke="var(--chart-3)"
           strokeWidth={2}
           strokeDasharray="10 10"
         />

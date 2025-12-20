@@ -6,7 +6,7 @@ export const getExistingPostByMonth = async <T extends string>(
   dataType: T,
 ) =>
   db
-    .select({ id: posts.id })
+    .select({ id: posts.id, title: posts.title, slug: posts.slug })
     .from(posts)
     .where(and(eq(posts.month, month), eq(posts.dataType, dataType)))
     .limit(1);

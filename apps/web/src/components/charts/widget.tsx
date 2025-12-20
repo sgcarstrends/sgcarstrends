@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import type { ReactNode } from "react";
 
 interface ChartWidgetProps {
@@ -23,31 +18,31 @@ export const ChartWidget = ({
 }: ChartWidgetProps) => {
   if (isEmpty) {
     return (
-      <Card>
-        <CardHeader className="gap-2">
-          <CardTitle className="font-semibold text-gray-900 text-lg">
-            {title}
-          </CardTitle>
-          {subtitle && <p className="text-gray-600 text-sm">{subtitle}</p>}
-        </CardHeader>
-        <CardContent>
-          <div className="flex h-60 items-center justify-center rounded-lg bg-gray-50">
-            <p className="text-gray-500">{emptyMessage}</p>
+      <Card className="p-3">
+        <CardHeader>
+          <div className="flex flex-col gap-1">
+            <p className="font-medium">{title}</p>
+            {subtitle && <p className="text-default-500 text-sm">{subtitle}</p>}
           </div>
-        </CardContent>
+        </CardHeader>
+        <CardBody>
+          <div className="flex h-60 items-center justify-center rounded-lg bg-default-100">
+            <p className="text-default-500">{emptyMessage}</p>
+          </div>
+        </CardBody>
       </Card>
     );
   }
 
   return (
-    <Card>
-      <CardHeader className="gap-2">
-        <CardTitle className="font-semibold text-gray-900 text-lg">
-          {title}
-        </CardTitle>
-        {subtitle && <p className="text-gray-600 text-sm">{subtitle}</p>}
+    <Card className="p-3">
+      <CardHeader>
+        <div className="flex flex-col gap-1">
+          <p className="font-medium">{title}</p>
+          {subtitle && <p className="text-default-500 text-sm">{subtitle}</p>}
+        </div>
       </CardHeader>
-      <CardContent>{children}</CardContent>
+      <CardBody>{children}</CardBody>
     </Card>
   );
 };

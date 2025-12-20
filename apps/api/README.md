@@ -4,14 +4,19 @@
 
 ## Overview
 
-SGCarsTrends API provides data and insights about car trends in Singapore.
+SGCarsTrends API provides data and insights about car trends in Singapore. Built with Hono framework, it includes:
+
+- RESTful endpoints for car registration and COE data
+- QStash-powered workflows for data updates
+- Social media integration (Discord, LinkedIn, Twitter, Telegram)
+- AI-powered blog generation using Vercel AI SDK with Google Gemini
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js
-- pnpm
+- Node.js >= 22
+- pnpm 10.22.0
 
 ### Installation
 
@@ -20,39 +25,34 @@ SGCarsTrends API provides data and insights about car trends in Singapore.
    ```bash
    pnpm install
    ```
-3. Run the application
+3. Run the development server
    ```bash
    pnpm dev
    ```
 
 ## Development
 
-- Run tests
-  ```bash
-   pnpm test
-   ```
+### Testing
 
-- Lint code
-  ```bash
-   pnpm biome lint
-   ```
+```bash
+pnpm test              # Run tests once
+pnpm test:watch        # Run tests in watch mode
+pnpm test:coverage     # Run tests with coverage report
+```
 
+### Code Quality
 
+```bash
+pnpm lint              # Lint code with Biome
+```
 
-- Deploy
-  ```bash
-   pnpm deploy
-   ```
+### Deployment
 
-- Remove deployment
-  ```bash
-   pnpm remove
-   ```
-
-- Open SST Console
-  ```bash
-   pnpm console
-   ```
+```bash
+pnpm deploy:dev        # Deploy to dev stage
+pnpm deploy:staging    # Deploy to staging stage
+pnpm deploy:prod       # Deploy to production
+```
 
 ## License
 

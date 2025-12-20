@@ -8,8 +8,8 @@ export async function getPostViewCount(postId: string): Promise<number> {
   cacheTag(`posts:views:${postId}`);
 
   try {
-    const count = await redis.get<string>(`blog:views:${postId}`);
-    return Number.parseInt(count ?? "0", 10);
+    const score = await redis.zscore("blog:popular", postId);
+    return score ?? 0;
   } catch (error) {
     console.error("Error getting post view count:", error);
     return 0;
@@ -21,38 +21,40 @@ async function getTagSimilarPosts(
   limit: number,
 ): Promise<Array<{ postId: string; score: number }>> {
   try {
-    const tags = await redis.smembers(`blog:post:tags:${postId}`);
+    const tags = await redis.smembers(`posts:${postId}:tags`);
 
     if (tags.length === 0) {
       return [];
     }
 
-    const similarPosts = new Map<string, number>();
-
+    // Pipeline all zrange calls for single round-trip
+    const pipeline = redis.pipeline();
     for (const tag of tags) {
-      const postsWithTag = await redis.smembers(`blog:tags:${tag}`);
+      pipeline.zrange(`tags:${tag}:posts`, 0, -1);
+    }
+    const results = await pipeline.exec();
 
-      for (const otherPostId of postsWithTag) {
-        if (otherPostId !== postId) {
-          similarPosts.set(
-            otherPostId,
-            (similarPosts.get(otherPostId) ?? 0) + 1,
-          );
+    // Score posts by number of matching tags
+    const scoredPosts = new Map<string, number>();
+    for (const posts of results) {
+      for (const id of posts as string[]) {
+        if (id !== postId) {
+          scoredPosts.set(id, (scoredPosts.get(id) ?? 0) + 1);
         }
       }
     }
 
-    return Array.from(similarPosts.entries())
-      .sort(([, a], [, b]) => b - a)
-      .slice(0, limit)
-      .map(([postId, score]) => ({ postId, score }));
+    return Array.from(scoredPosts.entries())
+      .map(([postId, score]) => ({ postId, score }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, limit);
   } catch (error) {
     console.error("Error getting tag similar posts:", error);
     return [];
   }
 }
 
-async function getPopularPosts(
+export async function getPopularPosts(
   limit: number = 10,
 ): Promise<Array<{ postId: string; viewCount: number }>> {
   "use cache";
@@ -60,19 +62,17 @@ async function getPopularPosts(
   cacheTag("posts:popular");
 
   try {
-    const results = await redis.zrange<
-      Array<{ member: string; score: number }>
-    >("blog:popular", 0, limit - 1, {
-      withScores: true,
+    const results = await redis.zrange("blog:popular", 0, limit - 1, {
       rev: true,
+      withScores: true,
     });
 
+    // Handle flat array format: [member1, score1, member2, score2, ...]
     const popularPosts: Array<{ postId: string; viewCount: number }> = [];
-
-    for (const entry of results) {
+    for (let i = 0; i < results.length; i += 2) {
       popularPosts.push({
-        postId: entry.member,
-        viewCount: Number(entry.score),
+        postId: String(results[i]),
+        viewCount: Number(results[i + 1]),
       });
     }
 
@@ -111,7 +111,8 @@ export async function getRelatedPosts(postId: string, limit: number = 3) {
     const relatedPostIds = Array.from(scoredPosts.entries())
       .sort(([, a], [, b]) => b - a)
       .slice(0, limit)
-      .map(([postId]) => postId);
+      .map(([postId]) => postId)
+      .filter((id) => id?.trim().length > 0);
 
     if (relatedPostIds.length === 0) {
       return [];
@@ -120,11 +121,29 @@ export async function getRelatedPosts(postId: string, limit: number = 3) {
     const relatedPostsData = await getPostsByIds(relatedPostIds);
 
     return relatedPostIds.flatMap((id) => {
-      const post = relatedPostsData.find((p) => p.id === id);
-      return post ? [post] : [];
+      const matchingPost = relatedPostsData.find((post) => post.id === id);
+      return matchingPost ? [matchingPost] : [];
     });
   } catch (error) {
     console.error("Error getting related posts:", error);
     return [];
   }
+}
+
+export async function getPopularPostsWithData(limit = 5) {
+  "use cache";
+  cacheLife("max");
+  cacheTag("posts:popular");
+
+  const popular = await getPopularPosts(limit);
+  if (popular.length === 0) return [];
+
+  const postIds = popular.map((entry) => entry.postId);
+  const posts = await getPostsByIds(postIds);
+
+  // Preserve popularity order and attach view counts
+  return popular.flatMap(({ postId, viewCount }) => {
+    const post = posts.find((item) => item.id === postId);
+    return post ? [{ ...post, viewCount }] : [];
+  });
 }

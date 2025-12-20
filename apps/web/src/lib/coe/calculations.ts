@@ -1,16 +1,8 @@
 import type { Period } from "@web/app/(dashboard)/coe/search-params";
 import type { CoeMarketShareData } from "@web/queries/coe";
 import type { COEBiddingResult, COEResult } from "@web/types";
+import { formatCurrency } from "@web/utils/format-currency";
 import { format, subMonths, subYears } from "date-fns";
-
-export const COE_CHART_COLOURS = [
-  "#dc2626", // red for Category A
-  "#ea580c", // orange for Category B
-  "#ca8a04", // yellow for Category C
-  "#16a34a", // green for Category D
-  "#2563eb", // blue for Category E
-  "#9333ea", // purple for Open
-] as const;
 
 export const COE_CATEGORY_MAP = {
   A: "Category A (Cars up to 1600cc & 130bhp)",
@@ -47,7 +39,7 @@ export const calculateCOEPremiumInsights = (
 
   if (premiumSpread > 50000) {
     insights.push(
-      `Large premium spread of $${Math.round(premiumSpread).toLocaleString()} between categories`,
+      `Large premium spread of ${formatCurrency(Math.round(premiumSpread))} between categories`,
     );
   }
 
@@ -212,6 +204,22 @@ export interface OverviewStats {
   };
 }
 
+export interface PremiumRangeStats {
+  category: string;
+  ytd: {
+    highest: number;
+    lowest: number;
+    highestDate?: string;
+    lowestDate?: string;
+  } | null;
+  allTime: {
+    highest: number;
+    lowest: number;
+    highestDate?: string;
+    lowestDate?: string;
+  };
+}
+
 /**
  * Calculate overview statistics for COE categories across all data.
  * Returns highest/lowest premiums with dates for specified categories.
@@ -256,6 +264,74 @@ export const calculateOverviewStats = (
       };
     })
     .filter((x) => x !== null) as OverviewStats[];
+};
+
+/**
+ * Calculate premium range statistics for COE categories.
+ * Returns YTD (current year) and all-time min/max premiums with dates.
+ */
+export const calculatePremiumRangeStats = (
+  allResults: COEResult[],
+  categories: string[],
+): PremiumRangeStats[] => {
+  const currentYear = new Date().getFullYear().toString();
+
+  return categories
+    .map((category) => {
+      const categoryData = allResults.filter(
+        (item) => item.vehicleClass === category,
+      );
+
+      if (categoryData.length === 0) return null;
+
+      // All-time stats
+      const allTimePremiums = categoryData.map(({ premium }) => premium);
+      const allTimeHighest = Math.max(...allTimePremiums);
+      const allTimeLowest = Math.min(...allTimePremiums);
+      const allTimeHighestRecord = categoryData.find(
+        ({ premium }) => premium === allTimeHighest,
+      );
+      const allTimeLowestRecord = categoryData.find(
+        ({ premium }) => premium === allTimeLowest,
+      );
+
+      // YTD stats (filter by current year)
+      const ytdData = categoryData.filter((item) =>
+        item.month.startsWith(currentYear),
+      );
+
+      let ytdStats: PremiumRangeStats["ytd"] = null;
+      if (ytdData.length > 0) {
+        const ytdPremiums = ytdData.map(({ premium }) => premium);
+        const ytdHighest = Math.max(...ytdPremiums);
+        const ytdLowest = Math.min(...ytdPremiums);
+        const ytdHighestRecord = ytdData.find(
+          ({ premium }) => premium === ytdHighest,
+        );
+        const ytdLowestRecord = ytdData.find(
+          ({ premium }) => premium === ytdLowest,
+        );
+
+        ytdStats = {
+          highest: ytdHighest,
+          lowest: ytdLowest,
+          highestDate: ytdHighestRecord?.month,
+          lowestDate: ytdLowestRecord?.month,
+        };
+      }
+
+      return {
+        category,
+        ytd: ytdStats,
+        allTime: {
+          highest: allTimeHighest,
+          lowest: allTimeLowest,
+          highestDate: allTimeHighestRecord?.month,
+          lowestDate: allTimeLowestRecord?.month,
+        },
+      };
+    })
+    .filter((x) => x !== null) as PremiumRangeStats[];
 };
 
 /**
@@ -330,4 +406,200 @@ export const getDateRangeFromPeriod = (
     case "all":
       return { start: earliestMonth, end: latestMonth };
   }
+};
+
+// ============================================================================
+// Key Insights Calculation Functions
+// ============================================================================
+
+export interface PremiumMover {
+  category: string;
+  latestPremium: number;
+  previousPremium: number;
+  change: number;
+  direction: "up" | "down" | "unchanged";
+}
+
+/**
+ * Calculate premium change between latest and previous bidding rounds.
+ * Returns categories sorted by absolute change percentage.
+ */
+export const calculateBiggestMovers = (
+  latestResults: COEResult[],
+  previousResults: COEResult[],
+): PremiumMover[] => {
+  return latestResults
+    .map((latest) => {
+      const previous = previousResults.find(
+        (p) => p.vehicleClass === latest.vehicleClass,
+      );
+
+      if (!previous || previous.premium === 0) {
+        return {
+          category: latest.vehicleClass,
+          latestPremium: latest.premium,
+          previousPremium: 0,
+          change: 0,
+          direction: "unchanged" as const,
+        };
+      }
+
+      const change =
+        ((latest.premium - previous.premium) / previous.premium) * 100;
+
+      return {
+        category: latest.vehicleClass,
+        latestPremium: latest.premium,
+        previousPremium: previous.premium,
+        change,
+        direction:
+          change > 0
+            ? ("up" as const)
+            : change < 0
+              ? ("down" as const)
+              : ("unchanged" as const),
+      };
+    })
+    .sort((a, b) => Math.abs(b.change) - Math.abs(a.change));
+};
+
+export interface NearRecordStatus {
+  category: string;
+  currentPremium: number;
+  allTimeHigh: number;
+  allTimeLow: number;
+  nearHigh: boolean;
+  nearLow: boolean;
+  percentFromHigh: number;
+  percentFromLow: number;
+}
+
+/**
+ * Check if categories are within a threshold of all-time records.
+ * Default threshold is 5% of the record value.
+ */
+export const calculateNearRecords = (
+  latestResults: COEResult[],
+  allTimeStats: PremiumRangeStats[],
+  thresholdPercent = 5,
+): NearRecordStatus[] => {
+  return latestResults
+    .map((result) => {
+      const stats = allTimeStats.find(
+        (s) => s.category === result.vehicleClass,
+      );
+
+      if (!stats) return null;
+
+      const { allTime } = stats;
+      const current = result.premium;
+
+      const percentFromHigh =
+        allTime.highest > 0
+          ? ((allTime.highest - current) / allTime.highest) * 100
+          : 0;
+
+      const percentFromLow =
+        allTime.lowest > 0
+          ? ((current - allTime.lowest) / allTime.lowest) * 100
+          : 0;
+
+      return {
+        category: result.vehicleClass,
+        currentPremium: current,
+        allTimeHigh: allTime.highest,
+        allTimeLow: allTime.lowest,
+        nearHigh: percentFromHigh <= thresholdPercent,
+        nearLow: current <= allTime.lowest * (1 + thresholdPercent / 100),
+        percentFromHigh,
+        percentFromLow,
+      };
+    })
+    .filter((x) => x !== null);
+};
+
+export interface DemandMetrics {
+  category: string;
+  quota: number;
+  bidsReceived: number;
+  bidsSuccess: number;
+  oversubscriptionRatio: number;
+  successRate: number;
+}
+
+/**
+ * Calculate demand and oversubscription metrics for COE categories.
+ * - Oversubscription ratio: bidsReceived / quota (higher = more demand)
+ * - Success rate: bidsSuccess / quota (closer to 1 = filled quota)
+ */
+export const calculateDemandMetrics = (
+  results: COEResult[],
+): DemandMetrics[] => {
+  return results
+    .map((result) => {
+      const { vehicleClass, quota, bidsReceived, bidsSuccess } = result;
+
+      const oversubscriptionRatio = quota > 0 ? bidsReceived / quota : 0;
+      const successRate = quota > 0 ? bidsSuccess / quota : 0;
+
+      return {
+        category: vehicleClass,
+        quota,
+        bidsReceived,
+        bidsSuccess,
+        oversubscriptionRatio,
+        successRate,
+      };
+    })
+    .sort((a, b) => b.oversubscriptionRatio - a.oversubscriptionRatio);
+};
+
+export interface KeyInsight {
+  type: "mover" | "record" | "demand" | "spread";
+  category?: string;
+  message: string;
+  value?: number;
+  direction?: "up" | "down";
+}
+
+/**
+ * Generate key insights from COE data combining biggest movers
+ * and near-record prices.
+ */
+export const generateKeyInsights = (
+  movers: PremiumMover[],
+  nearRecords: NearRecordStatus[],
+  limit = 4,
+): KeyInsight[] => {
+  const insights: KeyInsight[] = [];
+
+  // Add biggest movers (top 2)
+  movers.slice(0, 2).forEach((mover) => {
+    if (Math.abs(mover.change) >= 1) {
+      const direction = mover.direction === "up" ? "up" : "down";
+      const arrow = direction === "up" ? "↑" : "↓";
+      insights.push({
+        type: "mover",
+        category: mover.category,
+        message: `${mover.category} ${arrow} ${Math.abs(mover.change).toFixed(1)}% from last round`,
+        value: mover.change,
+        direction,
+      });
+    }
+  });
+
+  // Add near-record insights
+  nearRecords.forEach((record) => {
+    if (record.nearHigh) {
+      insights.push({
+        type: "record",
+        category: record.category,
+        message: `${record.category} at ${(100 - record.percentFromHigh).toFixed(0)}% of all-time high`,
+        value: 100 - record.percentFromHigh,
+        direction: "up",
+      });
+    }
+  });
+
+  return insights.slice(0, limit);
 };

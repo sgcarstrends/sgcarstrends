@@ -110,33 +110,4 @@ describe("car market insight queries", () => {
     });
     expect(result.data).toHaveLength(2);
   });
-
-  it("creates top performer summaries from derived queries", async () => {
-    queueSelect([], []);
-    queueBatch([[{ name: "Hybrid", total: 40 }], [{ name: "SUV", total: 30 }]]);
-    queueSelect([
-      { make: "Toyota", total: 25 },
-      { make: "Tesla", total: 15 },
-    ]);
-
-    mockedGetCarsData.mockResolvedValue({
-      month: "2024-08",
-      total: 100,
-      fuelType: [],
-      vehicleType: [],
-    });
-
-    const result = await marketInsights.getCarTopPerformersData("2024-08");
-
-    expect(result).toEqual({
-      month: "2024-08",
-      total: 100,
-      topFuelTypes: [{ name: "Hybrid", count: 40, percentage: 40, rank: 1 }],
-      topVehicleTypes: [{ name: "SUV", count: 30, percentage: 30, rank: 1 }],
-      topMakes: [
-        { make: "Toyota", count: 25, percentage: 25, rank: 1 },
-        { make: "Tesla", count: 15, percentage: 15, rank: 2 },
-      ],
-    });
-  });
 });

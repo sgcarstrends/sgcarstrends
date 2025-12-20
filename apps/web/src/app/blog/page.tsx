@@ -1,15 +1,17 @@
 import { BlogList } from "@web/app/blog/_components/blog-list";
+import { PopularPosts } from "@web/app/blog/_components/popular-posts";
 import { StructuredData } from "@web/components/structured-data";
 import { SubscribeForm } from "@web/components/subscribe-form";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
+import { getPopularPostsWithData } from "@web/lib/data/posts";
 import { getAllPosts } from "@web/queries/posts";
 import type { Metadata } from "next";
 import type { Blog, WithContext } from "schema-dts";
 
 const title = "Blog";
 const description =
-  "Articles from the insights and analysis on Singapore's car and COE trends.";
+  "Articles from the insights & analysis on Singapore's car and COE trends.";
 const url = "/blog";
 
 const structuredData: WithContext<Blog> = {
@@ -37,24 +39,30 @@ export const metadata: Metadata = {
   },
 };
 
-const Page = async () => {
-  const posts = await getAllPosts();
+export default async function BlogPage() {
+  const [posts, popularPosts] = await Promise.all([
+    getAllPosts(),
+    getPopularPostsWithData(5),
+  ]);
 
   return (
     <>
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
-        <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-          <Typography.H1>Blog</Typography.H1>
-          <Typography.TextLg>{description}</Typography.TextLg>
+        <div className="flex flex-col gap-2">
+          <Typography.H1>{title}</Typography.H1>
+          <Typography.TextLg className="text-default-600">
+            {description}
+          </Typography.TextLg>
         </div>
         <UnreleasedFeature>
           <SubscribeForm />
+        </UnreleasedFeature>
+        <UnreleasedFeature>
+          <PopularPosts posts={popularPosts} />
         </UnreleasedFeature>
         <BlogList posts={posts} />
       </section>
     </>
   );
-};
-
-export default Page;
+}

@@ -17,7 +17,6 @@ export const CategoryTabs = ({ cars }: Props) => {
           description="Distribution of vehicles based on fuel type"
           data={cars.fuelType}
           total={cars.total}
-          linkPrefix="fuel-types"
         />
       </Tab>
       <Tab key="vehicleType" title="By Vehicle Type">
@@ -26,7 +25,6 @@ export const CategoryTabs = ({ cars }: Props) => {
           description="Distribution of vehicles based on vehicle type"
           data={cars.vehicleType}
           total={cars.total}
-          linkPrefix="vehicle-types"
         />
       </Tab>
     </Tabs>

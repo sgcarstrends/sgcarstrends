@@ -1,16 +1,13 @@
-import { Badge } from "@sgcarstrends/ui/components/badge";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Chip } from "@heroui/chip";
 import { slugify } from "@sgcarstrends/utils";
 import { CarOverviewTrends } from "@web/app/(dashboard)/cars/_components/overview-trends";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/[category]/[type]/search-params";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCarsTypePageData } from "@web/lib/cars/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -21,6 +18,7 @@ import {
   getDistinctVehicleTypes,
 } from "@web/queries/cars";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { formatVehicleTypeSlug } from "@web/utils/format-vehicle-type";
 import { getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -163,21 +161,30 @@ const TypePageContent = async ({
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <PageHeader
-          title={type}
+          title={
+            category === "vehicle-types" ? formatVehicleTypeSlug(type) : type
+          }
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector={true}
-        />
+        >
+          <ShareButtons
+            url={`${SITE_URL}/cars/${category}/${type}?month=${month}`}
+            title={`${category === "vehicle-types" ? formatVehicleTypeSlug(type) : type} - ${formattedMonth} - ${SITE_TITLE}`}
+          />
+        </PageHeader>
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <Card>
-              <CardHeader>
-                <CardTitle>Registrations</CardTitle>
-                <Badge>{formattedMonth}</Badge>
+            <Card className="p-3">
+              <CardHeader className="flex flex-row items-center justify-between gap-2">
+                <Typography.H4>Registrations</Typography.H4>
+                <Chip size="sm" variant="flat">
+                  {formattedMonth}
+                </Chip>
               </CardHeader>
-              <CardContent className="font-bold text-4xl text-primary">
+              <CardBody className="font-bold text-4xl text-primary">
                 <AnimatedNumber value={cars.total} />
-              </CardContent>
+              </CardBody>
             </Card>
           </div>
         </div>

@@ -1,3 +1,149 @@
+## [4.36.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.35.1...v4.36.0) (2025-12-20)
+
+### Features
+
+* **web:** add MonthlyChangeSummary card ([9d32d44](https://github.com/sgcarstrends/sgcarstrends/commit/9d32d440b55d61622d02b2cbfcdcf75a3a2aa872))
+
+### Bug Fixes
+
+* address PR review comments ([fc9fa8a](https://github.com/sgcarstrends/sgcarstrends/commit/fc9fa8a3011ee103434266fc1214e1063cb927b0))
+* **web:** missing HeroUI components ([a9a924a](https://github.com/sgcarstrends/sgcarstrends/commit/a9a924ab8c2e8aaab1ad089590c3d15733d30ac3))
+* **web:** responsive Market Overview grid ([e2d3c0f](https://github.com/sgcarstrends/sgcarstrends/commit/e2d3c0fdbc84ab45fa8c0a522cbaf4d4fa5b8353))
+* **web:** wrong CSS path to HeroUI ([0aff1df](https://github.com/sgcarstrends/sgcarstrends/commit/0aff1dfa2d76c1b634056de38ec66b3d6d968d08))
+
+## [4.35.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.35.0...v4.35.1) (2025-12-18)
+
+### Bug Fixes
+
+* **web:** resolve build type errors ([697c869](https://github.com/sgcarstrends/sgcarstrends/commit/697c8693291273b65daab0e9bfcda336aa736881))
+
+## [4.35.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.34.0...v4.35.0) (2025-12-16)
+
+### Features
+
+* enable homepage for production ([5ac1212](https://github.com/sgcarstrends/sgcarstrends/commit/5ac1212974384a9a65bacbfc1415b679d99a0c04))
+
+## [4.34.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.6...v4.34.0) (2025-12-16)
+
+### Features
+
+* **web:** add deregistrations to navigation ([6989e39](https://github.com/sgcarstrends/sgcarstrends/commit/6989e39ebf92217379cebab45e27d783874d8a7c))
+
+## [4.33.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.5...v4.33.6) (2025-12-15)
+
+### Bug Fixes
+
+* **web:** align data section with theme colours ([b6be852](https://github.com/sgcarstrends/sgcarstrends/commit/b6be852cffae1285e4f1aa78bce58e835cd71fa7))
+
+## [4.33.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.4...v4.33.5) (2025-12-14)
+
+### Bug Fixes
+
+* **web:** navigation styling on desktop ([f5a17cb](https://github.com/sgcarstrends/sgcarstrends/commit/f5a17cba9f5c971d93eeb0204c640aec8035ff8c))
+
+## [4.33.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.3...v4.33.4) (2025-12-14)
+
+### Bug Fixes
+
+* **web:** section tabs overflow on mobile ([6bf3f65](https://github.com/sgcarstrends/sgcarstrends/commit/6bf3f65aa6291b49c0d75b840e5542045e0cd5ff))
+
+## [4.33.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.2...v4.33.3) (2025-12-14)
+
+### Bug Fixes
+
+* **web:** dashboard layout ([229822b](https://github.com/sgcarstrends/sgcarstrends/commit/229822bdc94c5d2bec95fad68010f6ec17a538b7))
+
+## [4.33.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.1...v4.33.2) (2025-12-14)
+
+### Bug Fixes
+
+* **web:** correct home page section links ([990cb42](https://github.com/sgcarstrends/sgcarstrends/commit/990cb426ad0231d5548658ed9ebfa39120a0d51a))
+* **web:** update tests for component changes ([8d4b0ba](https://github.com/sgcarstrends/sgcarstrends/commit/8d4b0ba1f24d312cda0fce4484369c4384af7ebd))
+
+## [4.33.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.33.0...v4.33.1) (2025-12-12)
+
+### Bug Fixes
+
+* patch CVE-2025-55183 - upgrade React/Next ([a91b84e](https://github.com/sgcarstrends/sgcarstrends/commit/a91b84e9d071bab38f5a8a4117359a3fbd415f9f))
+
+## [4.33.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.32.1...v4.33.0) (2025-12-11)
+
+### Features
+
+* **web:** add about page opengraph image ([4d74739](https://github.com/sgcarstrends/sgcarstrends/commit/4d74739733eaebea3265e4afc84b3c99dcaf0c9f))
+* **web:** add about page with SEO ([0fffc67](https://github.com/sgcarstrends/sgcarstrends/commit/0fffc6770427c8530dcae0b6e0904877ec445233))
+
+### Reverts
+
+* use export function for TrendsCompareButton ([580a350](https://github.com/sgcarstrends/sgcarstrends/commit/580a350fc2401f2ed4467b06f87ae377a416a0b0))
+* **web:** use export function for top-level components ([e3893ec](https://github.com/sgcarstrends/sgcarstrends/commit/e3893ec431967617b88de8cca5cd07279377e11d))
+
+## [4.32.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.32.0...v4.32.1) (2025-12-08)
+
+### Bug Fixes
+
+* **web:** add New badge to hero post ([8bf685b](https://github.com/sgcarstrends/sgcarstrends/commit/8bf685b6d32531a7438bb819413a579b1ca1fec9))
+
+## [4.32.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.31.1...v4.32.0) (2025-12-07)
+
+### Features
+
+* **web:** add share buttons to all pages ([bc3925f](https://github.com/sgcarstrends/sgcarstrends/commit/bc3925fed4242b57b3eb0a47c3ba3279a9d21e70))
+
+## [4.31.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.31.0...v4.31.1) (2025-12-06)
+
+### Bug Fixes
+
+* standardise to NEXT_PUBLIC_SITE_URL ([3d5850a](https://github.com/sgcarstrends/sgcarstrends/commit/3d5850abb2a3030cb535417ea7fa27f337373f51))
+
+## [4.31.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.30.0...v4.31.0) (2025-12-06)
+
+### Features
+
+* add vehicle deregistrations feature ([678cc6a](https://github.com/sgcarstrends/sgcarstrends/commit/678cc6a143d61deb5913e14d63567aafaaef4c40))
+* **web:** add deregistrations charts and cards ([6c5ba34](https://github.com/sgcarstrends/sgcarstrends/commit/6c5ba345cbc7f28d06d48a1000fe936671bc7624))
+* **web:** client-side month filter for dereg ([5da328d](https://github.com/sgcarstrends/sgcarstrends/commit/5da328d29bf52a5292d88dc5695f208fadfcccbe))
+
+## [4.30.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.29.0...v4.30.0) (2025-12-04)
+
+### Features
+
+* **web:** add COE premium range display ([#615](https://github.com/sgcarstrends/sgcarstrends/issues/615)) ([eb23488](https://github.com/sgcarstrends/sgcarstrends/commit/eb23488dde416a26d3c9c47f43161ad02694069e))
+
+## [4.29.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.28.0...v4.29.0) (2025-12-03)
+
+### Features
+
+* **web:** add excerpt to blog post page ([8c697b6](https://github.com/sgcarstrends/sgcarstrends/commit/8c697b6b037b32d481c626e46c67b7a0a2563413))
+* **web:** add prev/next navigation to blog posts ([5607acb](https://github.com/sgcarstrends/sgcarstrends/commit/5607acbef5ec3e9c5704336b82f4c152f41efb53))
+
+### Bug Fixes
+
+* patch CVE-2025-55182 - upgrade Next.js and React ([3b7fee0](https://github.com/sgcarstrends/sgcarstrends/commit/3b7fee05b876bbb3f7c779b8d368a2c1e4491296))
+* **web:** defer isNewPost check to client ([ee8bf71](https://github.com/sgcarstrends/sgcarstrends/commit/ee8bf711baed564561c7ec833775b72e7daee957))
+
+## [4.28.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.27.0...v4.28.0) (2025-12-03)
+
+### Features
+
+* **web:** add trending posts and NEW badge ([90c8089](https://github.com/sgcarstrends/sgcarstrends/commit/90c80896b825f4a030beffcb83bdeaa53174aaf0))
+
+## [4.27.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.26.1...v4.27.0) (2025-12-02)
+
+### Features
+
+* **ai:** add hero image to blog posts ([4967339](https://github.com/sgcarstrends/sgcarstrends/commit/4967339a7e877032c870bcccf26c22c104576e0b))
+* **ai:** add tag constants and vocabulary ([5f3c8a2](https://github.com/sgcarstrends/sgcarstrends/commit/5f3c8a2a3604760cf7444df29a0399ea7d40ba73))
+* **web:** add blog style preview page ([e5baa7d](https://github.com/sgcarstrends/sgcarstrends/commit/e5baa7d30bd5a4d9caadf1fc08e2176a918dcac8))
+* **web:** add blog UI components and mock data ([94f66da](https://github.com/sgcarstrends/sgcarstrends/commit/94f66da06bf7e52ffa76938bdf7dab485f200732))
+* **web:** add post counts to blog category tabs ([15054fd](https://github.com/sgcarstrends/sgcarstrends/commit/15054fdfc7145b87fb673479bb373e1e1a130136))
+* **web:** revamp blog page with editorial design ([905cee2](https://github.com/sgcarstrends/sgcarstrends/commit/905cee21eb32a9d373fa57ccd564eb7bc5c1a457))
+
+### Bug Fixes
+
+* **web:** resolve type narrowing in after() ([535a82a](https://github.com/sgcarstrends/sgcarstrends/commit/535a82ae3159a437f31274f5f277925a5c0b60c7))
+* **web:** use md format for blog MDX parsing ([4a9e7f2](https://github.com/sgcarstrends/sgcarstrends/commit/4a9e7f2666757b310911ae9748edba5e998f5f26))
+
 ## [4.26.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.26.0...v4.26.1) (2025-11-30)
 
 ### Bug Fixes

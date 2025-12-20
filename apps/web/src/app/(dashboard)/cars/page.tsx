@@ -1,8 +1,9 @@
 import { TopMakes } from "@web/app/(dashboard)/cars/_components/top-makes";
 import { CategoryTabs } from "@web/app/(dashboard)/cars/category-tabs";
 import { loadSearchParams } from "@web/app/(dashboard)/cars/search-params";
-import { CarRegistration } from "@web/app/(dashboard)/cars/trends-compare-button";
+import { TrendsCompareButton } from "@web/app/(dashboard)/cars/trends-compare-button";
 import { PageHeader } from "@web/components/page-header";
+import { ShareButtons } from "@web/components/share-buttons";
 import { MetricCard } from "@web/components/shared/metric-card";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
@@ -19,6 +20,7 @@ import {
   getTopTypes,
 } from "@web/queries";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { formatVehicleType } from "@web/utils/format-vehicle-type";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -113,10 +115,15 @@ const CarsPage = async ({
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector={true}
-        />
+        >
+          <ShareButtons
+            url={`${SITE_URL}/cars?month=${month}`}
+            title={`${formattedMonth} Car Registrations - ${SITE_TITLE}`}
+          />
+        </PageHeader>
 
         <UnreleasedFeature>
-          <CarRegistration />
+          <TrendsCompareButton />
         </UnreleasedFeature>
 
         {/*TODO: Improvise*/}
@@ -145,7 +152,7 @@ const CarsPage = async ({
                 }
               />
               <MetricCard
-                title={`Top Vehicle Type: ${topTypes.topVehicleType.name}`}
+                title={`Top Vehicle Type: ${formatVehicleType(topTypes.topVehicleType.name)}`}
                 value={topTypes.topVehicleType.total}
                 current={topTypes.topVehicleType.total}
                 previousMonth={

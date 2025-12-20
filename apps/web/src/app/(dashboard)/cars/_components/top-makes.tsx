@@ -62,7 +62,7 @@ export const TopMakes = ({ data }: Props) => {
         const href = `/cars/fuel-types/${slugify(fuelType)}`;
 
         return (
-          <Card key={fuelType}>
+          <Card key={fuelType} className="p-3">
             <CardHeader>
               <Typography.H4>{fuelType}</Typography.H4>
             </CardHeader>

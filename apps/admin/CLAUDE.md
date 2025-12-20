@@ -1,22 +1,8 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Documentation Access
-
-When working with external libraries or frameworks, use the Context7 MCP tools to get up-to-date documentation:
-
-1. Use `mcp__context7__resolve-library-id` to find the correct library ID for any package
-2. Use `mcp__context7__get-library-docs` to retrieve comprehensive documentation and examples
-
-This ensures you have access to the latest API documentation for dependencies like Next.js, Radix UI, Tailwind CSS, and
-other libraries used in this admin dashboard.
-
 # SG Cars Trends Admin Dashboard
 
 ## Project Overview
 
-This is the admin dashboard (v4.11.0) for SG Cars Trends, built with Next.js 15.4.7 and shadcn/ui components. The dashboard provides
+This is the admin dashboard (v4.26.1) for SG Cars Trends, built with Next.js 15.4.7 and shadcn/ui components. The dashboard provides
 administrative functionality for managing the SG Cars Trends platform, including content management, data oversight, and
 system monitoring.
 
@@ -111,6 +97,37 @@ The admin dashboard follows modern spacing conventions for consistent, maintaina
 ```
 
 For detailed spacing conventions, examples, and rationale, see [apps/web/CLAUDE.md - Layout & Spacing Conventions](../web/CLAUDE.md#layout--spacing-conventions).
+
+### Component Naming Conventions
+
+Component naming follows domain + role patterns for clarity and consistency.
+
+**Core Rules:**
+
+| Rule | Description |
+|------|-------------|
+| PascalCase | All components use PascalCase (`DashboardCard`, not `dashboardCard`) |
+| Domain + Role | Combine context with role (`SystemStatus`, `ActivityFeed`, `QuickActions`) |
+| Compound Components | Use `.` notation for subparts (`DataTable.Header`, `DataTable.Row`) |
+| No Suffixes | Avoid Container, Wrapper, Component suffixes |
+| No Layout Names | Avoid Left, Big, Red, TwoColumn in names |
+
+**Examples:**
+
+```typescript
+// ✅ Good naming
+export const SystemStatus = () => {};
+export const ActivityFeed = () => {};
+export const QuickActions = () => {};
+
+// ❌ Bad naming
+export const StatusContainer = () => {};  // Suffix
+export const LeftNavigation = () => {};   // Layout description
+```
+
+**File Naming:** kebab-case matching component (`SystemStatus` → `system-status.tsx`)
+
+See `component-naming` skill for detailed guidance.
 
 ## Key Features
 

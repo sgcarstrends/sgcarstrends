@@ -11,22 +11,19 @@ import { sortByName } from "@web/utils/sorting";
 import {
   BarChart3,
   Calculator,
+  Calendar,
   Car,
   CarFront,
-  Clock,
+  FileMinus,
   FilePlus,
   FileText,
   Fuel,
-  Gavel,
   HelpCircle,
+  LayoutDashboard,
   type LucideIcon,
   TrendingUp,
 } from "lucide-react";
-
-export interface MainSection {
-  name: string;
-  href: string;
-}
+import type { Route } from "next";
 
 export interface NavigationItem {
   title: string;
@@ -37,12 +34,6 @@ export interface NavigationItem {
   badge?: "beta" | "new";
   iconColor?: string;
   matchPrefix?: boolean;
-}
-
-export interface NavigationSection {
-  name: string;
-  href: string;
-  children: NavigationItem[];
 }
 
 export interface SocialMedia {
@@ -58,35 +49,12 @@ export interface NavLinks {
   socialMedia: SocialMedia[];
 }
 
-export const mainSections: MainSection[] = [
-  {
-    name: "Dashboard",
-    href: "/",
-  },
-  {
-    name: "Cars",
-    href: "/cars",
-  },
-  {
-    name: "COE",
-    href: "/coe",
-  },
-  // {
-  //   name: "Misc",
-  //   href: "/misc",
-  // },
-];
-
-const dashboardItems: NavigationItem[] = [
-  {
-    title: "Overview",
-    url: "/",
-  },
-  {
-    title: "Annual",
-    url: "/annual",
-  },
-];
+export interface NavigationSection {
+  name: string;
+  href: string;
+  icon: LucideIcon;
+  children: NavigationItem[];
+}
 
 const socialMedia: SocialMedia[] = [
   {
@@ -131,6 +99,13 @@ export const navLinks: NavLinks = {
       iconColor: "text-blue-500",
     },
     {
+      title: "Deregistrations",
+      url: "/cars/deregistrations",
+      icon: FileMinus,
+      description: "Monthly vehicle deregistration statistics",
+      iconColor: "text-red-500",
+    },
+    {
       title: "Makes",
       url: "/cars/makes",
       icon: CarFront,
@@ -156,28 +131,16 @@ export const navLinks: NavLinks = {
   ],
   coe: [
     {
-      title: "Overview",
+      title: "Premiums",
       url: "/coe",
       icon: BarChart3,
-      description: "Current COE premiums and market overview",
+      description: "Latest COE premiums and quick insights",
     },
     {
-      title: "Historical Results",
+      title: "Results",
       url: "/coe/results",
-      icon: Clock,
-      description: "Past bidding rounds and premium history",
-    },
-    {
-      title: "Trends Analysis",
-      url: "/coe/trends",
       icon: TrendingUp,
-      description: "Market trends and price movement analysis",
-    },
-    {
-      title: "Bidding Results",
-      url: "/coe/bidding",
-      icon: Gavel,
-      description: "Latest bidding exercise outcomes",
+      description: "Historical trends and bidding results",
     },
     {
       title: "PQP Rates",
@@ -205,20 +168,31 @@ export const navLinks: NavLinks = {
   socialMedia: sortByName(socialMedia, { sortKey: "title" }),
 };
 
+const dashboardItems: NavigationItem[] = [
+  { title: "Overview", url: "/", icon: LayoutDashboard },
+  { title: "Annual", url: "/annual", icon: Calendar },
+];
+
 export const navigationSections: NavigationSection[] = [
   {
-    name: "Dashboard",
+    name: "Overview",
     href: "/",
+    icon: LayoutDashboard,
     children: dashboardItems,
   },
-  {
-    name: "Cars",
-    href: "/cars",
-    children: navLinks.cars,
-  },
-  {
-    name: "COE",
-    href: "/coe",
-    children: navLinks.coe,
-  },
+  { name: "Cars", href: "/cars", icon: Car, children: navLinks.cars },
+  { name: "COE", href: "/coe", icon: BarChart3, children: navLinks.coe },
 ];
+
+export type NavItem = {
+  href: Route;
+  label: string;
+};
+
+export const NAV_ITEMS = [
+  { href: "/", label: "Dashboard" },
+  { href: "/about", label: "About" },
+  { href: "/blog", label: "Blog" },
+  { href: "/faq", label: "FAQ" },
+  // { href: "/newsletter", label: "Newsletter" },
+] as const satisfies readonly NavItem[];

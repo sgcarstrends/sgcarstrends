@@ -4,13 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Documentation Access
 
-When working with external libraries or frameworks, use the Context7 MCP tools to get up-to-date documentation:
-
-1. Use `mcp__context7__resolve-library-id` to find the correct library ID for any package
-2. Use `mcp__context7__get-library-docs` to retrieve comprehensive documentation and examples
-
-This ensures you have access to the latest API documentation for dependencies like Hono, Next.js, Drizzle ORM, Vitest,
-and others used in this project.
+Automatically use Context7 for code generation and library documentation.
 
 # SG Cars Trends - Developer Reference Guide
 
@@ -18,13 +12,28 @@ and others used in this project.
 
 This repository includes directory-specific CLAUDE.md files with detailed guidance for each component:
 
-- **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, tRPC, and social media
+### Applications
+
+- **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, and social media
   integration
 - **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 16, HeroUI, blog features, and
   analytics
+- **[apps/admin/CLAUDE.md](apps/admin/CLAUDE.md)**: Administrative dashboard interface (unreleased) with shadcn/ui
+  components
+- **[apps/docs/CLAUDE.md](apps/docs/CLAUDE.md)**: Mintlify documentation site development and content guidelines
+
+### Packages
+
+- **[packages/ai/CLAUDE.md](packages/ai/CLAUDE.md)**: AI-powered blog generation with Vercel AI SDK, Google Gemini, and
+  Langfuse telemetry
 - **[packages/database/CLAUDE.md](packages/database/CLAUDE.md)**: Database schema management with Drizzle ORM,
   migrations, and TypeScript integration
+- **[packages/logos/CLAUDE.md](packages/logos/CLAUDE.md)**: Car logo management with Vercel Blob storage, Redis caching,
+  and brand normalisation
 - **[packages/ui/CLAUDE.md](packages/ui/CLAUDE.md)**: Shared UI components library with shadcn/ui and Tailwind CSS
+
+### Infrastructure
+
 - **[infra/CLAUDE.md](infra/CLAUDE.md)**: Infrastructure configuration with SST v3, AWS deployment, and domain
   management
 
@@ -51,8 +60,8 @@ for effective development and maintenance.
 
 ## Project Overview
 
-SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data and
-Certificate of Entitlement (COE) bidding results. The monorepo includes:
+SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data,
+Certificate of Entitlement (COE) bidding results, and vehicle deregistration statistics. The monorepo includes:
 
 - **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
 - **Web Application**: Next.js 16 frontend with Cache Components, component co-location, interactive charts, analytics,
@@ -81,8 +90,10 @@ All commands use pnpm as the package manager.
 | **Database** | `pnpm db:migrate` | Run migrations (see `schema-design` skill) |
 | | `pnpm db:generate` | Generate migrations |
 | **Docs** | `pnpm docs:dev` | Start docs server (see `mintlify-docs`, `broken-links` skills) |
+| | `pnpm docs:build` | Build documentation site |
 | **Deployment** | See `sst-deployment` skill | Multi-environment deployment workflows |
 | **Release** | See `release-management` skill | Automated releases with semantic-release |
+| **Auth** | `pnpm auth:generate` | Generate authentication schema |
 
 *See component CLAUDE.md files for service-specific commands and workflows.*
 
@@ -93,7 +104,6 @@ All commands use pnpm as the package manager.
     - **src/lib/workflows**: Workflow-based data update system and social media integration
     - **src/routes**: API route handlers including workflow endpoints
     - **src/config**: Database, Redis, QStash, and platform configurations
-    - **src/trpc**: Type-safe tRPC router with authentication
 - **apps/web**: Next.js frontend application
     - **src/app**: Next.js App Router pages and layouts with blog functionality
     - **src/components**: React components with comprehensive tests
@@ -104,11 +114,14 @@ All commands use pnpm as the package manager.
     - **architecture/**: Complete system architecture documentation with Mermaid diagrams
     - **diagrams/**: Source Mermaid diagram files for architecture documentation
 - **packages/database**: Database schema and migrations using Drizzle ORM
-    - **src/db**: Schema definitions for cars, COE, and posts tables
+    - **src/schema**: Schema definitions for cars, COE, deregistrations, and posts tables
     - **migrations**: Database migration files with version tracking
 - **packages/ai**: AI-powered blog generation shared package
-    - **src/generate-post.ts**: Core blog content generation with Code Execution Tool
-    - **src/config.ts**: System instructions and prompts for cars/COE analysis
+    - **src/generate-post.ts**: 2-step blog generation (analysis → structured output)
+    - **src/config.ts**: System instructions and prompts for analysis and generation steps
+    - **src/schemas.ts**: Zod schemas for structured output (postSchema, highlightSchema)
+    - **src/tags.ts**: Tag constants and types (CARS_TAGS, COE_TAGS)
+    - **src/hero-images.ts**: Hero image URLs and helpers
     - **src/queries.ts**: Database queries for data aggregation
     - **src/save-post.ts**: Post persistence with idempotency
     - **src/instrumentation.ts**: Langfuse telemetry setup
@@ -166,6 +179,7 @@ The project uses **pnpm with catalog** for centralised dependency version manage
 - Classes: `PascalCase`
 - Constants: `UPPER_CASE`
 - **Files**: Avoid redundant prefixes (✅ `cars/make.ts` not ❌ `cars/cars-make.ts`)
+- **Variables**: Use descriptive names (✅ `record`, `result`, `item` not ❌ `p`, `d`, `r`, `i`)
 - Import groups: 1) built-in, 2) external, 3) internal
 
 ### Commit Messages
@@ -224,7 +238,7 @@ See `domain-management` skill for DNS configuration and routing details.
 
 PostgreSQL with Drizzle ORM using **camelCase** column naming:
 
-- `cars`, `coe`, `pqp`, `posts`
+- `cars`, `coe`, `pqp`, `deregistrations`, `posts`
 
 **Naming Strategy:**
 - Table names: `snake_case` (e.g., `cars`, `coe`, `pqp`)
@@ -236,7 +250,7 @@ PostgreSQL with Drizzle ORM using **camelCase** column naming:
 
 ## Shared Packages
 
-- **`@sgcarstrends/ai`**: AI-powered blog generation with Code Execution Tool, Langfuse telemetry, and comprehensive system instructions for accurate market analysis
+- **`@sgcarstrends/ai`**: AI-powered blog generation with 2-step flow (analysis → structured output), Zod validation, hero images, tag constants, and Langfuse telemetry
 - **`@sgcarstrends/database`**: Drizzle ORM schemas and migrations
 - **`@sgcarstrends/types`**: Shared TypeScript interfaces
 - **`@sgcarstrends/ui`**: Shared UI component library with shadcn/ui, Radix UI primitives, and Tailwind CSS
@@ -251,7 +265,8 @@ Automated via semantic-release with unified "v" prefix versioning (v1.0.0, v1.1.
 
 ## GitHub Actions
 
-**Active**: `release.yml`, `deploy-staging.yml`, `deploy-prod.yml`, `run-migrations.yml`, `test.yml`
+**Active**: `release.yml`, `deploy-staging.yml`, `deploy-prod.yml`, `run-migrations.yml`, `checks.yml`
+**Reusable**: `test.yml` (called by other workflows)
 **Disabled**: `deploy-pr.yml`, `cleanup-pr.yml`
 
 See `github-actions` skill for workflow management and automation.

@@ -29,6 +29,8 @@ export const api = new sst.aws.Function("Api", {
 
     // Core API
     STAGE: $app.stage,
+    WORKFLOWS_BASE_URL: process.env.WORKFLOWS_BASE_URL as string,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL as string,
     DATABASE_URL: process.env.DATABASE_URL as string,
     SG_CARS_TRENDS_API_TOKEN: process.env.SG_CARS_TRENDS_API_TOKEN as string,
     NEXT_PUBLIC_REVALIDATE_TOKEN: process.env
@@ -44,6 +46,7 @@ export const api = new sst.aws.Function("Api", {
     LANGFUSE_HOST: process.env.LANGFUSE_HOST,
 
     // QStash/Upstash
+    QSTASH_URL: process.env.QSTASH_URL as string,
     QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
     QSTASH_CURRENT_SIGNING_KEY: process.env
       .QSTASH_CURRENT_SIGNING_KEY as string,

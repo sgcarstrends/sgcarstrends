@@ -1,4 +1,4 @@
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { cn } from "@heroui/theme";
 import React from "react";
 
 /**
@@ -30,8 +30,7 @@ const H1 = React.forwardRef<
   <h1
     ref={ref}
     className={cn(
-      "scroll-m-20 font-semibold text-4xl tracking-tight lg:text-5xl",
-      "w-fit bg-gradient-to-r from-foreground to-foreground/50 bg-clip-text text-transparent leading-normal transition-opacity",
+      "scroll-m-20 font-semibold text-4xl text-foreground tracking-tight lg:text-5xl",
       className,
     )}
     {...props}

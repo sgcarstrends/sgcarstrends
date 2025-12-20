@@ -1,6 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import { MakeGrid } from "./make-grid";
 
+vi.mock("nuqs", () => ({
+  useQueryState: () => [null, vi.fn()],
+}));
+
+vi.mock("nuqs/server", () => ({
+  parseAsString: {},
+  createSerializer: () => (path: string) => path,
+  createLoader: () => vi.fn(),
+}));
+
 describe("MakeGrid", () => {
   const germanMakes = ["AUDI", "BMW", "MERCEDES BENZ", "VOLKSWAGEN"];
 
@@ -9,21 +19,6 @@ describe("MakeGrid", () => {
     germanMakes.forEach((make) => {
       expect(screen.getByText(make)).toBeVisible();
     });
-  });
-
-  it("should show popular badges when isPopular is true", () => {
-    render(<MakeGrid makes={germanMakes} isPopular={true} />);
-    expect(screen.getAllByText("Popular")).toHaveLength(germanMakes.length);
-  });
-
-  it("should not show popular badges when isPopular is false", () => {
-    render(<MakeGrid makes={germanMakes} isPopular={false} />);
-    expect(screen.queryByText("Popular")).not.toBeInTheDocument();
-  });
-
-  it("should not show popular badges by default", () => {
-    render(<MakeGrid makes={germanMakes} />);
-    expect(screen.queryByText("Popular")).not.toBeInTheDocument();
   });
 
   it("should render nothing when no makes exist", () => {

@@ -1,9 +1,12 @@
+export { AllMakes } from "./all-makes";
 export { CoeComparisonChart } from "./coe-comparison-chart";
 export { MakeCard } from "./make-card";
 export { MakeDetail } from "./make-detail";
-export { MakeDrawer } from "./make-drawer";
+export { MakeDetailPanel } from "./make-detail-panel";
+export { MakeDetailSheet } from "./make-detail-sheet";
 export { MakeGrid } from "./make-grid";
+export { MakePreviewPlaceholder } from "./make-preview-placeholder";
+export { MakeSearch } from "./make-search";
 export { MakeTrendChart } from "./make-trend-chart";
-export { Makes } from "./makes";
-export { MakesList } from "./makes-list";
-export { MakesSearchResults } from "./makes-search-results";
+export { MakesDashboard } from "./makes-dashboard";
+export { PopularMakes } from "./popular-makes";

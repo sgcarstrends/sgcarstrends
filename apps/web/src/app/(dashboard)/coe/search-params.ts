@@ -13,6 +13,7 @@ const defaultCategories = ["Category A", "Category B", "Category E"];
 export const coeSearchParams = {
   period: parseAsStringLiteral(periods).withDefault("12m"),
   categories: parseAsArrayOf(parseAsString).withDefault(defaultCategories),
+  month: parseAsString,
 };
 
 export const loadSearchParams = createLoader(coeSearchParams);

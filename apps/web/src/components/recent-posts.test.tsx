@@ -1,13 +1,35 @@
 import type { SelectPost } from "@sgcarstrends/database";
 import { render, screen } from "@testing-library/react";
-import { RecentPosts } from "@web/app/(dashboard)/(home)/_components/recent-posts";
+import { RecentPosts } from "@web/app/(dashboard)/_components/recent-posts";
 
-vi.mock("next/link", () => ({
-  default: ({ href, children, ...props }: any) => (
+vi.mock("@heroui/link", () => ({
+  Link: ({ href, children, ...props }: any) => (
     <a href={href} {...props}>
       {children}
     </a>
   ),
+}));
+
+vi.mock("framer-motion", () => ({
+  motion: {
+    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  },
+}));
+
+vi.mock("@web/app/blog/_components/post", () => ({
+  Post: {
+    Card: ({ post }: { post: SelectPost }) => (
+      <article data-testid={`post-card-${post.id}`}>
+        <a href={`/blog/${post.slug}`}>{post.title}</a>
+        <span data-testid={`post-date-${post.id}`}>
+          {new Date(post.publishedAt ?? post.createdAt).toLocaleDateString(
+            "en-SG",
+            { day: "numeric", month: "short" },
+          )}
+        </span>
+      </article>
+    ),
+  },
 }));
 
 describe("RecentPosts", () => {
@@ -52,7 +74,9 @@ describe("RecentPosts", () => {
     render(<RecentPosts posts={mockPosts} />);
 
     expect(screen.getByText("Recent Posts")).toBeInTheDocument();
-    expect(screen.getByText("View all")).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "View all blog posts" }),
+    ).toBeInTheDocument();
   });
 
   it("should render all posts", () => {
@@ -78,6 +102,15 @@ describe("RecentPosts", () => {
     render(<RecentPosts posts={[]} />);
 
     expect(screen.getByText("Recent Posts")).toBeInTheDocument();
+    expect(screen.getByText("No recent posts available.")).toBeInTheDocument();
+  });
+
+  it("should render correctly with fewer than 3 posts", () => {
+    const singlePost = [mockPosts[0]];
+    render(<RecentPosts posts={singlePost} />);
+
+    expect(screen.getByText("First Post")).toBeInTheDocument();
+    expect(screen.queryByText("Second Post")).not.toBeInTheDocument();
   });
 
   it("should have links to blog posts", () => {
@@ -93,7 +126,7 @@ describe("RecentPosts", () => {
   it("should have link to blog page", () => {
     render(<RecentPosts posts={mockPosts} />);
 
-    const link = screen.getByText("View all").closest("a");
+    const link = screen.getByRole("link", { name: "View all blog posts" });
     expect(link).toHaveAttribute("href", "/blog");
   });
 });

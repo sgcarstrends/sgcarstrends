@@ -1,5 +1,15 @@
 import { db, posts } from "@sgcarstrends/database";
-import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
+import {
+  and,
+  asc,
+  count,
+  desc,
+  eq,
+  gt,
+  inArray,
+  isNotNull,
+  lt,
+} from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getAllPosts() {
@@ -47,5 +57,45 @@ export async function getPostsByIds(postIds: string[]) {
   return db.query.posts.findMany({
     where: and(inArray(posts.id, postIds), isNotNull(posts.publishedAt)),
     orderBy: desc(posts.publishedAt),
+  });
+}
+
+export async function getPostCountsByCategory() {
+  "use cache";
+  cacheLife("max");
+  cacheTag("posts:list");
+
+  return db
+    .select({ category: posts.dataType, count: count() })
+    .from(posts)
+    .where(isNotNull(posts.publishedAt))
+    .groupBy(posts.dataType);
+}
+
+export async function getPreviousPost(publishedAt: Date) {
+  "use cache";
+  cacheLife("max");
+  cacheTag("posts:list");
+
+  return db.query.posts.findFirst({
+    where: and(
+      isNotNull(posts.publishedAt),
+      lt(posts.publishedAt, publishedAt),
+    ),
+    orderBy: desc(posts.publishedAt),
+  });
+}
+
+export async function getNextPost(publishedAt: Date) {
+  "use cache";
+  cacheLife("max");
+  cacheTag("posts:list");
+
+  return db.query.posts.findFirst({
+    where: and(
+      isNotNull(posts.publishedAt),
+      gt(posts.publishedAt, publishedAt),
+    ),
+    orderBy: asc(posts.publishedAt),
   });
 }

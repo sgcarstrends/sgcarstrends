@@ -46,7 +46,7 @@ export const ComparisonSummaryCard = ({ data }: Props) => {
               ease: [0.4, 0, 0.2, 1],
             }}
           >
-            <Card className="p-4">
+            <Card className="p-3">
               <CardHeader>
                 <div className="font-bold text-lg">{item.category}</div>
               </CardHeader>
@@ -57,13 +57,16 @@ export const ComparisonSummaryCard = ({ data }: Props) => {
                       Latest Premium
                     </div>
                     <div className="font-bold text-2xl text-primary">
-                      $<AnimatedNumber value={item.latestPremium} />
+                      <AnimatedNumber
+                        value={item.latestPremium}
+                        format="currency"
+                      />
                     </div>
                   </div>
                   <div>
                     <div className="text-default-500 text-sm">PQP Rate</div>
                     <div className="font-bold text-2xl">
-                      $<AnimatedNumber value={item.pqpRate} />
+                      <AnimatedNumber value={item.pqpRate} format="currency" />
                     </div>
                   </div>
                 </div>

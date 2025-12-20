@@ -4,7 +4,7 @@
 @plugin "@tailwindcss/typography";
 @plugin "./hero.ts";
 
-@source "../../../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+@source "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -27,42 +27,66 @@
 }
 
 :root {
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(222.2 84% 4.9%);
+  /* Background & Foreground - Professional colour scheme (Issue #406) */
+  --background: hsl(
+    213 32% 95%
+  ); /* #F0F4F8 - Light blue-gray (matches preview design) */
+  /* Blue-tinted gray, harmonizes with Navy Blue primary */
+  --foreground: hsl(220 15% 20%);
+
+  /* Card & Popover */
   --card: hsl(0 0% 100%);
-  --card-foreground: hsl(222.2 84% 4.9%);
+  --card-foreground: hsl(220 15% 20%);
   --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(222.2 84% 4.9%);
-  --primary: hsl(221.2 83.2% 53.3%);
-  --primary-foreground: hsl(210 40% 98%);
-  --secondary: hsl(210 40% 96.1%);
-  --secondary-foreground: hsl(222.2 47.4% 11.2%);
-  --muted: hsl(210 40% 96.1%);
-  --muted-foreground: hsl(215.4 16.3% 46.9%);
-  --accent: hsl(210 40% 96.1%);
-  --accent-foreground: hsl(222.2 47.4% 11.2%);
-  --destructive: hsl(0 84.2% 60.2%);
-  --destructive-foreground: hsl(210 40% 98%);
-  --success: hsl(173 58% 39%);
-  --success-foreground: hsl(210 40% 98%);
-  --border: hsl(214.3 31.8% 91.4%);
-  --input: hsl(214.3 31.8% 91.4%);
-  --ring: hsl(221.2 83.2% 53.3%);
+  --popover-foreground: hsl(220 15% 20%);
+
+  /* Primary - Navy Blue */
+  --primary: hsl(240 63% 27%); /* #191970 */
+  --primary-foreground: hsl(0 0% 100%);
+
+  /* Secondary - Slate Gray */
+  --secondary: hsl(210 13% 50%); /* #708090 */
+  --secondary-foreground: hsl(0 0% 100%);
+
+  /* Muted - Light Blue-Gray */
+  --muted: hsl(213 32% 95%); /* #F0F4F8 */
+  --muted-foreground: hsl(220 15% 20%);
+
+  /* Accent - Steel Blue */
+  --accent: hsl(220 40% 49%); /* #4A6AAE */
+  --accent-foreground: hsl(0 0% 100%);
+
+  /* Destructive - Red */
+  --destructive: hsl(0 72% 51%); /* #DC2626 */
+  --destructive-foreground: hsl(0 0% 100%);
+
+  /* Success - Green */
+  --success: hsl(142 71% 45%); /* #22C55E */
+  --success-foreground: hsl(0 0% 100%);
+
+  /* Border - Light Slate */
+  --border: hsl(214 32% 91%); /* #E2E8F0 */
+  --input: hsl(214 32% 91%); /* #E2E8F0 */
+  --ring: hsl(240 63% 27%); /* Navy Blue for focus */
   --radius: 0.5rem;
-  --chart-1: hsl(12 76% 61%);
-  --chart-2: hsl(173 58% 39%);
-  --chart-3: hsl(197 37% 24%);
-  --chart-4: hsl(43 74% 66%);
-  --chart-5: hsl(27 87% 67%);
-  --chart-6: hsl(350 80% 60%);
+
+  /* Chart colours - Navy Blue gradient palette */
+  --chart-1: hsl(240 64% 27%);
+  --chart-2: hsl(220 51% 37%);
+  --chart-3: hsl(220 41% 49%);
+  --chart-4: hsl(210 14% 53%);
+  --chart-5: hsl(215 23% 65%);
+  --chart-6: hsl(212 17% 76%);
+
+  /* Sidebar */
   --sidebar-background: hsl(0 0% 98%);
-  --sidebar-foreground: hsl(240 5.3% 26.1%);
-  --sidebar-primary: hsl(240 5.9% 10%);
-  --sidebar-primary-foreground: hsl(0 0% 98%);
-  --sidebar-accent: hsl(240 4.8% 95.9%);
-  --sidebar-accent-foreground: hsl(240 5.9% 10%);
-  --sidebar-border: hsl(220 13% 91%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  --sidebar-foreground: hsl(220 15% 20%);
+  --sidebar-primary: hsl(240 63% 27%); /* Navy Blue */
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(213 32% 95%); /* Light Blue-Gray */
+  --sidebar-accent-foreground: hsl(220 15% 20%);
+  --sidebar-border: hsl(214 32% 91%); /* #E2E8F0 */
+  --sidebar-ring: hsl(240 63% 27%); /* Navy Blue */
   --sidebar: hsl(0 0% 98%);
 }
 
@@ -145,4 +169,37 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar: var(--sidebar);
+}
+
+/* Reusable keyframe animations */
+@keyframes gradient-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float-gentle {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(30px, -30px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
 }

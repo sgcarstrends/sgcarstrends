@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@sgcarstrends/ui/components/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import { slugify } from "@sgcarstrends/utils";
 import { TrendChart } from "@web/app/(dashboard)/cars/trend-chart";
 import { AnimatedNumber } from "@web/components/animated-number";
@@ -16,48 +10,50 @@ interface Props {
   total: number;
 }
 
-export const CarOverviewTrends = ({ cars, total }: Props) => (
-  <div className="grid grid-cols-1 gap-4">
-    <Card>
-      <CardHeader>
-        <CardTitle>By Make</CardTitle>
-        <CardDescription>Top 10 makes</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <TrendChart data={cars} />
-      </CardContent>
-    </Card>
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-      <Card>
-        <CardHeader>
-          <CardTitle>Stats</CardTitle>
-          <CardDescription>
-            <Typography.Label>{total}</Typography.Label> registrations
-          </CardDescription>
+export function CarOverviewTrends({ cars, total }: Props) {
+  return (
+    <div className="grid grid-cols-1 gap-4">
+      <Card className="p-3">
+        <CardHeader className="flex flex-col items-start gap-2">
+          <Typography.H4>By Make</Typography.H4>
+          <Typography.TextSm>Top 10 makes</Typography.TextSm>
         </CardHeader>
-        <CardContent>
-          {cars.length > 0 &&
-            cars.map(({ make, count }) => {
-              const marketShare = (count: number) => count / total;
-
-              return (
-                <div
-                  key={make}
-                  className="flex items-center justify-between border-b py-2"
-                >
-                  <Link href={`/cars/makes/${slugify(make)}`}>{make}</Link>
-                  <div className="flex items-center gap-2">
-                    <AnimatedNumber value={count} />
-                    <progress
-                      className="progress w-32"
-                      value={marketShare(count)}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-        </CardContent>
+        <CardBody>
+          <TrendChart data={cars} />
+        </CardBody>
       </Card>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <Card className="p-3">
+          <CardHeader className="flex flex-col items-start gap-2">
+            <Typography.H4>Stats</Typography.H4>
+            <Typography.TextSm>
+              <Typography.Label>{total}</Typography.Label> registrations
+            </Typography.TextSm>
+          </CardHeader>
+          <CardBody>
+            {cars.length > 0 &&
+              cars.map(({ make, count }) => {
+                const marketShare = (count: number) => count / total;
+
+                return (
+                  <div
+                    key={make}
+                    className="flex items-center justify-between border-b py-2"
+                  >
+                    <Link href={`/cars/makes/${slugify(make)}`}>{make}</Link>
+                    <div className="flex items-center gap-2">
+                      <AnimatedNumber value={count} />
+                      <progress
+                        className="progress w-32"
+                        value={marketShare(count)}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+          </CardBody>
+        </Card>
+      </div>
     </div>
-  </div>
-);
+  );
+}
