@@ -1,42 +1,35 @@
+import { Chip } from "@heroui/chip";
 import Typography from "@web/components/typography";
-import { getYearlyRegistrations } from "@web/queries/cars";
+import { getCategorySummaryByYear } from "@web/queries/cars";
 
 export async function MarketOverview() {
-  const yearlyData = await getYearlyRegistrations();
-  const currentYear = yearlyData.at(-1);
-
-  // TODO: Replace placeholder calculations with real fuel type queries from the database
-  // These hardcoded percentages are temporary - actual EV/hybrid data should come from
-  // querying cars table grouped by fuelType (e.g., "Electric", "Petrol-Electric", "Diesel-Electric")
-  const newCars = currentYear?.total ?? 0;
-  const electricVehicles = Math.round(newCars * 0.15); // Placeholder: ~15% EV share
-  const hybridVehicles = Math.round(newCars * 0.25); // Placeholder: ~25% hybrid share
+  const summary = await getCategorySummaryByYear();
 
   return (
     <div className="col-span-12 rounded-3xl border border-default-200 bg-white p-6 lg:col-span-8">
       <div className="mb-4 flex items-center justify-between">
         <Typography.H3>Market Overview</Typography.H3>
-        <span className="rounded-full bg-secondary/20 px-3 py-1 font-medium text-secondary text-xs">
-          {currentYear?.year ?? new Date().getFullYear()}
-        </span>
+        <Chip color="primary" size="sm">
+          {summary.year}
+        </Chip>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="rounded-2xl bg-default-100 p-4">
           <p className="text-default-500 text-sm">Total Cars</p>
           <p className="mt-1 font-bold text-2xl text-primary tabular-nums">
-            {newCars.toLocaleString()}
+            {summary.total.toLocaleString()}
           </p>
         </div>
         <div className="rounded-2xl bg-default-100 p-4">
           <p className="text-default-500 text-sm">Electric</p>
           <p className="mt-1 font-bold text-2xl text-primary tabular-nums">
-            {electricVehicles.toLocaleString()}
+            {summary.electric.toLocaleString()}
           </p>
         </div>
         <div className="rounded-2xl bg-default-100 p-4">
           <p className="text-default-500 text-sm">Hybrid</p>
           <p className="mt-1 font-bold text-2xl text-primary tabular-nums">
-            {hybridVehicles.toLocaleString()}
+            {summary.hybrid.toLocaleString()}
           </p>
         </div>
       </div>

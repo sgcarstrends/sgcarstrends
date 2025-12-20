@@ -3,7 +3,8 @@ import { getOGFonts } from "@web/lib/og/fonts";
 import { Section } from "@web/lib/og/templates/section";
 import { ImageResponse } from "next/og";
 
-export const alt = "About SG Cars Trends";
+export const alt =
+  "SG Cars Trends - Singapore Car Registration & COE Statistics";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 export const dynamic = "force-static";
@@ -13,10 +14,10 @@ export default async function Image() {
 
   return new ImageResponse(
     <Section
-      eyebrow="Behind the Data"
-      headlineTop="The Story Behind"
-      headlineBottom="SG Cars Trends"
-      description="A platform for exploring Singapore car registration statistics, COE bidding results, and market data. Built to make car market information easier to find and understand."
+      eyebrow="Singapore Car Market Data"
+      headlineTop="Car & COE"
+      headlineBottom="Trends"
+      description="Latest statistics from Land Transport Authority with interactive charts, market analysis, and AI-powered insights."
     />,
     {
       ...size,

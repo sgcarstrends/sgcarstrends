@@ -4,6 +4,7 @@ import {
 } from "@web/app/(dashboard)/_components/charts-section";
 import { CoeSection } from "@web/app/(dashboard)/_components/coe-section";
 import { MarketOverview } from "@web/app/(dashboard)/_components/market-overview";
+import { MonthlyChangeSummary } from "@web/app/(dashboard)/_components/monthly-change-summary";
 import { PostsSection } from "@web/app/(dashboard)/_components/posts-section";
 import { SummaryCard } from "@web/app/(dashboard)/_components/summary-card";
 import { WelcomeSection } from "@web/app/(dashboard)/_components/welcome-section";
@@ -16,12 +17,28 @@ import type { WebSite, WithContext } from "schema-dts";
 export const metadata: Metadata = {
   title: "Singapore Car Registration & COE Trends | Latest Statistics",
   description:
-    "Track Singapore car registration trends, COE bidding results, and automotive market insights. Latest data from Land Transport Authority (LTA) with interactive charts and analysis.",
+    "Track Singapore car registration trends, COE bidding results, and automotive market insights. Latest data from Land Transport Authority (LTA) with interactive charts, EV and hybrid statistics, and AI-powered analysis.",
+  keywords: [
+    "Singapore car registration",
+    "COE prices",
+    "car trends Singapore",
+    "vehicle statistics",
+    "electric vehicles Singapore",
+    "hybrid cars",
+    "LTA data",
+  ],
   openGraph: {
     title: "Singapore Car Registration & COE Trends",
     description:
       "Track Singapore car registration trends and COE bidding results with interactive charts and latest market insights.",
     type: "website",
+    siteName: SITE_TITLE,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Singapore Car Registration & COE Trends",
+    description:
+      "Track Singapore car registration trends and COE bidding results with interactive charts.",
   },
   alternates: {
     canonical: "/",
@@ -34,7 +51,12 @@ const structuredData: WithContext<WebSite> = {
   name: SITE_TITLE,
   url: SITE_URL,
   description:
-    "Analysis of new car registration trends in Singapore. Insights on popular makes, fuel and vehicle types",
+    "Analysis of new car registration trends in Singapore. Insights on popular makes, fuel and vehicle types, COE bidding results, and market data.",
+  publisher: {
+    "@type": "Organization",
+    name: SITE_TITLE,
+    url: SITE_URL,
+  },
 };
 
 function SummaryCardSkeleton() {
@@ -68,6 +90,20 @@ function MarketOverviewSkeleton() {
   );
 }
 
+function MonthlyChangeSummarySkeleton() {
+  return (
+    <div className="col-span-12 rounded-3xl border-2 border-primary bg-white p-6 lg:col-span-4">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="h-12 w-12 animate-pulse rounded-2xl bg-default-200" />
+        <div className="h-10 w-10 animate-pulse rounded-full bg-default-200" />
+      </div>
+      <div className="h-4 w-32 animate-pulse rounded bg-default-200" />
+      <div className="mt-2 h-10 w-28 animate-pulse rounded bg-default-200" />
+      <div className="mt-4 h-6 w-40 animate-pulse rounded-full bg-default-200" />
+    </div>
+  );
+}
+
 const HomePage = () => {
   return (
     <>
@@ -75,12 +111,14 @@ const HomePage = () => {
       <section className="flex flex-col gap-8">
         {/* Bento Grid */}
         <div className="grid grid-cols-12 gap-4">
-          {/* Row 1: Welcome + Summary Card */}
+          {/* Row 1: Welcome + Summary Cards */}
           <WelcomeSection />
           <Suspense fallback={<SummaryCardSkeleton />}>
             <SummaryCard />
           </Suspense>
-          {/* Empty 4 cols reserved for future second card */}
+          <Suspense fallback={<MonthlyChangeSummarySkeleton />}>
+            <MonthlyChangeSummary />
+          </Suspense>
 
           {/* Row 2: COE Results */}
           <CoeSection />
