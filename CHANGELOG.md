@@ -1,3 +1,16 @@
+## [4.36.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.35.1...v4.36.0) (2025-12-20)
+
+### Features
+
+* **web:** add MonthlyChangeSummary card ([9d32d44](https://github.com/sgcarstrends/sgcarstrends/commit/9d32d440b55d61622d02b2cbfcdcf75a3a2aa872))
+
+### Bug Fixes
+
+* address PR review comments ([fc9fa8a](https://github.com/sgcarstrends/sgcarstrends/commit/fc9fa8a3011ee103434266fc1214e1063cb927b0))
+* **web:** missing HeroUI components ([a9a924a](https://github.com/sgcarstrends/sgcarstrends/commit/a9a924ab8c2e8aaab1ad089590c3d15733d30ac3))
+* **web:** responsive Market Overview grid ([e2d3c0f](https://github.com/sgcarstrends/sgcarstrends/commit/e2d3c0fdbc84ab45fa8c0a522cbaf4d4fa5b8353))
+* **web:** wrong CSS path to HeroUI ([0aff1df](https://github.com/sgcarstrends/sgcarstrends/commit/0aff1dfa2d76c1b634056de38ec66b3d6d968d08))
+
 ## [4.35.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.35.0...v4.35.1) (2025-12-18)
 
 ### Bug Fixes
