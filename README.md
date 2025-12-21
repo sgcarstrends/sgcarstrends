@@ -12,7 +12,6 @@ This monorepo provides a complete platform for SG Cars Trends, tracking Singapor
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini for market insights
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter with trackable redirect routes
 - **Infrastructure**: SST v3 serverless deployment on AWS with multi-stage environments
-- **Documentation**: Comprehensive developer documentation with Mintlify
 
 ## System Overview
 
@@ -100,10 +99,7 @@ sgcarstrends/
 │   │   ├── src/actions/     # Server actions (newsletter subscription)
 │   │   ├── src/components/  # React components with comprehensive tests
 │   │   └── src/utils/       # Web-specific utility functions
-│   ├── admin/        # Administrative interface for content management (unreleased)
-│   └── docs/         # Mintlify documentation site
-│       ├── architecture/     # System architecture documentation with Mermaid diagrams
-│       └── diagrams/         # Source Mermaid diagram files (.mmd)
+│   └── admin/        # Administrative interface for content management (unreleased)
 ├── packages/
 │   ├── database/     # Database schema and migrations (Drizzle ORM)
 │   │   ├── src/schema/      # Schema definitions for all tables
@@ -140,16 +136,6 @@ sgcarstrends/
 
 ## Documentation
 
-📚 **Complete API documentation is available at: [docs.sgcarstrends.com](https://docs.sgcarstrends.com)**
-
-- **[Getting Started](https://docs.sgcarstrends.com/quickstart)** - Quick start guide and authentication
-- **[API Reference](https://docs.sgcarstrends.com/api-reference/overview)** - Complete endpoint documentation
-- **[Developer Guides](https://docs.sgcarstrends.com/guides/data-models)** - Data models, filtering, and analytics
-- **[Examples](https://docs.sgcarstrends.com/examples/javascript)** - Code examples in multiple languages
-- **[Architecture](https://docs.sgcarstrends.com/architecture/system)** - System architecture diagrams and documentation
-
-### Development Documentation
-
 For developers working on this codebase, detailed component-specific guidance is available:
 
 - **[Root CLAUDE.md](CLAUDE.md)** - Overall project guidance and conventions
@@ -158,6 +144,13 @@ For developers working on this codebase, detailed component-specific guidance is
 - **[Database Package](packages/database/CLAUDE.md)** - Schema management, migrations, and TypeScript integration
 - **[UI Package](packages/ui/CLAUDE.md)** - Shared component library with shadcn/ui and Tailwind CSS
 - **[Infrastructure](infra/CLAUDE.md)** - SST deployment, AWS configuration, and domain management
+
+### Architecture Documentation
+
+System architecture diagrams are available in the `docs/` directory:
+
+- **[docs/architecture/](docs/architecture/)** - Architecture documentation with Mermaid diagrams
+- **[docs/diagrams/](docs/diagrams/)** - Source Mermaid diagram files
 
 ## Getting Started
 
@@ -203,7 +196,6 @@ This ensures version consistency across all workspace packages and simplifies de
 pnpm dev                    # Run all applications in development mode
 pnpm dev:api               # API service only
 pnpm dev:web               # Web application only
-pnpm docs:dev              # Documentation site only
 
 # Build
 pnpm build                 # Build all applications
