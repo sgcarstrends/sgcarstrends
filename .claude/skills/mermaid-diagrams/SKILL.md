@@ -25,7 +25,7 @@ Mermaid is a diagramming and charting tool that uses text-based syntax:
 - **Version Control**: Track changes in git
 - **Easy Updates**: Modify diagrams like code
 - **Multiple Types**: Flowcharts, sequence, ER, class, state, etc.
-- **Integration**: Works in Markdown, Mintlify, GitHub
+- **Integration**: Works in Markdown, GitHub, and many other platforms
 
 ## Diagram Types
 
@@ -295,30 +295,26 @@ classDiagram
 ### File Organization
 
 ```
-apps/docs/
+docs/
 ├── diagrams/                    # Source .mmd files
-│   ├── system-architecture.mmd
-│   ├── workflow-sequence.mmd
-│   ├── database-erd.mmd
-│   ├── api-architecture.mmd
-│   ├── workflow-states.mmd
-│   └── class-diagram.mmd
-└── architecture/                # MDX docs with embedded diagrams
-    ├── system.mdx
-    ├── workflows.mdx
-    ├── database.mdx
-    ├── api.mdx
-    └── infrastructure.mdx
+│   ├── system.mmd
+│   ├── workflows.mmd
+│   ├── database.mmd
+│   ├── api.mmd
+│   ├── infrastructure.mmd
+│   └── social.mmd
+└── architecture/                # Markdown docs with embedded diagrams
+    ├── system.md
+    ├── workflows.md
+    ├── database.md
+    ├── api.md
+    ├── infrastructure.md
+    └── social.md
 ```
 
-### Embed in Mintlify Docs
+### Embed in Markdown Docs
 
-```mdx
----
-title: "System Architecture"
-description: "Overview of the SG Cars Trends system architecture"
----
-
+```markdown
 # System Architecture
 
 The system consists of the following components:
@@ -537,25 +533,21 @@ done
 
 ### Workflow
 
-1. Edit source `.mmd` file in `apps/docs/diagrams/`
-2. Update corresponding MDX file in `apps/docs/architecture/`
-3. Preview in Mintlify dev server
+1. Edit source `.mmd` file in `docs/diagrams/`
+2. Update corresponding Markdown file in `docs/architecture/`
+3. Preview in GitHub or VS Code
 4. Commit changes
 
 ```bash
 # Edit diagram
-vim apps/docs/diagrams/system-architecture.mmd
+vim docs/diagrams/system.mmd
 
 # Update documentation
-vim apps/docs/architecture/system.mdx
-
-# Preview
-cd apps/docs
-pnpm mintlify dev
+vim docs/architecture/system.md
 
 # Commit
-git add apps/docs/diagrams/system-architecture.mmd
-git add apps/docs/architecture/system.mdx
+git add docs/diagrams/system.mmd
+git add docs/architecture/system.md
 git commit -m "docs: update system architecture diagram"
 ```
 
@@ -593,8 +585,8 @@ flowchart TB
 
 ### Diagram Not Rendering
 
-```mdx
-# Issue: Mermaid not rendering in Mintlify
+```markdown
+# Issue: Mermaid not rendering
 # Solution: Ensure proper code fence
 
 # ❌ Wrong
@@ -614,7 +606,6 @@ flowchart TD
 ### Online Editors
 
 - **Mermaid Live Editor**: https://mermaid.live
-- **Mintlify Playground**: Built into Mintlify docs
 - **GitHub**: Renders mermaid in markdown
 
 ### VS Code Extensions
@@ -632,8 +623,8 @@ flowchart TD
 - ER Diagrams: https://mermaid.js.org/syntax/entityRelationshipDiagram.html
 - State Diagrams: https://mermaid.js.org/syntax/stateDiagram.html
 - Related files:
-  - `apps/docs/diagrams/` - Source diagram files
-  - `apps/docs/architecture/` - Documentation with diagrams
+  - `docs/diagrams/` - Source diagram files
+  - `docs/architecture/` - Documentation with diagrams
   - Root CLAUDE.md - Documentation guidelines
 
 ## Best Practices Summary

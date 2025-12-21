@@ -594,6 +594,67 @@ import Typography from "@web/components/typography";
 </CardHeader>
 ```
 
+### Page Title Conventions
+
+Dashboard pages follow a consistent **Label + H1** pattern for welcoming, stats-focused copy.
+
+**Pattern Structure**:
+
+```tsx
+<PageHeader
+  label="Context Label"    // Short context text (text-default-500)
+  title="Playful H1 Title" // Engaging, question-based or action-oriented
+/>
+```
+
+**Current Page Titles**:
+
+| Page | Route | Label | H1 |
+|------|-------|-------|-----|
+| Homepage | `/` | Welcome | What's Trending |
+| Car Registrations | `/cars` | This Month | What Got Registered |
+| Fuel/Vehicle Types | `/cars/[category]` | The Breakdown | What's Popular? |
+| COE Overview | `/coe` | Latest Results | How Much This Round? |
+| COE PQP | `/coe/pqp` | Extend Your COE | How Much to Stay on the Road? |
+| COE Results | `/coe/results` | Past Rounds | What Did People Pay? |
+| Annual | `/annual` | Year in Review | Trends Over Time |
+| Deregistrations | `/cars/deregistrations` | Outflow Stats | Who's Leaving? |
+| Makes | `/cars/makes` | Brand Rankings | Who's on Top |
+
+**Design Principles**:
+
+- **Label**: Short context (timing, category, or data type)
+- **H1**: Playful question or statement that invites exploration
+- **Tone**: Stats/data-focused, not shopping guide
+- **Voice**: Friendly, like catching up on the latest data
+
+**Implementation**:
+
+- Dashboard pages use `PageHeader` component with `label` prop
+- Homepage uses `WelcomeSection` component with inline label
+- Label rendered as `<p className="text-default-500">`
+
+**Adding New Pages**:
+
+When creating new dashboard pages, follow this pattern:
+
+```tsx
+// Using PageHeader (recommended)
+<PageHeader
+  label="Data Context"
+  title="Engaging Question?"
+  lastUpdated={lastUpdated}
+>
+  <ShareButtons />
+</PageHeader>
+
+// Or inline for custom layouts
+<div className="flex flex-col">
+  <p className="text-default-500">Data Context</p>
+  <Typography.H1>Engaging Question?</Typography.H1>
+</div>
+```
+
 ### Layout & Spacing Conventions
 
 A standardized approach to spacing and layout for consistent, maintainable component design.

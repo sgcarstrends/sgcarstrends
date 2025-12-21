@@ -128,7 +128,7 @@ const DeregistrationsPage = async ({ searchParams }: Props) => {
   } catch {
     return (
       <div className="flex flex-col gap-4">
-        <PageHeader title="Vehicle Deregistrations" />
+        <PageHeader label="Outflow Stats" title="Who's Leaving?" />
         <Typography.Text>No deregistration data available.</Typography.Text>
       </div>
     );
@@ -182,7 +182,7 @@ const DeregistrationsPage = async ({ searchParams }: Props) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-8">
         {/* Header */}
-        <PageHeader title="Vehicle Deregistrations">
+        <PageHeader label="Outflow Stats" title="Who's Leaving?">
           <ShareButtons
             url={`${SITE_URL}/cars/deregistrations`}
             title={`Vehicle Deregistrations - ${SITE_TITLE}`}

@@ -20,7 +20,6 @@ This repository includes directory-specific CLAUDE.md files with detailed guidan
   analytics
 - **[apps/admin/CLAUDE.md](apps/admin/CLAUDE.md)**: Administrative dashboard interface (unreleased) with shadcn/ui
   components
-- **[apps/docs/CLAUDE.md](apps/docs/CLAUDE.md)**: Mintlify documentation site development and content guidelines
 
 ### Packages
 
@@ -41,20 +40,17 @@ Refer to these files for component-specific development guidance and best practi
 
 ## Architecture Documentation
 
-Comprehensive system architecture documentation with visual diagrams is available in the Mintlify documentation site:
+System architecture documentation with Mermaid diagrams is available in the `docs/` directory:
 
-- **[apps/docs/architecture/](apps/docs/architecture/)**: Complete architecture documentation with Mermaid diagrams
-    - **[system.md](apps/docs/architecture/system.md)**: System architecture overview and component relationships
-    - **[workflows.md](apps/docs/architecture/workflows.md)**: Data processing workflow sequence diagrams
-    - **[database.md](apps/docs/architecture/database.md)**: Database schema and entity relationships
-    - **[api.md](apps/docs/architecture/api.md)**: API architecture with Hono framework structure
-    - **[infrastructure.md](apps/docs/architecture/infrastructure.md)**: AWS deployment topology and domain strategy
-    - **[social.md](apps/docs/architecture/social.md)**: Social media integration workflows
+- **[docs/architecture/](docs/architecture/)**: Architecture documentation with Mermaid diagrams
+    - **[system.md](docs/architecture/system.md)**: System architecture overview
+    - **[workflows.md](docs/architecture/workflows.md)**: Data processing workflow sequence diagrams
+    - **[database.md](docs/architecture/database.md)**: Database schema and entity relationships
+    - **[api.md](docs/architecture/api.md)**: API architecture with Hono framework
+    - **[infrastructure.md](docs/architecture/infrastructure.md)**: AWS deployment topology
+    - **[social.md](docs/architecture/social.md)**: Social media integration workflows
 
-- **[apps/docs/diagrams/](apps/docs/diagrams/)**: Source Mermaid diagram files (`.mmd` format)
-
-These architectural resources provide visual understanding of system components, data flows, and integration patterns
-for effective development and maintenance.
+- **[docs/diagrams/](docs/diagrams/)**: Source Mermaid diagram files (`.mmd` format)
 
 # SG Cars Trends Platform - Overview
 
@@ -71,7 +67,6 @@ Certificate of Entitlement (COE) bidding results, and vehicle deregistration sta
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini to analyse market data
   and generate insights
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available
-- **Documentation**: Comprehensive developer documentation using Mintlify
 
 ## Commands
 
@@ -89,8 +84,6 @@ All commands use pnpm as the package manager.
 | | `pnpm format` | Format all packages |
 | **Database** | `pnpm db:migrate` | Run migrations (see `schema-design` skill) |
 | | `pnpm db:generate` | Generate migrations |
-| **Docs** | `pnpm docs:dev` | Start docs server (see `mintlify-docs`, `broken-links` skills) |
-| | `pnpm docs:build` | Build documentation site |
 | **Deployment** | See `sst-deployment` skill | Multi-environment deployment workflows |
 | **Release** | See `release-management` skill | Automated releases with semantic-release |
 | **Auth** | `pnpm auth:generate` | Generate authentication schema |
@@ -110,9 +103,6 @@ All commands use pnpm as the package manager.
     - **src/actions**: Server actions for blog functionality
     - **src/utils**: Web-specific utility functions
 - **apps/admin**: Administrative interface for content management (unreleased)
-- **apps/docs**: Mintlify documentation site
-    - **architecture/**: Complete system architecture documentation with Mermaid diagrams
-    - **diagrams/**: Source Mermaid diagram files for architecture documentation
 - **packages/database**: Database schema and migrations using Drizzle ORM
     - **src/schema**: Schema definitions for cars, COE, deregistrations, and posts tables
     - **migrations**: Database migration files with version tracking
@@ -191,7 +181,7 @@ Follow conventional commit format (enforced by commitlint):
 - `chore:`, `docs:`, `refactor:`, `test:` (no bump)
 - **Keep SHORT**: 50 chars preferred, 72 max
 - **Optional scopes**: `feat(api):`, `fix(web):`, `chore(database):`
-- Available scopes: `api`, `web`, `docs`, `database`, `types`, `ui`, `utils`, `infra`, `deps`, `release`
+- Available scopes: `api`, `web`, `database`, `types`, `ui`, `utils`, `infra`, `deps`, `release`
 
 ### Other
 
@@ -286,8 +276,8 @@ See `github-actions` skill for workflow management and automation.
 - **Root CLAUDE.md**: Monorepo-wide guidelines, structure, tooling, cross-cutting concerns
 - **Component CLAUDE.md**: Component-specific implementation (`apps/*/CLAUDE.md`, `packages/*/CLAUDE.md`)
 - **README.md**: Package setup, usage instructions, user-facing features
-- **Architecture docs**: System design with Mermaid diagrams (`apps/docs/architecture/*.md`)
+- **docs/architecture/**: System architecture documentation with Mermaid diagrams
 
 **Rule of thumb:** Component-specific changes → component docs. Cross-cutting changes → root docs.
 
-See `readme-updates`, `mintlify-docs`, and `mermaid-diagrams` skills for documentation workflows.
+See `readme-updates` and `mermaid-diagrams` skills for documentation workflows.

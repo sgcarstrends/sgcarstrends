@@ -63,9 +63,6 @@ pnpm dev
 
 ## Documentation
 
-- **[Documentation](https://docs.sgcarstrends.com)** - Full documentation
-- **[API Reference](https://docs.sgcarstrends.com/api-reference)** - API endpoints
-- **[Architecture](https://docs.sgcarstrends.com/architecture)** - System design
 - **[Contributing](CONTRIBUTING.md)** - Contribution guidelines
 
 ## Tech Stack
@@ -100,8 +97,7 @@ sgcarstrends/
 ├── apps/
 │   ├── api/          # Hono API service
 │   ├── web/          # Next.js web app
-│   ├── admin/        # Admin panel
-│   └── docs/         # Mintlify documentation
+│   └── admin/        # Admin panel
 ├── packages/
 │   ├── database/     # Drizzle ORM schemas
 │   ├── types/        # Shared TypeScript types
@@ -141,7 +137,7 @@ pnpm deploy:staging
 pnpm deploy:prod
 \```
 
-See [Deployment Guide](https://docs.sgcarstrends.com/guides/deployment) for details.
+See deployment documentation for details.
 
 ## Contributing
 
@@ -153,7 +149,6 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 
 ## Support
 
-- **Documentation**: https://docs.sgcarstrends.com
 - **Issues**: [GitHub Issues](https://github.com/sgcarstrends/sgcarstrends/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/sgcarstrends/sgcarstrends/discussions)
 ```
@@ -393,9 +388,9 @@ See docs for more info
 
 # ✅ Linked documentation
 For detailed documentation, see:
-- [Getting Started](https://docs.sgcarstrends.com/quickstart)
-- [API Reference](https://docs.sgcarstrends.com/api-reference)
-- [Deployment Guide](https://docs.sgcarstrends.com/guides/deployment)
+- [README](README.md) - Project overview
+- [CLAUDE.md](CLAUDE.md) - Development guidelines
+- [Contributing](CONTRIBUTING.md) - Contribution guidelines
 ```
 
 ## Maintaining README Files

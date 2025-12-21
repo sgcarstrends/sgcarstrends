@@ -140,7 +140,8 @@ const CategoryPageContent = async ({
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-8">
         <PageHeader
-          title={config.title}
+          label="The Breakdown"
+          title="What's Popular?"
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector={true}

@@ -1,3 +1,9 @@
+## [4.37.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.36.0...v4.37.0) (2025-12-21)
+
+### Features
+
+* **web:** add playful dashboard titles ([8ead2d0](https://github.com/sgcarstrends/sgcarstrends/commit/8ead2d06f0c0b42bd88155dbf2d022509d8e49dd))
+
 ## [4.36.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.35.1...v4.36.0) (2025-12-20)
 
 ### Features
