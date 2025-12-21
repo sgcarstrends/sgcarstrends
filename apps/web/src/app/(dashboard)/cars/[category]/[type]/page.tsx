@@ -94,25 +94,11 @@ export const generateStaticParams = async () => {
   return params;
 };
 
-const Page = async ({ params, searchParams }: Props) => {
+export default async function Page({ params, searchParams }: Props) {
   const { category, type } = await params;
   let { month } = await loadSearchParams(searchParams);
   month = await getMonthOrLatest(month, "cars");
 
-  return <TypePageContent category={category} type={type} month={month} />;
-};
-
-export default Page;
-
-const TypePageContent = async ({
-  category,
-  type,
-  month,
-}: {
-  category: string;
-  type: string;
-  month: string;
-}) => {
   const config = categoryConfigs[category as keyof typeof categoryConfigs];
   if (!config) {
     notFound();
@@ -193,4 +179,4 @@ const TypePageContent = async ({
       </div>
     </>
   );
-};
+}

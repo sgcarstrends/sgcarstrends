@@ -7,7 +7,7 @@ const DashboardLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
       <Suspense fallback={null}>
         <DashboardNav />
       </Suspense>
-      {children}
+      <Suspense fallback={null}>{children}</Suspense>
     </div>
   );
 };
