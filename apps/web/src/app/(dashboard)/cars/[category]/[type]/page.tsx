@@ -164,6 +164,7 @@ const TypePageContent = async ({
           title={
             category === "vehicle-types" ? formatVehicleTypeSlug(type) : type
           }
+          subtitle={`Registration trends for ${category === "vehicle-types" ? formatVehicleTypeSlug(type) : type} vehicles in Singapore.`}
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector={true}

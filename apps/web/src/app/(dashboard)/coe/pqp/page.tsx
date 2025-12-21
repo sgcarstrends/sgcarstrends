@@ -58,8 +58,8 @@ const PQPRatesPage = async () => {
       <div className="flex flex-col gap-4">
         <AnimatedSection order={0}>
           <PageHeader
-            label="Extend Your COE"
-            title="How Much to Stay on the Road?"
+            title="PQP Rates"
+            subtitle="Prevailing Quota Premium rates for COE renewal in Singapore."
             lastUpdated={lastUpdated}
           >
             <ShareButtons

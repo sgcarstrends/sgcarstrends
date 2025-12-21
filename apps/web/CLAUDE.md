@@ -596,18 +596,26 @@ import Typography from "@web/components/typography";
 
 ### Page Title Conventions
 
-Dashboard pages follow a consistent **Label + H1** pattern for welcoming, stats-focused copy.
-
-**Pattern Structure**:
-
-```tsx
-<PageHeader
-  label="Context Label"    // Short context text (text-default-500)
-  title="Playful H1 Title" // Engaging, question-based or action-oriented
-/>
-```
+Dashboard pages use professional, SEO-aligned H1 titles that match the `<title>` tag for search engine consistency.
 
 **Current Page Titles**:
+
+| Page | Route | H1 |
+|------|-------|-----|
+| Homepage | `/` | Overview |
+| Car Registrations | `/cars` | Car Registrations |
+| Fuel/Vehicle Types | `/cars/[category]` | {config.title} (dynamic) |
+| COE Overview | `/coe` | COE Overview |
+| COE PQP | `/coe/pqp` | PQP Rates |
+| COE Results | `/coe/results` | COE Results |
+| Annual | `/annual` | Annual Registrations |
+| Deregistrations | `/cars/deregistrations` | Vehicle Deregistrations |
+| Makes | `/cars/makes` | Makes |
+
+<details>
+<summary><strong>Archive: Playful Titles (for future reference)</strong></summary>
+
+Previously used playful label + H1 pattern for a friendlier, stats-focused experience:
 
 | Page | Route | Label | H1 |
 |------|-------|-------|-----|
@@ -621,39 +629,13 @@ Dashboard pages follow a consistent **Label + H1** pattern for welcoming, stats-
 | Deregistrations | `/cars/deregistrations` | Outflow Stats | Who's Leaving? |
 | Makes | `/cars/makes` | Brand Rankings | Who's on Top |
 
-**Design Principles**:
-
+**Design Principles** (if re-enabling):
 - **Label**: Short context (timing, category, or data type)
 - **H1**: Playful question or statement that invites exploration
 - **Tone**: Stats/data-focused, not shopping guide
 - **Voice**: Friendly, like catching up on the latest data
 
-**Implementation**:
-
-- Dashboard pages use `PageHeader` component with `label` prop
-- Homepage uses `WelcomeSection` component with inline label
-- Label rendered as `<p className="text-default-500">`
-
-**Adding New Pages**:
-
-When creating new dashboard pages, follow this pattern:
-
-```tsx
-// Using PageHeader (recommended)
-<PageHeader
-  label="Data Context"
-  title="Engaging Question?"
-  lastUpdated={lastUpdated}
->
-  <ShareButtons />
-</PageHeader>
-
-// Or inline for custom layouts
-<div className="flex flex-col">
-  <p className="text-default-500">Data Context</p>
-  <Typography.H1>Engaging Question?</Typography.H1>
-</div>
-```
+</details>
 
 ### Layout & Spacing Conventions
 

@@ -87,8 +87,8 @@ const COEOverviewPage = async () => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-8">
         <PageHeader
-          label="Latest Results"
-          title="How Much This Round?"
+          title="COE Overview"
+          subtitle="Latest Certificate of Entitlement bidding results and premium trends."
           lastUpdated={lastUpdated}
         >
           <ShareButtons

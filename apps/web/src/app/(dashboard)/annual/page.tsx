@@ -49,17 +49,14 @@ const AnnualPage = async () => {
       <section className="flex flex-col gap-10">
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <div className="flex flex-col">
-              <p className="text-default-500">Year in Review</p>
-              <Typography.H1>Trends Over Time</Typography.H1>
-            </div>
+            <Typography.H1>Annual Registrations</Typography.H1>
             <ShareButtons
               url={`${SITE_URL}/annual`}
               title={`Annual Car Registrations - ${SITE_TITLE}`}
             />
           </div>
           <Typography.TextLg className="text-default-500">
-            Total new car registrations in Singapore by year
+            Yearly car registration statistics and trends in Singapore.
           </Typography.TextLg>
         </div>
 

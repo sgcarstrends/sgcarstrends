@@ -134,7 +134,7 @@ const FAQPage = () => {
       <div className="flex flex-col gap-8">
         <PageHeader
           title="Frequently Asked Questions"
-          description="Common questions about Singapore's automotive market, COE system, and car registration trends."
+          subtitle="Common questions about Singapore's automotive market, COE system, and car registration trends."
         />
         <FAQSections sections={faqSections} />
       </div>
