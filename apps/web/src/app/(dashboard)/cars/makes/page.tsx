@@ -94,8 +94,7 @@ const CarMakesPage = async ({ searchParams }: PageProps) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <PageHeader
-          label="Brand Rankings"
-          title="Who's on Top"
+          title="Makes"
           subtitle="List of car makes registered in Singapore."
           lastUpdated={lastUpdated}
           months={months}

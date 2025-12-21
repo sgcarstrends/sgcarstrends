@@ -111,8 +111,8 @@ const CarsPage = async ({
       />
       <div className="flex flex-col gap-4">
         <PageHeader
-          label="This Month"
-          title="What Got Registered"
+          title="Car Registrations"
+          subtitle="Monthly new car registrations in Singapore by fuel type and vehicle type."
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector={true}

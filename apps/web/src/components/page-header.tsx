@@ -7,9 +7,7 @@ import { type ReactNode, Suspense } from "react";
 
 interface Props {
   title: string;
-  label?: string;
   subtitle?: string;
-  description?: string;
   children?: ReactNode;
   className?: string;
   lastUpdated?: number | null;
@@ -19,7 +17,6 @@ interface Props {
 
 export const PageHeader = ({
   title,
-  label,
   subtitle,
   children,
   className,
@@ -31,9 +28,12 @@ export const PageHeader = ({
     <div className={cn("flex flex-col gap-2", className)}>
       <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">
         <div className="flex flex-col">
-          {label && <p className="text-default-500">{label}</p>}
           <Typography.H1>{title}</Typography.H1>
-          {subtitle && <Typography.Lead>{subtitle}</Typography.Lead>}
+          {subtitle && (
+            <Typography.TextLg className="text-default-500">
+              {subtitle}
+            </Typography.TextLg>
+          )}
         </div>
         <div className="flex flex-col items-start gap-2">
           {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
