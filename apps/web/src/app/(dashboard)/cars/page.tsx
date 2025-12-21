@@ -111,7 +111,8 @@ const CarsPage = async ({
       />
       <div className="flex flex-col gap-4">
         <PageHeader
-          title="Car Registrations"
+          label="This Month"
+          title="What Got Registered"
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector={true}

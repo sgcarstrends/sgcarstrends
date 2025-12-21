@@ -73,7 +73,8 @@ const COEResultsPage = async ({ searchParams }: Props) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-6">
         <PageHeader
-          title="COE Results"
+          label="Past Rounds"
+          title="What Did People Pay?"
           lastUpdated={lastUpdated}
           months={months}
           showMonthSelector

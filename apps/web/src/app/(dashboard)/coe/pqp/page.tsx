@@ -57,7 +57,11 @@ const PQPRatesPage = async () => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
         <AnimatedSection order={0}>
-          <PageHeader title="PQP RATES" lastUpdated={lastUpdated}>
+          <PageHeader
+            label="Extend Your COE"
+            title="How Much to Stay on the Road?"
+            lastUpdated={lastUpdated}
+          >
             <ShareButtons
               url={`${SITE_URL}/coe/pqp`}
               title={`COE PQP Rates - ${SITE_TITLE}`}
