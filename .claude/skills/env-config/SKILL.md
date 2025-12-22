@@ -79,9 +79,6 @@ QSTASH_NEXT_SIGNING_KEY=your-next-signing-key
 ### Social Media
 
 ```env
-# Discord
-DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
-
 # Telegram
 TELEGRAM_BOT_TOKEN=your-bot-token
 TELEGRAM_CHAT_ID=your-chat-id
@@ -92,6 +89,13 @@ TWITTER_BEARER_TOKEN=your-bearer-token
 # LinkedIn
 LINKEDIN_ACCESS_TOKEN=your-access-token
 LINKEDIN_ORG_ID=your-org-id
+```
+
+### Error Reporting
+
+```env
+# Discord (workflow error logging only)
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
 ```
 
 ### Storage
@@ -139,9 +143,11 @@ GOOGLE_GEMINI_API_KEY=your-api-key
 QSTASH_TOKEN=your-qstash-token
 
 # Social Media
-DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
 TELEGRAM_BOT_TOKEN=your-bot-token
 TELEGRAM_CHAT_ID=your-chat-id
+
+# Error Reporting (Discord webhook)
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
 
 # Storage
 BLOB_READ_WRITE_TOKEN=vercel_blob_token
@@ -307,9 +313,11 @@ declare global {
       QSTASH_TOKEN: string;
 
       // Social Media
-      DISCORD_WEBHOOK_URL: string;
       TELEGRAM_BOT_TOKEN: string;
       TELEGRAM_CHAT_ID: string;
+
+      // Error Reporting
+      DISCORD_WEBHOOK_URL: string;
 
       // Storage
       BLOB_READ_WRITE_TOKEN: string;
@@ -349,9 +357,11 @@ const envSchema = z.object({
   QSTASH_TOKEN: z.string().min(1),
 
   // Social Media
-  DISCORD_WEBHOOK_URL: z.string().url().optional(),
   TELEGRAM_BOT_TOKEN: z.string().optional(),
   TELEGRAM_CHAT_ID: z.string().optional(),
+
+  // Error Reporting
+  DISCORD_WEBHOOK_URL: z.string().url().optional(),
 
   // Next.js
   NEXT_PUBLIC_API_URL: z.string().url(),

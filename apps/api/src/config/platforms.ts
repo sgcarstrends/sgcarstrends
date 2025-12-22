@@ -1,4 +1,3 @@
-import { DiscordHandler } from "@api/lib/social/discord/discord-handler";
 import { LinkedInHandler } from "@api/lib/social/linkedin/linkedin-handler";
 import { SocialMediaManager } from "@api/lib/social/social-media-manager";
 import { TelegramHandler } from "@api/lib/social/telegram/telegram-handler";
@@ -9,7 +8,6 @@ import { TwitterHandler } from "@api/lib/social/twitter/twitter-handler";
  * Configured with all available platform handlers
  */
 export const socialMediaManager = new SocialMediaManager([
-  new DiscordHandler(),
   new LinkedInHandler(),
   new TwitterHandler(),
   new TelegramHandler(),

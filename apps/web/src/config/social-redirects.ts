@@ -36,11 +36,6 @@ export const SOCIAL_PLATFORMS: Record<string, SocialPlatform> = {
     url: "https://github.com/sgcarstrends",
     campaign: "github_profile",
   },
-  discord: {
-    name: "Discord",
-    url: "https://discord.com/invite/xxtQueEqt6",
-    campaign: "discord_profile",
-  },
 } as const;
 
 /**

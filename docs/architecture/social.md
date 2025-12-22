@@ -159,34 +159,20 @@ interface PlatformHandler {
 
 ## Platform Integrations
 
-### Discord Integration
+### Discord Integration (Error Reporting Only)
 
-**Purpose**: Community notifications and error reporting
+**Purpose**: Workflow error reporting and development alerts
 **Integration Type**: Webhook-based messaging
 
 **Configuration**:
-- `DISCORD_WEBHOOK_URL`: Primary webhook for community updates
-- `DISCORD_WORKFLOW_WEBHOOK_URL`: Dedicated webhook for error notifications
+- `DISCORD_WEBHOOK_URL`: Webhook for error notifications
 
 **Features**:
-- **Instant Notifications**: Real-time updates to Discord servers
-- **Rich Formatting**: Markdown support for formatted messages
-- **Error Reporting**: Dedicated channel for system errors and alerts
-- **Community Engagement**: Direct interaction with user community
+- **Error Reporting**: Dedicated channel for workflow errors and system alerts
+- **Rich Formatting**: Discord embeds for structured error information
+- **Development Alerts**: Real-time notifications for failed workflows
 
-**Message Format**:
-```typescript
-{
-  content: `🚗 Updated car registration data for 2024-01!
-📊 Total registrations: 12,345
-⚡ By Fuel Type:
-Petrol: 8,000
-Electric: 2,000
-Hybrid: 2,345
-
-https://sgcarstrends.com/cars?month=2024-01`
-}
-```
+**Note**: Discord is used only for internal error reporting, not for social media content distribution.
 
 ### LinkedIn Integration
 

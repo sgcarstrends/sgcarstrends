@@ -7,10 +7,7 @@ export const BASE_SECRETS = [
 
 // "FACEBOOK_ACCESS_TOKEN",
 
-export const DISCORD_SECRETS = [
-  "DISCORD_WEBHOOK_URL",
-  "DISCORD_WORKFLOW_WEBHOOK_URL",
-] as const;
+export const DISCORD_SECRETS = ["DISCORD_WEBHOOK_URL"] as const;
 
 export const LINKEDIN_SECRETS = [
   "LINKEDIN_CLIENT_ID",

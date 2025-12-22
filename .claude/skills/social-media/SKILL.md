@@ -36,38 +36,7 @@ apps/api/src/lib/workflows/social/
 
 ## Key Patterns
 
-### 1. Discord Integration
-
-Discord uses webhooks for simple posting:
-
-```typescript
-export async function postToDiscord(message: string, data: any) {
-  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
-
-  if (!webhookUrl) {
-    throw new Error("Discord webhook URL not configured");
-  }
-
-  const embed = {
-    title: "New Data Available",
-    description: message,
-    color: 0x00ff00,
-    fields: [
-      { name: "Date", value: data.date, inline: true },
-      { name: "Count", value: String(data.count), inline: true },
-    ],
-    timestamp: new Date().toISOString(),
-  };
-
-  await fetch(webhookUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ embeds: [embed] }),
-  });
-}
-```
-
-### 2. Telegram Integration
+### 1. Telegram Integration
 
 Telegram uses Bot API with chat IDs:
 
@@ -268,9 +237,6 @@ export async function postToTwitter(message: string) {
 ```
 
 ## Environment Variables
-
-### Discord
-- `DISCORD_WEBHOOK_URL` - Webhook URL from Discord channel settings
 
 ### Telegram
 - `TELEGRAM_BOT_TOKEN` - Bot token from @BotFather

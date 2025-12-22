@@ -268,10 +268,12 @@ sequenceDiagram
 - `GOOGLE_GENERATIVE_AI_API_KEY`: Google Gemini API key (used by Vercel AI SDK)
 
 **Social Media**:
-- `DISCORD_WEBHOOK_URL`: Error notifications
 - `LINKEDIN_*`: LinkedIn API credentials
 - `TELEGRAM_*`: Bot configuration
 - `TWITTER_*`: Twitter API credentials
+
+**Error Reporting**:
+- `DISCORD_WEBHOOK_URL`: Workflow error notifications
 
 ### Scheduling Configuration
 

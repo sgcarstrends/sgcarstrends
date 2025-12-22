@@ -57,10 +57,8 @@ export const api = new sst.aws.Function("Api", {
     // Vercel Blob (for logos storage)
     BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN as string,
 
-    // Discord
+    // Discord (workflow error logging only)
     DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL as string,
-    DISCORD_WORKFLOW_WEBHOOK_URL: process.env
-      .DISCORD_WORKFLOW_WEBHOOK_URL as string,
 
     // LinkedIn
     LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID as string,

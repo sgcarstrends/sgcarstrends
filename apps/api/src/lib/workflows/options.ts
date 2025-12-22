@@ -42,7 +42,7 @@ export const options: PublicServeOptions = {
     console.log(payload);
 
     try {
-      const webhookUrl = process.env.DISCORD_WORKFLOW_WEBHOOK_URL as string;
+      const webhookUrl = process.env.DISCORD_WEBHOOK_URL as string;
 
       await fetch(webhookUrl, {
         method: "POST",
