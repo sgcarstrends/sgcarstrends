@@ -98,13 +98,45 @@ sequenceDiagram
     QStash-->>-API: Workflow completed
     API-->>-Trigger: HTTP 200 response
 
+    %% Deregistrations Data Workflow
+    Note over Trigger, Social: Deregistrations Data Processing Workflow
+
+    Trigger->>+API: POST /workflows/deregistrations
+    API->>+QStash: Schedule Deregistrations Workflow
+    QStash->>+Workflow: Execute deregistrationsWorkflow()
+
+    Workflow->>+Redis: Check last_updated:deregistrations timestamp
+    Redis-->>-Workflow: Return last update time
+
+    Workflow->>+LTA: Download deregistrations CSV file
+    LTA-->>-Workflow: Return ZIP file with CSV
+
+    Workflow->>Workflow: Validate file checksum
+
+    alt File has changes (new checksum)
+        Workflow->>Workflow: Extract & parse CSV
+        Workflow->>Workflow: Transform deregistration data
+        Workflow->>+DB: Batch insert deregistration records
+        DB-->>-Workflow: Insert confirmation
+        Workflow->>+Redis: Update last_updated:deregistrations timestamp
+        Redis-->>-Workflow: Confirmation
+        Workflow->>+Redis: Invalidate deregistrations cache tags
+        Redis-->>-Workflow: Cache invalidated
+
+    else File unchanged (same checksum)
+        Workflow->>Workflow: Skip processing
+    end
+
+    Workflow-->>-QStash: Return success result
+    QStash-->>-API: Workflow completed
+    API-->>-Trigger: HTTP 200 response
+
     %% Error Handling Flow
     Note over Trigger, Social: Error Handling
-    
+
     alt Workflow Error Occurs
         Workflow->>Workflow: Catch error
-        Workflow->>+Social: Send Discord error notification
-        Social-->>-Workflow: Notification sent
+        Workflow->>Workflow: Log error details
         Workflow-->>QStash: Return error result
     end
 

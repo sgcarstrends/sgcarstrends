@@ -45,7 +45,7 @@ graph TB
             subgraph "Web Function Config"
                 WebRuntime[Node.js 22.x - arm64]
                 WebWarm[1 Warm Instance]
-                NextjsFramework[Next.js 15 Framework]
+                NextjsFramework[Next.js 16 Framework]
             end
         end
         
@@ -88,7 +88,6 @@ graph TB
         
         %% Social Media
         subgraph "Social Media APIs"
-            Discord[Discord Webhooks]
             LinkedIn[LinkedIn API]
             Telegram[Telegram Bot API]
             Twitter[Twitter API]
@@ -154,7 +153,6 @@ graph TB
     APILambda --> QStash
     APILambda --> PostgreSQL
     APILambda --> Upstash
-    APILambda --> Discord
     APILambda --> LinkedIn
     APILambda --> Telegram
     APILambda --> Twitter
@@ -183,4 +181,4 @@ graph TB
     class APIRuntime,APITimeout,HonoApp,WebRuntime,WebWarm,NextjsFramework,CoreEnv,AIEnv,QStashEnv,RedisEnv,SocialEnv,WebEnv,PublicEnv,WebRedis,WebAuth,WebDB function
     class PostgreSQL,Upstash database
     class LTA,GeminiAI,QStash external
-    class Discord,LinkedIn,Telegram,Twitter social
+    class LinkedIn,Telegram,Twitter social

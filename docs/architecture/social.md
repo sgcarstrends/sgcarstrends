@@ -8,11 +8,9 @@ This document describes the comprehensive social media integration system that a
 sequenceDiagram
     participant Workflow as Data Processing Workflow
     participant SMM as Social Media Manager
-    participant Discord as Discord Handler
     participant LinkedIn as LinkedIn Handler
     participant Telegram as Telegram Handler
     participant Twitter as Twitter Handler
-    participant DiscordAPI as Discord Webhook
     participant LinkedInAPI as LinkedIn API
     participant TelegramAPI as Telegram Bot API
     participant TwitterAPI as Twitter API v2
@@ -23,24 +21,11 @@ sequenceDiagram
     %% Workflow initiates social media posting
     Workflow->>+SMM: publishToAll(message, link)
     SMM->>SMM: getEnabledPlatforms()
-    
+
     Note over SMM: Identify configured and enabled platforms
-    
+
     %% Parallel publishing to all platforms
-    par Discord Publishing
-        SMM->>+Discord: publish(message)
-        Discord->>Discord: validateConfiguration()
-        Discord->>Discord: Check DISCORD_WEBHOOK_URL
-        
-        alt Configuration valid
-            Discord->>+DiscordAPI: POST webhook with message + link
-            DiscordAPI-->>-Discord: HTTP 200 + message ID
-            Discord-->>SMM: PublishResult(success: true)
-        else Configuration invalid
-            Discord-->>SMM: PublishResult(success: false, error)
-        end
-        
-    and LinkedIn Publishing
+    par LinkedIn Publishing
         SMM->>+LinkedIn: publish(message)
         LinkedIn->>LinkedIn: validateConfiguration()
         LinkedIn->>LinkedIn: Check LinkedIn credentials
@@ -90,41 +75,33 @@ sequenceDiagram
     SMM-->>-Workflow: Return PublishResults
     
     %% Platform-specific content delivery to users
-    Note over DiscordAPI, TwitterAPI: Content Delivery to Platform Users
-    
-    DiscordAPI->>Users: Discord message notification
+    Note over LinkedInAPI, TwitterAPI: Content Delivery to Platform Users
+
     LinkedInAPI->>Users: LinkedIn post in feed
     TelegramAPI->>Users: Telegram channel message
     TwitterAPI->>Users: Tweet in timeline
 
     %% Error handling flow
     Note over Workflow, Users: Error Handling and Notifications
-    
+
     alt Publishing errors occurred
         Workflow->>+SMM: Handle failed publishing
-        SMM->>Discord: Notify about failed platforms
-        Discord->>+DiscordAPI: POST error notification
-        DiscordAPI-->>-Discord: Error notification sent
-        Discord-->>-SMM: Error notification result
-        SMM-->>Workflow: Error handling complete
+        SMM->>SMM: Log errors
+        SMM-->>-Workflow: Error handling complete
     end
 
     %% Health check flow (periodic)
     Note over SMM, TwitterAPI: Platform Health Monitoring
-    
+
     loop Periodic Health Checks
-        SMM->>Discord: healthCheck()
-        Discord->>DiscordAPI: Test webhook connectivity
-        DiscordAPI-->>Discord: Health status
-        
         SMM->>LinkedIn: healthCheck()
         LinkedIn->>LinkedInAPI: Validate token/permissions
         LinkedInAPI-->>LinkedIn: Health status
-        
+
         SMM->>Telegram: healthCheck()
         Telegram->>TelegramAPI: Test bot connectivity
         TelegramAPI-->>Telegram: Health status
-        
+
         SMM->>Twitter: healthCheck()
         Twitter->>TwitterAPI: Validate credentials
         TwitterAPI-->>Twitter: Health status
@@ -158,21 +135,6 @@ interface PlatformHandler {
 ```
 
 ## Platform Integrations
-
-### Discord Integration (Error Reporting Only)
-
-**Purpose**: Workflow error reporting and development alerts
-**Integration Type**: Webhook-based messaging
-
-**Configuration**:
-- `DISCORD_WEBHOOK_URL`: Webhook for error notifications
-
-**Features**:
-- **Error Reporting**: Dedicated channel for workflow errors and system alerts
-- **Rich Formatting**: Discord embeds for structured error information
-- **Development Alerts**: Real-time notifications for failed workflows
-
-**Note**: Discord is used only for internal error reporting, not for social media content distribution.
 
 ### LinkedIn Integration
 
@@ -312,14 +274,13 @@ interface SocialMessage {
 4. **Platform Detection**: Identify enabled platforms with valid configuration
 5. **Parallel Execution**: Simultaneously post to all valid platforms
 6. **Result Aggregation**: Collect success/failure results from all platforms
-7. **Error Handling**: Report failures to Discord error channel
+7. **Error Handling**: Log failures for monitoring
 8. **Response**: Return comprehensive results to calling workflow
 
 ### Content Formatting
 
 Each platform handler applies platform-specific formatting:
 
-**Discord**: Emoji-rich formatting with Discord markdown
 **LinkedIn**: Professional tone with structured content
 **Telegram**: Telegram markdown with clickable links
 **Twitter**: Hashtag optimization and character limit compliance
@@ -327,7 +288,7 @@ Each platform handler applies platform-specific formatting:
 ### Error Handling
 
 **Graceful Degradation**: Failed platforms don't prevent successful publishing to others
-**Error Notification**: Discord receives notifications about failed platforms
+**Error Logging**: Failed platform attempts are logged for monitoring
 **Retry Logic**: Configurable retry mechanisms for transient failures
 **Health Monitoring**: Regular platform connectivity checks
 
@@ -382,9 +343,8 @@ interface PlatformConfig {
 
 ### Alerting
 
-**Discord Notifications**: Real-time error reporting
 **CloudWatch Alarms**: AWS-native monitoring for critical failures
-**Email Alerts**: Administrative notifications for persistent issues
+**Structured Logging**: Error details logged for analysis
 **Dashboard Integration**: Visual monitoring of social media health
 
 ## Content Strategy
@@ -398,7 +358,6 @@ interface PlatformConfig {
 
 ### Platform-Specific Adaptation
 
-**Discord**: Community-focused with emoji and casual tone
 **LinkedIn**: Professional insights with business implications
 **Telegram**: Concise updates with relevant links
 **Twitter**: Engaging content with trending hashtags

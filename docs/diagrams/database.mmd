@@ -32,22 +32,24 @@ erDiagram
         text title "Blog post title"
         text slug UK "URL-friendly identifier"
         text content "Markdown content"
-        jsonb metadata "Post metadata (tags, reading_time, etc)"
-        timestamp published_at "Publication date"
+        text excerpt "2-3 sentence summary"
+        text hero_image "Unsplash URL for header"
+        text[] tags "Category tags array"
+        jsonb highlights "Key statistics for display"
+        text status "Publication status (draft/published)"
+        jsonb metadata "Additional metadata"
+        text month "Source data month YYYY-MM"
+        text data_type "Source type (cars/coe)"
         timestamp created_at "Creation timestamp"
         timestamp modified_at "Last modification timestamp"
+        timestamp published_at "Publication date"
     }
 
-    analytics {
-        serial id PK "Auto-incrementing primary key"
-        timestamp date "Event timestamp with timezone"
-        text pathname "Page URL path"
-        text referrer "Referrer URL"
-        text country "Visitor country"
-        text flag "Country flag emoji"
-        text city "Visitor city"
-        text latitude "Geographic latitude"
-        text longitude "Geographic longitude"
+    deregistrations {
+        uuid id PK "Primary key (auto-generated)"
+        text month "Month in YYYY-MM format"
+        text category "VQS category"
+        integer number "Number of deregistrations"
     }
 
     %% Relationships (conceptual, not foreign keys)

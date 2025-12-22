@@ -43,12 +43,12 @@ graph TB
                 TriggerWorkflow[POST /workflows/trigger - Trigger Data Updates]
                 CarsWorkflow[POST /workflows/cars - Cars Data Processor]
                 COEWorkflow[POST /workflows/coe - COE Data Processor]
+                DeregistrationsWorkflow[POST /workflows/deregistrations - Deregistrations Processor]
             end
-            
+
             subgraph "Social Media Webhooks"
                 LinkedInHook[POST /workflows/linkedin - LinkedIn Webhook]
-                TwitterHook[POST /workflows/twitter - Twitter Webhook]  
-                DiscordHook[POST /workflows/discord - Discord Webhook]
+                TwitterHook[POST /workflows/twitter - Twitter Webhook]
                 TelegramHook[POST /workflows/telegram - Telegram Webhook]
             end
         end
@@ -94,9 +94,9 @@ graph TB
     WorkflowRouter --> TriggerWorkflow
     WorkflowRouter --> CarsWorkflow
     WorkflowRouter --> COEWorkflow
+    WorkflowRouter --> DeregistrationsWorkflow
     WorkflowRouter --> LinkedInHook
     WorkflowRouter --> TwitterHook
-    WorkflowRouter --> DiscordHook
     WorkflowRouter --> TelegramHook
     
     %% External integrations
@@ -108,7 +108,6 @@ graph TB
     
     LinkedInHook --> SocialPlatforms
     TwitterHook --> SocialPlatforms
-    DiscordHook --> SocialPlatforms
     TelegramHook --> SocialPlatforms
     
     %% Data connections
@@ -119,9 +118,8 @@ graph TB
     
     CarsWorkflow --> PostgreSQL
     COEWorkflow --> PostgreSQL
-
-    %% Error handling
-    ErrorHandler --> DiscordHook
+    DeregistrationsWorkflow --> LTA
+    DeregistrationsWorkflow --> PostgreSQL
     
     %% Styling
     classDef middleware fill:#e1f5fe
@@ -134,4 +132,4 @@ graph TB
     class Root,OpenAPI,HealthCheck,CarsAPI,COEAPI,MonthsAPI endpoint
     class QStash,LTA,SocialPlatforms,GeminiAI external
     class PostgreSQL,Redis database
-    class TriggerWorkflow,CarsWorkflow,COEWorkflow,LinkedInHook,TwitterHook,DiscordHook,TelegramHook workflow
+    class TriggerWorkflow,CarsWorkflow,COEWorkflow,DeregistrationsWorkflow,LinkedInHook,TwitterHook,TelegramHook workflow
