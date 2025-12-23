@@ -1,11 +1,11 @@
-import { google } from "@ai-sdk/google";
-import type { WorkflowContext } from "@upstash/workflow";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import type { HTTPMethods } from "@upstash/qstash";
+import { WorkflowAbort, type WorkflowContext } from "@upstash/workflow";
 import { generateText, type LanguageModelUsage, Output } from "ai";
 import {
   ANALYSIS_INSTRUCTIONS,
   ANALYSIS_PROMPTS,
   type BlogGenerationParams,
-  type BlogResult,
   GENERATION_INSTRUCTIONS,
   GENERATION_PROMPTS,
 } from "./config";
@@ -38,19 +38,26 @@ export interface GenerateBlogContentResult {
 }
 
 /**
- * Standalone blog content generation function without WorkflowContext dependency.
+ * Blog generation options including workflow context for context.call() usage
+ */
+export interface BlogGenerationOptions extends BlogGenerationParams {
+  workflowContext: WorkflowContext;
+}
+
+/**
+ * Internal: AI content generation using context.call() for reduced Lambda billing.
  * Uses a 2-step flow for accuracy and type-safety:
  *
  * Step 1: Code Execution - Analyse data with Python code execution for accurate calculations
  * Step 2: Structured Output - Generate validated blog content matching the postSchema
- *
- * @param params - Blog generation parameters (data, month, dataType)
- * @returns Generated post object with usage stats and response metadata
  */
-export const generateBlogContent = async (
-  params: BlogGenerationParams,
-): Promise<GenerateBlogContentResult> => {
-  const { data, month, dataType } = params;
+async function generateContent(
+  options: BlogGenerationOptions,
+): Promise<GenerateBlogContentResult> {
+  const { data, month, dataType, workflowContext } = options;
+
+  // Create workflow-aware Google provider that uses context.call()
+  const google = createWorkflowGoogle(workflowContext);
 
   // Initialize LangFuse tracing
   startTracing();
@@ -116,31 +123,23 @@ export const generateBlogContent = async (
       timestamp: response.timestamp,
     },
   };
-};
+}
 
 /**
- * Generates and saves a blog post without WorkflowContext dependency.
- * Can be used in both workflow and non-workflow contexts (e.g., Admin app).
- * Uses 2-step flow (analysis + structured output) for accuracy and type-safety.
- *
- * @param params - Blog generation parameters (data, month, dataType)
- * @returns Result with post ID, title, slug, and success status
+ * Shared save logic for both generate and regenerate functions
  */
-export const generateAndSavePost = async (
-  params: BlogGenerationParams,
-): Promise<GenerateAndSaveResult> => {
-  const { month, dataType } = params;
+async function saveGeneratedPost(
+  options: BlogGenerationOptions,
+): Promise<GenerateAndSaveResult> {
+  const { month, dataType } = options;
 
   try {
-    // Generate blog content using 2-step flow
-    const { output, usage, response } = await generateBlogContent(params);
+    const { output, usage, response } = await generateContent(options);
 
     console.log(`${dataType} blog post generated, saving to database...`);
 
-    // Get hero image for this data type
     const heroImage = getHeroImage(dataType);
 
-    // Save to database using structured output fields directly
     const post = await savePost({
       title: output.title,
       content: output.content,
@@ -167,23 +166,72 @@ export const generateAndSavePost = async (
       slug: post.slug,
     };
   } finally {
-    // Shutdown tracing to flush remaining spans (even on error)
     await shutdownTracing();
   }
-};
+}
 
-export const generatePost = async (
-  context: WorkflowContext,
-  params: BlogGenerationParams,
-): Promise<BlogResult> => {
-  const { dataType } = params;
+/**
+ * Generates and saves a new blog post using context.call() for reduced Lambda billing.
+ * Used by API workflow for creating new posts.
+ */
+export async function generateBlogContent(
+  options: BlogGenerationOptions,
+): Promise<GenerateAndSaveResult> {
+  return saveGeneratedPost(options);
+}
 
-  return context.run(`Generate blog post for ${dataType}`, async () => {
-    // Use the shared generate and save function
-    const result = await generateAndSavePost(params);
+/**
+ * Regenerates and updates an existing blog post using context.call() for reduced Lambda billing.
+ * Used by Admin for updating existing posts.
+ */
+export async function regenerateBlogContent(
+  options: BlogGenerationOptions,
+): Promise<GenerateAndSaveResult> {
+  return saveGeneratedPost(options);
+}
 
-    console.log(`${dataType} blog post generation completed`);
+/**
+ * Creates a workflow-aware Google Generative AI provider that uses context.call()
+ * for HTTP requests. This allows the Lambda to exit while QStash handles the request.
+ */
+function createWorkflowGoogle(context: WorkflowContext) {
+  let stepCounter = 0;
 
-    return result;
+  return createGoogleGenerativeAI({
+    fetch: async (input, init) => {
+      try {
+        const requestHeaders: Record<string, string> = {};
+        if (init?.headers) {
+          new Headers(init.headers).forEach((value, key) => {
+            requestHeaders[key] = value;
+          });
+        }
+        const body = init?.body ? JSON.parse(init.body as string) : undefined;
+
+        const response = await context.call(`gemini-${++stepCounter}`, {
+          url: input.toString(),
+          method: (init?.method as HTTPMethods) ?? "POST",
+          headers: requestHeaders,
+          body,
+          timeout: 600, // 10 minutes for extended thinking
+        });
+
+        // Flatten response headers (string[] -> string)
+        const responseHeaders: Record<string, string> = {};
+        for (const [key, value] of Object.entries(response.header)) {
+          responseHeaders[key] = Array.isArray(value)
+            ? value.join(", ")
+            : value;
+        }
+
+        return new Response(JSON.stringify(response.body), {
+          status: response.status,
+          headers: new Headers(responseHeaders),
+        });
+      } catch (error) {
+        if (error instanceof WorkflowAbort) throw error;
+        throw error;
+      }
+    },
   });
-};
+}
