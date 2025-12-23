@@ -6,7 +6,7 @@
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "next dev --inspect",
+    "dev": "next dev",
     "build": "next build",
     "lint": "biome check",
     "format": "biome format --write src",
