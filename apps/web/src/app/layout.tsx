@@ -8,6 +8,7 @@ import { Banner } from "@web/components/banner";
 import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
 import { NotificationPrompt } from "@web/components/notification-prompt";
+import { Notifications } from "@web/components/notifications";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
@@ -84,6 +85,9 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       <body className="bg-background">
         <Providers>
           <NotificationPrompt />
+          <Suspense fallback={null}>
+            <Notifications />
+          </Suspense>
           <Suspense fallback={null}>
             <Announcement />
           </Suspense>

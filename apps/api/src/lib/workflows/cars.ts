@@ -1,5 +1,6 @@
 import { NEXT_PUBLIC_SITE_URL } from "@api/config";
 import { socialMediaManager } from "@api/config/platforms";
+import { realtime } from "@api/config/realtime";
 import { getCarsLatestMonth } from "@api/features/cars/queries";
 import { options } from "@api/lib/workflows/options";
 import { generateCarPost } from "@api/lib/workflows/posts";
@@ -51,6 +52,16 @@ export const carsWorkflow = createWorkflow(
           "[CARS] Data processed. Post already exists, skipping social media.",
       };
     }
+
+    await context.run("send-notification", async () => {
+      console.log("Send Notification Step");
+
+      await realtime.emit("workflow.completed", {
+        workflow: "cars",
+        message: `Car registrations updated for ${month}`,
+        month,
+      });
+    });
 
     // Step: Generate new post (only runs if no existing post)
     const post = await generateCarPost(context, month);
