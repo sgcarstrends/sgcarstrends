@@ -32,12 +32,20 @@ export function Notifications() {
           description: data.message,
           color: "success",
         });
+        if (Notification.permission === "granted") {
+          new Notification(`${label} Updated`, { body: data.message });
+        }
       } else {
         addToast({
           title: `${label} Failed`,
           description: data.error || data.message,
           color: "danger",
         });
+        if (Notification.permission === "granted") {
+          new Notification(`${label} Failed`, {
+            body: data.error || data.message,
+          });
+        }
       }
     },
   });
