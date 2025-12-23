@@ -59,7 +59,7 @@ export const generateBlogContent = async (
 
   // STEP 1: Code Execution for accurate analysis
   const analysisResult = await generateText({
-    model: google("gemini-2.5-flash"),
+    model: google("gemini-3-flash-preview"),
     system: ANALYSIS_INSTRUCTIONS[dataType],
     tools: { code_execution: google.tools.codeExecution({}) },
     prompt: `Analyse this ${dataType.toUpperCase()} data for ${month}:\n${data}\n\n${ANALYSIS_PROMPTS[dataType]}`,
@@ -87,7 +87,7 @@ export const generateBlogContent = async (
 
   // STEP 2: Structured Output generation (no extended thinking - faster)
   const { object, usage, response } = await generateObject({
-    model: google("gemini-2.5-flash"),
+    model: google("gemini-3-flash-preview"),
     schema: postSchema,
     system: GENERATION_INSTRUCTIONS[dataType],
     prompt: `Based on this analysis:\n\n${analysisResult.text}\n\nOriginal data for ${month}:\n${data}\n\n${GENERATION_PROMPTS[dataType]}`,
