@@ -1,3 +1,9 @@
+## [4.38.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.37.0...v4.38.0) (2025-12-23)
+
+### Features
+
+* **ai:** upgrade to Vercel AI SDK v6 ([92fe03f](https://github.com/sgcarstrends/sgcarstrends/commit/92fe03f5f848ef184e5bb2fab84472f6c37b035d)), closes [#658](https://github.com/sgcarstrends/sgcarstrends/issues/658)
+
 ## [4.37.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.36.0...v4.37.0) (2025-12-21)
 
 ### Features
