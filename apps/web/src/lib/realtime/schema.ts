@@ -1,10 +1,14 @@
-import { type InferSchema, Realtime } from "@upstash/realtime";
+import type { InferSchema } from "@upstash/realtime";
 import { z } from "zod";
-import { redis } from "./redis";
 
-const workflowEnum = z.enum(["cars", "coe", "deregistrations", "newsletter"]);
+export const workflowEnum = z.enum([
+  "cars",
+  "coe",
+  "deregistrations",
+  "newsletter",
+]);
 
-const schema = {
+export const realtimeSchema = {
   workflow: {
     started: z.object({
       workflow: workflowEnum,
@@ -24,14 +28,5 @@ const schema = {
   },
 };
 
-export const realtime = new Realtime({
-  schema,
-  redis,
-  maxDurationSecs: 300,
-  history: {
-    maxLength: 50,
-    expireAfterSecs: 3600, // 1 hour
-  },
-});
-
-export type RealtimeEvents = InferSchema<typeof schema>;
+export type WorkflowName = z.infer<typeof workflowEnum>;
+export type RealtimeEvents = InferSchema<typeof realtimeSchema>;
