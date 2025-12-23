@@ -1,6 +1,6 @@
 import { google } from "@ai-sdk/google";
 import type { WorkflowContext } from "@upstash/workflow";
-import { generateObject, generateText, type LanguageModelUsage } from "ai";
+import { generateText, type LanguageModelUsage, Output } from "ai";
 import {
   ANALYSIS_INSTRUCTIONS,
   ANALYSIS_PROMPTS,
@@ -28,7 +28,7 @@ export interface GenerateAndSaveResult {
  * Result of the 2-step blog content generation
  */
 export interface GenerateBlogContentResult {
-  object: GeneratedPost;
+  output: GeneratedPost;
   usage: LanguageModelUsage;
   response: {
     id: string;
@@ -86,9 +86,11 @@ export const generateBlogContent = async (
   console.log(`[STEP 2] ${dataType} structured output generation started...`);
 
   // STEP 2: Structured Output generation (no extended thinking - faster)
-  const { object, usage, response } = await generateObject({
+  const { output, usage, response } = await generateText({
     model: google("gemini-3-flash-preview"),
-    schema: postSchema,
+    output: Output.object({
+      schema: postSchema,
+    }),
     system: GENERATION_INSTRUCTIONS[dataType],
     prompt: `Based on this analysis:\n\n${analysisResult.text}\n\nOriginal data for ${month}:\n${data}\n\n${GENERATION_PROMPTS[dataType]}`,
     experimental_telemetry: {
@@ -106,7 +108,7 @@ export const generateBlogContent = async (
   console.log(`[STEP 2] ${dataType} structured output generation completed`);
 
   return {
-    object,
+    output,
     usage,
     response: {
       id: response.id,
@@ -131,7 +133,7 @@ export const generateAndSavePost = async (
 
   try {
     // Generate blog content using 2-step flow
-    const { object, usage, response } = await generateBlogContent(params);
+    const { output, usage, response } = await generateBlogContent(params);
 
     console.log(`${dataType} blog post generated, saving to database...`);
 
@@ -140,11 +142,11 @@ export const generateAndSavePost = async (
 
     // Save to database using structured output fields directly
     const post = await savePost({
-      title: object.title,
-      content: object.content,
-      excerpt: object.excerpt,
-      tags: object.tags,
-      highlights: object.highlights,
+      title: output.title,
+      content: output.content,
+      excerpt: output.excerpt,
+      tags: output.tags,
+      highlights: output.highlights,
       heroImage,
       month,
       dataType,
