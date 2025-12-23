@@ -107,8 +107,8 @@ const BlogManagementPage = () => {
     const totalTokens = post.metadata?.usage?.totalTokens;
     if (!totalTokens) return "N/A";
 
-    const promptTokens = post.metadata?.usage?.promptTokens || 0;
-    const completionTokens = post.metadata?.usage?.completionTokens || 0;
+    const promptTokens = post.metadata?.usage?.inputTokens || 0;
+    const completionTokens = post.metadata?.usage?.outputTokens || 0;
 
     return `${totalTokens.toLocaleString()} (${promptTokens.toLocaleString()} + ${completionTokens.toLocaleString()})`;
   };

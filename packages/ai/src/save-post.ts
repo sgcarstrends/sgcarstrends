@@ -1,12 +1,7 @@
 import { db, posts } from "@sgcarstrends/database";
 import { redis, slugify } from "@sgcarstrends/utils";
+import type { LanguageModelUsage } from "ai";
 import type { Highlight } from "./schemas";
-
-export interface TokenUsage {
-  inputTokens: number;
-  outputTokens: number;
-  totalTokens: number;
-}
 
 export interface PostParams {
   title: string;
@@ -21,7 +16,7 @@ export interface PostParams {
     responseId: string;
     modelId: string;
     timestamp: Date;
-    usage?: TokenUsage;
+    usage?: LanguageModelUsage;
   };
 }
 
