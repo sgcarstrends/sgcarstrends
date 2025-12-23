@@ -1,6 +1,6 @@
 import { google } from "@ai-sdk/google";
 import type { WorkflowContext } from "@upstash/workflow";
-import { generateObject, generateText } from "ai";
+import { generateObject, generateText, type LanguageModelUsage } from "ai";
 import {
   ANALYSIS_INSTRUCTIONS,
   ANALYSIS_PROMPTS,
@@ -29,11 +29,7 @@ export interface GenerateAndSaveResult {
  */
 export interface GenerateBlogContentResult {
   object: GeneratedPost;
-  usage: {
-    inputTokens: number;
-    outputTokens: number;
-    totalTokens: number;
-  };
+  usage: LanguageModelUsage;
   response: {
     id: string;
     modelId: string;
@@ -111,11 +107,7 @@ export const generateBlogContent = async (
 
   return {
     object,
-    usage: {
-      inputTokens: usage.inputTokens ?? 0,
-      outputTokens: usage.outputTokens ?? 0,
-      totalTokens: usage.totalTokens ?? 0,
-    },
+    usage,
     response: {
       id: response.id,
       modelId: response.modelId,

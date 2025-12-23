@@ -9,6 +9,7 @@ import {
 } from "@sgcarstrends/ai";
 import { db, posts } from "@sgcarstrends/database";
 import { tokeniser } from "@sgcarstrends/utils";
+import type { LanguageModelUsage } from "ai";
 import { desc } from "drizzle-orm";
 import { headers } from "next/headers";
 
@@ -21,11 +22,7 @@ export interface PostWithMetadata {
   createdAt: Date;
   metadata: {
     modelId?: string;
-    usage?: {
-      promptTokens?: number;
-      completionTokens?: number;
-      totalTokens?: number;
-    };
+    usage?: LanguageModelUsage;
   } | null;
 }
 

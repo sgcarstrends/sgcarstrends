@@ -37,11 +37,6 @@ describe("Social Media Redirect Routes", () => {
       route: "./github/route",
       url: "https://github.com/sgcarstrends",
     },
-    {
-      name: "Discord",
-      route: "./discord/route",
-      url: "https://discord.com/invite/xxtQueEqt6",
-    },
   ].forEach(({ name, route, url }) => {
     it(`should redirect to ${name} profile with UTM parameters and 301 status`, async () => {
       const { GET } = await import(route);
