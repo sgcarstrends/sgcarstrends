@@ -1,3 +1,4 @@
+import { realtime } from "@api/config/realtime";
 import { getDeregistrationsLatestMonth } from "@api/features/deregistrations/queries";
 import { options } from "@api/lib/workflows/options";
 import {
@@ -40,6 +41,14 @@ export const deregistrationWorkflow = createWorkflow(
       `deregistrations:month:${month}`,
       "deregistrations:months",
     ]);
+
+    await context.run("send-notification", async () => {
+      await realtime.emit("workflow.completed", {
+        workflow: "deregistrations",
+        message: `Deregistrations updated for ${month}`,
+        month,
+      });
+    });
 
     return {
       message: "[DEREGISTRATIONS] Data processed and published successfully",

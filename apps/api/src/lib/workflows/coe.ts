@@ -1,5 +1,6 @@
 import { NEXT_PUBLIC_SITE_URL } from "@api/config";
 import { socialMediaManager } from "@api/config/platforms";
+import { realtime } from "@api/config/realtime";
 import { getCoeLatestMonth } from "@api/features/coe/queries";
 import { options } from "@api/lib/workflows/options";
 import { generateCoePost } from "@api/lib/workflows/posts";
@@ -74,6 +75,14 @@ export const coeWorkflow = createWorkflow(
 
     // Step: Revalidate posts cache
     await revalidateCache(context, ["posts:list"]);
+
+    await context.run("send-notification", async () => {
+      await realtime.emit("workflow.completed", {
+        workflow: "coe",
+        message: `COE results updated for ${month}`,
+        month,
+      });
+    });
 
     return {
       message: "[COE] Data processed and published successfully",

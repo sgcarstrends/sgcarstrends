@@ -2,10 +2,11 @@
 
 import { HeroUIProvider } from "@heroui/react";
 import { ToastProvider } from "@heroui/toast";
+import { RealtimeProvider } from "@upstash/realtime/client";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 
-export const Providers = ({ children }: { children: ReactNode }) => {
+export function Providers({ children }: Readonly<{ children: ReactNode }>) {
   const router = useRouter();
 
   return (
@@ -17,7 +18,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
           hideCloseButton: false,
         }}
       />
-      {children}
+      <RealtimeProvider>{children}</RealtimeProvider>
     </HeroUIProvider>
   );
-};
+}
