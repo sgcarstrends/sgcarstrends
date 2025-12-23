@@ -1,3 +1,10 @@
+## [4.39.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.38.0...v4.39.0) (2025-12-23)
+
+### Features
+
+* add browser notification support ([e00e3d9](https://github.com/sgcarstrends/sgcarstrends/commit/e00e3d992f6c4db572141105f420928828a2c50c))
+* implement SSE notifications for workflow completion ([3ac8753](https://github.com/sgcarstrends/sgcarstrends/commit/3ac8753689143534ea75284cbb9f5625d97f5ceb))
+
 ## [4.38.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.37.0...v4.38.0) (2025-12-23)
 
 ### Features
