@@ -1,3 +1,9 @@
+## [4.40.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.39.0...v4.40.0) (2025-12-23)
+
+### Features
+
+* **ai:** upgrade to gemini-3-flash-preview ([0d8aa3f](https://github.com/sgcarstrends/sgcarstrends/commit/0d8aa3f2a821923cff81b39104593157e6d747be))
+
 ## [4.39.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.38.0...v4.39.0) (2025-12-23)
 
 ### Features
