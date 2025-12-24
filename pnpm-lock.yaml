@@ -171,6 +171,9 @@ importers:
       '@sgcarstrends/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@upstash/workflow':
+        specifier: 'catalog:'
+        version: 0.3.0-rc(zod@4.2.1)
       '@vercel/related-projects':
         specifier: 'catalog:'
         version: 1.0.0

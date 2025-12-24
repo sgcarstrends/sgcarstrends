@@ -10,6 +10,7 @@ import { WorkflowTriggerResponseSchema } from "@api/features/workflows/schemas";
 import { carsWorkflow } from "@api/lib/workflows/cars";
 import { coeWorkflow } from "@api/lib/workflows/coe";
 import { deregistrationWorkflow } from "@api/lib/workflows/deregistration";
+import { regenerationWorkflow } from "@api/lib/workflows/regeneration";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { serveMany } from "@upstash/workflow/hono";
 import { createMiddleware } from "hono/factory";
@@ -158,6 +159,7 @@ app.post(
     coe: coeWorkflow,
     deregistrations: deregistrationWorkflow,
     newsletter: newsletterWorkflow,
+    regenerate: regenerationWorkflow,
   }),
 );
 
