@@ -1,3 +1,14 @@
+## [4.41.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.40.0...v4.41.0) (2025-12-24)
+
+### Features
+
+* **admin:** use API workflow for regeneration ([6f5325f](https://github.com/sgcarstrends/sgcarstrends/commit/6f5325f470f5d21ac894e116c3064ed76d96f785))
+* **ai:** use context.call() for Gemini API requests ([d32ad60](https://github.com/sgcarstrends/sgcarstrends/commit/d32ad60f576058955d20922b26342df1e263ea7e)), closes [#622](https://github.com/sgcarstrends/sgcarstrends/issues/622)
+
+### Bug Fixes
+
+* **ai:** prevent WorkflowAbort logging ([0821a22](https://github.com/sgcarstrends/sgcarstrends/commit/0821a22aa1bca2a85f0d066a36fb6f62660fc350))
+
 ## [4.40.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.39.0...v4.40.0) (2025-12-23)
 
 ### Features
