@@ -125,49 +125,45 @@ async function generateContent(
   };
 }
 
-/**
- * Shared save logic for both generate and regenerate functions
- */
 async function saveGeneratedPost(
   options: BlogGenerationOptions,
 ): Promise<GenerateAndSaveResult> {
   const { month, dataType } = options;
 
-  try {
-    const { output, usage, response } = await generateContent(options);
+  const { output, usage, response } = await generateContent(options);
 
-    console.log(`${dataType} blog post generated, saving to database...`);
+  console.log(`${dataType} blog post generated, saving to database...`);
 
-    const heroImage = getHeroImage(dataType);
+  const heroImage = getHeroImage(dataType);
 
-    const post = await savePost({
-      title: output.title,
-      content: output.content,
-      excerpt: output.excerpt,
-      tags: output.tags,
-      highlights: output.highlights,
-      heroImage,
-      month,
-      dataType,
-      responseMetadata: {
-        responseId: response.id,
-        modelId: response.modelId,
-        timestamp: response.timestamp,
-        usage,
-      },
-    });
+  const post = await savePost({
+    title: output.title,
+    content: output.content,
+    excerpt: output.excerpt,
+    tags: output.tags,
+    highlights: output.highlights,
+    heroImage,
+    month,
+    dataType,
+    responseMetadata: {
+      responseId: response.id,
+      modelId: response.modelId,
+      timestamp: response.timestamp,
+      usage,
+    },
+  });
 
-    console.log(`${dataType} blog post saved successfully`);
+  console.log(`${dataType} blog post saved successfully`);
 
-    return {
-      month,
-      postId: post.id,
-      title: post.title,
-      slug: post.slug,
-    };
-  } finally {
-    await shutdownTracing();
-  }
+  // Shutdown tracing only after successful completion
+  await shutdownTracing();
+
+  return {
+    month,
+    postId: post.id,
+    title: post.title,
+    slug: post.slug,
+  };
 }
 
 /**
@@ -213,7 +209,7 @@ function createWorkflowGoogle(context: WorkflowContext) {
           method: (init?.method as HTTPMethods) ?? "POST",
           headers: requestHeaders,
           body,
-          timeout: 600, // 10 minutes for extended thinking
+          timeout: "120s",
         });
 
         // Flatten response headers (string[] -> string)
@@ -229,7 +225,12 @@ function createWorkflowGoogle(context: WorkflowContext) {
           headers: new Headers(responseHeaders),
         });
       } catch (error) {
-        if (error instanceof WorkflowAbort) throw error;
+        if (error instanceof WorkflowAbort) {
+          // Re-throw without logging - this is expected control flow, not an error
+          throw error;
+        }
+        // Only actual errors get logged
+        console.error("Gemini API error:", error);
         throw error;
       }
     },

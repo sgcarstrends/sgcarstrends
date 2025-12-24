@@ -164,7 +164,7 @@ export class Updater<T> {
     const end = performance.now();
 
     // Invalidate the cache when the table is updated
-    await db.$cache.invalidate({ tables: table });
+    // await db.$cache.invalidate({ tables: table });
 
     console.log(
       `Inserted ${totalInserted} record(s) in ${Math.round(end - start)}ms`,
