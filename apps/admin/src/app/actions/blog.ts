@@ -1,14 +1,9 @@
 "use server";
 
+import crypto from "node:crypto";
 import { auth } from "@admin/lib/auth";
-import { revalidateWebCache } from "@admin/lib/revalidate";
-import {
-  generateAndSavePost,
-  getCarsAggregatedByMonth,
-  getCoeForMonth,
-} from "@sgcarstrends/ai";
+import { client } from "@admin/lib/qstash";
 import { db, posts } from "@sgcarstrends/database";
-import { tokeniser } from "@sgcarstrends/utils";
 import type { LanguageModelUsage } from "ai";
 import { desc } from "drizzle-orm";
 import { headers } from "next/headers";
@@ -51,7 +46,7 @@ export const getAllPosts = async (): Promise<PostWithMetadata[]> => {
 export const regeneratePost = async (params: {
   month: string;
   dataType: "cars" | "coe";
-}): Promise<{ success: boolean; error?: string; postId?: string }> => {
+}): Promise<{ success: boolean; error?: string; workflowRunId?: string }> => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -64,34 +59,22 @@ export const regeneratePost = async (params: {
   }
 
   try {
-    const { month, dataType } = params;
+    const workflowRunId = crypto.randomUUID();
+    const baseUrl = process.env.WORKFLOWS_BASE_URL;
 
-    // Fetch data from database
-    let data: string;
-    if (dataType === "cars") {
-      const cars = await getCarsAggregatedByMonth(month);
-      data = tokeniser(cars);
-    } else {
-      const coe = await getCoeForMonth(month);
-      data = tokeniser(coe);
-    }
-
-    // Use shared generate and save function
-    const result = await generateAndSavePost({
-      data,
-      month,
-      dataType,
+    await client.trigger({
+      url: `${baseUrl}/regenerate`,
+      body: params,
+      headers: { "Upstash-Workflow-RunId": workflowRunId },
+      workflowRunId,
     });
-
-    // Invalidate cache for new blog post
-    await revalidateWebCache(["posts:list", "posts:recent"]);
 
     return {
       success: true,
-      postId: result.postId,
+      workflowRunId,
     };
   } catch (error) {
-    console.error("Error regenerating post:", error);
+    console.error("Error triggering regeneration workflow:", error);
 
     return {
       success: false,

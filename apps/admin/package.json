@@ -22,6 +22,7 @@
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/ui": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
+    "@upstash/workflow": "catalog:",
     "@vercel/related-projects": "catalog:",
     "ai": "catalog:",
     "better-auth": "^1.4.5",
