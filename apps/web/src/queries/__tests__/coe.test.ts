@@ -1,10 +1,11 @@
-import { describe, expect, it } from "vitest";
-import { getCoeMonths } from "../coe/available-months";
 import {
+  getCoeMonths,
   getCoeResults,
   getCoeResultsByPeriod,
-} from "../coe/historical-results";
-import { getLatestCoeResults } from "../coe/latest-results";
+  getLatestCoeResults,
+  getPreviousCoeResults,
+} from "@web/queries";
+import { describe, expect, it } from "vitest";
 import {
   cacheLifeMock,
   cacheTagMock,
@@ -93,5 +94,14 @@ describe("COE queries", () => {
     await getCoeResultsByPeriod();
 
     expect(cacheTagMock).toHaveBeenCalledWith("coe:period:12m");
+  });
+
+  it("should return empty array when fewer than 2 bidding rounds exist", async () => {
+    queueSelectDistinct([{ month: "2024-05", biddingNo: 1 }]);
+
+    const result = await getPreviousCoeResults();
+
+    expect(result).toEqual([]);
+    expect(cacheTagMock).toHaveBeenCalledWith("coe:previous");
   });
 });
