@@ -7,7 +7,7 @@ const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;
 /**
  * Get yearly registration totals aggregated from monthly data (ascending order for charts)
  */
-export const getYearlyRegistrations = async () => {
+export async function getYearlyRegistrations() {
   "use cache";
   cacheLife("max");
   cacheTag("cars:annual");
@@ -21,12 +21,12 @@ export const getYearlyRegistrations = async () => {
     .where(gt(cars.number, 0))
     .groupBy(yearExpr)
     .orderBy(yearExpr);
-};
+}
 
 /**
  * Get available years in descending order (for dropdowns/selectors)
  */
-export const getAvailableYears = async () => {
+export async function getAvailableYears() {
   "use cache";
   cacheLife("max");
   cacheTag("cars:annual");
@@ -39,12 +39,12 @@ export const getAvailableYears = async () => {
     .where(gt(cars.number, 0))
     .groupBy(yearExpr)
     .orderBy(desc(yearExpr));
-};
+}
 
 /**
  * Get top car makes aggregated by year (defaults to latest year)
  */
-export const getTopMakesByYear = async (year?: number, limit = 8) => {
+export async function getTopMakesByYear(year?: number, limit = 8) {
   "use cache";
   cacheLife("max");
   cacheTag("cars:top-makes");
@@ -71,4 +71,4 @@ export const getTopMakesByYear = async (year?: number, limit = 8) => {
     .groupBy(cars.make)
     .orderBy(desc(sumExpr))
     .limit(limit);
-};
+}

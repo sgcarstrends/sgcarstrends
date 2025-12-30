@@ -27,10 +27,10 @@ interface VehicleTypeData {
   }>;
 }
 
-export const getMakeDetails = async (
+export async function getMakeDetails(
   make: string,
   month?: string,
-): Promise<MakeDetails> => {
+): Promise<MakeDetails> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:make:${make}`);
@@ -69,12 +69,12 @@ export const getMakeDetails = async (
     total: totalResult[0]?.total ?? 0,
     data,
   };
-};
+}
 
-export const getFuelTypeData = async (
+export async function getFuelTypeData(
   fuelType: string,
   month?: string,
-): Promise<FuelTypeData> => {
+): Promise<FuelTypeData> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:fuel:${fuelType}`);
@@ -113,12 +113,12 @@ export const getFuelTypeData = async (
     total: totalResult[0]?.total ?? 0,
     data,
   };
-};
+}
 
-export const getVehicleTypeData = async (
+export async function getVehicleTypeData(
   vehicleType: string,
   month?: string,
-): Promise<VehicleTypeData> => {
+): Promise<VehicleTypeData> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:vehicle:${vehicleType}`);
@@ -157,4 +157,4 @@ export const getVehicleTypeData = async (
     total: totalResult[0]?.total ?? 0,
     data,
   };
-};
+}

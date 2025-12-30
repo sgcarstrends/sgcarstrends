@@ -13,7 +13,7 @@ export interface CoeMarketShareData {
   colour: string;
 }
 
-export const getCoeResults = async (): Promise<COEResult[]> => {
+export async function getCoeResults(): Promise<COEResult[]> {
   "use cache";
   cacheLife("max");
   cacheTag("coe:results");
@@ -24,11 +24,11 @@ export const getCoeResults = async (): Promise<COEResult[]> => {
     .orderBy(asc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
-};
+}
 
-export const getCoeResultsByPeriod = async (
+export async function getCoeResultsByPeriod(
   period: Period = "12m",
-): Promise<COEResult[]> => {
+): Promise<COEResult[]> {
   "use cache";
   cacheLife("max");
   cacheTag(`coe:period:${period}`);
@@ -59,4 +59,4 @@ export const getCoeResultsByPeriod = async (
     .orderBy(asc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
-};
+}

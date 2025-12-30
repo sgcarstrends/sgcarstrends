@@ -3,7 +3,7 @@ import type { Pqp } from "@web/types/coe";
 import { asc, desc } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
-export const getPqpRates = async (): Promise<Record<string, Pqp.Rates>> => {
+export async function getPqpRates(): Promise<Record<string, Pqp.Rates>> {
   "use cache";
   cacheLife("max");
   cacheTag("coe:pqp");
@@ -23,4 +23,4 @@ export const getPqpRates = async (): Promise<Record<string, Pqp.Rates>> => {
     },
     {},
   );
-};
+}

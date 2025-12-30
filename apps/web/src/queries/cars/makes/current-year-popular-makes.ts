@@ -42,7 +42,7 @@ const getPopularMakesByYearData = async (year: string, limit: number = 8) => {
  * Query popular makes for the current year.
  * Returns array of make names sorted by registration volume.
  */
-export const getPopularMakes = async (year?: string) => {
+export async function getPopularMakes(year?: string) {
   "use cache";
   cacheLife("max");
   if (year) {
@@ -51,4 +51,4 @@ export const getPopularMakes = async (year?: string) => {
 
   const targetYear = year ?? (await getLatestYear());
   return getPopularMakesByYearData(targetYear, 8);
-};
+}

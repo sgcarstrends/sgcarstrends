@@ -2,17 +2,17 @@ import { cars, db } from "@sgcarstrends/database";
 import { and, desc, eq, gt, sql, sum } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
-export const getDistinctMakes = async () => {
+export async function getDistinctMakes() {
   "use cache";
   cacheLife("max");
   cacheTag("cars:makes");
 
   return db.selectDistinct({ make: cars.make }).from(cars).orderBy(cars.make);
-};
+}
 
-export const getDistinctFuelTypes = async (
+export async function getDistinctFuelTypes(
   month?: string,
-): Promise<{ fuelType: string }[]> => {
+): Promise<{ fuelType: string }[]> {
   "use cache";
   cacheLife("max");
   if (month) {
@@ -32,11 +32,11 @@ export const getDistinctFuelTypes = async (
     .groupBy(cars.fuelType)
     .having(gt(sum(cars.number), 0))
     .orderBy(cars.fuelType);
-};
+}
 
-export const getDistinctVehicleTypes = async (
+export async function getDistinctVehicleTypes(
   month?: string,
-): Promise<{ vehicleType: string }[]> => {
+): Promise<{ vehicleType: string }[]> {
   "use cache";
   cacheLife("max");
   if (month) {
@@ -56,9 +56,9 @@ export const getDistinctVehicleTypes = async (
     .groupBy(cars.vehicleType)
     .having(gt(sum(cars.number), 0))
     .orderBy(cars.vehicleType);
-};
+}
 
-export const getCarsMonths = async (): Promise<{ month: string }[]> => {
+export async function getCarsMonths(): Promise<{ month: string }[]> {
   "use cache";
   cacheLife("max");
   cacheTag("cars:months");
@@ -67,4 +67,4 @@ export const getCarsMonths = async (): Promise<{ month: string }[]> => {
     .selectDistinct({ month: cars.month })
     .from(cars)
     .orderBy(desc(cars.month));
-};
+}

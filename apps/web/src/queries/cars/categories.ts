@@ -48,10 +48,10 @@ export interface TypeDistribution {
  * const fuelTypes = await getTypeDistribution(FUEL_TYPE, "2024-01");
  * const vehicleTypes = await getTypeDistribution(VEHICLE_TYPE, "2024-01");
  */
-export const getTypeDistribution = async (
+export async function getTypeDistribution(
   config: TypeConfig,
   month: string,
-): Promise<TypeDistribution[]> => {
+): Promise<TypeDistribution[]> {
   return db
     .select({
       name: config.column,
@@ -61,7 +61,7 @@ export const getTypeDistribution = async (
     .where(eq(cars.month, month))
     .groupBy(config.column)
     .orderBy(desc(sql<number>`sum(${cars.number})`));
-};
+}
 
 /**
  * Result type for top type queries
@@ -81,11 +81,11 @@ export interface TopTypeResult {
  * const topFuelType = await getTopType(FUEL_TYPE, "2024-01", 1);
  * const top3VehicleTypes = await getTopType(VEHICLE_TYPE, "2024-01", 3);
  */
-export const getTopType = async (
+export async function getTopType(
   config: TypeConfig,
   month: string,
-  limit: number = 1,
-): Promise<TopTypeResult[]> => {
+  limit = 1,
+): Promise<TopTypeResult[]> {
   return db
     .select({
       name: config.column,
@@ -96,7 +96,7 @@ export const getTopType = async (
     .groupBy(config.column)
     .orderBy(desc(sql<number>`sum(${cars.number})`))
     .limit(limit);
-};
+}
 
 /**
  * Get all distinct values for a type, optionally filtered by month
@@ -107,10 +107,10 @@ export const getTopType = async (
  * const allFuelTypes = await getDistinctTypes(FUEL_TYPE);
  * const januaryVehicleTypes = await getDistinctTypes(VEHICLE_TYPE, "2024-01");
  */
-export const getDistinctTypes = async (
+export async function getDistinctTypes(
   config: TypeConfig,
   month?: string,
-): Promise<Array<{ value: string | null }>> => {
+): Promise<Array<{ value: string | null }>> {
   const whereConditions = [];
 
   if (month) {
@@ -122,7 +122,7 @@ export const getDistinctTypes = async (
     .from(cars)
     .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
     .orderBy(config.column);
-};
+}
 
 /**
  * Get total registration count for a specific type value
@@ -131,11 +131,11 @@ export const getDistinctTypes = async (
  * @param month - Optional month filter in format "YYYY-MM"
  * @returns Raw total result
  */
-export const getTypeTotal = async (
+export async function getTypeTotal(
   config: TypeConfig,
   typeValue: string,
   month?: string,
-) => {
+) {
   const pattern = typeValue.replaceAll("-", "%");
   const whereConditions = [sql`${config.column} ILIKE ${pattern}`];
 
@@ -149,7 +149,7 @@ export const getTypeTotal = async (
     })
     .from(cars)
     .where(and(...whereConditions));
-};
+}
 
 /**
  * Get detailed registration breakdown for a specific type value
@@ -158,11 +158,11 @@ export const getTypeTotal = async (
  * @param month - Optional month filter in format "YYYY-MM"
  * @returns Raw breakdown data by month/make/type
  */
-export const getTypeBreakdown = async (
+export async function getTypeBreakdown(
   config: TypeConfig,
   typeValue: string,
   month?: string,
-) => {
+) {
   const pattern = typeValue.replaceAll("-", "%");
   const whereConditions = [sql`${config.column} ILIKE ${pattern}`];
 
@@ -181,4 +181,4 @@ export const getTypeBreakdown = async (
     .where(and(...whereConditions))
     .groupBy(cars.month, cars.make, config.column)
     .orderBy(desc(sql<number>`sum(${cars.number})`));
-};
+}

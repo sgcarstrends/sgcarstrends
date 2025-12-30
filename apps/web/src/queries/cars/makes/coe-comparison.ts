@@ -10,9 +10,9 @@ export interface MakeCoeComparisonData {
   categoryBPremium: number;
 }
 
-export const getMakeCoeComparison = async (
+export async function getMakeCoeComparison(
   make: string,
-): Promise<MakeCoeComparisonData[]> => {
+): Promise<MakeCoeComparisonData[]> {
   "use cache";
   cacheLife("max");
 
@@ -80,4 +80,4 @@ export const getMakeCoeComparison = async (
     categoryAPremium: coePremiumMap.get(month)?.categoryA ?? 0,
     categoryBPremium: coePremiumMap.get(month)?.categoryB ?? 0,
   }));
-};
+}

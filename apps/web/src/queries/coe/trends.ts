@@ -53,10 +53,10 @@ export interface CoeMonthlyPremium {
   biddingNo: number;
 }
 
-export const getCoeCategoryTrends = async (
+export async function getCoeCategoryTrends(
   category: COECategory,
   year?: number,
-): Promise<CoeMonthlyPremium[]> => {
+): Promise<CoeMonthlyPremium[]> {
   "use cache";
   cacheLife("max");
   cacheTag(`coe:category:${category}`);
@@ -74,11 +74,11 @@ export const getCoeCategoryTrends = async (
   }
 
   return Array.from(monthlyTrends.values());
-};
+}
 
-export const getAllCoeCategoryTrends = async (
+export async function getAllCoeCategoryTrends(
   year?: number,
-): Promise<Record<COECategory, CoeMonthlyPremium[]>> => {
+): Promise<Record<COECategory, CoeMonthlyPremium[]>> {
   "use cache";
   cacheLife("max");
   cacheTag("coe:trends");
@@ -107,4 +107,4 @@ export const getAllCoeCategoryTrends = async (
       Array.from(categoryTrends.get(category)?.values() ?? []),
     ]),
   ) as Record<COECategory, CoeMonthlyPremium[]>;
-};
+}

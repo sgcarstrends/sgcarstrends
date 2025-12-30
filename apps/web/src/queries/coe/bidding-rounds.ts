@@ -16,9 +16,9 @@ export interface MonthBiddingRounds {
  *
  * @param month - Optional month to fetch (YYYY-MM format). If not provided, fetches the latest month.
  */
-export const getMonthBiddingRounds = async (
+export async function getMonthBiddingRounds(
   month?: string,
-): Promise<MonthBiddingRounds> => {
+): Promise<MonthBiddingRounds> {
   "use cache";
   cacheLife("max");
   cacheTag("coe:bidding-rounds", month ? `coe:month:${month}` : "coe:latest");
@@ -57,4 +57,4 @@ export const getMonthBiddingRounds = async (
     firstRound,
     secondRound,
   };
-};
+}

@@ -5,7 +5,7 @@ import { cacheLife, cacheTag } from "next/cache";
 /**
  * Get deregistration breakdown by category for a specific month
  */
-export const getDeregistrationsByCategory = async (month: string) => {
+export async function getDeregistrationsByCategory(month: string) {
   "use cache";
   cacheLife("max");
   cacheTag(`deregistrations:month:${month}`);
@@ -19,12 +19,12 @@ export const getDeregistrationsByCategory = async (month: string) => {
     .where(eq(deregistrations.month, month))
     .groupBy(deregistrations.category)
     .orderBy(desc(sql`sum(${deregistrations.number})`));
-};
+}
 
 /**
  * Get total deregistrations for a specific month
  */
-export const getDeregistrationsTotalByMonth = async (month: string) => {
+export async function getDeregistrationsTotalByMonth(month: string) {
   "use cache";
   cacheLife("max");
   cacheTag(`deregistrations:month:${month}`);
@@ -35,4 +35,4 @@ export const getDeregistrationsTotalByMonth = async (month: string) => {
     })
     .from(deregistrations)
     .where(eq(deregistrations.month, month));
-};
+}

@@ -11,9 +11,7 @@ import { redis } from "@sgcarstrends/utils";
  * @param make - The car make (will be normalized automatically)
  * @returns Logo object with actual values or empty strings if not found/download fails
  */
-export const getCarLogo = async (
-  make: string,
-): Promise<CarLogo | undefined> => {
+export async function getCarLogo(make: string): Promise<CarLogo | undefined> {
   try {
     const normalisedMake = normaliseMake(make);
     const cacheKey = `logo:${normalisedMake}`;
@@ -53,16 +51,16 @@ export const getCarLogo = async (
     console.error("Error fetching logo:", error);
     return;
   }
-};
+}
 
 /**
  * Get all available car logos with caching
  *
  * @returns Array of all logos or error
  */
-export const getAllCarLogos = async (): Promise<
+export async function getAllCarLogos(): Promise<
   { logos: CarLogo[] } | { error: string }
-> => {
+> {
   try {
     // Check cache first
     const cachedLogos = await redis.get<CarLogo[]>("logos:all");
@@ -87,4 +85,4 @@ export const getAllCarLogos = async (): Promise<
       error: error instanceof Error ? error.message : "Failed to fetch logos",
     };
   }
-};
+}

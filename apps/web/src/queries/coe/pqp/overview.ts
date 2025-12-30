@@ -33,7 +33,7 @@ const toNumber = (value: number | string | null | undefined): number => {
 /**
  * Server action to fetch aggregated PQP insights for the last 12 months
  */
-export const getPQPOverview = async (): Promise<Pqp.Overview> => {
+export async function getPQPOverview(): Promise<Pqp.Overview> {
   "use cache";
   cacheLife("max");
   cacheTag("coe:pqp");
@@ -281,4 +281,4 @@ export const getPQPOverview = async (): Promise<Pqp.Overview> => {
     comparison,
     categorySummaries,
   };
-};
+}
