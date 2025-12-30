@@ -33,7 +33,7 @@ const resolveOptions = (
   };
 };
 
-const useMaintenance = (options?: number | UseMaintenanceOptions) => {
+export function useMaintenance(options?: number | UseMaintenanceOptions) {
   const { pollingInterval, fetchStatus } = resolveOptions(options);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -62,6 +62,4 @@ const useMaintenance = (options?: number | UseMaintenanceOptions) => {
 
     return () => clearInterval(interval);
   }, [fetchStatus, pollingInterval, router, searchParams]);
-};
-
-export default useMaintenance;
+}

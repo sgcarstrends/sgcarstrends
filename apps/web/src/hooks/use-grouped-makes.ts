@@ -6,7 +6,7 @@ const getLetterFromMake = (make: Make) => {
   return firstChar >= "A" && firstChar <= "Z" ? firstChar : "#";
 };
 
-export const useGroupedMakes = (makes: Make[]) => {
+export function useGroupedMakes(makes: Make[]) {
   return useMemo(() => {
     const sortedMakes = [...makes].sort((a, b) => a.localeCompare(b));
 
@@ -28,4 +28,4 @@ export const useGroupedMakes = (makes: Make[]) => {
       letters: ["ALL", ...sortedLetters],
     };
   }, [makes]);
-};
+}

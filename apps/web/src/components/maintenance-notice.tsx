@@ -5,7 +5,7 @@ import { Chip } from "@heroui/chip";
 import { Divider } from "@heroui/divider";
 import { Link } from "@heroui/link";
 import Typography from "@web/components/typography";
-import useMaintenance from "@web/hooks/use-maintenance";
+import { useMaintenance } from "@web/hooks/use-maintenance";
 import { motion, type Variants } from "framer-motion";
 import {
   Clock,
