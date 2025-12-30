@@ -19,7 +19,7 @@ interface RegistrationTrendProps {
   data: YearTotal[];
 }
 
-export const RegistrationTrend = ({ data }: RegistrationTrendProps) => {
+export function RegistrationTrend({ data }: RegistrationTrendProps) {
   const chartConfig = {
     total: {
       label: "Total",
@@ -58,4 +58,4 @@ export const RegistrationTrend = ({ data }: RegistrationTrendProps) => {
       </CardBody>
     </Card>
   );
-};
+}

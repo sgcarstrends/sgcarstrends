@@ -20,12 +20,12 @@ interface SparklineProps {
 
 const DEFAULT_COLOUR = "hsl(var(--heroui-primary))";
 
-export const Sparkline = ({
+export function Sparkline({
   data,
   dataKey = "value",
   height = "h-16",
   colour = DEFAULT_COLOUR,
-}: SparklineProps) => {
+}: SparklineProps) {
   const chartConfig = {} satisfies ChartConfig;
 
   if (data.length === 0) {
@@ -56,4 +56,4 @@ export const Sparkline = ({
       </AreaChart>
     </ChartContainer>
   );
-};
+}

@@ -126,7 +126,7 @@ const RangeSection = ({
   );
 };
 
-export const PremiumRangeCard = ({ stats }: PremiumRangeCardProps) => {
+export function PremiumRangeCard({ stats }: PremiumRangeCardProps) {
   // Calculate global min/max for consistent range bar scaling
   const allPremiums = stats.flatMap((s) => [
     s.allTime.lowest,
@@ -196,4 +196,4 @@ export const PremiumRangeCard = ({ stats }: PremiumRangeCardProps) => {
       })}
     </>
   );
-};
+}

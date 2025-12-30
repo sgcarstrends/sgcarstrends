@@ -4,6 +4,6 @@ interface CurrencyProps {
   value: number;
 }
 
-export const Currency = ({ value }: CurrencyProps) => {
+export function Currency({ value }: CurrencyProps) {
   return <span>{formatCurrency(value)}</span>;
-};
+}

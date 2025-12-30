@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { staggerContainerVariants, staggerItemVariants } from "./variants";
 
-export const CreatorSection = () => {
+export function CreatorSection() {
   return (
     <section className="-mx-6 relative overflow-hidden px-6 py-20 lg:py-28">
       {/* Subtle decorative elements */}
@@ -65,4 +65,4 @@ export const CreatorSection = () => {
       </div>
     </section>
   );
-};
+}

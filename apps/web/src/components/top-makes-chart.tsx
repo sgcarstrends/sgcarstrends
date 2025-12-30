@@ -28,7 +28,7 @@ interface TopMakesChartProps {
   year: number;
 }
 
-export const TopMakesChart = ({ topMakes, year }: TopMakesChartProps) => {
+export function TopMakesChart({ topMakes, year }: TopMakesChartProps) {
   const data = [...topMakes].sort((a, b) => b.value - a.value);
   const chartConfig = Object.fromEntries(
     data.map(({ make }, index) => [
@@ -94,4 +94,4 @@ export const TopMakesChart = ({ topMakes, year }: TopMakesChartProps) => {
       </CardBody>
     </Card>
   );
-};
+}

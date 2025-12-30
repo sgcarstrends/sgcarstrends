@@ -99,7 +99,7 @@ const spinVariants: Variants = {
   },
 };
 
-export const MaintenanceNotice = () => {
+export function MaintenanceNotice() {
   useMaintenance();
 
   return (
@@ -281,4 +281,4 @@ export const MaintenanceNotice = () => {
       </motion.div>
     </motion.div>
   );
-};
+}

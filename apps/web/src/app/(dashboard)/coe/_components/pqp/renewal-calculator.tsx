@@ -59,7 +59,7 @@ const buildRecommendation = (
   return "Current market bidding appears more cost-effective than PQP renewal. However, consider bidding uncertainty and your risk tolerance.";
 };
 
-export const RenewalCalculator = ({ data }: PQPCalculatorProps) => {
+export function RenewalCalculator({ data }: PQPCalculatorProps) {
   const renewalRecords = useMemo<Pqp.RenewalRecord[]>(() => {
     return data.map((record) => ({
       category: record.category as keyof Pqp.Rates,
@@ -233,4 +233,4 @@ export const RenewalCalculator = ({ data }: PQPCalculatorProps) => {
       </CardBody>
     </Card>
   );
-};
+}

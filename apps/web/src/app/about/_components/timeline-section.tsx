@@ -92,7 +92,7 @@ const TimelineItemComponent = ({ item, index }: TimelineItemComponentProps) => {
   );
 };
 
-export const TimelineSection = () => {
+export function TimelineSection() {
   return (
     <section className="py-20 lg:py-28">
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -133,4 +133,4 @@ export const TimelineSection = () => {
       </div>
     </section>
   );
-};
+}

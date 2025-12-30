@@ -40,32 +40,36 @@ interface PriceYAxisProps {
   hide?: boolean;
 }
 
-export const PriceYAxis = ({
+export function PriceYAxis({
   label = "Price ($)",
   hide = false,
-}: PriceYAxisProps) => (
-  <YAxis
-    domain={[
-      (dataMin: number) => Math.floor(dataMin / 10000) * 10000,
-      (dataMax: number) => Math.ceil(dataMax / 10000) * 10000,
-    ]}
-    tickFormatter={numberFormat}
-    axisLine={false}
-    hide={hide}
-  >
-    <Label
-      value={label}
-      angle={-90}
-      position="insideLeft"
-      style={{ textAnchor: "middle" }}
-    />
-  </YAxis>
-);
+}: PriceYAxisProps) {
+  return (
+    <YAxis
+      domain={[
+        (dataMin: number) => Math.floor(dataMin / 10000) * 10000,
+        (dataMax: number) => Math.ceil(dataMax / 10000) * 10000,
+      ]}
+      tickFormatter={numberFormat}
+      axisLine={false}
+      hide={hide}
+    >
+      <Label
+        value={label}
+        angle={-90}
+        position="insideLeft"
+        style={{ textAnchor: "middle" }}
+      />
+    </YAxis>
+  );
+}
 
 interface MonthXAxisProps {
   tickFormatter: (value: string) => string;
 }
 
-export const MonthXAxis = ({ tickFormatter }: MonthXAxisProps) => (
-  <XAxis dataKey="month" tickFormatter={tickFormatter} axisLine={false} />
-);
+export function MonthXAxis({ tickFormatter }: MonthXAxisProps) {
+  return (
+    <XAxis dataKey="month" tickFormatter={tickFormatter} axisLine={false} />
+  );
+}

@@ -30,7 +30,7 @@ const SHARE_PLATFORMS: ShareButtonConfig[] = [
   { platform: "linkedin", label: "Share on LinkedIn", icon: SiLinkedin },
 ];
 
-export const ShareButtons = ({ url, title, className }: ShareButtonsProps) => {
+export function ShareButtons({ url, title, className }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopyLink = useCallback(async () => {
@@ -99,4 +99,4 @@ export const ShareButtons = ({ url, title, className }: ShareButtonsProps) => {
       </div>
     </>
   );
-};
+}

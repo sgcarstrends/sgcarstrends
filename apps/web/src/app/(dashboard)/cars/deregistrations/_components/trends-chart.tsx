@@ -19,7 +19,7 @@ interface TrendsChartProps {
   data: MonthlyTotal[];
 }
 
-export const TrendsChart = ({ data }: TrendsChartProps) => {
+export function TrendsChart({ data }: TrendsChartProps) {
   const chartConfig = {
     total: { label: "Deregistrations", color: "hsl(var(--heroui-primary))" },
   } as const;
@@ -106,4 +106,4 @@ export const TrendsChart = ({ data }: TrendsChartProps) => {
       </CardBody>
     </Card>
   );
-};
+}

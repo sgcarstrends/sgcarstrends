@@ -14,14 +14,14 @@ interface Props {
   onToggle: (category: COECategory) => void;
 }
 
-export const CategoryInfo = ({
+export function CategoryInfo({
   icon: Icon,
   category,
   description,
   canFilter = true,
   isSelected,
   onToggle,
-}: Props) => {
+}: Props) {
   const handleFilterCategories = () => {
     if (canFilter) {
       onToggle(category);
@@ -58,4 +58,4 @@ export const CategoryInfo = ({
       </div>
     </div>
   );
-};
+}

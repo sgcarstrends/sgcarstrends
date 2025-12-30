@@ -14,7 +14,7 @@ interface Props {
   data: CategoryWithPercentage[];
 }
 
-export const CategoryBreakdown = ({ data }: Props) => {
+export function CategoryBreakdown({ data }: Props) {
   const chartConfig = {
     total: { label: "Deregistrations", color: "hsl(var(--heroui-primary))" },
   } as const;
@@ -77,4 +77,4 @@ export const CategoryBreakdown = ({ data }: Props) => {
       </CardBody>
     </Card>
   );
-};
+}

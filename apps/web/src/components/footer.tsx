@@ -8,7 +8,7 @@ import { version } from "../../package.json";
 
 const CURRENT_YEAR = new Date().getFullYear();
 
-export const Footer = () => {
+export function Footer() {
   return (
     <footer className="border-divider border-t bg-content1">
       <div className="container mx-auto px-6 py-12">
@@ -96,4 +96,4 @@ export const Footer = () => {
       </div>
     </footer>
   );
-};
+}

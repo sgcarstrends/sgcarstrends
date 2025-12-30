@@ -8,7 +8,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const AnimatedSection = ({ order, children }: Props) => {
+export function AnimatedSection({ order, children }: Props) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -24,4 +24,4 @@ export const AnimatedSection = ({ order, children }: Props) => {
       {children}
     </motion.div>
   );
-};
+}

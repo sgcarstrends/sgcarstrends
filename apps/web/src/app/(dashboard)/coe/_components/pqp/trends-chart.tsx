@@ -19,7 +19,7 @@ interface Props {
 
 const chartConfig: ChartConfig = {};
 
-export const TrendsChart = ({ data }: Props) => {
+export function TrendsChart({ data }: Props) {
   return (
     <Card className="p-3">
       <CardHeader>
@@ -72,4 +72,4 @@ export const TrendsChart = ({ data }: Props) => {
       </CardFooter>
     </Card>
   );
-};
+}

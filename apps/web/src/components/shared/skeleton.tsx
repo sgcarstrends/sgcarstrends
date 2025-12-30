@@ -6,21 +6,21 @@ interface SkeletonProps {
 }
 
 // Base skeleton primitives
-export const SkeletonText = ({ className }: SkeletonProps) => (
-  <HeroUISkeleton className={cn("h-4 w-full rounded-lg", className)} />
-);
+export function SkeletonText({ className }: SkeletonProps) {
+  return <HeroUISkeleton className={cn("h-4 w-full rounded-lg", className)} />;
+}
 
-export const SkeletonHeading = ({ className }: SkeletonProps) => (
-  <HeroUISkeleton className={cn("h-8 w-48 rounded-lg", className)} />
-);
+export function SkeletonHeading({ className }: SkeletonProps) {
+  return <HeroUISkeleton className={cn("h-8 w-48 rounded-lg", className)} />;
+}
 
-export const SkeletonCard = ({ className }: SkeletonProps) => (
-  <HeroUISkeleton className={cn("h-32 w-full rounded-lg", className)} />
-);
+export function SkeletonCard({ className }: SkeletonProps) {
+  return <HeroUISkeleton className={cn("h-32 w-full rounded-lg", className)} />;
+}
 
-export const SkeletonChart = ({ className }: SkeletonProps) => (
-  <HeroUISkeleton className={cn("h-80 w-full rounded-lg", className)} />
-);
+export function SkeletonChart({ className }: SkeletonProps) {
+  return <HeroUISkeleton className={cn("h-80 w-full rounded-lg", className)} />;
+}
 
 // Composed section skeletons for Suspense fallbacks
 interface SectionSkeletonProps {
@@ -28,15 +28,17 @@ interface SectionSkeletonProps {
   children: React.ReactNode;
 }
 
-export const SectionSkeleton = ({
+export function SectionSkeleton({
   title = true,
   children,
-}: SectionSkeletonProps) => (
-  <section className="flex flex-col gap-4">
-    {title && <SkeletonHeading />}
-    {children}
-  </section>
-);
+}: SectionSkeletonProps) {
+  return (
+    <section className="flex flex-col gap-4">
+      {title && <SkeletonHeading />}
+      {children}
+    </section>
+  );
+}
 
 // Grid skeleton for card layouts
 interface GridSkeletonProps {
@@ -45,18 +47,20 @@ interface GridSkeletonProps {
   className?: string;
 }
 
-export const GridSkeleton = ({
+export function GridSkeleton({
   count,
   columns = "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
   className,
-}: GridSkeletonProps) => (
-  <div className={cn("grid gap-4", columns, className)}>
-    {Array.from({ length: count }).map((_, i) => (
-      // biome-ignore lint/suspicious/noArrayIndexKey: skeleton items are static placeholders
-      <SkeletonCard key={i} />
-    ))}
-  </div>
-);
+}: GridSkeletonProps) {
+  return (
+    <div className={cn("grid gap-4", columns, className)}>
+      {Array.from({ length: count }).map((_, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: skeleton items are static placeholders
+        <SkeletonCard key={i} />
+      ))}
+    </div>
+  );
+}
 
 // List skeleton for post/item lists
 interface ListSkeletonProps {
@@ -64,14 +68,19 @@ interface ListSkeletonProps {
   itemHeight?: string;
 }
 
-export const ListSkeleton = ({
+export function ListSkeleton({
   count,
   itemHeight = "h-20",
-}: ListSkeletonProps) => (
-  <div className="flex flex-col gap-3">
-    {Array.from({ length: count }).map((_, i) => (
-      // biome-ignore lint/suspicious/noArrayIndexKey: skeleton items are static placeholders
-      <HeroUISkeleton key={i} className={cn("w-full rounded-lg", itemHeight)} />
-    ))}
-  </div>
-);
+}: ListSkeletonProps) {
+  return (
+    <div className="flex flex-col gap-3">
+      {Array.from({ length: count }).map((_, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: skeleton items are static placeholders
+        <HeroUISkeleton
+          key={i}
+          className={cn("w-full rounded-lg", itemHeight)}
+        />
+      ))}
+    </div>
+  );
+}

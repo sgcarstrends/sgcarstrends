@@ -34,7 +34,7 @@ const heatmapOpacities = [
 // Accent: Cyan #00FFFF / #008B8B
 // Text: Dark Slate Gray #2F4F4F
 
-export const BentoDesign = () => {
+export function BentoDesign() {
   return (
     <div className="min-h-screen bg-[#F0F4F8] font-[system-ui,sans-serif] text-[#2F4F4F]">
       {/* Header */}
@@ -511,4 +511,4 @@ export const BentoDesign = () => {
       </main>
     </div>
   );
-};
+}

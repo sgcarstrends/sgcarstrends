@@ -22,7 +22,7 @@ const formatViewCount = (count: number): string => {
   }).format(count);
 };
 
-export const PopularPosts = ({ posts }: Props) => {
+export function PopularPosts({ posts }: Props) {
   if (posts.length === 0) {
     return null;
   }
@@ -94,4 +94,4 @@ export const PopularPosts = ({ posts }: Props) => {
       </div>
     </section>
   );
-};
+}

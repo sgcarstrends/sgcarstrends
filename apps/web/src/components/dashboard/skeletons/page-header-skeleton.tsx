@@ -1,6 +1,6 @@
 import { Skeleton } from "@heroui/skeleton";
 
-export const PageHeaderSkeleton = () => {
+export function PageHeaderSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -10,4 +10,4 @@ export const PageHeaderSkeleton = () => {
       <Skeleton className="h-5 w-32 rounded-lg" />
     </div>
   );
-};
+}

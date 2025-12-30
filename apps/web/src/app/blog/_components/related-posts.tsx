@@ -20,10 +20,10 @@ const categoryLabels: Record<string, string> = {
   coe: "COE Bidding",
 };
 
-export const RelatedPosts = async ({
+export async function RelatedPosts({
   currentPostId,
   limit = 3,
-}: RelatedPostsProps) => {
+}: RelatedPostsProps) {
   const relatedPosts = await getRelatedPosts(currentPostId, limit);
 
   if (relatedPosts.length === 0) {
@@ -96,4 +96,4 @@ export const RelatedPosts = async ({
       </div>
     </section>
   );
-};
+}

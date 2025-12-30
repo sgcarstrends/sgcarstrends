@@ -44,7 +44,7 @@ const getInsightColor = (insight: KeyInsight) => {
   }
 };
 
-export const KeyInsights = ({ insights }: KeyInsightsProps) => {
+export function KeyInsights({ insights }: KeyInsightsProps) {
   if (insights.length === 0) {
     return null;
   }
@@ -73,4 +73,4 @@ export const KeyInsights = ({ insights }: KeyInsightsProps) => {
       </CardBody>
     </Card>
   );
-};
+}

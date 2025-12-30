@@ -25,7 +25,7 @@ interface Props {
 
 const chartConfig: ChartConfig = {};
 
-export const ComparisonMixedChart = ({ data }: Props) => {
+export function ComparisonMixedChart({ data }: Props) {
   return (
     <Card className="p-3">
       <CardHeader>
@@ -79,4 +79,4 @@ export const ComparisonMixedChart = ({ data }: Props) => {
       </CardFooter>
     </Card>
   );
-};
+}

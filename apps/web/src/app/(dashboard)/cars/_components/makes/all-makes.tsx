@@ -14,12 +14,12 @@ interface AllMakesProps {
   logoUrlMap?: Record<string, string>;
 }
 
-export const AllMakes = ({
+export function AllMakes({
   title,
   makes,
   showLetterFilter = false,
   logoUrlMap = {},
-}: AllMakesProps) => {
+}: AllMakesProps) {
   const { sortedMakes, groupedMakes, letters } = useGroupedMakes(makes);
   const [selectedLetter, setSelectedLetter] = useState(letters[0]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -125,4 +125,4 @@ export const AllMakes = ({
       )}
     </section>
   );
-};
+}

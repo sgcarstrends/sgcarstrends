@@ -32,7 +32,7 @@ const features = [
   },
 ];
 
-export const DataSection = () => {
+export function DataSection() {
   return (
     <section className="-mx-6 relative overflow-hidden bg-default-100 px-6 py-20 lg:py-28">
       {/* Subtle background pattern */}
@@ -123,4 +123,4 @@ export const DataSection = () => {
       </div>
     </section>
   );
-};
+}

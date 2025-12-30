@@ -5,7 +5,7 @@ import Typography from "@web/components/typography";
 import { motion } from "framer-motion";
 import { fadeInUpVariants } from "./variants";
 
-export const MissionSection = () => {
+export function MissionSection() {
   return (
     <section className="py-20 lg:py-28">
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -91,4 +91,4 @@ export const MissionSection = () => {
       </div>
     </section>
   );
-};
+}

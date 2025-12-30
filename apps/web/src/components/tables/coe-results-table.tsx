@@ -12,7 +12,7 @@ interface Props {
 
 const defaultCategories = ["Category A", "Category B", "Category E"];
 
-export const TrendTable = ({ coeResults }: Props) => {
+export function TrendTable({ coeResults }: Props) {
   const [categories] = useQueryState(
     "categories",
     parseAsArrayOf(parseAsString).withDefault(defaultCategories),
@@ -39,4 +39,4 @@ export const TrendTable = ({ coeResults }: Props) => {
   );
 
   return <DataTable columns={columns} data={sortedData} />;
-};
+}

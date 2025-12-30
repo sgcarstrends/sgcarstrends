@@ -46,7 +46,7 @@ const StatItem = ({ value, suffix = "", label }: StatItemProps) => {
   );
 };
 
-export const StatsSection = () => {
+export function StatsSection() {
   const stats = [
     { value: 10, suffix: "+", label: "Years of historical data" },
     { value: 50, suffix: "+", label: "Car makes tracked" },
@@ -87,4 +87,4 @@ export const StatsSection = () => {
       </div>
     </section>
   );
-};
+}

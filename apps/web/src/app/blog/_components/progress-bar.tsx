@@ -2,7 +2,7 @@
 
 import { motion, useScroll } from "framer-motion";
 
-export const ProgressBar = () => {
+export function ProgressBar() {
   const { scrollYProgress } = useScroll();
 
   return (
@@ -13,4 +13,4 @@ export const ProgressBar = () => {
       }}
     />
   );
-};
+}

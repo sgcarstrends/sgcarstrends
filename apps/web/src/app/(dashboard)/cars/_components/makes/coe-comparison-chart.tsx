@@ -40,7 +40,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export const CoeComparisonChart = ({ data }: Props) => {
+export function CoeComparisonChart({ data }: Props) {
   return (
     <ChartContainer config={chartConfig} className="h-[300px] w-full">
       <ComposedChart
@@ -116,4 +116,4 @@ export const CoeComparisonChart = ({ data }: Props) => {
       </ComposedChart>
     </ChartContainer>
   );
-};
+}

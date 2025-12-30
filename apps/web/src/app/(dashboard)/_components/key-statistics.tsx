@@ -165,7 +165,7 @@ const TrendChart = ({ data, chartColor, ariaLabel }: TrendChartProps) => {
   );
 };
 
-export const KeyStatistics = ({ data }: Props) => {
+export function KeyStatistics({ data }: Props) {
   const [{ year }, setSearchParams] = useQueryStates(searchParams);
 
   const numberFormatter = useMemo(() => new Intl.NumberFormat("en-SG"), []);
@@ -336,4 +336,4 @@ export const KeyStatistics = ({ data }: Props) => {
       </div>
     </div>
   );
-};
+}

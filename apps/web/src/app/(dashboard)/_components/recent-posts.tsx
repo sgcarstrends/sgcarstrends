@@ -8,7 +8,7 @@ interface RecentPostsProps {
   posts: SelectPost[];
 }
 
-export const RecentPosts = ({ posts }: RecentPostsProps) => {
+export function RecentPosts({ posts }: RecentPostsProps) {
   if (!posts || posts.length === 0) {
     return (
       <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-8">
@@ -49,4 +49,4 @@ export const RecentPosts = ({ posts }: RecentPostsProps) => {
       </div>
     </div>
   );
-};
+}

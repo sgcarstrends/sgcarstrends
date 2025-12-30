@@ -7,7 +7,7 @@ interface PostNavigationProps {
   next?: SelectPost;
 }
 
-export const PostNavigation = ({ previous, next }: PostNavigationProps) => {
+export function PostNavigation({ previous, next }: PostNavigationProps) {
   if (!previous && !next) {
     return null;
   }
@@ -76,4 +76,4 @@ export const PostNavigation = ({ previous, next }: PostNavigationProps) => {
       </div>
     </nav>
   );
-};
+}

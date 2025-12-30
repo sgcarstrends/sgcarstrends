@@ -10,7 +10,7 @@ interface Props {
   data: COEResult[];
 }
 
-export const PremiumBanner = ({ data = [] }: Props) => {
+export function PremiumBanner({ data = [] }: Props) {
   const setBannerContent = useStore(({ setBannerContent }) => setBannerContent);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export const PremiumBanner = ({ data = [] }: Props) => {
   }, [data, setBannerContent]);
 
   return null;
-};
+}
 
 // TODO: Move this to a common directory
 const sortByCategory = (a: COEResult, b: COEResult) =>

@@ -194,11 +194,11 @@ const RoundCard = ({
   );
 };
 
-export const BiddingRoundCards = ({
+export function BiddingRoundCards({
   month,
   firstRound,
   secondRound,
-}: BiddingRoundCardsProps) => {
+}: BiddingRoundCardsProps) {
   const hasSecondRound = secondRound.length > 0;
   const formattedMonth = month ? formatDateToMonthYear(month) : "";
 
@@ -225,4 +225,4 @@ export const BiddingRoundCards = ({
       </div>
     </div>
   );
-};
+}

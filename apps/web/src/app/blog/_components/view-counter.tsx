@@ -10,11 +10,11 @@ interface ViewCounterProps {
   className?: string;
 }
 
-export const ViewCounter = ({
+export function ViewCounter({
   postId,
   initialCount = 0,
   className,
-}: ViewCounterProps) => {
+}: ViewCounterProps) {
   const [views, setViews] = useState(initialCount);
 
   const increasePostView = useEffectEvent(() => {
@@ -30,4 +30,4 @@ export const ViewCounter = ({
       {views.toLocaleString()} {views === 1 ? "view" : "views"}
     </span>
   );
-};
+}

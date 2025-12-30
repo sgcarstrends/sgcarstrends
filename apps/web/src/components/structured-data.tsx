@@ -5,10 +5,12 @@ interface Props {
   data: WithContext<Thing> | WithContext<Thing>[];
 }
 
-export const StructuredData = ({ data }: Props) => (
-  <Script
-    id="structured-data"
-    type="application/ld+json"
-    dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-  />
-);
+export function StructuredData({ data }: Props) {
+  return (
+    <Script
+      id="structured-data"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}

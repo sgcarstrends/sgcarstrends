@@ -2,7 +2,7 @@ import { Button } from "@heroui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@heroui/popover";
 import { InfoIcon } from "lucide-react";
 
-export const InfoPopover = () => {
+export function InfoPopover() {
   return (
     <Popover placement="bottom-end">
       <PopoverTrigger>
@@ -43,4 +43,4 @@ export const InfoPopover = () => {
       </PopoverContent>
     </Popover>
   );
-};
+}

@@ -4,7 +4,7 @@ import { Alert, addToast, Button, cn } from "@heroui/react";
 import useStore from "@web/app/store";
 import { useCallback, useEffect } from "react";
 
-export const NotificationPrompt = () => {
+export function NotificationPrompt() {
   const { notificationStatus, setNotificationStatus } = useStore();
 
   useEffect(() => {
@@ -97,4 +97,4 @@ export const NotificationPrompt = () => {
   }
 
   return null;
-};
+}

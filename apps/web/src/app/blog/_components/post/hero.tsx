@@ -23,7 +23,7 @@ interface Props {
  * Large editorial card with text overlaid on image.
  * Used for featured/hero posts in the blog list.
  */
-export const Hero = ({ post }: Props) => {
+export function Hero({ post }: Props) {
   const publishedDate = post.publishedAt ?? post.createdAt;
   const category = getCategoryConfig(post);
   const imageUrl = getPostImage(post, "hero");
@@ -88,4 +88,4 @@ export const Hero = ({ post }: Props) => {
       </article>
     </Link>
   );
-};
+}

@@ -41,7 +41,7 @@ const PERIOD_LABELS: Record<Period, string> = {
 
 const defaultCategories = ["Category A", "Category B", "Category E"];
 
-export const COEPremiumChart = ({ data }: Props) => {
+export function COEPremiumChart({ data }: Props) {
   const [period, setPeriod] = useQueryState(
     "period",
     parseAsStringLiteral(periods)
@@ -146,4 +146,4 @@ export const COEPremiumChart = ({ data }: Props) => {
       </CardBody>
     </Card>
   );
-};
+}

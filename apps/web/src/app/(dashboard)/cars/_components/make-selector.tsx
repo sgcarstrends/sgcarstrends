@@ -17,11 +17,11 @@ type LogoProps = {
   logoUrl?: string;
 };
 
-export const MakeSelector = ({
+export function MakeSelector({
   makes,
   selectedMake,
   logoUrlMap = {},
-}: MakeSelectorProps) => {
+}: MakeSelectorProps) {
   const validSelectedMake = useMemo(() => {
     const regexSelectedMake = selectedMake.replace(
       /[^a-zA-Z0-9]/g,
@@ -54,7 +54,7 @@ export const MakeSelector = ({
       ))}
     </Autocomplete>
   );
-};
+}
 
 const Logo = ({ make, logoUrl }: LogoProps) => {
   if (!logoUrl) return null;

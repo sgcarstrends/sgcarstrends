@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { staggerContainerVariants, staggerItemVariants } from "./variants";
 
-export const CtaSection = () => {
+export function CtaSection() {
   return (
     <section className="py-20 lg:py-28">
       <div className="container mx-auto">
@@ -86,4 +86,4 @@ export const CtaSection = () => {
       </div>
     </section>
   );
-};
+}

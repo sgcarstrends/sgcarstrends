@@ -23,7 +23,7 @@ interface Props {
  * Editorial card design with text overlaid on image.
  * Features dark gradient overlay and drop shadows for legibility.
  */
-export const Card = ({ post }: Props) => {
+export function Card({ post }: Props) {
   const publishedDate = post.publishedAt ?? post.createdAt;
   const category = getCategoryConfig(post);
   const imageUrl = getPostImage(post, "card");
@@ -87,4 +87,4 @@ export const Card = ({ post }: Props) => {
       </article>
     </Link>
   );
-};
+}

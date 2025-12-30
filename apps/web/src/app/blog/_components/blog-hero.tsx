@@ -15,7 +15,7 @@ interface BlogHeroProps {
   initialViewCount: number;
 }
 
-export const BlogHero = ({
+export function BlogHero({
   title,
   slug,
   heroImage,
@@ -24,7 +24,7 @@ export const BlogHero = ({
   tags = [],
   postId,
   initialViewCount,
-}: BlogHeroProps) => {
+}: BlogHeroProps) {
   const categoryLabel = tags.length > 0 ? tags[0] : "Market Analysis";
   const shareUrl = `${SITE_URL}/blog/${slug}`;
 
@@ -73,4 +73,4 @@ export const BlogHero = ({
       </div>
     </div>
   );
-};
+}

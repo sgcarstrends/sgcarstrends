@@ -13,7 +13,7 @@ interface Props {
   data: any[];
 }
 
-export const MakeTrendChart = ({ data }: Props) => {
+export function MakeTrendChart({ data }: Props) {
   const monthlyTotals: { [key: string]: number } = {};
   for (const item of data) {
     const month = item.month;
@@ -94,7 +94,7 @@ export const MakeTrendChart = ({ data }: Props) => {
       </div>
     </div>
   );
-};
+}
 
 const chartConfig = {
   count: { label: "Count" },

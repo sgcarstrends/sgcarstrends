@@ -3,7 +3,7 @@
 import { Chip } from "@heroui/chip";
 import { motion } from "framer-motion";
 
-export const HeroSection = () => {
+export function HeroSection() {
   const entranceTransition = (delay: number) => ({
     duration: 1,
     delay,
@@ -69,4 +69,4 @@ export const HeroSection = () => {
       </div>
     </section>
   );
-};
+}

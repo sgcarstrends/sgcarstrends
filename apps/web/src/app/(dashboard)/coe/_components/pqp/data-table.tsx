@@ -21,7 +21,7 @@ interface Props {
   rowsPerPage?: number;
 }
 
-export const DataTable = ({ rows, columns, rowsPerPage = 10 }: Props) => {
+export function DataTable({ rows, columns, rowsPerPage = 10 }: Props) {
   const [page, setPage] = useState(1);
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "month",
@@ -113,4 +113,4 @@ export const DataTable = ({ rows, columns, rowsPerPage = 10 }: Props) => {
       </TableBody>
     </Table>
   );
-};
+}

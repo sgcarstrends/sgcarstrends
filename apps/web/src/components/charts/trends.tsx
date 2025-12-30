@@ -28,14 +28,14 @@ interface TrendAreaChartProps {
   valueFormatter?: (value: number) => string;
 }
 
-export const TrendAreaChart = ({
+export function TrendAreaChart({
   data,
   title,
   subtitle,
   categories,
   showTotal = false,
   valueFormatter = formatNumber,
-}: TrendAreaChartProps) => {
+}: TrendAreaChartProps) {
   // Format data inline (cheap operation, no need to memoize)
   const formattedData = data.map((item) => ({
     ...item,
@@ -111,4 +111,4 @@ export const TrendAreaChart = ({
       </ChartContainer>
     </ChartWidget>
   );
-};
+}

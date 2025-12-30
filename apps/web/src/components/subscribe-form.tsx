@@ -6,7 +6,7 @@ import { addToast } from "@heroui/toast";
 import { subscribeAction } from "@web/actions";
 import { Mail } from "lucide-react";
 
-export const SubscribeForm = () => {
+export function SubscribeForm() {
   return (
     <form
       action={async (formData) => {
@@ -46,4 +46,4 @@ export const SubscribeForm = () => {
       </Button>
     </form>
   );
-};
+}

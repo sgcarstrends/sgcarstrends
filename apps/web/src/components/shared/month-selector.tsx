@@ -16,7 +16,7 @@ interface Props {
   months: Month[];
 }
 
-export const MonthSelector = ({ months }: Props) => {
+export function MonthSelector({ months }: Props) {
   const [month, setMonth] = useQueryState("month", { shallow: false });
   const latestMonth = months[0];
 
@@ -58,4 +58,4 @@ export const MonthSelector = ({ months }: Props) => {
       ))}
     </Autocomplete>
   );
-};
+}

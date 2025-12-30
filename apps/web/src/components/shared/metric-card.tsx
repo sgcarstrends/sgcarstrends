@@ -10,7 +10,7 @@ interface Props {
   previousMonth: number;
 }
 
-export const MetricCard = ({ title, value, current, previousMonth }: Props) => {
+export function MetricCard({ title, value, current, previousMonth }: Props) {
   return (
     <Card className="p-3">
       <CardHeader>
@@ -26,4 +26,4 @@ export const MetricCard = ({ title, value, current, previousMonth }: Props) => {
       </CardFooter>
     </Card>
   );
-};
+}

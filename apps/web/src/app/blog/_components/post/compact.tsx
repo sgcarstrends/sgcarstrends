@@ -15,7 +15,7 @@ interface Props {
   post: SelectPost;
 }
 
-export const Compact = ({ post }: Props) => {
+export function Compact({ post }: Props) {
   const publishedDate = post.publishedAt ?? post.createdAt;
   const category = getCategoryConfig(post);
   const imageUrl = getPostImage(post, "compact");
@@ -61,4 +61,4 @@ export const Compact = ({ post }: Props) => {
       </Chip>
     </Link>
   );
-};
+}

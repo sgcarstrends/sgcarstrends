@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Skeleton } from "@heroui/skeleton";
 
-export const ChartSkeleton = () => {
+export function ChartSkeleton() {
   return (
     <Card className="p-3">
       <CardHeader>
@@ -12,4 +12,4 @@ export const ChartSkeleton = () => {
       </CardBody>
     </Card>
   );
-};
+}

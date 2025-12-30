@@ -6,7 +6,7 @@ import { navigationSections } from "@web/config/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export const DashboardNav = () => {
+export function DashboardNav() {
   const pathname = usePathname();
 
   // Find active item across all sections
@@ -51,4 +51,4 @@ export const DashboardNav = () => {
       ))}
     </nav>
   );
-};
+}

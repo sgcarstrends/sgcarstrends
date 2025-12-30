@@ -17,7 +17,7 @@ import { useCallback, useMemo } from "react";
 const defaultCategories = ["Category A", "Category B", "Category E"];
 const coreCategories = ["Category A", "Category B", "Category E"];
 
-export const CoeCategories = () => {
+export function CoeCategories() {
   const [selectedCategories, setSelectedCategories] = useQueryState(
     "categories",
     parseAsArrayOf(parseAsString).withDefault(defaultCategories),
@@ -99,4 +99,4 @@ export const CoeCategories = () => {
       </CardBody>
     </Card>
   );
-};
+}

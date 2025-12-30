@@ -11,7 +11,7 @@ interface Props {
   data: Pqp.Comparison[];
 }
 
-export const ComparisonSummaryCard = ({ data }: Props) => {
+export function ComparisonSummaryCard({ data }: Props) {
   const shouldReduceMotion = useReducedMotion();
 
   const containerVariants = {
@@ -105,4 +105,4 @@ export const ComparisonSummaryCard = ({ data }: Props) => {
       })}
     </motion.div>
   );
-};
+}

@@ -23,7 +23,7 @@ interface Props {
   availableYears: { year: number }[];
 }
 
-export const AnnualRegistrationsChart = ({ data, availableYears }: Props) => {
+export function AnnualRegistrationsChart({ data, availableYears }: Props) {
   const [{ year }, setSearchParams] = useQueryStates(searchParams);
 
   const numberFormatter = new Intl.NumberFormat("en-SG");
@@ -134,4 +134,4 @@ export const AnnualRegistrationsChart = ({ data, availableYears }: Props) => {
       </CardFooter>
     </Card>
   );
-};
+}

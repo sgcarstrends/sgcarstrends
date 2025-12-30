@@ -26,7 +26,7 @@ interface Props {
   months: string[];
 }
 
-export const CategoryChart = ({ data, months }: Props) => {
+export function CategoryChart({ data, months }: Props) {
   const [{ month, category }, setSearchParams] = useQueryStates(
     deregistrationsSearchParams,
   );
@@ -181,4 +181,4 @@ export const CategoryChart = ({ data, months }: Props) => {
       </CardFooter>
     </Card>
   );
-};
+}

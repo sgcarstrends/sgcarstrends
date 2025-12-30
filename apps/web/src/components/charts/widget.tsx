@@ -9,13 +9,13 @@ interface ChartWidgetProps {
   emptyMessage?: string;
 }
 
-export const ChartWidget = ({
+export function ChartWidget({
   title,
   subtitle,
   children,
   isEmpty = false,
   emptyMessage = "No data available",
-}: ChartWidgetProps) => {
+}: ChartWidgetProps) {
   if (isEmpty) {
     return (
       <Card className="p-3">
@@ -45,4 +45,4 @@ export const ChartWidget = ({
       <CardBody>{children}</CardBody>
     </Card>
   );
-};
+}

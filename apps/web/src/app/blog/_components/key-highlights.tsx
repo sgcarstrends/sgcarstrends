@@ -8,7 +8,7 @@ interface KeyHighlightsProps {
   highlights?: Highlight[];
 }
 
-export const KeyHighlights = ({ highlights }: KeyHighlightsProps) => {
+export function KeyHighlights({ highlights }: KeyHighlightsProps) {
   if (!highlights || highlights.length === 0) {
     return null;
   }
@@ -38,4 +38,4 @@ export const KeyHighlights = ({ highlights }: KeyHighlightsProps) => {
       </div>
     </section>
   );
-};
+}

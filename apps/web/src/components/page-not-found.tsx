@@ -5,7 +5,7 @@ import Typography from "@web/components/typography";
 import { ArrowLeft, Home } from "lucide-react";
 import Link from "next/link";
 
-export const PageNotFound = () => {
+export function PageNotFound() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="flex min-h-[60vh] flex-col items-center justify-center">
@@ -53,4 +53,4 @@ export const PageNotFound = () => {
       </div>
     </div>
   );
-};
+}

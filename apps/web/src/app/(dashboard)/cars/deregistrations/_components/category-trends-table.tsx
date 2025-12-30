@@ -14,7 +14,7 @@ interface Props {
   data: CategorySparklineData[];
 }
 
-export const CategoryTrendsTable = ({ data }: Props) => {
+export function CategoryTrendsTable({ data }: Props) {
   return (
     <Card className="p-3">
       <CardBody className="p-4">
@@ -79,4 +79,4 @@ export const CategoryTrendsTable = ({ data }: Props) => {
       </CardBody>
     </Card>
   );
-};
+}

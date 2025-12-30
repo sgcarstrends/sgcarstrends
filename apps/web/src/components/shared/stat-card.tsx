@@ -13,7 +13,7 @@ interface Props {
   total: number;
 }
 
-export const StatCard = ({ title, description, data }: Props) => {
+export function StatCard({ title, description, data }: Props) {
   return (
     <Card className="p-3">
       <CardHeader className="flex flex-col items-start gap-2">
@@ -70,4 +70,4 @@ export const StatCard = ({ title, description, data }: Props) => {
       </CardBody>
     </Card>
   );
-};
+}

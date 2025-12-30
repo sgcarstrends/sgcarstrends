@@ -15,7 +15,7 @@ interface Props {
   showMonthSelector?: boolean;
 }
 
-export const PageHeader = ({
+export function PageHeader({
   title,
   subtitle,
   children,
@@ -23,7 +23,7 @@ export const PageHeader = ({
   lastUpdated,
   months,
   showMonthSelector = false,
-}: Props) => {
+}: Props) {
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">
@@ -47,4 +47,4 @@ export const PageHeader = ({
       </div>
     </div>
   );
-};
+}

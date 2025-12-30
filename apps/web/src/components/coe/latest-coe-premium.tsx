@@ -39,10 +39,7 @@ const getTrendColour = (trend?: Trend): string => {
   }
 };
 
-export const LatestCoePremium = ({
-  results,
-  trends,
-}: LatestCoePremiumProps) => {
+export function LatestCoePremium({ results, trends }: LatestCoePremiumProps) {
   return (
     <>
       {results.map((result) => {
@@ -80,4 +77,4 @@ export const LatestCoePremium = ({
       })}
     </>
   );
-};
+}
