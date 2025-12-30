@@ -12,9 +12,9 @@ import { Calendar } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useEffect, useMemo } from "react";
 
-type Props = {
+interface Props {
   months: Month[];
-};
+}
 
 export const MonthSelector = ({ months }: Props) => {
   const [month, setMonth] = useQueryState("month", { shallow: false });

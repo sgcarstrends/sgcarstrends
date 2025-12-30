@@ -32,9 +32,9 @@ import remarkGfm from "remark-gfm";
 import remarkToc from "remark-toc";
 import type { BlogPosting, WithContext } from "schema-dts";
 
-type Props = {
+interface Props {
   params: Promise<{ slug: string }>;
-};
+}
 
 export const generateMetadata = async ({
   params,

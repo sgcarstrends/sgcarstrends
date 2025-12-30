@@ -11,9 +11,9 @@ import {
   getReadingTime,
 } from "./utils";
 
-type Props = {
+interface Props {
   post: SelectPost;
-};
+}
 
 export const Compact = ({ post }: Props) => {
   const publishedDate = post.publishedAt ?? post.createdAt;

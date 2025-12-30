@@ -13,9 +13,9 @@ import {
   isNewPost,
 } from "./utils";
 
-type Props = {
+interface Props {
   post: SelectPost;
-};
+}
 
 /**
  * Bloomberg-style Card
