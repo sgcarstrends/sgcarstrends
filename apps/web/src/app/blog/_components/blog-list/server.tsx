@@ -1,6 +1,6 @@
 import type { SelectPost } from "@sgcarstrends/database";
-import { BlogListClient } from "@web/app/blog/_components/blog-list.client";
 import { getPostCountsByCategory } from "@web/queries/posts";
+import { BlogListClient } from "./client";
 
 interface Props {
   posts: SelectPost[];
