@@ -8,26 +8,14 @@ import {
   processTask,
   publishToAllPlatforms,
   revalidateCache,
-  type WorkflowStep,
 } from "@web/lib/workflows/steps";
 import { updateCoe } from "@web/lib/workflows/update-coe";
 import { getCOELatestRecord } from "@web/queries/coe/latest-month";
 
 export async function coeWorkflow(context: WorkflowContext) {
-  const coeTasks: WorkflowStep[] = [{ name: "coe", handler: updateCoe }];
+  const result = await processTask(context, "coe", updateCoe);
 
-  const coeTaskResults = await Promise.all(
-    coeTasks.map(({ name, handler }) => processTask(context, name, handler)),
-  );
-
-  // Flatten the results since updateCOE returns an array of results
-  const coeResults = coeTaskResults.flat();
-
-  const processedCOEResults = coeResults.filter(
-    ({ recordsProcessed }) => recordsProcessed > 0,
-  );
-
-  if (processedCOEResults.length === 0) {
+  if (result.recordsProcessed === 0) {
     return {
       message: "No COE records processed. Skipped publishing to social media.",
     };

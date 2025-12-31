@@ -1,27 +1,17 @@
 import type { WorkflowContext } from "@upstash/workflow";
 import { realtime } from "@web/config/realtime";
-import {
-  processTask,
-  revalidateCache,
-  type WorkflowStep,
-} from "@web/lib/workflows/steps";
+import { processTask, revalidateCache } from "@web/lib/workflows/steps";
 import { updateDeregistration } from "@web/lib/workflows/update-deregistration";
 import { getDeregistrationsLatestMonth } from "@web/queries/deregistrations/latest-month";
 
 export async function deregistrationWorkflow(context: WorkflowContext) {
-  const tasks: WorkflowStep[] = [
-    { name: "deregistrations", handler: updateDeregistration },
-  ];
-
-  const results = await Promise.all(
-    tasks.map(({ name, handler }) => processTask(context, name, handler)),
+  const result = await processTask(
+    context,
+    "deregistrations",
+    updateDeregistration,
   );
 
-  const processedResults = results.filter(
-    ({ recordsProcessed }) => recordsProcessed > 0,
-  );
-
-  if (processedResults.length === 0) {
+  if (result.recordsProcessed === 0) {
     return {
       message: "No deregistration records processed.",
     };

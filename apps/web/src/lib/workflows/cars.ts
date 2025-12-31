@@ -8,23 +8,14 @@ import {
   processTask,
   publishToAllPlatforms,
   revalidateCache,
-  type WorkflowStep,
 } from "@web/lib/workflows/steps";
 import { updateCars } from "@web/lib/workflows/update-cars";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 
 export async function carsWorkflow(context: WorkflowContext) {
-  const carTasks: WorkflowStep[] = [{ name: "cars", handler: updateCars }];
+  const result = await processTask(context, "cars", updateCars);
 
-  const carResults = await Promise.all(
-    carTasks.map(({ name, handler }) => processTask(context, name, handler)),
-  );
-
-  const processedCarResults = carResults.filter(
-    ({ recordsProcessed }) => recordsProcessed > 0,
-  );
-
-  if (processedCarResults.length === 0) {
+  if (result.recordsProcessed === 0) {
     return {
       message: "No car records processed. Skipped publishing to social media.",
     };
