@@ -1,4 +1,3 @@
-import { SITE_URL } from "@web/config";
 import { client, receiver } from "@web/config/qstash";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -30,7 +29,7 @@ export async function POST(request: NextRequest) {
     const endpoints = ["cars", "coe", "deregistrations"];
     const results = await client.trigger(
       endpoints.map((endpoint) => ({
-        url: `${SITE_URL}/api/workflows/${endpoint}`,
+        url: `${request.nextUrl.origin}/api/workflows/${endpoint}`,
       })),
     );
 
