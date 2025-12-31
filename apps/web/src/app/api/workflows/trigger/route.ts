@@ -1,4 +1,4 @@
-import { client, receiver } from "@web/config/qstash";
+import { client, getBypassHeaders, receiver } from "@web/config/qstash";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
     const results = await client.trigger(
       endpoints.map((endpoint) => ({
         url: `${request.nextUrl.origin}/api/workflows/${endpoint}`,
+        headers: getBypassHeaders(),
       })),
     );
 
