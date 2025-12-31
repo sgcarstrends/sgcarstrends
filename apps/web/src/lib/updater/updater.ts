@@ -127,10 +127,14 @@ export class Updater<T> {
     const { table, keyFields } = this.config;
 
     // Create a query to check for existing records
+    // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any type
+    const tableColumns = table as any;
     const existingKeysQuery = await db
-      .select({
-        ...Object.fromEntries(keyFields.map((field) => [field, table[field]])),
-      })
+      .select(
+        Object.fromEntries(
+          keyFields.map((field) => [field, tableColumns[field]]),
+        ),
+      )
       .from(table);
 
     // Create a Set of existing keys for faster lookup
@@ -140,7 +144,10 @@ export class Updater<T> {
 
     // Check against the existing records for new non-duplicated entries
     const newRecords = processedData.filter((record) => {
-      const identifier = createUniqueKey(record, keyFields);
+      const identifier = createUniqueKey(
+        record as Record<string, unknown>,
+        keyFields,
+      );
       return !existingKeys.has(identifier);
     });
 
