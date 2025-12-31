@@ -10,7 +10,7 @@ export const checkExistingPost = async (
   month: string,
   dataType: "cars" | "coe",
 ) => {
-  return context.run(`Check existing ${dataType} post`, async () => {
+  return context.run(`check-existing-${dataType}-post`, async () => {
     const [existingPost] = await getExistingPostByMonth(month, dataType);
     return existingPost ?? null;
   });

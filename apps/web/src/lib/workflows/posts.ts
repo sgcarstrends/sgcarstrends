@@ -10,7 +10,7 @@ export const generateCarPost = async (
   context: WorkflowContext,
   month: string,
 ) => {
-  const cars = await context.run("Fetch cars data", async () => {
+  const cars = await context.run("fetch-cars-data", async () => {
     return getCarsAggregatedByMonth(month);
   });
 
@@ -28,7 +28,7 @@ export const generateCoePost = async (
   context: WorkflowContext,
   month: string,
 ) => {
-  const coe = await context.run("Fetch COE data", async () => {
+  const coe = await context.run("fetch-coe-data", async () => {
     return getCoeForMonth(month);
   });
 

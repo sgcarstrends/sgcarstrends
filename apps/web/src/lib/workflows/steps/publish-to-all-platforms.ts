@@ -13,7 +13,7 @@ export const publishToAllPlatforms = async (
   socialMediaManager: SocialMediaManager,
   message: SocialMessage,
 ): Promise<PublishResults> => {
-  return context.run("Publish to social media", async () => {
+  return context.run("publish-to-social-media", async () => {
     console.log("Publishing to all enabled platforms");
 
     const result = await socialMediaManager.publishToAll(message);

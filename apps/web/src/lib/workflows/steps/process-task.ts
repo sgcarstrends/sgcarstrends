@@ -15,8 +15,8 @@ export const processTask = async (
   name: string,
   handler: () => Promise<UpdaterResult>,
 ): Promise<UpdaterResult> =>
-  context.run(`Processing "${name}" data`, async () => {
-    console.log(`Processing "${name}" data`);
+  context.run(`process-${name}-data`, async () => {
+    console.log(`Processing ${name} data`);
 
     try {
       const result = await handler();
