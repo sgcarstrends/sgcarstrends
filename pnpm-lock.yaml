@@ -416,6 +416,9 @@ importers:
       '@ruchernchong/number-format':
         specifier: ^2.3.4
         version: 2.3.5
+      '@sgcarstrends/ai':
+        specifier: workspace:*
+        version: link:../../packages/ai
       '@sgcarstrends/database':
         specifier: workspace:*
         version: link:../../packages/database

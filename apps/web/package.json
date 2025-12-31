@@ -55,6 +55,7 @@
     "@icons-pack/react-simple-icons": "^10.2.0",
     "@neondatabase/serverless": "1.0.1",
     "@ruchernchong/number-format": "^2.3.4",
+    "@sgcarstrends/ai": "workspace:*",
     "@sgcarstrends/database": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/ui": "workspace:*",
