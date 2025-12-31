@@ -1,6 +1,6 @@
 import { isPermanentStage } from "./config";
 
-const DOMAIN_NAME = "aws.sgcarstrends.com";
+const DOMAIN_NAME = "sgcarstrends.com";
 
 const getDomainName = () => {
   switch ($app.stage) {
@@ -16,11 +16,6 @@ const getDomainName = () => {
 };
 
 const domain = getDomainName();
-
-export const subDomain = (name: string) => {
-  if (isPermanentStage) return `${name}.${domain}`;
-  return `${name}-${domain}`;
-};
 
 // Create shared router with subdomain aliases
 export const router = isPermanentStage

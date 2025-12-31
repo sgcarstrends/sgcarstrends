@@ -1,5 +1,5 @@
 import { coe, db } from "@sgcarstrends/database";
-import { max } from "drizzle-orm";
+import { desc, max } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 /**
@@ -15,4 +15,12 @@ export async function getCOELatestMonth(): Promise<string | null> {
     .from(coe);
 
   return latestMonth ?? null;
+}
+
+/**
+ * Get the latest COE record with month and biddingNo.
+ * Used by workflows to check if we should generate a post.
+ */
+export async function getCOELatestRecord() {
+  return db.query.coe.findFirst({ orderBy: desc(coe.month) });
 }

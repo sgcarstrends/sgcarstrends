@@ -21,13 +21,11 @@ export default $config({
   },
   async run() {
     const { router } = await import("./infra/router");
-    const api = await import("./infra/api");
     const web = await import("./infra/web");
 
     await import("./infra/qstash");
 
     return {
-      api: api.url,
       web: web.url,
       router: router.distributionID,
     };

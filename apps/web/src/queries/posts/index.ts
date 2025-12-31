@@ -99,3 +99,18 @@ export async function getNextPost(publishedAt: Date) {
     orderBy: asc(posts.publishedAt),
   });
 }
+
+/**
+ * Check if a post already exists for a given month and data type.
+ * Used by workflows to prevent duplicate post generation.
+ */
+export async function getExistingPostByMonth<T extends string>(
+  month: string,
+  dataType: T,
+) {
+  return db
+    .select({ id: posts.id, title: posts.title, slug: posts.slug })
+    .from(posts)
+    .where(and(eq(posts.month, month), eq(posts.dataType, dataType)))
+    .limit(1);
+}

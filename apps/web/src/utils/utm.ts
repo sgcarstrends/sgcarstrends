@@ -1,4 +1,4 @@
-import { createSerializer, parseAsString, useQueryStates } from "nuqs";
+import type { Platform } from "@web/types/social-media";
 
 export interface UTMParams {
   source?: string;
@@ -8,37 +8,34 @@ export interface UTMParams {
   content?: string;
 }
 
-export const UTM_PARSERS = {
-  utm_source: parseAsString,
-  utm_medium: parseAsString,
-  utm_campaign: parseAsString,
-  utm_term: parseAsString,
-  utm_content: parseAsString,
-};
-
-export const useUTMParams = () => {
-  const [params] = useQueryStates(UTM_PARSERS);
-
-  return {
-    utmSource: params.utm_source,
-    utmMedium: params.utm_medium,
-    utmCampaign: params.utm_campaign,
-    utmTerm: params.utm_term,
-    utmContent: params.utm_content,
-  };
-};
-
-export const createExternalCampaignURL = (
+export const addUTMParametersToURL = (
   baseUrl: string,
-  utmParams: UTMParams,
+  platform: Platform,
+  content?: string,
+  term?: string,
 ): string => {
-  const params: Record<string, string | null> = {};
+  const url = new URL(baseUrl);
 
-  if (utmParams.source) params.utm_source = utmParams.source;
-  if (utmParams.medium) params.utm_medium = utmParams.medium;
-  if (utmParams.campaign) params.utm_campaign = utmParams.campaign;
-  if (utmParams.term) params.utm_term = utmParams.term;
-  if (utmParams.content) params.utm_content = utmParams.content;
+  url.searchParams.set("utm_source", platform.toLowerCase());
+  url.searchParams.set("utm_medium", "social");
+  url.searchParams.set("utm_campaign", "blog");
 
-  return createSerializer(UTM_PARSERS)(baseUrl, params);
+  if (term) {
+    url.searchParams.set("utm_term", term);
+  }
+
+  if (content) {
+    url.searchParams.set("utm_content", content);
+  }
+
+  return url.toString();
+};
+
+export const createSocialShareURL = (
+  baseUrl: string,
+  platform: Platform,
+  content?: string,
+  term?: string,
+): string => {
+  return addUTMParametersToURL(baseUrl, platform, content, term);
 };

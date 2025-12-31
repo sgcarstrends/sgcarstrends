@@ -24,26 +24,19 @@ This directory contains the SST (Serverless Stack) v3.17.10 infrastructure confi
 
 ## Domain Strategy
 
-**Permanent stages**: `api.sgcarstrends.com`, `staging.sgcarstrends.com` (with apex for prod)
-**Ephemeral stages**: `{stage}.sgcarstrends.com`, `api-{stage}.sgcarstrends.com`
+**Permanent stages**: `sgcarstrends.com` (prod), `staging.sgcarstrends.com`
+**Ephemeral stages**: `{stage}.dev.sgcarstrends.com`
 
 See `domain-management` skill for DNS configuration and routing patterns.
 
 ## File Structure
 
-- **api.ts**: Lambda function configuration for the API service
 - **config.ts**: Shared configuration (permanent stages, cron schedules)
 - **qstash.ts**: QStash integration for workflow scheduling
 - **router.ts**: Domain routing and URL management
-- **web.ts**: Next.js web application configuration
+- **web.ts**: Next.js web application configuration (includes API routes and workflows)
 
 ## Key Infrastructure Components
-
-### API Service (api.ts)
-- Hono-based REST API
-- 120-second timeout
-- Stage-specific CORS configuration
-- Direct environment variable configuration
 
 ### Router (router.ts)
 - Cloudflare DNS integration
@@ -60,7 +53,7 @@ See `domain-management` skill for DNS configuration and routing patterns.
 1. Follow the existing pattern of stage-specific configuration
 2. Use `isPermanentStage` to differentiate between permanent and ephemeral stages
 3. Leverage the shared router for domain management
-4. Add environment variables directly to the Lambda function configuration in `api.ts` or `web.ts`
+4. Add environment variables directly to the web.ts configuration
 
 ### Stage Management
 
@@ -71,11 +64,6 @@ Permanent stages use full router with Cloudflare DNS, ephemeral stages reference
 - Use `process.env.VARIABLE_NAME as string` for required variables
 - Add validation in application code for critical environment variables
 - Use environment-specific defaults where appropriate
-
-### CORS Configuration
-- Production: Strict origin policy (sgcarstrends.com only)
-- Staging: Wildcard origins for testing
-- Development: Open CORS for local development
 
 ## Deployment Commands
 
