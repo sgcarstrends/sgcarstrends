@@ -1,10 +1,9 @@
-import type { PublicServeOptions } from "@upstash/workflow";
 import { qstashClient, receiver } from "@web/config/qstash";
 
-export const options: PublicServeOptions = {
+export const options = {
   receiver,
   qstashClient,
-  onError: async (error) => {
+  onError: async (error: Error) => {
     const payload = {
       embeds: [
         {

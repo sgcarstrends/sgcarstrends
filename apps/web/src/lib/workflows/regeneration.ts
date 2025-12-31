@@ -1,11 +1,7 @@
 import type { WorkflowContext } from "@upstash/workflow";
 import { regeneratePost } from "@web/lib/workflows/regenerate-post";
 import { revalidateCache } from "@web/lib/workflows/steps";
-
-interface RegenerationPayload {
-  month: string;
-  dataType: "cars" | "coe";
-}
+import type { RegenerationPayload } from "@web/lib/workflows/types";
 
 export async function regenerationWorkflow(
   context: WorkflowContext,
