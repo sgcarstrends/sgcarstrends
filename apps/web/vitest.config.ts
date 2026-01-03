@@ -8,6 +8,7 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     coverage: {
+      enabled: true,
       include: ["src"],
       exclude: [
         "src/app",
@@ -38,8 +39,8 @@ export default defineConfig({
       reportsDirectory: "./coverage",
       thresholds: {
         autoUpdate: (newThreshold) => {
-          const roundedUp = Math.ceil(newThreshold / 5) * 5;
-          return Math.min(roundedUp, 80);
+          const roundedDown = Math.floor(newThreshold / 5) * 5;
+          return Math.min(roundedDown, 80);
         },
         lines: 80,
         functions: 75,
