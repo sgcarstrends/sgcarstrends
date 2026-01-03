@@ -1,3 +1,9 @@
+## [4.42.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.0...v4.42.1) (2026-01-03)
+
+### Bug Fixes
+
+* **web:** add Vercel bypass for workflows ([b4324c5](https://github.com/sgcarstrends/sgcarstrends/commit/b4324c53932db0c2eadcd18d65b74e7efc19a6e2))
+
 ## [4.42.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.41.0...v4.42.0) (2026-01-03)
 
 ### Features
