@@ -397,12 +397,13 @@ See `component-naming` skill for detailed guidance and validation checklist.
 
 ### Animation Patterns
 
-A consistent approach to animations using Framer Motion (motion package v12+) for scroll-triggered reveals and entrance effects.
+A consistent approach to animations using Framer Motion for scroll-triggered reveals and entrance effects.
+
+> **Note**: Import from `framer-motion`, not `motion/react`. HeroUI v2 depends on `framer-motion` as a peer dependency. Migration to `motion/react` will be possible after upgrading to HeroUI v3.
 
 **Design Philosophy**:
 
 - Declarative animations with Motion's `whileInView` and `initial`/`animate`
-- Accessibility-first with `useReducedMotion()` hook
 - Shared variants for consistency across components
 - CSS for hover states and infinite animations
 
@@ -427,16 +428,14 @@ import { fadeInUpVariants, staggerContainerVariants, staggerItemVariants } from 
 **Usage Pattern**:
 
 ```typescript
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { fadeInUpVariants } from "./variants";
 
 export const Section = () => {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <motion.div
-      variants={shouldReduceMotion ? undefined : fadeInUpVariants}
-      initial={shouldReduceMotion ? undefined : "hidden"}
+      variants={fadeInUpVariants}
+      initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
     >
@@ -448,14 +447,11 @@ export const Section = () => {
 
 **Guidelines**:
 
-- ✅ Always use `useReducedMotion()` for accessibility
-- ✅ Pass `undefined` to variants/initial when reduced motion preferred
 - ✅ Use shared variants from `variants.ts`
 - ✅ Use `viewport={{ once: true }}` for scroll-triggered animations
 - ✅ Keep hover states as CSS transitions (Tailwind `transition-*`)
 - ✅ Use CSS keyframes for infinite/background animations
 - ❌ Avoid inline animation definitions (use variants)
-- ❌ Avoid skipping reduced motion checks
 
 **When to Use CSS vs Motion**:
 

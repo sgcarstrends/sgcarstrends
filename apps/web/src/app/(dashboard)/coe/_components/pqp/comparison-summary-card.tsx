@@ -4,7 +4,7 @@ import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { AnimatedNumber } from "@web/components/animated-number";
 import type { Pqp } from "@web/types/coe";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 interface ComparisonSummaryCardProps {
@@ -12,14 +12,12 @@ interface ComparisonSummaryCardProps {
 }
 
 export function ComparisonSummaryCard({ data }: ComparisonSummaryCardProps) {
-  const shouldReduceMotion = useReducedMotion();
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: shouldReduceMotion ? 0 : 0.1,
+        staggerChildren: 0.1,
       },
     },
   };
@@ -38,11 +36,11 @@ export function ComparisonSummaryCard({ data }: ComparisonSummaryCardProps) {
         return (
           <motion.div
             key={item.category}
-            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 10 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: shouldReduceMotion ? 0 : 0.4,
-              delay: shouldReduceMotion ? 0 : index * 0.1,
+              duration: 0.4,
+              delay: index * 0.1,
               ease: [0.4, 0, 0.2, 1],
             }}
           >
