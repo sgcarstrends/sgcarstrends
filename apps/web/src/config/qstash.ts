@@ -5,6 +5,7 @@ const isProduction = process.env.VERCEL_ENV === "production";
 
 export const client = new WorkflowClient({
   token: process.env.QSTASH_TOKEN as string,
+  headers: getBypassHeaders(),
 });
 
 export const qstashClient = new QStashClient({
