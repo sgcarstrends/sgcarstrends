@@ -187,6 +187,19 @@ export async function regenerateBlogContent(
 }
 
 /**
+ * Get bypass headers for Vercel Deployment Protection (preview environments only)
+ */
+function getBypassHeaders(): Record<string, string> | undefined {
+  const isProduction = process.env.VERCEL_ENV === "production";
+  if (isProduction || !process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
+    return undefined;
+  }
+  return {
+    "x-vercel-protection-bypass": process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
+  };
+}
+
+/**
  * Creates a workflow-aware Google Generative AI provider that uses context.call()
  * for HTTP requests. This allows the Lambda to exit while QStash handles the request.
  */
@@ -207,7 +220,7 @@ function createWorkflowGoogle(context: WorkflowContext) {
         const response = await context.call(`gemini-${++stepCounter}`, {
           url: input.toString(),
           method: (init?.method as HTTPMethods) ?? "POST",
-          headers: requestHeaders,
+          headers: { ...requestHeaders, ...getBypassHeaders() },
           body,
           timeout: "120s",
         });
