@@ -1,3 +1,9 @@
+## [4.42.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.1...v4.42.2) (2026-01-03)
+
+### Bug Fixes
+
+* **web:** handle missing year in selects ([eb71893](https://github.com/sgcarstrends/sgcarstrends/commit/eb71893b1a07f34b4c23324302eaaaae345d43b3))
+
 ## [4.42.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.0...v4.42.1) (2026-01-03)
 
 ### Bug Fixes
