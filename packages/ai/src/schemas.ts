@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 
 export const highlightSchema = z.object({
   value: z.string().describe('Metric value, e.g. "52.60%", "$125,000"'),
