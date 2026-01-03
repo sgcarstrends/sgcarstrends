@@ -6,7 +6,7 @@ interface RouteParams {
   params: Promise<{ make: string }>;
 }
 
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(_request: NextRequest, { params }: RouteParams) {
   const { make } = await params;
 
   try {

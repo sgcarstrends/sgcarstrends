@@ -175,7 +175,7 @@ export default function ComponentsPreviewPage() {
               </CardHeader>
               <CardBody>
                 <div className="flex flex-wrap gap-4">
-                  {chartColors.map((color, index) => (
+                  {chartColors.map((color, _index) => (
                     <div key={color.name} className="flex items-center gap-3">
                       <div
                         className="size-10 rounded-lg"

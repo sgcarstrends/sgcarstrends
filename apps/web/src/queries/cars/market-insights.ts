@@ -1,7 +1,6 @@
 import { cars, db } from "@sgcarstrends/database";
 import {
   calculateMarketShareData,
-  calculateTopPerformersData,
   findDominantType,
 } from "@web/lib/cars/calculations";
 import { getCarsData } from "@web/queries";

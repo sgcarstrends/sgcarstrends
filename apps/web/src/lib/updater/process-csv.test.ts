@@ -5,10 +5,6 @@ import { processCsv } from "@web/lib/updater/services/process-csv";
 import Papa from "papaparse";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-// Simple mocks
-vi.mock("node:fs");
-vi.mock("papaparse");
-
 interface TestRecord {
   name: string;
   age: number;
@@ -24,35 +20,57 @@ describe("processCSV", () => {
     vi.clearAllMocks();
 
     // Set up mock implementations for each test
-    vi.mocked(fs.readFileSync).mockReturnValue("mock csv content");
+    const readFileSyncMock = vi
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("mock csv content");
 
-    vi.mocked(Papa.parse).mockReturnValue({
+    const parseMock = vi.spyOn(Papa, "parse").mockReturnValue({
       data: [
         { name: " John Doe ", age: "25", active: "true" },
         { name: " Jane Smith ", age: "30", active: "false" },
       ],
+      errors: [],
+      meta: { fields: ["name", "age", "active"] },
     } as never);
   });
 
   afterEach(() => {
-    // Clean up the temporary file after each test if it exists
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-    }
+    vi.restoreAllMocks();
   });
 
   it("should read a CSV file and parse it", async () => {
+    const readFileSyncMock = vi
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("mock csv content");
+    const parseMock = vi.spyOn(Papa, "parse").mockReturnValue({
+      data: [
+        { name: " John Doe ", age: "25", active: "true" },
+        { name: " Jane Smith ", age: "30", active: "false" },
+      ],
+      errors: [],
+      meta: { fields: ["name", "age", "active"] },
+    } as never);
+
     const result = await processCsv<TestRecord>(filePath);
 
-    expect(fs.readFileSync).toHaveBeenCalledWith(filePath, "utf-8");
-    expect(Papa.parse).toHaveBeenCalled();
+    expect(readFileSyncMock).toHaveBeenCalledWith(filePath, "utf-8");
+    expect(parseMock).toHaveBeenCalled();
     expect(result).toHaveLength(2);
   });
 
   it("should use Papa.parse with correct options", async () => {
+    const readFileSyncMock = vi
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("mock csv content");
+    const parseMock = vi.spyOn(Papa, "parse").mockReturnValue({
+      data: [],
+      errors: [],
+      meta: { fields: [] },
+    } as never);
+
     await processCsv(filePath);
 
-    expect(Papa.parse).toHaveBeenCalledWith(
+    expect(parseMock).toHaveBeenCalledWith(
       expect.any(String),
       expect.objectContaining({
         header: true,
@@ -64,42 +82,49 @@ describe("processCSV", () => {
   });
 
   it("should apply custom field transformations when provided", async () => {
-    const mockParseResult = {
-      data: [{ name: " John Doe ", age: "25" }],
-    };
-
-    vi.mocked(Papa.parse).mockImplementationOnce(() => {
-      // Return mock data
-      return { ...mockParseResult } as never;
-    });
+    const readFileSyncMock = vi
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("mock csv content");
+    const parseMock = vi.spyOn(Papa, "parse").mockReturnValue({
+      data: [{ name: " JOHN DOE ", age: 30 }],
+      errors: [],
+      meta: { fields: ["name", "age"] },
+    } as never);
 
     const customFields = {
       name: (value: string) => value.toUpperCase().trim(),
       age: (value: string) => Number.parseInt(value, 10) + 5,
     };
 
-    await processCsv(filePath, { fields: customFields });
+    const result = await processCsv(filePath, { fields: customFields });
 
     // Check that Papa.parse was called with the expected options
-    expect(Papa.parse).toHaveBeenCalledWith(
+    expect(parseMock).toHaveBeenCalledWith(
       expect.any(String),
       expect.objectContaining({
         transform: expect.any(Function),
       }),
     );
+
+    expect(result).toHaveLength(1);
   });
 
   it("should handle file read errors", async () => {
     const errorMsg = "File not found";
-    vi.mocked(fs.readFileSync).mockImplementationOnce(() => {
-      throw new Error(errorMsg);
-    });
+    const readFileSyncMock = vi
+      .spyOn(fs, "readFileSync")
+      .mockImplementationOnce(() => {
+        throw new Error(errorMsg);
+      });
 
     await expect(processCsv(filePath)).rejects.toThrow(errorMsg);
   });
 
   it("should handle parsing errors", async () => {
-    vi.mocked(Papa.parse).mockImplementationOnce(() => {
+    const readFileSyncMock = vi
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("mock csv content");
+    const parseMock = vi.spyOn(Papa, "parse").mockImplementationOnce(() => {
       throw new Error("Parse error");
     });
 
@@ -107,8 +132,13 @@ describe("processCSV", () => {
   });
 
   it("should return an empty array if no records are found", async () => {
-    vi.mocked(Papa.parse).mockReturnValueOnce({
+    const readFileSyncMock = vi
+      .spyOn(fs, "readFileSync")
+      .mockReturnValue("mock csv content");
+    const parseMock = vi.spyOn(Papa, "parse").mockReturnValueOnce({
       data: [],
+      errors: [],
+      meta: { fields: [] },
     } as never);
 
     const result = await processCsv(filePath);

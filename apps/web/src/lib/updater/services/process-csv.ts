@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import Papa from "papaparse";
 
-export interface CSVTransformOptions<T> {
+export interface CSVTransformOptions<_T> {
   fields?: Record<string, (value: string) => unknown>;
   columnMapping?: Record<string, string>;
 }

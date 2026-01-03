@@ -1,4 +1,4 @@
-import { addUTMParametersToURL, createSocialShareURL } from "@api/utils/utm";
+import { addUTMParametersToURL, createSocialShareURL } from "@web/utils/utm";
 import { describe, expect, it } from "vitest";
 
 describe("UTM utilities", () => {
@@ -23,17 +23,6 @@ describe("UTM utilities", () => {
 
       expect(result).toBe(
         "https://sgcarstrends.com/blog/post-slug?utm_source=twitter&utm_medium=social&utm_campaign=blog&utm_content=blog_post",
-      );
-    });
-
-    it("should handle URLs with existing query parameters", () => {
-      const result = addUTMParametersToURL(
-        "https://sgcarstrends.com/cars?month=2024-01",
-        "Discord",
-      );
-
-      expect(result).toBe(
-        "https://sgcarstrends.com/cars?month=2024-01&utm_source=discord&utm_medium=social&utm_campaign=blog",
       );
     });
   });

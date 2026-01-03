@@ -40,7 +40,7 @@ export const generateMetadata = async ({
 export default async function CarMakePage({ params }: PageProps) {
   const { make } = await params;
 
-  const [makeExists, makeDetails, lastUpdated, coeComparison, logo, months] =
+  const [makeExists, makeDetails, lastUpdated, coeComparison, _logo, months] =
     await Promise.all([
       checkMakeIfExist(make),
       getMakeDetails(make),

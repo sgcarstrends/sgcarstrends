@@ -1,5 +1,5 @@
-import { Checksum } from "@api/utils/checksum";
 import { redis, slugify } from "@sgcarstrends/utils";
+import { Checksum } from "@web/utils/checksum";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock redis

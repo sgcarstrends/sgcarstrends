@@ -40,7 +40,6 @@
       "interactive": true
     },
     "test:coverage": {
-      "dependsOn": ["^test:coverage"],
       "inputs": ["$TURBO_DEFAULT$", "test/**/*.ts", "tests/**/*.ts"],
       "outputs": ["coverage/**"]
     },

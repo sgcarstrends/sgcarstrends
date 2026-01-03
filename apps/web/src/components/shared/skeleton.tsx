@@ -75,8 +75,8 @@ export function ListSkeleton({
   return (
     <div className="flex flex-col gap-3">
       {Array.from({ length: count }).map((_, i) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: skeleton items are static placeholders
         <HeroUISkeleton
+          // biome-ignore lint/suspicious/noArrayIndexKey: skeleton items are static placeholders
           key={i}
           className={cn("w-full rounded-lg", itemHeight)}
         />
