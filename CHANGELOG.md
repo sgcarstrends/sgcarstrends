@@ -1,3 +1,9 @@
+## [4.42.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.2...v4.42.3) (2026-01-03)
+
+### Bug Fixes
+
+* **ai:** add bypass headers to context.call ([9a440bf](https://github.com/sgcarstrends/sgcarstrends/commit/9a440bf554969e2908904ba43cc9a267c12270d5))
+
 ## [4.42.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.1...v4.42.2) (2026-01-03)
 
 ### Bug Fixes
