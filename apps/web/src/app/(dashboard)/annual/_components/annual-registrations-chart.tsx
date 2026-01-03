@@ -11,6 +11,7 @@ import { searchParams } from "@web/app/(dashboard)/annual/search-params";
 import Typography from "@web/components/typography";
 import { useQueryStates } from "nuqs";
 import type React from "react";
+import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 
 interface YearlyData {
@@ -29,8 +30,14 @@ export function AnnualRegistrationsChart({
 }: AnnualRegistrationsChartProps) {
   const [{ year }, setSearchParams] = useQueryStates(searchParams);
 
+  // Compute effective year - fallback to latest available if URL year doesn't exist in data
+  const effectiveYear = useMemo(() => {
+    const yearExists = availableYears.some((item) => item.year === year);
+    return yearExists ? year : (availableYears[0]?.year ?? year);
+  }, [year, availableYears]);
+
   const numberFormatter = new Intl.NumberFormat("en-SG");
-  const selectedYear = data.find((item) => item.year === year);
+  const selectedYear = data.find((item) => item.year === effectiveYear);
 
   const chartConfig = {
     total: { label: "Registrations", color: "var(--primary)" },
@@ -54,7 +61,7 @@ export function AnnualRegistrationsChart({
           {selectedYear && (
             <Typography.Text className="text-default-500">
               {numberFormatter.format(selectedYear.total)} registrations in{" "}
-              {year}
+              {effectiveYear}
             </Typography.Text>
           )}
         </div>
@@ -62,7 +69,7 @@ export function AnnualRegistrationsChart({
           label="Year"
           variant="bordered"
           className="max-w-xs"
-          selectedKey={String(year)}
+          selectedKey={String(effectiveYear)}
           onSelectionChange={handleSelectionChange}
           defaultItems={availableYears.map((item) => ({
             key: String(item.year),
@@ -119,7 +126,7 @@ export function AnnualRegistrationsChart({
                 <Cell
                   key={entry.year}
                   fill={
-                    year === entry.year
+                    effectiveYear === entry.year
                       ? "url(#selectedGradient)"
                       : "hsl(var(--heroui-default-200))"
                   }

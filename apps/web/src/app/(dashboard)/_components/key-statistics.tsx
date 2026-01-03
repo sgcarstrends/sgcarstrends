@@ -189,10 +189,17 @@ export function KeyStatistics({ data }: KeyStatisticsProps) {
     [data],
   );
 
-  const currentYear = useMemo(() => new Date().getFullYear(), []);
+  // Compute effective year - fallback to latest available if URL year doesn't exist in data
+  const effectiveYear = useMemo(() => {
+    const yearExists = sortedByYearDesc.some((item) => item.year === year);
+    return yearExists ? year : (sortedByYearDesc[0]?.year ?? year);
+  }, [year, sortedByYearDesc]);
+
+  // Use latest year in data for filtering incomplete years from highest/lowest records
+  const latestYearInData = sortedByYearDesc[0]?.year;
   const comparableAsc = useMemo(
-    () => sortedByYearAsc.filter((d) => d.year !== currentYear),
-    [sortedByYearAsc, currentYear],
+    () => sortedByYearAsc.filter((d) => d.year !== latestYearInData),
+    [sortedByYearAsc, latestYearInData],
   );
   const comparableTotalDesc = useMemo(
     () => [...comparableAsc].sort((a, b) => b.total - a.total),
@@ -200,12 +207,12 @@ export function KeyStatistics({ data }: KeyStatisticsProps) {
   );
 
   const selectedEntry = useMemo(
-    () => sortedByYearAsc.find((item) => item.year === year),
-    [sortedByYearAsc, year],
+    () => sortedByYearAsc.find((item) => item.year === effectiveYear),
+    [sortedByYearAsc, effectiveYear],
   );
   const previousEntry = useMemo(
-    () => sortedByYearAsc.find((item) => item.year === year - 1),
-    [sortedByYearAsc, year],
+    () => sortedByYearAsc.find((item) => item.year === effectiveYear - 1),
+    [sortedByYearAsc, effectiveYear],
   );
   const highestEntry = comparableTotalDesc[0];
   const lowestEntry = comparableTotalDesc[comparableTotalDesc.length - 1];
@@ -248,7 +255,7 @@ export function KeyStatistics({ data }: KeyStatisticsProps) {
                 ? numberFormatter.format(selectedEntry.total)
                 : "—"}
               <Typography.TextSm>
-                total registrations in {year}
+                total registrations in {effectiveYear}
               </Typography.TextSm>
             </div>
           </div>
@@ -256,7 +263,7 @@ export function KeyStatistics({ data }: KeyStatisticsProps) {
             aria-label="Select year"
             placeholder="Select year"
             className="max-w-xs"
-            selectedKeys={new Set([year.toString()])}
+            selectedKeys={new Set([effectiveYear.toString()])}
             onSelectionChange={(keys) => {
               const selected = Array.from(keys)[0];
               if (selected) setSearchParams({ year: Number(selected) });
