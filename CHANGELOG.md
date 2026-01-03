@@ -1,3 +1,13 @@
+## [4.42.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.41.0...v4.42.0) (2026-01-03)
+
+### Features
+
+* **web:** add Vercel bypass for QStash ([460640b](https://github.com/sgcarstrends/sgcarstrends/commit/460640bbc4df8a9e3e33fad84822f28cf39d2240))
+
+### Bug Fixes
+
+* resolve TypeScript errors in updater ([71dd16f](https://github.com/sgcarstrends/sgcarstrends/commit/71dd16f41143f41bde50b11bc263dd8a46601f5d))
+
 ## [4.41.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.40.0...v4.41.0) (2025-12-24)
 
 ### Features
