@@ -1,8 +1,9 @@
-import { qstashClient, receiver } from "@web/config/qstash";
+import { getBypassHeaders, qstashClient, receiver } from "@web/config/qstash";
 
 export const options = {
   receiver,
   qstashClient,
+  headers: getBypassHeaders(),
   onError: async (error: Error) => {
     const payload = {
       embeds: [
