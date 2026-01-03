@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { type ComponentType, type PropsWithChildren, Suspense } from "react";
 
-interface Props extends PropsWithChildren {
+interface LinkWithParamsProps extends PropsWithChildren {
   href: string;
 }
 
@@ -18,12 +18,14 @@ const withSuspense = <P extends object>(Component: ComponentType<P>) => {
   };
 };
 
-export const LinkWithParams = withSuspense(({ href, ...props }: Props) => {
-  const searchParams = useSearchParams();
-  return (
-    <Link
-      href={{ pathname: href, query: searchParams.toString() }}
-      {...props}
-    />
-  );
-});
+export const LinkWithParams = withSuspense(
+  ({ href, ...props }: LinkWithParamsProps) => {
+    const searchParams = useSearchParams();
+    return (
+      <Link
+        href={{ pathname: href, query: searchParams.toString() }}
+        {...props}
+      />
+    );
+  },
+);

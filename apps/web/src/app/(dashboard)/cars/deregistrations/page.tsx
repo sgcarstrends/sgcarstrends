@@ -88,13 +88,13 @@ const title = "Vehicle Deregistrations";
 const description =
   "Monthly vehicle deregistration statistics in Singapore under the Vehicle Quota System (VQS). Track deregistration trends by category.";
 
-interface Props {
+interface PageProps {
   searchParams: Promise<SearchParams>;
 }
 
 export const generateMetadata = async ({
   searchParams,
-}: Props): Promise<Metadata> => {
+}: PageProps): Promise<Metadata> => {
   let { month } = await loadSearchParams(searchParams);
 
   try {
@@ -117,7 +117,7 @@ export const generateMetadata = async ({
   }
 };
 
-const DeregistrationsPage = async ({ searchParams }: Props) => {
+const DeregistrationsPage = async ({ searchParams }: PageProps) => {
   let { month } = await loadSearchParams(searchParams);
 
   let months: string[] = [];

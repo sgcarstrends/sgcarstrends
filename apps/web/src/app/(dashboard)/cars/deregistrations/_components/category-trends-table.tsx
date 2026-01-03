@@ -10,11 +10,11 @@ interface CategorySparklineData {
   colour: string;
 }
 
-interface Props {
+interface CategoryTrendsTableProps {
   data: CategorySparklineData[];
 }
 
-export function CategoryTrendsTable({ data }: Props) {
+export function CategoryTrendsTable({ data }: CategoryTrendsTableProps) {
   return (
     <Card className="p-3">
       <CardBody className="p-4">

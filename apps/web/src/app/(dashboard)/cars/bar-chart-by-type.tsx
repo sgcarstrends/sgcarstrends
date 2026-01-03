@@ -8,11 +8,11 @@ import type { RegistrationStat } from "@web/types/cars";
 import { formatVehicleType } from "@web/utils/format-vehicle-type";
 import { Bar, BarChart, Cell, LabelList, XAxis, YAxis } from "recharts";
 
-interface Props {
+interface BarChartByTypeProps {
   data: RegistrationStat[];
 }
 
-export const BarChartByType = ({ data }: Props) => {
+export const BarChartByType = ({ data }: BarChartByTypeProps) => {
   const chartData = data.map(({ name, count }) => ({
     label: formatVehicleType(name),
     count,

@@ -11,7 +11,7 @@ interface PostWithViews extends SelectPost {
   viewCount: number;
 }
 
-interface Props {
+interface PopularPostsProps {
   posts: PostWithViews[];
 }
 
@@ -22,7 +22,7 @@ const formatViewCount = (count: number): string => {
   }).format(count);
 };
 
-export function PopularPosts({ posts }: Props) {
+export function PopularPosts({ posts }: PopularPostsProps) {
   if (posts.length === 0) {
     return null;
   }

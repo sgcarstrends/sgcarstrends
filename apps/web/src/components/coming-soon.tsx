@@ -1,8 +1,8 @@
 import type { PropsWithChildren } from "react";
 
-interface Props extends PropsWithChildren {}
+interface ComingSoonProps extends PropsWithChildren {}
 
-export function ComingSoon({ children }: Props) {
+export function ComingSoon({ children }: ComingSoonProps) {
   return (
     <div className="pointer-events-none relative inline-block rounded-sm">
       {children}

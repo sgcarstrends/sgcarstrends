@@ -7,11 +7,11 @@ import type { Pqp } from "@web/types/coe";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
-interface Props {
+interface ComparisonSummaryCardProps {
   data: Pqp.Comparison[];
 }
 
-export function ComparisonSummaryCard({ data }: Props) {
+export function ComparisonSummaryCard({ data }: ComparisonSummaryCardProps) {
   const shouldReduceMotion = useReducedMotion();
 
   const containerVariants = {

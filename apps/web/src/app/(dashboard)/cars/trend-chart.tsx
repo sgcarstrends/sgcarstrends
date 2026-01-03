@@ -13,11 +13,11 @@ interface MakeData {
   count: number;
 }
 
-interface Props {
+interface TrendChartProps {
   data: MakeData[];
 }
 
-export const TrendChart = ({ data }: Props) => {
+export const TrendChart = ({ data }: TrendChartProps) => {
   const chartData = data.slice(0, 10);
   const totalRegistrations = chartData.reduce(
     (sum, item) => sum + item.count,

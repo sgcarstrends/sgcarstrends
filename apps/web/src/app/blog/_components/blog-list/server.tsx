@@ -2,11 +2,11 @@ import type { SelectPost } from "@sgcarstrends/database";
 import { getPostCountsByCategory } from "@web/queries/posts";
 import { BlogListClient } from "./client";
 
-interface Props {
+interface BlogListProps {
   posts: SelectPost[];
 }
 
-export async function BlogList({ posts }: Props) {
+export async function BlogList({ posts }: BlogListProps) {
   const postCounts = await getPostCountsByCategory();
 
   const counts = {

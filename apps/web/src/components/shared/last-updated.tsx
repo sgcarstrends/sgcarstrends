@@ -1,11 +1,11 @@
 import Typography from "@web/components/typography";
 import { format } from "date-fns";
 
-interface Props {
+interface LastUpdatedProps {
   lastUpdated: number;
 }
 
-export function LastUpdated({ lastUpdated }: Props) {
+export function LastUpdated({ lastUpdated }: LastUpdatedProps) {
   return (
     <Typography.Caption>
       Last updated:{" "}

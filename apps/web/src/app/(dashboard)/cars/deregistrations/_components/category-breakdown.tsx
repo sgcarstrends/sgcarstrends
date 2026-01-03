@@ -10,11 +10,11 @@ import type { CategoryWithPercentage } from "@web/app/(dashboard)/cars/deregistr
 import { formatNumber, formatPercentage } from "@web/utils/charts";
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 
-interface Props {
+interface CategoryBreakdownProps {
   data: CategoryWithPercentage[];
 }
 
-export function CategoryBreakdown({ data }: Props) {
+export function CategoryBreakdown({ data }: CategoryBreakdownProps) {
   const chartConfig = {
     total: { label: "Deregistrations", color: "hsl(var(--heroui-primary))" },
   } as const;

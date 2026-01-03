@@ -3,14 +3,19 @@ import { AnimatedNumber } from "@web/components/animated-number";
 import { MetricsComparison } from "@web/components/metrics-comparison";
 import Typography from "@web/components/typography";
 
-interface Props {
+interface MetricCardProps {
   title: string;
   value: number;
   current: number;
   previousMonth: number;
 }
 
-export function MetricCard({ title, value, current, previousMonth }: Props) {
+export function MetricCard({
+  title,
+  value,
+  current,
+  previousMonth,
+}: MetricCardProps) {
   return (
     <Card className="p-3">
       <CardHeader>

@@ -13,7 +13,7 @@ import {
   isNewPost,
 } from "./utils";
 
-interface Props {
+interface CardProps {
   post: SelectPost;
 }
 
@@ -23,7 +23,7 @@ interface Props {
  * Editorial card design with text overlaid on image.
  * Features dark gradient overlay and drop shadows for legibility.
  */
-export function Card({ post }: Props) {
+export function Card({ post }: CardProps) {
   const publishedDate = post.publishedAt ?? post.createdAt;
   const category = getCategoryConfig(post);
   const imageUrl = getPostImage(post, "card");

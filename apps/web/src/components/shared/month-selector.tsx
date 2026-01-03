@@ -12,11 +12,11 @@ import { Calendar } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useEffect, useMemo } from "react";
 
-interface Props {
+interface MonthSelectorProps {
   months: Month[];
 }
 
-export function MonthSelector({ months }: Props) {
+export function MonthSelector({ months }: MonthSelectorProps) {
   const [month, setMonth] = useQueryState("month", { shallow: false });
   const latestMonth = months[0];
 

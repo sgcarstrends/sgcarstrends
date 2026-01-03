@@ -3,12 +3,12 @@
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
-interface Props {
+interface AnimatedSectionProps {
   order: number;
   children: ReactNode;
 }
 
-export function AnimatedSection({ order, children }: Props) {
+export function AnimatedSection({ order, children }: AnimatedSectionProps) {
   const shouldReduceMotion = useReducedMotion();
 
   return (

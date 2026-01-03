@@ -15,13 +15,13 @@ import type { Pqp } from "@web/types/coe";
 import { ArrowUpDown } from "lucide-react";
 import { type Key, useCallback, useMemo, useState } from "react";
 
-interface Props {
+interface DataTableProps {
   rows: Pqp.TableRow[];
   columns: Pqp.TableColumn[];
   rowsPerPage?: number;
 }
 
-export function DataTable({ rows, columns, rowsPerPage = 10 }: Props) {
+export function DataTable({ rows, columns, rowsPerPage = 10 }: DataTableProps) {
   const [page, setPage] = useState(1);
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "month",

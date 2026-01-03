@@ -11,11 +11,11 @@ import {
   getReadingTime,
 } from "./utils";
 
-interface Props {
+interface CompactProps {
   post: SelectPost;
 }
 
-export function Compact({ post }: Props) {
+export function Compact({ post }: CompactProps) {
   const publishedDate = post.publishedAt ?? post.createdAt;
   const category = getCategoryConfig(post);
   const imageUrl = getPostImage(post, "compact");

@@ -1,12 +1,12 @@
 import { cn } from "@heroui/react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import LoadingIndicator from "@web/app/loading-indicator";
 import { Providers } from "@web/app/providers";
 import { Announcement } from "@web/components/announcement";
 import { Banner } from "@web/components/banner";
 import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
+import LoadingIndicator from "@web/components/loading-indicator";
 import { NotificationPrompt } from "@web/components/notification-prompt";
 import { Notifications } from "@web/components/notifications";
 import { SITE_TITLE, SITE_URL } from "@web/config";

@@ -27,7 +27,7 @@ import {
 import { useMemo } from "react";
 import { CartesianGrid, Line, LineChart } from "recharts";
 
-interface Props {
+interface COEPremiumChartProps {
   data: COEBiddingResult[];
 }
 
@@ -41,7 +41,7 @@ const PERIOD_LABELS: Record<Period, string> = {
 
 const defaultCategories = ["Category A", "Category B", "Category E"];
 
-export function COEPremiumChart({ data }: Props) {
+export function COEPremiumChart({ data }: COEPremiumChartProps) {
   const [period, setPeriod] = useQueryState(
     "period",
     parseAsStringLiteral(periods)

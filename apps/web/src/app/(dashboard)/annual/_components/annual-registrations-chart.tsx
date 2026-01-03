@@ -18,12 +18,15 @@ interface YearlyData {
   total: number;
 }
 
-interface Props {
+interface AnnualRegistrationsChartProps {
   data: YearlyData[];
   availableYears: { year: number }[];
 }
 
-export function AnnualRegistrationsChart({ data, availableYears }: Props) {
+export function AnnualRegistrationsChart({
+  data,
+  availableYears,
+}: AnnualRegistrationsChartProps) {
   const [{ year }, setSearchParams] = useQueryStates(searchParams);
 
   const numberFormatter = new Intl.NumberFormat("en-SG");

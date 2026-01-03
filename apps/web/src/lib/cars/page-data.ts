@@ -17,10 +17,10 @@ import { fetchMonthsForCars } from "@web/utils/months";
  * @param apiDataField - Category field to fetch market share for
  * @returns Category page data with cars, top performers, market share, months, and last updated
  */
-export const loadCarsCategoryPageData = async (
+export async function loadCarsCategoryPageData(
   month: string,
   apiDataField: "fuelType" | "vehicleType",
-) => {
+) {
   const [
     lastUpdated,
     cars,
@@ -50,7 +50,7 @@ export const loadCarsCategoryPageData = async (
     previousTotal,
     topMakesByFuelType,
   };
-};
+}
 
 /**
  * Type definition for fuel/vehicle type data
@@ -74,7 +74,7 @@ export interface TypeData {
  * @param month - Month in YYYY-MM format
  * @returns Type-safe data for the specific type page
  */
-export const loadCarsTypePageData = async (
+export async function loadCarsTypePageData(
   category: string,
   type: string,
   month: string,
@@ -82,7 +82,7 @@ export const loadCarsTypePageData = async (
   cars: TypeData;
   months: string[];
   lastUpdated: number | null;
-}> => {
+}> {
   const [cars, months, lastUpdated] = await Promise.all([
     category === "fuel-types"
       ? getFuelTypeData(type, month)
@@ -92,7 +92,7 @@ export const loadCarsTypePageData = async (
   ]);
 
   return { cars, months, lastUpdated };
-};
+}
 
 /**
  * Load metadata data for cars overview page
@@ -100,11 +100,11 @@ export const loadCarsTypePageData = async (
  * @param month - Month in YYYY-MM format
  * @returns Top types and car registration data for metadata generation
  */
-export const loadCarsMetadataData = async (month: string) => {
+export async function loadCarsMetadataData(month: string) {
   const [topTypes, carRegistration] = await Promise.all([
     getTopTypes(month),
     getCarsData(month),
   ]);
 
   return { topTypes, carRegistration };
-};
+}

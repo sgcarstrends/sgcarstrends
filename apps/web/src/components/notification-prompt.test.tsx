@@ -1,5 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import useStore from "@web/app/store";
+import type { Mock } from "vitest";
+import { vi } from "vitest";
 import { NotificationPrompt } from "./notification-prompt";
 
 vi.mock("@heroui/react", async () => {
@@ -17,7 +19,7 @@ vi.mock("@web/app/store", () => ({
   })),
 }));
 
-const mockUseStore = useStore as vi.Mock;
+const mockUseStore = useStore as unknown as Mock;
 
 describe("NotificationPrompt Component", () => {
   let originalNotification: any;
@@ -88,7 +90,7 @@ describe("NotificationPrompt Component", () => {
       notificationStatus: "default",
       setNotificationStatus,
     });
-    (global.Notification.requestPermission as vi.Mock).mockResolvedValue(
+    (global.Notification.requestPermission as Mock).mockResolvedValue(
       "granted",
     );
 
@@ -108,9 +110,7 @@ describe("NotificationPrompt Component", () => {
       notificationStatus: "default",
       setNotificationStatus,
     });
-    (global.Notification.requestPermission as vi.Mock).mockResolvedValue(
-      "denied",
-    );
+    (global.Notification.requestPermission as Mock).mockResolvedValue("denied");
 
     render(<NotificationPrompt />);
 

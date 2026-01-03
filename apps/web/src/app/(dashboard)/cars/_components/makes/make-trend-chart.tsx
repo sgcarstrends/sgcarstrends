@@ -9,11 +9,11 @@ import {
 import Typography from "@web/components/typography";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
-interface Props {
+interface MakeTrendChartProps {
   data: any[];
 }
 
-export function MakeTrendChart({ data }: Props) {
+export function MakeTrendChart({ data }: MakeTrendChartProps) {
   const monthlyTotals: { [key: string]: number } = {};
   for (const item of data) {
     const month = item.month;

@@ -21,7 +21,7 @@ import {
   YAxis,
 } from "recharts";
 
-interface Props {
+interface CoeComparisonChartProps {
   data: MakeCoeComparisonData[];
 }
 
@@ -40,7 +40,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function CoeComparisonChart({ data }: Props) {
+export function CoeComparisonChart({ data }: CoeComparisonChartProps) {
   return (
     <ChartContainer config={chartConfig} className="h-[300px] w-full">
       <ComposedChart

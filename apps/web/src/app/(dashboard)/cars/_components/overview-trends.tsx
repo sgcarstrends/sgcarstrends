@@ -5,12 +5,12 @@ import { AnimatedNumber } from "@web/components/animated-number";
 import Typography from "@web/components/typography";
 import Link from "next/link";
 
-interface Props {
+interface CarOverviewTrendsProps {
   cars: any[];
   total: number;
 }
 
-export function CarOverviewTrends({ cars, total }: Props) {
+export function CarOverviewTrends({ cars, total }: CarOverviewTrendsProps) {
   return (
     <div className="grid grid-cols-1 gap-4">
       <Card className="p-3">

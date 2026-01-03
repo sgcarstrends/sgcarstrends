@@ -13,13 +13,13 @@ import type { Make } from "@web/types";
 import { fetchMonthsForCars } from "@web/utils/months";
 import type { Metadata } from "next";
 
-interface Props {
+interface PageProps {
   params: Promise<{ make: Make }>;
 }
 
 export const generateMetadata = async ({
   params,
-}: Props): Promise<Metadata> => {
+}: PageProps): Promise<Metadata> => {
   const { make } = await params;
 
   const makeName = make.toUpperCase().replaceAll("-", " ");
@@ -37,7 +37,7 @@ export const generateMetadata = async ({
   });
 };
 
-export default async function CarMakePage({ params }: Props) {
+export default async function CarMakePage({ params }: PageProps) {
   const { make } = await params;
 
   const [makeExists, makeDetails, lastUpdated, coeComparison, logo, months] =

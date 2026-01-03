@@ -1,29 +1,23 @@
 import { render, screen } from "@testing-library/react";
 import { CategoryInfo } from "@web/app/(dashboard)/cars/_components/category-info";
 import { Car } from "lucide-react";
-
-const mockCategories = {
-  "Category A": true,
-  "Category B": false,
-};
-
-vi.mock("@web/app/store", () => ({
-  default: vi.fn((selector) => {
-    const state = {
-      categories: mockCategories,
-      updateCategories: vi.fn(),
-    };
-    return selector(state);
-  }),
-}));
+import { vi } from "vitest";
 
 describe("CategoryInfo", () => {
+  const mockOnToggle = vi.fn();
+
+  beforeEach(() => {
+    mockOnToggle.mockClear();
+  });
+
   it("should render with required props", () => {
     render(
       <CategoryInfo
         icon={Car}
         category="Category A"
         description="Cars up to 1600cc and 97kW"
+        isSelected={false}
+        onToggle={mockOnToggle}
       />,
     );
 
@@ -38,6 +32,8 @@ describe("CategoryInfo", () => {
         category="Category A"
         description="Test description"
         canFilter={false}
+        isSelected={false}
+        onToggle={mockOnToggle}
       />,
     );
 

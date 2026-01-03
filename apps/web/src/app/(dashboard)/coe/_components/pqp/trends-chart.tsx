@@ -13,13 +13,13 @@ import type { Pqp } from "@web/types/coe";
 import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
-interface Props {
+interface TrendsChartProps {
   data: Pqp.TrendPoint[];
 }
 
 const chartConfig: ChartConfig = {};
 
-export function TrendsChart({ data }: Props) {
+export function TrendsChart({ data }: TrendsChartProps) {
   return (
     <Card className="p-3">
       <CardHeader>

@@ -5,7 +5,7 @@ import Typography from "@web/components/typography";
 import type { Month } from "@web/types";
 import { type ReactNode, Suspense } from "react";
 
-interface Props {
+interface PageHeaderProps {
   title: string;
   subtitle?: string;
   children?: ReactNode;
@@ -23,7 +23,7 @@ export function PageHeader({
   lastUpdated,
   months,
   showMonthSelector = false,
-}: Props) {
+}: PageHeaderProps) {
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">

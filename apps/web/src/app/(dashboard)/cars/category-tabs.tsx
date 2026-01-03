@@ -4,11 +4,11 @@ import { Tab, Tabs } from "@heroui/tabs";
 import { StatCard } from "@web/components/shared/stat-card";
 import type { Registration } from "@web/types/cars";
 
-interface Props {
+interface CategoryTabsProps {
   cars: Registration;
 }
 
-export const CategoryTabs = ({ cars }: Props) => {
+export const CategoryTabs = ({ cars }: CategoryTabsProps) => {
   return (
     <Tabs variant="underlined">
       <Tab key="fuelType" title="By Fuel Type">

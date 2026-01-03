@@ -13,7 +13,7 @@ import Link from "next/link";
 //   url: string;
 // }
 
-interface Props {
+interface TopMakesProps {
   data: FuelType[];
 }
 
@@ -55,7 +55,7 @@ interface Props {
 //   },
 // ];
 
-export function TopMakes({ data }: Props) {
+export function TopMakes({ data }: TopMakesProps) {
   return (
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
       {data.map(({ fuelType, total, makes }) => {

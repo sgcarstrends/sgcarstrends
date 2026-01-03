@@ -19,13 +19,13 @@ import {
   YAxis,
 } from "recharts";
 
-interface Props {
+interface ComparisonMixedChartProps {
   data: Pqp.Comparison[];
 }
 
 const chartConfig: ChartConfig = {};
 
-export function ComparisonMixedChart({ data }: Props) {
+export function ComparisonMixedChart({ data }: ComparisonMixedChartProps) {
   return (
     <Card className="p-3">
       <CardHeader>

@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import { StructuredData } from "@web/components/structured-data";
+import type { Organization, WithContext } from "schema-dts";
 import { vi } from "vitest";
 
 vi.mock("next/script", () => ({
@@ -9,7 +10,7 @@ vi.mock("next/script", () => ({
 
 describe("StructuredData", () => {
   it("should inject JSON-LD script", () => {
-    const data = {
+    const data: WithContext<Organization> = {
       "@context": "https://schema.org",
       "@type": "Organization",
       name: "SG Cars Trends",

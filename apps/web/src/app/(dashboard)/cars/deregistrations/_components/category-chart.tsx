@@ -21,12 +21,12 @@ import type React from "react";
 import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 
-interface Props {
+interface CategoryChartProps {
   data: SelectDeregistration[];
   months: string[];
 }
 
-export function CategoryChart({ data, months }: Props) {
+export function CategoryChart({ data, months }: CategoryChartProps) {
   const [{ month, category }, setSearchParams] = useQueryStates(
     deregistrationsSearchParams,
   );

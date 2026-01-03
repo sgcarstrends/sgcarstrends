@@ -6,11 +6,11 @@ import type { COEResult } from "@web/types";
 import { formatCurrency } from "@web/utils/format-currency";
 import { useEffect } from "react";
 
-interface Props {
+interface PremiumBannerProps {
   data: COEResult[];
 }
 
-export function PremiumBanner({ data = [] }: Props) {
+export function PremiumBanner({ data = [] }: PremiumBannerProps) {
   const setBannerContent = useStore(({ setBannerContent }) => setBannerContent);
 
   useEffect(() => {

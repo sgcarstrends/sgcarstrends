@@ -25,7 +25,7 @@ import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
-interface Props {
+interface PageProps {
   params: Promise<{ category: string; type: string }>;
   searchParams: Promise<SearchParams>;
 }
@@ -44,7 +44,7 @@ const categoryConfigs = {
 export const generateMetadata = async ({
   params,
   searchParams,
-}: Props): Promise<Metadata> => {
+}: PageProps): Promise<Metadata> => {
   const { category, type } = await params;
   const { month } = await loadSearchParams(searchParams);
 
@@ -94,7 +94,7 @@ export const generateStaticParams = async () => {
   return params;
 };
 
-export default async function Page({ params, searchParams }: Props) {
+export default async function Page({ params, searchParams }: PageProps) {
   const { category, type } = await params;
   let { month } = await loadSearchParams(searchParams);
   month = await getMonthOrLatest(month, "cars");

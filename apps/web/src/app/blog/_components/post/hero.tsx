@@ -13,7 +13,7 @@ import {
   isNewPost,
 } from "./utils";
 
-interface Props {
+interface HeroProps {
   post: SelectPost;
 }
 
@@ -23,7 +23,7 @@ interface Props {
  * Large editorial card with text overlaid on image.
  * Used for featured/hero posts in the blog list.
  */
-export function Hero({ post }: Props) {
+export function Hero({ post }: HeroProps) {
   const publishedDate = post.publishedAt ?? post.createdAt;
   const category = getCategoryConfig(post);
   const imageUrl = getPostImage(post, "hero");

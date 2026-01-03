@@ -29,7 +29,7 @@ interface YearlyData {
   total: number;
 }
 
-interface Props {
+interface KeyStatisticsProps {
   data: YearlyData[];
 }
 
@@ -165,7 +165,7 @@ const TrendChart = ({ data, chartColor, ariaLabel }: TrendChartProps) => {
   );
 };
 
-export function KeyStatistics({ data }: Props) {
+export function KeyStatistics({ data }: KeyStatisticsProps) {
   const [{ year }, setSearchParams] = useQueryStates(searchParams);
 
   const numberFormatter = useMemo(() => new Intl.NumberFormat("en-SG"), []);

@@ -4,7 +4,7 @@ import { Article } from "@web/lib/og/templates/article";
 import { getAllPosts, getPostBySlug } from "@web/queries/posts";
 import { ImageResponse } from "next/og";
 
-interface Props {
+interface ImageProps {
   params: Promise<{ slug: string }>;
 }
 
@@ -16,7 +16,7 @@ export async function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-const Image = async ({ params }: Props) => {
+const Image = async ({ params }: ImageProps) => {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 

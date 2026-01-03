@@ -11,7 +11,7 @@ interface PostCounts {
   category: Record<string, number>;
 }
 
-interface Props {
+interface BlogListClientProps {
   posts: SelectPost[];
   counts: PostCounts;
 }
@@ -47,7 +47,7 @@ const PostsGrid = ({ posts }: PostsGridProps) => {
   );
 };
 
-export function BlogListClient({ posts, counts }: Props) {
+export function BlogListClient({ posts, counts }: BlogListClientProps) {
   const [selectedTab, setSelectedTab] = useState("all");
 
   const filteredPosts = useMemo(() => {

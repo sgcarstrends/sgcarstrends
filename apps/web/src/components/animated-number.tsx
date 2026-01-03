@@ -4,13 +4,17 @@ import { formatCurrency, formatNumber } from "@web/utils/format-currency";
 import { motion, useSpring, useTransform } from "framer-motion";
 import { useEffect } from "react";
 
-interface Props {
+interface AnimatedNumberProps {
   value: number;
   from?: number;
   format?: "number" | "currency";
 }
 
-export function AnimatedNumber({ value, from = 0, format = "number" }: Props) {
+export function AnimatedNumber({
+  value,
+  from = 0,
+  format = "number",
+}: AnimatedNumberProps) {
   const spring = useSpring(from, { mass: 0.8, stiffness: 75, damping: 15 });
 
   const display = useTransform(spring, (current) => {

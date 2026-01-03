@@ -18,7 +18,7 @@ import {
   CategoryTabsPanel,
 } from "./_components";
 
-interface Props {
+interface PageProps {
   params: Promise<{ category: string }>;
   searchParams: Promise<SearchParams>;
 }
@@ -59,7 +59,7 @@ export const generateStaticParams = async () =>
 export const generateMetadata = async ({
   params,
   searchParams,
-}: Props): Promise<Metadata> => {
+}: PageProps): Promise<Metadata> => {
   const { category } = await params;
   const config = categoryConfigs[category];
 
@@ -84,7 +84,7 @@ export const generateMetadata = async ({
   });
 };
 
-const Page = async ({ params, searchParams }: Props) => {
+const Page = async ({ params, searchParams }: PageProps) => {
   const { category } = await params;
   let { month } = await loadSearchParams(searchParams);
   month = await getMonthOrLatest(month, "cars");

@@ -6,14 +6,14 @@ import Typography from "@web/components/typography";
 import { FUEL_TYPE } from "@web/config";
 import type { RegistrationStat } from "@web/types/cars";
 
-interface Props {
+interface StatCardProps {
   title: string;
   description: string;
   data: RegistrationStat[];
   total: number;
 }
 
-export function StatCard({ title, description, data }: Props) {
+export function StatCard({ title, description, data }: StatCardProps) {
   return (
     <Card className="p-3">
       <CardHeader className="flex flex-col items-start gap-2">

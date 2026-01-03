@@ -306,4 +306,5 @@ const Typography = {
   Lead,
 };
 
+export { Typography };
 export default Typography;

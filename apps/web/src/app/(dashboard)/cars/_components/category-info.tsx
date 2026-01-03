@@ -5,7 +5,7 @@ import Typography from "@web/components/typography";
 import type { COECategory } from "@web/types";
 import type { LucideIcon } from "lucide-react";
 
-interface Props {
+interface CategoryInfoProps {
   icon: LucideIcon;
   category: COECategory;
   description: string;
@@ -21,7 +21,7 @@ export function CategoryInfo({
   canFilter = true,
   isSelected,
   onToggle,
-}: Props) {
+}: CategoryInfoProps) {
   const handleFilterCategories = () => {
     if (canFilter) {
       onToggle(category);

@@ -14,7 +14,7 @@ import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
 
-interface Props {
+interface PageProps {
   searchParams: Promise<SearchParams>;
 }
 
@@ -43,7 +43,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
   });
 };
 
-const COEResultsPage = async ({ searchParams }: Props) => {
+const COEResultsPage = async ({ searchParams }: PageProps) => {
   const { period, month } = await loadSearchParams(searchParams);
   const {
     coeResults,
