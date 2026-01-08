@@ -1,1 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Secrets detection - fail fast if secrets found
+gitleaks protect --staged --verbose
+
+# Lint staged files
 pnpm lint-staged
