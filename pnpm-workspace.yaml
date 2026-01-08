@@ -3,7 +3,7 @@ packages:
   - packages/*
 
 catalog:
-  '@ai-sdk/google': ^3.0.0
+  '@ai-sdk/google': ^3.0.6
   '@langfuse/otel': ^4.4.2
   '@tailwindcss/postcss': ^4.1.11
   '@types/node': ^22.16.4
