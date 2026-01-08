@@ -1,14 +1,11 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import {
+  createGoogleGenerativeAI,
+  type GoogleGenerativeAIProviderOptions,
+} from "@ai-sdk/google";
 import type { HTTPMethods } from "@upstash/qstash";
 import { WorkflowAbort, type WorkflowContext } from "@upstash/workflow";
-import { generateText, type LanguageModelUsage, Output } from "ai";
-import {
-  ANALYSIS_INSTRUCTIONS,
-  ANALYSIS_PROMPTS,
-  type BlogGenerationParams,
-  GENERATION_INSTRUCTIONS,
-  GENERATION_PROMPTS,
-} from "./config";
+import { generateText, type LanguageModelUsage, Output, stepCountIs } from "ai";
+import { type BlogGenerationParams, INSTRUCTIONS, PROMPTS } from "./config";
 import { getHeroImage } from "./hero-images";
 import { shutdownTracing, startTracing } from "./instrumentation";
 import { savePost } from "./save-post";
@@ -25,7 +22,7 @@ export interface GenerateAndSaveResult {
 }
 
 /**
- * Result of the 2-step blog content generation
+ * Result of blog content generation
  */
 export interface GenerateBlogContentResult {
   output: GeneratedPost;
@@ -46,10 +43,7 @@ export interface BlogGenerationOptions extends BlogGenerationParams {
 
 /**
  * Internal: AI content generation using context.call() for reduced Lambda billing.
- * Uses a 2-step flow for accuracy and type-safety:
- *
- * Step 1: Code Execution - Analyse data with Python code execution for accurate calculations
- * Step 2: Structured Output - Generate validated blog content matching the postSchema
+ * Uses a single call with both code execution (tools) and structured output for accuracy and type-safety.
  */
 async function generateContent(
   options: BlogGenerationOptions,
@@ -59,70 +53,68 @@ async function generateContent(
   // Create workflow-aware Google provider that uses context.call()
   const google = createWorkflowGoogle(workflowContext);
 
-  // Initialize LangFuse tracing
+  console.log(`[GENERATE] ${dataType} blog generation started...`);
+
+  // Initialise LangFuse tracing
   startTracing();
 
-  console.log(`[STEP 1] ${dataType} data analysis started...`);
-
-  // STEP 1: Code Execution for accurate analysis
-  const analysisResult = await generateText({
-    model: google("gemini-3-flash-preview"),
-    system: ANALYSIS_INSTRUCTIONS[dataType],
-    tools: { code_execution: google.tools.codeExecution({}) },
-    prompt: `Analyse this ${dataType.toUpperCase()} data for ${month}:\n${data}\n\n${ANALYSIS_PROMPTS[dataType]}`,
-    providerOptions: {
-      google: {
-        thinkingConfig: {
-          thinkingBudget: -1,
+  try {
+    const result = await generateText({
+      model: google("gemini-3-flash-preview"),
+      tools: {
+        // @ts-expect-error
+        code_execution: google.tools.codeExecution({}),
+      },
+      output: Output.object({
+        schema: postSchema,
+      }),
+      stopWhen: stepCountIs(10),
+      system: INSTRUCTIONS[dataType],
+      prompt: `Generate a blog post for ${dataType.toUpperCase()} data from ${month}:\n\n${data}\n\n${PROMPTS[dataType]}`,
+      providerOptions: {
+        google: {
+          thinkingConfig: {
+            thinkingLevel: "medium",
+            includeThoughts: true,
+          },
+        } satisfies GoogleGenerativeAIProviderOptions,
+      },
+      experimental_telemetry: {
+        isEnabled: true,
+        functionId: `post-generation/${dataType}`,
+        metadata: {
+          month,
+          dataType,
+          tags: [dataType, month, "post-generation"],
         },
       },
-    },
-    experimental_telemetry: {
-      isEnabled: true,
-      functionId: `post-analysis/${dataType}`,
-      metadata: {
-        month,
-        dataType,
-        step: "analysis",
-        tags: [dataType, month, "post-analysis"],
+    });
+
+    console.log(`[GENERATE] ${dataType} blog generation completed`);
+    console.log(`[GENERATE] Steps: ${result.steps?.length ?? 0}`);
+    console.log(`[GENERATE] Finish reason: ${result.finishReason}`);
+    console.log(`[GENERATE] Tool calls: ${result.toolCalls?.length ?? 0}`);
+
+    const { output, usage, response } = result;
+
+    return {
+      output,
+      usage,
+      response: {
+        id: response.id,
+        modelId: response.modelId,
+        timestamp: response.timestamp,
       },
-    },
-  });
-
-  console.log(`[STEP 1] ${dataType} data analysis completed`);
-  console.log(`[STEP 2] ${dataType} structured output generation started...`);
-
-  // STEP 2: Structured Output generation (no extended thinking - faster)
-  const { output, usage, response } = await generateText({
-    model: google("gemini-3-flash-preview"),
-    output: Output.object({
-      schema: postSchema,
-    }),
-    system: GENERATION_INSTRUCTIONS[dataType],
-    prompt: `Based on this analysis:\n\n${analysisResult.text}\n\nOriginal data for ${month}:\n${data}\n\n${GENERATION_PROMPTS[dataType]}`,
-    experimental_telemetry: {
-      isEnabled: true,
-      functionId: `post-generation/${dataType}`,
-      metadata: {
-        month,
-        dataType,
-        step: "structured-output",
-        tags: [dataType, month, "post-generation"],
-      },
-    },
-  });
-
-  console.log(`[STEP 2] ${dataType} structured output generation completed`);
-
-  return {
-    output,
-    usage,
-    response: {
-      id: response.id,
-      modelId: response.modelId,
-      timestamp: response.timestamp,
-    },
-  };
+    };
+  } catch (error) {
+    if (error instanceof WorkflowAbort) {
+      throw error;
+    }
+    if (error instanceof Error && error.cause instanceof WorkflowAbort) {
+      throw error.cause;
+    }
+    throw error;
+  }
 }
 
 async function saveGeneratedPost(
@@ -204,46 +196,41 @@ function getBypassHeaders(): Record<string, string> | undefined {
  * for HTTP requests. This allows the Lambda to exit while QStash handles the request.
  */
 function createWorkflowGoogle(context: WorkflowContext) {
-  let stepCounter = 0;
-
   return createGoogleGenerativeAI({
     fetch: async (input, init) => {
       try {
-        const requestHeaders: Record<string, string> = {};
-        if (init?.headers) {
-          new Headers(init.headers).forEach((value, key) => {
-            requestHeaders[key] = value;
-          });
-        }
+        const headers = init?.headers
+          ? Object.fromEntries(new Headers(init.headers).entries())
+          : {};
+
         const body = init?.body ? JSON.parse(init.body as string) : undefined;
 
-        const response = await context.call(`gemini-${++stepCounter}`, {
+        const responseInfo = await context.call(`Gemini`, {
           url: input.toString(),
           method: (init?.method as HTTPMethods) ?? "POST",
-          headers: { ...requestHeaders, ...getBypassHeaders() },
+          headers: { ...headers, ...getBypassHeaders() },
           body,
-          timeout: "120s",
         });
 
-        // Flatten response headers (string[] -> string)
-        const responseHeaders: Record<string, string> = {};
-        for (const [key, value] of Object.entries(response.header)) {
-          responseHeaders[key] = Array.isArray(value)
-            ? value.join(", ")
-            : value;
-        }
+        const responseHeaders = new Headers(
+          Object.entries(responseInfo.header).reduce(
+            (acc, [key, values]) => {
+              acc[key] = values.join(", ");
+              return acc;
+            },
+            {} as Record<string, string>,
+          ),
+        );
 
-        return new Response(JSON.stringify(response.body), {
-          status: response.status,
-          headers: new Headers(responseHeaders),
+        return new Response(JSON.stringify(responseInfo.body), {
+          status: responseInfo.status,
+          headers: responseHeaders,
         });
       } catch (error) {
         if (error instanceof WorkflowAbort) {
-          // Re-throw without logging - this is expected control flow, not an error
           throw error;
         }
-        // Only actual errors get logged
-        console.error("Gemini API error:", error);
+        console.error("Error in fetch implementation:", error);
         throw error;
       }
     },
