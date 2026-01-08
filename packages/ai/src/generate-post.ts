@@ -107,7 +107,10 @@ async function generateContent(
       },
     };
   } catch (error) {
-    if (error.cause instanceof WorkflowAbort) {
+    if (error instanceof WorkflowAbort) {
+      throw error;
+    }
+    if (error instanceof Error && error.cause instanceof WorkflowAbort) {
       throw error.cause;
     }
     throw error;
