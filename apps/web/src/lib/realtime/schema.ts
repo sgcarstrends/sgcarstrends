@@ -1,12 +1,7 @@
 import type { InferSchema } from "@upstash/realtime";
 import { z } from "zod";
 
-export const workflowEnum = z.enum([
-  "cars",
-  "coe",
-  "deregistrations",
-  "newsletter",
-]);
+export const workflowEnum = z.enum(["cars", "coe", "deregistrations"]);
 
 export const realtimeSchema = {
   workflow: {

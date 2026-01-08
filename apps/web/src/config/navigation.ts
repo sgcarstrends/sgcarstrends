@@ -194,5 +194,4 @@ export const NAV_ITEMS = [
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
   { href: "/faq", label: "FAQ" },
-  // { href: "/newsletter", label: "Newsletter" },
 ] as const satisfies readonly NavItem[];

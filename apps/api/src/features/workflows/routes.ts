@@ -1,11 +1,6 @@
 import crypto from "node:crypto";
 import { WORKFLOWS_BASE_URL } from "@api/config";
 import { client, receiver } from "@api/config/qstash";
-import {
-  NewsletterBroadcastError,
-  newsletterWorkflow,
-  triggerNewsletterWorkflow,
-} from "@api/features/newsletter";
 import { WorkflowTriggerResponseSchema } from "@api/features/workflows/schemas";
 import { carsWorkflow } from "@api/lib/workflows/cars";
 import { coeWorkflow } from "@api/lib/workflows/coe";
@@ -61,9 +56,6 @@ const workflowResponses = (successDescription: string) => ({
 });
 
 const getErrorMessage = (error: unknown): string => {
-  if (error instanceof NewsletterBroadcastError) {
-    return error.message;
-  }
   if (error instanceof Error) {
     return error.message;
   }
@@ -119,46 +111,12 @@ app.openapi(
   },
 );
 
-app.openapi(
-  createRoute({
-    method: "post",
-    path: "/newsletter/trigger",
-    middleware: [verifyQStash],
-    summary: "Trigger newsletter workflow",
-    description:
-      "Trigger the monthly newsletter broadcast workflow. Requires QStash signature verification.",
-    tags: ["Workflows"],
-    responses: workflowResponses("Newsletter workflow triggered successfully"),
-  }),
-  async (c) => {
-    try {
-      const { workflowRunId } = await triggerNewsletterWorkflow();
-
-      return c.json({
-        success: true,
-        message: "Newsletter workflow triggered successfully",
-        workflowRunIds: [workflowRunId],
-      });
-    } catch (error) {
-      return c.json(
-        {
-          success: false,
-          message: "Failed to trigger newsletter workflow",
-          error: getErrorMessage(error),
-        },
-        500,
-      );
-    }
-  },
-);
-
 app.post(
   "/*",
   serveMany({
     cars: carsWorkflow,
     coe: coeWorkflow,
     deregistrations: deregistrationWorkflow,
-    newsletter: newsletterWorkflow,
     regenerate: regenerationWorkflow,
   }),
 );

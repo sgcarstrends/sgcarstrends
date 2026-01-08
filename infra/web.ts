@@ -45,10 +45,6 @@ export const web = new sst.aws.Nextjs("Web", {
     LINKEDIN_ORGANISATION_ID: process.env.LINKEDIN_ORGANISATION_ID as string,
     LINKEDIN_USER_ID: process.env.LINKEDIN_USER_ID as string,
 
-    // Resend
-    RESEND_API_KEY: process.env.RESEND_API_KEY,
-    RESEND_AUDIENCE_ID: process.env.RESEND_AUDIENCE_ID,
-
     // Telegram
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN as string,
     TELEGRAM_CHANNEL_ID: process.env.TELEGRAM_CHANNEL_ID as string,

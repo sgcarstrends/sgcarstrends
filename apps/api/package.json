@@ -41,7 +41,6 @@
     "hono": "^4.10.5",
     "linkedin-api-client": "npm:@ruchernchong/linkedin-api-client@^0.3.1",
     "papaparse": "^5.4.1",
-    "resend": "catalog:",
     "twitter-api-v2": "^1.23.0",
     "zod": "catalog:"
   },

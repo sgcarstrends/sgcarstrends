@@ -3,7 +3,7 @@
 import { addToast } from "@heroui/toast";
 import { useRealtime } from "@upstash/realtime/client";
 
-type WorkflowType = "cars" | "coe" | "deregistrations" | "newsletter";
+type WorkflowType = "cars" | "coe" | "deregistrations";
 
 interface WorkflowEvent {
   workflow: WorkflowType;
@@ -17,7 +17,6 @@ const WORKFLOW_LABELS: Record<WorkflowType, string> = {
   cars: "Car Registrations",
   coe: "COE Results",
   deregistrations: "Deregistrations",
-  newsletter: "Newsletter",
 };
 
 export function Notifications() {

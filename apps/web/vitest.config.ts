@@ -27,8 +27,6 @@ export default defineConfig({
         "src/components/notifications.tsx", // Realtime component
         "src/components/tables/columns/cars-make-columns.tsx",
         "src/utils/months.ts",
-        "src/utils/resend.ts",
-        "src/actions/**", // Server actions depend on database
         "src/proxy.ts", // Next.js proxy middleware relies on Next internals
         "**/use-mobile.ts", // Part of shadcn/ui Sidebar
         "**/visitors",

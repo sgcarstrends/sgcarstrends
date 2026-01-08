@@ -1,7 +1,6 @@
 import { BlogList } from "@web/app/blog/_components/blog-list";
 import { PopularPosts } from "@web/app/blog/_components/popular-posts";
 import { StructuredData } from "@web/components/structured-data";
-import { SubscribeForm } from "@web/components/subscribe-form";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { getPopularPostsWithData } from "@web/lib/data/posts";
@@ -55,9 +54,6 @@ export default async function BlogPage() {
             {description}
           </Typography.TextLg>
         </div>
-        <UnreleasedFeature>
-          <SubscribeForm />
-        </UnreleasedFeature>
         <UnreleasedFeature>
           <PopularPosts posts={popularPosts} />
         </UnreleasedFeature>
