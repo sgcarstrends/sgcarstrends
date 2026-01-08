@@ -18,16 +18,17 @@ const getDomainName = () => {
 const domain = getDomainName();
 
 // Create shared router with subdomain aliases
-export const router = isPermanentStage
-  ? new sst.aws.Router("SGCarsTrends", {
-      domain: {
-        dns: sst.cloudflare.dns(),
-        name: domain,
-        aliases: [`*.${domain}`],
-        ...($app.stage === "prod" && { redirects: [`www.${DOMAIN_NAME}`] }),
-      },
-    })
-  : sst.aws.Router.get("SGCarsTrends", `${process.env.DISTRIBUTION_ID}`);
+export const router =
+  isPermanentStage && $app.stage !== "staging"
+    ? new sst.aws.Router("SGCarsTrends", {
+        domain: {
+          dns: sst.cloudflare.dns(),
+          name: domain,
+          aliases: [`*.${domain}`],
+          ...($app.stage === "prod" && { redirects: [`www.${DOMAIN_NAME}`] }),
+        },
+      })
+    : sst.aws.Router.get("SGCarsTrends", `${process.env.DISTRIBUTION_ID}`);
 
 export const url = router.url;
 
