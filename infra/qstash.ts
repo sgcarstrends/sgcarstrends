@@ -1,15 +1,6 @@
 import { cron, isPermanentStage } from "./config";
 import { domain } from "./router";
 
-// Schedule IDs from QStash Console - used to import existing schedules
-// This prevents SST from creating duplicates by tracking existing resources
-const scheduleIds: Record<string, string> = {
-  prod: "", // TODO: Add schedule ID from QStash Console
-  staging: "scd_6qYqsc4skiDzQwb4T5VkBh1o6Nue",
-};
-
-const stageScheduleId = scheduleIds[$app.stage as keyof typeof scheduleIds];
-
 // Vercel deployment protection bypass header for staging
 const forwardHeaders =
   $app.stage === "staging" && process.env.VERCEL_AUTOMATION_BYPASS_SECRET
@@ -30,6 +21,8 @@ if (isPermanentStage) {
       cron,
       forwardHeaders,
     },
-    stageScheduleId ? { import: stageScheduleId } : {},
+    {
+      deleteBeforeReplace: true,
+    },
   );
 }
