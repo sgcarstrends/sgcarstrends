@@ -4,10 +4,9 @@ import { revalidateCache } from "@web/lib/workflows/steps";
 import type { RegenerationPayload } from "@web/lib/workflows/types";
 
 export async function regenerationWorkflow(
-  context: WorkflowContext,
-  payload: RegenerationPayload,
+  context: WorkflowContext<RegenerationPayload>,
 ) {
-  const { month, dataType } = payload;
+  const { month, dataType } = context.requestPayload;
   const post = await regeneratePost(context, { month, dataType });
 
   await revalidateCache(context, ["posts:list", "posts:recent"]);

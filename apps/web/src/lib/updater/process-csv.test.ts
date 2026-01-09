@@ -20,11 +20,11 @@ describe("processCSV", () => {
     vi.clearAllMocks();
 
     // Set up mock implementations for each test
-    const readFileSyncMock = vi
+    const _readFileSyncMock = vi
       .spyOn(fs, "readFileSync")
       .mockReturnValue("mock csv content");
 
-    const parseMock = vi.spyOn(Papa, "parse").mockReturnValue({
+    const _parseMock = vi.spyOn(Papa, "parse").mockReturnValue({
       data: [
         { name: " John Doe ", age: "25", active: "true" },
         { name: " Jane Smith ", age: "30", active: "false" },
@@ -59,7 +59,7 @@ describe("processCSV", () => {
   });
 
   it("should use Papa.parse with correct options", async () => {
-    const readFileSyncMock = vi
+    const _readFileSyncMock = vi
       .spyOn(fs, "readFileSync")
       .mockReturnValue("mock csv content");
     const parseMock = vi.spyOn(Papa, "parse").mockReturnValue({
@@ -82,7 +82,7 @@ describe("processCSV", () => {
   });
 
   it("should apply custom field transformations when provided", async () => {
-    const readFileSyncMock = vi
+    const _readFileSyncMock = vi
       .spyOn(fs, "readFileSync")
       .mockReturnValue("mock csv content");
     const parseMock = vi.spyOn(Papa, "parse").mockReturnValue({
@@ -111,7 +111,7 @@ describe("processCSV", () => {
 
   it("should handle file read errors", async () => {
     const errorMsg = "File not found";
-    const readFileSyncMock = vi
+    const _readFileSyncMock = vi
       .spyOn(fs, "readFileSync")
       .mockImplementationOnce(() => {
         throw new Error(errorMsg);
@@ -121,10 +121,10 @@ describe("processCSV", () => {
   });
 
   it("should handle parsing errors", async () => {
-    const readFileSyncMock = vi
+    const _readFileSyncMock = vi
       .spyOn(fs, "readFileSync")
       .mockReturnValue("mock csv content");
-    const parseMock = vi.spyOn(Papa, "parse").mockImplementationOnce(() => {
+    const _parseMock = vi.spyOn(Papa, "parse").mockImplementationOnce(() => {
       throw new Error("Parse error");
     });
 
@@ -132,10 +132,10 @@ describe("processCSV", () => {
   });
 
   it("should return an empty array if no records are found", async () => {
-    const readFileSyncMock = vi
+    const _readFileSyncMock = vi
       .spyOn(fs, "readFileSync")
       .mockReturnValue("mock csv content");
-    const parseMock = vi.spyOn(Papa, "parse").mockReturnValueOnce({
+    const _parseMock = vi.spyOn(Papa, "parse").mockReturnValueOnce({
       data: [],
       errors: [],
       meta: { fields: [] },
