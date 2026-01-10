@@ -23,8 +23,6 @@ export default $config({
     const { router } = await import("./infra/router");
     const web = await import("./infra/web");
 
-    await import("./infra/qstash");
-
     return {
       web: web.url,
       router: router.distributionID,
