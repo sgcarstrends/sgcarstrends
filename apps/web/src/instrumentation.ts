@@ -2,14 +2,12 @@ import { Client } from "@upstash/qstash";
 
 export async function register() {
   const isProduction = process.env.VERCEL_ENV === "production";
-  const isStaging =
-    process.env.VERCEL_ENV === "preview" &&
-    process.env.VERCEL_GIT_COMMIT_REF === "staging";
+  const isStaging = process.env.VERCEL_ENV === "preview";
 
   // Only setup for production and staging branch (skip PR previews)
   if (!isProduction && !isStaging) return;
 
-  const scheduleId = isProduction ? "production-trigger" : "staging-trigger";
+  const scheduleId = isProduction ? "production-trigger" : "preview-trigger";
   const DOMAIN = isProduction ? "sgcarstrends.com" : "staging.sgcarstrends.com";
   const destination = `https://${DOMAIN}/api/workflows/trigger`;
 
