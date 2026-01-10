@@ -38,6 +38,16 @@ describe("monthly registration queries", () => {
     expect(cacheTagMock).toHaveBeenCalledWith("cars:month:2024-06");
   });
 
+  it("should return 0 total when no data exists for month", async () => {
+    queueBatch([[], [], []]);
+
+    const result = await getCarsData("2099-01");
+
+    expect(result.total).toBe(0);
+    expect(result.fuelType).toEqual([]);
+    expect(result.vehicleType).toEqual([]);
+  });
+
   it("provides comparisons for previous month and year", async () => {
     // db.batch returns array of 9 results (3 months × 3 query types)
     queueBatch([
@@ -73,5 +83,25 @@ describe("monthly registration queries", () => {
       vehicleType: [],
     });
     expect(cacheTagMock).toHaveBeenCalledWith("cars:month:2024-06");
+  });
+
+  it("should return 0 totals when no data exists for comparison periods", async () => {
+    queueBatch([
+      [], // currentMonth fuelType
+      [], // currentMonth vehicleType
+      [], // currentMonth total - empty
+      [], // previousMonth fuelType
+      [], // previousMonth vehicleType
+      [], // previousMonth total - empty
+      [], // previousYear fuelType
+      [], // previousYear vehicleType
+      [], // previousYear total - empty
+    ]);
+
+    const result = await getCarsComparison("2099-01");
+
+    expect(result.currentMonth.total).toBe(0);
+    expect(result.previousMonth.total).toBe(0);
+    expect(result.previousYear.total).toBe(0);
   });
 });

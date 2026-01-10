@@ -61,6 +61,17 @@ describe("car filter option queries", () => {
     ]);
   });
 
+  it("should return vehicle types with registrations > 0 without month filter", async () => {
+    queueSelect([{ vehicleType: "Cars" }, { vehicleType: "Goods Vehicles" }]);
+
+    const result = await getDistinctVehicleTypes();
+
+    expect(result).toEqual([
+      { vehicleType: "Cars" },
+      { vehicleType: "Goods Vehicles" },
+    ]);
+  });
+
   it("should return distinct months and register cache metadata", async () => {
     queueSelectDistinct([{ month: "2024-06" }, { month: "2024-05" }]);
 

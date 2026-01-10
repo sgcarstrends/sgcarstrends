@@ -142,7 +142,7 @@ describe("sortByField", () => {
     expect(result[2].value).toBe(10);
   });
 
-  it("should sort by string field", () => {
+  it("should sort by string field in ascending order", () => {
     const data = [
       { name: "Charlie", age: 25 },
       { name: "Alice", age: 30 },
@@ -153,6 +153,19 @@ describe("sortByField", () => {
     expect(result[0].name).toBe("Alice");
     expect(result[1].name).toBe("Bob");
     expect(result[2].name).toBe("Charlie");
+  });
+
+  it("should sort by string field in descending order", () => {
+    const data = [
+      { name: "Alice", age: 30 },
+      { name: "Charlie", age: 25 },
+      { name: "Bob", age: 20 },
+    ];
+    const result = sortByField(data, "name", "desc");
+
+    expect(result[0].name).toBe("Charlie");
+    expect(result[1].name).toBe("Bob");
+    expect(result[2].name).toBe("Alice");
   });
 
   it("should sort using custom function", () => {
