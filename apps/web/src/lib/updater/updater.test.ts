@@ -118,6 +118,24 @@ describe("Updater", () => {
     vi.clearAllMocks();
   });
 
+  // Helper to mock existing months and records for overlapping month scenarios
+  const mockExistingMonthsAndRecords = (
+    existingMonths: Array<{ month: string }>,
+    existingRecords: Array<Record<string, unknown>>,
+  ) => {
+    const mockSelectDistinct = {
+      from: vi.fn().mockResolvedValue(existingMonths),
+    };
+    vi.mocked(db.selectDistinct).mockReturnValue(mockSelectDistinct as any);
+
+    const mockSelect = {
+      from: vi.fn().mockReturnValue({
+        where: vi.fn().mockResolvedValue(existingRecords),
+      }),
+    };
+    vi.mocked(db.select).mockReturnValue(mockSelect as any);
+  };
+
   describe("constructor", () => {
     it("should initialize with default options", () => {
       const updater = new Updater(updaterConfig);
@@ -186,19 +204,7 @@ describe("Updater", () => {
         "different123",
       );
 
-      // Mock existing months (overlapping month scenario)
-      const mockSelectDistinct = {
-        from: vi.fn().mockResolvedValue([{ month: "2024-01" }]),
-      };
-      vi.mocked(db.selectDistinct).mockReturnValue(mockSelectDistinct as any);
-
-      // Mock existing records query to return all records (for overlapping months)
-      const mockSelect = {
-        from: vi.fn().mockReturnValue({
-          where: vi.fn().mockResolvedValue(mockData),
-        }),
-      };
-      vi.mocked(db.select).mockReturnValue(mockSelect as any);
+      mockExistingMonthsAndRecords([{ month: "2024-01" }], mockData);
 
       const updater = new Updater(updaterConfig, updaterOptions);
       const result = await updater.update();
@@ -382,19 +388,7 @@ describe("Updater", () => {
     });
 
     it("should return 0 when all records exist (isSubsetOf early exit)", async () => {
-      // Existing month
-      const mockSelectDistinct = {
-        from: vi.fn().mockResolvedValue([{ month: "2024-01" }]),
-      };
-      vi.mocked(db.selectDistinct).mockReturnValue(mockSelectDistinct as any);
-
-      // All records already exist
-      const mockSelect = {
-        from: vi.fn().mockReturnValue({
-          where: vi.fn().mockResolvedValue(mockData),
-        }),
-      };
-      vi.mocked(db.select).mockReturnValue(mockSelect as any);
+      mockExistingMonthsAndRecords([{ month: "2024-01" }], mockData);
 
       const updater = new Updater(updaterConfig, updaterOptions);
       const result = await (updater as any).insertNewRecords(mockData);
