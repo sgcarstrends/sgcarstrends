@@ -16,7 +16,16 @@ export default defineConfig({
         "src/components/ui",
         "src/config",
         "src/functions",
-        "src/lib",
+        // Exclude src/lib subdirectories except updater
+        "src/lib/cars/**",
+        "src/lib/coe/**",
+        "src/lib/data/**",
+        "src/lib/metadata/**",
+        "src/lib/og/**",
+        "src/lib/realtime/**",
+        "src/lib/social/**",
+        "src/lib/workflows/**",
+        "src/lib/*.ts", // Exclude loose files in src/lib
         "src/schema",
         "src/types",
         "src/components/dashboard/skeletons/**",
