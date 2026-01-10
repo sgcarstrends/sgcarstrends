@@ -2,19 +2,13 @@ import { cn } from "@heroui/react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "@web/app/providers";
-import { Announcement } from "@web/components/announcement";
-import { Banner } from "@web/components/banner";
-import { Footer } from "@web/components/footer";
-import { Header } from "@web/components/header";
 import LoadingIndicator from "@web/components/loading-indicator";
-import { NotificationPrompt } from "@web/components/notification-prompt";
-import { Notifications } from "@web/components/notifications";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { type ReactNode, Suspense } from "react";
+import type { ReactNode } from "react";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -84,21 +78,9 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
     >
       <body className="bg-background">
         <Providers>
-          <NotificationPrompt />
-          <Suspense fallback={null}>
-            <Notifications />
-          </Suspense>
-          <Suspense fallback={null}>
-            <Announcement />
-          </Suspense>
           <NuqsAdapter>
             <LoadingIndicator />
-            <Suspense fallback={null}>
-              <Header />
-            </Suspense>
-            <Banner />
-            <main className="container mx-auto px-6 py-8">{children}</main>
-            <Footer />
+            {children}
           </NuqsAdapter>
         </Providers>
         <Analytics />

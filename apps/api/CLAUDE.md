@@ -35,7 +35,7 @@ See `sst-deployment` skill for multi-environment deployment workflows.
 ### Core Structure
 
 - **src/index.ts**: Main Hono app with middleware, routes, and error handling
-- **src/features/**: Feature modules (cars, coe, health, logos, months, workflows, newsletter, shared)
+- **src/features/**: Feature modules (cars, coe, deregistrations, health, logos, months, posts, workflows, shared)
 - **src/v1/**: Versioned API routes (cars, coe, months) with bearer authentication
 - **src/routes/**: Workflow endpoints and social media webhooks
 - **src/lib/workflows/**: QStash workflows (cars, coe, deregistration, posts, save-post, update-cars, update-coe, update-deregistration, options)
@@ -56,8 +56,8 @@ The API follows a feature-based architecture in `src/features/`:
 - **health**: Health check endpoint
 - **logos**: Car brand logo API (placeholder - awaiting storage migration)
 - **months**: Available data months endpoint
+- **posts**: Blog post data endpoints
 - **workflows**: Workflow trigger endpoints
-- **newsletter**: Newsletter functionality
 - **shared**: Shared feature utilities
 
 **Logos Feature**: The logos feature (`src/features/logos/`) provides car brand logo retrieval with automatic downloads. Uses Vercel Blob for storage and Upstash Redis for caching. Requires `BLOB_READ_WRITE_TOKEN` environment variable. See `packages/logos/CLAUDE.md` for implementation details.

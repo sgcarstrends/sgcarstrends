@@ -1,5 +1,5 @@
 import { coe, db } from "@sgcarstrends/database";
-import type { Period } from "@web/app/(dashboard)/coe/search-params";
+import type { Period } from "@web/app/(main)/(dashboard)/coe/search-params";
 import { getDateRangeFromPeriod } from "@web/lib/coe/calculations";
 import type { COEResult } from "@web/types";
 import { and, asc, desc, gte, lte } from "drizzle-orm";

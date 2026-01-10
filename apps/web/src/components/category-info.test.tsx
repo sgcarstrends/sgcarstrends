@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { CategoryInfo } from "@web/app/(dashboard)/cars/_components/category-info";
+import { CategoryInfo } from "@web/app/(main)/(dashboard)/cars/_components/category-info";
 import { Car } from "lucide-react";
 import { vi } from "vitest";
 

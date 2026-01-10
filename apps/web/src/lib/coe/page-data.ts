@@ -1,5 +1,5 @@
 import { redis } from "@sgcarstrends/utils";
-import type { Period } from "@web/app/(dashboard)/coe/search-params";
+import type { Period } from "@web/app/(main)/(dashboard)/coe/search-params";
 import { LAST_UPDATED_COE_KEY } from "@web/config";
 import {
   calculateBiggestMovers,
