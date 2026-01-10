@@ -1,24 +1,21 @@
 import { Client } from "@upstash/qstash";
 
 export async function register() {
-  // Only setup for permanent Vercel environments
-  if (!["production", "preview"].includes(process.env.VERCEL_ENV ?? "")) return;
+  const isProduction = process.env.VERCEL_ENV === "production";
+  const isStaging =
+    process.env.VERCEL_ENV === "preview" &&
+    process.env.VERCEL_GIT_COMMIT_REF === "staging";
 
-  const scheduleId = `${process.env.VERCEL_ENV}-trigger`;
+  // Only setup for production and staging branch (skip PR previews)
+  if (!isProduction && !isStaging) return;
 
-  // Use Vercel system env for destination URL
-  const DOMAIN =
-    process.env.VERCEL_ENV === "production"
-      ? process.env.VERCEL_PROJECT_PRODUCTION_URL
-      : process.env.VERCEL_URL;
+  const scheduleId = isProduction ? "production-trigger" : "staging-trigger";
+  const DOMAIN = isProduction ? "sgcarstrends.com" : "staging.sgcarstrends.com";
   const destination = `https://${DOMAIN}/api/workflows/trigger`;
 
   // Build headers (Vercel protection bypass for staging)
   const headers: Record<string, string> = {};
-  if (
-    process.env.VERCEL_ENV === "preview" &&
-    process.env.VERCEL_AUTOMATION_BYPASS_SECRET
-  ) {
+  if (isStaging && process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
     headers["x-vercel-protection-bypass"] =
       process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
   }
