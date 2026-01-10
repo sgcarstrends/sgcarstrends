@@ -27,8 +27,7 @@ sgcarstrends/
 ├── turbo.json                    # Turbo configuration
 ├── apps/
 │   ├── api/                     # API service
-│   ├── web/                     # Web application
-│   ├── admin/                   # Admin panel
+│   ├── web/                     # Web application (includes admin at /admin)
 │   └── docs/                    # Documentation
 ├── packages/
 │   ├── database/                # Database schemas

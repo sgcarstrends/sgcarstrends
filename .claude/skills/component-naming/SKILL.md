@@ -150,6 +150,5 @@ When reviewing component names:
 ## Related Files
 
 - `apps/web/CLAUDE.md` - Web app component conventions
-- `apps/admin/CLAUDE.md` - Admin app component conventions
 - `apps/web/src/components/` - Web app components
-- `apps/admin/src/components/` - Admin app components
+- `apps/web/src/app/admin/components/` - Admin interface components

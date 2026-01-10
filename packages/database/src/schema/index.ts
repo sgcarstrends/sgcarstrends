@@ -1,4 +1,4 @@
-export * from "@admin/db/schema/auth";
+export * from "./auth";
 export { cars, type InsertCar, type SelectCar } from "./cars";
 export {
   coe,

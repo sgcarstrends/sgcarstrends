@@ -24,12 +24,9 @@ This skill helps you configure and customize Tailwind CSS across the monorepo.
 ├── packages/ui/
 │   ├── tailwind.config.ts       # UI package Tailwind config
 │   └── src/styles/globals.css   # Global styles and CSS variables
-├── apps/web/
-│   ├── tailwind.config.ts       # Web app Tailwind config
-│   └── src/app/globals.css      # App-specific global styles
-└── apps/admin/
-    ├── tailwind.config.ts       # Admin app Tailwind config
-    └── src/app/globals.css
+└── apps/web/
+    ├── tailwind.config.ts       # Web app Tailwind config
+    └── src/app/globals.css      # App-specific global styles
 ```
 
 ## Base Tailwind Configuration

@@ -250,8 +250,7 @@ See `shadcn-components` skill for adding new shadcn/ui components to this packag
 
 This package is consumed by:
 
-- **apps/admin**: Admin dashboard application
-- **apps/web** (charts only): Web application uses this package only for shadcn/ui chart components; all other UI components use HeroUI
+- **apps/web**: Web application uses this package for shadcn/ui components including charts in the main app, and admin interface components at `/admin` path
 
 ## Version Management
 
