@@ -30,17 +30,11 @@ export const getAllPosts = async (): Promise<PostWithMetadata[]> => {
     throw new Error("Unauthorised");
   }
 
-  try {
-    const allPosts = await db
-      .select()
-      .from(posts)
-      .orderBy(desc(posts.createdAt));
+  const allPosts = await db.query.posts.findMany({
+    orderBy: desc(posts.createdAt),
+  });
 
-    return allPosts as PostWithMetadata[];
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-    throw new Error("Failed to fetch posts");
-  }
+  return allPosts as PostWithMetadata[];
 };
 
 export const regeneratePost = async (params: {
