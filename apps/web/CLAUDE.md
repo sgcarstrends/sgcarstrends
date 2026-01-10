@@ -30,7 +30,7 @@ pnpm format             # Format code with Biome
 
 ### Tech Stack
 
-- **Framework**: Next.js 16.0.0 with App Router and React 19.2.0
+- **Framework**: Next.js 16.1 with App Router and React 19.2
 - **Database**: PostgreSQL (Neon) with Drizzle ORM
 - **State Management**: Zustand with persistence
 - **Styling**: Tailwind CSS v4 with HeroUI components

@@ -100,7 +100,6 @@ sgcarstrends/
 │   │   ├── src/actions/     # Server actions (maintenance tasks)
 │   │   ├── src/components/  # React components with comprehensive tests
 │   │   └── src/utils/       # Web-specific utility functions
-│   └── admin/        # Standalone admin (being phased out; see web/src/app/admin)
 ├── packages/
 │   ├── database/     # Database schema and migrations (Drizzle ORM)
 │   │   ├── src/schema/      # Schema definitions for all tables
@@ -120,9 +119,9 @@ sgcarstrends/
 
 ## Technologies
 
-- **Frontend**: Next.js 16 with Cache Components, React 19, TypeScript
+- **Frontend**: Next.js 16.1 with Cache Components, React 19.2, TypeScript 5.8
 - **UI Library**: HeroUI (NextUI successor) with professional design system
-- **Styling**: Tailwind CSS v4 with custom configuration
+- **Styling**: Tailwind CSS v4.1 with custom configuration
 - **Backend**: Node.js 22, TypeScript with strict mode
 - **API Framework**: Hono with OpenAPI documentation
 - **Database**: Neon Serverless PostgreSQL with Drizzle ORM
@@ -131,8 +130,8 @@ sgcarstrends/
 - **Scheduling**: QStash Workflows for data processing
 - **LLM Integration**: Vercel AI SDK with Google Gemini for blog content generation
 - **Package Management**: pnpm v10.22.0 workspace with catalog for centralised dependency management
-- **Build Tools**: Turbopack for fast development builds
-- **Testing**: Vitest (unit), Playwright (E2E) with comprehensive coverage
+- **Build Tools**: Turbo v2.6.3 for monorepo orchestration, Turbopack for fast development builds
+- **Testing**: Vitest v4.0.15 (unit), Playwright (E2E) with comprehensive coverage
 - **Linting & Formatting**: Biome v2.3.0 for consistent code style, formatting, and import organisation
 
 ## Documentation
@@ -176,15 +175,15 @@ pnpm install
 This project uses **pnpm catalog** for centralised dependency version management. Shared dependencies (React, Next.js, TypeScript, testing tools, etc.) are defined in `pnpm-workspace.yaml` and referenced by workspace packages using the `catalog:` protocol.
 
 **Key catalog packages:**
-- React ecosystem: `react` (^19.2.3), `react-dom` (^19.2.3), `next` (^16.0.10)
+- React ecosystem: `react` (^19.2.3), `react-dom` (^19.2.3), `next` (^16.1.0)
 - TypeScript & types: `typescript` (^5.8.3), `@types/node` (^22.16.4), `@types/react` (^19.2.0), `@types/react-dom` (^19.2.0)
 - Testing tools: `vitest` (^4.0.15), `@vitest/coverage-v8` (^4.0.15)
-- AI & LLM: `ai` (^5.0.105), `@ai-sdk/google` (^2.0.44), `@langfuse/otel` (^4.4.2)
-- Utilities: `date-fns` (^3.6.0), `zod` (^4.1.13), `resend` (^6.1.2), `sonner` (^2.0.7)
+- AI & LLM: `ai` (^6.0.1), `@ai-sdk/google` (^3.0.6), `@langfuse/otel` (^4.4.2)
+- Utilities: `date-fns` (^3.6.0), `zod` (^4.1.13), `sonner` (2.0.7)
 - Workflows: `@upstash/workflow` (0.3.0-rc)
 
 **Root-level dependencies** (not in catalog):
-- Build tools: `sst` (3.17.21), `turbo` (^2.6.1)
+- Build tools: `sst` (3.17.25), `turbo` (^2.6.3)
 - Code quality: `@biomejs/biome` (2.3.0), `husky` (^9.1.7), `lint-staged` (^16.1.5)
 - Release management: `semantic-release` (^24.0.0)
 
