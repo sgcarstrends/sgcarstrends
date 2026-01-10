@@ -1,7 +1,9 @@
 import crypto from "node:crypto";
 import { db, sessions } from "@sgcarstrends/database";
 import { redis } from "@sgcarstrends/utils";
+import { auth } from "@web/app/admin/_lib/auth";
 import { and, eq, gt } from "drizzle-orm";
+import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
 interface AppConfig {
@@ -11,7 +13,30 @@ interface AppConfig {
   };
 }
 
-export const proxy = async (request: NextRequest) => {
+export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // === ADMIN ROUTE PROTECTION ===
+  const isAdminRoute = pathname.startsWith("/admin");
+  const isAuthRoute = pathname.startsWith("/api/auth");
+
+  if (isAdminRoute || isAuthRoute) {
+    // Allow public access to login page and auth API
+    if (pathname === "/admin/login" || isAuthRoute) {
+      return NextResponse.next();
+    }
+
+    // Check admin session for protected admin routes
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      return NextResponse.redirect(new URL("/admin/login", request.url));
+    }
+  }
+
+  // === MAINTENANCE MODE ===
   // Check Redis for maintenance status
   const config = await redis.get<AppConfig>("config");
   const isMaintenanceMode = config?.maintenance?.enabled ?? false;
@@ -95,10 +120,10 @@ export const proxy = async (request: NextRequest) => {
       headers: requestHeaders,
     },
   });
-};
+}
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };
