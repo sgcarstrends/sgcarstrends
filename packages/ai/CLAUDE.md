@@ -430,5 +430,5 @@ No tests currently implemented. Future testing should cover:
 ## Related Documentation
 
 - **API Integration**: See [apps/api/CLAUDE.md](../../apps/api/CLAUDE.md) for workflow usage
-- **Admin Integration**: See [apps/admin/CLAUDE.md](../../apps/admin/CLAUDE.md) for standalone usage
+- **Admin Interface**: Admin functionality is integrated into the web app at `/admin` path (see [apps/web/CLAUDE.md](../../apps/web/CLAUDE.md))
 - **Database Schema**: See [packages/database/CLAUDE.md](../database/CLAUDE.md) for posts table structure

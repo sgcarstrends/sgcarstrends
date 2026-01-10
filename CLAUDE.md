@@ -17,9 +17,7 @@ This repository includes directory-specific CLAUDE.md files with detailed guidan
 - **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, and social media
   integration
 - **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 16, HeroUI, blog features,
-  analytics, and admin interface at `/admin` path
-- **[apps/admin/CLAUDE.md](apps/admin/CLAUDE.md)**: Standalone administrative dashboard (being phased out in favor of
-  integrated `/admin` route in web app)
+  analytics, and integrated admin interface at `/admin` path
 
 ### Packages
 
@@ -99,11 +97,10 @@ All commands use pnpm as the package manager.
     - **src/config**: Database, Redis, QStash, and platform configurations
 - **apps/web**: Next.js frontend application
     - **src/app**: Next.js App Router pages and layouts with blog functionality
-    - **src/app/admin**: Integrated admin interface for content management (replaces standalone admin app)
+    - **src/app/admin**: Integrated admin interface for content management
     - **src/components**: React components with comprehensive tests
     - **src/actions**: Server actions for maintenance and background tasks
     - **src/utils**: Web-specific utility functions
-- **apps/admin**: Standalone administrative dashboard (being phased out; functionality moved to `/admin` in web app)
 - **packages/database**: Database schema and migrations using Drizzle ORM
     - **src/schema**: Schema definitions for cars, COE, deregistrations, and posts tables
     - **migrations**: Database migration files with version tracking
