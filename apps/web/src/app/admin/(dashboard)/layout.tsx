@@ -3,7 +3,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@sgcarstrends/ui/components/sidebar";
-import { AppSidebar } from "@web/app/admin/_components/app-sidebar";
+import { AppSidebar } from "@web/app/admin/components/app-sidebar";
 import { type ReactNode, Suspense } from "react";
 
 export default function DashboardLayout({

@@ -13,7 +13,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@sgcarstrends/ui/components/sidebar";
-import { authClient } from "@web/app/admin/_lib/auth-client";
+import { authClient } from "@web/app/admin/lib/auth-client";
 import {
   Activity,
   BarChart3,

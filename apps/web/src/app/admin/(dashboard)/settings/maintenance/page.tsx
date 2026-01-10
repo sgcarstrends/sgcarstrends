@@ -16,7 +16,7 @@ import { Switch } from "@sgcarstrends/ui/components/switch";
 import {
   getMaintenanceConfig,
   updateMaintenanceConfig,
-} from "@web/app/admin/_actions/maintenance";
+} from "@web/app/admin/actions/maintenance";
 import {
   AlertCircle,
   ArrowLeft,

@@ -1,7 +1,7 @@
 "use server";
 
 import { redis } from "@sgcarstrends/utils";
-import { auth } from "@web/app/admin/_lib/auth";
+import { auth } from "@web/app/admin/lib/auth";
 import { headers } from "next/headers";
 
 interface AppConfig {

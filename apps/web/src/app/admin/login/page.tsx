@@ -10,7 +10,7 @@ import {
 } from "@sgcarstrends/ui/components/card";
 import { Input } from "@sgcarstrends/ui/components/input";
 import { Label } from "@sgcarstrends/ui/components/label";
-import { authClient } from "@web/app/admin/_lib/auth-client";
+import { authClient } from "@web/app/admin/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 import { toast } from "sonner";

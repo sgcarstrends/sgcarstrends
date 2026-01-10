@@ -31,7 +31,7 @@ import {
   getAllPosts,
   type PostWithMetadata,
   regeneratePost,
-} from "@web/app/admin/_actions/blog";
+} from "@web/app/admin/actions/blog";
 import { Loader2, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";

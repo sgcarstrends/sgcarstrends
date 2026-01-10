@@ -4,8 +4,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import { getAllPosts } from "@web/app/admin/_actions/blog";
-import { BlogPostsTable } from "@web/app/admin/_components/blog-posts-table";
+import { getAllPosts } from "@web/app/admin/actions/blog";
+import { BlogPostsTable } from "@web/app/admin/components/blog-posts-table";
 import { FileText } from "lucide-react";
 import { Suspense } from "react";
 

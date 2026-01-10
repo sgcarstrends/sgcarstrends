@@ -2,8 +2,8 @@
 
 import crypto from "node:crypto";
 import { db, posts } from "@sgcarstrends/database";
-import { auth } from "@web/app/admin/_lib/auth";
-import { client } from "@web/app/admin/_lib/qstash";
+import { auth } from "@web/app/admin/lib/auth";
+import { client } from "@web/app/admin/lib/qstash";
 import type { LanguageModelUsage } from "ai";
 import { desc } from "drizzle-orm";
 import { headers } from "next/headers";
