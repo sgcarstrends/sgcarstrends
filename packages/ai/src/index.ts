@@ -1,3 +1,5 @@
+export type { LanguageModelUsage } from "ai";
+
 export * from "./config";
 export * from "./generate-post";
 export * from "./hero-images";
