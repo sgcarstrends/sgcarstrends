@@ -9,7 +9,6 @@ catalog:
   '@types/node': ^22.16.4
   '@types/react': ^19.2.0
   '@types/react-dom': ^19.2.0
-  '@upstash/realtime': ^1.0.0
   '@upstash/workflow': 0.3.0-rc
   '@vercel/related-projects': ^1.0.0
   '@vitest/coverage-v8': ^4.0.15

@@ -3,7 +3,6 @@ import { Banner } from "@web/components/banner";
 import { Footer } from "@web/components/footer";
 import { Header } from "@web/components/header";
 import { NotificationPrompt } from "@web/components/notification-prompt";
-import { Notifications } from "@web/components/notifications";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 
@@ -13,9 +12,6 @@ export default function MainLayout({
   return (
     <>
       <NotificationPrompt />
-      <Suspense fallback={null}>
-        <Notifications />
-      </Suspense>
       <Suspense fallback={null}>
         <Announcement />
       </Suspense>

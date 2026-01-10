@@ -25,7 +25,6 @@
     "@sgcarstrends/utils": "workspace:*",
     "@upstash/qstash": "^2.7.23",
     "@upstash/ratelimit": "^2.0.3",
-    "@upstash/realtime": "catalog:",
     "@upstash/redis": "^1.34.8",
     "@upstash/workflow": "catalog:",
     "adm-zip": "^0.5.16",

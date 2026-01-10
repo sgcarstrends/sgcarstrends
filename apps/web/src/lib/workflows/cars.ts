@@ -1,7 +1,6 @@
 import type { WorkflowContext } from "@upstash/workflow";
 import { SITE_URL } from "@web/config";
 import { socialMediaManager } from "@web/config/platforms";
-import { realtime } from "@web/config/realtime";
 import { generateCarPost } from "@web/lib/workflows/posts";
 import {
   checkExistingPost,
@@ -43,14 +42,6 @@ export async function carsWorkflow(context: WorkflowContext) {
         "[CARS] Data processed. Post already exists, skipping social media.",
     };
   }
-
-  await context.run("send-notification", async () => {
-    await realtime.emit("workflow.completed", {
-      workflow: "cars",
-      message: `Car registrations updated for ${month}`,
-      month,
-    });
-  });
 
   // Step: Generate new post (only runs if no existing post)
   const post = await generateCarPost(context, month);

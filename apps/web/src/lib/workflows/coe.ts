@@ -1,7 +1,6 @@
 import type { WorkflowContext } from "@upstash/workflow";
 import { SITE_URL } from "@web/config";
 import { socialMediaManager } from "@web/config/platforms";
-import { realtime } from "@web/config/realtime";
 import { generateCoePost } from "@web/lib/workflows/posts";
 import {
   checkExistingPost,
@@ -64,14 +63,6 @@ export async function coeWorkflow(context: WorkflowContext) {
 
   // Step: Revalidate posts cache
   await revalidateCache(context, ["posts:list"]);
-
-  await context.run("send-notification", async () => {
-    await realtime.emit("workflow.completed", {
-      workflow: "coe",
-      message: `COE results updated for ${month}`,
-      month,
-    });
-  });
 
   return {
     message: "[COE] Data processed and published successfully",
