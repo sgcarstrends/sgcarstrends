@@ -24,7 +24,7 @@ export async function register() {
   }
 
   try {
-    const client = new Client({ token: process.env.QSTASH_TOKEN! });
+    const client = new Client({ token: process.env.QSTASH_TOKEN as string });
 
     await client.schedules.create({
       scheduleId,
