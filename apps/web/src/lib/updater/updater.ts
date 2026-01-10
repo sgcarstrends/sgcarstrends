@@ -9,7 +9,7 @@ import {
   processCsv,
 } from "@web/lib/updater/services/process-csv";
 import { Checksum } from "@web/utils/checksum";
-import { getTableName, type Table } from "drizzle-orm";
+import { getTableName, inArray, type Table } from "drizzle-orm";
 
 export interface UpdaterConfig<T> {
   table: Table;
@@ -73,7 +73,6 @@ export class Updater<T> {
         timestamp: new Date().toISOString(),
       };
 
-      console.log(response);
       return response;
     } catch (e) {
       console.error("Error in updater:", e);
@@ -126,40 +125,108 @@ export class Updater<T> {
   private async insertNewRecords(processedData: T[]): Promise<number> {
     const { table, keyFields } = this.config;
 
-    // Create a query to check for existing records
     // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any type
     const tableColumns = table as any;
-    const existingKeysQuery = await db
-      .select(
-        Object.fromEntries(
-          keyFields.map((field) => [field, tableColumns[field]]),
-        ),
-      )
-      .from(table);
 
-    // Create a Set of existing keys for faster lookup
-    const existingKeys = new Set(
-      existingKeysQuery.map((record) => createUniqueKey(record, keyFields)),
+    // === Phase 1: Month-Level Partitioning ===
+    // Extract distinct months from incoming data
+    const incomingMonths = new Set(
+      processedData.map(
+        (record) => (record as Record<string, unknown>).month as string,
+      ),
     );
 
-    // Check against the existing records for new non-duplicated entries
-    const newRecords = processedData.filter((record) => {
-      const identifier = createUniqueKey(
-        record as Record<string, unknown>,
-        keyFields,
+    // Query distinct months from DB
+    const existingMonthsQuery = await db
+      .selectDistinct({ month: tableColumns.month })
+      .from(table);
+    const existingMonths = new Set(
+      existingMonthsQuery.map((record) => record.month as string),
+    );
+
+    // Use Set.difference() to find brand new months (ES2025)
+    const newMonths = incomingMonths.difference(existingMonths);
+
+    console.log(
+      `Month analysis: ${incomingMonths.size} incoming, ${existingMonths.size} existing, ${newMonths.size} new`,
+    );
+
+    // Separate records: new months skip key comparison entirely
+    const recordsFromNewMonths: T[] = [];
+    const recordsFromOverlappingMonths: T[] = [];
+
+    for (const record of processedData) {
+      const month = (record as Record<string, unknown>).month as string;
+      if (newMonths.has(month)) {
+        recordsFromNewMonths.push(record);
+      } else {
+        recordsFromOverlappingMonths.push(record);
+      }
+    }
+
+    console.log(
+      `Records: ${recordsFromNewMonths.length} from new months, ${recordsFromOverlappingMonths.length} from overlapping months`,
+    );
+
+    // === Phase 2: Key-Level Comparison (overlapping months only) ===
+    let newRecordsFromOverlapping: T[] = [];
+
+    if (recordsFromOverlappingMonths.length > 0) {
+      // Use Set.intersection() to find overlapping months (ES2025)
+      const overlappingMonths = incomingMonths.intersection(existingMonths);
+
+      // Scoped database query: only fetch keys for overlapping months
+      const existingKeysQuery = await db
+        .select(
+          Object.fromEntries(
+            keyFields.map((field) => [field, tableColumns[field]]),
+          ),
+        )
+        .from(table)
+        .where(inArray(tableColumns.month, [...overlappingMonths]));
+
+      const existingKeys = new Set(
+        existingKeysQuery.map((record) => createUniqueKey(record, keyFields)),
       );
-      return !existingKeys.has(identifier);
-    });
+
+      // Create Set of incoming keys for overlapping months
+      const incomingKeys = new Set(
+        recordsFromOverlappingMonths.map((record) =>
+          createUniqueKey(record as Record<string, unknown>, keyFields),
+        ),
+      );
+
+      // Use Set.isSubsetOf() for early exit when all incoming keys already exist (ES2025)
+      if (incomingKeys.isSubsetOf(existingKeys)) {
+        console.log(
+          "Early exit: all records from overlapping months already exist",
+        );
+      } else {
+        // Filter remaining records with has()
+        newRecordsFromOverlapping = recordsFromOverlappingMonths.filter(
+          (record) => {
+            const identifier = createUniqueKey(
+              record as Record<string, unknown>,
+              keyFields,
+            );
+            return !existingKeys.has(identifier);
+          },
+        );
+      }
+    }
+
+    // Combine all new records
+    const newRecords = [...recordsFromNewMonths, ...newRecordsFromOverlapping];
 
     // Return early when there are no new records to be added to the database
     if (newRecords.length === 0) {
       return 0;
     }
 
-    // Process in batches only if we have new records
+    // Process in batches
     let totalInserted = 0;
-
     const start = performance.now();
+
     for (let i = 0; i < newRecords.length; i += this.batchSize) {
       const batch = newRecords.slice(i, i + this.batchSize);
       const inserted = await db.insert(table).values(batch).returning();
@@ -168,11 +235,8 @@ export class Updater<T> {
         `Inserted batch of ${inserted.length} records. Total: ${totalInserted}`,
       );
     }
+
     const end = performance.now();
-
-    // Invalidate the cache when the table is updated
-    // await db.$cache.invalidate({ tables: table });
-
     console.log(
       `Inserted ${totalInserted} record(s) in ${Math.round(end - start)}ms`,
     );

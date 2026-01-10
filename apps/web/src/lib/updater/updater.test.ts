@@ -21,6 +21,7 @@ vi.mock("@web/utils/checksum");
 vi.mock("@sgcarstrends/database", () => ({
   db: {
     select: vi.fn(),
+    selectDistinct: vi.fn(),
     insert: vi.fn(),
     $cache: {
       invalidate: vi.fn(),
@@ -36,6 +37,7 @@ vi.mock("@sgcarstrends/utils", () => ({
 }));
 vi.mock("drizzle-orm", () => ({
   getTableName: vi.fn(() => "test_table"),
+  inArray: vi.fn(() => "mock-where-clause"),
 }));
 
 // Mock table object
@@ -89,8 +91,17 @@ describe("Updater", () => {
     // getTableName is already mocked in vi.mock above
 
     // Mock database operations
+    // Mock selectDistinct for month-level partitioning (Phase 1)
+    const mockSelectDistinct = {
+      from: vi.fn().mockResolvedValue([]), // No existing months by default
+    };
+    vi.mocked(db.selectDistinct).mockReturnValue(mockSelectDistinct as any);
+
+    // Mock select for key-level comparison (Phase 2)
     const mockSelect = {
-      from: vi.fn().mockResolvedValue([]),
+      from: vi.fn().mockReturnValue({
+        where: vi.fn().mockResolvedValue([]),
+      }),
     };
     vi.mocked(db.select).mockReturnValue(mockSelect as any);
 
@@ -106,6 +117,33 @@ describe("Updater", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
+
+  // Helper to mock existing months and records for overlapping month scenarios
+  const mockExistingMonthsAndRecords = (
+    existingMonths: Array<{ month: string }>,
+    existingRecords: Array<Record<string, unknown>>,
+    insertCount?: number,
+  ) => {
+    const mockSelectDistinct = {
+      from: vi.fn().mockResolvedValue(existingMonths),
+    };
+    vi.mocked(db.selectDistinct).mockReturnValue(mockSelectDistinct as any);
+
+    const mockSelect = {
+      from: vi.fn().mockReturnValue({
+        where: vi.fn().mockResolvedValue(existingRecords),
+      }),
+    };
+    vi.mocked(db.select).mockReturnValue(mockSelect as any);
+
+    if (insertCount !== undefined) {
+      const mockInsert = {
+        values: vi.fn().mockReturnThis(),
+        returning: vi.fn().mockResolvedValue(Array(insertCount).fill({})),
+      };
+      vi.mocked(db.insert).mockReturnValue(mockInsert as any);
+    }
+  };
 
   describe("constructor", () => {
     it("should initialize with default options", () => {
@@ -175,11 +213,7 @@ describe("Updater", () => {
         "different123",
       );
 
-      // Mock existing records query to return all records
-      const mockSelect = {
-        from: vi.fn().mockResolvedValue(mockData),
-      };
-      vi.mocked(db.select).mockReturnValue(mockSelect as any);
+      mockExistingMonthsAndRecords([{ month: "2024-01" }], mockData);
 
       const updater = new Updater(updaterConfig, updaterOptions);
       const result = await updater.update();
@@ -316,35 +350,61 @@ describe("Updater", () => {
   });
 
   describe("insertNewRecords", () => {
-    it("should filter out existing records and insert new ones", async () => {
-      // Mock existing records query
-      const existingRecords = [
-        { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" },
-      ];
-      const mockSelect = {
-        from: vi.fn().mockResolvedValue(existingRecords),
+    it("should insert all records when month is new (Phase 1 optimisation)", async () => {
+      // No existing months - all records from new month
+      const mockSelectDistinct = {
+        from: vi.fn().mockResolvedValue([]),
       };
-      vi.mocked(db.select).mockReturnValue(mockSelect as any);
+      vi.mocked(db.selectDistinct).mockReturnValue(mockSelectDistinct as any);
 
       const updater = new Updater(updaterConfig, updaterOptions);
       const result = await (updater as any).insertNewRecords(mockData);
 
-      expect(result).toBe(2); // Only 1 new record (HONDA)
-      // expect(db.$cache.invalidate).toHaveBeenCalledWith({ tables: mockTable });
+      expect(result).toBe(2); // All records inserted (new month)
+      // db.select should NOT be called for key comparison when month is new
+      expect(db.select).not.toHaveBeenCalled();
     });
 
-    it("should return 0 when no new records", async () => {
-      // Mock all records as existing
-      const mockSelect = {
-        from: vi.fn().mockResolvedValue(mockData),
-      };
-      vi.mocked(db.select).mockReturnValue(mockSelect as any);
+    it("should filter out existing records for overlapping months (Phase 2)", async () => {
+      // One record already exists (TOYOTA), HONDA should be inserted
+      const existingRecords = [
+        { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" },
+      ];
+      mockExistingMonthsAndRecords([{ month: "2024-01" }], existingRecords, 1);
+
+      const updater = new Updater(updaterConfig, updaterOptions);
+      const result = await (updater as any).insertNewRecords(mockData);
+
+      expect(result).toBe(1); // Only HONDA inserted (TOYOTA exists)
+    });
+
+    it("should return 0 when all records exist (isSubsetOf early exit)", async () => {
+      mockExistingMonthsAndRecords([{ month: "2024-01" }], mockData);
 
       const updater = new Updater(updaterConfig, updaterOptions);
       const result = await (updater as any).insertNewRecords(mockData);
 
       expect(result).toBe(0);
       expect(db.insert).not.toHaveBeenCalled();
+    });
+
+    it("should handle mixed months (some new, some overlapping)", async () => {
+      const mixedData = [
+        { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" }, // Existing month
+        { month: "2024-02", make: "BMW", fuel_type: "Electric" }, // New month
+      ];
+
+      // TOYOTA already exists in 2024-01, BMW from new month should be inserted
+      const existingRecords = [
+        { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" },
+      ];
+      mockExistingMonthsAndRecords([{ month: "2024-01" }], existingRecords, 1);
+
+      const updater = new Updater(updaterConfig, updaterOptions);
+      const result = await (updater as any).insertNewRecords(mixedData);
+
+      // BMW inserted (new month), TOYOTA skipped (exists)
+      expect(result).toBe(1);
     });
   });
 });
