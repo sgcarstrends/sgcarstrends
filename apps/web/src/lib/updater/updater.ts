@@ -73,7 +73,6 @@ export class Updater<T> {
         timestamp: new Date().toISOString(),
       };
 
-      console.log(response);
       return response;
     } catch (e) {
       console.error("Error in updater:", e);
