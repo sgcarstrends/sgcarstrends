@@ -10,7 +10,6 @@
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
     "paths": {
-      "@api/*": ["apps/api/src/*"],
       "@web/*": ["apps/web/src/*"],
       "@logos/*": ["packages/logos/src/*"],
       "@utils/*": ["packages/utils/src/*"],
