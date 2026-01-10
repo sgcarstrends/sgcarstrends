@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
-import { BarChartByType } from "@web/app/(dashboard)/cars/bar-chart-by-type";
+import { BarChartByType } from "@web/app/(main)/(dashboard)/cars/bar-chart-by-type";
 import Typography from "@web/components/typography";
 import { FUEL_TYPE } from "@web/config";
 import type { RegistrationStat } from "@web/types/cars";

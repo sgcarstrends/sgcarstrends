@@ -1,4 +1,4 @@
-import type { Period } from "@web/app/(dashboard)/coe/search-params";
+import type { Period } from "@web/app/(main)/(dashboard)/coe/search-params";
 import type { CoeMarketShareData } from "@web/queries/coe";
 import type { COEBiddingResult, COEResult } from "@web/types";
 import { formatCurrency } from "@web/utils/format-currency";
