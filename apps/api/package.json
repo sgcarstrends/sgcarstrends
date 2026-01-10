@@ -7,12 +7,6 @@
   "license": "MIT",
   "scripts": {
     "dev": "sst dev --stage dev",
-    "deploy:dev": "sst deploy --stage dev",
-    "deploy:staging": "sst deploy --stage staging",
-    "deploy:prod": "sst deploy --stage prod",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
     "lint": "biome check .",
     "vercel-build": "turbo run @sgcarstrends/database#migrate"
   },
