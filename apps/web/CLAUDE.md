@@ -50,12 +50,17 @@ src/
 │   │   │   └── _components/       # COE route-specific components (co-located)
 │   │   └── annual/                # Annual statistics routes
 │   ├── (social)/                  # Social media redirect routes with UTM tracking
+│   ├── admin/                     # Integrated admin interface for content management
+│   │   ├── (dashboard)/           # Admin dashboard routes
+│   │   ├── actions/               # Admin-specific actions
+│   │   ├── components/            # Admin-specific components
+│   │   └── lib/                   # Admin utilities and helpers
 │   ├── api/                       # API routes (analytics, OG images, revalidation)
 │   ├── blog/
 │   │   ├── _actions/              # Blog-specific server actions (co-located)
 │   │   └── _components/           # Blog-specific components (co-located)
 │   └── store/                     # Zustand store slices
-├── actions/                       # Server actions (newsletter subscription)
+├── actions/                       # Server actions (maintenance tasks)
 ├── queries/                       # Data fetching queries (cars, COE, deregistrations, logos)
 │   ├── cars/                      # Car data queries with comprehensive tests
 │   ├── coe/                       # COE data queries with comprehensive tests
@@ -304,7 +309,7 @@ This precisely invalidates only affected caches, avoiding unnecessary regenerati
 
 **Server Actions**: Organized in `src/actions/` directory for write operations:
 
-- Newsletter subscription (`actions/newsletter/subscribe.ts`)
+- Maintenance tasks (`actions/maintenance.ts`)
 - Blog-specific actions co-located in `src/app/blog/_actions/` (view counting, related posts)
 
 **Social Media Integration**: Implements domain-based redirect routes in `src/app/(social)/` that provide trackable,
@@ -323,7 +328,7 @@ External API integration through `src/utils/api/` for:
 
 **UTM Utilities** (`src/utils/utm.ts`):
 
-- **External Campaigns**: `createExternalCampaignURL()` for email newsletters and marketing campaigns
+- **External Campaigns**: `createExternalCampaignURL()` for marketing campaigns and external traffic sources
 - **Parameter Reading**: `useUTMParams()` React hook for future analytics implementation (currently unused)
 - **Best Practices**: Follows industry standards with no UTM tracking on internal navigation
 - **Type Safety**: Full TypeScript support with `UTMParams` interface and nuqs integration

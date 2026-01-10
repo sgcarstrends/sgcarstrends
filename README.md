@@ -6,7 +6,7 @@
 
 This monorepo provides a complete platform for SG Cars Trends, tracking Singapore's car registration statistics and Certificate of Entitlement (COE) data. The system includes:
 
-- **Web Application**: Next.js 16 frontend with Cache Components, co-located route components, enhanced homepage featuring latest COE results, interactive charts, analytics, and AI-generated blog content with responsive design
+- **Web Application**: Next.js 16 frontend with Cache Components, co-located route components, enhanced homepage featuring latest COE results, interactive charts, analytics, AI-generated blog content, and integrated admin interface at `/admin` path
 - **REST API**: Hono-based API with type-safe endpoints for car registrations and COE results
 - **Integrated Data Updater**: QStash workflow-based system for fetching and processing LTA data
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini for market insights
@@ -94,12 +94,13 @@ sgcarstrends/
 │   ├── web/          # Next.js 16 frontend application
 │   │   ├── src/app/         # Next.js App Router pages and layouts
 │   │   │   ├── (social)/    # Social media redirect routes with UTM tracking
+│   │   │   ├── admin/       # Integrated admin interface for content management
 │   │   │   └── blog/        # Blog pages with AI-generated content
 │   │   ├── src/queries/     # Data fetching queries (cars, COE, logos) with comprehensive tests
-│   │   ├── src/actions/     # Server actions (newsletter subscription)
+│   │   ├── src/actions/     # Server actions (maintenance tasks)
 │   │   ├── src/components/  # React components with comprehensive tests
 │   │   └── src/utils/       # Web-specific utility functions
-│   └── admin/        # Administrative interface for content management (unreleased)
+│   └── admin/        # Standalone admin (being phased out; see web/src/app/admin)
 ├── packages/
 │   ├── database/     # Database schema and migrations (Drizzle ORM)
 │   │   ├── src/schema/      # Schema definitions for all tables

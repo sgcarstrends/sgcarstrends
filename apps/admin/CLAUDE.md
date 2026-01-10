@@ -2,11 +2,13 @@
 
 ## Project Overview
 
-This is the admin dashboard (v4.26.1) for SG Cars Trends, built with Next.js 15.4.7 and shadcn/ui components. The dashboard provides
+⚠️ **DEPRECATED**: This standalone admin dashboard is being phased out in favor of the integrated admin interface located at `/admin` in the web application (`apps/web/src/app/admin`).
+
+This was the admin dashboard for SG Cars Trends, built with Next.js and shadcn/ui components. The dashboard provided
 administrative functionality for managing the SG Cars Trends platform, including content management, data oversight, and
 system monitoring.
 
-**Note**: This is currently an unreleased application under development.
+**Migration Status**: Admin functionality has been consolidated into the web app at `apps/web/src/app/admin`. Future development should occur in the web app, not in this standalone application.
 
 ## Commands
 
