@@ -12,7 +12,7 @@ describe("monthly registration queries", () => {
     resetDbMocks();
   });
 
-  it("aggregates monthly registrations by fuel and vehicle type", async () => {
+  it("should aggregate monthly registrations by fuel and vehicle type", async () => {
     // db.batch returns array of results for all queries
     queueBatch([
       [
@@ -48,7 +48,7 @@ describe("monthly registration queries", () => {
     expect(result.vehicleType).toEqual([]);
   });
 
-  it("provides comparisons for previous month and year", async () => {
+  it("should provide comparisons for previous month and year", async () => {
     // db.batch returns array of 9 results (3 months × 3 query types)
     queueBatch([
       [{ label: "Electric", count: 8 }], // currentMonth fuelType

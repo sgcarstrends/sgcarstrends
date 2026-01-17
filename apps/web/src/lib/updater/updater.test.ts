@@ -259,22 +259,12 @@ describe("Updater", () => {
       expect(db.insert).toHaveBeenCalledTimes(3); // 3 batches
     });
 
-    it("should handle errors and rethrow", async () => {
+    it("should propagate errors from download", async () => {
       vi.mocked(downloadFile).mockRejectedValue(new Error("Download failed"));
-
-      const consoleSpy = vi
-        .spyOn(console, "error")
-        .mockImplementation(() => {});
 
       const updater = new Updater(updaterConfig, updaterOptions);
 
       await expect(updater.update()).rejects.toThrow("Download failed");
-      expect(consoleSpy).toHaveBeenCalledWith(
-        "Error in updater:",
-        expect.any(Error),
-      );
-
-      consoleSpy.mockRestore();
     });
   });
 

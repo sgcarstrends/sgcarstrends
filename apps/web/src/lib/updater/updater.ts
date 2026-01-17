@@ -48,36 +48,29 @@ export class Updater<T> {
   }
 
   async update(): Promise<UpdaterResult> {
-    try {
-      const { filePath, checksum } = await this.downloadAndVerify();
+    const { filePath, checksum } = await this.downloadAndVerify();
 
-      if (!checksum) {
-        return {
-          table: this.tableName,
-          recordsProcessed: 0,
-          message: `File has not changed since last update`,
-          timestamp: new Date().toISOString(),
-        };
-      }
-
-      const processedData = await this.processData(filePath);
-      const totalInserted = await this.insertNewRecords(processedData);
-
-      const response = {
+    if (!checksum) {
+      return {
         table: this.tableName,
-        recordsProcessed: totalInserted,
-        message:
-          totalInserted > 0
-            ? `${totalInserted} record(s) inserted`
-            : "No new data to insert. The provided data matches the existing records.",
+        recordsProcessed: 0,
+        message: `File has not changed since last update`,
         timestamp: new Date().toISOString(),
       };
-
-      return response;
-    } catch (e) {
-      console.error("Error in updater:", e);
-      throw e;
     }
+
+    const processedData = await this.processData(filePath);
+    const totalInserted = await this.insertNewRecords(processedData);
+
+    return {
+      table: this.tableName,
+      recordsProcessed: totalInserted,
+      message:
+        totalInserted > 0
+          ? `${totalInserted} record(s) inserted`
+          : "No new data to insert. The provided data matches the existing records.",
+      timestamp: new Date().toISOString(),
+    };
   }
 
   private async downloadAndVerify(): Promise<{

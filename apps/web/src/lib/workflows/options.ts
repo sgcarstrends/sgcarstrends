@@ -23,7 +23,7 @@ export const options = {
             },
             {
               name: "Error Cause",
-              value: error.cause ?? "Unknown",
+              value: String(error.cause ?? "Unknown"),
               inline: true,
             },
             {
