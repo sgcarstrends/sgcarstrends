@@ -6,6 +6,7 @@ import {
 } from "@sgcarstrends/ui/components/card";
 import { getAllPosts } from "@web/app/admin/actions/blog";
 import { BlogPostsTable } from "@web/app/admin/components/blog-posts-table";
+import { ListSkeleton } from "@web/components/shared/skeleton";
 import { FileText } from "lucide-react";
 import { Suspense } from "react";
 
@@ -26,7 +27,7 @@ export default async function BlogManagementPage() {
       </div>
 
       {/* Posts Table */}
-      <Suspense>
+      <Suspense fallback={<ListSkeleton count={5} itemHeight="h-16" />}>
         <BlogPostsTable initialPosts={posts} />
       </Suspense>
 

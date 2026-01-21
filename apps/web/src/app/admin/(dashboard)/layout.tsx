@@ -14,14 +14,14 @@ export default function DashboardLayout({
       <Suspense>
         <AppSidebar />
       </Suspense>
-      <Suspense>
-        <SidebarInset>
-          <header className="sticky top-0 z-10 border-b bg-background px-6 py-4">
-            <SidebarTrigger />
-          </header>
-          <main className="p-6">{children}</main>
-        </SidebarInset>
-      </Suspense>
+      <SidebarInset>
+        <header className="sticky top-0 z-10 border-b bg-background px-6 py-4">
+          <SidebarTrigger />
+        </header>
+        <main className="p-6">
+          <Suspense>{children}</Suspense>
+        </main>
+      </SidebarInset>
     </SidebarProvider>
   );
 }
