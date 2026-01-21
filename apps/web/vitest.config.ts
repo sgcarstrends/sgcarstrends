@@ -50,7 +50,7 @@ export default defineConfig({
           return Math.min(roundedDown, 80);
         },
         lines: 80,
-        functions: 75,
+        functions: 80,
         branches: 70,
         statements: 80,
       },
