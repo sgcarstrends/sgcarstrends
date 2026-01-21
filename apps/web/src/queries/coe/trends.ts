@@ -117,7 +117,7 @@ export const getAllCoeCategoryTrends = async (
     const latestMonth = await getLatestCoeMonth();
     if (!latestMonth) {
       return Object.fromEntries(
-        COE_CATEGORIES.map((category) => [category, []]),
+        COE_CATEGORIES.map((category) => [category, [] as CoeMonthlyPremium[]]),
       ) as Record<COECategory, CoeMonthlyPremium[]>;
     }
     ({ startMonth, endMonth } = getDateRangeRolling12Months(latestMonth));
