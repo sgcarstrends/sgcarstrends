@@ -1,7 +1,8 @@
 import { coe, db, type SelectCOE } from "@sgcarstrends/database";
 import { getDateRangeForYear } from "@web/lib/coe/calculations";
 import type { COECategory } from "@web/types";
-import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
+import { subMonths } from "date-fns";
+import { and, asc, desc, eq, gte, lte, max } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 const COE_CATEGORIES: COECategory[] = [
@@ -28,6 +29,27 @@ const fetchCoeResults = async (
     .from(coe)
     .where(and(...filters))
     .orderBy(asc(coe.month), desc(coe.biddingNo));
+};
+
+const getLatestCoeMonth = async (): Promise<string | null> => {
+  const result = await db
+    .select({ month: max(coe.month) })
+    .from(coe)
+    .then((rows) => rows[0]?.month ?? null);
+
+  return result;
+};
+
+const getDateRangeRolling12Months = (
+  endMonth: string,
+): { startMonth: string; endMonth: string } => {
+  const endDate = new Date(`${endMonth}-01`);
+  const startDate = subMonths(endDate, 11);
+
+  return {
+    startMonth: startDate.toISOString().slice(0, 7),
+    endMonth,
+  };
 };
 
 const upsertMonthlyTrend = (
@@ -86,7 +108,20 @@ export const getAllCoeCategoryTrends = async (
     cacheTag(`coe:year:${year}`);
   }
 
-  const { startMonth, endMonth } = getDateRangeForYear(year);
+  let startMonth: string;
+  let endMonth: string;
+
+  if (year) {
+    ({ startMonth, endMonth } = getDateRangeForYear(year));
+  } else {
+    const latestMonth = await getLatestCoeMonth();
+    if (!latestMonth) {
+      return Object.fromEntries(
+        COE_CATEGORIES.map((category) => [category, []]),
+      ) as Record<COECategory, CoeMonthlyPremium[]>;
+    }
+    ({ startMonth, endMonth } = getDateRangeRolling12Months(latestMonth));
+  }
 
   const results = await fetchCoeResults(startMonth, endMonth);
 
