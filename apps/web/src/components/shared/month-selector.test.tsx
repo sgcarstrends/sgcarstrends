@@ -5,11 +5,11 @@ vi.mock("nuqs", () => ({
   useQueryState: vi.fn(() => [null, vi.fn()]),
 }));
 
-vi.mock("@web/utils/format-date-to-month-year", () => ({
+vi.mock("@web/utils/formatting/format-date-to-month-year", () => ({
   formatDateToMonthYear: vi.fn(() => "January 2024"),
 }));
 
-vi.mock("@web/utils/group-by-year", () => ({
+vi.mock("@web/utils/arrays/group-by-year", () => ({
   groupByYear: vi.fn(() => ({ "2024": ["01"] })),
 }));
 

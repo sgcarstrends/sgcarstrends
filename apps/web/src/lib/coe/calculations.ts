@@ -1,7 +1,7 @@
 import type { Period } from "@web/app/(main)/(dashboard)/coe/search-params";
 import type { CoeMarketShareData } from "@web/queries/coe";
 import type { COEBiddingResult, COEResult } from "@web/types";
-import { formatCurrency } from "@web/utils/format-currency";
+import { formatCurrency } from "@web/utils/formatting/format-currency";
 import { format, subMonths, subYears } from "date-fns";
 
 export const COE_CATEGORY_MAP = {

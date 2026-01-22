@@ -6,7 +6,7 @@ import type {
   SocialMessage,
 } from "@web/lib/social/interfaces/platform-handler";
 import { Platform } from "@web/types/social-media";
-import { refreshLinkedInToken } from "@web/utils/linkedin";
+import { refreshLinkedInToken } from "@web/utils/social/linkedin";
 import { RestliClient } from "linkedin-api-client";
 
 const UGC_POSTS_RESOURCE = "/ugcPosts";

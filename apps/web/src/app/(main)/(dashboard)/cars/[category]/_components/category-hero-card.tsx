@@ -3,7 +3,7 @@ import { AnimatedNumber } from "@web/components/animated-number";
 import Typography from "@web/components/typography";
 import { getRankingEmoji } from "@web/lib/cars/calculations";
 import { formatPercentage } from "@web/utils/charts";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { Award, BarChart3, PieChart } from "lucide-react";
 
 interface CategoryHeroCardProps {

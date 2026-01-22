@@ -1,4 +1,4 @@
-import { formatCurrency } from "@web/utils/format-currency";
+import { formatCurrency } from "@web/utils/formatting/format-currency";
 
 interface CurrencyProps {
   value: number;

@@ -1,4 +1,8 @@
-import { SortDirection, sortByName, sortByValue } from "@web/utils/sorting";
+import {
+  SortDirection,
+  sortByName,
+  sortByValue,
+} from "@web/utils/arrays/sorting";
 
 describe("SortDirection", () => {
   it("should have ASC and DESC values", () => {

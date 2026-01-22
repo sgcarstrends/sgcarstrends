@@ -10,7 +10,7 @@ import {
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import type { Pqp } from "@web/types/coe";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 interface TrendsChartProps {

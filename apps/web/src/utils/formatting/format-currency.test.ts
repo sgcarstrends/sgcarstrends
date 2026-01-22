@@ -1,4 +1,7 @@
-import { formatCurrency, formatNumber } from "@web/utils/format-currency";
+import {
+  formatCurrency,
+  formatNumber,
+} from "@web/utils/formatting/format-currency";
 
 describe("formatNumber", () => {
   it("should format numbers with thousand separators", () => {

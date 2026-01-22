@@ -3,7 +3,7 @@
 import { Chip } from "@heroui/chip";
 import useStore from "@web/app/store";
 import type { COEResult } from "@web/types";
-import { formatCurrency } from "@web/utils/format-currency";
+import { formatCurrency } from "@web/utils/formatting/format-currency";
 import { useEffect } from "react";
 
 interface PremiumBannerProps {

@@ -3,7 +3,7 @@ import {
   copyToClipboard,
   getShareUrl,
   triggerWebShare,
-} from "@web/utils/share";
+} from "@web/utils/social/share";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@heroui/toast", () => ({

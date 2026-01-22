@@ -4,7 +4,7 @@ import { Tab, Tabs } from "@heroui/tabs";
 import Typography from "@web/components/typography";
 import type { TypeItem } from "@web/types";
 import type { FuelType } from "@web/types/cars";
-import { formatVehicleType } from "@web/utils/format-vehicle-type";
+import { formatVehicleType } from "@web/utils/formatting/format-vehicle-type";
 import { useMemo } from "react";
 import { CategoryHeroCard } from "./category-hero-card";
 import { TopMakesChart } from "./top-makes-chart";

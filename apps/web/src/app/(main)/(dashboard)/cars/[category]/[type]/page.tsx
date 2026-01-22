@@ -17,9 +17,9 @@ import {
   getDistinctFuelTypes,
   getDistinctVehicleTypes,
 } from "@web/queries/cars";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { formatVehicleTypeSlug } from "@web/utils/format-vehicle-type";
-import { getMonthOrLatest } from "@web/utils/months";
+import { getMonthOrLatest } from "@web/utils/dates/months";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
+import { formatVehicleTypeSlug } from "@web/utils/formatting/format-vehicle-type";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";

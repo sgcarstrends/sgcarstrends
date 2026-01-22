@@ -1,6 +1,9 @@
 "use client";
 
-import { formatCurrency, formatNumber } from "@web/utils/format-currency";
+import {
+  formatCurrency,
+  formatNumber,
+} from "@web/utils/formatting/format-currency";
 import { motion, useSpring, useTransform } from "framer-motion";
 import { useEffect } from "react";
 

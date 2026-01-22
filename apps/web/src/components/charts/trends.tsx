@@ -8,7 +8,8 @@ import {
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import { ChartWidget } from "@web/components/charts/widget";
-import { formatMonthYear, formatNumber } from "@web/utils/charts";
+import { formatNumber } from "@web/utils/charts";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { useMemo } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
@@ -39,7 +40,7 @@ export function TrendAreaChart({
   // Format data inline (cheap operation, no need to memoize)
   const formattedData = data.map((item) => ({
     ...item,
-    month: formatMonthYear(item.month),
+    month: formatDateToMonthYear(item.month),
   }));
 
   // Compute display values inline (cheap array operations)

@@ -7,7 +7,8 @@ import {
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import Typography from "@web/components/typography";
-import { formatMonthYear, formatNumber } from "@web/utils/charts";
+import { formatNumber } from "@web/utils/charts";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 interface MonthlyTotal {
@@ -26,7 +27,7 @@ export function TrendsChart({ data }: TrendsChartProps) {
 
   const formattedData = data.map((item) => ({
     ...item,
-    month: formatMonthYear(item.month),
+    month: formatDateToMonthYear(item.month),
   }));
 
   if (data.length === 0) {

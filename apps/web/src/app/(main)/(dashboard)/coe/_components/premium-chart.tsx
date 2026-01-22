@@ -19,7 +19,7 @@ import {
   PriceYAxis,
 } from "@web/components/charts/shared";
 import type { COEBiddingResult } from "@web/types";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { CalendarIcon } from "lucide-react";
 import {
   parseAsArrayOf,

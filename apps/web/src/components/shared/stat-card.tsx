@@ -30,43 +30,6 @@ export function StatCard({ title, description, data }: StatCardProps) {
             </Typography.TextSm>
           </p>
         )}
-        {/*<Table>*/}
-        {/*  <TableHeader>*/}
-        {/*    <TableRow>*/}
-        {/*      <TableHead>Type</TableHead>*/}
-        {/*      <TableHead>Count</TableHead>*/}
-        {/*      <TableHead>Distribution</TableHead>*/}
-        {/*    </TableRow>*/}
-        {/*  </TableHeader>*/}
-        {/*  <TableBody>*/}
-        {/*    {data.map(({ name, count }) => {*/}
-        {/*      return (*/}
-        {/*        <TableRow*/}
-        {/*          key={name}*/}
-        {/*          className="cursor-pointer"*/}
-        {/*          onClick={() => handleRowClick(name)}*/}
-        {/*        >*/}
-        {/*          <TableCell>*/}
-        {/*            <div className="flex flex-col gap-2">{name}</div>*/}
-        {/*          </TableCell>*/}
-        {/*          <TableCell className="text-primary flex gap-1 font-semibold">*/}
-        {/*            {count}*/}
-        {/*          </TableCell>*/}
-        {/*          <TableCell>*/}
-        {/*            <Badge variant={getBadgeVariant(count)}>*/}
-        {/*              {formatPercent(count / total, {*/}
-        {/*                minimumFractionDigits: 2,*/}
-        {/*              })}*/}
-        {/*            </Badge>*/}
-        {/*          </TableCell>*/}
-        {/*          <TableCell>*/}
-        {/*            <ArrowRight className="text-primary size-4" />*/}
-        {/*          </TableCell>*/}
-        {/*        </TableRow>*/}
-        {/*      );*/}
-        {/*    })}*/}
-        {/*  </TableBody>*/}
-        {/*</Table>*/}
       </CardBody>
     </Card>
   );

@@ -13,7 +13,7 @@ import {
   getPopularMakes,
 } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
-import { fetchMonthsForCars } from "@web/utils/months";
+import { fetchMonthsForCars } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";

@@ -6,8 +6,8 @@ import {
   AutocompleteSection,
 } from "@heroui/react";
 import type { Month } from "@web/types";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { groupByYear } from "@web/utils/group-by-year";
+import { groupByYear } from "@web/utils/arrays/group-by-year";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { Calendar } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useEffect, useMemo } from "react";

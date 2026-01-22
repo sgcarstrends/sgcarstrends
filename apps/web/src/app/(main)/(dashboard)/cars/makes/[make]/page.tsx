@@ -5,12 +5,14 @@ import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
-import { createPageMetadata } from "@web/lib/metadata";
-import { createWebPageStructuredData } from "@web/lib/metadata/structured-data";
+import {
+  createPageMetadata,
+  createWebPageStructuredData,
+} from "@web/lib/metadata";
 import { checkMakeIfExist, getMakeDetails } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import type { Make } from "@web/types";
-import { fetchMonthsForCars } from "@web/utils/months";
+import { fetchMonthsForCars } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 
 interface PageProps {

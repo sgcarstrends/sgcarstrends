@@ -8,7 +8,7 @@ import {
   getTopTypes,
   getVehicleTypeData,
 } from "@web/queries/cars";
-import { fetchMonthsForCars } from "@web/utils/months";
+import { fetchMonthsForCars } from "@web/utils/dates/months";
 
 /**
  * Load data for cars category pages (fuel-types or vehicle-types)

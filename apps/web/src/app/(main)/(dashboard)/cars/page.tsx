@@ -11,17 +11,16 @@ import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCarsMetadataData } from "@web/lib/cars/page-data";
 import { loadLastUpdated } from "@web/lib/common";
-import { createPageMetadata } from "@web/lib/metadata";
-import { generateDatasetSchema } from "@web/lib/structured-data";
+import { createPageMetadata, generateDatasetSchema } from "@web/lib/metadata";
 import {
   getCarsComparison,
   getCarsData,
   getTopMakesByFuelType,
   getTopTypes,
 } from "@web/queries";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { formatVehicleType } from "@web/utils/format-vehicle-type";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/months";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
+import { formatVehicleType } from "@web/utils/formatting/format-vehicle-type";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";

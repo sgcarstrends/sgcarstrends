@@ -4,8 +4,8 @@ import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { COEResult } from "@web/types";
-import { formatCurrency } from "@web/utils/format-currency";
-import { formatOrdinal } from "@web/utils/format-ordinal";
+import { formatCurrency } from "@web/utils/formatting/format-currency";
+import { formatOrdinal } from "@web/utils/formatting/format-ordinal";
 import { ArrowUpDown } from "lucide-react";
 
 const formatPercent = (value: number) =>

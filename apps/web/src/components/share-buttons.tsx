@@ -9,7 +9,7 @@ import {
   getShareUrl,
   type SharePlatform,
   triggerWebShare,
-} from "@web/utils/share";
+} from "@web/utils/social/share";
 import { Check, Link2, Share2 } from "lucide-react";
 import { useCallback, useState } from "react";
 

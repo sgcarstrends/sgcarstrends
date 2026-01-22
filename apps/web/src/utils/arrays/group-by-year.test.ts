@@ -1,4 +1,4 @@
-import { groupByYear } from "@web/utils/group-by-year";
+import { groupByYear } from "@web/utils/arrays/group-by-year";
 
 const mockDates = [
   "2023-01",

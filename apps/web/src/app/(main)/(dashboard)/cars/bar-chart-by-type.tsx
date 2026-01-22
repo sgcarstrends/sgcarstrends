@@ -5,7 +5,7 @@ import {
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import type { RegistrationStat } from "@web/types/cars";
-import { formatVehicleType } from "@web/utils/format-vehicle-type";
+import { formatVehicleType } from "@web/utils/formatting/format-vehicle-type";
 import { Bar, BarChart, Cell, LabelList, XAxis, YAxis } from "recharts";
 
 interface BarChartByTypeProps {

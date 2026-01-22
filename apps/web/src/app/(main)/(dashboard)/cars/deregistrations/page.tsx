@@ -18,11 +18,11 @@ import {
   getDeregistrationsTotalByMonth,
 } from "@web/queries/deregistrations";
 import { formatNumber } from "@web/utils/charts";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
 import {
   fetchMonthsForDeregistrations,
   getMonthOrLatest,
-} from "@web/utils/months";
+} from "@web/utils/dates/months";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";

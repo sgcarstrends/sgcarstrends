@@ -14,7 +14,7 @@ import { loadCOEOverviewPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getLatestCoeResults } from "@web/queries/coe";
 import { formatPercent } from "@web/utils/charts";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { WebPage, WithContext } from "schema-dts";

@@ -1,6 +1,6 @@
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { describe, expect, it } from "vitest";
-import { createPageMetadata } from "./metadata";
+import { createPageMetadata } from "./page-metadata";
 
 describe("Metadata Utilities", () => {
   describe("createPageMetadata", () => {

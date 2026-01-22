@@ -1,7 +1,7 @@
 import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { generateCOEFAQSchema } from "@web/lib/structured-data";
+import { generateCOEFAQSchema } from "@web/lib/metadata";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 import { FAQSections } from "./faq-sections";

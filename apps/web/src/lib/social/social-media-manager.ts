@@ -1,5 +1,5 @@
 import type { Platform } from "@web/types/social-media";
-import { createSocialShareURL } from "@web/utils/utm";
+import { createSocialShareURL } from "@web/utils/social/utm";
 import type {
   PlatformHandler,
   PlatformHealth,
