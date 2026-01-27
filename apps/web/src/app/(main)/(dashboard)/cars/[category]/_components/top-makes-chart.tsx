@@ -54,7 +54,7 @@ export function TopMakesChart({
 
   if (!makes || makes.length === 0) {
     return (
-      <Card className="p-3">
+      <Card className="rounded-2xl p-3">
         <CardHeader className="flex flex-col items-start gap-2">
           <Typography.H4>Top Makes</Typography.H4>
           <Typography.TextSm>No make data available</Typography.TextSm>
@@ -69,7 +69,7 @@ export function TopMakesChart({
   }
 
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardHeader className="flex flex-col items-start gap-2">
         <Typography.H4>Top Makes - {title}</Typography.H4>
         <Typography.TextSm>{description}</Typography.TextSm>
@@ -94,7 +94,11 @@ export function TopMakesChart({
           {/* Horizontal Bar Chart */}
           <ChartContainer config={chartConfig} className="h-[300px] w-full">
             <BarChart data={chartData} layout="vertical">
-              <CartesianGrid horizontal={false} />
+              <CartesianGrid
+                horizontal={false}
+                strokeDasharray="3 3"
+                className="stroke-default-200"
+              />
               <XAxis
                 type="number"
                 tickFormatter={formatNumber}
@@ -107,7 +111,10 @@ export function TopMakesChart({
                 tickLine={false}
                 axisLine={false}
               />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+              <ChartTooltip
+                cursor={{ fill: "hsl(var(--muted))", opacity: 0.2 }}
+                content={<ChartTooltipContent />}
+              />
               <Bar dataKey="value" radius={[0, 4, 4, 0]}>
                 {chartData.map((entry) => {
                   return <Cell key={`cell-${entry.name}`} fill={entry.fill} />;

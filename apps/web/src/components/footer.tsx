@@ -31,10 +31,10 @@ export function Footer() {
                   isIconOnly
                   variant="light"
                   size="sm"
-                  className="text-default-500 transition-colors hover:text-primary"
+                  className="rounded-full text-default-500 transition-colors hover:text-primary"
                   aria-label={title}
                 >
-                  <Icon className="size-4" />
+                  <Icon className="size-4" aria-hidden="true" />
                 </Button>
               ))}
             </div>

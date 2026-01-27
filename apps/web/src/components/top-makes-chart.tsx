@@ -41,7 +41,7 @@ export function TopMakesChart({ topMakes, year }: TopMakesChartProps) {
   ) as ChartConfig;
 
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardHeader className="flex flex-col items-start gap-2 pb-4">
         <Typography.H4>
           Top {topMakes.length} Car Makes ({year})
@@ -53,7 +53,11 @@ export function TopMakesChart({ topMakes, year }: TopMakesChartProps) {
       <CardBody className="pt-2">
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <BarChart data={data} layout="vertical">
-            <CartesianGrid horizontal={false} />
+            <CartesianGrid
+              horizontal={false}
+              strokeDasharray="3 3"
+              className="stroke-default-200"
+            />
             <XAxis type="number" tickLine={false} axisLine={false} />
             <YAxis
               dataKey="make"
@@ -64,7 +68,7 @@ export function TopMakesChart({ topMakes, year }: TopMakesChartProps) {
               hide
             />
             <ChartTooltip
-              cursor={false}
+              cursor={{ fill: "hsl(var(--muted))", opacity: 0.2 }}
               content={<ChartTooltipContent indicator="line" />}
             />
             <Bar dataKey="value" radius={4}>

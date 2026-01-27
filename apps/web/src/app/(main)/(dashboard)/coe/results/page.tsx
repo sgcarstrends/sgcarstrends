@@ -6,6 +6,7 @@ import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
+import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadResultsPageData } from "@web/lib/coe/page-data";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -98,14 +99,12 @@ const COEResultsPage = async ({ searchParams }: PageProps) => {
         <COEPremiumChart data={chartData} />
 
         {/* Historical Data Table - Full Width */}
-        <Card className="p-3">
+        <Card className="rounded-2xl p-3">
           <CardHeader className="flex flex-col items-start gap-2">
-            <h3 className="font-medium text-foreground text-xl">
-              Historical Data
-            </h3>
-            <p className="text-default-600 text-sm">
+            <Typography.H4>Historical Data</Typography.H4>
+            <Typography.TextSm>
               Complete list of historical COE prices
-            </p>
+            </Typography.TextSm>
           </CardHeader>
           <CardBody>
             <TrendTable coeResults={coeResults} />

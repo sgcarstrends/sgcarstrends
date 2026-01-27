@@ -28,7 +28,6 @@ export default defineConfig({
         "src/lib/*.ts", // Exclude loose files in src/lib
         "src/schema",
         "src/types",
-        "src/components/dashboard/skeletons/**",
         "src/components/unreleased-feature.tsx",
         "src/components/tables/**", // Tables not prioritized for coverage
         "src/components/charts/market-share.tsx", // Complex chart component

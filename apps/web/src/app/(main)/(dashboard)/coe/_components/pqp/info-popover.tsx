@@ -1,5 +1,6 @@
 import { Button } from "@heroui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@heroui/popover";
+import Typography from "@web/components/typography";
 import { InfoIcon } from "lucide-react";
 
 export function InfoPopover() {
@@ -10,14 +11,15 @@ export function InfoPopover() {
           isIconOnly
           variant="light"
           size="sm"
+          className="rounded-full"
           aria-label="About PQP Rates"
         >
-          <InfoIcon className="size-5" />
+          <InfoIcon className="size-5" aria-hidden="true" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="max-w-md">
         <div className="flex flex-col gap-4 p-4">
-          <h3 className="font-semibold text-lg">Understanding PQP Rates</h3>
+          <Typography.H4>Understanding PQP Rates</Typography.H4>
           <div className="flex flex-col gap-4 text-sm">
             <p>
               Certificate of Entitlement (COE) Prevailing Quota Premium (PQP)

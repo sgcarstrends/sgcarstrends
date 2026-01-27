@@ -9,6 +9,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import Typography from "@web/components/typography";
 import type { Pqp } from "@web/types/coe";
 import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
@@ -21,19 +22,23 @@ const chartConfig: ChartConfig = {};
 
 export function TrendsChart({ data }: TrendsChartProps) {
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardHeader>
         <div className="flex flex-col gap-1">
-          <h3 className="font-semibold text-lg">PQP Trends</h3>
-          <p className="text-default-500 text-sm">
+          <Typography.H4>PQP Trends</Typography.H4>
+          <Typography.TextSm className="text-default-500">
             Historical Prevailing Quota Premium rates across all COE categories
-          </p>
+          </Typography.TextSm>
         </div>
       </CardHeader>
       <CardBody>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <LineChart data={data}>
-            <CartesianGrid />
+            <CartesianGrid
+              vertical={false}
+              strokeDasharray="3 3"
+              className="stroke-default-200"
+            />
             <XAxis
               dataKey="month"
               tickFormatter={(value) => formatDateToMonthYear(value)}

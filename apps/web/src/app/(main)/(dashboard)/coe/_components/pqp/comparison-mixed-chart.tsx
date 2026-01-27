@@ -9,6 +9,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import Typography from "@web/components/typography";
 import type { Pqp } from "@web/types/coe";
 import {
   Bar,
@@ -27,21 +28,23 @@ const chartConfig: ChartConfig = {};
 
 export function ComparisonMixedChart({ data }: ComparisonMixedChartProps) {
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardHeader>
         <div className="flex flex-col gap-1">
-          <h3 className="font-semibold text-lg">
-            Latest COE Premium vs PQP Rate
-          </h3>
-          <p className="text-default-500 text-sm">
+          <Typography.H4>Latest COE Premium vs PQP Rate</Typography.H4>
+          <Typography.TextSm className="text-default-500">
             Comparison of latest COE bidding premium against current PQP rates
-          </p>
+          </Typography.TextSm>
         </div>
       </CardHeader>
       <CardBody>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <ComposedChart data={data}>
-            <CartesianGrid vertical={false} />
+            <CartesianGrid
+              vertical={false}
+              strokeDasharray="3 3"
+              className="stroke-default-200"
+            />
             <XAxis dataKey="category" />
             <YAxis
               domain={[
@@ -50,7 +53,10 @@ export function ComparisonMixedChart({ data }: ComparisonMixedChartProps) {
               ]}
               tickFormatter={numberFormat}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <ChartTooltip
+              cursor={{ fill: "hsl(var(--muted))", opacity: 0.2 }}
+              content={<ChartTooltipContent />}
+            />
             <Bar
               dataKey="latestPremium"
               name="Latest COE Premium"

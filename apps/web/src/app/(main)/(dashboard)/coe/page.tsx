@@ -100,7 +100,7 @@ const COEOverviewPage = async () => {
         <Typography.H2>Latest COE Results</Typography.H2>
 
         {/* ROW 1: Hero Metrics - 5 Category Cards */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           <LatestCoePremium results={latestResults} trends={coeTrends} />
         </div>
 
@@ -108,16 +108,14 @@ const COEOverviewPage = async () => {
         {keyInsights.length > 0 && <KeyInsights insights={keyInsights} />}
 
         {/* ROW 3: Bento Grid - Fun Facts + PQP Rates side by side */}
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Fun Facts Card */}
-          <Card className="p-3">
+          <Card className="rounded-2xl p-3">
             <CardHeader className="flex flex-col items-start gap-2">
-              <h3 className="font-medium text-foreground text-xl">
-                Category A vs B
-              </h3>
-              <p className="text-default-600 text-sm">
+              <Typography.H4>Category A vs B</Typography.H4>
+              <Typography.TextSm>
                 Will the premium quota of Category A ever surpass Category B?
-              </p>
+              </Typography.TextSm>
             </CardHeader>
             <CardBody>
               <div className="flex flex-col gap-4">
@@ -129,13 +127,13 @@ const COEOverviewPage = async () => {
                         maximumFractionDigits: 1,
                       })}
                     </span>
-                    <p className="text-default-500 text-sm">
+                    <Typography.TextSm className="text-default-500">
                       Category A is{" "}
                       {formatPercent(categoryAPercentage, {
                         maximumFractionDigits: 0,
                       })}{" "}
                       of Category B
-                    </p>
+                    </Typography.TextSm>
                   </div>
                 </div>
               </div>
@@ -143,15 +141,13 @@ const COEOverviewPage = async () => {
           </Card>
 
           {/* Latest PQP Rates Card */}
-          <Card className="p-3">
+          <Card className="rounded-2xl p-3">
             <CardHeader className="flex flex-col items-start gap-2">
-              <h3 className="font-medium text-foreground text-xl">
-                Latest PQP Rates
-              </h3>
-              <p className="text-default-600 text-sm">
+              <Typography.H4>Latest PQP Rates</Typography.H4>
+              <Typography.TextSm>
                 {latestPqpMonth &&
                   `Prevailing Quota Premium for ${formatDateToMonthYear(latestPqpMonth)}`}
-              </p>
+              </Typography.TextSm>
             </CardHeader>
             <CardBody>
               <div className="grid grid-cols-2 gap-4">
@@ -181,7 +177,7 @@ const COEOverviewPage = async () => {
                 Note: There is no PQP for Category E
               </Typography.Caption>
               <Link href="/coe/pqp" className="w-full">
-                <Button color="primary" className="w-full">
+                <Button color="primary" className="w-full rounded-full">
                   View All PQP Rates
                 </Button>
               </Link>

@@ -54,7 +54,7 @@ export function AnnualRegistrationsChart({
   };
 
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardHeader className="flex items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
           <Typography.H3>Total New Car Registrations by Year</Typography.H3>
@@ -95,7 +95,11 @@ export function AnnualRegistrationsChart({
                 <stop offset="100%" stopColor="hsl(var(--heroui-primary))" />
               </linearGradient>
             </defs>
-            <CartesianGrid vertical={false} strokeDasharray="3 3" />
+            <CartesianGrid
+              vertical={false}
+              strokeDasharray="3 3"
+              className="stroke-default-200"
+            />
             <XAxis
               dataKey="year"
               tickLine={false}
@@ -109,7 +113,7 @@ export function AnnualRegistrationsChart({
               width={70}
             />
             <ChartTooltip
-              cursor={{ fill: "hsl(var(--muted))", opacity: 0.3 }}
+              cursor={{ fill: "hsl(var(--muted))", opacity: 0.2 }}
               content={
                 <ChartTooltipContent
                   formatter={(value) => numberFormatter.format(value as number)}

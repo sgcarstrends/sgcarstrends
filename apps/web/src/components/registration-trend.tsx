@@ -28,7 +28,7 @@ export function RegistrationTrend({ data }: RegistrationTrendProps) {
   } satisfies ChartConfig;
 
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardHeader className="flex flex-col items-start gap-2 pb-4">
         <Typography.H4>Yearly Registration Trend</Typography.H4>
         <Typography.TextSm className="text-default-600">
@@ -39,7 +39,11 @@ export function RegistrationTrend({ data }: RegistrationTrendProps) {
       <CardBody className="pt-2">
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <LineChart accessibilityLayer data={data}>
-            <CartesianGrid vertical={false} />
+            <CartesianGrid
+              vertical={false}
+              strokeDasharray="3 3"
+              className="stroke-default-200"
+            />
             <XAxis dataKey="year" tickLine={false} axisLine={false} />
             <YAxis
               dataKey="total"
@@ -47,7 +51,10 @@ export function RegistrationTrend({ data }: RegistrationTrendProps) {
               tickLine={false}
               axisLine={false}
             />
-            <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
             <Line
               dataKey="total"
               fill="var(--chart-1)"

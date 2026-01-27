@@ -44,7 +44,7 @@ export function ComparisonSummaryCard({ data }: ComparisonSummaryCardProps) {
               ease: [0.4, 0, 0.2, 1],
             }}
           >
-            <Card className="p-3">
+            <Card className="rounded-2xl p-3">
               <CardHeader>
                 <div className="font-bold text-lg">{item.category}</div>
               </CardHeader>

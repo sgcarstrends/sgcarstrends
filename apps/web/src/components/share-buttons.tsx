@@ -54,11 +54,11 @@ export function ShareButtons({ url, title, className }: ShareButtonsProps) {
         isIconOnly
         variant="light"
         size="sm"
-        className={cn(buttonClassName, "flex md:hidden")}
+        className={cn(buttonClassName, "flex rounded-full md:hidden")}
         onPress={handleNativeShare}
         aria-label="Share"
       >
-        <Share2 className="size-4" />
+        <Share2 className="size-4" aria-hidden="true" />
       </Button>
 
       {/* Desktop */}
@@ -73,10 +73,14 @@ export function ShareButtons({ url, title, className }: ShareButtonsProps) {
               isIconOnly
               variant="light"
               size="sm"
-              className={buttonClassName}
+              className={cn(buttonClassName, "rounded-full")}
               aria-label={label}
             >
-              <Icon className="size-4" color="currentColor" />
+              <Icon
+                className="size-4"
+                color="currentColor"
+                aria-hidden="true"
+              />
             </Button>
           </Tooltip>
         ))}
@@ -85,14 +89,14 @@ export function ShareButtons({ url, title, className }: ShareButtonsProps) {
             isIconOnly
             variant="light"
             size="sm"
-            className={buttonClassName}
+            className={cn(buttonClassName, "rounded-full")}
             onPress={handleCopyLink}
             aria-label="Copy link"
           >
             {copied ? (
-              <Check className="size-4 text-success" />
+              <Check className="size-4 text-success" aria-hidden="true" />
             ) : (
-              <Link2 className="size-4" />
+              <Link2 className="size-4" aria-hidden="true" />
             )}
           </Button>
         </Tooltip>

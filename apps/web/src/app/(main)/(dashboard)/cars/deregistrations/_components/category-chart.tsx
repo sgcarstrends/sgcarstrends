@@ -73,7 +73,7 @@ export function CategoryChart({ data, months }: CategoryChartProps) {
   };
 
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardHeader className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div className="flex flex-col gap-1">
           <Typography.H3>Deregistrations by Category</Typography.H3>
@@ -121,7 +121,7 @@ export function CategoryChart({ data, months }: CategoryChartProps) {
             <CartesianGrid
               horizontal={false}
               strokeDasharray="3 3"
-              stroke="hsl(var(--heroui-default-200))"
+              className="stroke-default-200"
             />
             <XAxis
               type="number"
@@ -142,7 +142,7 @@ export function CategoryChart({ data, months }: CategoryChartProps) {
               }
             />
             <ChartTooltip
-              cursor={{ fill: "hsl(var(--muted))", opacity: 0.3 }}
+              cursor={{ fill: "hsl(var(--muted))", opacity: 0.2 }}
               content={
                 <ChartTooltipContent
                   formatter={(value, _name, item) => {

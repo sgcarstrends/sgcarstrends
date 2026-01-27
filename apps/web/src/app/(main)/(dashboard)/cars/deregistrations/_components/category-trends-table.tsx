@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardBody } from "@heroui/card";
+import Typography from "@web/components/typography";
 import { formatNumber } from "@web/utils/charts";
 
 interface CategorySparklineData {
@@ -16,11 +17,11 @@ interface CategoryTrendsTableProps {
 
 export function CategoryTrendsTable({ data }: CategoryTrendsTableProps) {
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardBody className="p-4">
-        <h3 className="mb-3 font-medium text-default-500 text-xs uppercase tracking-wider">
+        <Typography.Caption className="mb-3 font-medium uppercase tracking-wider">
           Category Trends (12 months)
-        </h3>
+        </Typography.Caption>
         <div className="flex flex-col gap-2">
           {data.map((cat) => {
             const firstValue = cat.trend[0]?.value ?? 0;

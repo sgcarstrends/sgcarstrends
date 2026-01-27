@@ -52,7 +52,7 @@ export function LatestCoePremium({ results, trends }: LatestCoePremiumProps) {
         return (
           <Card
             key={result.vehicleClass}
-            className="hover:-translate-y-1 p-3 transition-all duration-300 hover:shadow-lg"
+            className="hover:-translate-y-1 rounded-2xl p-3 transition-shadow transition-transform duration-300 hover:shadow-lg"
           >
             <CardHeader>
               <div className="flex items-center gap-2">

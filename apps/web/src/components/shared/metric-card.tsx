@@ -1,28 +1,51 @@
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { cn } from "@heroui/theme";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { MetricsComparison } from "@web/components/metrics-comparison";
 import Typography from "@web/components/typography";
+import { CARD_VARIANTS, type CardVariant } from "@web/config/design-system";
 
 interface MetricCardProps {
   title: string;
   value: number;
   current: number;
   previousMonth: number;
+  /** Card styling variant */
+  variant?: CardVariant;
+  /** Additional className for the card */
+  className?: string;
 }
+
+const variantStyles = {
+  default: "p-3",
+  hero: "p-6 border-l-4 border-primary",
+  metric: "p-3",
+} as const;
 
 export function MetricCard({
   title,
   value,
   current,
   previousMonth,
+  variant = "default",
+  className,
 }: MetricCardProps) {
   return (
-    <Card className="p-3">
+    <Card
+      className={cn(CARD_VARIANTS[variant], variantStyles[variant], className)}
+    >
       <CardHeader>
         <Typography.H4>{title}</Typography.H4>
       </CardHeader>
       <CardBody>
-        <div className="font-semibold text-4xl text-primary">
+        <div
+          className={cn(
+            "font-semibold tabular-nums",
+            variant === "hero"
+              ? "text-5xl text-primary"
+              : "text-4xl text-primary",
+          )}
+        >
           <AnimatedNumber value={value} />
         </div>
       </CardBody>

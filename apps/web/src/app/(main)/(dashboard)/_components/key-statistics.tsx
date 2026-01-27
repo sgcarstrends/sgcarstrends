@@ -77,7 +77,11 @@ const YearOverYearChart = ({
         aria-label="YoY change bar chart last 10"
       >
         <BarChart data={recent} margin={{ left: 8, right: 8 }}>
-          <CartesianGrid vertical={false} />
+          <CartesianGrid
+            vertical={false}
+            strokeDasharray="3 3"
+            className="stroke-default-200"
+          />
           <XAxis
             dataKey="year"
             tickLine={false}
@@ -86,7 +90,7 @@ const YearOverYearChart = ({
           />
           <YAxis hide />
           <ChartTooltip
-            cursor={false}
+            cursor={{ fill: "hsl(var(--muted))", opacity: 0.2 }}
             content={<ChartTooltipContent hideLabel />}
           />
           <ReferenceLine
@@ -139,7 +143,11 @@ const TrendChart = ({ data, chartColor, ariaLabel }: TrendChartProps) => {
         aria-label={ariaLabel}
       >
         <AreaChart data={recent} margin={{ left: 8, right: 8 }}>
-          <CartesianGrid vertical={false} />
+          <CartesianGrid
+            vertical={false}
+            strokeDasharray="3 3"
+            className="stroke-default-200"
+          />
           <XAxis
             dataKey="year"
             tickLine={false}
@@ -148,7 +156,7 @@ const TrendChart = ({ data, chartColor, ariaLabel }: TrendChartProps) => {
           />
           <YAxis hide />
           <ChartTooltip
-            cursor={false}
+            cursor={{ fill: "hsl(var(--muted))", opacity: 0.2 }}
             content={<ChartTooltipContent hideLabel />}
           />
           <Area
@@ -275,13 +283,15 @@ export function KeyStatistics({ data }: KeyStatisticsProps) {
           </Select>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Card className="p-3">
-            <CardHeader>Year-over-year change</CardHeader>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <Card className="rounded-2xl p-3">
+            <CardHeader>
+              <Typography.H4>Year-over-year change</Typography.H4>
+            </CardHeader>
             <CardBody className="flex flex-col gap-2">
-              <p className="font-semibold text-2xl">
+              <span className="font-semibold text-2xl tabular-nums">
                 {yoyChange !== null ? numberFormatter.format(yoyChange) : "—"}
-              </p>
+              </span>
               <Typography.Caption className={`font-medium ${yoyToneClass}`}>
                 {yoyChangeRatio !== null
                   ? `${percentFormatter.format(yoyChangeRatio)} vs ${
@@ -300,14 +310,16 @@ export function KeyStatistics({ data }: KeyStatisticsProps) {
             </CardBody>
           </Card>
 
-          <Card className="p-3">
-            <CardHeader>Highest year on record</CardHeader>
+          <Card className="rounded-2xl p-3">
+            <CardHeader>
+              <Typography.H4>Highest year on record</Typography.H4>
+            </CardHeader>
             <CardBody className="flex flex-col gap-2">
-              <p className="font-semibold text-2xl">
+              <span className="font-semibold text-2xl tabular-nums">
                 {highestEntry
                   ? numberFormatter.format(highestEntry.total)
                   : "—"}
-              </p>
+              </span>
               <Typography.Caption>
                 {highestEntry ? `Set in ${highestEntry.year}` : "No data"}
               </Typography.Caption>
@@ -321,12 +333,14 @@ export function KeyStatistics({ data }: KeyStatisticsProps) {
             </CardBody>
           </Card>
 
-          <Card className="p-3">
-            <CardHeader>Lowest year on record</CardHeader>
+          <Card className="rounded-2xl p-3">
+            <CardHeader>
+              <Typography.H4>Lowest year on record</Typography.H4>
+            </CardHeader>
             <CardBody className="flex flex-col gap-2">
-              <p className="font-semibold text-2xl">
+              <span className="font-semibold text-2xl tabular-nums">
                 {lowestEntry ? numberFormatter.format(lowestEntry.total) : "—"}
-              </p>
+              </span>
               <Typography.Caption>
                 {lowestEntry ? `Set in ${lowestEntry.year}` : "No data"}
               </Typography.Caption>

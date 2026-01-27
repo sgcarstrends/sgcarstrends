@@ -44,15 +44,20 @@ export function MakeTrendChart({ data }: MakeTrendChartProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <ChartContainer config={chartConfig} className="h-[250px] w-full">
+      <ChartContainer config={chartConfig} className="h-[300px] w-full">
         <LineChart
           accessibilityLayer
           data={chartData}
           aria-label={`Monthly registration trend chart showing ${chartData.length} months of data with ${chartData.reduce((sum, item) => sum + item.count, 0)} total registrations`}
         >
-          <CartesianGrid vertical={false} />
+          <CartesianGrid
+            vertical={false}
+            strokeDasharray="3 3"
+            className="stroke-default-200"
+          />
           <XAxis dataKey="month" tickMargin={8} />
           <ChartTooltip
+            cursor={false}
             content={<ChartTooltipContent indicator="line" label />}
           />
           <Line

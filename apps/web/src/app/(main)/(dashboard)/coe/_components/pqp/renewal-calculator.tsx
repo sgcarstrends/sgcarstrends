@@ -4,6 +4,7 @@ import { Alert } from "@heroui/alert";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Tab, Tabs } from "@heroui/tabs";
 import { Currency } from "@web/components/shared/currency";
+import Typography from "@web/components/typography";
 import type { Pqp } from "@web/types/coe";
 import { Bike, Calculator, Car, type LucideIcon, Truck } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -83,15 +84,15 @@ export function RenewalCalculator({ data }: PQPCalculatorProps) {
   );
 
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardHeader className="flex-col items-start gap-2 p-4">
         <div className="flex items-center gap-2">
-          <Calculator />
-          <h3 className="font-semibold text-lg">PQP vs Bidding Calculator</h3>
+          <Calculator className="size-5" />
+          <Typography.H4>PQP vs Bidding Calculator</Typography.H4>
         </div>
-        <p className="text-default-500 text-small">
+        <Typography.TextSm className="text-default-500">
           Compare costs between PQP renewal and current market bidding
-        </p>
+        </Typography.TextSm>
       </CardHeader>
       <CardBody className="gap-4">
         <Tabs
@@ -121,11 +122,11 @@ export function RenewalCalculator({ data }: PQPCalculatorProps) {
               >
                 <div className="flex flex-col gap-4">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <Card className="p-3">
+                    <Card className="rounded-2xl p-3">
                       <CardBody className="text-center">
-                        <h4 className="mb-1 font-medium text-default-600 text-sm">
+                        <Typography.TextSm className="mb-1 font-medium text-default-600">
                           Current PQP Rate
-                        </h4>
+                        </Typography.TextSm>
                         <p className="font-bold text-xl">
                           <Currency value={currentPQPRate} />
                         </p>
@@ -135,11 +136,11 @@ export function RenewalCalculator({ data }: PQPCalculatorProps) {
                       </CardBody>
                     </Card>
 
-                    <Card className="p-3">
+                    <Card className="rounded-2xl p-3">
                       <CardBody className="text-center">
-                        <h4 className="mb-1 font-medium text-default-600 text-sm">
+                        <Typography.TextSm className="mb-1 font-medium text-default-600">
                           Current COE Price
-                        </h4>
+                        </Typography.TextSm>
                         <p className="font-bold text-xl">
                           <Currency value={currentCOEPremium} />
                         </p>
@@ -157,11 +158,11 @@ export function RenewalCalculator({ data }: PQPCalculatorProps) {
         {selectedRecord && (
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <Card className="p-3">
+              <Card className="rounded-2xl p-3">
                 <CardBody className="text-center">
-                  <h4 className="font-medium text-default-500 text-sm">
+                  <Typography.TextSm className="font-medium text-default-500">
                     PQP 5-Year Renewal (Estimate)
-                  </h4>
+                  </Typography.TextSm>
                   <p className="font-bold text-2xl">
                     <Currency value={selectedRecord.pqpCost5Year} />
                   </p>
@@ -180,11 +181,11 @@ export function RenewalCalculator({ data }: PQPCalculatorProps) {
                 </CardBody>
               </Card>
 
-              <Card className="p-3">
+              <Card className="rounded-2xl p-3">
                 <CardBody className="text-center">
-                  <h4 className="font-medium text-default-500 text-sm">
+                  <Typography.TextSm className="font-medium text-default-500">
                     PQP 10-Year Renewal (Estimate)
-                  </h4>
+                  </Typography.TextSm>
                   <p className="font-bold text-2xl">
                     <Currency value={selectedRecord.pqpCost10Year} />
                   </p>

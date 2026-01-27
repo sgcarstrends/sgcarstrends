@@ -8,6 +8,7 @@ import {
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import { ChartWidget } from "@web/components/charts/widget";
+import { CHART_MARGINS } from "@web/config/design-system";
 import { formatNumber } from "@web/utils/charts";
 import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { useMemo } from "react";
@@ -70,16 +71,35 @@ export function TrendAreaChart({
       emptyMessage="No trend data available"
     >
       <ChartContainer config={chartConfig} className="h-[300px] w-full">
-        <AreaChart
-          data={formattedData}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
+        <AreaChart data={formattedData} margin={CHART_MARGINS.withLegend}>
+          <defs>
+            {displayCategories.map((category, index) => (
+              <linearGradient
+                key={`gradient-${category}`}
+                id={`gradient-${category}`}
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop
+                  offset="0%"
+                  stopColor={`var(--chart-${index + 1})`}
+                  stopOpacity={0.4}
+                />
+                <stop
+                  offset="100%"
+                  stopColor={`var(--chart-${index + 1})`}
+                  stopOpacity={0.05}
+                />
+              </linearGradient>
+            ))}
+          </defs>
+          <CartesianGrid
+            vertical={false}
+            strokeDasharray="3 3"
+            className="stroke-default-200"
+          />
           <XAxis
             dataKey="month"
             tickLine={false}
@@ -93,7 +113,10 @@ export function TrendAreaChart({
             tickFormatter={valueFormatter}
             className="text-xs"
           />
-          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+          <ChartTooltip
+            cursor={{ fill: "hsl(var(--muted))", opacity: 0.2 }}
+            content={<ChartTooltipContent />}
+          />
           <ChartLegend content={<ChartLegendContent />} />
           {displayCategories.map((category, index) => (
             <Area
@@ -102,8 +125,7 @@ export function TrendAreaChart({
               dataKey={category}
               stackId="1"
               stroke={`var(--chart-${index + 1})`}
-              fill={`var(--chart-${index + 1})`}
-              fillOpacity={0.8}
+              fill={`url(#gradient-${category})`}
               strokeWidth={2}
               connectNulls={true}
             />

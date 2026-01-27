@@ -108,7 +108,7 @@ const CarsPage = async ({
       <StructuredData
         data={{ "@context": "https://schema.org", ...generateDatasetSchema() }}
       />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-8">
         <PageHeader
           title="Car Registrations"
           subtitle="Monthly new car registrations in Singapore by fuel type and vehicle type."
@@ -134,7 +134,7 @@ const CarsPage = async ({
         )}
         {cars && (
           <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               <MetricCard
                 title="Total Registrations"
                 value={cars.total}

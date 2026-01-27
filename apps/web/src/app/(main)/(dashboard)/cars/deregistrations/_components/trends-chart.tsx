@@ -32,7 +32,7 @@ export function TrendsChart({ data }: TrendsChartProps) {
 
   if (data.length === 0) {
     return (
-      <Card className="p-3">
+      <Card className="rounded-2xl p-3">
         <CardBody className="p-4">
           <Typography.TextSm>No trend data available</Typography.TextSm>
         </CardBody>
@@ -41,9 +41,9 @@ export function TrendsChart({ data }: TrendsChartProps) {
   }
 
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardBody className="p-4">
-        <ChartContainer config={chartConfig} className="h-[250px] w-full">
+        <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <AreaChart
             data={formattedData}
             margin={{
@@ -68,9 +68,9 @@ export function TrendsChart({ data }: TrendsChartProps) {
               </linearGradient>
             </defs>
             <CartesianGrid
+              vertical={false}
               strokeDasharray="3 3"
-              stroke="hsl(var(--heroui-default-200))"
-              vertical={true}
+              className="stroke-default-200"
             />
             <XAxis
               dataKey="month"
@@ -88,7 +88,7 @@ export function TrendsChart({ data }: TrendsChartProps) {
               tick={{ fill: "hsl(var(--heroui-default-500))" }}
             />
             <ChartTooltip
-              cursor={{ fill: "hsl(var(--muted))", opacity: 0.3 }}
+              cursor={{ fill: "hsl(var(--muted))", opacity: 0.2 }}
               content={
                 <ChartTooltipContent
                   formatter={(value) => formatNumber(value as number)}

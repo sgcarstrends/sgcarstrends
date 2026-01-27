@@ -135,7 +135,7 @@ const RoundCard = ({
   }
 
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardHeader className="flex flex-row items-center gap-2 pb-2">
         <Chip size="sm" color="primary">
           {formatOrdinal(roundNumber)} Round

@@ -1,9 +1,11 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
+import { cn } from "@heroui/theme";
 import { BarChartByType } from "@web/app/(main)/(dashboard)/cars/bar-chart-by-type";
 import Typography from "@web/components/typography";
 import { FUEL_TYPE } from "@web/config";
+import { CARD_VARIANTS, type CardVariant } from "@web/config/design-system";
 import type { RegistrationStat } from "@web/types/cars";
 
 interface StatCardProps {
@@ -11,11 +13,29 @@ interface StatCardProps {
   description: string;
   data: RegistrationStat[];
   total: number;
+  /** Card styling variant */
+  variant?: CardVariant;
+  /** Additional className for the card */
+  className?: string;
 }
 
-export function StatCard({ title, description, data }: StatCardProps) {
+const variantStyles = {
+  default: "p-3",
+  hero: "p-6",
+  metric: "p-3",
+} as const;
+
+export function StatCard({
+  title,
+  description,
+  data,
+  variant = "default",
+  className,
+}: StatCardProps) {
   return (
-    <Card className="p-3">
+    <Card
+      className={cn(CARD_VARIANTS[variant], variantStyles[variant], className)}
+    >
       <CardHeader className="flex flex-col items-start gap-2">
         <Typography.H4>{title}</Typography.H4>
         <Typography.TextSm>{description}</Typography.TextSm>
@@ -23,12 +43,10 @@ export function StatCard({ title, description, data }: StatCardProps) {
       <CardBody className="flex-1">
         <BarChartByType data={data} />
         {Object.keys(data).includes(FUEL_TYPE.OTHERS) && (
-          <p className="text-muted-foreground italic">
-            <Typography.TextSm>
-              Note: We do not know what is the Land Transport Authority&apos;s
-              exact definition of &quot;Others&quot;.
-            </Typography.TextSm>
-          </p>
+          <Typography.TextSm className="text-muted-foreground italic">
+            Note: We do not know what is the Land Transport Authority&apos;s
+            exact definition of &quot;Others&quot;.
+          </Typography.TextSm>
         )}
       </CardBody>
     </Card>

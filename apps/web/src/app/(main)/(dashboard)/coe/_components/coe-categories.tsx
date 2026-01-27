@@ -3,6 +3,7 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Tooltip } from "@heroui/tooltip";
 import { CategoryInfo } from "@web/app/(main)/(dashboard)/cars/_components/category-info";
+import Typography from "@web/components/typography";
 import type { COECategory } from "@web/types";
 import {
   Bike,
@@ -43,17 +44,17 @@ export function CoeCategories() {
   );
 
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardHeader className="flex flex-col items-start gap-2">
-        <h3 className="font-medium text-foreground text-xl">COE Categories</h3>
-        <p className="inline-flex items-center gap-2 text-default-600 text-sm">
+        <Typography.H4>COE Categories</Typography.H4>
+        <Typography.TextSm className="inline-flex items-center gap-2">
           <span>Filter based on Category</span>
           <Tooltip content="You can only filter Categories C & D">
             <span className="cursor-help">
-              <HelpCircleIcon className="size-4" />
+              <HelpCircleIcon className="size-4" aria-hidden="true" />
             </span>
           </Tooltip>
-        </p>
+        </Typography.TextSm>
       </CardHeader>
       <CardBody>
         <div className="grid grid-cols-1 gap-4">

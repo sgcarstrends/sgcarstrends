@@ -1,5 +1,7 @@
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Skeleton as HeroUISkeleton } from "@heroui/skeleton";
 import { cn } from "@heroui/theme";
+import { RADIUS } from "@web/config/design-system";
 
 interface SkeletonProps {
   className?: string;
@@ -20,6 +22,75 @@ export function SkeletonCard({ className }: SkeletonProps) {
 
 export function SkeletonChart({ className }: SkeletonProps) {
   return <HeroUISkeleton className={cn("h-80 w-full rounded-lg", className)} />;
+}
+
+// Composed skeleton components for dashboard
+
+/**
+ * Metric card skeleton matching MetricCard layout
+ */
+export function SkeletonMetricCard() {
+  return (
+    <Card className={cn("p-3", RADIUS.card)}>
+      <CardHeader>
+        <HeroUISkeleton className="h-6 w-3/4 rounded-lg" />
+      </CardHeader>
+      <CardBody>
+        <HeroUISkeleton className="h-10 w-32 rounded-lg" />
+      </CardBody>
+      <CardFooter>
+        <HeroUISkeleton className="h-5 w-24 rounded-lg" />
+      </CardFooter>
+    </Card>
+  );
+}
+
+/**
+ * Chart widget skeleton matching ChartWidget layout
+ */
+export function SkeletonChartWidget({ className }: SkeletonProps) {
+  return (
+    <Card className={cn("p-3", RADIUS.card, className)}>
+      <CardHeader>
+        <HeroUISkeleton className="h-6 w-48 rounded-lg" />
+      </CardHeader>
+      <CardBody>
+        <HeroUISkeleton className="h-64 w-full rounded-lg" />
+      </CardBody>
+    </Card>
+  );
+}
+
+/**
+ * Page header skeleton for loading states
+ */
+export function SkeletonPageHeader() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <HeroUISkeleton className="h-8 w-48 rounded-lg" />
+        <HeroUISkeleton className="h-10 w-40 rounded-lg" />
+      </div>
+      <HeroUISkeleton className="h-5 w-32 rounded-lg" />
+    </div>
+  );
+}
+
+/**
+ * Bento card skeleton for dashboard grids
+ */
+export function SkeletonBentoCard({ className }: SkeletonProps) {
+  return (
+    <Card className={cn("p-6", RADIUS.cardLarge, className)}>
+      <CardHeader className="flex flex-col items-start gap-2">
+        <HeroUISkeleton className="h-6 w-40 rounded-lg" />
+        <HeroUISkeleton className="h-4 w-full rounded-lg" />
+      </CardHeader>
+      <CardBody className="flex flex-col gap-4">
+        <HeroUISkeleton className="h-24 w-full rounded-lg" />
+      </CardBody>
+    </Card>
+  );
 }
 
 // Composed section skeletons for Suspense fallbacks

@@ -18,6 +18,7 @@ import {
   MonthXAxis,
   PriceYAxis,
 } from "@web/components/charts/shared";
+import Typography from "@web/components/typography";
 import type { COEBiddingResult } from "@web/types";
 import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { CalendarIcon } from "lucide-react";
@@ -78,15 +79,13 @@ export function COEPremiumChart({ data }: COEPremiumChartProps) {
   const periodLabel = PERIOD_LABELS[period].toLowerCase();
 
   return (
-    <Card className="p-3">
+    <Card className="rounded-2xl p-3">
       <CardHeader className="flex flex-col gap-2 border-b lg:flex-row lg:items-center lg:justify-between">
         <div className="grid flex-1 gap-1">
-          <h3 className="font-medium text-foreground text-xl">
-            Quota Premium ($)
-          </h3>
-          <p className="text-default-600 text-sm">
+          <Typography.H4>Quota Premium ($)</Typography.H4>
+          <Typography.TextSm>
             {`Showing ${periodLabel} of COE prices`}
-          </p>
+          </Typography.TextSm>
         </div>
         <Select
           aria-label="Select time period"
@@ -105,12 +104,16 @@ export function COEPremiumChart({ data }: COEPremiumChartProps) {
         </Select>
       </CardHeader>
       <CardBody className="p-6">
-        <ChartContainer config={chartConfig} className="h-[250px] w-full">
+        <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <LineChart
             data={filteredData}
             aria-label={`COE premium trends chart showing ${periodLabel} data for selected categories`}
           >
-            <CartesianGrid />
+            <CartesianGrid
+              vertical={false}
+              strokeDasharray="3 3"
+              className="stroke-default-200"
+            />
             <MonthXAxis tickFormatter={formatDateToMonthYear} />
             <PriceYAxis label="Quota Premium (S$)" hide />
             <ChartTooltip

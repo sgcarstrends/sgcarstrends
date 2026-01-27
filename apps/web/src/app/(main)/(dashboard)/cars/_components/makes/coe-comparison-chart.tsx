@@ -48,7 +48,11 @@ export function CoeComparisonChart({ data }: CoeComparisonChartProps) {
         data={data}
         aria-label="Dual-axis chart comparing monthly registrations with COE Category A and B premiums"
       >
-        <CartesianGrid vertical={false} />
+        <CartesianGrid
+          vertical={false}
+          strokeDasharray="3 3"
+          className="stroke-default-200"
+        />
         <XAxis
           dataKey="month"
           tickFormatter={formatDateToMonthYear}
@@ -83,7 +87,10 @@ export function CoeComparisonChart({ data }: CoeComparisonChartProps) {
           />
         </YAxis>
 
-        <ChartTooltip content={<ChartTooltipContent />} />
+        <ChartTooltip
+          cursor={{ fill: "hsl(var(--muted))", opacity: 0.2 }}
+          content={<ChartTooltipContent />}
+        />
 
         <Bar
           dataKey="registrations"
