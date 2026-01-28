@@ -43,7 +43,7 @@ export function PopularPosts({ posts }: PopularPostsProps) {
       </motion.div>
 
       {/* Posts Grid */}
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
         {posts.map((post, index) => (
           <motion.div
             key={post.id}
@@ -77,11 +77,11 @@ export function PopularPosts({ posts }: PopularPostsProps) {
               </div>
 
               {/* Content Section */}
-              <div className="flex flex-1 flex-col justify-center gap-1.5 p-3">
+              <div className="flex flex-1 flex-col justify-center gap-2 p-4">
                 <span className="line-clamp-2 font-medium text-default-800 text-sm leading-snug transition-colors group-hover:text-primary">
                   {post.title}
                 </span>
-                <div className="flex items-center gap-1.5 text-default-400">
+                <div className="flex items-center gap-2 text-default-400">
                   <TrendingUp className="size-3 text-orange-500" />
                   <span className="text-xs tabular-nums">
                     {formatViewCount(post.viewCount)} views

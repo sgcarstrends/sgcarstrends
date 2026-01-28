@@ -13,8 +13,8 @@ export function PopularMakes({ makes, logoUrlMap = {} }: PopularMakesProps) {
   }
 
   return (
-    <section className="flex flex-col gap-5">
-      <div className="flex items-center gap-3">
+    <section className="flex flex-col gap-6">
+      <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
           <div className="flex size-7 items-center justify-center rounded-lg bg-gradient-to-br from-amber-400 to-orange-500">
             <Flame className="size-4 text-white" />

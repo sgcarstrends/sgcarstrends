@@ -90,7 +90,7 @@ export function MaintenanceNotice() {
           <AnimatedCardGrid>
             <AnimatedCard>
               <Card className="rounded-2xl p-3">
-                <CardBody className="flex flex-row items-start gap-3 p-4">
+                <CardBody className="flex flex-row items-start gap-4 p-4">
                   <Zap className="mt-1 size-6 flex-shrink-0 text-primary" />
                   <div>
                     <Typography.H3>Performance Boost</Typography.H3>
@@ -104,7 +104,7 @@ export function MaintenanceNotice() {
             </AnimatedCard>
             <AnimatedCard>
               <Card className="rounded-2xl p-3">
-                <CardBody className="flex flex-row items-start gap-3 p-4">
+                <CardBody className="flex flex-row items-start gap-4 p-4">
                   <Shield className="mt-1 size-6 flex-shrink-0 text-primary" />
                   <div>
                     <Typography.H3>Security Updates</Typography.H3>
@@ -118,7 +118,7 @@ export function MaintenanceNotice() {
             </AnimatedCard>
             <AnimatedCard>
               <Card className="rounded-2xl p-3">
-                <CardBody className="flex flex-row items-start gap-3 p-4">
+                <CardBody className="flex flex-row items-start gap-4 p-4">
                   <TrendingUp className="mt-1 size-6 flex-shrink-0 text-primary" />
                   <div>
                     <Typography.H3>New Features</Typography.H3>
@@ -131,7 +131,7 @@ export function MaintenanceNotice() {
             </AnimatedCard>
             <AnimatedCard>
               <Card className="rounded-2xl p-3">
-                <CardBody className="flex flex-row items-start gap-3 p-4">
+                <CardBody className="flex flex-row items-start gap-4 p-4">
                   <Wrench className="mt-1 size-6 flex-shrink-0 text-primary" />
                   <div>
                     <Typography.H3>Bug Fixes</Typography.H3>
@@ -156,7 +156,7 @@ export function MaintenanceNotice() {
             While we&apos;re upgrading, our support team is still available for
             urgent inquiries
           </Typography.Text>
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="mailto:support@sgcarstrends.com"
               color="primary"

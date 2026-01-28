@@ -68,7 +68,7 @@ const RangeSection = ({
   const spread = highest - lowest;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <Chip size="sm" variant="flat" className="rounded-full font-medium">
           {label}
@@ -87,8 +87,8 @@ const RangeSection = ({
 
       <div className="grid grid-cols-2 gap-4">
         {/* Low value */}
-        <div className="flex flex-col gap-0.5">
-          <div className="flex items-center gap-1.5">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-primary" />
             <span className="text-default-500 text-xs uppercase tracking-wider">
               Low
@@ -105,8 +105,8 @@ const RangeSection = ({
         </div>
 
         {/* High value */}
-        <div className="flex flex-col gap-0.5 text-right">
-          <div className="flex items-center justify-end gap-1.5">
+        <div className="flex flex-col gap-1 text-right">
+          <div className="flex items-center justify-end gap-2">
             <span className="text-default-500 text-xs uppercase tracking-wider">
               High
             </span>

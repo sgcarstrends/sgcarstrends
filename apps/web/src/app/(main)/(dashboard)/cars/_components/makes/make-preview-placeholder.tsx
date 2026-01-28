@@ -16,7 +16,7 @@ export function MakePreviewPlaceholder() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         <Typography.H3>Select a Make</Typography.H3>
         <Typography.TextSm className="max-w-[220px]">
           Choose a car brand from the grid to view registration stats, trends,
@@ -24,8 +24,8 @@ export function MakePreviewPlaceholder() {
         </Typography.TextSm>
       </div>
 
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center gap-3 text-default-400">
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-4 text-default-400">
           <div className="h-px w-12 bg-default-200" />
           <Typography.Caption className="uppercase tracking-widest">
             or search

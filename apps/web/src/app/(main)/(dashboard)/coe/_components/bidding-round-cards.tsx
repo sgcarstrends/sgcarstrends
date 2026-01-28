@@ -46,7 +46,7 @@ const CategoryRow = ({
     <div
       className={`flex items-center justify-between ${isPrimary ? "py-3" : "py-2"}`}
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <div className="h-6 w-2 rounded-full bg-primary" />
         <span
           className={`font-medium ${isPrimary ? "text-foreground" : "text-default-600 text-sm"}`}
@@ -117,7 +117,7 @@ const RoundCard = ({
             {formatOrdinal(roundNumber)} Round
           </Chip>
         </CardHeader>
-        <CardBody className="flex flex-col items-center justify-center gap-3 py-12">
+        <CardBody className="flex flex-col items-center justify-center gap-4 py-12">
           <div className="flex size-12 items-center justify-center rounded-full bg-default-100">
             <ClockIcon className="size-6 text-default-400" />
           </div>
@@ -205,7 +205,7 @@ export function BiddingRoundCards({
   return (
     <div className="flex flex-col gap-4">
       {/* Section Header */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <Typography.H3>Bidding Rounds</Typography.H3>
         {formattedMonth && (
           <Chip size="sm" color="primary">

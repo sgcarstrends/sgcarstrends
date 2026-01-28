@@ -35,7 +35,7 @@ export function CreatorSection() {
               Behind the Data
             </Typography.Label>
 
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-6">
               <Typography.H2 className="text-foreground">
                 Built with{" "}
                 <Heart className="inline size-6 fill-red-500 text-red-500" /> in

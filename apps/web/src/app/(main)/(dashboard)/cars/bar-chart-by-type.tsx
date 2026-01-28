@@ -87,7 +87,7 @@ export const BarChartByType = ({ data }: BarChartByTypeProps) => {
             in Singapore.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-3 rounded-lg bg-muted/30 p-3 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 rounded-lg bg-muted/30 p-4 sm:grid-cols-3">
           <div className="text-center">
             <div className="font-semibold text-foreground text-lg">
               {topType?.label || "N/A"}

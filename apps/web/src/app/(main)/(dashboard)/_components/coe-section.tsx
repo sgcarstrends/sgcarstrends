@@ -16,7 +16,7 @@ async function CoeSectionContent() {
     <div className="col-span-12 rounded-3xl bg-white p-6">
       <div className="mb-5 flex items-center justify-between">
         <Typography.H3>Latest COE Results</Typography.H3>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Link
             href="/coe"
             aria-label="View all COE results"
@@ -26,7 +26,7 @@ async function CoeSectionContent() {
           </Link>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {latest.map((result) => {
           const previousPremium =
             previousMap.get(result.vehicleClass) ?? result.premium;
@@ -87,7 +87,7 @@ function CoeSectionSkeleton() {
   return (
     <div className="col-span-12 rounded-3xl bg-white p-6">
       <div className="mb-5 h-6 w-40 animate-pulse rounded bg-default-200" />
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {/* biome-ignore lint/suspicious/noArrayIndexKey: Static skeleton list */}
         {[0, 1, 2, 3, 4].map((i) => (
           <div key={i} className="rounded-2xl bg-default-100 p-4">

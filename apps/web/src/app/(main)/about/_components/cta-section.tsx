@@ -36,7 +36,7 @@ export function CtaSection() {
 
           {/* Social links */}
           <motion.div
-            className="flex flex-wrap items-center justify-center gap-3"
+            className="flex flex-wrap items-center justify-center gap-4"
             variants={staggerItemVariants}
           >
             {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (

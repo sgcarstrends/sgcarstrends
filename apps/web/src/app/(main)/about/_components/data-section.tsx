@@ -69,7 +69,7 @@ export function DataSection() {
 
               {/* LTA Badge */}
               <Card className="border-default-200 p-3">
-                <CardBody className="flex flex-row items-center gap-3 p-4">
+                <CardBody className="flex flex-row items-center gap-4 p-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-default-200">
                     <Database className="h-6 w-6 text-default-600" />
                   </div>

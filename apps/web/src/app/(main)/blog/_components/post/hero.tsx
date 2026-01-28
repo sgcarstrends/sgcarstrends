@@ -79,7 +79,7 @@ export function Hero({ post }: HeroProps) {
           </h2>
 
           {/* Metadata */}
-          <div className="flex items-center gap-3 text-sm text-white/70 drop-shadow-md">
+          <div className="flex items-center gap-4 text-sm text-white/70 drop-shadow-md">
             <span>{formatDate(publishedDate)}</span>
             <span className="h-1 w-1 rounded-full bg-white/50" />
             <span>{readingTime} min read</span>

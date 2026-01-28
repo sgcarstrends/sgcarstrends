@@ -64,9 +64,9 @@ async function TopMakesContent() {
           <ArrowUpRight className="size-6" />
         </Link>
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         {topMakes.slice(0, 5).map((item, i) => (
-          <div key={item.make} className="flex items-center gap-3">
+          <div key={item.make} className="flex items-center gap-4">
             <span className="w-5 font-medium text-default-500 text-sm">
               {i + 1}
             </span>
@@ -115,9 +115,9 @@ function TopMakesSkeleton() {
   return (
     <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-4">
       <div className="mb-5 h-6 w-24 animate-pulse rounded bg-default-200" />
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         {[0, 1, 2, 3, 4].map((num) => (
-          <div key={num} className="flex items-center gap-3">
+          <div key={num} className="flex items-center gap-4">
             <div className="h-5 w-5 animate-pulse rounded bg-default-200" />
             <div className="flex-1">
               <div className="mb-1 h-4 w-20 animate-pulse rounded bg-default-200" />

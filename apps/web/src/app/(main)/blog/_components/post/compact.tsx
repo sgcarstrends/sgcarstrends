@@ -24,7 +24,7 @@ export function Compact({ post }: CompactProps) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex items-center gap-3 p-4 transition-colors hover:bg-default-100"
+      className="group flex items-center gap-4 p-4 transition-colors hover:bg-default-100"
     >
       {/* Thumbnail */}
       <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
@@ -38,7 +38,7 @@ export function Compact({ post }: CompactProps) {
       </div>
 
       {/* Content */}
-      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
         <span className="line-clamp-1 font-medium text-sm transition-colors group-hover:text-primary">
           {post.title}
         </span>

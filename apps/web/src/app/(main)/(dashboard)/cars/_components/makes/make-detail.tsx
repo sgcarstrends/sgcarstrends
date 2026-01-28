@@ -55,9 +55,9 @@ export function MakeDetail({ cars, coeComparison, logo }: MakeDetailProps) {
       </div>
 
       {/* Metric cards */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="flex flex-col gap-1.5 rounded-2xl bg-default-100 p-4">
-          <div className="flex items-center gap-1.5">
+      <div className="grid grid-cols-3 gap-4">
+        <div className="flex flex-col gap-2 rounded-2xl bg-default-100 p-4">
+          <div className="flex items-center gap-2">
             <Car className="size-3.5 text-primary" />
             <Typography.Caption className="text-primary">
               Total
@@ -67,8 +67,8 @@ export function MakeDetail({ cars, coeComparison, logo }: MakeDetailProps) {
             {cars.total.toLocaleString()}
           </span>
         </div>
-        <div className="flex flex-col gap-1.5 rounded-2xl bg-default-100 p-4">
-          <div className="flex items-center gap-1.5">
+        <div className="flex flex-col gap-2 rounded-2xl bg-default-100 p-4">
+          <div className="flex items-center gap-2">
             <TrendingUp className="size-3.5 text-success" />
             <Typography.Caption className="text-success">
               This Month
@@ -78,8 +78,8 @@ export function MakeDetail({ cars, coeComparison, logo }: MakeDetailProps) {
             {cars.data[0]?.number?.toLocaleString() ?? "N/A"}
           </span>
         </div>
-        <div className="flex flex-col gap-1.5 rounded-2xl bg-default-100 p-4">
-          <div className="flex items-center gap-1.5">
+        <div className="flex flex-col gap-2 rounded-2xl bg-default-100 p-4">
+          <div className="flex items-center gap-2">
             <Calendar className="size-3.5 text-default-500" />
             <Typography.Caption>Tracked</Typography.Caption>
           </div>

@@ -28,7 +28,7 @@ export const currencyTooltipFormatter = <T extends number | string>({
         }
       />
       {name}
-      <div className="ml-auto flex items-baseline gap-0.5 font-medium text-foreground tabular-nums">
+      <div className="ml-auto flex items-baseline gap-1 font-medium text-foreground tabular-nums">
         {formatCurrency(numericValue)}
       </div>
     </>
