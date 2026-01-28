@@ -40,17 +40,45 @@ export default defineConfig({
         "**/visitors",
         "src/queries/coe/**", // Low priority for coverage
         "src/queries/posts/**", // Blog queries not prioritized for coverage
+
+        // Barrel files (pure re-exports, no logic)
+        "src/components/charts/index.ts",
+        "src/components/coe/index.ts",
+        "src/components/shared/index.ts",
+        "src/queries/index.ts",
+        "src/queries/cars/index.ts",
+        "src/queries/cars/makes/index.ts",
+        "src/queries/deregistrations/index.ts",
+        "src/lib/updater/index.ts",
+        "src/lib/updater/services/index.ts",
+        "src/utils/arrays/index.ts",
+        "src/utils/dates/index.ts",
+        "src/utils/formatting/index.ts",
+        "src/utils/social/index.ts",
+
+        // Infrastructure/setup files (external service integration)
+        "src/instrumentation.ts",
+        "src/actions/maintenance.ts",
+
+        // Presentational components (UI-only, no business logic)
+        "src/components/loading-indicator.tsx",
+        "src/components/registration-trend.tsx",
+        "src/components/top-makes-chart.tsx",
+        "src/components/charts/base/**",
+        "src/components/shared/skeleton.tsx",
+
+        // Simple DB/API wrappers (no business logic)
+        "src/queries/cars/latest-month.ts",
+        "src/utils/social/linkedin.ts",
       ],
       reporter: ["text", "text-summary", "json", "html", "lcov"],
       reportsDirectory: "./coverage",
       thresholds: {
-        autoUpdate: (newThreshold) => {
-          const roundedDown = Math.floor(newThreshold / 5) * 5;
-          return Math.min(roundedDown, 80);
-        },
+        // Auto-update in 5% increments, cap at 80%
+        autoUpdate: (threshold) => Math.min(Math.floor(threshold / 5) * 5, 80),
         lines: 80,
         functions: 80,
-        branches: 70,
+        branches: 80,
         statements: 80,
       },
     },
