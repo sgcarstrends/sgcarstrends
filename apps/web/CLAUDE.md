@@ -43,11 +43,11 @@ pnpm format             # Format code with Biome
 src/
 ├── app/                           # Next.js App Router - pages, layouts, API routes
 │   ├── (dashboard)/
-│   │   ├── _components/           # Dashboard-specific components (co-located)
+│   │   ├── components/            # Dashboard-specific components (co-located)
 │   │   ├── cars/
-│   │   │   └── _components/       # Cars route-specific components (co-located)
+│   │   │   └── components/        # Cars route-specific components (co-located)
 │   │   ├── coe/
-│   │   │   └── _components/       # COE route-specific components (co-located)
+│   │   │   └── components/        # COE route-specific components (co-located)
 │   │   └── annual/                # Annual statistics routes
 │   ├── (social)/                  # Social media redirect routes with UTM tracking
 │   ├── admin/                     # Integrated admin interface for content management
@@ -57,8 +57,8 @@ src/
 │   │   └── lib/                   # Admin utilities and helpers
 │   ├── api/                       # API routes (analytics, OG images, revalidation)
 │   ├── blog/
-│   │   ├── _actions/              # Blog-specific server actions (co-located)
-│   │   └── _components/           # Blog-specific components (co-located)
+│   │   ├── actions/               # Blog-specific server actions (co-located)
+│   │   └── components/            # Blog-specific components (co-located)
 │   └── store/                     # Zustand store slices
 ├── actions/                       # Server actions (maintenance tasks)
 ├── queries/                       # Data fetching queries (cars, COE, deregistrations, logos)
@@ -81,23 +81,23 @@ src/
 
 ### Component Co-location Strategy
 
-This application follows **Next.js 15/16 co-location best practices** using private folders (underscore prefix):
+This application follows **Vercel/Next.js co-location best practices** with route-specific folders:
 
-#### Co-located Components (`_components/`)
+#### Co-located Components (`components/`)
 
-Route-specific components live alongside their consuming routes using private folders:
+Route-specific components live alongside their consuming routes:
 
-- **Dashboard**: `app/(dashboard)/_components/` - Key statistics, recent posts, section tabs, charts
-- **Blog**: `app/blog/_components/` - Progress bar, view counter, related posts, blog list
-- **Cars**: `app/(dashboard)/cars/_components/` - Category tabs, make selectors, trend charts
-- **COE**: `app/(dashboard)/coe/_components/` - COE categories, premium charts, PQP components
-- **Deregistrations**: `app/(dashboard)/cars/deregistrations/_components/` - Category charts, trends, breakdown tables
+- **Dashboard**: `app/(dashboard)/components/` - Key statistics, recent posts, section tabs, charts
+- **Blog**: `app/blog/components/` - Progress bar, view counter, related posts, blog list
+- **Cars**: `app/(dashboard)/cars/components/` - Category tabs, make selectors, trend charts
+- **COE**: `app/(dashboard)/coe/components/` - COE categories, premium charts, PQP components
+- **Deregistrations**: `app/(dashboard)/cars/deregistrations/components/` - Category charts, trends, breakdown tables
 
-#### Co-located Actions (`_actions/`)
+#### Co-located Actions (`actions/`)
 
-Route-specific server actions (mutations only) use private folders:
+Route-specific server actions (mutations only):
 
-- **Blog**: `app/blog/_actions/` - View incrementing, tag updates (mutations only; reads are in `lib/data/posts.ts`)
+- **Blog**: `app/blog/actions/` - View incrementing, tag updates (mutations only; reads are in `lib/data/posts.ts`)
 
 #### Centralised vs Co-located
 
@@ -112,7 +112,7 @@ Route-specific server actions (mutations only) use private folders:
 **Co-locate When:**
 
 - Component only used by single route or route segment
-- Action/query specific to one feature area (use `_actions/` or `_queries/` in route folders)
+- Action/query specific to one feature area (use `actions/` or `queries/` in route folders)
 - Utility function only needed in one place
 
 #### Import Strategy
@@ -121,8 +121,8 @@ Route-specific server actions (mutations only) use private folders:
 
 ```typescript
 // ✅ Co-located components via path alias
-import {ProgressBar} from "@web/app/blog/_components/progress-bar";
-import {KeyStatistics} from "@web/app/(dashboard)/_components/key-statistics";
+import {ProgressBar} from "@web/app/blog/components/progress-bar";
+import {KeyStatistics} from "@web/app/(dashboard)/components/key-statistics";
 
 // ✅ Shared queries and actions via path alias
 import {getCarRegistrations} from "@web/queries/cars";
@@ -134,17 +134,19 @@ import {MetricCard} from "@web/components/shared/metric-card";
 import {Button} from "@sgcarstrends/ui/components/button";
 
 // ❌ Avoid relative imports for co-located code
-import {ProgressBar} from "../_components/progress-bar"; // Don't use
+import {ProgressBar} from "../components/progress-bar"; // Don't use
 ```
 
-#### Private Folder Convention
+#### Folder Naming Convention
 
-All non-route folders in `app/` use underscore prefix to prevent routing conflicts:
+Route-specific folders in `app/` use standard naming (no underscore prefix):
 
-- `_components/` - React components
-- `_actions/` - Server actions
-- `_queries/` - Data fetching functions (if needed)
-- `_utils/` - Route-specific utilities (if needed)
+- `components/` - React components
+- `actions/` - Server actions
+- `queries/` - Data fetching functions (if needed)
+- `utils/` - Route-specific utilities (if needed)
+
+**Note**: Folders without a `page.tsx` file are not treated as routes by Next.js App Router.
 
 ### Data Architecture
 

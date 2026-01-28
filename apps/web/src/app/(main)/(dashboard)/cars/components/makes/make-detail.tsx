@@ -6,7 +6,7 @@ import { DataTable } from "@sgcarstrends/ui/components/data-table";
 import {
   CoeComparisonChart,
   MakeTrendChart,
-} from "@web/app/(main)/(dashboard)/cars/_components/makes";
+} from "@web/app/(main)/(dashboard)/cars/components/makes";
 import { EmptyState } from "@web/components/shared/empty-state";
 import { columns } from "@web/components/tables/columns/cars-make-columns";
 import Typography from "@web/components/typography";

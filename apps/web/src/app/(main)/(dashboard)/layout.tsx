@@ -1,4 +1,4 @@
-import { DashboardNav } from "@web/app/(main)/(dashboard)/_components/dashboard-nav";
+import { DashboardNav } from "@web/app/(main)/(dashboard)/components/dashboard-nav";
 import { type ReactNode, Suspense } from "react";
 
 const DashboardLayout = ({ children }: Readonly<{ children: ReactNode }>) => {

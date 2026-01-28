@@ -1,5 +1,5 @@
-import { BlogList } from "@web/app/(main)/blog/_components/blog-list";
-import { PopularPosts } from "@web/app/(main)/blog/_components/popular-posts";
+import { BlogList } from "@web/app/(main)/blog/components/blog-list";
+import { PopularPosts } from "@web/app/(main)/blog/components/popular-posts";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";

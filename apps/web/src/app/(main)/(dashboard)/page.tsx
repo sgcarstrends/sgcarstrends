@@ -1,13 +1,13 @@
 import {
   TopMakesSection,
   YearlyChart,
-} from "@web/app/(main)/(dashboard)/_components/charts-section";
-import { CoeSection } from "@web/app/(main)/(dashboard)/_components/coe-section";
-import { MarketOverview } from "@web/app/(main)/(dashboard)/_components/market-overview";
-import { MonthlyChangeSummary } from "@web/app/(main)/(dashboard)/_components/monthly-change-summary";
-import { PostsSection } from "@web/app/(main)/(dashboard)/_components/posts-section";
-import { SummaryCard } from "@web/app/(main)/(dashboard)/_components/summary-card";
-import { WelcomeSection } from "@web/app/(main)/(dashboard)/_components/welcome-section";
+} from "@web/app/(main)/(dashboard)/components/charts-section";
+import { CoeSection } from "@web/app/(main)/(dashboard)/components/coe-section";
+import { MarketOverview } from "@web/app/(main)/(dashboard)/components/market-overview";
+import { MonthlyChangeSummary } from "@web/app/(main)/(dashboard)/components/monthly-change-summary";
+import { PostsSection } from "@web/app/(main)/(dashboard)/components/posts-section";
+import { SummaryCard } from "@web/app/(main)/(dashboard)/components/summary-card";
+import { WelcomeSection } from "@web/app/(main)/(dashboard)/components/welcome-section";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";

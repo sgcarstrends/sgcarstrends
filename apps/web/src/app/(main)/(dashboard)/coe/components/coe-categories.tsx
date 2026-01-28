@@ -2,7 +2,7 @@
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Tooltip } from "@heroui/tooltip";
-import { CategoryInfo } from "@web/app/(main)/(dashboard)/cars/_components/category-info";
+import { CategoryInfo } from "@web/app/(main)/(dashboard)/cars/components/category-info";
 import Typography from "@web/components/typography";
 import type { COECategory } from "@web/types";
 import {

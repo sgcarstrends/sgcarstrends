@@ -11,7 +11,7 @@ import {
 import {
   type CategoryWithPercentage,
   toPercentageDistribution,
-} from "@web/app/(main)/(dashboard)/cars/deregistrations/_components/constants";
+} from "@web/app/(main)/(dashboard)/cars/deregistrations/components/constants";
 import { deregistrationsSearchParams } from "@web/app/(main)/(dashboard)/cars/deregistrations/search-params";
 import Typography from "@web/components/typography";
 import { formatNumber, formatPercentage } from "@web/utils/charts";

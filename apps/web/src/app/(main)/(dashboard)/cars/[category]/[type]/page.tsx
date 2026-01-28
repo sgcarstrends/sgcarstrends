@@ -1,8 +1,8 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { slugify } from "@sgcarstrends/utils";
-import { CarOverviewTrends } from "@web/app/(main)/(dashboard)/cars/_components/overview-trends";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/[category]/[type]/search-params";
+import { CarOverviewTrends } from "@web/app/(main)/(dashboard)/cars/components/overview-trends";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";

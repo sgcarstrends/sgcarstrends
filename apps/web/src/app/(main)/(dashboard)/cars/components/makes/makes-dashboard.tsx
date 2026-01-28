@@ -9,7 +9,7 @@ import {
   MakeDetailSheet,
   MakeSearch,
   PopularMakes,
-} from "@web/app/(main)/(dashboard)/cars/_components/makes";
+} from "@web/app/(main)/(dashboard)/cars/components/makes";
 import type { MakeCoeComparisonData } from "@web/queries/cars/makes/coe-comparison";
 import type { Make } from "@web/types";
 import { useMemo } from "react";

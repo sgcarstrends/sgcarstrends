@@ -2,13 +2,13 @@ import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
 import type { Organization, Person, WebPage, WithContext } from "schema-dts";
-import { CreatorSection } from "./_components/creator-section";
-import { CtaSection } from "./_components/cta-section";
-import { DataSection } from "./_components/data-section";
-import { HeroSection } from "./_components/hero-section";
-import { MissionSection } from "./_components/mission-section";
-import { StatsSection } from "./_components/stats-section";
-import { TimelineSection } from "./_components/timeline-section";
+import { CreatorSection } from "./components/creator-section";
+import { CtaSection } from "./components/cta-section";
+import { DataSection } from "./components/data-section";
+import { HeroSection } from "./components/hero-section";
+import { MissionSection } from "./components/mission-section";
+import { StatsSection } from "./components/stats-section";
+import { TimelineSection } from "./components/timeline-section";
 
 const title = "About";
 const description =

@@ -16,7 +16,7 @@ import {
   CategoryInsightsCard,
   CategorySummaryCard,
   CategoryTabsPanel,
-} from "./_components";
+} from "./components";
 
 interface PageProps {
   params: Promise<{ category: string }>;

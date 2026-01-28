@@ -1,5 +1,5 @@
-import { KeyStatisticsSection } from "@web/app/(main)/(dashboard)/_components/key-statistics-section";
-import { AnnualRegistrationsChart } from "@web/app/(main)/(dashboard)/annual/_components/annual-registrations-chart";
+import { AnnualRegistrationsChart } from "@web/app/(main)/(dashboard)/annual/components/annual-registrations-chart";
+import { KeyStatisticsSection } from "@web/app/(main)/(dashboard)/components/key-statistics-section";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";

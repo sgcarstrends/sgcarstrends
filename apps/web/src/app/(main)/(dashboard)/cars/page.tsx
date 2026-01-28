@@ -1,5 +1,5 @@
-import { TopMakes } from "@web/app/(main)/(dashboard)/cars/_components/top-makes";
 import { CategoryTabs } from "@web/app/(main)/(dashboard)/cars/category-tabs";
+import { TopMakes } from "@web/app/(main)/(dashboard)/cars/components/top-makes";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params";
 import { TrendsCompareButton } from "@web/app/(main)/(dashboard)/cars/trends-compare-button";
 import { PageHeader } from "@web/components/page-header";

@@ -1,16 +1,16 @@
 import { Button } from "@heroui/button";
 import { Card, CardBody } from "@heroui/card";
 import { Divider } from "@heroui/divider";
-import { BlogHero } from "@web/app/(main)/blog/_components/blog-hero";
+import { BlogHero } from "@web/app/(main)/blog/components/blog-hero";
 import {
   type Highlight,
   KeyHighlights,
-} from "@web/app/(main)/blog/_components/key-highlights";
-import { mdxComponents } from "@web/app/(main)/blog/_components/mdx-components";
-import { PostNavigation } from "@web/app/(main)/blog/_components/post-navigation";
-import { ProgressBar } from "@web/app/(main)/blog/_components/progress-bar";
-import { RelatedPosts } from "@web/app/(main)/blog/_components/related-posts";
-import { TableOfContents } from "@web/app/(main)/blog/_components/table-of-contents";
+} from "@web/app/(main)/blog/components/key-highlights";
+import { mdxComponents } from "@web/app/(main)/blog/components/mdx-components";
+import { PostNavigation } from "@web/app/(main)/blog/components/post-navigation";
+import { ProgressBar } from "@web/app/(main)/blog/components/progress-bar";
+import { RelatedPosts } from "@web/app/(main)/blog/components/related-posts";
+import { TableOfContents } from "@web/app/(main)/blog/components/table-of-contents";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
 import { getPostViewCount } from "@web/lib/data/posts";

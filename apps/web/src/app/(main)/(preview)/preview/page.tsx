@@ -1,4 +1,4 @@
-import { BentoDesign } from "./_components/bento-design";
+import { BentoDesign } from "./components/bento-design";
 
 const PreviewPage = () => {
   return <BentoDesign />;

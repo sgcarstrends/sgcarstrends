@@ -1,10 +1,10 @@
 import { Card, CardBody } from "@heroui/card";
 import type { SelectDeregistration } from "@sgcarstrends/database";
-import { CategoryBreakdown } from "@web/app/(main)/(dashboard)/cars/deregistrations/_components/category-breakdown";
-import { CategoryChart } from "@web/app/(main)/(dashboard)/cars/deregistrations/_components/category-chart";
-import { CategoryTrendsTable } from "@web/app/(main)/(dashboard)/cars/deregistrations/_components/category-trends-table";
-import { toPercentageDistribution } from "@web/app/(main)/(dashboard)/cars/deregistrations/_components/constants";
-import { TrendsChart } from "@web/app/(main)/(dashboard)/cars/deregistrations/_components/trends-chart";
+import { CategoryBreakdown } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/category-breakdown";
+import { CategoryChart } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/category-chart";
+import { CategoryTrendsTable } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/category-trends-table";
+import { toPercentageDistribution } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/constants";
+import { TrendsChart } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/trends-chart";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/deregistrations/search-params";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";

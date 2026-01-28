@@ -14,7 +14,7 @@ vi.mock("framer-motion", () => ({
   },
 }));
 
-vi.mock("@web/app/(main)/(dashboard)/cars/_components/makes", () => ({
+vi.mock("@web/app/(main)/(dashboard)/cars/components/makes", () => ({
   MakeTrendChart: () => <div>TrendChart</div>,
   CoeComparisonChart: () => <div>CoeComparisonChart</div>,
 }));

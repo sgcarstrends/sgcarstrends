@@ -1,8 +1,8 @@
 import { Button } from "@heroui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Progress } from "@heroui/progress";
-import { KeyInsights } from "@web/app/(main)/(dashboard)/coe/_components/key-insights";
-import { PremiumRangeCard } from "@web/app/(main)/(dashboard)/coe/_components/premium-range-card";
+import { KeyInsights } from "@web/app/(main)/(dashboard)/coe/components/key-insights";
+import { PremiumRangeCard } from "@web/app/(main)/(dashboard)/coe/components/premium-range-card";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
 import { PageHeader } from "@web/components/page-header";

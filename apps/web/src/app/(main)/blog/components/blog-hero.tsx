@@ -1,4 +1,4 @@
-import { ViewCounter } from "@web/app/(main)/blog/_components/view-counter";
+import { ViewCounter } from "@web/app/(main)/blog/components/view-counter";
 import { ShareButtons } from "@web/components/share-buttons";
 import { SITE_URL } from "@web/config";
 import Image from "next/image";

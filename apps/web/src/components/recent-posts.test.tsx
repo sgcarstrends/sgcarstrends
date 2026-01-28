@@ -1,6 +1,6 @@
 import type { SelectPost } from "@sgcarstrends/database";
 import { render, screen } from "@testing-library/react";
-import { RecentPosts } from "@web/app/(main)/(dashboard)/_components/recent-posts";
+import { RecentPosts } from "@web/app/(main)/(dashboard)/components/recent-posts";
 
 vi.mock("@heroui/link", () => ({
   Link: ({ href, children, ...props }: any) => (
@@ -16,7 +16,7 @@ vi.mock("framer-motion", () => ({
   },
 }));
 
-vi.mock("@web/app/(main)/blog/_components/post", () => ({
+vi.mock("@web/app/(main)/blog/components/post", () => ({
   Post: {
     Card: ({ post }: { post: SelectPost }) => (
       <article data-testid={`post-card-${post.id}`}>

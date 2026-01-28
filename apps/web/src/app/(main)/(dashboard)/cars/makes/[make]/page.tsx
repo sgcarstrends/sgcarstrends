@@ -1,6 +1,6 @@
 import type { CarLogo } from "@logos/types";
 import { redis } from "@sgcarstrends/utils";
-import { MakeDetail } from "@web/app/(main)/(dashboard)/cars/_components/makes";
+import { MakeDetail } from "@web/app/(main)/(dashboard)/cars/components/makes";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
