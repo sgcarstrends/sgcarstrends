@@ -1,3 +1,35 @@
+## [4.43.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.2...v4.43.0) (2026-01-28)
+
+### Features
+
+* add QStash scheduler via instrumentation ([eb65bb5](https://github.com/sgcarstrends/sgcarstrends/commit/eb65bb5130603f144caede56a449305656b17fca))
+* **web:** add animations to blog and FAQ pages ([c63ba26](https://github.com/sgcarstrends/sgcarstrends/commit/c63ba268af3eb439fc8d6852d6d110e9bf36176b))
+* **web:** add entrance animations to all pages ([09527b0](https://github.com/sgcarstrends/sgcarstrends/commit/09527b0e1afc33cc6b47449d109acd40313a03b3))
+* **web:** add regenerate workflow endpoint ([f6e7ab4](https://github.com/sgcarstrends/sgcarstrends/commit/f6e7ab497c29c81637caa1753a4682fd7e450ec2))
+
+### Bug Fixes
+
+* add regenerate workflow route ([b3fbd25](https://github.com/sgcarstrends/sgcarstrends/commit/b3fbd25815de1c8c7de9219b8bca158b6c8cac56))
+* add type assertion for empty COE categories array ([#673](https://github.com/sgcarstrends/sgcarstrends/issues/673)) ([1371ad7](https://github.com/sgcarstrends/sgcarstrends/commit/1371ad7828ae89b09f01de05c44915bc66bf5eb3))
+* **ai:** add bypass headers to context.call ([9a440bf](https://github.com/sgcarstrends/sgcarstrends/commit/9a440bf554969e2908904ba43cc9a267c12270d5))
+* **ai:** handle WorkflowAbort for AI SDK v6 ([3dfb288](https://github.com/sgcarstrends/sgcarstrends/commit/3dfb2882a21ead07ac3dfca4eaae676e5ef5481b))
+* **ai:** suppress ts error for code execution tool ([8741025](https://github.com/sgcarstrends/sgcarstrends/commit/874102554ee7fd46636168e2a1d62d0e681c7331))
+* **ai:** update @ai-sdk/google to 3.0.6 for structured output fix ([f9b0482](https://github.com/sgcarstrends/sgcarstrends/commit/f9b04825165c71f3d4b5d8240f29b6a5df304f8e))
+* **infra:** add missing env vars for admin integration ([e8c689a](https://github.com/sgcarstrends/sgcarstrends/commit/e8c689afd9c82446e6eef366ee6d0a3973a86c2f))
+* **infra:** prevent QStash duplicate schedules ([2c5070c](https://github.com/sgcarstrends/sgcarstrends/commit/2c5070c74b42175d7774b0c3e8335caa49104f19))
+* **infra:** prevent QStash schedule duplicates ([e6fce3f](https://github.com/sgcarstrends/sgcarstrends/commit/e6fce3f6ef416bace812e0f663eb1fa55725d8f7))
+* **infra:** skip Router creation for staging ([be90c27](https://github.com/sgcarstrends/sgcarstrends/commit/be90c272daa101c0696d985ce1644bec9d0f363f))
+* move instrumentation.ts to src dir ([68f84ba](https://github.com/sgcarstrends/sgcarstrends/commit/68f84ba0aa9313ac19e73f72d216538b54b31db8))
+* re-export LanguageModelUsage type ([c27b5a7](https://github.com/sgcarstrends/sgcarstrends/commit/c27b5a7d0c65266547f2f01dc73a601af96aae8c))
+* remove duplicate updater logging ([3d134ed](https://github.com/sgcarstrends/sgcarstrends/commit/3d134edf35e7d127471380e693a8333e3b6f0318))
+* use rolling 12-month data for COE sparklines ([ed76f33](https://github.com/sgcarstrends/sgcarstrends/commit/ed76f33936582fd3f16fc6cdb7cff23c4f27fe63))
+* **web:** add bypass headers to workflow client ([7163fd4](https://github.com/sgcarstrends/sgcarstrends/commit/7163fd436da97e2a61868dd1e9e3099c6aa5a843))
+* **web:** correct admin Suspense boundaries ([33f8c63](https://github.com/sgcarstrends/sgcarstrends/commit/33f8c63bb98d09be337f4bd2e78408e03e905dc0))
+
+### Performance Improvements
+
+* **web:** optimise Updater with ES2025 Set methods ([f72f1f5](https://github.com/sgcarstrends/sgcarstrends/commit/f72f1f566b58a2e38dffe01d1262eabdb2e63c75)), closes [#620](https://github.com/sgcarstrends/sgcarstrends/issues/620)
+
 ## [4.42.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.2...v4.42.3) (2026-01-03)
 
 ### Bug Fixes
