@@ -77,8 +77,11 @@ All commands use pnpm as the package manager.
 | | `pnpm -F <package> test -- <path>` | Run specific test |
 | **Linting** | `pnpm lint` | Lint all packages (see `biome-config` skill) |
 | | `pnpm format` | Format all packages |
-| **Database** | `pnpm db:migrate` | Run migrations (see `schema-design` skill) |
+| **Database** | `pnpm db:migrate` or `pnpm migrate` | Run migrations (see `schema-design` skill) |
 | | `pnpm db:generate` | Generate migrations |
+| | `pnpm db:push` | Push schema changes directly |
+| | `pnpm db:drop` | Drop database |
+| | `pnpm db:migrate:check` or `pnpm migrate:check` | Check migration status |
 | **Deployment** | See `sst-deployment` skill | Multi-environment deployment workflows |
 | **Release** | See `release-management` skill | Automated releases with semantic-release |
 | **Auth** | `pnpm auth:generate` | Generate authentication schema |
@@ -96,7 +99,7 @@ All commands use pnpm as the package manager.
     - **src/actions**: Server actions for maintenance and background tasks
     - **src/utils**: Web-specific utility functions
     - **src/queries**: Data fetching queries with comprehensive tests
-    - **src/config**: Database, Redis, QStash, and platform configurations
+    - **src/config**: Database, Redis, QStash, animations, and platform configurations
 - **packages/database**: Database schema and migrations using Drizzle ORM
     - **src/schema**: Schema definitions for cars, COE, deregistrations, and posts tables
     - **migrations**: Database migration files with version tracking

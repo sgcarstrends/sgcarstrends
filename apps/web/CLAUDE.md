@@ -34,6 +34,7 @@ pnpm format             # Format code with Biome
 - **Database**: PostgreSQL (Neon) with Drizzle ORM
 - **State Management**: Zustand with persistence
 - **Styling**: Tailwind CSS v4 with HeroUI components
+- **Animations**: Framer Motion with shared variants (`@web/config/animations`)
 - **Testing**: Vitest for unit tests, Playwright for E2E
 - **Deployment**: SST on AWS (Singapore region)
 
@@ -72,7 +73,7 @@ src/
 │   ├── dashboard/                 # Shared dashboard components (navigation, skeletons)
 │   ├── shared/                    # Generic shared components (chips, currency, metric-card)
 │   └── [others]                   # Shared components used across multiple routes
-├── config/                        # App configuration (DB, Redis, navigation)
+├── config/                        # App configuration (DB, Redis, navigation, animations)
 ├── lib/                           # Shared data fetching and business logic
 ├── schema/                        # Drizzle database schemas
 ├── types/                         # TypeScript definitions
@@ -312,7 +313,7 @@ This precisely invalidates only affected caches, avoiding unnecessary regenerati
 **Server Actions**: Organized in `src/actions/` directory for write operations:
 
 - Maintenance tasks (`actions/maintenance.ts`)
-- Blog-specific actions co-located in `src/app/blog/_actions/` (view counting, related posts)
+- Blog-specific actions co-located in `src/app/(main)/blog/actions/` (view counting, related posts)
 
 **Social Media Integration**: Implements domain-based redirect routes in `src/app/(social)/` that provide trackable,
 SEO-friendly URLs for all social media platforms. Each route includes standardised UTM parameters for analytics
@@ -353,7 +354,7 @@ See [Typography System](#typography-system) section below.
 - Recent posts sidebar with link navigation
 - Key statistics and yearly registration charts
 
-**Blog Components**: Co-located components in `src/app/blog/_components/` including:
+**Blog Components**: Co-located components in `src/app/(main)/blog/components/` including:
 
 - Progress bar for reading progress tracking
 - View counter with Redis-backed analytics
@@ -418,27 +419,42 @@ A consistent approach to animations using Framer Motion for scroll-triggered rev
 
 | File | Purpose |
 |------|---------|
-| `src/app/about/_components/variants.ts` | Shared animation variants |
+| `src/config/animations.ts` | Shared animation variants (centralised) |
 | `src/components/animated-number.tsx` | Number animation component |
 
 **Standard Variants**:
 
 ```typescript
-import { fadeInUpVariants, staggerContainerVariants, staggerItemVariants } from "./variants";
+import { fadeInUpVariants, staggerContainerVariants, staggerItemVariants } from "@web/config/animations";
 ```
 
-- `fadeInUpVariants` - Base fade-in-up for section content
-- `staggerContainerVariants` - Container for staggered children
-- `staggerItemVariants` - Individual stagger item
-- `heroEntranceVariants` - Dramatic hero entrance
+- `fadeInVariants` - Simple fade-in (opacity only)
+- `fadeInUpVariants` - Fade-in with upward motion (opacity + y: 16)
+- `staggerContainerVariants` - Container for staggered children (0.08s delay between children)
+- `staggerItemVariants` - Individual stagger item (fade-in-up)
+- `scaleInVariants` - Fade-in with scale effect (opacity + scale: 0.95 → 1)
 
-**Usage Pattern**:
+**Usage Patterns**:
 
 ```typescript
+// Page entrance animations (use initial/animate, not whileInView)
 import { motion } from "framer-motion";
-import { fadeInUpVariants } from "./variants";
+import { fadeInUpVariants } from "@web/config/animations";
 
-export const Section = () => {
+export function PageSection() {
+  return (
+    <motion.div
+      variants={fadeInUpVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {/* Content */}
+    </motion.div>
+  );
+}
+
+// Scroll-triggered reveals (use whileInView for scroll-based)
+export function ScrollSection() {
   return (
     <motion.div
       variants={fadeInUpVariants}
@@ -449,16 +465,17 @@ export const Section = () => {
       {/* Content */}
     </motion.div>
   );
-};
+}
 ```
 
 **Guidelines**:
 
-- ✅ Use shared variants from `variants.ts`
-- ✅ Use `viewport={{ once: true }}` for scroll-triggered animations
+- ✅ Use shared variants from `@web/config/animations` (centralised)
+- ✅ Use `initial="hidden"` and `animate="visible"` for page entrance animations
+- ✅ Use `whileInView="visible"` with `viewport={{ once: true }}` for scroll-triggered animations
 - ✅ Keep hover states as CSS transitions (Tailwind `transition-*`)
 - ✅ Use CSS keyframes for infinite/background animations
-- ❌ Avoid inline animation definitions (use variants)
+- ❌ Avoid inline animation definitions (use shared variants)
 
 **When to Use CSS vs Motion**:
 
