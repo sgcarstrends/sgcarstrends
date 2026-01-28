@@ -1,10 +1,10 @@
-import { PageHeader } from "@web/components/page-header";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { generateCOEFAQSchema } from "@web/lib/metadata";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
-import { FAQSections } from "./faq-sections";
+import { FAQPageContent } from "./faq-page-content";
+import type { FAQSection } from "./faq-sections";
 
 const title = "Frequently Asked Questions";
 const description =
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
 };
 
-const FAQPage = () => {
+export default function FAQPage() {
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -47,7 +47,7 @@ const FAQPage = () => {
     },
   };
 
-  const faqSections = [
+  const faqSections: FAQSection[] = [
     {
       title: "Certificate of Entitlement (COE)",
       items: [
@@ -131,15 +131,7 @@ const FAQPage = () => {
       <StructuredData
         data={{ "@context": "https://schema.org", ...generateCOEFAQSchema() }}
       />
-      <div className="flex flex-col gap-8">
-        <PageHeader
-          title="Frequently Asked Questions"
-          subtitle="Common questions about Singapore's automotive market, COE system, and car registration trends."
-        />
-        <FAQSections sections={faqSections} />
-      </div>
+      <FAQPageContent sections={faqSections} />
     </>
   );
-};
-
-export default FAQPage;
+}

@@ -1,7 +1,7 @@
 import { BlogList } from "@web/app/(main)/blog/components/blog-list";
+import { BlogPageHeader } from "@web/app/(main)/blog/components/blog-page-header";
 import { PopularPosts } from "@web/app/(main)/blog/components/popular-posts";
 import { StructuredData } from "@web/components/structured-data";
-import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { getPopularPostsWithData } from "@web/lib/data/posts";
 import { getAllPosts } from "@web/queries/posts";
@@ -48,12 +48,7 @@ export default async function BlogPage() {
     <>
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
-        <div className="flex flex-col gap-2">
-          <Typography.H1>{title}</Typography.H1>
-          <Typography.TextLg className="text-default-600">
-            {description}
-          </Typography.TextLg>
-        </div>
+        <BlogPageHeader title={title} description={description} />
         <UnreleasedFeature>
           <PopularPosts posts={popularPosts} />
         </UnreleasedFeature>

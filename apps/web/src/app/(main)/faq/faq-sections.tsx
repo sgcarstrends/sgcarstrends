@@ -3,12 +3,12 @@
 import { Accordion, AccordionItem } from "@heroui/react";
 import Typography from "@web/components/typography";
 
-interface FAQItem {
+export interface FAQItem {
   question: string;
   answer: string;
 }
 
-interface FAQSection {
+export interface FAQSection {
   title: string;
   items: FAQItem[];
 }
