@@ -283,7 +283,7 @@ graph TB
 - **Runtime**: Node.js 22.x
 - **Timeout**: 120 seconds (for long-running workflows)
 - **Memory**: Optimized based on usage patterns
-- **Handler**: `apps/api/src/index.handler`
+- **Handler**: Hono framework application handler
 
 **Environment Variables**:
 - **Core**: `STAGE`, `DATABASE_URL`, `SG_CARS_TRENDS_API_TOKEN`
@@ -514,6 +514,5 @@ sst dev --stage local
 ## Related Documentation
 
 - [System Architecture Overview](./system)
-- [API Architecture](./api)
 - [Data Processing Workflows](./workflows)
 - [Infrastructure Configuration Documentation](../../infra/CLAUDE.md)

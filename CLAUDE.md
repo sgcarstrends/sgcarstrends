@@ -14,7 +14,6 @@ This repository includes directory-specific CLAUDE.md files with detailed guidan
 
 ### Applications
 
-- **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: REST API service development with Hono framework and OpenAPI documentation
 - **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 16, HeroUI, blog features,
   analytics, integrated admin interface at `/admin` path, and data updater workflows with social media integration
 
@@ -43,7 +42,6 @@ System architecture documentation with Mermaid diagrams is available in the `doc
     - **[system.md](docs/architecture/system.md)**: System architecture overview
     - **[workflows.md](docs/architecture/workflows.md)**: Data processing workflow sequence diagrams
     - **[database.md](docs/architecture/database.md)**: Database schema and entity relationships
-    - **[api.md](docs/architecture/api.md)**: API architecture with Hono framework
     - **[infrastructure.md](docs/architecture/infrastructure.md)**: AWS deployment topology
     - **[social.md](docs/architecture/social.md)**: Social media integration workflows
 
@@ -56,7 +54,6 @@ System architecture documentation with Mermaid diagrams is available in the `doc
 SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data,
 Certificate of Entitlement (COE) bidding results, and vehicle deregistration statistics. The monorepo includes:
 
-- **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
 - **Web Application**: Next.js 16 frontend with Cache Components, component co-location, interactive charts, analytics,
   blog functionality, and integrated admin interface at `/admin` path. Also hosts the integrated data updater workflows.
 - **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA
@@ -90,11 +87,6 @@ All commands use pnpm as the package manager.
 
 ## Code Structure
 
-- **apps/api**: REST API service using Hono framework
-    - **src/v1**: API endpoints for data access
-    - **src/features**: Feature modules (cars, coe, deregistrations, health, logos, months, posts, shared)
-    - **src/lib**: Utility functions (health checks, date helpers)
-    - **src/config**: Database and Redis configurations
 - **apps/web**: Next.js frontend application with integrated workflows
     - **src/app**: Next.js App Router pages and layouts with blog functionality
     - **src/app/admin**: Integrated admin interface for content management

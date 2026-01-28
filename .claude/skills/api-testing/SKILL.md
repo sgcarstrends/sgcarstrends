@@ -9,36 +9,34 @@ allowed-tools: Read, Edit, Write, Bash, Grep, Glob
 ## Running Tests
 
 ```bash
-pnpm -F @sgcarstrends/api test              # Run all API tests
-pnpm -F @sgcarstrends/api test routes/      # Run specific folder
-pnpm -F @sgcarstrends/api test:watch        # Watch mode
-pnpm -F @sgcarstrends/api test:coverage     # With coverage
+pnpm test                  # Run all tests
+pnpm test:watch            # Watch mode
+pnpm test:coverage         # With coverage
+pnpm -F @sgcarstrends/web test              # Run web tests
+pnpm -F @sgcarstrends/web test:watch        # Watch mode for web
 ```
 
 ## Test Structure
 
 ```
-apps/api/__tests__/
+apps/web/__tests__/
 ├── setup.ts              # Test setup
 ├── helpers.ts            # Test utilities
-├── routes/               # Endpoint tests
-│   ├── cars.test.ts
-│   └── health.test.ts
-├── middleware/           # Middleware tests
-└── workflows/            # Workflow tests
+├── queries/              # Query tests
+├── components/           # Component tests
+└── utils/                # Utility tests
 ```
 
-## Testing Hono Endpoints
+## Testing API Routes
 
 ### Basic Endpoint Test
 
 ```typescript
 import { describe, it, expect } from "vitest";
-import app from "../../src/index";
 
-describe("GET /health", () => {
+describe("GET /api/health", () => {
   it("returns 200 OK", async () => {
-    const res = await app.request("/health");
+    const res = await fetch("http://localhost:3000/api/health");
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ status: "ok" });
   });
@@ -48,14 +46,14 @@ describe("GET /health", () => {
 ### Testing with Query Params
 
 ```typescript
-describe("GET /api/v1/cars/makes", () => {
+describe("GET /api/cars", () => {
   it("filters by month", async () => {
-    const res = await app.request("/api/v1/cars/makes?month=2024-01");
+    const res = await fetch("http://localhost:3000/api/cars?month=2024-01");
     expect(res.status).toBe(200);
   });
 
   it("returns 400 for invalid month", async () => {
-    const res = await app.request("/api/v1/cars/makes?month=invalid");
+    const res = await fetch("http://localhost:3000/api/cars?month=invalid");
     expect(res.status).toBe(400);
   });
 });
@@ -64,9 +62,9 @@ describe("GET /api/v1/cars/makes", () => {
 ### Testing POST Endpoints
 
 ```typescript
-describe("POST /api/v1/blog/posts", () => {
+describe("POST /api/posts", () => {
   it("creates a new post", async () => {
-    const res = await app.request("/api/v1/blog/posts", {
+    const res = await fetch("http://localhost:3000/api/posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title: "Test", content: "Content" }),
@@ -114,7 +112,7 @@ vi.mock("@sgcarstrends/utils", () => ({
 ## Test Helpers
 
 ```typescript
-// apps/api/__tests__/helpers.ts
+// apps/web/__tests__/helpers.ts
 export const createAuthHeader = (token: string) => ({
   Authorization: `Bearer ${token}`,
 });
@@ -154,4 +152,4 @@ export default defineConfig({
 ## References
 
 - Vitest: https://vitest.dev
-- Hono Testing: https://hono.dev/docs/guides/testing
+- Next.js Testing: https://nextjs.org/docs/app/building-your-application/testing

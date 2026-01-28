@@ -396,5 +396,4 @@ interface PlatformConfig {
 
 - [System Architecture Overview](./system)
 - [Data Processing Workflows](./workflows)
-- [API Architecture](./api)
-- [API Service Documentation](../../apps/api/CLAUDE.md)
+- [Web Application Documentation](../../apps/web/CLAUDE.md)

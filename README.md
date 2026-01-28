@@ -7,7 +7,6 @@
 This monorepo provides a complete platform for SG Cars Trends, tracking Singapore's car registration statistics and Certificate of Entitlement (COE) data. The system includes:
 
 - **Web Application**: Next.js 16 frontend with Cache Components, co-located route components, enhanced homepage featuring latest COE results, interactive charts, analytics, AI-generated blog content, and integrated admin interface at `/admin` path. Also hosts the data updater workflows.
-- **REST API**: Hono-based API with type-safe endpoints for car registrations and COE results
 - **Integrated Data Updater**: QStash workflow-based system for fetching and processing LTA data (consolidated into web application)
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini for market insights (runs within web workflows)
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter with trackable redirect routes (triggered by web workflows)
@@ -22,10 +21,6 @@ graph TB
         BLOG[Blog Posts<br/>AI Generated]
         WORKFLOWS[Data Workflows<br/>QStash]
         LLM[Vercel AI SDK<br/>Blog Generation]
-    end
-
-    subgraph "Backend Services"
-        API[API Service<br/>Hono Framework]
     end
 
     subgraph "Data Layer"
@@ -48,10 +43,9 @@ graph TB
         AWS[AWS Lambda<br/>SST v3]
     end
 
-    WEB --> API
     WEB --> WORKFLOWS
-    API --> DB
-    API --> REDIS
+    WEB --> DB
+    WEB --> REDIS
 
     WORKFLOWS --> LTA
     WORKFLOWS --> DB
@@ -63,7 +57,6 @@ graph TB
     WORKFLOWS --> TWITTER
     WORKFLOWS --> TELEGRAM
 
-    API --> AWS
     WEB --> AWS
 
     classDef frontend fill:#e1f5fe
@@ -74,7 +67,6 @@ graph TB
     classDef infra fill:#f1f8e9
 
     class WEB,BLOG,WORKFLOWS,LLM frontend
-    class API backend
     class DB,REDIS data
     class LTA external
     class DISCORD,LINKEDIN,TWITTER,TELEGRAM social
@@ -86,11 +78,6 @@ graph TB
 ```
 sgcarstrends/
 ├── apps/
-│   ├── api/          # REST API service
-│   │   ├── src/v1/          # API endpoints for data access
-│   │   ├── src/features/    # Feature modules (cars, coe, deregistrations, health, etc.)
-│   │   ├── src/lib/         # Utility functions (health checks, date helpers)
-│   │   └── src/config/      # Database and Redis configurations
 │   ├── web/          # Next.js 16 frontend application with integrated workflows
 │   │   ├── src/app/         # Next.js App Router pages and layouts
 │   │   │   ├── (social)/    # Social media redirect routes with UTM tracking
@@ -120,7 +107,6 @@ sgcarstrends/
 │   │   └── src/styles/      # Global styles
 │   └── utils/        # Shared utility functions and Redis configuration
 ├── infra/            # SST v3 infrastructure configuration
-│   ├── api.ts              # API service configuration
 │   ├── web.ts              # Web application configuration
 │   └── router.ts           # Domain routing and DNS management
 ```
@@ -147,7 +133,6 @@ sgcarstrends/
 For developers working on this codebase, detailed component-specific guidance is available:
 
 - **[Root CLAUDE.md](CLAUDE.md)** - Overall project guidance and conventions
-- **[API Service](apps/api/CLAUDE.md)** - REST API with Hono framework and OpenAPI documentation
 - **[Web Application](apps/web/CLAUDE.md)** - Next.js development, HeroUI components, blog features, and data updater workflows
 - **[Database Package](packages/database/CLAUDE.md)** - Schema management, migrations, and TypeScript integration
 - **[AI Package](packages/ai/CLAUDE.md)** - AI-powered blog generation with Vercel AI SDK and Google Gemini
@@ -205,9 +190,6 @@ This ensures version consistency across all workspace packages and simplifies de
 # Development
 pnpm dev                    # Run web application in development mode (SST dev with local stage)
 pnpm dev:web               # Web application only
-
-# Working within specific apps
-cd apps/api && pnpm dev    # API service development
 cd apps/web && pnpm dev    # Web application development
 
 # Build
@@ -219,9 +201,6 @@ pnpm test                  # Run all unit tests
 pnpm test:watch            # Run tests in watch mode
 pnpm test:coverage         # Run tests with coverage
 pnpm test:web              # Run web tests only
-
-# Working within specific apps for testing
-cd apps/api && pnpm test   # API tests only
 cd apps/web && pnpm test   # Web tests only
 
 # E2E Testing (Web App)
@@ -232,9 +211,6 @@ pnpm -F @sgcarstrends/web test:e2e:ui    # Run E2E tests with Playwright UI
 pnpm lint                  # Run Biome linting on all packages
 pnpm format                # Run Biome formatting on all packages
 pnpm lint:web              # Lint web application only
-
-# Working within specific apps for linting
-cd apps/api && pnpm lint   # Lint API service only
 cd apps/web && pnpm lint   # Lint web application only
 
 # Database
@@ -256,20 +232,6 @@ pnpm deploy:web:prod       # Deploy web to prod
 ```
 
 ## API Endpoints
-
-### REST API Service (apps/api)
-
-**Public Endpoints:**
-- `GET /` - Scalar API documentation interface
-- `GET /docs` - OpenAPI specification
-- `GET /health` - Health check endpoint
-
-**Data Access (Authenticated):**
-- `GET /v1/cars` - Car registration data with filtering
-- `GET /v1/coe` - COE bidding results
-- `GET /v1/coe/pqp` - COE Prevailing Quota Premium rates
-- `GET /v1/makes` - Car manufacturers
-- `GET /v1/months/latest` - Latest month with data
 
 ### Web Application Workflows (apps/web)
 
