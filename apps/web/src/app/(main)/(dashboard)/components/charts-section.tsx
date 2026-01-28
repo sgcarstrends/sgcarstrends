@@ -9,7 +9,7 @@ async function YearlyChartContent() {
   const maxTotal = yearlyData.reduce((max, d) => Math.max(max, d.total), 0);
 
   return (
-    <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-4">
+    <div className="rounded-3xl bg-white p-6">
       <div className="mb-5 flex items-center justify-between">
         <div>
           <Typography.H3>Yearly Registrations</Typography.H3>
@@ -54,7 +54,7 @@ async function TopMakesContent() {
   const maxValue = topMakes[0]?.value ?? 1;
 
   return (
-    <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-4">
+    <div className="rounded-3xl bg-white p-6">
       <div className="mb-5 flex items-center justify-between">
         <Typography.H3>Top Makes</Typography.H3>
         <Link
@@ -96,7 +96,7 @@ async function TopMakesContent() {
 
 function YearlyChartSkeleton() {
   return (
-    <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-4">
+    <div className="rounded-3xl bg-white p-6">
       <div className="mb-5 h-6 w-40 animate-pulse rounded bg-default-200" />
       <div className="flex h-[160px] items-end gap-4">
         {[0, 1, 2, 3, 4, 5].map((num) => (
@@ -113,7 +113,7 @@ function YearlyChartSkeleton() {
 
 function TopMakesSkeleton() {
   return (
-    <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-4">
+    <div className="rounded-3xl bg-white p-6">
       <div className="mb-5 h-6 w-24 animate-pulse rounded bg-default-200" />
       <div className="flex flex-col gap-4">
         {[0, 1, 2, 3, 4].map((num) => (

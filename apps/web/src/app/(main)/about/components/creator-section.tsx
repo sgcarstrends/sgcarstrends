@@ -2,9 +2,12 @@
 
 import { Link } from "@heroui/link";
 import Typography from "@web/components/typography";
+import {
+  staggerContainerVariants,
+  staggerItemVariants,
+} from "@web/config/animations";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
-import { staggerContainerVariants, staggerItemVariants } from "./variants";
 
 export function CreatorSection() {
   return (

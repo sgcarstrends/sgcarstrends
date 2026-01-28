@@ -2,8 +2,8 @@
 
 import { Card, CardBody } from "@heroui/card";
 import Typography from "@web/components/typography";
+import { fadeInUpVariants } from "@web/config/animations";
 import { motion } from "framer-motion";
-import { fadeInUpVariants } from "./variants";
 
 export function MissionSection() {
   return (

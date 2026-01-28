@@ -1,3 +1,5 @@
+import { AnimatedGrid } from "@web/app/(main)/(dashboard)/components/animated-grid";
+import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import {
   TopMakesSection,
   YearlyChart,
@@ -61,7 +63,7 @@ const structuredData: WithContext<WebSite> = {
 
 function SummaryCardSkeleton() {
   return (
-    <div className="col-span-12 rounded-3xl border-2 border-primary bg-white p-6 lg:col-span-4">
+    <div className="rounded-3xl border-2 border-primary bg-white p-6">
       <div className="mb-4 flex items-center justify-between">
         <div className="h-12 w-12 animate-pulse rounded-2xl bg-default-200" />
         <div className="h-10 w-10 animate-pulse rounded-full bg-default-200" />
@@ -75,7 +77,7 @@ function SummaryCardSkeleton() {
 
 function MarketOverviewSkeleton() {
   return (
-    <div className="col-span-12 rounded-3xl border border-default-200 bg-white p-6 lg:col-span-8">
+    <div className="rounded-3xl border border-default-200 bg-white p-6">
       <div className="mb-4 h-6 w-36 animate-pulse rounded bg-default-200" />
       <div className="grid grid-cols-3 gap-4">
         {/* biome-ignore lint/suspicious/noArrayIndexKey: Static skeleton list */}
@@ -92,7 +94,7 @@ function MarketOverviewSkeleton() {
 
 function MonthlyChangeSummarySkeleton() {
   return (
-    <div className="col-span-12 rounded-3xl border-2 border-primary bg-white p-6 lg:col-span-4">
+    <div className="rounded-3xl border-2 border-primary bg-white p-6">
       <div className="mb-4 flex items-center justify-between">
         <div className="h-12 w-12 animate-pulse rounded-2xl bg-default-200" />
         <div className="h-10 w-10 animate-pulse rounded-full bg-default-200" />
@@ -110,29 +112,45 @@ const HomePage = () => {
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
         {/* Bento Grid */}
-        <div className="grid grid-cols-12 gap-4">
+        <AnimatedGrid className="grid grid-cols-12 gap-4">
           {/* Row 1: Welcome + Summary Cards */}
-          <WelcomeSection />
-          <Suspense fallback={<SummaryCardSkeleton />}>
-            <SummaryCard />
-          </Suspense>
-          <Suspense fallback={<MonthlyChangeSummarySkeleton />}>
-            <MonthlyChangeSummary />
-          </Suspense>
+          <AnimatedSection className="col-span-12 lg:col-span-4">
+            <WelcomeSection />
+          </AnimatedSection>
+          <AnimatedSection className="col-span-12 lg:col-span-4">
+            <Suspense fallback={<SummaryCardSkeleton />}>
+              <SummaryCard />
+            </Suspense>
+          </AnimatedSection>
+          <AnimatedSection className="col-span-12 lg:col-span-4">
+            <Suspense fallback={<MonthlyChangeSummarySkeleton />}>
+              <MonthlyChangeSummary />
+            </Suspense>
+          </AnimatedSection>
 
           {/* Row 2: COE Results */}
-          <CoeSection />
+          <AnimatedSection className="col-span-12">
+            <CoeSection />
+          </AnimatedSection>
 
           {/* Row 3: Top Makes + Posts */}
-          <TopMakesSection />
-          <PostsSection />
+          <AnimatedSection className="col-span-12 md:col-span-6 lg:col-span-4">
+            <TopMakesSection />
+          </AnimatedSection>
+          <AnimatedSection className="col-span-12 md:col-span-6 lg:col-span-8">
+            <PostsSection />
+          </AnimatedSection>
 
           {/* Row 4: Yearly Chart + Market Overview */}
-          <YearlyChart />
-          <Suspense fallback={<MarketOverviewSkeleton />}>
-            <MarketOverview />
-          </Suspense>
-        </div>
+          <AnimatedSection className="col-span-12 md:col-span-6 lg:col-span-4">
+            <YearlyChart />
+          </AnimatedSection>
+          <AnimatedSection className="col-span-12 lg:col-span-8">
+            <Suspense fallback={<MarketOverviewSkeleton />}>
+              <MarketOverview />
+            </Suspense>
+          </AnimatedSection>
+        </AnimatedGrid>
       </section>
     </>
   );

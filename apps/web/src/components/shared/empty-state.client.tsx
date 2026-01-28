@@ -2,18 +2,10 @@
 
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
+import { fadeInUpVariants } from "@web/config/animations";
 import { motion } from "framer-motion";
 import { Home, RotateCcw } from "lucide-react";
 import type { ReactNode } from "react";
-
-const fadeInUpVariants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: "easeOut" as const },
-  },
-};
 
 interface AnimatedEmptyStateWrapperProps {
   children: ReactNode;

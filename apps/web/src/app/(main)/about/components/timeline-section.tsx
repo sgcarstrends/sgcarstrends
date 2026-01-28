@@ -3,8 +3,8 @@
 import { Avatar } from "@heroui/avatar";
 import { cn } from "@heroui/theme";
 import Typography from "@web/components/typography";
+import { fadeInUpVariants } from "@web/config/animations";
 import { motion } from "framer-motion";
-import { fadeInUpVariants } from "./variants";
 
 interface TimelineItem {
   date: string;

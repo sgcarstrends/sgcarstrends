@@ -1,4 +1,5 @@
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params";
+import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
@@ -139,39 +140,47 @@ const CategoryPageContent = async ({
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-8">
-        <PageHeader
-          title={config.title}
-          subtitle={`Breakdown of registrations by ${config.title.toLowerCase()} for the selected month.`}
-          lastUpdated={lastUpdated}
-          months={months}
-          showMonthSelector={true}
-        >
-          <ShareButtons
-            url={`${SITE_URL}${config.urlPath}?month=${month}`}
-            title={`${formattedMonth} ${config.title} - ${SITE_TITLE}`}
-          />
-        </PageHeader>
+        <AnimatedSection order={0}>
+          <PageHeader
+            title={config.title}
+            subtitle={`Breakdown of registrations by ${config.title.toLowerCase()} for the selected month.`}
+            lastUpdated={lastUpdated}
+            months={months}
+            showMonthSelector={true}
+          >
+            <ShareButtons
+              url={`${SITE_URL}${config.urlPath}?month=${month}`}
+              title={`${formattedMonth} ${config.title} - ${SITE_TITLE}`}
+            />
+          </PageHeader>
+        </AnimatedSection>
 
         {categoryData && categoryData.length > 0 ? (
-          <div className="grid grid-cols-12 gap-6">
-            <CategorySummaryCard
-              total={cars.total}
-              previousTotal={previousTotal}
-            />
-            <CategoryInsightsCard
-              categoriesCount={categoryData.length}
-              topPerformer={marketShare.dominantType}
-              month={month}
-              title={config.tabTitle}
-            />
-            <CategoryTabsPanel
-              types={categoryData}
-              month={month}
-              title={config.tabTitle}
-              totalRegistrations={cars.total}
-              topMakesByFuelType={topMakesByFuelType}
-            />
-          </div>
+          <>
+            <AnimatedSection order={1}>
+              <div className="grid grid-cols-12 gap-6">
+                <CategorySummaryCard
+                  total={cars.total}
+                  previousTotal={previousTotal}
+                />
+                <CategoryInsightsCard
+                  categoriesCount={categoryData.length}
+                  topPerformer={marketShare.dominantType}
+                  month={month}
+                  title={config.tabTitle}
+                />
+              </div>
+            </AnimatedSection>
+            <AnimatedSection order={2}>
+              <CategoryTabsPanel
+                types={categoryData}
+                month={month}
+                title={config.tabTitle}
+                totalRegistrations={cars.total}
+                topMakesByFuelType={topMakesByFuelType}
+              />
+            </AnimatedSection>
+          </>
         ) : (
           <div className="py-8 text-center">
             <Typography.Text>

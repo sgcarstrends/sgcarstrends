@@ -3,6 +3,7 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { cn } from "@heroui/theme";
 import Typography from "@web/components/typography";
+import { fadeInUpVariants } from "@web/config/animations";
 import {
   CARD_VARIANTS,
   type CardVariant,
@@ -75,11 +76,7 @@ export function ChartWidget({
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-    >
+    <motion.div variants={fadeInUpVariants} initial="hidden" animate="visible">
       {cardContent}
     </motion.div>
   );

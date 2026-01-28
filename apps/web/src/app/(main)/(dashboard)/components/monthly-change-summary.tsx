@@ -34,7 +34,7 @@ export async function MonthlyChangeSummary() {
   );
 
   return (
-    <div className="col-span-12 rounded-3xl border-2 border-primary bg-white p-6 lg:col-span-4">
+    <div className="rounded-3xl border-2 border-primary bg-white p-6">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10">
           <CalendarDays className="size-6 text-primary" />

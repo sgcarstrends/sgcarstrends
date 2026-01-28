@@ -2,11 +2,14 @@
 
 import { Button } from "@heroui/button";
 import Typography from "@web/components/typography";
+import {
+  staggerContainerVariants,
+  staggerItemVariants,
+} from "@web/config/animations";
 import { navLinks } from "@web/config/navigation";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { staggerContainerVariants, staggerItemVariants } from "./variants";
 
 export function CtaSection() {
   return (

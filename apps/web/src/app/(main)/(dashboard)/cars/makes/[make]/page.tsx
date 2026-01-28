@@ -1,6 +1,7 @@
 import type { CarLogo } from "@logos/types";
 import { redis } from "@sgcarstrends/utils";
 import { MakeDetail } from "@web/app/(main)/(dashboard)/cars/components/makes";
+import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
@@ -71,19 +72,23 @@ export default async function CarMakePage({ params }: PageProps) {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <PageHeader
-          title={makeName}
-          subtitle={`Historical car registration trends and monthly breakdown for ${makeName} vehicles in Singapore.`}
-          lastUpdated={lastUpdated}
-          months={months}
-        >
-          <ShareButtons
-            url={`${SITE_URL}/cars/makes/${make}`}
-            title={`${makeName} Cars - ${SITE_TITLE}`}
-          />
-        </PageHeader>
+        <AnimatedSection order={0}>
+          <PageHeader
+            title={makeName}
+            subtitle={`Historical car registration trends and monthly breakdown for ${makeName} vehicles in Singapore.`}
+            lastUpdated={lastUpdated}
+            months={months}
+          >
+            <ShareButtons
+              url={`${SITE_URL}/cars/makes/${make}`}
+              title={`${makeName} Cars - ${SITE_TITLE}`}
+            />
+          </PageHeader>
+        </AnimatedSection>
 
-        <MakeDetail cars={cars} coeComparison={coeComparison} />
+        <AnimatedSection order={1}>
+          <MakeDetail cars={cars} coeComparison={coeComparison} />
+        </AnimatedSection>
       </div>
     </>
   );

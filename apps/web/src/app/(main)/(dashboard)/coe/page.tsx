@@ -3,6 +3,7 @@ import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Progress } from "@heroui/progress";
 import { KeyInsights } from "@web/app/(main)/(dashboard)/coe/components/key-insights";
 import { PremiumRangeCard } from "@web/app/(main)/(dashboard)/coe/components/premium-range-card";
+import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
 import { PageHeader } from "@web/components/page-header";
@@ -86,112 +87,126 @@ const COEOverviewPage = async () => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-8">
-        <PageHeader
-          title="COE Overview"
-          subtitle="Latest Certificate of Entitlement bidding results and premium trends."
-          lastUpdated={lastUpdated}
-        >
-          <ShareButtons
-            url={`${SITE_URL}/coe`}
-            title={`COE Overview - ${SITE_TITLE}`}
-          />
-        </PageHeader>
+        <AnimatedSection order={0}>
+          <PageHeader
+            title="COE Overview"
+            subtitle="Latest Certificate of Entitlement bidding results and premium trends."
+            lastUpdated={lastUpdated}
+          >
+            <ShareButtons
+              url={`${SITE_URL}/coe`}
+              title={`COE Overview - ${SITE_TITLE}`}
+            />
+          </PageHeader>
+        </AnimatedSection>
 
-        <Typography.H2>Latest COE Results</Typography.H2>
+        <AnimatedSection order={1}>
+          <div className="flex flex-col gap-4">
+            <Typography.H2>Latest COE Results</Typography.H2>
 
-        {/* ROW 1: Hero Metrics - 5 Category Cards */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          <LatestCoePremium results={latestResults} trends={coeTrends} />
-        </div>
+            {/* ROW 1: Hero Metrics - 5 Category Cards */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              <LatestCoePremium results={latestResults} trends={coeTrends} />
+            </div>
+          </div>
+        </AnimatedSection>
 
         {/* ROW 2: Key Insights */}
-        {keyInsights.length > 0 && <KeyInsights insights={keyInsights} />}
+        {keyInsights.length > 0 && (
+          <AnimatedSection order={2}>
+            <KeyInsights insights={keyInsights} />
+          </AnimatedSection>
+        )}
 
         {/* ROW 3: Bento Grid - Fun Facts + PQP Rates side by side */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Fun Facts Card */}
-          <Card className="rounded-2xl p-3">
-            <CardHeader className="flex flex-col items-start gap-2">
-              <Typography.H4>Category A vs B</Typography.H4>
-              <Typography.TextSm>
-                Will the premium quota of Category A ever surpass Category B?
-              </Typography.TextSm>
-            </CardHeader>
-            <CardBody>
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col gap-2">
-                  <Progress value={categoryAPercentage * 100} size="lg" />
-                  <div className="text-center">
-                    <span className="font-bold text-2xl text-primary tabular-nums">
-                      {formatPercent(categoryAPercentage, {
-                        maximumFractionDigits: 1,
-                      })}
-                    </span>
-                    <Typography.TextSm className="text-default-500">
-                      Category A is{" "}
-                      {formatPercent(categoryAPercentage, {
-                        maximumFractionDigits: 0,
-                      })}{" "}
-                      of Category B
-                    </Typography.TextSm>
+        <AnimatedSection order={3}>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {/* Fun Facts Card */}
+            <Card className="rounded-2xl p-3">
+              <CardHeader className="flex flex-col items-start gap-2">
+                <Typography.H4>Category A vs B</Typography.H4>
+                <Typography.TextSm>
+                  Will the premium quota of Category A ever surpass Category B?
+                </Typography.TextSm>
+              </CardHeader>
+              <CardBody>
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-2">
+                    <Progress value={categoryAPercentage * 100} size="lg" />
+                    <div className="text-center">
+                      <span className="font-bold text-2xl text-primary tabular-nums">
+                        {formatPercent(categoryAPercentage, {
+                          maximumFractionDigits: 1,
+                        })}
+                      </span>
+                      <Typography.TextSm className="text-default-500">
+                        Category A is{" "}
+                        {formatPercent(categoryAPercentage, {
+                          maximumFractionDigits: 0,
+                        })}{" "}
+                        of Category B
+                      </Typography.TextSm>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </CardBody>
-          </Card>
+              </CardBody>
+            </Card>
 
-          {/* Latest PQP Rates Card */}
-          <Card className="rounded-2xl p-3">
-            <CardHeader className="flex flex-col items-start gap-2">
-              <Typography.H4>Latest PQP Rates</Typography.H4>
-              <Typography.TextSm>
-                {latestPqpMonth &&
-                  `Prevailing Quota Premium for ${formatDateToMonthYear(latestPqpMonth)}`}
-              </Typography.TextSm>
-            </CardHeader>
-            <CardBody>
-              <div className="grid grid-cols-2 gap-4">
-                {Object.entries(latestPqpRates)
-                  .filter(([key]) =>
-                    [
-                      "Category A",
-                      "Category B",
-                      "Category C",
-                      "Category D",
-                    ].includes(key),
-                  )
-                  .map(([category, rate]) => (
-                    <div key={category} className="flex flex-col gap-1">
-                      <Typography.TextSm className="text-default-500">
-                        {category}
-                      </Typography.TextSm>
-                      <span className="font-bold text-primary text-xl tabular-nums">
-                        <AnimatedNumber value={rate} format="currency" />
-                      </span>
-                    </div>
-                  ))}
-              </div>
-            </CardBody>
-            <CardFooter className="flex-col items-start gap-2">
-              <Typography.Caption>
-                Note: There is no PQP for Category E
-              </Typography.Caption>
-              <Link href="/coe/pqp" className="w-full">
-                <Button color="primary" className="w-full rounded-full">
-                  View All PQP Rates
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-        </div>
+            {/* Latest PQP Rates Card */}
+            <Card className="rounded-2xl p-3">
+              <CardHeader className="flex flex-col items-start gap-2">
+                <Typography.H4>Latest PQP Rates</Typography.H4>
+                <Typography.TextSm>
+                  {latestPqpMonth &&
+                    `Prevailing Quota Premium for ${formatDateToMonthYear(latestPqpMonth)}`}
+                </Typography.TextSm>
+              </CardHeader>
+              <CardBody>
+                <div className="grid grid-cols-2 gap-4">
+                  {Object.entries(latestPqpRates)
+                    .filter(([key]) =>
+                      [
+                        "Category A",
+                        "Category B",
+                        "Category C",
+                        "Category D",
+                      ].includes(key),
+                    )
+                    .map(([category, rate]) => (
+                      <div key={category} className="flex flex-col gap-1">
+                        <Typography.TextSm className="text-default-500">
+                          {category}
+                        </Typography.TextSm>
+                        <span className="font-bold text-primary text-xl tabular-nums">
+                          <AnimatedNumber value={rate} format="currency" />
+                        </span>
+                      </div>
+                    ))}
+                </div>
+              </CardBody>
+              <CardFooter className="flex-col items-start gap-2">
+                <Typography.Caption>
+                  Note: There is no PQP for Category E
+                </Typography.Caption>
+                <Link href="/coe/pqp" className="w-full">
+                  <Button color="primary" className="w-full rounded-full">
+                    View All PQP Rates
+                  </Button>
+                </Link>
+              </CardFooter>
+            </Card>
+          </div>
+        </AnimatedSection>
 
         {/* ROW 4: Premium Ranges - 5 Column Grid */}
-        <div className="flex flex-col gap-4">
-          <Typography.H2>Premium Ranges</Typography.H2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-            <PremiumRangeCard stats={premiumRangeStats} />
+        <AnimatedSection order={4}>
+          <div className="flex flex-col gap-4">
+            <Typography.H2>Premium Ranges</Typography.H2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+              <PremiumRangeCard stats={premiumRangeStats} />
+            </div>
           </div>
-        </div>
+        </AnimatedSection>
       </div>
     </>
   );

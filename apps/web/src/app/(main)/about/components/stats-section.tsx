@@ -3,9 +3,12 @@
 import { Card, CardBody } from "@heroui/card";
 import { AnimatedNumber } from "@web/components/animated-number";
 import Typography from "@web/components/typography";
+import {
+  staggerContainerVariants,
+  staggerItemVariants,
+} from "@web/config/animations";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { staggerContainerVariants, staggerItemVariants } from "./variants";
 
 interface StatItemProps {
   value: number;

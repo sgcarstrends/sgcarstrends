@@ -1,4 +1,5 @@
 import { AnnualRegistrationsChart } from "@web/app/(main)/(dashboard)/annual/components/annual-registrations-chart";
+import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { KeyStatisticsSection } from "@web/app/(main)/(dashboard)/components/key-statistics-section";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
@@ -47,25 +48,31 @@ const AnnualPage = async () => {
     <>
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-10">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <Typography.H1>Annual Registrations</Typography.H1>
-            <ShareButtons
-              url={`${SITE_URL}/annual`}
-              title={`Annual Car Registrations - ${SITE_TITLE}`}
-            />
+        <AnimatedSection order={0}>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <Typography.H1>Annual Registrations</Typography.H1>
+              <ShareButtons
+                url={`${SITE_URL}/annual`}
+                title={`Annual Car Registrations - ${SITE_TITLE}`}
+              />
+            </div>
+            <Typography.TextLg className="text-default-500">
+              Yearly car registration statistics and trends in Singapore.
+            </Typography.TextLg>
           </div>
-          <Typography.TextLg className="text-default-500">
-            Yearly car registration statistics and trends in Singapore.
-          </Typography.TextLg>
-        </div>
+        </AnimatedSection>
 
-        <AnnualRegistrationsChart
-          data={yearlyData}
-          availableYears={availableYears}
-        />
+        <AnimatedSection order={1}>
+          <AnnualRegistrationsChart
+            data={yearlyData}
+            availableYears={availableYears}
+          />
+        </AnimatedSection>
 
-        <KeyStatisticsSection />
+        <AnimatedSection order={2}>
+          <KeyStatisticsSection />
+        </AnimatedSection>
       </section>
     </>
   );

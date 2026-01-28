@@ -1,6 +1,7 @@
 import type { CarLogo } from "@logos/types";
 import { redis } from "@sgcarstrends/utils";
 import { MakesDashboard } from "@web/app/(main)/(dashboard)/cars/components/makes";
+import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
@@ -93,33 +94,37 @@ const CarMakesPage = async ({ searchParams }: PageProps) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-4">
-        <PageHeader
-          title="Makes"
-          subtitle="List of car makes registered in Singapore."
-          lastUpdated={lastUpdated}
-          months={months}
-        >
-          <ShareButtons
-            url={
-              selectedMakeSlug
-                ? `${SITE_URL}/cars/makes?make=${selectedMakeSlug}`
-                : `${SITE_URL}/cars/makes`
-            }
-            title={
-              selectedMakeData
-                ? `${selectedMakeData.make} Cars - ${SITE_TITLE}`
-                : `Car Makes - ${SITE_TITLE}`
-            }
-          />
-        </PageHeader>
-        <Suspense fallback={null}>
-          <MakesDashboard
-            makes={makes}
-            popularMakes={popular}
-            logos={logos}
-            selectedMakeData={selectedMakeData}
-          />
-        </Suspense>
+        <AnimatedSection order={0}>
+          <PageHeader
+            title="Makes"
+            subtitle="List of car makes registered in Singapore."
+            lastUpdated={lastUpdated}
+            months={months}
+          >
+            <ShareButtons
+              url={
+                selectedMakeSlug
+                  ? `${SITE_URL}/cars/makes?make=${selectedMakeSlug}`
+                  : `${SITE_URL}/cars/makes`
+              }
+              title={
+                selectedMakeData
+                  ? `${selectedMakeData.make} Cars - ${SITE_TITLE}`
+                  : `Car Makes - ${SITE_TITLE}`
+              }
+            />
+          </PageHeader>
+        </AnimatedSection>
+        <AnimatedSection order={1}>
+          <Suspense fallback={null}>
+            <MakesDashboard
+              makes={makes}
+              popularMakes={popular}
+              logos={logos}
+              selectedMakeData={selectedMakeData}
+            />
+          </Suspense>
+        </AnimatedSection>
       </div>
     </>
   );

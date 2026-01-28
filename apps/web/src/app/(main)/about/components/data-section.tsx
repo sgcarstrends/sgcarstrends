@@ -2,14 +2,14 @@
 
 import { Card, CardBody } from "@heroui/card";
 import Typography from "@web/components/typography";
-import { motion } from "framer-motion";
-import { Database, RefreshCw, Shield } from "lucide-react";
-import Link from "next/link";
 import {
   fadeInUpVariants,
   staggerContainerVariants,
   staggerItemVariants,
-} from "./variants";
+} from "@web/config/animations";
+import { motion } from "framer-motion";
+import { Database, RefreshCw, Shield } from "lucide-react";
+import Link from "next/link";
 
 const features = [
   {

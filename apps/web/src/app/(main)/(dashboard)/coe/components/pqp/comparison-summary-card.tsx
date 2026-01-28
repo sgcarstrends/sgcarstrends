@@ -3,6 +3,10 @@
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { AnimatedNumber } from "@web/components/animated-number";
+import {
+  staggerContainerVariants,
+  staggerItemVariants,
+} from "@web/config/animations";
 import type { Pqp } from "@web/types/coe";
 import { motion } from "framer-motion";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
@@ -12,38 +16,19 @@ interface ComparisonSummaryCardProps {
 }
 
 export function ComparisonSummaryCard({ data }: ComparisonSummaryCardProps) {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
   return (
     <motion.div
       className="grid grid-cols-1 gap-4 sm:grid-cols-2"
-      variants={containerVariants}
+      variants={staggerContainerVariants}
       initial="hidden"
       animate="visible"
     >
-      {data.map((item, index) => {
+      {data.map((item) => {
         const isPQPLower = item.differencePercent > 0;
         const isPQPHigher = item.differencePercent < 0;
 
         return (
-          <motion.div
-            key={item.category}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.4,
-              delay: index * 0.1,
-              ease: [0.4, 0, 0.2, 1],
-            }}
-          >
+          <motion.div key={item.category} variants={staggerItemVariants}>
             <Card className="rounded-2xl p-3">
               <CardHeader>
                 <div className="font-bold text-lg">{item.category}</div>

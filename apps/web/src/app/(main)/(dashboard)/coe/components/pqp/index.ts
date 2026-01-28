@@ -1,4 +1,3 @@
-export { AnimatedSection } from "./animated-section";
 export { ComparisonMixedChart } from "./comparison-mixed-chart";
 export { ComparisonSummaryCard } from "./comparison-summary-card";
 export { DataTable } from "./data-table";

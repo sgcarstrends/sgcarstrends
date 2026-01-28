@@ -6,6 +6,7 @@ import { CategoryTrendsTable } from "@web/app/(main)/(dashboard)/cars/deregistra
 import { toPercentageDistribution } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/constants";
 import { TrendsChart } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/trends-chart";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/deregistrations/search-params";
+import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
@@ -182,88 +183,101 @@ const DeregistrationsPage = async ({ searchParams }: PageProps) => {
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-8">
         {/* Header */}
-        <PageHeader
-          title="Vehicle Deregistrations"
-          subtitle="Monthly vehicle deregistrations and scrapping trends in Singapore."
-        >
-          <ShareButtons
-            url={`${SITE_URL}/cars/deregistrations`}
-            title={`Vehicle Deregistrations - ${SITE_TITLE}`}
-          />
-        </PageHeader>
+        <AnimatedSection order={0}>
+          <PageHeader
+            title="Vehicle Deregistrations"
+            subtitle="Monthly vehicle deregistrations and scrapping trends in Singapore."
+          >
+            <ShareButtons
+              url={`${SITE_URL}/cars/deregistrations`}
+              title={`Vehicle Deregistrations - ${SITE_TITLE}`}
+            />
+          </PageHeader>
+        </AnimatedSection>
 
         {/* Interactive Category Chart */}
-        <CategoryChart data={allDeregistrations} months={months} />
+        <AnimatedSection order={1}>
+          <CategoryChart data={allDeregistrations} months={months} />
+        </AnimatedSection>
 
         {/* Metrics Bar - All in one row */}
-        <section>
-          <Card className="bg-default-50 p-3">
-            <CardBody className="p-4">
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
-                {/* Total */}
-                <div className="col-span-2 border-default-200 sm:col-span-1 sm:border-r sm:pr-4">
-                  <div className="flex flex-col gap-2">
-                    <span className="font-medium text-default-500 text-xs uppercase tracking-wider">
-                      Total
-                    </span>
-                    <div className="font-bold text-3xl text-foreground">
-                      {formatNumber(totalDeregistrations)}
-                    </div>
-                    {previousMonthTotal !== undefined && (
-                      <span
-                        className={`text-xs ${totalDeregistrations > previousTotal ? "text-danger" : "text-success"}`}
-                      >
-                        {totalDeregistrations > previousTotal ? "▲" : "▼"}{" "}
-                        {formatNumber(
-                          Math.abs(totalDeregistrations - previousTotal),
-                        )}
+        <AnimatedSection order={2}>
+          <section>
+            <Card className="bg-default-50 p-3">
+              <CardBody className="p-4">
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
+                  {/* Total */}
+                  <div className="col-span-2 border-default-200 sm:col-span-1 sm:border-r sm:pr-4">
+                    <div className="flex flex-col gap-2">
+                      <span className="font-medium text-default-500 text-xs uppercase tracking-wider">
+                        Total
                       </span>
-                    )}
+                      <div className="font-bold text-3xl text-foreground">
+                        {formatNumber(totalDeregistrations)}
+                      </div>
+                      {previousMonthTotal !== undefined && (
+                        <span
+                          className={`text-xs ${totalDeregistrations > previousTotal ? "text-danger" : "text-success"}`}
+                        >
+                          {totalDeregistrations > previousTotal ? "▲" : "▼"}{" "}
+                          {formatNumber(
+                            Math.abs(totalDeregistrations - previousTotal),
+                          )}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                {/* Category metrics */}
-                {categoryCardsData.map((cat) => (
-                  <div key={cat.category} className="flex flex-col gap-2">
-                    <span className="truncate font-medium text-default-500 text-xs uppercase tracking-wider">
-                      {cat.category
-                        .replace("Category ", "Cat ")
-                        .replace("Vehicles Exempted From VQS", "VQS")}
-                    </span>
-                    <div className="font-bold text-foreground text-xl">
-                      {formatNumber(cat.total)}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="h-1.5 w-8 rounded-full"
-                        style={{ backgroundColor: cat.colour }}
-                      />
-                      <span className="text-default-400 text-xs">
-                        {((cat.total / totalDeregistrations) * 100).toFixed(0)}%
+                  {/* Category metrics */}
+                  {categoryCardsData.map((cat) => (
+                    <div key={cat.category} className="flex flex-col gap-2">
+                      <span className="truncate font-medium text-default-500 text-xs uppercase tracking-wider">
+                        {cat.category
+                          .replace("Category ", "Cat ")
+                          .replace("Vehicles Exempted From VQS", "VQS")}
                       </span>
+                      <div className="font-bold text-foreground text-xl">
+                        {formatNumber(cat.total)}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="h-1.5 w-8 rounded-full"
+                          style={{ backgroundColor: cat.colour }}
+                        />
+                        <span className="text-default-400 text-xs">
+                          {((cat.total / totalDeregistrations) * 100).toFixed(
+                            0,
+                          )}
+                          %
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </CardBody>
-          </Card>
-        </section>
+                  ))}
+                </div>
+              </CardBody>
+            </Card>
+          </section>
+        </AnimatedSection>
 
         {/* Charts - Side by side on desktop */}
-        <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          {/* Trends Chart - Larger */}
-          <div className="lg:col-span-2">
-            <TrendsChart data={trendsData} />
-          </div>
+        <AnimatedSection order={3}>
+          <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            {/* Trends Chart - Larger */}
+            <div className="lg:col-span-2">
+              <TrendsChart data={trendsData} />
+            </div>
 
-          {/* Category Breakdown - Compact */}
-          <div className="lg:col-span-1">
-            <CategoryBreakdown data={categoryBreakdownData} />
-          </div>
-        </section>
+            {/* Category Breakdown - Compact */}
+            <div className="lg:col-span-1">
+              <CategoryBreakdown data={categoryBreakdownData} />
+            </div>
+          </section>
+        </AnimatedSection>
 
         {/* Sparklines Table */}
-        <CategoryTrendsTable data={categoryCardsData} />
+        <AnimatedSection order={4}>
+          <CategoryTrendsTable data={categoryCardsData} />
+        </AnimatedSection>
       </div>
     </>
   );

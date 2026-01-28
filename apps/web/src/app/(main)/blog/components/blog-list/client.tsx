@@ -3,6 +3,10 @@
 import { Tab, Tabs } from "@heroui/tabs";
 import type { SelectPost } from "@sgcarstrends/database";
 import { Post } from "@web/app/(main)/blog/components/post";
+import {
+  staggerContainerVariants,
+  staggerItemVariants,
+} from "@web/config/animations";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 
@@ -28,22 +32,18 @@ const tabLabels: Record<string, string> = {
 
 const PostsGrid = ({ posts }: PostsGridProps) => {
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {posts.map((post, index) => (
-        <motion.div
-          key={post.id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.5,
-            delay: index * 0.1,
-            ease: "easeOut",
-          }}
-        >
+    <motion.div
+      className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+      variants={staggerContainerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {posts.map((post) => (
+        <motion.div key={post.id} variants={staggerItemVariants}>
           <Post.Card post={post} />
         </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 };
 
@@ -93,27 +93,25 @@ export function BlogListClient({ posts, counts }: BlogListClientProps) {
       </Tabs>
 
       {heroPost && (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <motion.div
-            className="lg:col-span-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
+        <motion.div
+          className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+          variants={staggerContainerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div className="lg:col-span-2" variants={staggerItemVariants}>
             <Post.Hero post={heroPost} />
           </motion.div>
 
           {secondPost && (
             <motion.div
               className="lg:col-span-1"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              variants={staggerItemVariants}
             >
               <Post.Card post={secondPost} />
             </motion.div>
           )}
-        </div>
+        </motion.div>
       )}
 
       {remainingPosts.length > 0 && <PostsGrid posts={remainingPosts} />}

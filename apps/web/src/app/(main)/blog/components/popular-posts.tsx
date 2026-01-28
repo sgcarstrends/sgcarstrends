@@ -2,6 +2,11 @@
 
 import { Link } from "@heroui/link";
 import type { SelectPost } from "@sgcarstrends/database";
+import {
+  fadeInVariants,
+  staggerContainerVariants,
+  staggerItemVariants,
+} from "@web/config/animations";
 import { motion } from "framer-motion";
 import { Flame, TrendingUp } from "lucide-react";
 import Image from "next/image";
@@ -31,9 +36,9 @@ export function PopularPosts({ posts }: PopularPostsProps) {
     <section className="flex flex-col gap-4">
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
+        variants={fadeInVariants}
+        initial="hidden"
+        animate="visible"
         className="flex items-center gap-2"
       >
         <Flame className="size-4 text-orange-500" />
@@ -43,18 +48,14 @@ export function PopularPosts({ posts }: PopularPostsProps) {
       </motion.div>
 
       {/* Posts Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+      <motion.div
+        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
+        variants={staggerContainerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {posts.map((post, index) => (
-          <motion.div
-            key={post.id}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.4,
-              delay: index * 0.06,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            }}
-          >
+          <motion.div key={post.id} variants={staggerItemVariants}>
             <Link
               href={`/blog/${post.slug}`}
               className="group relative flex h-full overflow-hidden rounded-xl border border-default-200 bg-default-50 transition-all duration-300 hover:border-default-300 hover:shadow-lg"
@@ -91,7 +92,7 @@ export function PopularPosts({ posts }: PopularPostsProps) {
             </Link>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }

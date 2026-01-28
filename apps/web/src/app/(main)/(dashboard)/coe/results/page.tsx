@@ -2,6 +2,7 @@ import { Card, CardBody, CardHeader } from "@heroui/card";
 import { BiddingRoundCards } from "@web/app/(main)/(dashboard)/coe/components/bidding-round-cards";
 import { COEPremiumChart } from "@web/app/(main)/(dashboard)/coe/components/premium-chart";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/coe/search-params";
+import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
@@ -73,43 +74,51 @@ const COEResultsPage = async ({ searchParams }: PageProps) => {
     <>
       <StructuredData data={structuredData} />
       <div className="flex flex-col gap-6">
-        <PageHeader
-          title="COE Results"
-          subtitle="Historical COE bidding results by category and month."
-          lastUpdated={lastUpdated}
-          months={months}
-          showMonthSelector
-        >
-          <ShareButtons
-            url={`${SITE_URL}/coe/results`}
-            title={`COE Results - ${SITE_TITLE}`}
-          />
-        </PageHeader>
+        <AnimatedSection order={0}>
+          <PageHeader
+            title="COE Results"
+            subtitle="Historical COE bidding results by category and month."
+            lastUpdated={lastUpdated}
+            months={months}
+            showMonthSelector
+          >
+            <ShareButtons
+              url={`${SITE_URL}/coe/results`}
+              title={`COE Results - ${SITE_TITLE}`}
+            />
+          </PageHeader>
+        </AnimatedSection>
 
         {/* Bidding Rounds for Current Month */}
         {firstRound.length > 0 && (
-          <BiddingRoundCards
-            month={biddingMonth}
-            firstRound={firstRound}
-            secondRound={secondRound}
-          />
+          <AnimatedSection order={1}>
+            <BiddingRoundCards
+              month={biddingMonth}
+              firstRound={firstRound}
+              secondRound={secondRound}
+            />
+          </AnimatedSection>
         )}
 
         {/* Premium Chart - Full Width */}
-        <COEPremiumChart data={chartData} />
+        <AnimatedSection order={2}>
+          <COEPremiumChart data={chartData} />
+        </AnimatedSection>
 
         {/* Historical Data Table - Full Width */}
-        <Card className="rounded-2xl p-3">
-          <CardHeader className="flex flex-col items-start gap-2">
-            <Typography.H4>Historical Data</Typography.H4>
-            <Typography.TextSm>
-              Complete list of historical COE prices
-            </Typography.TextSm>
-          </CardHeader>
-          <CardBody>
-            <TrendTable coeResults={coeResults} />
-          </CardBody>
-        </Card>
+        <AnimatedSection order={3}>
+          <Card className="rounded-2xl p-3">
+            <CardHeader className="flex flex-col items-start gap-2">
+              <Typography.H4>Historical Data</Typography.H4>
+              <Typography.TextSm>
+                Complete list of historical COE prices
+              </Typography.TextSm>
+            </CardHeader>
+            <CardBody>
+              <TrendTable coeResults={coeResults} />
+            </CardBody>
+          </Card>
+        </AnimatedSection>
       </div>
     </>
   );

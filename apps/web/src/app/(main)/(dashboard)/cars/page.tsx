@@ -2,6 +2,7 @@ import { CategoryTabs } from "@web/app/(main)/(dashboard)/cars/category-tabs";
 import { TopMakes } from "@web/app/(main)/(dashboard)/cars/components/top-makes";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params";
 import { TrendsCompareButton } from "@web/app/(main)/(dashboard)/cars/trends-compare-button";
+import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { MetricCard } from "@web/components/shared/metric-card";
@@ -109,22 +110,26 @@ const CarsPage = async ({
         data={{ "@context": "https://schema.org", ...generateDatasetSchema() }}
       />
       <div className="flex flex-col gap-8">
-        <PageHeader
-          title="Car Registrations"
-          subtitle="Monthly new car registrations in Singapore by fuel type and vehicle type."
-          lastUpdated={lastUpdated}
-          months={months}
-          showMonthSelector={true}
-        >
-          <ShareButtons
-            url={`${SITE_URL}/cars?month=${month}`}
-            title={`${formattedMonth} Car Registrations - ${SITE_TITLE}`}
-          />
-        </PageHeader>
+        <AnimatedSection order={0}>
+          <PageHeader
+            title="Car Registrations"
+            subtitle="Monthly new car registrations in Singapore by fuel type and vehicle type."
+            lastUpdated={lastUpdated}
+            months={months}
+            showMonthSelector={true}
+          >
+            <ShareButtons
+              url={`${SITE_URL}/cars?month=${month}`}
+              title={`${formattedMonth} Car Registrations - ${SITE_TITLE}`}
+            />
+          </PageHeader>
+        </AnimatedSection>
 
-        <UnreleasedFeature>
-          <TrendsCompareButton />
-        </UnreleasedFeature>
+        <AnimatedSection order={1}>
+          <UnreleasedFeature>
+            <TrendsCompareButton />
+          </UnreleasedFeature>
+        </AnimatedSection>
 
         {/*TODO: Improvise*/}
         {!cars && (
@@ -134,39 +139,47 @@ const CarsPage = async ({
         )}
         {cars && (
           <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <MetricCard
-                title="Total Registrations"
-                value={cars.total}
-                current={cars.total}
-                previousMonth={comparison.previousMonth.total}
-              />
-              <MetricCard
-                title={`Top Fuel Type: ${topTypes.topFuelType.name}`}
-                value={topTypes.topFuelType.total}
-                current={topTypes.topFuelType.total}
-                previousMonth={
-                  comparison.previousMonth.fuelType.find(
-                    (f) => f.label === topTypes.topFuelType.name,
-                  )?.count ?? 0
-                }
-              />
-              <MetricCard
-                title={`Top Vehicle Type: ${formatVehicleType(topTypes.topVehicleType.name)}`}
-                value={topTypes.topVehicleType.total}
-                current={topTypes.topVehicleType.total}
-                previousMonth={
-                  comparison.previousMonth.vehicleType.find(
-                    (v) => v.label === topTypes.topVehicleType.name,
-                  )?.count ?? 0
-                }
-              />
-            </div>
-            <CategoryTabs cars={cars} />
-            <div className="flex items-center justify-between">
-              <Typography.H2>Top Makes by Fuel Type</Typography.H2>
-            </div>
-            <TopMakes data={topMakes} />
+            <AnimatedSection order={2}>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <MetricCard
+                  title="Total Registrations"
+                  value={cars.total}
+                  current={cars.total}
+                  previousMonth={comparison.previousMonth.total}
+                />
+                <MetricCard
+                  title={`Top Fuel Type: ${topTypes.topFuelType.name}`}
+                  value={topTypes.topFuelType.total}
+                  current={topTypes.topFuelType.total}
+                  previousMonth={
+                    comparison.previousMonth.fuelType.find(
+                      (f) => f.label === topTypes.topFuelType.name,
+                    )?.count ?? 0
+                  }
+                />
+                <MetricCard
+                  title={`Top Vehicle Type: ${formatVehicleType(topTypes.topVehicleType.name)}`}
+                  value={topTypes.topVehicleType.total}
+                  current={topTypes.topVehicleType.total}
+                  previousMonth={
+                    comparison.previousMonth.vehicleType.find(
+                      (v) => v.label === topTypes.topVehicleType.name,
+                    )?.count ?? 0
+                  }
+                />
+              </div>
+            </AnimatedSection>
+            <AnimatedSection order={3}>
+              <CategoryTabs cars={cars} />
+            </AnimatedSection>
+            <AnimatedSection order={4}>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between">
+                  <Typography.H2>Top Makes by Fuel Type</Typography.H2>
+                </div>
+                <TopMakes data={topMakes} />
+              </div>
+            </AnimatedSection>
           </div>
         )}
       </div>

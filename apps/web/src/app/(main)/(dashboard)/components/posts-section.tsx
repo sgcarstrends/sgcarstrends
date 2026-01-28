@@ -9,7 +9,7 @@ async function PostsSectionContent() {
 
 function PostsSectionSkeleton() {
   return (
-    <div className="col-span-12 rounded-3xl bg-white p-6 md:col-span-6 lg:col-span-8">
+    <div className="rounded-3xl bg-white p-6">
       <div className="mb-5 flex items-center justify-between">
         <div className="h-6 w-28 animate-pulse rounded bg-default-200" />
         <div className="h-4 w-16 animate-pulse rounded bg-default-200" />

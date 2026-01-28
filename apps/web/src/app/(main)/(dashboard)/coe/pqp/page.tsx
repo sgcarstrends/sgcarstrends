@@ -1,12 +1,12 @@
 import { redis } from "@sgcarstrends/utils";
 import {
-  AnimatedSection,
   ComparisonMixedChart,
   ComparisonSummaryCard,
   DataTable,
   RenewalCalculator,
   TrendsChart,
 } from "@web/app/(main)/(dashboard)/coe/components/pqp";
+import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { StructuredData } from "@web/components/structured-data";
