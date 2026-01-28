@@ -68,9 +68,9 @@ describe("COE queries", () => {
   });
 
   it("should return COE results by period with correct cache tag", async () => {
-    // First call: selectDistinct for months
-    queueSelectDistinct([{ month: "2024-05" }, { month: "2024-01" }]);
-    // Second call: select for filtered results
+    // Batch call: max(month) and min(month)
+    queueSelect([{ month: "2024-05" }], [{ month: "2024-01" }]);
+    // Final select for filtered results
     queueSelect([{ id: 2 }]);
 
     const result = await getCoeResultsByPeriod("12m");
@@ -80,7 +80,8 @@ describe("COE queries", () => {
   });
 
   it("should return empty array when no months available", async () => {
-    queueSelectDistinct([]);
+    // Batch call: max(month) and min(month) return null
+    queueSelect([{ month: null }], [{ month: null }]);
 
     const result = await getCoeResultsByPeriod("12m");
 
@@ -88,7 +89,9 @@ describe("COE queries", () => {
   });
 
   it("should use default period of 12m when not specified", async () => {
-    queueSelectDistinct([{ month: "2024-05" }, { month: "2024-01" }]);
+    // Batch call: max(month) and min(month)
+    queueSelect([{ month: "2024-05" }], [{ month: "2024-01" }]);
+    // Final select for filtered results
     queueSelect([{ id: 3 }]);
 
     await getCoeResultsByPeriod();

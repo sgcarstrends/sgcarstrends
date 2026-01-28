@@ -3,25 +3,6 @@ import { and, desc, gt, ilike, max, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 /**
- * Get the latest year from car registration data
- */
-const getLatestYear = async (): Promise<string> => {
-  const [result] = await db
-    .select({
-      latestMonth: max(cars.month),
-    })
-    .from(cars);
-
-  const latestMonth = result.latestMonth;
-  if (!latestMonth) {
-    // Fallback to current year if no data
-    return new Date().getFullYear().toString();
-  }
-
-  return latestMonth.split("-")[0];
-};
-
-/**
  * Get popular car makes based on annual registration totals
  */
 const getPopularMakesByYearData = async (year: string, limit: number = 8) => {
@@ -49,6 +30,19 @@ export async function getPopularMakes(year?: string) {
     cacheTag(`cars:year:${year}`);
   }
 
-  const targetYear = year ?? (await getLatestYear());
+  if (year) {
+    return getPopularMakesByYearData(year, 8);
+  }
+
+  const [latestMonthResult] = await db
+    .select({ latestMonth: max(cars.month) })
+    .from(cars);
+
+  const latestMonth = latestMonthResult.latestMonth;
+  if (!latestMonth) {
+    return [];
+  }
+
+  const targetYear = latestMonth.split("-")[0];
   return getPopularMakesByYearData(targetYear, 8);
 }
