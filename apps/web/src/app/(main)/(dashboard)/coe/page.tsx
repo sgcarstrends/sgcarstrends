@@ -8,6 +8,8 @@ import { AnimatedNumber } from "@web/components/animated-number";
 import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
+import { PageContext } from "@web/components/shared/page-context";
+import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -101,6 +103,10 @@ const COEOverviewPage = async () => {
         </AnimatedSection>
 
         <AnimatedSection order={1}>
+          <PageContext {...PAGE_CONTEXTS.coe} />
+        </AnimatedSection>
+
+        <AnimatedSection order={2}>
           <div className="flex flex-col gap-4">
             <Typography.H2>Latest COE Results</Typography.H2>
 
@@ -113,13 +119,13 @@ const COEOverviewPage = async () => {
 
         {/* ROW 2: Key Insights */}
         {keyInsights.length > 0 && (
-          <AnimatedSection order={2}>
+          <AnimatedSection order={3}>
             <KeyInsights insights={keyInsights} />
           </AnimatedSection>
         )}
 
         {/* ROW 3: Bento Grid - Fun Facts + PQP Rates side by side */}
-        <AnimatedSection order={3}>
+        <AnimatedSection order={4}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Fun Facts Card */}
             <Card className="rounded-2xl p-3">
@@ -199,7 +205,7 @@ const COEOverviewPage = async () => {
         </AnimatedSection>
 
         {/* ROW 4: Premium Ranges - 5 Column Grid */}
-        <AnimatedSection order={4}>
+        <AnimatedSection order={5}>
           <div className="flex flex-col gap-4">
             <Typography.H2>Premium Ranges</Typography.H2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">

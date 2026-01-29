@@ -13,6 +13,8 @@ import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { MonthSelector } from "@web/components/shared/month-selector";
+import { PageContext } from "@web/components/shared/page-context";
+import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -215,13 +217,17 @@ const DeregistrationsPage = async ({ searchParams }: PageProps) => {
           </PageHeader>
         </AnimatedSection>
 
-        {/* Interactive Category Chart */}
         <AnimatedSection order={1}>
+          <PageContext {...PAGE_CONTEXTS.deregistrations} />
+        </AnimatedSection>
+
+        {/* Interactive Category Chart */}
+        <AnimatedSection order={2}>
           <CategoryChart data={allDeregistrations} months={months} />
         </AnimatedSection>
 
         {/* Metrics Bar - All in one row */}
-        <AnimatedSection order={2}>
+        <AnimatedSection order={3}>
           <section>
             <Card className="bg-default-50 p-3">
               <CardBody className="p-4">
@@ -280,7 +286,7 @@ const DeregistrationsPage = async ({ searchParams }: PageProps) => {
         </AnimatedSection>
 
         {/* Charts - Side by side on desktop */}
-        <AnimatedSection order={3}>
+        <AnimatedSection order={4}>
           <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             {/* Trends Chart - Larger */}
             <div className="lg:col-span-2">
@@ -295,7 +301,7 @@ const DeregistrationsPage = async ({ searchParams }: PageProps) => {
         </AnimatedSection>
 
         {/* Sparklines Table */}
-        <AnimatedSection order={4}>
+        <AnimatedSection order={5}>
           <CategoryTrendsTable data={categoryCardsData} />
         </AnimatedSection>
       </div>

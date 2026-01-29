@@ -7,6 +7,8 @@ import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { MetricCard } from "@web/components/shared/metric-card";
 import { MonthSelector } from "@web/components/shared/month-selector";
+import { PageContext } from "@web/components/shared/page-context";
+import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
@@ -144,6 +146,10 @@ const CarsPage = async ({
         </AnimatedSection>
 
         <AnimatedSection order={1}>
+          <PageContext {...PAGE_CONTEXTS.cars} />
+        </AnimatedSection>
+
+        <AnimatedSection order={2}>
           <UnreleasedFeature>
             <TrendsCompareButton />
           </UnreleasedFeature>
@@ -157,7 +163,7 @@ const CarsPage = async ({
         )}
         {cars && (
           <div className="flex flex-col gap-4">
-            <AnimatedSection order={2}>
+            <AnimatedSection order={3}>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <MetricCard
                   title="Total Registrations"
@@ -187,10 +193,10 @@ const CarsPage = async ({
                 />
               </div>
             </AnimatedSection>
-            <AnimatedSection order={3}>
+            <AnimatedSection order={4}>
               <CategoryTabs cars={cars} />
             </AnimatedSection>
-            <AnimatedSection order={4}>
+            <AnimatedSection order={5}>
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <Typography.H2>Top Makes by Fuel Type</Typography.H2>

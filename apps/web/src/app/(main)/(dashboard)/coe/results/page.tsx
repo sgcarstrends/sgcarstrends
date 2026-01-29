@@ -6,6 +6,8 @@ import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { MonthSelector } from "@web/components/shared/month-selector";
+import { PageContext } from "@web/components/shared/page-context";
+import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
 import Typography from "@web/components/typography";
@@ -92,9 +94,13 @@ const COEResultsPage = async ({ searchParams }: PageProps) => {
           </PageHeader>
         </AnimatedSection>
 
+        <AnimatedSection order={1}>
+          <PageContext {...PAGE_CONTEXTS.coe} />
+        </AnimatedSection>
+
         {/* Bidding Rounds for Current Month */}
         {firstRound.length > 0 && (
-          <AnimatedSection order={1}>
+          <AnimatedSection order={2}>
             <BiddingRoundCards
               month={biddingMonth}
               firstRound={firstRound}
@@ -104,12 +110,12 @@ const COEResultsPage = async ({ searchParams }: PageProps) => {
         )}
 
         {/* Premium Chart - Full Width */}
-        <AnimatedSection order={2}>
+        <AnimatedSection order={3}>
           <COEPremiumChart data={chartData} />
         </AnimatedSection>
 
         {/* Historical Data Table - Full Width */}
-        <AnimatedSection order={3}>
+        <AnimatedSection order={4}>
           <Card className="rounded-2xl p-3">
             <CardHeader className="flex flex-col items-start gap-2">
               <Typography.H4>Historical Data</Typography.H4>

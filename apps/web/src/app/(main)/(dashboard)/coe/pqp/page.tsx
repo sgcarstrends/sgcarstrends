@@ -10,6 +10,8 @@ import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { MonthSelector } from "@web/components/shared/month-selector";
+import { PageContext } from "@web/components/shared/page-context";
+import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
@@ -97,21 +99,25 @@ const PQPRatesPage = async ({
         </AnimatedSection>
 
         <AnimatedSection order={1}>
-          <ComparisonSummaryCard data={overview.comparison} />
+          <PageContext {...PAGE_CONTEXTS.pqp} />
         </AnimatedSection>
 
         <AnimatedSection order={2}>
+          <ComparisonSummaryCard data={overview.comparison} />
+        </AnimatedSection>
+
+        <AnimatedSection order={3}>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <TrendsChart data={overview.trendData} />
             <ComparisonMixedChart data={overview.comparison} />
           </div>
         </AnimatedSection>
 
-        <AnimatedSection order={3}>
+        <AnimatedSection order={4}>
           <DataTable rows={overview.tableRows} columns={columns} />
         </AnimatedSection>
 
-        <AnimatedSection order={4}>
+        <AnimatedSection order={5}>
           <UnreleasedFeature>
             <RenewalCalculator data={overview.categorySummaries} />
           </UnreleasedFeature>
