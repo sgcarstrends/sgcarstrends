@@ -1,4 +1,3 @@
-import type { CarLogo } from "@logos/types";
 import { redis } from "@sgcarstrends/utils";
 import { MakeDetail } from "@web/app/(main)/(dashboard)/cars/components/makes";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
@@ -13,11 +12,16 @@ import {
 import { checkMakeIfExist, getMakeDetails } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import type { Make } from "@web/types";
-import { fetchMonthsForCars } from "@web/utils/dates/months";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
+import { createSerializer, type SearchParams } from "nuqs/server";
+import { loadSearchParams, searchParams } from "./search-params";
+
+const serialize = createSerializer(searchParams);
 
 interface PageProps {
   params: Promise<{ make: Make }>;
+  searchParams: Promise<SearchParams>;
 }
 
 export const generateMetadata = async ({
@@ -40,18 +44,24 @@ export const generateMetadata = async ({
   });
 };
 
-export default async function CarMakePage({ params }: PageProps) {
+export default async function CarMakePage({
+  params,
+  searchParams: searchParamsPromise,
+}: PageProps) {
   const { make } = await params;
+  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
 
-  const [makeExists, makeDetails, lastUpdated, coeComparison, _logo, months] =
-    await Promise.all([
-      checkMakeIfExist(make),
-      getMakeDetails(make),
-      redis.get<number>(LAST_UPDATED_CARS_KEY),
-      getMakeCoeComparison(make),
-      redis.get<CarLogo>(`logo:${make}`),
-      fetchMonthsForCars(),
-    ]);
+  const [makeExists, lastUpdated, coeComparison, months] = await Promise.all([
+    checkMakeIfExist(make),
+    redis.get<number>(LAST_UPDATED_CARS_KEY),
+    getMakeCoeComparison(make),
+    fetchMonthsForCars(),
+  ]);
+
+  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
+  const latestMonth = months[0];
+
+  const makeDetails = await getMakeDetails(make, month);
 
   const makeName = makeExists?.make ?? make.toUpperCase();
   const cars = {
@@ -78,9 +88,12 @@ export default async function CarMakePage({ params }: PageProps) {
             subtitle={`Historical car registration trends and monthly breakdown for ${makeName} vehicles in Singapore.`}
             lastUpdated={lastUpdated}
             months={months}
+            latestMonth={latestMonth}
+            wasAdjusted={wasAdjusted}
+            showMonthSelector={true}
           >
             <ShareButtons
-              url={`${SITE_URL}/cars/makes/${make}`}
+              url={`${SITE_URL}${serialize(`/cars/makes/${make}`, { month })}`}
               title={`${makeName} Cars - ${SITE_TITLE}`}
             />
           </PageHeader>

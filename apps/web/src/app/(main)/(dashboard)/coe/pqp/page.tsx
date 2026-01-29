@@ -15,12 +15,21 @@ import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getPQPOverview } from "@web/queries/coe";
 import type { Pqp } from "@web/types/coe";
+import { fetchMonthsForCOE, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
+import { createSerializer, type SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
+import { loadSearchParams, searchParams } from "./search-params";
+
+const serialize = createSerializer(searchParams);
 
 const title = "COE PQP Rates";
 const description =
   "Latest Prevailing Quota Premium (PQP) rates for COE renewal in Singapore. These rates show the average COE prices over the last 3 months.";
+
+interface PageProps {
+  searchParams: Promise<SearchParams>;
+}
 
 export const generateMetadata = (): Metadata => {
   return createPageMetadata({
@@ -31,10 +40,19 @@ export const generateMetadata = (): Metadata => {
   });
 };
 
-const PQPRatesPage = async () => {
-  const overview = await getPQPOverview();
+const PQPRatesPage = async ({
+  searchParams: searchParamsPromise,
+}: PageProps) => {
+  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
 
-  const lastUpdated = await redis.get<number>(LAST_UPDATED_COE_KEY);
+  const [overview, lastUpdated, months] = await Promise.all([
+    getPQPOverview(),
+    redis.get<number>(LAST_UPDATED_COE_KEY),
+    fetchMonthsForCOE(),
+  ]);
+
+  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "coe");
+  const latestMonth = months[0];
 
   const columns: Pqp.TableColumn[] = [
     { key: "month", label: "Month", sortable: true },
@@ -61,9 +79,13 @@ const PQPRatesPage = async () => {
             title="PQP Rates"
             subtitle="Prevailing Quota Premium rates for COE renewal in Singapore."
             lastUpdated={lastUpdated}
+            months={months}
+            latestMonth={latestMonth}
+            wasAdjusted={wasAdjusted}
+            showMonthSelector={true}
           >
             <ShareButtons
-              url={`${SITE_URL}/coe/pqp`}
+              url={`${SITE_URL}${serialize("/coe/pqp", { month })}`}
               title={`COE PQP Rates - ${SITE_TITLE}`}
             />
           </PageHeader>

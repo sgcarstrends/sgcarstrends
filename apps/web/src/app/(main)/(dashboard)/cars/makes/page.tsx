@@ -14,12 +14,14 @@ import {
   getPopularMakes,
 } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
-import { fetchMonthsForCars } from "@web/utils/dates/months";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
-import type { SearchParams } from "nuqs/server";
+import { createSerializer, type SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
-import { loadSearchParams } from "./search-params";
+import { loadSearchParams, searchParams } from "./search-params";
+
+const serialize = createSerializer(searchParams);
 
 const title = "Makes";
 const description =
@@ -38,7 +40,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const CarMakesPage = async ({ searchParams }: PageProps) => {
-  const { make: selectedMakeSlug, month } =
+  const { make: selectedMakeSlug, month: parsedMonth } =
     await loadSearchParams(searchParams);
   const logos = await redis.get<CarLogo[]>("logos:all");
 
@@ -48,6 +50,9 @@ const CarMakesPage = async ({ searchParams }: PageProps) => {
     fetchMonthsForCars(),
     redis.get<number>(LAST_UPDATED_CARS_KEY),
   ]);
+
+  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
+  const latestMonth = months[0];
 
   const makes = allMakes.map(({ make }) => make);
   const popular = popularMakes.map(({ make }) => make);
@@ -100,13 +105,12 @@ const CarMakesPage = async ({ searchParams }: PageProps) => {
             subtitle="List of car makes registered in Singapore."
             lastUpdated={lastUpdated}
             months={months}
+            latestMonth={latestMonth}
+            wasAdjusted={wasAdjusted}
+            showMonthSelector={true}
           >
             <ShareButtons
-              url={
-                selectedMakeSlug
-                  ? `${SITE_URL}/cars/makes?make=${selectedMakeSlug}`
-                  : `${SITE_URL}/cars/makes`
-              }
+              url={`${SITE_URL}${serialize("/cars/makes", { make: selectedMakeSlug, month })}`}
               title={
                 selectedMakeData
                   ? `${selectedMakeData.make} Cars - ${SITE_TITLE}`

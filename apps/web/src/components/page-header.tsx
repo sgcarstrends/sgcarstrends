@@ -1,6 +1,7 @@
 import { cn } from "@heroui/theme";
 import { LastUpdated } from "@web/components/shared/last-updated";
 import { MonthSelector } from "@web/components/shared/month-selector";
+import { YearSelector } from "@web/components/shared/year-selector";
 import Typography from "@web/components/typography";
 import type { Month } from "@web/types";
 import { type ReactNode, Suspense } from "react";
@@ -15,6 +16,9 @@ interface PageHeaderProps {
   latestMonth?: Month;
   wasAdjusted?: boolean;
   showMonthSelector?: boolean;
+  years?: number[];
+  latestYear?: number;
+  showYearSelector?: boolean;
 }
 
 export function PageHeader({
@@ -27,6 +31,9 @@ export function PageHeader({
   latestMonth,
   wasAdjusted,
   showMonthSelector = false,
+  years,
+  latestYear,
+  showYearSelector = false,
 }: PageHeaderProps) {
   return (
     <div className={cn("flex flex-col gap-2", className)}>
@@ -46,6 +53,15 @@ export function PageHeader({
               <MonthSelector
                 months={months}
                 latestMonth={latestMonth}
+                wasAdjusted={wasAdjusted}
+              />
+            </Suspense>
+          )}
+          {showYearSelector && years && latestYear && (
+            <Suspense fallback={null}>
+              <YearSelector
+                years={years}
+                latestYear={latestYear}
                 wasAdjusted={wasAdjusted}
               />
             </Suspense>

@@ -5,7 +5,10 @@ import { CategoryChart } from "@web/app/(main)/(dashboard)/cars/deregistrations/
 import { CategoryTrendsTable } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/category-trends-table";
 import { toPercentageDistribution } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/constants";
 import { TrendsChart } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/trends-chart";
-import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/deregistrations/search-params";
+import {
+  deregistrationsSearchParams,
+  loadSearchParams,
+} from "@web/app/(main)/(dashboard)/cars/deregistrations/search-params";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
@@ -25,8 +28,10 @@ import {
 } from "@web/utils/dates/months";
 import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import type { Metadata } from "next";
-import type { SearchParams } from "nuqs/server";
+import { createSerializer, type SearchParams } from "nuqs/server";
 import type { WebPage, WithContext } from "schema-dts";
+
+const serialize = createSerializer(deregistrationsSearchParams);
 
 // Data transformation functions
 const SPARKLINE_MONTH_COUNT = 12;
@@ -123,11 +128,13 @@ const DeregistrationsPage = async ({ searchParams }: PageProps) => {
 
   let months: string[] = [];
   let month: string;
+  let wasAdjusted = false;
 
   try {
     months = await fetchMonthsForDeregistrations();
     const result = await getMonthOrLatest(parsedMonth, "deregistrations");
     month = result.month;
+    wasAdjusted = result.wasAdjusted;
   } catch {
     return (
       <div className="flex flex-col gap-4">
@@ -136,6 +143,8 @@ const DeregistrationsPage = async ({ searchParams }: PageProps) => {
       </div>
     );
   }
+
+  const latestMonth = months[0];
 
   const [categories, allDeregistrations] = await Promise.all([
     getDeregistrationsByCategory(month),
@@ -189,9 +198,13 @@ const DeregistrationsPage = async ({ searchParams }: PageProps) => {
           <PageHeader
             title="Vehicle Deregistrations"
             subtitle="Monthly vehicle deregistrations and scrapping trends in Singapore."
+            months={months}
+            latestMonth={latestMonth}
+            wasAdjusted={wasAdjusted}
+            showMonthSelector={true}
           >
             <ShareButtons
-              url={`${SITE_URL}/cars/deregistrations`}
+              url={`${SITE_URL}${serialize("/cars/deregistrations", { month })}`}
               title={`Vehicle Deregistrations - ${SITE_TITLE}`}
             />
           </PageHeader>

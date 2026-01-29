@@ -14,3 +14,4 @@ export {
   SkeletonText,
 } from "./skeleton";
 export { StatCard } from "./stat-card";
+export { YearSelector } from "./year-selector";
