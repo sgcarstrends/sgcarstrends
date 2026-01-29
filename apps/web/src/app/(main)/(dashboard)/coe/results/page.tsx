@@ -80,6 +80,7 @@ const COEResultsPage = async ({ searchParams }: PageProps) => {
             subtitle="Historical COE bidding results by category and month."
             lastUpdated={lastUpdated}
             months={months}
+            latestMonth={months[0]}
             showMonthSelector
           >
             <ShareButtons

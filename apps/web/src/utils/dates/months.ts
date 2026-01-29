@@ -8,24 +8,29 @@ import {
 } from "@web/queries/deregistrations";
 import type { Month } from "@web/types";
 
-export const fetchMonthsForCars = async (): Promise<Month[]> => {
+type DataType = "cars" | "coe" | "deregistrations";
+
+export interface MonthResult {
+  month: string;
+  wasAdjusted: boolean;
+}
+
+export async function fetchMonthsForCars(): Promise<Month[]> {
   const results = await getCarsMonths();
   return results.map((result) => result.month);
-};
+}
 
-export const fetchMonthsForCOE = async (): Promise<Month[]> => {
+export async function fetchMonthsForCOE(): Promise<Month[]> {
   const results = await getCoeMonths();
   return results.map((result) => result.month);
-};
+}
 
-export const fetchMonthsForDeregistrations = async (): Promise<Month[]> => {
+export async function fetchMonthsForDeregistrations(): Promise<Month[]> {
   const results = await getDeregistrationsMonths();
   return results.map((result) => result.month);
-};
+}
 
-export const getLatestMonth = async (
-  type: "cars" | "coe" | "deregistrations" = "cars",
-): Promise<string> => {
+export async function getLatestMonth(type: DataType = "cars"): Promise<string> {
   let latestMonth: string | null = null;
 
   if (type === "cars") {
@@ -42,14 +47,30 @@ export const getLatestMonth = async (
   }
 
   return latestMonth;
-};
+}
 
-export const getMonthOrLatest = async (
+async function getMonthsForType(type: DataType): Promise<string[]> {
+  if (type === "cars") return fetchMonthsForCars();
+  if (type === "coe") return fetchMonthsForCOE();
+  return fetchMonthsForDeregistrations();
+}
+
+export async function getMonthOrLatest(
   month: string | null,
-  type: "cars" | "coe" | "deregistrations" = "cars",
-): Promise<string> => {
-  if (month) {
-    return month;
+  type: DataType = "cars",
+): Promise<MonthResult> {
+  const latestMonth = await getLatestMonth(type);
+
+  if (!month) {
+    return { month: latestMonth, wasAdjusted: false };
   }
-  return getLatestMonth(type);
-};
+
+  // Validate month exists in available list
+  const months = await getMonthsForType(type);
+  if (months.includes(month)) {
+    return { month, wasAdjusted: false };
+  }
+
+  // Month not available for this data source
+  return { month: latestMonth, wasAdjusted: true };
+}

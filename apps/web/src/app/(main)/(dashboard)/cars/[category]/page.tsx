@@ -71,8 +71,8 @@ export const generateMetadata = async ({
     };
   }
 
-  let { month } = await loadSearchParams(searchParams);
-  month = await getMonthOrLatest(month, "cars");
+  const { month: parsedMonth } = await loadSearchParams(searchParams);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
   const formattedMonth = formatDateToMonthYear(month);
 
   const title = `${formattedMonth} ${config.title} - Car Registrations`;
@@ -87,10 +87,16 @@ export const generateMetadata = async ({
 
 const Page = async ({ params, searchParams }: PageProps) => {
   const { category } = await params;
-  let { month } = await loadSearchParams(searchParams);
-  month = await getMonthOrLatest(month, "cars");
+  const { month: parsedMonth } = await loadSearchParams(searchParams);
+  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
 
-  return <CategoryPageContent category={category} month={month} />;
+  return (
+    <CategoryPageContent
+      category={category}
+      month={month}
+      wasAdjusted={wasAdjusted}
+    />
+  );
 };
 
 export default Page;
@@ -98,9 +104,11 @@ export default Page;
 const CategoryPageContent = async ({
   category,
   month,
+  wasAdjusted,
 }: {
   category: string;
   month: string;
+  wasAdjusted: boolean;
 }) => {
   const config = categoryConfigs[category];
 
@@ -146,6 +154,8 @@ const CategoryPageContent = async ({
             subtitle={`Breakdown of registrations by ${config.title.toLowerCase()} for the selected month.`}
             lastUpdated={lastUpdated}
             months={months}
+            latestMonth={months[0]}
+            wasAdjusted={wasAdjusted}
             showMonthSelector={true}
           >
             <ShareButtons

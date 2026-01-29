@@ -96,8 +96,8 @@ export const generateStaticParams = async () => {
 
 export default async function Page({ params, searchParams }: PageProps) {
   const { category, type } = await params;
-  let { month } = await loadSearchParams(searchParams);
-  month = await getMonthOrLatest(month, "cars");
+  const { month: parsedMonth } = await loadSearchParams(searchParams);
+  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
 
   const config = categoryConfigs[category as keyof typeof categoryConfigs];
   if (!config) {
@@ -153,6 +153,8 @@ export default async function Page({ params, searchParams }: PageProps) {
           subtitle={`Registration trends for ${category === "vehicle-types" ? formatVehicleTypeSlug(type) : type} vehicles in Singapore.`}
           lastUpdated={lastUpdated}
           months={months}
+          latestMonth={months[0]}
+          wasAdjusted={wasAdjusted}
           showMonthSelector={true}
         >
           <ShareButtons

@@ -176,11 +176,30 @@ describe("months utilities", () => {
   });
 
   describe("getMonthOrLatest", () => {
-    it("should return provided month when specified", async () => {
+    it("should return provided month when it exists in available months", async () => {
+      mockGetCarsLatestMonth.mockResolvedValueOnce("2024-03");
+      mockGetCarsMonths.mockResolvedValueOnce([
+        { month: "2024-05" },
+        { month: "2024-04" },
+        { month: "2024-03" },
+      ]);
+
       const result = await getMonthOrLatest("2024-05");
 
-      expect(result).toBe("2024-05");
-      expect(mockGetCarsLatestMonth).not.toHaveBeenCalled();
+      expect(result).toEqual({ month: "2024-05", wasAdjusted: false });
+    });
+
+    it("should return latest month with wasAdjusted true when month not in available list", async () => {
+      mockGetCarsLatestMonth.mockResolvedValueOnce("2024-03");
+      mockGetCarsMonths.mockResolvedValueOnce([
+        { month: "2024-03" },
+        { month: "2024-02" },
+        { month: "2024-01" },
+      ]);
+
+      const result = await getMonthOrLatest("2024-05", "cars");
+
+      expect(result).toEqual({ month: "2024-03", wasAdjusted: true });
     });
 
     it("should return latest cars month when month is null", async () => {
@@ -188,7 +207,7 @@ describe("months utilities", () => {
 
       const result = await getMonthOrLatest(null);
 
-      expect(result).toBe("2024-03");
+      expect(result).toEqual({ month: "2024-03", wasAdjusted: false });
     });
 
     it("should return latest coe month when month is null and type is coe", async () => {
@@ -196,7 +215,7 @@ describe("months utilities", () => {
 
       const result = await getMonthOrLatest(null, "coe");
 
-      expect(result).toBe("2024-02");
+      expect(result).toEqual({ month: "2024-02", wasAdjusted: false });
     });
 
     it("should return latest deregistrations month when month is null and type is deregistrations", async () => {
@@ -206,7 +225,19 @@ describe("months utilities", () => {
 
       const result = await getMonthOrLatest(null, "deregistrations");
 
-      expect(result).toBe("2024-01");
+      expect(result).toEqual({ month: "2024-01", wasAdjusted: false });
+    });
+
+    it("should return latest coe month with wasAdjusted when month not available in coe data", async () => {
+      mockGetCOELatestMonth.mockResolvedValueOnce("2024-02");
+      mockGetCoeMonths.mockResolvedValueOnce([
+        { month: "2024-02" },
+        { month: "2024-01" },
+      ]);
+
+      const result = await getMonthOrLatest("2024-03", "coe");
+
+      expect(result).toEqual({ month: "2024-02", wasAdjusted: true });
     });
   });
 });

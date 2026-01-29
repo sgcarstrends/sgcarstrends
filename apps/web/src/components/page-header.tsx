@@ -12,6 +12,8 @@ interface PageHeaderProps {
   className?: string;
   lastUpdated?: number | null;
   months?: Month[];
+  latestMonth?: Month;
+  wasAdjusted?: boolean;
   showMonthSelector?: boolean;
 }
 
@@ -22,6 +24,8 @@ export function PageHeader({
   className,
   lastUpdated,
   months,
+  latestMonth,
+  wasAdjusted,
   showMonthSelector = false,
 }: PageHeaderProps) {
   return (
@@ -37,9 +41,13 @@ export function PageHeader({
         </div>
         <div className="flex flex-col items-start gap-2">
           {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
-          {showMonthSelector && months && (
+          {showMonthSelector && months && latestMonth && (
             <Suspense fallback={null}>
-              <MonthSelector months={months} />
+              <MonthSelector
+                months={months}
+                latestMonth={latestMonth}
+                wasAdjusted={wasAdjusted}
+              />
             </Suspense>
           )}
           {children}

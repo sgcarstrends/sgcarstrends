@@ -34,9 +34,8 @@ interface PageProps {
 export const generateMetadata = async ({
   searchParams,
 }: PageProps): Promise<Metadata> => {
-  let { month } = await loadSearchParams(searchParams);
-
-  month = await getMonthOrLatest(month, "cars");
+  const { month: parsedMonth } = await loadSearchParams(searchParams);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
 
   const formattedMonth = formatDateToMonthYear(month);
 
@@ -57,11 +56,19 @@ export const generateMetadata = async ({
 
 // Wrapper: handles nuqs searchParams (runtime data)
 const Page = async ({ searchParams }: PageProps) => {
-  let { month } = await loadSearchParams(searchParams);
-  month = await getMonthOrLatest(month, "cars");
+  const { month: parsedMonth } = await loadSearchParams(searchParams);
+  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
   const months = await fetchMonthsForCars();
+  const latestMonth = months[0];
 
-  return <CarsPage month={month} months={months} />;
+  return (
+    <CarsPage
+      month={month}
+      months={months}
+      latestMonth={latestMonth}
+      wasAdjusted={wasAdjusted}
+    />
+  );
 };
 
 export default Page;
@@ -69,9 +76,13 @@ export default Page;
 const CarsPage = async ({
   month,
   months,
+  latestMonth,
+  wasAdjusted,
 }: {
   month: string;
   months: string[];
+  latestMonth: string;
+  wasAdjusted: boolean;
 }) => {
   const [cars, comparison, topTypes, topMakes] = await Promise.all([
     getCarsData(month),
@@ -116,6 +127,8 @@ const CarsPage = async ({
             subtitle="Monthly new car registrations in Singapore by fuel type and vehicle type."
             lastUpdated={lastUpdated}
             months={months}
+            latestMonth={latestMonth}
+            wasAdjusted={wasAdjusted}
             showMonthSelector={true}
           >
             <ShareButtons

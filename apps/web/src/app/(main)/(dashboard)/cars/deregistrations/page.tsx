@@ -96,10 +96,10 @@ interface PageProps {
 export const generateMetadata = async ({
   searchParams,
 }: PageProps): Promise<Metadata> => {
-  let { month } = await loadSearchParams(searchParams);
+  const { month: parsedMonth } = await loadSearchParams(searchParams);
 
   try {
-    month = await getMonthOrLatest(month, "deregistrations");
+    const { month } = await getMonthOrLatest(parsedMonth, "deregistrations");
     const formattedMonth = formatDateToMonthYear(month);
 
     return createPageMetadata({
@@ -119,13 +119,15 @@ export const generateMetadata = async ({
 };
 
 const DeregistrationsPage = async ({ searchParams }: PageProps) => {
-  let { month } = await loadSearchParams(searchParams);
+  const { month: parsedMonth } = await loadSearchParams(searchParams);
 
   let months: string[] = [];
+  let month: string;
 
   try {
     months = await fetchMonthsForDeregistrations();
-    month = await getMonthOrLatest(month, "deregistrations");
+    const result = await getMonthOrLatest(parsedMonth, "deregistrations");
+    month = result.month;
   } catch {
     return (
       <div className="flex flex-col gap-4">
