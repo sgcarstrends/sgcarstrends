@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@heroui/navbar": "^2.2.26",
-    "sst": "3.17.25"
+    "sst": "3.17.38"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.0",
