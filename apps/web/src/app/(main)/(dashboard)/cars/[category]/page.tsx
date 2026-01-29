@@ -2,6 +2,7 @@ import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
+import { MonthSelector } from "@web/components/shared/month-selector";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -12,6 +13,7 @@ import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-mont
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
+import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 import {
   CategoryInsightsCard,
@@ -153,11 +155,14 @@ const CategoryPageContent = async ({
             title={config.title}
             subtitle={`Breakdown of registrations by ${config.title.toLowerCase()} for the selected month.`}
             lastUpdated={lastUpdated}
-            months={months}
-            latestMonth={months[0]}
-            wasAdjusted={wasAdjusted}
-            showMonthSelector={true}
           >
+            <Suspense fallback={null}>
+              <MonthSelector
+                months={months}
+                latestMonth={months[0]}
+                wasAdjusted={wasAdjusted}
+              />
+            </Suspense>
             <ShareButtons
               url={`${SITE_URL}${config.urlPath}?month=${month}`}
               title={`${formattedMonth} ${config.title} - ${SITE_TITLE}`}

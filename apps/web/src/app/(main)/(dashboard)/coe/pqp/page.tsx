@@ -9,6 +9,7 @@ import {
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
+import { MonthSelector } from "@web/components/shared/month-selector";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
@@ -18,6 +19,7 @@ import type { Pqp } from "@web/types/coe";
 import { fetchMonthsForCOE, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import { createSerializer, type SearchParams } from "nuqs/server";
+import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 import { loadSearchParams, searchParams } from "./search-params";
 
@@ -79,11 +81,14 @@ const PQPRatesPage = async ({
             title="PQP Rates"
             subtitle="Prevailing Quota Premium rates for COE renewal in Singapore."
             lastUpdated={lastUpdated}
-            months={months}
-            latestMonth={latestMonth}
-            wasAdjusted={wasAdjusted}
-            showMonthSelector={true}
           >
+            <Suspense fallback={null}>
+              <MonthSelector
+                months={months}
+                latestMonth={latestMonth}
+                wasAdjusted={wasAdjusted}
+              />
+            </Suspense>
             <ShareButtons
               url={`${SITE_URL}${serialize("/coe/pqp", { month })}`}
               title={`COE PQP Rates - ${SITE_TITLE}`}

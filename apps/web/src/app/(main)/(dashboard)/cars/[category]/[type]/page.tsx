@@ -6,6 +6,7 @@ import { CarOverviewTrends } from "@web/app/(main)/(dashboard)/cars/components/o
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
+import { MonthSelector } from "@web/components/shared/month-selector";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -23,6 +24,7 @@ import { formatVehicleTypeSlug } from "@web/utils/formatting/format-vehicle-type
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
+import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 
 interface PageProps {
@@ -152,11 +154,14 @@ export default async function Page({ params, searchParams }: PageProps) {
           }
           subtitle={`Registration trends for ${category === "vehicle-types" ? formatVehicleTypeSlug(type) : type} vehicles in Singapore.`}
           lastUpdated={lastUpdated}
-          months={months}
-          latestMonth={months[0]}
-          wasAdjusted={wasAdjusted}
-          showMonthSelector={true}
         >
+          <Suspense fallback={null}>
+            <MonthSelector
+              months={months}
+              latestMonth={months[0]}
+              wasAdjusted={wasAdjusted}
+            />
+          </Suspense>
           <ShareButtons
             url={`${SITE_URL}/cars/${category}/${type}?month=${month}`}
             title={`${category === "vehicle-types" ? formatVehicleTypeSlug(type) : type} - ${formattedMonth} - ${SITE_TITLE}`}

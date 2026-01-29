@@ -3,11 +3,13 @@ import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated
 import { KeyStatisticsSection } from "@web/app/(main)/(dashboard)/components/key-statistics-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
+import { YearSelector } from "@web/components/shared/year-selector";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { getAvailableYears, getYearlyRegistrations } from "@web/queries";
 import type { Metadata } from "next";
 import { createSerializer, type SearchParams } from "nuqs/server";
+import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 import { loadSearchParams, searchParams } from "./search-params";
 
@@ -67,11 +69,14 @@ const AnnualPage = async ({ searchParams: searchParamsPromise }: PageProps) => {
           <PageHeader
             title="Annual Registrations"
             subtitle="Yearly car registration statistics and trends in Singapore."
-            years={years}
-            latestYear={latestYear}
-            wasAdjusted={wasAdjusted}
-            showYearSelector={true}
           >
+            <Suspense fallback={null}>
+              <YearSelector
+                years={years}
+                latestYear={latestYear}
+                wasAdjusted={wasAdjusted}
+              />
+            </Suspense>
             <ShareButtons
               url={`${SITE_URL}${serialize("/annual", { year })}`}
               title={`Annual Car Registrations - ${SITE_TITLE}`}

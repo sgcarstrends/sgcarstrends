@@ -5,6 +5,7 @@ import { loadSearchParams } from "@web/app/(main)/(dashboard)/coe/search-params"
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
+import { MonthSelector } from "@web/components/shared/month-selector";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
 import Typography from "@web/components/typography";
@@ -14,6 +15,7 @@ import { createPageMetadata } from "@web/lib/metadata";
 import { getLatestCoeResults } from "@web/queries/coe";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
+import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 
 interface PageProps {
@@ -79,10 +81,10 @@ const COEResultsPage = async ({ searchParams }: PageProps) => {
             title="COE Results"
             subtitle="Historical COE bidding results by category and month."
             lastUpdated={lastUpdated}
-            months={months}
-            latestMonth={months[0]}
-            showMonthSelector
           >
+            <Suspense fallback={null}>
+              <MonthSelector months={months} latestMonth={months[0]} />
+            </Suspense>
             <ShareButtons
               url={`${SITE_URL}/coe/results`}
               title={`COE Results - ${SITE_TITLE}`}

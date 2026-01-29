@@ -12,6 +12,7 @@ import {
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
+import { MonthSelector } from "@web/components/shared/month-selector";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -29,6 +30,7 @@ import {
 import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import type { Metadata } from "next";
 import { createSerializer, type SearchParams } from "nuqs/server";
+import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 
 const serialize = createSerializer(deregistrationsSearchParams);
@@ -198,11 +200,14 @@ const DeregistrationsPage = async ({ searchParams }: PageProps) => {
           <PageHeader
             title="Vehicle Deregistrations"
             subtitle="Monthly vehicle deregistrations and scrapping trends in Singapore."
-            months={months}
-            latestMonth={latestMonth}
-            wasAdjusted={wasAdjusted}
-            showMonthSelector={true}
           >
+            <Suspense fallback={null}>
+              <MonthSelector
+                months={months}
+                latestMonth={latestMonth}
+                wasAdjusted={wasAdjusted}
+              />
+            </Suspense>
             <ShareButtons
               url={`${SITE_URL}${serialize("/cars/deregistrations", { month })}`}
               title={`Vehicle Deregistrations - ${SITE_TITLE}`}

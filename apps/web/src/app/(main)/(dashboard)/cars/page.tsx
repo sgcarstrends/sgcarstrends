@@ -6,6 +6,7 @@ import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated
 import { PageHeader } from "@web/components/page-header";
 import { ShareButtons } from "@web/components/share-buttons";
 import { MetricCard } from "@web/components/shared/metric-card";
+import { MonthSelector } from "@web/components/shared/month-selector";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
@@ -25,6 +26,7 @@ import { formatVehicleType } from "@web/utils/formatting/format-vehicle-type";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
+import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 
 interface PageProps {
@@ -126,11 +128,14 @@ const CarsPage = async ({
             title="Car Registrations"
             subtitle="Monthly new car registrations in Singapore by fuel type and vehicle type."
             lastUpdated={lastUpdated}
-            months={months}
-            latestMonth={latestMonth}
-            wasAdjusted={wasAdjusted}
-            showMonthSelector={true}
           >
+            <Suspense fallback={null}>
+              <MonthSelector
+                months={months}
+                latestMonth={latestMonth}
+                wasAdjusted={wasAdjusted}
+              />
+            </Suspense>
             <ShareButtons
               url={`${SITE_URL}/cars?month=${month}`}
               title={`${formattedMonth} Car Registrations - ${SITE_TITLE}`}
