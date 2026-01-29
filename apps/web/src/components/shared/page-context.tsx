@@ -16,12 +16,8 @@ function useStreamingText(content: string, trigger: number) {
   const [streamedContent, setStreamedContent] = useState("");
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: trigger is needed to re-run animation on expand/collapse
   useEffect(() => {
-    if (trigger === 0) {
-      setStreamedContent(content);
-      return;
-    }
-
     // Clear any existing interval
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
@@ -56,7 +52,7 @@ export function PageContext({ title, content }: PageContextProps) {
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
     new Set(["context"]),
   );
-  const [streamTrigger, setStreamTrigger] = useState(0);
+  const [streamTrigger, setStreamTrigger] = useState(1);
   const streamedContent = useStreamingText(content, streamTrigger);
 
   const handleSelectionChange = (keys: "all" | Set<React.Key>) => {
