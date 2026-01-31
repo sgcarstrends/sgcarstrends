@@ -1,14 +1,4 @@
-import {
-  and,
-  cars,
-  db,
-  desc,
-  eq,
-  gt,
-  max,
-  sql,
-  sum,
-} from "@sgcarstrends/database";
+import { and, cars, db, desc, eq, gt, sql } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;

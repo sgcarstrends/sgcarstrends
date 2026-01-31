@@ -5,10 +5,8 @@ import {
   desc,
   eq,
   ilike,
-  max,
   type SelectCar,
   sql,
-  sum,
 } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 

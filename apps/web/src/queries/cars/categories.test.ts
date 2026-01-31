@@ -1,11 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  cacheLifeMock,
-  cacheTagMock,
-  queueSelect,
-  queueSelectDistinct,
-  resetDbMocks,
-} from "../test-utils";
+import { queueSelect, queueSelectDistinct, resetDbMocks } from "../test-utils";
 import {
   FUEL_TYPE,
   getDistinctTypes,

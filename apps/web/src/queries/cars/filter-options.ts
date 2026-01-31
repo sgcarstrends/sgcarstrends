@@ -1,4 +1,4 @@
-import { and, cars, db, desc, eq, gt, max, sum } from "@sgcarstrends/database";
+import { and, cars, db, desc, eq, gt, sum } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getDistinctMakes() {

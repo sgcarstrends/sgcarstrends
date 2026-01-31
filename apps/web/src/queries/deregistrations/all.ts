@@ -1,4 +1,4 @@
-import { asc, db, deregistrations, max } from "@sgcarstrends/database";
+import { asc, db, deregistrations } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getDeregistrations() {

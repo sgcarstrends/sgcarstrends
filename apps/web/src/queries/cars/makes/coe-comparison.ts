@@ -9,9 +9,7 @@ import {
   ilike,
   inArray,
   lte,
-  max,
   sql,
-  sum,
 } from "@sgcarstrends/database";
 import { getDateRange24Months } from "@web/lib/coe/calculations";
 import { cacheLife, cacheTag } from "next/cache";

@@ -1,4 +1,4 @@
-import { cars, db, ilike, max } from "@sgcarstrends/database";
+import { cars, db, ilike } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 const normalisePattern = (value: string) => value.replaceAll("-", "%");

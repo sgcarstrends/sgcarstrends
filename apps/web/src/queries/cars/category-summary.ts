@@ -1,4 +1,4 @@
-import { and, cars, db, eq, gt, max, sql, sum } from "@sgcarstrends/database";
+import { and, cars, db, eq, gt, sql } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface CategorySummary {

@@ -9,7 +9,6 @@ import {
   inArray,
   isNotNull,
   lt,
-  max,
   posts,
 } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";

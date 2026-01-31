@@ -1,7 +1,7 @@
 "use server";
 
 import type { LanguageModelUsage } from "@sgcarstrends/ai";
-import { and, db, desc, eq, posts } from "@sgcarstrends/database";
+import { db, desc, posts } from "@sgcarstrends/database";
 import { auth } from "@web/app/admin/lib/auth";
 import { regeneratePostWorkflow } from "@web/workflows/regenerate-post";
 import { headers } from "next/headers";

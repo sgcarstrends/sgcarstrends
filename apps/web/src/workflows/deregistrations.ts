@@ -17,7 +17,7 @@ interface DeregistrationsWorkflowResult {
  * Processes vehicle deregistration data and revalidates cache.
  */
 export async function deregistrationsWorkflow(
-  payload: DeregistrationsWorkflowPayload,
+  _payload: DeregistrationsWorkflowPayload,
 ): Promise<DeregistrationsWorkflowResult> {
   "use workflow";
 
