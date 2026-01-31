@@ -1,0 +1,173 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("@sgcarstrends/ai", () => ({
+  generateBlogContent: vi.fn(),
+  getCarsAggregatedByMonth: vi.fn(),
+}));
+
+vi.mock("@sgcarstrends/utils", () => ({
+  redis: {
+    set: vi.fn(),
+  },
+  tokeniser: vi.fn((data) => JSON.stringify(data)),
+}));
+
+vi.mock("@web/config", () => ({
+  SITE_URL: "https://sgcarstrends.com",
+}));
+
+vi.mock("@web/lib/workflows/update-cars", () => ({
+  updateCars: vi.fn(),
+}));
+
+vi.mock("@web/queries/cars/latest-month", () => ({
+  getCarsLatestMonth: vi.fn(),
+}));
+
+vi.mock("@web/queries/posts", () => ({
+  getExistingPostByMonth: vi.fn(),
+}));
+
+vi.mock("next/cache", () => ({
+  revalidateTag: vi.fn(),
+}));
+
+vi.mock("workflow", () => ({
+  fetch: vi.fn(),
+  getStepMetadata: vi.fn(() => ({ attempt: 1 })),
+  FatalError: class FatalError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = "FatalError";
+    }
+  },
+  RetryableError: class RetryableError extends Error {
+    constructor(
+      message: string,
+      public options?: { retryAfter?: number | string },
+    ) {
+      super(message);
+      this.name = "RetryableError";
+    }
+  },
+}));
+
+vi.mock("./shared", () => ({
+  publishToSocialMedia: vi.fn(),
+  revalidatePostsCache: vi.fn(),
+}));
+
+import {
+  generateBlogContent,
+  getCarsAggregatedByMonth,
+} from "@sgcarstrends/ai";
+import { redis } from "@sgcarstrends/utils";
+import { updateCars } from "@web/lib/workflows/update-cars";
+import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
+import { getExistingPostByMonth } from "@web/queries/posts";
+import { revalidateTag } from "next/cache";
+import { carsWorkflow } from "./cars";
+import { publishToSocialMedia, revalidatePostsCache } from "./shared";
+
+describe("carsWorkflow", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+  });
+
+  it("should return early when no records are processed", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 0,
+      details: {},
+    });
+
+    const result = await carsWorkflow({});
+
+    expect(result.message).toBe(
+      "No car records processed. Skipped publishing to social media.",
+    );
+    expect(getCarsLatestMonth).not.toHaveBeenCalled();
+  });
+
+  it("should return message when no car records found", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 5,
+      details: {},
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce(null);
+
+    const result = await carsWorkflow({});
+
+    expect(result.message).toBe("[CARS] No car records found");
+  });
+
+  it("should skip social media when post already exists", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
+      { id: "existing-post-id" },
+    ]);
+
+    const result = await carsWorkflow({});
+
+    expect(result.message).toBe(
+      "[CARS] Data processed. Post already exists, skipping social media.",
+    );
+    expect(generateBlogContent).not.toHaveBeenCalled();
+    expect(publishToSocialMedia).not.toHaveBeenCalled();
+  });
+
+  it("should generate blog post and publish to social media when new data", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
+      { make: "Toyota", count: 100 },
+    ]);
+    vi.mocked(generateBlogContent).mockResolvedValueOnce({
+      postId: "new-post-id",
+      title: "January 2024 Car Registrations",
+      slug: "january-2024-car-registrations",
+    });
+
+    const result = await carsWorkflow({});
+
+    expect(revalidateTag).toHaveBeenCalledWith("cars:month:2024-01", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("cars:year:2024", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("cars:months", "max");
+    expect(generateBlogContent).toHaveBeenCalled();
+    expect(publishToSocialMedia).toHaveBeenCalledWith(
+      "January 2024 Car Registrations",
+      "https://sgcarstrends.com/blog/january-2024-car-registrations",
+    );
+    expect(revalidatePostsCache).toHaveBeenCalled();
+    expect(result.message).toBe(
+      "[CARS] Data processed and cache revalidated successfully",
+    );
+    expect(result.postId).toBe("new-post-id");
+  });
+
+  it("should update redis timestamp when records are processed", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 5,
+      details: {},
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-02");
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
+      { id: "existing" },
+    ]);
+
+    await carsWorkflow({});
+
+    expect(redis.set).toHaveBeenCalledWith(
+      "last_updated:cars",
+      expect.any(Number),
+    );
+  });
+});
