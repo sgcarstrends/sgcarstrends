@@ -1,47 +1,34 @@
-import { client, getBypassHeaders, receiver } from "@web/config/qstash";
-import { type NextRequest, NextResponse } from "next/server";
+import { carsWorkflow } from "@web/workflows/cars";
+import { coeWorkflow } from "@web/workflows/coe";
+import { deregistrationsWorkflow } from "@web/workflows/deregistrations";
+import { start } from "workflow/api";
 
-export async function POST(request: NextRequest) {
-  const signature = request.headers.get("Upstash-Signature");
-  if (!signature) {
-    return NextResponse.json(
-      { error: "Missing QStash signature" },
-      { status: 401 },
-    );
-  }
-
-  const body = await request.text();
-  const isValid = await receiver
-    .verify({ signature, body })
-    .catch((err: Error) => {
-      console.error("[verifyQStash] Verify error:", err.message);
-      return false;
-    });
-
-  if (!isValid) {
-    return NextResponse.json(
-      { error: "Invalid QStash signature" },
-      { status: 401 },
-    );
-  }
-
+/**
+ * Manual trigger endpoint for all workflows.
+ * With Vercel Cron, each workflow is triggered directly via its own endpoint.
+ * This endpoint is kept for manual triggering or testing purposes.
+ */
+export async function POST() {
   try {
-    const endpoints = ["cars", "coe", "deregistrations"];
-    const results = await client.trigger(
-      endpoints.map((endpoint) => ({
-        url: `${request.nextUrl.origin}/api/workflows/${endpoint}`,
-        headers: getBypassHeaders(),
-      })),
-    );
+    const [carsRun, coeRun, deregistrationsRun] = await Promise.all([
+      start(carsWorkflow, [{}]),
+      start(coeWorkflow, [{}]),
+      start(deregistrationsWorkflow, [{}]),
+    ]);
 
-    return NextResponse.json({
+    return Response.json({
       success: true,
-      message: "Workflows triggered successfully",
-      workflowRunIds: results.map(({ workflowRunId }) => workflowRunId),
+      message: "All workflows triggered successfully",
+      runs: {
+        cars: carsRun.runId,
+        coe: coeRun.runId,
+        deregistrations: deregistrationsRun.runId,
+      },
     });
   } catch (error) {
     console.error("[trigger] Error:", error);
-    return NextResponse.json(
+
+    return Response.json(
       {
         success: false,
         message: "Failed to trigger workflows",
