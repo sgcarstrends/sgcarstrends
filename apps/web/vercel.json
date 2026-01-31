@@ -4,15 +4,15 @@
   "crons": [
     {
       "path": "/api/workflows/cars",
-      "schedule": "0 1-10 * * 1-5"
+      "schedule": "0 10 * * *"
     },
     {
       "path": "/api/workflows/coe",
-      "schedule": "0 1-10 * * 1-5"
+      "schedule": "0 10 * * *"
     },
     {
       "path": "/api/workflows/deregistrations",
-      "schedule": "0 1-10 * * 1-5"
+      "schedule": "0 10 * * *"
     }
   ]
 }
