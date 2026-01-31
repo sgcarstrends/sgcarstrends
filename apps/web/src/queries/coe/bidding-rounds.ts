@@ -1,6 +1,5 @@
-import { coe, db } from "@sgcarstrends/database";
+import { asc, coe, db, eq, max } from "@sgcarstrends/database";
 import type { COEResult } from "@web/types";
-import { asc, eq, max } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface MonthBiddingRounds {

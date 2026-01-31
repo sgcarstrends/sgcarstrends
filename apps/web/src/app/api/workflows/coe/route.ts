@@ -1,6 +1,13 @@
-import { serve } from "@upstash/workflow/nextjs";
-import { coeWorkflow } from "@web/lib/workflows/coe";
-import { options } from "@web/lib/workflows/options";
-import type { CoeWorkflowPayload } from "@web/lib/workflows/types";
+import { coeWorkflow } from "@web/workflows/coe";
+import { start } from "workflow/api";
 
-export const { POST } = serve<CoeWorkflowPayload>(coeWorkflow, options);
+export async function POST(request: Request) {
+  const payload = await request.json().catch(() => ({}));
+
+  const run = await start(coeWorkflow, [payload]);
+
+  return Response.json({
+    message: "COE workflow started",
+    runId: run.runId,
+  });
+}

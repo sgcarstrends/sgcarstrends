@@ -1,5 +1,13 @@
-import { cars, db, type SelectCar } from "@sgcarstrends/database";
-import { and, desc, eq, ilike, sql } from "drizzle-orm";
+import {
+  and,
+  cars,
+  db,
+  desc,
+  eq,
+  ilike,
+  type SelectCar,
+  sql,
+} from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface MakeDetails {

@@ -1,6 +1,15 @@
-import { coe, db } from "@sgcarstrends/database";
+import {
+  and,
+  asc,
+  coe,
+  db,
+  desc,
+  eq,
+  max,
+  or,
+  sql,
+} from "@sgcarstrends/database";
 import type { COEResult } from "@web/types";
-import { and, asc, desc, eq, max, or, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getLatestCoeResults(): Promise<COEResult[]> {

@@ -1,5 +1,4 @@
-import { cars, db } from "@sgcarstrends/database";
-import { and, desc, eq, gt, sum } from "drizzle-orm";
+import { and, cars, db, desc, eq, gt, sum } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getDistinctMakes() {

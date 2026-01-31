@@ -1,6 +1,5 @@
-import { db, pqp } from "@sgcarstrends/database";
+import { asc, db, desc, pqp } from "@sgcarstrends/database";
 import type { Pqp } from "@web/types/coe";
-import { asc, desc } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getPqpRates(): Promise<Record<string, Pqp.Rates>> {

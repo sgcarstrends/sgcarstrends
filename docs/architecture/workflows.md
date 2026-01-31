@@ -8,7 +8,7 @@ This document describes the end-to-end data processing workflows that keep the S
 sequenceDiagram
     participant Trigger as Scheduler/Manual Trigger
     participant API as API Service
-    participant QStash as QStash Orchestrator
+    participant WDK as Vercel WDK
     participant Workflow as Workflow Handler
     participant Redis as Redis Cache
     participant LTA as LTA DataMall
@@ -21,8 +21,8 @@ sequenceDiagram
     Note over Trigger, Social: Cars Data Processing Workflow
     
     Trigger->>+API: POST /workflows/cars
-    API->>+QStash: Schedule Cars Workflow
-    QStash->>+Workflow: Execute carsWorkflow()
+    API->>+WDK: Schedule Cars Workflow
+    WDK->>+Workflow: Execute carsWorkflow()
     
     Workflow->>+Redis: Check last_updated:cars timestamp
     Redis-->>-Workflow: Return last update time
@@ -56,16 +56,16 @@ sequenceDiagram
         Workflow->>Workflow: Skip processing
     end
     
-    Workflow-->>-QStash: Return success result
-    QStash-->>-API: Workflow completed
+    Workflow-->>-WDK: Return success result
+    WDK-->>-API: Workflow completed
     API-->>-Trigger: HTTP 200 response
 
     %% COE Data Workflow
     Note over Trigger, Social: COE Data Processing Workflow
     
     Trigger->>+API: POST /workflows/coe
-    API->>+QStash: Schedule COE Workflow
-    QStash->>+Workflow: Execute coeWorkflow()
+    API->>+WDK: Schedule COE Workflow
+    WDK->>+Workflow: Execute coeWorkflow()
     
     Workflow->>+Redis: Check last_updated:coe timestamp
     Redis-->>-Workflow: Return last update time
@@ -101,8 +101,8 @@ sequenceDiagram
         Workflow->>Workflow: Skip processing
     end
     
-    Workflow-->>-QStash: Return success result
-    QStash-->>-API: Workflow completed
+    Workflow-->>-WDK: Return success result
+    WDK-->>-API: Workflow completed
     API-->>-Trigger: HTTP 200 response
 
     %% Error Handling Flow
@@ -112,7 +112,7 @@ sequenceDiagram
         Workflow->>Workflow: Catch error
         Workflow->>+Social: Send Discord error notification
         Social-->>-Workflow: Notification sent
-        Workflow-->>QStash: Return error result
+        Workflow-->>WDK: Return error result
     end
 
     %% User Access Flow
@@ -244,7 +244,7 @@ sequenceDiagram
 
 ### Error Recovery
 
-**Workflow State**: QStash maintains workflow state and enables retries
+**Workflow State**: Vercel WDK maintains workflow state and enables retries
 **Discord Notifications**: Failed workflows trigger Discord alerts with error details
 **Graceful Degradation**: Social media failures don't block data processing
 
@@ -259,7 +259,6 @@ sequenceDiagram
 ### Environment Variables
 
 **Core Workflow**:
-- `QSTASH_TOKEN`: QStash authentication
 - `LTA_DATAMALL_API_KEY`: LTA DataMall access
 - `DATABASE_URL`: PostgreSQL connection
 - `UPSTASH_REDIS_REST_*`: Redis configuration
@@ -277,9 +276,9 @@ sequenceDiagram
 
 ### Scheduling Configuration
 
-**Cron Schedule**: `*/60 0-10 * * 1-5`
-- Every hour from 9 AM to 6 PM
-- Monday through Friday (Singapore business hours)
+**Vercel Cron Schedule**: `0 10 * * *`
+- Daily at 10 AM UTC (6 PM SGT)
+- Configured in `apps/web/vercel.json`
 - Aligned with LTA DataMall update patterns
 
 ## Performance Considerations

@@ -20,7 +20,7 @@ interface QueryBuilder<T> {
   having: (...args: unknown[]) => QueryBuilder<T>;
   then: (
     onFulfilled?: (value: T) => unknown,
-    onRejected?: (reason: unknown) => unknown,
+    onRejected?: (reason: unknown) => void,
   ) => Promise<unknown>;
 }
 
@@ -74,13 +74,18 @@ const mockDb = {
   },
 };
 
-vi.mock("@sgcarstrends/database", () => ({
-  db: mockDb,
-  cars: {},
-  coe: {},
-  pqp: {},
-  deregistrations: {},
+// Mock the Neon client to prevent database connection at import time
+vi.mock("@neondatabase/serverless", () => ({
+  neon: vi.fn(() => vi.fn()),
 }));
+
+vi.mock("@sgcarstrends/database", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@sgcarstrends/database")>();
+  return {
+    ...mod,
+    db: mockDb,
+  };
+});
 
 export const cacheLifeMock = vi.fn();
 export const cacheTagMock = vi.fn();

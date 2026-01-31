@@ -18,26 +18,30 @@ vi.mock("@web/lib/updater/services/download-file");
 vi.mock("@web/lib/updater/services/calculate-checksum");
 vi.mock("@web/lib/updater/services/process-csv");
 vi.mock("@web/utils/checksum");
-vi.mock("@sgcarstrends/database", () => ({
-  db: {
-    select: vi.fn(),
-    selectDistinct: vi.fn(),
-    insert: vi.fn(),
-    $cache: {
-      invalidate: vi.fn(),
-    },
-  },
+vi.mock("@neondatabase/serverless", () => ({
+  neon: vi.fn(() => vi.fn()),
 }));
+vi.mock(import("@sgcarstrends/database"), async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    getTableName: vi.fn(() => "test_table"),
+    db: {
+      select: vi.fn(),
+      selectDistinct: vi.fn(),
+      insert: vi.fn(),
+      $cache: {
+        invalidate: vi.fn(),
+      },
+    },
+  };
+});
 vi.mock("@sgcarstrends/utils", () => ({
   createUniqueKey: vi.fn(),
   redis: {
     set: vi.fn(),
     get: vi.fn(),
   },
-}));
-vi.mock("drizzle-orm", () => ({
-  getTableName: vi.fn(() => "test_table"),
-  inArray: vi.fn(() => "mock-where-clause"),
 }));
 
 // Mock table object

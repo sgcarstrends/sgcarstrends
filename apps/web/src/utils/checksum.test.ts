@@ -44,9 +44,21 @@ describe("Checksum", () => {
       });
     });
 
-    // Note: Error handling in cacheChecksum doesn't work as expected because
-    // the promise is returned without awaiting, so errors propagate instead
-    // of being caught. This is a known issue that should be fixed separately.
+    it("should return null and log error when caching fails", async () => {
+      const consoleSpy = vi
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
+      mockHset.mockRejectedValueOnce(new Error("Redis connection failed"));
+
+      const result = await checksum.cacheChecksum("test.csv", "checksum123");
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        "Error caching checksum: Error: Redis connection failed",
+      );
+      expect(result).toBeNull();
+
+      consoleSpy.mockRestore();
+    });
   });
 
   describe("getCachedChecksum", () => {
@@ -67,20 +79,20 @@ describe("Checksum", () => {
       expect(result).toBeNull();
     });
 
-    it("should skip cache retrieval in local development mode", async () => {
-      const originalSstDev = process.env.SST_DEV;
-      process.env.SST_DEV = "true";
+    it("should return null and log error when retrieval fails", async () => {
+      const consoleSpy = vi
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
+      mockHget.mockRejectedValueOnce(new Error("Redis connection failed"));
 
       const result = await checksum.getCachedChecksum("test.csv");
 
-      expect(mockHget).not.toHaveBeenCalled();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        "Error retrieving cached checksum: Error: Redis connection failed",
+      );
       expect(result).toBeNull();
 
-      process.env.SST_DEV = originalSstDev;
+      consoleSpy.mockRestore();
     });
-
-    // Note: Error handling in getCachedChecksum doesn't work as expected because
-    // the promise is returned without awaiting, so errors propagate instead
-    // of being caught. This is a known issue that should be fixed separately.
   });
 });

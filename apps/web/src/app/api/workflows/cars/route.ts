@@ -1,6 +1,13 @@
-import { serve } from "@upstash/workflow/nextjs";
-import { carsWorkflow } from "@web/lib/workflows/cars";
-import { options } from "@web/lib/workflows/options";
-import type { CarsWorkflowPayload } from "@web/lib/workflows/types";
+import { carsWorkflow } from "@web/workflows/cars";
+import { start } from "workflow/api";
 
-export const { POST } = serve<CarsWorkflowPayload>(carsWorkflow, options);
+export async function POST(request: Request) {
+  const payload = await request.json().catch(() => ({}));
+
+  const run = await start(carsWorkflow, [payload]);
+
+  return Response.json({
+    message: "Cars workflow started",
+    runId: run.runId,
+  });
+}

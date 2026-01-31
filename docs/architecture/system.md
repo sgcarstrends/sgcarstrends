@@ -54,7 +54,7 @@ graph TB
     
     %% Workflow System
     subgraph "Data Processing"
-        QStash[QStash Workflows]
+        WDK[Vercel WDK Workflows]
         CarsWorkflow[Cars Data Workflow]
         COEWorkflow[COE Data Workflow]
         BlogWorkflow[Blog Generation Workflow]
@@ -89,11 +89,11 @@ graph TB
     Web --> Redis
     
     %% Workflow connections
-    API --> QStash
-    QStash --> CarsWorkflow
-    QStash --> COEWorkflow
-    QStash --> BlogWorkflow
-    QStash --> SocialWorkflow
+    API --> WDK
+    WDK --> CarsWorkflow
+    WDK --> COEWorkflow
+    WDK --> BlogWorkflow
+    WDK --> SocialWorkflow
     
     %% External API connections
     CarsWorkflow --> LTA
@@ -121,7 +121,7 @@ graph TB
     class Database,Types,Utils package
     class APILambda,WebLambda,RDS,Redis,CloudFront,APIGateway infrastructure
     class LTA,Cloudflare,Gemini,Discord,LinkedIn,Telegram,Twitter external
-    class QStash,CarsWorkflow,COEWorkflow,BlogWorkflow,SocialWorkflow workflow
+    class WDK,CarsWorkflow,COEWorkflow,BlogWorkflow,SocialWorkflow workflow
 ```
 
 ## System Components
@@ -179,7 +179,7 @@ graph TB
 
 ### Data Processing Workflows
 
-**QStash Orchestration**
+**WDK Orchestration**
 - Scheduled data updates (hourly during business hours)
 - Workflow state management and error handling
 - Message queue processing

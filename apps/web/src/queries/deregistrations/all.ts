@@ -1,5 +1,4 @@
-import { db, deregistrations } from "@sgcarstrends/database";
-import { asc } from "drizzle-orm";
+import { asc, db, deregistrations } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getDeregistrations() {

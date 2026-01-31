@@ -18,7 +18,7 @@ export class Checksum {
   async cacheChecksum(fileName: string, checksum: string) {
     try {
       const key = slugify(fileName);
-      return this.redis.hset("checksum", { [key]: checksum });
+      return await this.redis.hset("checksum", { [key]: checksum });
     } catch (error) {
       console.error(`Error caching checksum: ${error}`);
       return null;
@@ -32,14 +32,9 @@ export class Checksum {
    * @returns Promise resolving to the cached checksum string or null if not found/error
    */
   async getCachedChecksum(fileName: string) {
-    // Skip cache retrieval in local development mode
-    if (process.env.SST_DEV) {
-      return null;
-    }
-
     try {
       const key = slugify(fileName);
-      return this.redis.hget<string>("checksum", key);
+      return await this.redis.hget<string>("checksum", key);
     } catch (error) {
       console.error(`Error retrieving cached checksum: ${error}`);
       return null;

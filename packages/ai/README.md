@@ -10,7 +10,7 @@ AI-powered blog post generation for the SG Cars Trends platform using Vercel AI 
 - 📝 **SEO-Optimised Content**: Markdown-formatted posts with proper structure and keywords
 - 📈 **Observability**: Full Langfuse telemetry for token usage, costs, and performance tracking
 - ♻️ **Idempotent Persistence**: Prevents duplicate posts with conflict handling
-- 🔄 **Reusable Logic**: Single source of truth shared across API workflows and Admin app
+- 🔄 **Reusable Logic**: Single source of truth shared across Vercel WDK workflows and Admin app
 
 ## Installation
 
@@ -54,30 +54,38 @@ try {
 }
 ```
 
-### Workflow Integration
+### Workflow Integration (Vercel WDK)
 
-Generate and save blog posts within QStash workflows:
+Generate and save blog posts within Vercel WDK workflows:
 
 ```typescript
-import { serve } from "@upstash/workflow/nextjs";
-import { generatePost } from "@sgcarstrends/ai";
+import { generateBlogContent } from "@sgcarstrends/ai";
 import { tokeniser } from "@sgcarstrends/utils";
+import { fetch } from "workflow";
 
-export const POST = serve(async (context) => {
+export async function carsWorkflow(payload: { month?: string }) {
+  "use workflow";
+
+  // Enable WDK's durable fetch for AI SDK
+  globalThis.fetch = fetch;
+
   // Fetch and tokenise data
   const cars = await getCarsAggregatedByMonth("October 2024");
   const data = tokeniser(cars);
 
-  // Generate and save blog post
-  const result = await generatePost(context, {
-    data,
-    month: "October 2024",
-    dataType: "cars",
-  });
+  // Generate blog post (as a step)
+  const post = await generateCarsPost(data, "October 2024");
 
-  return result; // { success, month, postId, title, slug }
-});
+  return { postId: post.postId, title: post.title };
+}
+
+async function generateCarsPost(data: string, month: string) {
+  "use step";
+  return generateBlogContent({ data, month, dataType: "cars" });
+}
 ```
+
+**Note:** Set `globalThis.fetch = fetch` (from the `workflow` package) before calling AI functions to enable durable fetch with automatic retries.
 
 ## API Reference
 
@@ -126,26 +134,9 @@ interface GeneratedPost {
 }
 ```
 
-### `generatePost(context: WorkflowContext, params: BlogGenerationParams)`
+### `regenerateBlogContent(params: BlogGenerationParams)`
 
-Generate and save blog post within a QStash workflow.
-
-**Parameters:**
-
-- `context`: QStash WorkflowContext
-- `params`: BlogGenerationParams (same as above)
-
-**Returns:**
-
-```typescript
-interface BlogResult {
-  success: boolean;
-  month: string;
-  postId: string;
-  title: string;
-  slug: string;
-}
-```
+Regenerates an existing blog post. Same parameters and return type as `generateBlogContent()`.
 
 ### Helper Functions
 
@@ -249,7 +240,6 @@ View traces at [cloud.langfuse.com](https://cloud.langfuse.com)
 
 - `@ai-sdk/google` - Google Gemini integration
 - `ai` - Vercel AI SDK
-- `@upstash/workflow` - QStash workflow support
 - `@langfuse/otel` - Langfuse telemetry
 - `@sgcarstrends/database` - Database schemas
 - `@sgcarstrends/utils` - Utility functions

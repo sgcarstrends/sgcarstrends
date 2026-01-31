@@ -26,6 +26,7 @@
 .DS_Store
 *.pem
 .vercel/
+.swc/
 
 # Framework files
 next-env.d.ts
