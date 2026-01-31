@@ -31,10 +31,9 @@ See `domain-management` skill for DNS configuration and routing patterns.
 
 ## File Structure
 
-- **config.ts**: Shared configuration (permanent stages, cron schedules)
-- **qstash.ts**: QStash integration for workflow scheduling
+- **config.ts**: Shared configuration (permanent stages)
 - **router.ts**: Domain routing and URL management
-- **web.ts**: Next.js web application configuration (includes API routes and workflows)
+- **web.ts**: Next.js web application configuration (includes API routes and Vercel WDK workflows)
 
 ## Key Infrastructure Components
 
@@ -44,7 +43,6 @@ See `domain-management` skill for DNS configuration and routing patterns.
 - Wildcard subdomain support for permanent stages
 
 ### Configuration (config.ts)
-- Cron schedule: `*/60 0-10 * * 1-5` (hourly during business hours, weekdays)
 - Stage type detection for permanent vs ephemeral stages
 
 ## Development Guidelines

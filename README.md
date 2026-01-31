@@ -7,7 +7,7 @@
 This monorepo provides a complete platform for SG Cars Trends, tracking Singapore's car registration statistics and Certificate of Entitlement (COE) data. The system includes:
 
 - **Web Application**: Next.js 16 frontend with Cache Components, co-located route components, enhanced homepage featuring latest COE results, interactive charts, analytics, AI-generated blog content, and integrated admin interface at `/admin` path. Also hosts the data updater workflows.
-- **Integrated Data Updater**: QStash workflow-based system for fetching and processing LTA data (consolidated into web application)
+- **Integrated Data Updater**: Vercel WDK workflow-based system for fetching and processing LTA data (consolidated into web application)
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini for market insights (runs within web workflows)
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter with trackable redirect routes (triggered by web workflows)
 - **Infrastructure**: SST v3 serverless deployment on AWS with multi-stage environments
@@ -19,7 +19,7 @@ graph TB
     subgraph "Frontend & Workflows"
         WEB[Web App<br/>Next.js 16]
         BLOG[Blog Posts<br/>AI Generated]
-        WORKFLOWS[Data Workflows<br/>QStash]
+        WORKFLOWS[Data Workflows<br/>Vercel WDK]
         LLM[Vercel AI SDK<br/>Blog Generation]
     end
 
@@ -83,13 +83,13 @@ sgcarstrends/
 │   │   │   ├── (social)/    # Social media redirect routes with UTM tracking
 │   │   │   ├── admin/       # Integrated admin interface for content management
 │   │   │   ├── blog/        # Blog pages with AI-generated content
-│   │   │   └── api/workflows/  # QStash workflow endpoints
+│   │   │   └── api/workflows/  # Vercel WDK workflow endpoints
 │   │   ├── src/lib/workflows/  # Data updater workflows and social media integration
 │   │   ├── src/queries/     # Data fetching queries (cars, COE, logos) with comprehensive tests
 │   │   ├── src/actions/     # Server actions (maintenance tasks)
 │   │   ├── src/components/  # React components with comprehensive tests
 │   │   ├── src/utils/       # Web-specific utility functions
-│   │   └── src/config/      # Database, Redis, QStash, and platform configurations
+│   │   └── src/config/      # Database, Redis, and platform configurations
 ├── packages/
 │   ├── ai/           # AI-powered blog generation package
 │   │   ├── src/generate-post.ts  # 2-step blog generation
@@ -121,7 +121,7 @@ sgcarstrends/
 - **Database**: Neon Serverless PostgreSQL with Drizzle ORM
 - **Caching**: Upstash Redis for API responses and analytics
 - **Infrastructure**: SST v3 (Serverless Stack) on AWS
-- **Scheduling**: QStash Workflows for data processing
+- **Scheduling**: Vercel WDK Workflows with Vercel Cron for data processing
 - **LLM Integration**: Vercel AI SDK with Google Gemini for blog content generation
 - **Package Management**: pnpm v10.22.0 workspace with catalog for centralised dependency management
 - **Build Tools**: Turbo v2.6.3 for monorepo orchestration, Turbopack for fast development builds
@@ -235,7 +235,7 @@ pnpm deploy:web:prod       # Deploy web to prod
 
 ### Web Application Workflows (apps/web)
 
-**Workflow Endpoints (QStash Authenticated):**
+**Workflow Endpoints (Vercel Cron Triggered):**
 - `POST /api/workflows/trigger` - Trigger data update workflows
 - `POST /api/workflows/cars` - Car data processing workflow
 - `POST /api/workflows/coe` - COE data processing workflow

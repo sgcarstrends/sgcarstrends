@@ -57,7 +57,7 @@ Certificate of Entitlement (COE) bidding results, and vehicle deregistration sta
 - **Web Application**: Next.js 16 frontend with Cache Components, component co-location, interactive charts, analytics,
   blog functionality, and integrated admin interface at `/admin` path. Also hosts the integrated data updater workflows.
 - **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA
-  DataMall (QStash workflows). Consolidated into the web application for simplified deployment.
+  DataMall (Vercel WDK workflows). Consolidated into the web application for simplified deployment.
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini to analyse market data
   and generate insights. Runs within web application workflows.
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available.
@@ -93,13 +93,13 @@ All commands use pnpm as the package manager.
 - **apps/web**: Next.js frontend application with integrated workflows
     - **src/app**: Next.js App Router pages and layouts with blog functionality
     - **src/app/admin**: Integrated admin interface for content management
-    - **src/app/api/workflows**: QStash workflow endpoints (cars, coe, deregistrations, trigger)
+    - **src/app/api/workflows**: Vercel WDK workflow endpoints (cars, coe, deregistrations, trigger)
     - **src/lib/workflows**: Workflow-based data update system and social media integration
     - **src/components**: React components with comprehensive tests
     - **src/actions**: Server actions for maintenance and background tasks
     - **src/utils**: Web-specific utility functions
     - **src/queries**: Data fetching queries with comprehensive tests
-    - **src/config**: Database, Redis, QStash, animations, and platform configurations
+    - **src/config**: Database, Redis, animations, and platform configurations
 - **packages/database**: Database schema and migrations using Drizzle ORM
     - **src/schema**: Schema definitions for cars, COE, deregistrations, and posts tables
     - **migrations**: Database migration files with version tracking

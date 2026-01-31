@@ -56,7 +56,7 @@ graph TB
     
     %% External Services
     subgraph "External Services"
-        QStash[QStash Workflow Orchestrator]
+        WDK[Vercel WDK Workflows]
         LTA[LTA DataMall APIs]
         SocialPlatforms[Social Media Platforms]
         GeminiAI[Google Gemini AI]
@@ -100,7 +100,7 @@ graph TB
     WorkflowRouter --> TelegramHook
     
     %% External integrations
-    TriggerWorkflow --> QStash
+    TriggerWorkflow --> WDK
     CarsWorkflow --> LTA
     COEWorkflow --> LTA
     CarsWorkflow --> GeminiAI
@@ -130,6 +130,6 @@ graph TB
     
     class Logger,Compress,PrettyJSON,BearerAuth,ErrorHandler middleware
     class Root,OpenAPI,HealthCheck,CarsAPI,COEAPI,MonthsAPI endpoint
-    class QStash,LTA,SocialPlatforms,GeminiAI external
+    class WDK,LTA,SocialPlatforms,GeminiAI external
     class PostgreSQL,Redis database
     class TriggerWorkflow,CarsWorkflow,COEWorkflow,DeregistrationsWorkflow,LinkedInHook,TwitterHook,TelegramHook workflow

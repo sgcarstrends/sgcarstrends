@@ -54,7 +54,6 @@ graph TB
             subgraph "API Lambda Environment"
                 CoreEnv[Core: STAGE, DATABASE_URL, API_TOKEN]
                 AIEnv[AI: GOOGLE_GENERATIVE_AI_API_KEY] 
-                QStashEnv[QStash: QSTASH_TOKEN, SIGNING_KEYS]
                 RedisEnv[Redis: UPSTASH_REDIS_REST_*]
                 SocialEnv[Social: DISCORD, LINKEDIN, TELEGRAM, TWITTER]
             end
@@ -76,9 +75,6 @@ graph TB
             LTA[LTA DataMall APIs]
             GeminiAI[Vercel AI SDK + Google Gemini]
         end
-        
-        %% Message Queue
-        QStash[QStash Workflow Orchestrator]
         
         %% Databases
         subgraph "Managed Databases"
@@ -137,7 +133,6 @@ graph TB
     %% Environment Configuration
     APILambda --> CoreEnv
     APILambda --> AIEnv
-    APILambda --> QStashEnv
     APILambda --> RedisEnv
     APILambda --> SocialEnv
     
@@ -150,7 +145,6 @@ graph TB
     %% External Connections
     APILambda --> LTA
     APILambda --> GeminiAI
-    APILambda --> QStash
     APILambda --> PostgreSQL
     APILambda --> Upstash
     APILambda --> LinkedIn
@@ -178,7 +172,7 @@ graph TB
     
     class CloudFront,Router,APIGateway,APILambda,NextjsSSR,StaticAssets aws
     class Cloudflare dns
-    class APIRuntime,APITimeout,HonoApp,WebRuntime,WebWarm,NextjsFramework,CoreEnv,AIEnv,QStashEnv,RedisEnv,SocialEnv,WebEnv,PublicEnv,WebRedis,WebAuth,WebDB function
+    class APIRuntime,APITimeout,HonoApp,WebRuntime,WebWarm,NextjsFramework,CoreEnv,AIEnv,RedisEnv,SocialEnv,WebEnv,PublicEnv,WebRedis,WebAuth,WebDB function
     class PostgreSQL,Upstash database
-    class LTA,GeminiAI,QStash external
+    class LTA,GeminiAI external
     class LinkedIn,Telegram,Twitter social

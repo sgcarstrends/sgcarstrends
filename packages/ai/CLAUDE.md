@@ -12,7 +12,7 @@ The `@sgcarstrends/ai` package provides AI-powered blog post generation for the 
 - **Tag Constants**: Predefined vocabulary for consistent categorisation (`CARS_TAGS`, `COE_TAGS`)
 - **Langfuse Telemetry**: Full observability with token usage tracking, cost analysis, and performance monitoring
 - **Idempotent Post Saving**: Prevents duplicate posts with conflict handling
-- **Shared Logic**: Single source of truth for blog generation used by both API workflows and Admin app
+- **Shared Logic**: Single source of truth for blog generation used by Vercel WDK workflows and Admin app
 
 ## Package Structure
 
@@ -35,7 +35,7 @@ packages/ai/
 
 ### `generateBlogContent(params: BlogGenerationParams)`
 
-Standalone blog content generation function without WorkflowContext dependency. Uses a single API call combining tool calling and structured output.
+Standalone blog content generation function. Uses a single API call combining tool calling and structured output.
 
 **Purpose**: Generate accurate, structured blog posts using Gemini with Code Execution Tool and Zod validation.
 
@@ -112,48 +112,9 @@ console.log(object.tags);       // Category tags
 console.log(object.highlights); // Key statistics for visual display
 ```
 
-### `generatePost(context: WorkflowContext, params: BlogGenerationParams)`
+### `regenerateBlogContent(params: BlogGenerationParams)`
 
-Workflow-aware blog generation function for use in QStash workflows.
-
-**Purpose**: Generate and save blog posts within a QStash workflow context with automatic persistence.
-
-**Parameters:**
-- `context`: QStash WorkflowContext for step orchestration
-- `params`: BlogGenerationParams (same as `generateBlogContent`)
-
-**Returns:**
-```typescript
-interface GenerateAndSaveResult {
-  month: string;
-  postId: string;
-  title: string;
-  slug: string;
-}
-```
-
-**Features:**
-- Uses `generateBlogContent()` internally (single-call with tools + structured output)
-- Automatically adds hero image based on dataType
-- Saves structured post to database with `savePost()`
-- Revalidates blog cache on web app
-- Full Langfuse tracing and telemetry
-
-**Usage Example:**
-```typescript
-import { serve } from "@upstash/workflow/nextjs";
-import { generatePost } from "@sgcarstrends/ai";
-
-export const POST = serve(async (context) => {
-  const result = await generatePost(context, {
-    data: tokenisedData,
-    month: "October 2024",
-    dataType: "cars",
-  });
-
-  return result;
-});
-```
+Regenerates an existing blog post. Same parameters and return type as `generateBlogContent()`.
 
 ## System Instructions
 
@@ -338,9 +299,8 @@ interface SavePostParams {
 ## Dependencies
 
 **Core:**
-- `@ai-sdk/google`: ^2.0.20 - Google Gemini integration
-- `ai`: ^5.0.68 - Vercel AI SDK
-- `@upstash/workflow`: ^0.2.12 - QStash workflow support
+- `@ai-sdk/google` - Google Gemini integration
+- `ai` - Vercel AI SDK
 
 **Observability:**
 - `@langfuse/otel`: ^4.2.0 - Langfuse OpenTelemetry integration
@@ -379,28 +339,36 @@ try {
 }
 ```
 
-### Pattern 2: Workflow Integration (API)
+### Pattern 2: Workflow Integration (Vercel WDK)
 
 ```typescript
-import { serve } from "@upstash/workflow/nextjs";
-import { generatePost } from "@sgcarstrends/ai";
+import { generateBlogContent } from "@sgcarstrends/ai";
+import { tokeniser } from "@sgcarstrends/utils";
+import { fetch } from "workflow";
 
-export const POST = serve(async (context) => {
-  const result = await generatePost(context, {
-    data: tokenisedData,
-    month: "October 2024",
-    dataType: "cars",
-  });
+export async function carsWorkflow(payload: { month?: string }) {
+  "use workflow";
 
-  // Post is automatically saved to database with:
-  // - title, excerpt, content, tags, highlights from structured output
-  // - Hero image automatically added based on dataType
-  // Cache is revalidated
-  // Tracing is shutdown
+  // Enable WDK's durable fetch for AI SDK
+  globalThis.fetch = fetch;
 
-  return result;
-});
+  // Fetch and tokenise data
+  const carsData = await fetchCarsData(month);
+  const data = tokeniser(carsData);
+
+  // Generate blog post (step function)
+  const post = await generateCarsPost(data, month);
+
+  return { postId: post.postId, title: post.title };
+}
+
+async function generateCarsPost(data: string, month: string) {
+  "use step";
+  return generateBlogContent({ data, month, dataType: "cars" });
+}
 ```
+
+**Note:** When using within Vercel WDK workflows, set `globalThis.fetch = fetch` (from the `workflow` package) before calling AI functions to enable durable fetch with automatic retries.
 
 ## Code Style
 
@@ -429,6 +397,6 @@ No tests currently implemented. Future testing should cover:
 
 ## Related Documentation
 
-- **API Integration**: See [apps/api/CLAUDE.md](../../apps/api/CLAUDE.md) for workflow usage
-- **Admin Interface**: Admin functionality is integrated into the web app at `/admin` path (see [apps/web/CLAUDE.md](../../apps/web/CLAUDE.md))
+- **Workflow Integration**: See [apps/web/CLAUDE.md](../../apps/web/CLAUDE.md) for Vercel WDK workflow usage
+- **Admin Interface**: Admin functionality is integrated into the web app at `/admin` path
 - **Database Schema**: See [packages/database/CLAUDE.md](../database/CLAUDE.md) for posts table structure

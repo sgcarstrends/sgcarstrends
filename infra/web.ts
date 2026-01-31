@@ -23,11 +23,7 @@ export const web = new sst.aws.Nextjs("Web", {
     LANGFUSE_SECRET_KEY: process.env.LANGFUSE_SECRET_KEY,
     LANGFUSE_HOST: process.env.LANGFUSE_HOST,
 
-    // QStash/Upstash
-    QSTASH_TOKEN: process.env.QSTASH_TOKEN as string,
-    QSTASH_CURRENT_SIGNING_KEY: process.env
-      .QSTASH_CURRENT_SIGNING_KEY as string,
-    QSTASH_NEXT_SIGNING_KEY: process.env.QSTASH_NEXT_SIGNING_KEY as string,
+    // Upstash Redis
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL as string,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN as string,
 
