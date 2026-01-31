@@ -57,7 +57,7 @@ async function generateContent(
   startTracing();
 
   const result = await generateText({
-    model: google("gemini-2.5-flash-preview-05-20"),
+    model: google("gemini-3-flash-preview"),
     tools: {
       // @ts-expect-error - code_execution is a valid tool
       code_execution: google.tools.codeExecution({}),
