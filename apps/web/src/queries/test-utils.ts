@@ -79,8 +79,8 @@ vi.mock("@neondatabase/serverless", () => ({
   neon: vi.fn(() => vi.fn()),
 }));
 
-vi.mock(import("@sgcarstrends/database"), async (importOriginal) => {
-  const mod = await importOriginal();
+vi.mock("@sgcarstrends/database", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@sgcarstrends/database")>();
   return {
     ...mod,
     db: mockDb,
