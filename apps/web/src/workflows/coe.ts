@@ -6,7 +6,8 @@ import { updateCoe } from "@web/lib/workflows/update-coe";
 import { getCOELatestRecord } from "@web/queries/coe/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { revalidateTag } from "next/cache";
-import { fetch } from "workflow";
+import { fetch, getStepMetadata } from "workflow";
+import { handleStepError } from "./error-handling";
 import { publishToSocialMedia, revalidatePostsCache } from "./shared";
 
 interface CoeWorkflowPayload {
@@ -94,20 +95,26 @@ export async function coeWorkflow(
 async function processCoeData(): Promise<UpdaterResult> {
   "use step";
 
-  console.log("Processing COE data");
+  const metadata = getStepMetadata();
+  console.log(`Processing COE data (attempt ${metadata.attempt})`);
 
-  const result = await updateCoe();
+  try {
+    const result = await updateCoe();
 
-  if (result.recordsProcessed > 0) {
-    const now = Date.now();
-    await redis.set("last_updated:coe", now);
-    console.log("Last updated coe:", now);
-  } else {
-    console.log("No changes for coe");
+    if (result.recordsProcessed > 0) {
+      const now = Date.now();
+      await redis.set("last_updated:coe", now);
+      console.log("Last updated coe:", now);
+    } else {
+      console.log("No changes for coe");
+    }
+
+    return result;
+  } catch (error) {
+    handleStepError(error, { category: "lta-datamall", context: "COE" });
   }
-
-  return result;
 }
+processCoeData.maxRetries = 3;
 
 /**
  * Get the latest COE record from the database.
@@ -118,8 +125,12 @@ async function getLatestRecord(): Promise<{
 } | null> {
   "use step";
 
-  const record = await getCOELatestRecord();
-  return record ?? null;
+  try {
+    const record = await getCOELatestRecord();
+    return record ?? null;
+  } catch (error) {
+    handleStepError(error, { category: "database", context: "COE" });
+  }
 }
 
 /**
@@ -145,8 +156,12 @@ async function checkExistingCoePost(
 ): Promise<{ id: string } | null> {
   "use step";
 
-  const [existingPost] = await getExistingPostByMonth(month, "coe");
-  return existingPost ?? null;
+  try {
+    const [existingPost] = await getExistingPostByMonth(month, "coe");
+    return existingPost ?? null;
+  } catch (error) {
+    handleStepError(error, { category: "database", context: "COE" });
+  }
 }
 
 /**
@@ -155,7 +170,11 @@ async function checkExistingCoePost(
 async function fetchCoeData(month: string) {
   "use step";
 
-  return getCoeForMonth(month);
+  try {
+    return await getCoeForMonth(month);
+  } catch (error) {
+    handleStepError(error, { category: "database", context: "COE" });
+  }
 }
 
 /**
@@ -167,11 +186,19 @@ async function generateCoePost(
 ) {
   "use step";
 
-  const data = tokeniser(coeData);
+  const metadata = getStepMetadata();
+  console.log(`Generating COE blog post (attempt ${metadata.attempt})`);
 
-  return generateBlogContent({
-    data,
-    month,
-    dataType: "coe",
-  });
+  try {
+    const data = tokeniser(coeData);
+
+    return await generateBlogContent({
+      data,
+      month,
+      dataType: "coe",
+    });
+  } catch (error) {
+    handleStepError(error, { category: "ai-generation", context: "COE" });
+  }
 }
+generateCoePost.maxRetries = 3;

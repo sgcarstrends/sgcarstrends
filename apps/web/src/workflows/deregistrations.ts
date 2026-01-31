@@ -3,6 +3,8 @@ import type { UpdaterResult } from "@web/lib/updater";
 import { updateDeregistration } from "@web/lib/workflows/update-deregistration";
 import { getDeregistrationsLatestMonth } from "@web/queries/deregistrations/latest-month";
 import { revalidateTag } from "next/cache";
+import { getStepMetadata } from "workflow";
+import { handleStepError } from "./error-handling";
 
 interface DeregistrationsWorkflowPayload {
   month?: string;
@@ -51,20 +53,29 @@ export async function deregistrationsWorkflow(
 async function processDeregistrationsData(): Promise<UpdaterResult> {
   "use step";
 
-  console.log("Processing deregistrations data");
+  const metadata = getStepMetadata();
+  console.log(`Processing deregistrations data (attempt ${metadata.attempt})`);
 
-  const result = await updateDeregistration();
+  try {
+    const result = await updateDeregistration();
 
-  if (result.recordsProcessed > 0) {
-    const now = Date.now();
-    await redis.set("last_updated:deregistrations", now);
-    console.log("Last updated deregistrations:", now);
-  } else {
-    console.log("No changes for deregistrations");
+    if (result.recordsProcessed > 0) {
+      const now = Date.now();
+      await redis.set("last_updated:deregistrations", now);
+      console.log("Last updated deregistrations:", now);
+    } else {
+      console.log("No changes for deregistrations");
+    }
+
+    return result;
+  } catch (error) {
+    handleStepError(error, {
+      category: "lta-datamall",
+      context: "DEREGISTRATIONS",
+    });
   }
-
-  return result;
 }
+processDeregistrationsData.maxRetries = 3;
 
 /**
  * Get the latest month from the deregistrations database.
@@ -72,8 +83,15 @@ async function processDeregistrationsData(): Promise<UpdaterResult> {
 async function getLatestMonth(): Promise<string | null> {
   "use step";
 
-  const { month } = await getDeregistrationsLatestMonth();
-  return month ?? null;
+  try {
+    const { month } = await getDeregistrationsLatestMonth();
+    return month ?? null;
+  } catch (error) {
+    handleStepError(error, {
+      category: "database",
+      context: "DEREGISTRATIONS",
+    });
+  }
 }
 
 /**

@@ -9,7 +9,8 @@ import { updateCars } from "@web/lib/workflows/update-cars";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { revalidateTag } from "next/cache";
-import { fetch } from "workflow";
+import { fetch, getStepMetadata } from "workflow";
+import { handleStepError } from "./error-handling";
 import { publishToSocialMedia, revalidatePostsCache } from "./shared";
 
 interface CarsWorkflowPayload {
@@ -87,20 +88,26 @@ export async function carsWorkflow(
 async function processCarsData(): Promise<UpdaterResult> {
   "use step";
 
-  console.log("Processing cars data");
+  const metadata = getStepMetadata();
+  console.log(`Processing cars data (attempt ${metadata.attempt})`);
 
-  const result = await updateCars();
+  try {
+    const result = await updateCars();
 
-  if (result.recordsProcessed > 0) {
-    const now = Date.now();
-    await redis.set("last_updated:cars", now);
-    console.log("Last updated cars:", now);
-  } else {
-    console.log("No changes for cars");
+    if (result.recordsProcessed > 0) {
+      const now = Date.now();
+      await redis.set("last_updated:cars", now);
+      console.log("Last updated cars:", now);
+    } else {
+      console.log("No changes for cars");
+    }
+
+    return result;
+  } catch (error) {
+    handleStepError(error, { category: "lta-datamall", context: "CARS" });
   }
-
-  return result;
 }
+processCarsData.maxRetries = 3;
 
 /**
  * Get the latest month from the cars database.
@@ -108,7 +115,11 @@ async function processCarsData(): Promise<UpdaterResult> {
 async function getLatestMonth(): Promise<string | null> {
   "use step";
 
-  return getCarsLatestMonth();
+  try {
+    return await getCarsLatestMonth();
+  } catch (error) {
+    handleStepError(error, { category: "database", context: "CARS" });
+  }
 }
 
 /**
@@ -134,8 +145,12 @@ async function checkExistingCarsPost(
 ): Promise<{ id: string } | null> {
   "use step";
 
-  const [existingPost] = await getExistingPostByMonth(month, "cars");
-  return existingPost ?? null;
+  try {
+    const [existingPost] = await getExistingPostByMonth(month, "cars");
+    return existingPost ?? null;
+  } catch (error) {
+    handleStepError(error, { category: "database", context: "CARS" });
+  }
 }
 
 /**
@@ -144,7 +159,11 @@ async function checkExistingCarsPost(
 async function fetchCarsData(month: string) {
   "use step";
 
-  return getCarsAggregatedByMonth(month);
+  try {
+    return await getCarsAggregatedByMonth(month);
+  } catch (error) {
+    handleStepError(error, { category: "database", context: "CARS" });
+  }
 }
 
 /**
@@ -156,11 +175,19 @@ async function generateCarsPost(
 ) {
   "use step";
 
-  const data = tokeniser(carsData);
+  const metadata = getStepMetadata();
+  console.log(`Generating cars blog post (attempt ${metadata.attempt})`);
 
-  return generateBlogContent({
-    data,
-    month,
-    dataType: "cars",
-  });
+  try {
+    const data = tokeniser(carsData);
+
+    return await generateBlogContent({
+      data,
+      month,
+      dataType: "cars",
+    });
+  } catch (error) {
+    handleStepError(error, { category: "ai-generation", context: "CARS" });
+  }
 }
+generateCarsPost.maxRetries = 3;
