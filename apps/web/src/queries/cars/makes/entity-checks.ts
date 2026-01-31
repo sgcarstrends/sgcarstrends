@@ -1,5 +1,4 @@
-import { cars, db } from "@sgcarstrends/database";
-import { ilike } from "drizzle-orm";
+import { cars, db, ilike, max } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 const normalisePattern = (value: string) => value.replaceAll("-", "%");

@@ -3,8 +3,7 @@
  * This module provides reusable query functions that work with both fuelType and vehicleType columns
  */
 
-import { cars, db } from "@sgcarstrends/database";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, cars, db, desc, eq, or, sql, sum } from "@sgcarstrends/database";
 
 /**
  * Configuration for type-based queries

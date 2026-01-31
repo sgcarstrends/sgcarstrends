@@ -1,5 +1,4 @@
-import { db, deregistrations } from "@sgcarstrends/database";
-import { desc } from "drizzle-orm";
+import { db, deregistrations, desc, max } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 /**

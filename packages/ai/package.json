@@ -16,7 +16,7 @@
     "@upstash/qstash": "^2.8.4",
     "@upstash/workflow": "catalog:",
     "ai": "catalog:",
-    "drizzle-orm": "0.44.3",
+    "drizzle-orm": "catalog:",
     "zod": "catalog:"
   }
 }

@@ -1,5 +1,4 @@
-import { coe, db } from "@sgcarstrends/database";
-import { desc, max } from "drizzle-orm";
+import { and, coe, db, desc, max } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 /**

@@ -1,5 +1,5 @@
 import path from "node:path";
-import { db } from "@sgcarstrends/database";
+import { db, getTableName, inArray, type Table } from "@sgcarstrends/database";
 import { createUniqueKey } from "@sgcarstrends/utils";
 import { AWS_LAMBDA_TEMP_DIR } from "@web/config/workflow";
 import { calculateChecksum } from "@web/lib/updater/services/calculate-checksum";
@@ -9,7 +9,6 @@ import {
   processCsv,
 } from "@web/lib/updater/services/process-csv";
 import { Checksum } from "@web/utils/checksum";
-import { getTableName, inArray, type Table } from "drizzle-orm";
 
 export interface UpdaterConfig<T> {
   table: Table;

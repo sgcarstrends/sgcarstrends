@@ -5,6 +5,7 @@ packages:
 catalog:
   '@ai-sdk/google': ^3.0.6
   '@upstash/redis': 1.34.4
+  drizzle-orm: 0.44.3
   '@langfuse/otel': ^4.4.2
   '@tailwindcss/postcss': ^4.1.11
   '@types/node': ^22.16.4

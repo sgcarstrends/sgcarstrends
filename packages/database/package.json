@@ -18,7 +18,7 @@
   "packageManager": "pnpm@10.22.0",
   "dependencies": {
     "@neondatabase/serverless": "1.0.1",
-    "drizzle-orm": "0.44.3"
+    "drizzle-orm": "catalog:"
   },
   "devDependencies": {
     "drizzle-kit": "0.31.4"

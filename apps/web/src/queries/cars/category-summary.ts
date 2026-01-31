@@ -1,5 +1,4 @@
-import { cars, db } from "@sgcarstrends/database";
-import { and, eq, gt, sql } from "drizzle-orm";
+import { and, cars, db, eq, gt, max, sql, sum } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface CategorySummary {
