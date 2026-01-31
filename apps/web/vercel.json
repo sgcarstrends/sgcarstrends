@@ -1,4 +1,18 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "relatedProjects": ["prj_fyAvupEssH3LO4OQFDWplinVFlaI"]
+  "relatedProjects": ["prj_fyAvupEssH3LO4OQFDWplinVFlaI"],
+  "crons": [
+    {
+      "path": "/api/workflows/cars",
+      "schedule": "0 1-10 * * 1-5"
+    },
+    {
+      "path": "/api/workflows/coe",
+      "schedule": "0 1-10 * * 1-5"
+    },
+    {
+      "path": "/api/workflows/deregistrations",
+      "schedule": "0 1-10 * * 1-5"
+    }
+  ]
 }

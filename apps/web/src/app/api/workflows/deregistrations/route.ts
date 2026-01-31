@@ -1,9 +1,13 @@
-import { serve } from "@upstash/workflow/nextjs";
-import { deregistrationWorkflow } from "@web/lib/workflows/deregistration";
-import { options } from "@web/lib/workflows/options";
-import type { DeregistrationWorkflowPayload } from "@web/lib/workflows/types";
+import { deregistrationsWorkflow } from "@web/workflows/deregistrations";
+import { start } from "workflow/api";
 
-export const { POST } = serve<DeregistrationWorkflowPayload>(
-  deregistrationWorkflow,
-  options,
-);
+export async function POST(request: Request) {
+  const payload = await request.json().catch(() => ({}));
+
+  const run = await start(deregistrationsWorkflow, [payload]);
+
+  return Response.json({
+    message: "Deregistrations workflow started",
+    runId: run.runId,
+  });
+}
