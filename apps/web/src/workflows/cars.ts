@@ -4,13 +4,13 @@ import {
 } from "@sgcarstrends/ai";
 import { redis, tokeniser } from "@sgcarstrends/utils";
 import { SITE_URL } from "@web/config";
-import { socialMediaManager } from "@web/config/platforms";
 import type { UpdaterResult } from "@web/lib/updater";
 import { updateCars } from "@web/lib/workflows/update-cars";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { revalidateTag } from "next/cache";
 import { fetch } from "workflow";
+import { publishToSocialMedia, revalidatePostsCache } from "./shared";
 
 interface CarsWorkflowPayload {
   month?: string;
@@ -26,7 +26,7 @@ interface CarsWorkflowResult {
  * Processes car registration data, generates blog posts, and publishes to social media.
  */
 export async function carsWorkflow(
-  payload: CarsWorkflowPayload,
+  _payload: CarsWorkflowPayload,
 ): Promise<CarsWorkflowResult> {
   "use workflow";
 
@@ -163,35 +163,4 @@ async function generateCarsPost(
     month,
     dataType: "cars",
   });
-}
-
-/**
- * Publish update to all enabled social media platforms.
- */
-async function publishToSocialMedia(
-  title: string,
-  link: string,
-): Promise<void> {
-  "use step";
-
-  console.log("Publishing to all enabled platforms");
-
-  const result = await socialMediaManager.publishToAll({
-    message: `📰 New Blog Post: ${title}`,
-    link,
-  });
-
-  console.log(
-    `Publishing complete: ${result.successCount} successful, ${result.errorCount} failed`,
-  );
-}
-
-/**
- * Revalidate posts cache after publishing.
- */
-async function revalidatePostsCache(): Promise<void> {
-  "use step";
-
-  revalidateTag("posts:list", "max");
-  console.log("[WORKFLOW] Posts cache invalidated");
 }

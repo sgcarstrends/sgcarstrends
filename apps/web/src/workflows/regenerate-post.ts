@@ -4,8 +4,8 @@ import {
   regenerateBlogContent,
 } from "@sgcarstrends/ai";
 import { tokeniser } from "@sgcarstrends/utils";
-import { revalidateTag } from "next/cache";
 import { fetch } from "workflow";
+import { revalidatePostsCache } from "./shared";
 
 interface RegeneratePostPayload {
   month: string;
@@ -80,10 +80,4 @@ async function generatePost(
     month,
     dataType,
   });
-}
-
-async function revalidatePostsCache(): Promise<void> {
-  "use step";
-  revalidateTag("posts:list", "max");
-  console.log("[WORKFLOW] Posts cache invalidated");
 }
