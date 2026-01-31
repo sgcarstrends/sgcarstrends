@@ -1,3 +1,22 @@
+## [4.44.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.43.0...v4.44.0) (2026-01-31)
+
+### Features
+
+* add error handling for WDK ([87c6b32](https://github.com/sgcarstrends/sgcarstrends/commit/87c6b32ace7ad869a42c5958d1cd7de3f9c8d85f))
+* add month/year selectors to dashboard pages ([b6f8c41](https://github.com/sgcarstrends/sgcarstrends/commit/b6f8c41d341b6fae8d1d706dc1dc8215d0ef3c9f))
+* add page-specific context infoboxes ([f9a23a6](https://github.com/sgcarstrends/sgcarstrends/commit/f9a23a653e3b04d8831afc729e44c92e5cad00b4))
+* enable streamdown animation on page refresh ([3d70784](https://github.com/sgcarstrends/sgcarstrends/commit/3d707841c8ee94ed10c470a06038f1887ffbba23))
+* migrate workflows to Vercel WDK ([6dada6e](https://github.com/sgcarstrends/sgcarstrends/commit/6dada6eb0fdc37546f2a8eae6fb32c14aacd4ebc)), closes [#677](https://github.com/sgcarstrends/sgcarstrends/issues/677)
+* re-enable blog generation in WDK workflows ([01154b0](https://github.com/sgcarstrends/sgcarstrends/commit/01154b06eaebff9ba4763fdf8106eca569dfbbb5))
+
+### Bug Fixes
+
+* pin @upstash/redis to avoid runtime errors ([6b71864](https://github.com/sgcarstrends/sgcarstrends/commit/6b71864fa79320e99d185419500c6450cb56522c)), closes [#677](https://github.com/sgcarstrends/sgcarstrends/issues/677)
+* preserve Drizzle exports in test mocks ([1e91d01](https://github.com/sgcarstrends/sgcarstrends/commit/1e91d016e7e638e58d5031147311cb544a623ea4)), closes [#679](https://github.com/sgcarstrends/sgcarstrends/issues/679)
+* resolve Drizzle ORM type inference with Next.js cache ([abbcfd1](https://github.com/sgcarstrends/sgcarstrends/commit/abbcfd12183c991aca1c5bc029f0a5f48dd52446))
+* resolve vi.mock TypeScript inference ([ac4d962](https://github.com/sgcarstrends/sgcarstrends/commit/ac4d9622dbb379febb08ee1df595e63164b57892)), closes [#677](https://github.com/sgcarstrends/sgcarstrends/issues/677)
+* validate month across CARS/COE data sources ([e4592f6](https://github.com/sgcarstrends/sgcarstrends/commit/e4592f69093cbea41c8f32875b3fcd68b2b8be96))
+
 ## [4.43.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.2...v4.43.0) (2026-01-28)
 
 ### Features
