@@ -1,12 +1,12 @@
 "use server";
 
-import crypto from "node:crypto";
 import type { LanguageModelUsage } from "@sgcarstrends/ai";
 import { db, posts } from "@sgcarstrends/database";
 import { auth } from "@web/app/admin/lib/auth";
-import { client } from "@web/app/admin/lib/qstash";
-import { desc } from "drizzle-orm";
+import { regeneratePostWorkflow } from "@web/workflows/regenerate-post";
+import { and, desc, eq } from "drizzle-orm";
 import { headers } from "next/headers";
+import { start } from "workflow/api";
 
 export interface PostWithMetadata {
   id: string;
@@ -40,7 +40,7 @@ export const getAllPosts = async (): Promise<PostWithMetadata[]> => {
 export const regeneratePost = async (params: {
   month: string;
   dataType: "cars" | "coe";
-}): Promise<{ success: boolean; error?: string; workflowRunId?: string }> => {
+}): Promise<{ success: boolean; error?: string; runId?: string }> => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -53,19 +53,11 @@ export const regeneratePost = async (params: {
   }
 
   try {
-    const workflowRunId = crypto.randomUUID();
-    const baseUrl = process.env.WORKFLOWS_BASE_URL;
-
-    await client.trigger({
-      url: `${baseUrl}/regenerate`,
-      body: params,
-      headers: { "Upstash-Workflow-RunId": workflowRunId },
-      workflowRunId,
-    });
+    const run = await start(regeneratePostWorkflow, [params]);
 
     return {
       success: true,
-      workflowRunId,
+      runId: run.runId,
     };
   } catch (error) {
     console.error("Error triggering regeneration workflow:", error);

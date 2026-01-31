@@ -252,15 +252,9 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.20.1
         version: 8.21.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@upstash/qstash':
-        specifier: ^2.8.4
-        version: 2.8.4
       '@upstash/redis':
         specifier: ^1.34.8
         version: 1.35.8
-      '@upstash/workflow':
-        specifier: 'catalog:'
-        version: 0.3.0-rc(zod@4.2.1)
       '@vercel/analytics':
         specifier: ^1.5.0
         version: 1.6.1(next@16.1.6(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@playwright/test@1.57.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)
