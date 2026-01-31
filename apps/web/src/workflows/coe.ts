@@ -1,16 +1,13 @@
-// TODO: Re-enable after refactoring @sgcarstrends/ai to support non-QStash contexts
-// import {
-//   generateBlogContent,
-//   getCoeForMonth,
-// } from "@sgcarstrends/ai";
-// import { SITE_URL } from "@web/config";
-// import { socialMediaManager } from "@web/config/platforms";
-// import { getExistingPostByMonth } from "@web/queries/posts";
-import { redis } from "@sgcarstrends/utils";
+import { generateBlogContent, getCoeForMonth } from "@sgcarstrends/ai";
+import { redis, tokeniser } from "@sgcarstrends/utils";
+import { SITE_URL } from "@web/config";
+import { socialMediaManager } from "@web/config/platforms";
 import type { UpdaterResult } from "@web/lib/updater";
 import { updateCoe } from "@web/lib/workflows/update-coe";
 import { getCOELatestRecord } from "@web/queries/coe/latest-month";
+import { getExistingPostByMonth } from "@web/queries/posts";
 import { revalidateTag } from "next/cache";
+import { fetch } from "workflow";
 
 interface CoeWorkflowPayload {
   month?: string;
@@ -29,6 +26,9 @@ export async function coeWorkflow(
   payload: CoeWorkflowPayload,
 ): Promise<CoeWorkflowResult> {
   "use workflow";
+
+  // Enable WDK's durable fetch for AI SDK
+  globalThis.fetch = fetch;
 
   // Step 1: Process COE data (both COE results and PQP)
   const result = await processCoeData();
@@ -59,31 +59,31 @@ export async function coeWorkflow(
     };
   }
 
-  // TODO: Re-enable after refactoring @sgcarstrends/ai to support non-QStash contexts
-  // // Step 4: Check if post already exists
-  // const existingPost = await checkExistingCoePost(month);
-  // if (existingPost) {
-  //   return {
-  //     message:
-  //       "[COE] Data processed. Post already exists, skipping social media.",
-  //   };
-  // }
+  // Step 4: Check if post already exists
+  const existingPost = await checkExistingCoePost(month);
+  if (existingPost) {
+    return {
+      message:
+        "[COE] Data processed. Post already exists, skipping social media.",
+    };
+  }
 
-  // // Step 5: Fetch COE data for blog generation
-  // const coeData = await fetchCoeData(month);
+  // Step 5: Fetch COE data for blog generation
+  const coeData = await fetchCoeData(month);
 
-  // // Step 6: Generate blog post
-  // const post = await generateCoePost(coeData, month);
+  // Step 6: Generate blog post
+  const post = await generateCoePost(coeData, month);
 
-  // // Step 7: Publish to social media
-  // const link = `${SITE_URL}/blog/${post.slug}`;
-  // await publishToSocialMedia(post.title, link);
+  // Step 7: Publish to social media
+  const link = `${SITE_URL}/blog/${post.slug}`;
+  await publishToSocialMedia(post.title, link);
 
-  // // Step 8: Revalidate posts cache
-  // await revalidatePostsCache();
+  // Step 8: Revalidate posts cache
+  await revalidatePostsCache();
 
   return {
     message: "[COE] Data processed and cache revalidated successfully",
+    postId: post.postId,
   };
 }
 
@@ -137,73 +137,72 @@ async function revalidateCoeCache(year: string): Promise<void> {
   console.log(`[WORKFLOW] Cache invalidated for tags: ${tags.join(", ")}`);
 }
 
-// TODO: Re-enable after refactoring @sgcarstrends/ai to support non-QStash contexts
-// /**
-//  * Check if a blog post already exists for the given month.
-//  */
-// async function checkExistingCoePost(
-//   month: string,
-// ): Promise<{ id: string } | null> {
-//   "use step";
+/**
+ * Check if a blog post already exists for the given month.
+ */
+async function checkExistingCoePost(
+  month: string,
+): Promise<{ id: string } | null> {
+  "use step";
 
-//   const [existingPost] = await getExistingPostByMonth(month, "coe");
-//   return existingPost ?? null;
-// }
+  const [existingPost] = await getExistingPostByMonth(month, "coe");
+  return existingPost ?? null;
+}
 
-// /**
-//  * Fetch COE data for blog generation.
-//  */
-// async function fetchCoeData(month: string) {
-//   "use step";
+/**
+ * Fetch COE data for blog generation.
+ */
+async function fetchCoeData(month: string) {
+  "use step";
 
-//   return getCoeForMonth(month);
-// }
+  return getCoeForMonth(month);
+}
 
-// /**
-//  * Generate a blog post from COE data.
-//  */
-// async function generateCoePost(
-//   coeData: Awaited<ReturnType<typeof getCoeForMonth>>,
-//   month: string,
-// ) {
-//   "use step";
+/**
+ * Generate a blog post from COE data.
+ */
+async function generateCoePost(
+  coeData: Awaited<ReturnType<typeof getCoeForMonth>>,
+  month: string,
+) {
+  "use step";
 
-//   const data = tokeniser(coeData);
+  const data = tokeniser(coeData);
 
-//   return generateBlogContent({
-//     data,
-//     month,
-//     dataType: "coe",
-//   });
-// }
+  return generateBlogContent({
+    data,
+    month,
+    dataType: "coe",
+  });
+}
 
-// /**
-//  * Publish update to all enabled social media platforms.
-//  */
-// async function publishToSocialMedia(
-//   title: string,
-//   link: string,
-// ): Promise<void> {
-//   "use step";
+/**
+ * Publish update to all enabled social media platforms.
+ */
+async function publishToSocialMedia(
+  title: string,
+  link: string,
+): Promise<void> {
+  "use step";
 
-//   console.log("Publishing to all enabled platforms");
+  console.log("Publishing to all enabled platforms");
 
-//   const result = await socialMediaManager.publishToAll({
-//     message: `📰 New Blog Post: ${title}`,
-//     link,
-//   });
+  const result = await socialMediaManager.publishToAll({
+    message: `📰 New Blog Post: ${title}`,
+    link,
+  });
 
-//   console.log(
-//     `Publishing complete: ${result.successCount} successful, ${result.errorCount} failed`,
-//   );
-// }
+  console.log(
+    `Publishing complete: ${result.successCount} successful, ${result.errorCount} failed`,
+  );
+}
 
-// /**
-//  * Revalidate posts cache after publishing.
-//  */
-// async function revalidatePostsCache(): Promise<void> {
-//   "use step";
+/**
+ * Revalidate posts cache after publishing.
+ */
+async function revalidatePostsCache(): Promise<void> {
+  "use step";
 
-//   revalidateTag("posts:list", "max");
-//   console.log("[WORKFLOW] Posts cache invalidated");
-// }
+  revalidateTag("posts:list", "max");
+  console.log("[WORKFLOW] Posts cache invalidated");
+}

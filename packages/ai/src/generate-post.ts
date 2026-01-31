@@ -2,8 +2,6 @@ import {
   createGoogleGenerativeAI,
   type GoogleGenerativeAIProviderOptions,
 } from "@ai-sdk/google";
-import type { HTTPMethods } from "@upstash/qstash";
-import { WorkflowAbort, type WorkflowContext } from "@upstash/workflow";
 import { generateText, type LanguageModelUsage, Output, stepCountIs } from "ai";
 import { type BlogGenerationParams, INSTRUCTIONS, PROMPTS } from "./config";
 import { getHeroImage } from "./hero-images";
@@ -35,90 +33,80 @@ export interface GenerateBlogContentResult {
 }
 
 /**
- * Blog generation options including workflow context for context.call() usage
+ * Create the Google Generative AI provider.
+ *
+ * When used within a WDK workflow, set `globalThis.fetch = fetch` (from "workflow")
+ * before calling these functions to enable WDK's durable fetch with automatic retries.
  */
-export interface BlogGenerationOptions extends BlogGenerationParams {
-  workflowContext: WorkflowContext;
-}
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+});
 
 /**
- * Internal: AI content generation using context.call() for reduced Lambda billing.
+ * Internal: AI content generation.
  * Uses a single call with both code execution (tools) and structured output for accuracy and type-safety.
  */
 async function generateContent(
-  options: BlogGenerationOptions,
+  options: BlogGenerationParams,
 ): Promise<GenerateBlogContentResult> {
-  const { data, month, dataType, workflowContext } = options;
-
-  // Create workflow-aware Google provider that uses context.call()
-  const google = createWorkflowGoogle(workflowContext);
+  const { data, month, dataType } = options;
 
   console.log(`[GENERATE] ${dataType} blog generation started...`);
 
   // Initialise LangFuse tracing
   startTracing();
 
-  try {
-    const result = await generateText({
-      model: google("gemini-3-flash-preview"),
-      tools: {
-        // @ts-expect-error
-        code_execution: google.tools.codeExecution({}),
-      },
-      output: Output.object({
-        schema: postSchema,
-      }),
-      stopWhen: stepCountIs(10),
-      system: INSTRUCTIONS[dataType],
-      prompt: `Generate a blog post for ${dataType.toUpperCase()} data from ${month}:\n\n${data}\n\n${PROMPTS[dataType]}`,
-      providerOptions: {
-        google: {
-          thinkingConfig: {
-            thinkingLevel: "medium",
-            includeThoughts: true,
-          },
-        } satisfies GoogleGenerativeAIProviderOptions,
-      },
-      experimental_telemetry: {
-        isEnabled: true,
-        functionId: `post-generation/${dataType}`,
-        metadata: {
-          month,
-          dataType,
-          tags: [dataType, month, "post-generation"],
+  const result = await generateText({
+    model: google("gemini-2.5-flash-preview-05-20"),
+    tools: {
+      // @ts-expect-error - code_execution is a valid tool
+      code_execution: google.tools.codeExecution({}),
+    },
+    output: Output.object({
+      schema: postSchema,
+    }),
+    stopWhen: stepCountIs(10),
+    system: INSTRUCTIONS[dataType],
+    prompt: `Generate a blog post for ${dataType.toUpperCase()} data from ${month}:\n\n${data}\n\n${PROMPTS[dataType]}`,
+    providerOptions: {
+      google: {
+        thinkingConfig: {
+          thinkingLevel: "medium",
+          includeThoughts: true,
         },
+      } satisfies GoogleGenerativeAIProviderOptions,
+    },
+    experimental_telemetry: {
+      isEnabled: true,
+      functionId: `post-generation/${dataType}`,
+      metadata: {
+        month,
+        dataType,
+        tags: [dataType, month, "post-generation"],
       },
-    });
+    },
+  });
 
-    console.log(`[GENERATE] ${dataType} blog generation completed`);
-    console.log(`[GENERATE] Steps: ${result.steps?.length ?? 0}`);
-    console.log(`[GENERATE] Finish reason: ${result.finishReason}`);
-    console.log(`[GENERATE] Tool calls: ${result.toolCalls?.length ?? 0}`);
+  console.log(`[GENERATE] ${dataType} blog generation completed`);
+  console.log(`[GENERATE] Steps: ${result.steps?.length ?? 0}`);
+  console.log(`[GENERATE] Finish reason: ${result.finishReason}`);
+  console.log(`[GENERATE] Tool calls: ${result.toolCalls?.length ?? 0}`);
 
-    const { output, usage, response } = result;
+  const { output, usage, response } = result;
 
-    return {
-      output,
-      usage,
-      response: {
-        id: response.id,
-        modelId: response.modelId,
-        timestamp: response.timestamp,
-      },
-    };
-  } catch (error) {
-    if (error instanceof WorkflowAbort) {
-      throw error;
-    }
-    if (error instanceof Error && error.cause instanceof WorkflowAbort) {
-      throw error.cause;
-    }
-    throw error;
-  }
+  return {
+    output,
+    usage,
+    response: {
+      id: response.id,
+      modelId: response.modelId,
+      timestamp: response.timestamp,
+    },
+  };
 }
 
 async function saveGeneratedPost(
-  options: BlogGenerationOptions,
+  options: BlogGenerationParams,
 ): Promise<GenerateAndSaveResult> {
   const { month, dataType } = options;
 
@@ -159,80 +147,25 @@ async function saveGeneratedPost(
 }
 
 /**
- * Generates and saves a new blog post using context.call() for reduced Lambda billing.
- * Used by API workflow for creating new posts.
+ * Generates and saves a new blog post.
+ *
+ * When used within a WDK workflow, ensure `globalThis.fetch` is set to
+ * the workflow's fetch function before calling this.
  */
 export async function generateBlogContent(
-  options: BlogGenerationOptions,
+  options: BlogGenerationParams,
 ): Promise<GenerateAndSaveResult> {
   return saveGeneratedPost(options);
 }
 
 /**
- * Regenerates and updates an existing blog post using context.call() for reduced Lambda billing.
- * Used by Admin for updating existing posts.
+ * Regenerates and updates an existing blog post.
+ *
+ * When used within a WDK workflow, ensure `globalThis.fetch` is set to
+ * the workflow's fetch function before calling this.
  */
 export async function regenerateBlogContent(
-  options: BlogGenerationOptions,
+  options: BlogGenerationParams,
 ): Promise<GenerateAndSaveResult> {
   return saveGeneratedPost(options);
-}
-
-/**
- * Get bypass headers for Vercel Deployment Protection (preview environments only)
- */
-function getBypassHeaders(): Record<string, string> | undefined {
-  const isProduction = process.env.VERCEL_ENV === "production";
-  if (isProduction || !process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
-    return undefined;
-  }
-  return {
-    "x-vercel-protection-bypass": process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
-  };
-}
-
-/**
- * Creates a workflow-aware Google Generative AI provider that uses context.call()
- * for HTTP requests. This allows the Lambda to exit while QStash handles the request.
- */
-function createWorkflowGoogle(context: WorkflowContext) {
-  return createGoogleGenerativeAI({
-    fetch: async (input, init) => {
-      try {
-        const headers = init?.headers
-          ? Object.fromEntries(new Headers(init.headers).entries())
-          : {};
-
-        const body = init?.body ? JSON.parse(init.body as string) : undefined;
-
-        const responseInfo = await context.call(`Gemini`, {
-          url: input.toString(),
-          method: (init?.method as HTTPMethods) ?? "POST",
-          headers: { ...headers, ...getBypassHeaders() },
-          body,
-        });
-
-        const responseHeaders = new Headers(
-          Object.entries(responseInfo.header).reduce(
-            (acc, [key, values]) => {
-              acc[key] = values.join(", ");
-              return acc;
-            },
-            {} as Record<string, string>,
-          ),
-        );
-
-        return new Response(JSON.stringify(responseInfo.body), {
-          status: responseInfo.status,
-          headers: responseHeaders,
-        });
-      } catch (error) {
-        if (error instanceof WorkflowAbort) {
-          throw error;
-        }
-        console.error("Error in fetch implementation:", error);
-        throw error;
-      }
-    },
-  });
 }

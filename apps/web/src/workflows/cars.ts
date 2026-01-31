@@ -1,16 +1,16 @@
-// TODO: Re-enable after refactoring @sgcarstrends/ai to support non-QStash contexts
-// import {
-//   generateBlogContent,
-//   getCarsAggregatedByMonth,
-// } from "@sgcarstrends/ai";
-// import { SITE_URL } from "@web/config";
-// import { socialMediaManager } from "@web/config/platforms";
-// import { getExistingPostByMonth } from "@web/queries/posts";
-import { redis } from "@sgcarstrends/utils";
+import {
+  generateBlogContent,
+  getCarsAggregatedByMonth,
+} from "@sgcarstrends/ai";
+import { redis, tokeniser } from "@sgcarstrends/utils";
+import { SITE_URL } from "@web/config";
+import { socialMediaManager } from "@web/config/platforms";
 import type { UpdaterResult } from "@web/lib/updater";
 import { updateCars } from "@web/lib/workflows/update-cars";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
+import { getExistingPostByMonth } from "@web/queries/posts";
 import { revalidateTag } from "next/cache";
+import { fetch } from "workflow";
 
 interface CarsWorkflowPayload {
   month?: string;
@@ -29,6 +29,9 @@ export async function carsWorkflow(
   payload: CarsWorkflowPayload,
 ): Promise<CarsWorkflowResult> {
   "use workflow";
+
+  // Enable WDK's durable fetch for AI SDK
+  globalThis.fetch = fetch;
 
   // Step 1: Process cars data
   const result = await processCarsData();
@@ -50,31 +53,31 @@ export async function carsWorkflow(
   // Step 3: Revalidate data cache
   await revalidateCarsCache(month, year);
 
-  // TODO: Re-enable after refactoring @sgcarstrends/ai to support non-QStash contexts
-  // // Step 4: Check if post already exists
-  // const existingPost = await checkExistingCarsPost(month);
-  // if (existingPost) {
-  //   return {
-  //     message:
-  //       "[CARS] Data processed. Post already exists, skipping social media.",
-  //   };
-  // }
+  // Step 4: Check if post already exists
+  const existingPost = await checkExistingCarsPost(month);
+  if (existingPost) {
+    return {
+      message:
+        "[CARS] Data processed. Post already exists, skipping social media.",
+    };
+  }
 
-  // // Step 5: Fetch aggregated data for blog generation
-  // const carsData = await fetchCarsData(month);
+  // Step 5: Fetch aggregated data for blog generation
+  const carsData = await fetchCarsData(month);
 
-  // // Step 6: Generate blog post
-  // const post = await generateCarsPost(carsData, month);
+  // Step 6: Generate blog post
+  const post = await generateCarsPost(carsData, month);
 
-  // // Step 7: Publish to social media
-  // const link = `${SITE_URL}/blog/${post.slug}`;
-  // await publishToSocialMedia(post.title, link);
+  // Step 7: Publish to social media
+  const link = `${SITE_URL}/blog/${post.slug}`;
+  await publishToSocialMedia(post.title, link);
 
-  // // Step 8: Revalidate posts cache
-  // await revalidatePostsCache();
+  // Step 8: Revalidate posts cache
+  await revalidatePostsCache();
 
   return {
     message: "[CARS] Data processed and cache revalidated successfully",
+    postId: post.postId,
   };
 }
 
@@ -123,73 +126,72 @@ async function revalidateCarsCache(month: string, year: string): Promise<void> {
   console.log(`[WORKFLOW] Cache invalidated for tags: ${tags.join(", ")}`);
 }
 
-// TODO: Re-enable after refactoring @sgcarstrends/ai to support non-QStash contexts
-// /**
-//  * Check if a blog post already exists for the given month.
-//  */
-// async function checkExistingCarsPost(
-//   month: string,
-// ): Promise<{ id: string } | null> {
-//   "use step";
+/**
+ * Check if a blog post already exists for the given month.
+ */
+async function checkExistingCarsPost(
+  month: string,
+): Promise<{ id: string } | null> {
+  "use step";
 
-//   const [existingPost] = await getExistingPostByMonth(month, "cars");
-//   return existingPost ?? null;
-// }
+  const [existingPost] = await getExistingPostByMonth(month, "cars");
+  return existingPost ?? null;
+}
 
-// /**
-//  * Fetch aggregated cars data for blog generation.
-//  */
-// async function fetchCarsData(month: string) {
-//   "use step";
+/**
+ * Fetch aggregated cars data for blog generation.
+ */
+async function fetchCarsData(month: string) {
+  "use step";
 
-//   return getCarsAggregatedByMonth(month);
-// }
+  return getCarsAggregatedByMonth(month);
+}
 
-// /**
-//  * Generate a blog post from cars data.
-//  */
-// async function generateCarsPost(
-//   carsData: Awaited<ReturnType<typeof getCarsAggregatedByMonth>>,
-//   month: string,
-// ) {
-//   "use step";
+/**
+ * Generate a blog post from cars data.
+ */
+async function generateCarsPost(
+  carsData: Awaited<ReturnType<typeof getCarsAggregatedByMonth>>,
+  month: string,
+) {
+  "use step";
 
-//   const data = tokeniser(carsData);
+  const data = tokeniser(carsData);
 
-//   return generateBlogContent({
-//     data,
-//     month,
-//     dataType: "cars",
-//   });
-// }
+  return generateBlogContent({
+    data,
+    month,
+    dataType: "cars",
+  });
+}
 
-// /**
-//  * Publish update to all enabled social media platforms.
-//  */
-// async function publishToSocialMedia(
-//   title: string,
-//   link: string,
-// ): Promise<void> {
-//   "use step";
+/**
+ * Publish update to all enabled social media platforms.
+ */
+async function publishToSocialMedia(
+  title: string,
+  link: string,
+): Promise<void> {
+  "use step";
 
-//   console.log("Publishing to all enabled platforms");
+  console.log("Publishing to all enabled platforms");
 
-//   const result = await socialMediaManager.publishToAll({
-//     message: `📰 New Blog Post: ${title}`,
-//     link,
-//   });
+  const result = await socialMediaManager.publishToAll({
+    message: `📰 New Blog Post: ${title}`,
+    link,
+  });
 
-//   console.log(
-//     `Publishing complete: ${result.successCount} successful, ${result.errorCount} failed`,
-//   );
-// }
+  console.log(
+    `Publishing complete: ${result.successCount} successful, ${result.errorCount} failed`,
+  );
+}
 
-// /**
-//  * Revalidate posts cache after publishing.
-//  */
-// async function revalidatePostsCache(): Promise<void> {
-//   "use step";
+/**
+ * Revalidate posts cache after publishing.
+ */
+async function revalidatePostsCache(): Promise<void> {
+  "use step";
 
-//   revalidateTag("posts:list", "max");
-//   console.log("[WORKFLOW] Posts cache invalidated");
-// }
+  revalidateTag("posts:list", "max");
+  console.log("[WORKFLOW] Posts cache invalidated");
+}
