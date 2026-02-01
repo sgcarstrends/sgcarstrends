@@ -2,13 +2,13 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "envMode": "loose",
-  "globalDependencies": ["**/.env*", "tsconfig.json"],
+  "globalDependencies": ["tsconfig.json"],
   "globalEnv": ["NODE_ENV", "CI"],
   "globalPassThroughEnv": ["GITHUB_TOKEN", "VERCEL_TOKEN"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*", "tsconfig.json"],
+      "inputs": ["$TURBO_DEFAULT$", "tsconfig.json"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {
@@ -22,8 +22,7 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true,
-      "inputs": ["*.env*"]
+      "persistent": true
     },
     "start": {
       "dependsOn": ["build"],
