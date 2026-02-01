@@ -49,10 +49,8 @@ export async function carsWorkflow(
     return { message: "[CARS] No car records found" };
   }
 
-  const year = month.split("-")[0];
-
   // Step 3: Revalidate data cache
-  await revalidateCarsCache(month, year);
+  await revalidateCarsCache(month);
 
   // Step 4: Check if post already exists
   const existingPost = await checkExistingCarsPost(month);
@@ -125,10 +123,10 @@ async function getLatestMonth(): Promise<string | null> {
 /**
  * Revalidate Next.js cache tags for cars data.
  */
-async function revalidateCarsCache(month: string, year: string): Promise<void> {
+async function revalidateCarsCache(month: string): Promise<void> {
   "use step";
 
-  const tags = [`cars:month:${month}`, `cars:year:${year}`, "cars:months"];
+  const tags = [`cars:month:${month}`, "cars:months"];
 
   for (const tag of tags) {
     revalidateTag(tag, "max");

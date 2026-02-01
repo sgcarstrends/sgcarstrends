@@ -5,7 +5,6 @@ import {
 import { generateText, type LanguageModelUsage, Output, stepCountIs } from "ai";
 import { type BlogGenerationParams, INSTRUCTIONS, PROMPTS } from "./config";
 import { getHeroImage } from "./hero-images";
-import { shutdownTracing, startTracing } from "./instrumentation";
 import { savePost } from "./save-post";
 import { type GeneratedPost, postSchema } from "./schemas";
 
@@ -52,9 +51,6 @@ async function generateContent(
   const { data, month, dataType } = options;
 
   console.log(`[GENERATE] ${dataType} blog generation started...`);
-
-  // Initialise LangFuse tracing
-  startTracing();
 
   const result = await generateText({
     model: google("gemini-3-flash-preview"),
@@ -134,9 +130,6 @@ async function saveGeneratedPost(
   });
 
   console.log(`${dataType} blog post saved successfully`);
-
-  // Shutdown tracing only after successful completion
-  await shutdownTracing();
 
   return {
     month,

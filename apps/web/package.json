@@ -55,6 +55,7 @@
     "@heroui/tooltip": "^2.2.21",
     "@icons-pack/react-simple-icons": "^10.2.0",
     "@neondatabase/serverless": "1.0.1",
+    "@opentelemetry/sdk-trace-node": "^2.2.0",
     "@ruchernchong/number-format": "^2.3.4",
     "@sgcarstrends/ai": "workspace:*",
     "@sgcarstrends/database": "workspace:*",
