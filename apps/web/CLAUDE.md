@@ -1034,18 +1034,14 @@ Environment variables managed through SST config:
 - `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
 - `BLOB_READ_WRITE_TOKEN`: Vercel Blob storage access for car logos (via `@sgcarstrends/logos`)
 - `SG_CARS_TRENDS_API_TOKEN`: External API authentication
-- `APP_ENV`: Environment stage (dev/staging/prod)
-- `NEXT_PUBLIC_APP_ENV`: Client-side environment stage
 - `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`: Feature flag for unreleased features
 - `VERCEL_ENV`: Vercel's automatic environment detection (production/preview/development)
 
 #### Production Environment Detection
 
-The application uses multiple environment variables to determine production status:
+Production detection uses Vercel's automatic `VERCEL_ENV` variable:
 
-- Social media redirects and production-only features activate when:
-    - `VERCEL_ENV === "production"` (Vercel deployment), OR
-    - `NEXT_PUBLIC_APP_ENV === "prod"` (SST production stage)
+- Social media redirects and production-only features activate when `VERCEL_ENV === "production"`
 
 #### VERCEL_URL Support
 

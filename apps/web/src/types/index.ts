@@ -92,12 +92,6 @@ export type Make = Car["make"];
 
 export type Month = Car["month"] | COEResult["month"];
 
-export enum AppEnv {
-  DEV = "dev",
-  STAGING = "staging",
-  PROD = "prod",
-}
-
 export interface LinkItem {
   label: string;
   href: string;

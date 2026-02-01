@@ -67,7 +67,7 @@ graph TB
             
             subgraph "Web Lambda Environment"
                 WebEnv[TZ: Asia/Singapore]
-                PublicEnv[NEXT_PUBLIC_API_URL, NEXT_PUBLIC_APP_ENV]
+                PublicEnv[NEXT_PUBLIC_API_URL]
                 WebRedis[UPSTASH_REDIS_REST_*]
                 WebAuth[SG_CARS_TRENDS_API_TOKEN, REVALIDATE_TOKEN]
                 WebDB[DATABASE_URL]
