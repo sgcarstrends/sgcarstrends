@@ -25,7 +25,7 @@ vi.mock("workflow", () => ({
   },
 }));
 
-vi.mock("@web/lib/workflows/update-deregistration", () => ({
+vi.mock("@web/workflows/deregistrations/steps/process-data", () => ({
   updateDeregistration: vi.fn(),
 }));
 
@@ -38,10 +38,10 @@ vi.mock("next/cache", () => ({
 }));
 
 import { redis } from "@sgcarstrends/utils";
-import { updateDeregistration } from "@web/lib/workflows/update-deregistration";
 import { getDeregistrationsLatestMonth } from "@web/queries/deregistrations/latest-month";
+import { deregistrationsWorkflow } from "@web/workflows/deregistrations";
+import { updateDeregistration } from "@web/workflows/deregistrations/steps/process-data";
 import { revalidateTag } from "next/cache";
-import { deregistrationsWorkflow } from "./deregistrations";
 
 describe("deregistrationsWorkflow", () => {
   beforeEach(() => {

@@ -16,7 +16,7 @@ vi.mock("@web/config", () => ({
   SITE_URL: "https://sgcarstrends.com",
 }));
 
-vi.mock("@web/lib/workflows/update-coe", () => ({
+vi.mock("@web/workflows/coe/steps/process-data", () => ({
   updateCoe: vi.fn(),
 }));
 
@@ -52,19 +52,22 @@ vi.mock("workflow", () => ({
   },
 }));
 
-vi.mock("./shared", () => ({
+vi.mock("@web/workflows/shared", () => ({
   publishToSocialMedia: vi.fn(),
   revalidatePostsCache: vi.fn(),
 }));
 
 import { generateBlogContent, getCoeForMonth } from "@sgcarstrends/ai";
 import { redis } from "@sgcarstrends/utils";
-import { updateCoe } from "@web/lib/workflows/update-coe";
 import { getCOELatestRecord } from "@web/queries/coe/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
+import { coeWorkflow } from "@web/workflows/coe";
+import { updateCoe } from "@web/workflows/coe/steps/process-data";
+import {
+  publishToSocialMedia,
+  revalidatePostsCache,
+} from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
-import { coeWorkflow } from "./coe";
-import { publishToSocialMedia, revalidatePostsCache } from "./shared";
 
 describe("coeWorkflow", () => {
   beforeEach(() => {

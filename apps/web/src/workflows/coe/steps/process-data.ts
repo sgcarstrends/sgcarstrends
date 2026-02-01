@@ -69,8 +69,3 @@ export const updateCoe = async () => {
 
   return coeResult;
 };
-
-export const handler = async () => {
-  const response = await updateCoe();
-  return { statusCode: 200, body: response };
-};

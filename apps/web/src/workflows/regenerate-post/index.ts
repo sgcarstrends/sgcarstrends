@@ -4,8 +4,8 @@ import {
   regenerateBlogContent,
 } from "@sgcarstrends/ai";
 import { tokeniser } from "@sgcarstrends/utils";
+import { revalidatePostsCache } from "@web/workflows/shared";
 import { fetch } from "workflow";
-import { revalidatePostsCache } from "./shared";
 
 interface RegeneratePostPayload {
   month: string;

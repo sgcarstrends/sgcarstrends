@@ -1,4 +1,3 @@
-export const WORKFLOWS_BASE_URL = process.env.WORKFLOWS_BASE_URL as string;
 export const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL as string;
 
 export const CACHE_TTL = 24 * 60 * 60;

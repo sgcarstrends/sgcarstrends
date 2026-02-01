@@ -14,7 +14,7 @@ vi.mock("workflow", () => ({
   fetch: vi.fn(),
 }));
 
-vi.mock("./shared", () => ({
+vi.mock("@web/workflows/shared", () => ({
   revalidatePostsCache: vi.fn(),
 }));
 
@@ -23,8 +23,8 @@ import {
   getCoeForMonth,
   regenerateBlogContent,
 } from "@sgcarstrends/ai";
-import { regeneratePostWorkflow } from "./regenerate-post";
-import { revalidatePostsCache } from "./shared";
+import { regeneratePostWorkflow } from "@web/workflows/regenerate-post";
+import { revalidatePostsCache } from "@web/workflows/shared";
 
 describe("regeneratePostWorkflow", () => {
   beforeEach(() => {

@@ -36,8 +36,3 @@ export const updateCars = () => {
 
   return updater.update();
 };
-
-export const handler = async () => {
-  const response = await updateCars();
-  return { statusCode: 200, body: response };
-};

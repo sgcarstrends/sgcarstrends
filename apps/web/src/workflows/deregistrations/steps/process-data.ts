@@ -22,8 +22,3 @@ export const updateDeregistration = () => {
 
   return updater.update();
 };
-
-export const handler = async () => {
-  const response = await updateDeregistration();
-  return { statusCode: 200, body: response };
-};

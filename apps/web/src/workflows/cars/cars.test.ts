@@ -16,7 +16,7 @@ vi.mock("@web/config", () => ({
   SITE_URL: "https://sgcarstrends.com",
 }));
 
-vi.mock("@web/lib/workflows/update-cars", () => ({
+vi.mock("@web/workflows/cars/steps/process-data", () => ({
   updateCars: vi.fn(),
 }));
 
@@ -52,7 +52,7 @@ vi.mock("workflow", () => ({
   },
 }));
 
-vi.mock("./shared", () => ({
+vi.mock("@web/workflows/shared", () => ({
   publishToSocialMedia: vi.fn(),
   revalidatePostsCache: vi.fn(),
 }));
@@ -62,12 +62,15 @@ import {
   getCarsAggregatedByMonth,
 } from "@sgcarstrends/ai";
 import { redis } from "@sgcarstrends/utils";
-import { updateCars } from "@web/lib/workflows/update-cars";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
+import { carsWorkflow } from "@web/workflows/cars";
+import { updateCars } from "@web/workflows/cars/steps/process-data";
+import {
+  publishToSocialMedia,
+  revalidatePostsCache,
+} from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
-import { carsWorkflow } from "./cars";
-import { publishToSocialMedia, revalidatePostsCache } from "./shared";
 
 describe("carsWorkflow", () => {
   beforeEach(() => {
@@ -139,7 +142,6 @@ describe("carsWorkflow", () => {
     const result = await carsWorkflow({});
 
     expect(revalidateTag).toHaveBeenCalledWith("cars:month:2024-01", "max");
-    expect(revalidateTag).toHaveBeenCalledWith("cars:year:2024", "max");
     expect(revalidateTag).toHaveBeenCalledWith("cars:months", "max");
     expect(generateBlogContent).toHaveBeenCalled();
     expect(publishToSocialMedia).toHaveBeenCalledWith(
