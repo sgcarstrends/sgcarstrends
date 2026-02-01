@@ -12,10 +12,6 @@ vi.mock("@sgcarstrends/utils", () => ({
   tokeniser: vi.fn((data) => JSON.stringify(data)),
 }));
 
-vi.mock("@web/config", () => ({
-  SITE_URL: "https://sgcarstrends.com",
-}));
-
 vi.mock("@web/workflows/coe/steps/process-data", () => ({
   updateCoe: vi.fn(),
 }));
@@ -53,7 +49,6 @@ vi.mock("workflow", () => ({
 }));
 
 vi.mock("@web/workflows/shared", () => ({
-  publishToSocialMedia: vi.fn(),
   revalidatePostsCache: vi.fn(),
 }));
 
@@ -63,10 +58,7 @@ import { getCOELatestRecord } from "@web/queries/coe/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { coeWorkflow } from "@web/workflows/coe";
 import { updateCoe } from "@web/workflows/coe/steps/process-data";
-import {
-  publishToSocialMedia,
-  revalidatePostsCache,
-} from "@web/workflows/shared";
+import { revalidatePostsCache } from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
 
 describe("coeWorkflow", () => {
@@ -119,7 +111,7 @@ describe("coeWorkflow", () => {
     expect(generateBlogContent).not.toHaveBeenCalled();
   });
 
-  it("should skip social media when post already exists", async () => {
+  it("should skip blog generation when post already exists", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
       details: {},
@@ -138,10 +130,9 @@ describe("coeWorkflow", () => {
       "[COE] Data processed. Post already exists, skipping social media.",
     );
     expect(generateBlogContent).not.toHaveBeenCalled();
-    expect(publishToSocialMedia).not.toHaveBeenCalled();
   });
 
-  it("should generate blog post and publish when second bidding complete", async () => {
+  it("should generate blog post when second bidding complete", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
       details: {},
@@ -166,10 +157,6 @@ describe("coeWorkflow", () => {
     expect(revalidateTag).toHaveBeenCalledWith("coe:months", "max");
     expect(revalidateTag).toHaveBeenCalledWith("coe:year:2024", "max");
     expect(generateBlogContent).toHaveBeenCalled();
-    expect(publishToSocialMedia).toHaveBeenCalledWith(
-      "January 2024 COE Results",
-      "https://sgcarstrends.com/blog/january-2024-coe-results",
-    );
     expect(revalidatePostsCache).toHaveBeenCalled();
     expect(result.message).toBe(
       "[COE] Data processed and cache revalidated successfully",

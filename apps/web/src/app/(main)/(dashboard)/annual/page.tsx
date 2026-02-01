@@ -2,7 +2,6 @@ import { AnnualRegistrationsChart } from "@web/app/(main)/(dashboard)/annual/com
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { KeyStatisticsSection } from "@web/app/(main)/(dashboard)/components/key-statistics-section";
 import { PageHeader } from "@web/components/page-header";
-import { ShareButtons } from "@web/components/share-buttons";
 import { YearSelector } from "@web/components/shared/year-selector";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -77,10 +76,6 @@ const AnnualPage = async ({ searchParams: searchParamsPromise }: PageProps) => {
                 wasAdjusted={wasAdjusted}
               />
             </Suspense>
-            <ShareButtons
-              url={`${SITE_URL}${serialize("/annual", { year })}`}
-              title={`Annual Car Registrations - ${SITE_TITLE}`}
-            />
           </PageHeader>
         </AnimatedSection>
 

@@ -1,7 +1,6 @@
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
-import { ShareButtons } from "@web/components/share-buttons";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
@@ -163,10 +162,6 @@ const CategoryPageContent = async ({
                 wasAdjusted={wasAdjusted}
               />
             </Suspense>
-            <ShareButtons
-              url={`${SITE_URL}${config.urlPath}?month=${month}`}
-              title={`${formattedMonth} ${config.title} - ${SITE_TITLE}`}
-            />
           </PageHeader>
         </AnimatedSection>
 

@@ -1,62 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@web/config/platforms", () => ({
-  socialMediaManager: {
-    publishToAll: vi.fn(),
-  },
-}));
-
 vi.mock("next/cache", () => ({
   revalidateTag: vi.fn(),
 }));
 
-import { socialMediaManager } from "@web/config/platforms";
-import {
-  publishToSocialMedia,
-  revalidatePostsCache,
-} from "@web/workflows/shared";
+import { revalidatePostsCache } from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
-
-describe("publishToSocialMedia", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it("should publish to all enabled platforms with formatted message", async () => {
-    vi.mocked(socialMediaManager.publishToAll).mockResolvedValueOnce({
-      successCount: 3,
-      errorCount: 0,
-      results: [],
-    });
-
-    await publishToSocialMedia("Test Title", "https://example.com/blog/test");
-
-    expect(socialMediaManager.publishToAll).toHaveBeenCalledWith({
-      message: "📰 New Blog Post: Test Title",
-      link: "https://example.com/blog/test",
-    });
-  });
-
-  it("should log success and error counts after publishing", async () => {
-    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    vi.mocked(socialMediaManager.publishToAll).mockResolvedValueOnce({
-      successCount: 2,
-      errorCount: 1,
-      results: [],
-    });
-
-    await publishToSocialMedia("Title", "https://example.com");
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      "Publishing to all enabled platforms",
-    );
-    expect(consoleSpy).toHaveBeenCalledWith(
-      "Publishing complete: 2 successful, 1 failed",
-    );
-
-    consoleSpy.mockRestore();
-  });
-});
 
 describe("revalidatePostsCache", () => {
   beforeEach(() => {

@@ -4,7 +4,6 @@ import { COEPremiumChart } from "@web/app/(main)/(dashboard)/coe/components/prem
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/coe/search-params";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
-import { ShareButtons } from "@web/components/share-buttons";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
@@ -87,10 +86,6 @@ const COEResultsPage = async ({ searchParams }: PageProps) => {
             <Suspense fallback={null}>
               <MonthSelector months={months} latestMonth={months[0]} />
             </Suspense>
-            <ShareButtons
-              url={`${SITE_URL}/coe/results`}
-              title={`COE Results - ${SITE_TITLE}`}
-            />
           </PageHeader>
         </AnimatedSection>
 

@@ -3,15 +3,11 @@ import {
   getCarsAggregatedByMonth,
 } from "@sgcarstrends/ai";
 import { redis, tokeniser } from "@sgcarstrends/utils";
-import { SITE_URL } from "@web/config";
 import type { UpdaterResult } from "@web/lib/updater";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { updateCars } from "@web/workflows/cars/steps/process-data";
-import {
-  publishToSocialMedia,
-  revalidatePostsCache,
-} from "@web/workflows/shared";
+import { revalidatePostsCache } from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
 import { FatalError, fetch, RetryableError } from "workflow";
 
@@ -26,7 +22,7 @@ interface CarsWorkflowResult {
 
 /**
  * Cars data workflow using Vercel WDK.
- * Processes car registration data, generates blog posts, and publishes to social media.
+ * Processes car registration data and generates blog posts.
  */
 export async function carsWorkflow(
   _payload: CarsWorkflowPayload,
@@ -62,8 +58,6 @@ export async function carsWorkflow(
   const carsData = await fetchCarsData(month);
   const post = await generateCarsPost(carsData, month);
 
-  const link = `${SITE_URL}/blog/${post.slug}`;
-  await publishToSocialMedia(post.title, link);
   await revalidatePostsCache();
 
   return {
@@ -124,12 +118,13 @@ async function generateCarsPost(
   try {
     return await generateBlogContent({ data, month, dataType: "cars" });
   } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
     // Rate limit - wait before retry
-    if (error.message?.includes("429")) {
+    if (message.includes("429")) {
       throw new RetryableError("AI rate limited", { retryAfter: "1m" });
     }
     // Auth error - can't succeed
-    if (error.message?.includes("401") || error.message?.includes("403")) {
+    if (message.includes("401") || message.includes("403")) {
       throw new FatalError("AI authentication failed");
     }
     throw error;

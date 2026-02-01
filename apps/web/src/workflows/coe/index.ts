@@ -1,14 +1,10 @@
 import { generateBlogContent, getCoeForMonth } from "@sgcarstrends/ai";
 import { redis, tokeniser } from "@sgcarstrends/utils";
-import { SITE_URL } from "@web/config";
 import type { UpdaterResult } from "@web/lib/updater";
 import { getCOELatestRecord } from "@web/queries/coe/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { updateCoe } from "@web/workflows/coe/steps/process-data";
-import {
-  publishToSocialMedia,
-  revalidatePostsCache,
-} from "@web/workflows/shared";
+import { revalidatePostsCache } from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
 import { FatalError, fetch, RetryableError } from "workflow";
 
@@ -23,7 +19,7 @@ interface CoeWorkflowResult {
 
 /**
  * COE data workflow using Vercel WDK.
- * Processes COE bidding data, generates blog posts, and publishes to social media.
+ * Processes COE bidding data and generates blog posts.
  */
 export async function coeWorkflow(
   _payload: CoeWorkflowPayload,
@@ -69,8 +65,6 @@ export async function coeWorkflow(
   const coeData = await fetchCoeData(month);
   const post = await generateCoePost(coeData, month);
 
-  const link = `${SITE_URL}/blog/${post.slug}`;
-  await publishToSocialMedia(post.title, link);
   await revalidatePostsCache();
 
   return {
@@ -136,10 +130,11 @@ async function generateCoePost(
   try {
     return await generateBlogContent({ data, month, dataType: "coe" });
   } catch (error) {
-    if (error.message?.includes("429")) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (message.includes("429")) {
       throw new RetryableError("AI rate limited", { retryAfter: "1m" });
     }
-    if (error.message?.includes("401") || error.message?.includes("403")) {
+    if (message.includes("401") || message.includes("403")) {
       throw new FatalError("AI authentication failed");
     }
     throw error;

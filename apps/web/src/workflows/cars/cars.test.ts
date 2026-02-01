@@ -12,10 +12,6 @@ vi.mock("@sgcarstrends/utils", () => ({
   tokeniser: vi.fn((data) => JSON.stringify(data)),
 }));
 
-vi.mock("@web/config", () => ({
-  SITE_URL: "https://sgcarstrends.com",
-}));
-
 vi.mock("@web/workflows/cars/steps/process-data", () => ({
   updateCars: vi.fn(),
 }));
@@ -53,7 +49,6 @@ vi.mock("workflow", () => ({
 }));
 
 vi.mock("@web/workflows/shared", () => ({
-  publishToSocialMedia: vi.fn(),
   revalidatePostsCache: vi.fn(),
 }));
 
@@ -66,10 +61,7 @@ import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { carsWorkflow } from "@web/workflows/cars";
 import { updateCars } from "@web/workflows/cars/steps/process-data";
-import {
-  publishToSocialMedia,
-  revalidatePostsCache,
-} from "@web/workflows/shared";
+import { revalidatePostsCache } from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
 
 describe("carsWorkflow", () => {
@@ -104,7 +96,7 @@ describe("carsWorkflow", () => {
     expect(result.message).toBe("[CARS] No car records found");
   });
 
-  it("should skip social media when post already exists", async () => {
+  it("should skip blog generation when post already exists", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 10,
       details: {},
@@ -120,10 +112,9 @@ describe("carsWorkflow", () => {
       "[CARS] Data processed. Post already exists, skipping social media.",
     );
     expect(generateBlogContent).not.toHaveBeenCalled();
-    expect(publishToSocialMedia).not.toHaveBeenCalled();
   });
 
-  it("should generate blog post and publish to social media when new data", async () => {
+  it("should generate blog post when new data arrives", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 10,
       details: {},
@@ -144,10 +135,6 @@ describe("carsWorkflow", () => {
     expect(revalidateTag).toHaveBeenCalledWith("cars:month:2024-01", "max");
     expect(revalidateTag).toHaveBeenCalledWith("cars:months", "max");
     expect(generateBlogContent).toHaveBeenCalled();
-    expect(publishToSocialMedia).toHaveBeenCalledWith(
-      "January 2024 Car Registrations",
-      "https://sgcarstrends.com/blog/january-2024-car-registrations",
-    );
     expect(revalidatePostsCache).toHaveBeenCalled();
     expect(result.message).toBe(
       "[CARS] Data processed and cache revalidated successfully",

@@ -3,7 +3,6 @@ import { redis } from "@sgcarstrends/utils";
 import { MakesDashboard } from "@web/app/(main)/(dashboard)/cars/components/makes";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
-import { ShareButtons } from "@web/components/share-buttons";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
@@ -113,14 +112,6 @@ const CarMakesPage = async ({ searchParams }: PageProps) => {
                 wasAdjusted={wasAdjusted}
               />
             </Suspense>
-            <ShareButtons
-              url={`${SITE_URL}${serialize("/cars/makes", { make: selectedMakeSlug, month })}`}
-              title={
-                selectedMakeData
-                  ? `${selectedMakeData.make} Cars - ${SITE_TITLE}`
-                  : `Car Makes - ${SITE_TITLE}`
-              }
-            />
           </PageHeader>
         </AnimatedSection>
         <AnimatedSection order={1}>

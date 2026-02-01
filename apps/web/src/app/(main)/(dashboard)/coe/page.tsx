@@ -7,7 +7,6 @@ import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated
 import { AnimatedNumber } from "@web/components/animated-number";
 import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
 import { PageHeader } from "@web/components/page-header";
-import { ShareButtons } from "@web/components/share-buttons";
 import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
@@ -94,12 +93,7 @@ const COEOverviewPage = async () => {
             title="COE Overview"
             subtitle="Latest Certificate of Entitlement bidding results and premium trends."
             lastUpdated={lastUpdated}
-          >
-            <ShareButtons
-              url={`${SITE_URL}/coe`}
-              title={`COE Overview - ${SITE_TITLE}`}
-            />
-          </PageHeader>
+          />
         </AnimatedSection>
 
         <AnimatedSection order={1}>

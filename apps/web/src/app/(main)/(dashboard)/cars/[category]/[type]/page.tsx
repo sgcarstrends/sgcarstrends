@@ -5,7 +5,6 @@ import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/[category]/[t
 import { CarOverviewTrends } from "@web/app/(main)/(dashboard)/cars/components/overview-trends";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { PageHeader } from "@web/components/page-header";
-import { ShareButtons } from "@web/components/share-buttons";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
@@ -162,10 +161,6 @@ export default async function Page({ params, searchParams }: PageProps) {
               wasAdjusted={wasAdjusted}
             />
           </Suspense>
-          <ShareButtons
-            url={`${SITE_URL}/cars/${category}/${type}?month=${month}`}
-            title={`${category === "vehicle-types" ? formatVehicleTypeSlug(type) : type} - ${formattedMonth} - ${SITE_TITLE}`}
-          />
         </PageHeader>
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">

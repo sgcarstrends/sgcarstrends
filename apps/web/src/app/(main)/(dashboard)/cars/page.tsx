@@ -4,7 +4,6 @@ import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params
 import { TrendsCompareButton } from "@web/app/(main)/(dashboard)/cars/trends-compare-button";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
-import { ShareButtons } from "@web/components/share-buttons";
 import { MetricCard } from "@web/components/shared/metric-card";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { PageContext } from "@web/components/shared/page-context";
@@ -138,10 +137,6 @@ const CarsPage = async ({
                 wasAdjusted={wasAdjusted}
               />
             </Suspense>
-            <ShareButtons
-              url={`${SITE_URL}/cars?month=${month}`}
-              title={`${formattedMonth} Car Registrations - ${SITE_TITLE}`}
-            />
           </PageHeader>
         </AnimatedSection>
 

@@ -8,7 +8,6 @@ import {
 } from "@web/app/(main)/(dashboard)/coe/components/pqp";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { PageHeader } from "@web/components/page-header";
-import { ShareButtons } from "@web/components/share-buttons";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
@@ -91,10 +90,6 @@ const PQPRatesPage = async ({
                 wasAdjusted={wasAdjusted}
               />
             </Suspense>
-            <ShareButtons
-              url={`${SITE_URL}${serialize("/coe/pqp", { month })}`}
-              title={`COE PQP Rates - ${SITE_TITLE}`}
-            />
           </PageHeader>
         </AnimatedSection>
 
