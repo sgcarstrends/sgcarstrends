@@ -8,7 +8,7 @@ Access Singapore vehicle registration data including monthly registrations by ma
 ## List Car Registrations
 
 ```
-GET /api/v1/cars
+GET /cars
 ```
 
 Returns paginated car registration data aggregated by month, make, fuel type, and vehicle type.
@@ -50,7 +50,7 @@ Returns paginated car registration data aggregated by month, make, fuel type, an
 
 ```bash
 # Get registrations for January 2025
-curl "https://sgcarstrends.com/api/v1/cars?month=2025-01&limit=10"
+curl "https://api.sgcarstrends.com/cars?month=2025-01&limit=10"
 ```
 
 ---
@@ -58,7 +58,7 @@ curl "https://sgcarstrends.com/api/v1/cars?month=2025-01&limit=10"
 ## List Makes
 
 ```
-GET /api/v1/cars/makes
+GET /cars/makes
 ```
 
 Returns a list of all car makes in the database.
@@ -84,7 +84,7 @@ Returns a list of all car makes in the database.
 ## Get Make Details
 
 ```
-GET /api/v1/cars/makes/{make}
+GET /cars/makes/{make}
 ```
 
 Returns registration details for a specific car make.
@@ -124,7 +124,7 @@ Returns registration details for a specific car make.
 
 ```bash
 # Get Toyota registrations for January 2025
-curl "https://sgcarstrends.com/api/v1/cars/makes/TOYOTA?month=2025-01"
+curl "https://api.sgcarstrends.com/cars/makes/TOYOTA?month=2025-01"
 ```
 
 ---
@@ -132,7 +132,7 @@ curl "https://sgcarstrends.com/api/v1/cars/makes/TOYOTA?month=2025-01"
 ## List Fuel Types
 
 ```
-GET /api/v1/cars/fuel-types
+GET /cars/fuel-types
 ```
 
 Returns all fuel types in the database.
@@ -156,7 +156,7 @@ Returns all fuel types in the database.
 ## List Vehicle Types
 
 ```
-GET /api/v1/cars/vehicle-types
+GET /cars/vehicle-types
 ```
 
 Returns all vehicle types in the database.

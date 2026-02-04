@@ -8,6 +8,11 @@ The SG Cars Trends API provides programmatic access to Singapore's vehicle marke
 ## Base URL
 
 ```
+https://api.sgcarstrends.com
+```
+
+Alternative endpoint (same data):
+```
 https://sgcarstrends.com/api/v1
 ```
 
@@ -21,13 +26,13 @@ https://sgcarstrends.com/api/v1
 
 ```bash
 # Get all car makes
-curl https://sgcarstrends.com/api/v1/cars/makes
+curl https://api.sgcarstrends.com/cars/makes
 
 # Get latest COE results
-curl https://sgcarstrends.com/api/v1/coe/latest
+curl https://api.sgcarstrends.com/coe/latest
 
 # Get car registrations for a specific month
-curl https://sgcarstrends.com/api/v1/cars?month=2025-01
+curl https://api.sgcarstrends.com/cars?month=2025-01
 ```
 
 ## Response Format

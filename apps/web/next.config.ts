@@ -43,6 +43,15 @@ const nextConfig: NextConfig = {
     turbopackFileSystemCacheForBuild: true,
     typedEnv: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "api.sgcarstrends.com" }],
+        destination: "/api/v1/:path*",
+      },
+    ];
+  },
   async headers() {
     return [
       {
