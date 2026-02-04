@@ -175,7 +175,6 @@ This project uses **pnpm catalog** for centralised dependency version management
 - Testing tools: `vitest` (^4.0.15), `@vitest/coverage-v8` (^4.0.15)
 - AI & LLM: `ai` (^6.0.1), `@ai-sdk/google` (^3.0.6), `@langfuse/otel` (^4.4.2)
 - Utilities: `date-fns` (^3.6.0), `zod` (^4.1.13), `sonner` (2.0.7)
-- Workflows: `@upstash/workflow` (0.3.0-rc)
 
 **Root-level dependencies** (not in catalog):
 - Build tools: `sst` (3.17.25), `turbo` (^2.6.3)
