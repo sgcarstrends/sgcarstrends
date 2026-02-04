@@ -16,5 +16,5 @@
       "@sgcarstrends/ui/*": ["packages/ui/src/*"]
     }
   },
-  "exclude": ["node_modules", ".sst"]
+  "exclude": ["node_modules"]
 }

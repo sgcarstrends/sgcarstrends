@@ -55,18 +55,6 @@
       "inputs": ["migrations/**/*.sql"],
       "env": ["DATABASE_URL"]
     },
-    "deploy:dev": {
-      "cache": false,
-      "env": ["AWS_*", "VERCEL_*"]
-    },
-    "deploy:staging": {
-      "cache": false,
-      "env": ["AWS_*", "VERCEL_*"]
-    },
-    "deploy:prod": {
-      "cache": false,
-      "env": ["AWS_*", "VERCEL_*"]
-    },
     "generate": {
       "cache": false,
       "inputs": ["src/schema/**/*.ts", "drizzle.config.ts"],

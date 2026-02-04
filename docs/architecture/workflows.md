@@ -250,8 +250,8 @@ sequenceDiagram
 
 ### Monitoring and Logging
 
-**CloudWatch Logs**: Comprehensive logging for all workflow steps
-**Structured Logging**: JSON-formatted logs for easy parsing
+**Vercel Logs**: Comprehensive logging for all workflow steps
+**Console Logging**: Prefixed logs for easy filtering (e.g., `[WORKFLOW]`, `[COE]`)
 **Error Tracking**: Detailed error messages with context
 
 ## Configuration
@@ -293,8 +293,8 @@ sequenceDiagram
 - CDN caching for static content
 
 ### Resource Optimization
-- ARM64 Lambda functions for cost efficiency
-- 120-second timeout for long-running processes
+- Vercel Functions with configurable timeouts (up to 60s on Pro plan)
+- Singapore region (sin1) for low-latency access to Neon database
 - Memory allocation optimized for CSV processing
 
 ## Related Documentation
