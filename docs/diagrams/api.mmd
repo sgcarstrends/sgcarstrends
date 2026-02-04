@@ -2,134 +2,127 @@ graph TB
     %% Client Layer
     Client[API Clients]
     WebApp[Web Application]
-    
-    %% API Gateway
-    subgraph "API Gateway Layer"
-        Gateway[AWS API Gateway]
-        Lambda[API Lambda Function]
+
+    %% Vercel Platform
+    subgraph "Vercel Platform"
+        VercelEdge[Vercel Edge Network]
+        NextJS[Next.js Server Functions]
     end
-    
-    %% Hono Application
-    subgraph "Hono Framework Application"
-        subgraph "Core Middleware"
-            Logger[Logger Middleware]
-            Compress[Compression Middleware]
-            PrettyJSON[Pretty JSON Middleware]
-            RateLimit[Rate Limiting - Commented]
-            BearerAuth[Bearer Authentication]
-            ErrorHandler[Global Error Handler]
-        end
-        
+
+    %% Next.js Application API Routes
+    subgraph "Next.js API Routes"
         subgraph "Public Endpoints"
-            Root[GET / - Scalar API Docs]
-            OpenAPI[GET /docs - OpenAPI Spec]
-            HealthCheck[GET /health - Health Check]
-        end
-        
-        subgraph "Authenticated API v1"
-            V1Router[/v1 Router - Bearer Auth Required]
-            
-            subgraph "Data Endpoints"
-                CarsAPI[GET /v1/cars - Car Registration Data]
-                COEAPI[GET /v1/coe - COE Bidding Results]
-                MonthsAPI[GET /v1/months - Available Data Months]
-            end
+            HealthCheck[GET /api/health - Health Check]
+            Revalidate[POST /api/revalidate - Cache Revalidation]
         end
 
-        subgraph "Workflow System"
-            WorkflowRouter[/workflows Router]
-            
-            subgraph "Workflow Endpoints"
-                TriggerWorkflow[POST /workflows/trigger - Trigger Data Updates]
-                CarsWorkflow[POST /workflows/cars - Cars Data Processor]
-                COEWorkflow[POST /workflows/coe - COE Data Processor]
-                DeregistrationsWorkflow[POST /workflows/deregistrations - Deregistrations Processor]
-            end
+        subgraph "Workflow Endpoints"
+            WorkflowCars[POST /api/workflows/cars - Cars Workflow]
+            WorkflowCOE[POST /api/workflows/coe - COE Workflow]
+            WorkflowDereg[POST /api/workflows/deregistrations - Deregistrations Workflow]
+            WorkflowTrigger[POST /api/workflows/trigger - Manual Trigger]
+        end
 
-            subgraph "Social Media Webhooks"
-                LinkedInHook[POST /workflows/linkedin - LinkedIn Webhook]
-                TwitterHook[POST /workflows/twitter - Twitter Webhook]
-                TelegramHook[POST /workflows/telegram - Telegram Webhook]
-            end
+        subgraph "Internal APIs"
+            OGImages[GET /api/og/* - OpenGraph Images]
+            Analytics[POST /api/analytics - Analytics Events]
         end
     end
-    
+
+    %% WDK Workflow System
+    subgraph "WDK Workflow Runtime"
+        CarsWorkflow[Cars Data Workflow]
+        COEWorkflow[COE Data Workflow]
+        DeregWorkflow[Deregistrations Workflow]
+        BlogGeneration[Blog Generation Step]
+        SocialPosting[Social Media Step]
+    end
+
     %% External Services
     subgraph "External Services"
-        WDK[Vercel WDK Workflows]
         LTA[LTA DataMall APIs]
-        SocialPlatforms[Social Media Platforms]
-        GeminiAI[Google Gemini AI]
+        Gemini[Vercel AI SDK + Google Gemini]
+        Discord[Discord Webhook]
+        LinkedIn[LinkedIn API]
+        Telegram[Telegram Bot API]
+        Twitter[Twitter API]
     end
-    
+
     %% Data Layer
     subgraph "Data Layer"
-        PostgreSQL[(PostgreSQL Database)]
-        Redis[(Redis Cache)]
+        Neon[(Neon PostgreSQL)]
+        Upstash[(Upstash Redis)]
+        Blob[Vercel Blob Storage]
     end
-    
-    %% Request Flow Connections
-    Client --> Gateway
-    WebApp --> Gateway
-    Gateway --> Lambda
-    Lambda --> Logger
-    
-    Logger --> Compress
-    Compress --> PrettyJSON
-    PrettyJSON --> BearerAuth
-    
-    %% Public endpoints (no auth required)
-    PrettyJSON --> Root
-    PrettyJSON --> OpenAPI
-    PrettyJSON --> HealthCheck
-    
-    %% Authenticated endpoints
-    BearerAuth --> V1Router
-    V1Router --> CarsAPI
-    V1Router --> COEAPI
-    V1Router --> MonthsAPI
 
-    %% Workflow system
-    BearerAuth --> WorkflowRouter
-    WorkflowRouter --> TriggerWorkflow
-    WorkflowRouter --> CarsWorkflow
-    WorkflowRouter --> COEWorkflow
-    WorkflowRouter --> DeregistrationsWorkflow
-    WorkflowRouter --> LinkedInHook
-    WorkflowRouter --> TwitterHook
-    WorkflowRouter --> TelegramHook
-    
-    %% External integrations
-    TriggerWorkflow --> WDK
+    %% Cron Scheduler
+    subgraph "Scheduling"
+        VercelCron[Vercel Cron Jobs]
+    end
+
+    %% Request Flow Connections
+    Client --> VercelEdge
+    WebApp --> VercelEdge
+    VercelEdge --> NextJS
+
+    %% API Route connections
+    NextJS --> HealthCheck
+    NextJS --> Revalidate
+    NextJS --> OGImages
+    NextJS --> Analytics
+
+    %% Workflow triggers
+    NextJS --> WorkflowCars
+    NextJS --> WorkflowCOE
+    NextJS --> WorkflowDereg
+    NextJS --> WorkflowTrigger
+    VercelCron --> WorkflowCars
+    VercelCron --> WorkflowCOE
+    VercelCron --> WorkflowDereg
+
+    %% Workflow execution
+    WorkflowCars --> CarsWorkflow
+    WorkflowCOE --> COEWorkflow
+    WorkflowDereg --> DeregWorkflow
+
+    %% Workflow steps
     CarsWorkflow --> LTA
+    CarsWorkflow --> Neon
+    CarsWorkflow --> BlogGeneration
+    CarsWorkflow --> SocialPosting
+
     COEWorkflow --> LTA
-    CarsWorkflow --> GeminiAI
-    COEWorkflow --> GeminiAI
-    
-    LinkedInHook --> SocialPlatforms
-    TwitterHook --> SocialPlatforms
-    TelegramHook --> SocialPlatforms
-    
+    COEWorkflow --> Neon
+    COEWorkflow --> BlogGeneration
+    COEWorkflow --> SocialPosting
+
+    DeregWorkflow --> LTA
+    DeregWorkflow --> Neon
+
+    %% Blog generation
+    BlogGeneration --> Gemini
+    BlogGeneration --> Neon
+
+    %% Social media
+    SocialPosting --> Discord
+    SocialPosting --> LinkedIn
+    SocialPosting --> Telegram
+    SocialPosting --> Twitter
+
     %% Data connections
-    CarsAPI --> Redis
-    COEAPI --> Redis
-    MonthsAPI --> Redis
-    Redis --> PostgreSQL
-    
-    CarsWorkflow --> PostgreSQL
-    COEWorkflow --> PostgreSQL
-    DeregistrationsWorkflow --> LTA
-    DeregistrationsWorkflow --> PostgreSQL
-    
+    HealthCheck --> Neon
+    Revalidate --> Upstash
+    OGImages --> Blob
+
     %% Styling
-    classDef middleware fill:#e1f5fe
-    classDef endpoint fill:#f3e5f5  
+    classDef endpoint fill:#e1f5fe
+    classDef workflow fill:#fce4ec
     classDef external fill:#fff3e0
     classDef database fill:#e8f5e8
-    classDef workflow fill:#fce4ec
-    
-    class Logger,Compress,PrettyJSON,BearerAuth,ErrorHandler middleware
-    class Root,OpenAPI,HealthCheck,CarsAPI,COEAPI,MonthsAPI endpoint
-    class WDK,LTA,SocialPlatforms,GeminiAI external
-    class PostgreSQL,Redis database
-    class TriggerWorkflow,CarsWorkflow,COEWorkflow,DeregistrationsWorkflow,LinkedInHook,TwitterHook,TelegramHook workflow
+    classDef platform fill:#f3e5f5
+
+    class HealthCheck,Revalidate,OGImages,Analytics,WorkflowCars,WorkflowCOE,WorkflowDereg,WorkflowTrigger endpoint
+    class CarsWorkflow,COEWorkflow,DeregWorkflow,BlogGeneration,SocialPosting workflow
+    class LTA,Gemini,Discord,LinkedIn,Telegram,Twitter external
+    class Neon,Upstash,Blob database
+    class VercelEdge,NextJS,VercelCron platform

@@ -6,18 +6,25 @@ allowed-tools: Read, Edit, Write, Bash, Grep
 
 # Deployment Rollback Skill
 
-## Quick Rollback
+## Quick Rollback via Vercel
+
+### Using Vercel Dashboard
+
+1. Go to Vercel Dashboard → Project → Deployments
+2. Find the previous working deployment
+3. Click the three dots menu → "Promote to Production"
+
+### Using Vercel CLI
 
 ```bash
-# SST rollback to previous version
-sst deploy --stage production --to v1.1.0
+# List recent deployments
+vercel list
 
-# Or checkout previous tag and redeploy
-git checkout v1.1.0
-sst deploy --stage production
+# Promote a specific deployment to production
+vercel promote <deployment-url>
 
-# Service-specific rollback
-sst deploy api --stage production --to v1.1.0
+# Or rollback to previous production deployment
+vercel rollback
 ```
 
 ## Database Rollback
@@ -34,25 +41,12 @@ pg_dump $DATABASE_URL > backup-pre-deploy.sql  # Before deploy
 psql $DATABASE_URL < backup-pre-deploy.sql     # Restore if needed
 ```
 
-## Lambda Version Rollback
-
-```bash
-# List versions
-aws lambda list-versions-by-function --function-name sgcarstrends-api-prod
-
-# Update alias to previous version
-aws lambda update-alias \
-  --function-name sgcarstrends-api-prod \
-  --name production \
-  --function-version 42
-```
-
 ## Git-Based Rollback
 
 ```bash
 # Revert specific commit
 git revert <commit-hash>
-git push origin main  # CI redeploys
+git push origin main  # Triggers Vercel redeploy
 
 # Create rollback branch
 git checkout -b rollback/v1.1.0
@@ -64,17 +58,16 @@ gh pr create --title "Rollback to v1.1.0" --body "Emergency rollback"
 ## Cache Invalidation
 
 ```bash
-# Clear Redis
-redis-cli -h $REDIS_HOST FLUSHALL
+# Revalidate Next.js cache
+curl -X POST "https://sgcarstrends.com/api/revalidate?tag=all&secret=$REVALIDATE_TOKEN"
 
-# Clear CloudFront CDN
-aws cloudfront create-invalidation --distribution-id E123 --paths "/*"
+# Clear Redis cache
+redis-cli -h $REDIS_HOST FLUSHALL
 ```
 
 ## Health Checks During Rollback
 
 ```bash
-curl -f https://api.sgcarstrends.com/health || echo "API unhealthy"
 curl -f https://sgcarstrends.com || echo "Web unhealthy"
 psql $DATABASE_URL -c "SELECT 1" || echo "Database unreachable"
 ```
@@ -88,14 +81,14 @@ psql $DATABASE_URL -c "SELECT 1" || echo "Database unreachable"
 - [ ] Notify team
 
 **During:**
-- [ ] Rollback application code
+- [ ] Rollback via Vercel dashboard or CLI
 - [ ] Rollback database if needed
 - [ ] Clear caches
 - [ ] Verify health checks
 - [ ] Run smoke tests
 
 **Post:**
-- [ ] Monitor error rates
+- [ ] Monitor error rates in Vercel dashboard
 - [ ] Verify functionality restored
 - [ ] Document what happened
 - [ ] Create postmortem
@@ -104,28 +97,24 @@ psql $DATABASE_URL -c "SELECT 1" || echo "Database unreachable"
 
 **Critical Bug:**
 ```bash
-sst deploy --stage production --to v1.1.0
-curl https://api.sgcarstrends.com/health
-aws cloudfront create-invalidation --distribution-id E123 --paths "/*"
+vercel rollback
+curl https://sgcarstrends.com/api/health
 ```
 
 **Database Migration Failure:**
 ```bash
 pnpm -F @sgcarstrends/database db:rollback
-git checkout v1.1.0
-sst deploy --stage production
-```
-
-**Partial Rollback (API only):**
-```bash
-sst deploy api --stage production --to v1.1.0
+git revert HEAD
+git push origin main
 ```
 
 ## Troubleshooting
 
-**Rollback fails:**
+**Rollback deployment not working:**
 ```bash
-git checkout v1.1.0 && pnpm install && pnpm build && pnpm deploy:prod --force
+# Force redeploy from known good commit
+git checkout v1.1.0
+vercel --prod
 ```
 
 **Database schema mismatch:**
@@ -136,13 +125,13 @@ pnpm -F @sgcarstrends/database db:rollback
 
 ## Best Practices
 
-1. **Always Backup**: Create backups before deployments
-2. **Test Rollback**: Practice rollback procedures in staging
+1. **Always Backup**: Create database backups before major deployments
+2. **Test Rollback**: Practice rollback procedures in preview deployments
 3. **Feature Flags**: Use for quick feature disabling without rollback
-4. **Monitor Closely**: Watch metrics during and after rollback
+4. **Monitor Closely**: Watch Vercel analytics during and after rollback
 5. **Document Everything**: Record what happened and why
 
 ## References
 
-- SST Deployments: https://docs.sst.dev/deployment
+- Vercel Rollbacks: https://vercel.com/docs/deployments/rollbacks
 - See `monitoring` skill for debugging issues

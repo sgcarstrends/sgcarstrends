@@ -27,11 +27,6 @@ This repository includes directory-specific CLAUDE.md files with detailed guidan
   and brand normalisation
 - **[packages/ui/CLAUDE.md](packages/ui/CLAUDE.md)**: Shared UI components library with shadcn/ui and Tailwind CSS
 
-### Infrastructure
-
-- **[infra/CLAUDE.md](infra/CLAUDE.md)**: Infrastructure configuration with SST v3, AWS deployment, and domain
-  management
-
 Refer to these files for component-specific development guidance and best practices.
 
 ## Architecture Documentation
@@ -42,7 +37,7 @@ System architecture documentation with Mermaid diagrams is available in the `doc
     - **[system.md](docs/architecture/system.md)**: System architecture overview
     - **[workflows.md](docs/architecture/workflows.md)**: Data processing workflow sequence diagrams
     - **[database.md](docs/architecture/database.md)**: Database schema and entity relationships
-    - **[infrastructure.md](docs/architecture/infrastructure.md)**: AWS deployment topology
+    - **[infrastructure.md](docs/architecture/infrastructure.md)**: Vercel deployment topology
     - **[social.md](docs/architecture/social.md)**: Social media integration workflows
 
 - **[docs/diagrams/](docs/diagrams/)**: Source Mermaid diagram files (`.mmd` format)
@@ -82,7 +77,7 @@ All commands use pnpm as the package manager.
 | | `pnpm db:push` | Push schema changes directly |
 | | `pnpm db:drop` | Drop database |
 | | `pnpm db:migrate:check` or `pnpm migrate:check` | Check migration status |
-| **Deployment** | See `sst-deployment` skill | Multi-environment deployment workflows |
+| **Deployment** | Deployed via Vercel | Automatic deployments on push to main |
 | **Release** | See `release-management` skill | Automated releases with semantic-release |
 | **Auth** | `pnpm auth:generate` | Generate authentication schema |
 
@@ -123,7 +118,6 @@ All commands use pnpm as the package manager.
     - **src/lib**: Utility functions (cn helper for class merging)
     - **src/styles**: Global CSS styles and Tailwind configuration
 - **packages/utils**: Shared utility functions and Redis configuration
-- **infra**: SST v3 infrastructure configuration for AWS deployment
 
 ## Monorepo Build System
 
@@ -142,7 +136,7 @@ The project uses **pnpm with catalog** for centralised dependency version manage
 
 - Shared versions defined in `pnpm-workspace.yaml`
 - Workspace packages reference with `"package": "catalog:"`
-- Root-level CLI tools (SST, Turbo, Biome) available to all workspace packages
+- Root-level CLI tools (Turbo, Biome) available to all workspace packages
 - Ensures version consistency and simplifies upgrades
 
 ## Code Style
@@ -208,10 +202,10 @@ Core cross-cutting variables:
 
 ## Deployment
 
-- **Platform**: AWS via SST framework (ap-southeast-1, arm64)
-- **DNS**: Cloudflare with sgcarstrends.com domain
-
-See `sst-deployment` skill for deployment workflows and [infra/CLAUDE.md](infra/CLAUDE.md) for infrastructure details.
+- **Platform**: Vercel (Singapore region)
+- **DNS**: Managed via Vercel with sgcarstrends.com domain
+- **Automatic Deployments**: Push to main branch triggers production deployment
+- **Preview Deployments**: Pull requests get automatic preview URLs
 
 ## Domain Convention
 
@@ -252,9 +246,8 @@ Automated via semantic-release with unified "v" prefix versioning (v1.0.0, v1.1.
 
 ## GitHub Actions
 
-**Active**: `release.yml`, `deploy-staging.yml`, `deploy-prod.yml`, `run-migrations.yml`, `checks.yml`
+**Active**: `release.yml`, `run-migrations.yml`, `checks.yml`
 **Reusable**: `test.yml` (called by other workflows)
-**Disabled**: `deploy-pr.yml`, `cleanup-pr.yml`
 
 See `github-actions` skill for workflow management and automation.
 

@@ -1,163 +1,215 @@
 ---
 name: monitoring
-description: Monitor AWS resources, debug production issues, check Lambda logs, and implement structured logging. Use when investigating errors, checking CloudWatch logs, debugging deployment failures, improving observability, or setting up alarms.
+description: Monitor Vercel deployments, debug production issues, check logs, and understand logging patterns. Use when investigating errors, checking deployment logs, debugging failures, or improving observability.
 allowed-tools: Bash, Read, Edit, Write, Grep
 ---
 
 # Monitoring Skill
 
-Combines AWS monitoring, CloudWatch logs, and error tracking.
+Monitor Vercel deployments, check logs, and track errors.
 
 ## Viewing Logs
 
-### SST Console
+### Vercel Dashboard
+
+1. Go to Vercel Dashboard → Project → Logs
+2. Filter by:
+   - Function logs
+   - Build logs
+   - Edge function logs
+   - Time range
+
+### Vercel CLI
 
 ```bash
-npx sst console --stage production
-npx sst logs --stage production --function api --tail
-npx sst logs --stage production --function api --filter "ERROR" --since 1h
+# View recent logs
+vercel logs <deployment-url>
+
+# Stream logs in real-time
+vercel logs <deployment-url> --follow
+
+# Filter by status
+vercel logs <deployment-url> --status error
 ```
 
-### AWS CLI
+## Vercel Analytics
 
-```bash
-# Tail logs
-aws logs tail "/aws/lambda/sgcarstrends-api-production" --follow
+### Web Vitals
 
-# Filter logs
-aws logs filter-log-events \
-  --log-group-name "/aws/lambda/sgcarstrends-api-production" \
-  --filter-pattern "ERROR" \
-  --start-time $(date -u -d '1 hour ago' +%s)000
-```
+Monitor in Vercel Dashboard → Analytics:
+- **LCP** (Largest Contentful Paint)
+- **FID** (First Input Delay)
+- **CLS** (Cumulative Layout Shift)
+- **TTFB** (Time to First Byte)
 
-## CloudWatch Metrics
+### Speed Insights
 
-```bash
-# Lambda errors
-aws cloudwatch get-metric-statistics \
-  --namespace AWS/Lambda \
-  --metric-name Errors \
-  --dimensions Name=FunctionName,Value=sgcarstrends-api-production \
-  --start-time $(date -u -d '1 hour ago' +%Y-%m-%dT%H:%M:%S) \
-  --end-time $(date -u +%Y-%m-%dT%H:%M:%S) \
-  --period 300 \
-  --statistics Sum
-
-# Lambda duration
-aws cloudwatch get-metric-statistics \
-  --namespace AWS/Lambda \
-  --metric-name Duration \
-  --dimensions Name=FunctionName,Value=sgcarstrends-api-production \
-  --start-time $(date -u -d '1 hour ago' +%Y-%m-%dT%H:%M:%S) \
-  --end-time $(date -u +%Y-%m-%dT%H:%M:%S) \
-  --period 300 \
-  --statistics Average,Maximum
-```
-
-## CloudWatch Insights Queries
-
-```sql
--- Find all errors
-fields @timestamp, @message, level, error.message
-| filter level = "error"
-| sort @timestamp desc
-| limit 100
-
--- Count errors by type
-fields error.name
-| filter level = "error"
-| stats count() by error.name
-
--- Slow requests
-fields @timestamp, @duration
-| filter @duration > 1000
-| sort @duration desc
-
--- Error rate over time
-fields @timestamp
-| filter level = "error"
-| stats count() as ErrorCount by bin(5m)
-```
-
-## Structured Logging
+Already integrated in the app:
 
 ```typescript
-// packages/utils/src/logger.ts
-import pino from "pino";
+// apps/web/src/app/layout.tsx
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
-export const log = {
-  info: (message: string, data?: Record<string, unknown>) => logger.info(data, message),
-  error: (message: string, error: Error, data?: Record<string, unknown>) => {
-    logger.error({ ...data, error: { message: error.message, stack: error.stack } }, message);
-  },
-  warn: (message: string, data?: Record<string, unknown>) => logger.warn(data, message),
-};
-
-// Usage
-log.info("Fetching cars", { month: "2024-01" });
-log.error("Failed to fetch cars", error, { month: "2024-01" });
+const RootLayout = ({ children }) => (
+  <html>
+    <body>
+      {children}
+      <Analytics />
+      <SpeedInsights />
+    </body>
+  </html>
+);
 ```
 
-## CloudWatch Alarms
+## Logging Patterns
+
+The codebase uses standard `console.log/error/warn` for logging:
 
 ```typescript
-// infra/alarms.ts
-new cloudwatch.Alarm(stack, "ApiHighErrorRate", {
-  metric: api.metricErrors(),
-  threshold: 10,
-  evaluationPeriods: 2,
-  alarmDescription: "API has high error rate",
-}).addAlarmAction(new cloudwatch.SnsAction(alarmTopic));
+// Workflow logging pattern
+console.log("[WORKFLOW] Posts cache invalidated");
+console.log("[COE]", coeResult);
+
+// Error logging pattern
+console.error("Error getting post view count:", error);
+console.error("Download failed:", { url, status });
 ```
+
+**Log Prefixes Used:**
+- `[WORKFLOW]` - Workflow execution events
+- `[COE]` - COE data processing
+- `[CARS]` - Car data processing
 
 ## Health Checks
 
-```bash
-# Test API
-curl -f https://api.sgcarstrends.com/health || echo "API unhealthy"
+The app has a health check endpoint at `/api/health`:
 
-# Test web
-curl -f https://sgcarstrends.com || echo "Web unhealthy"
-
-# Database connectivity
-psql $DATABASE_URL -c "SELECT 1" || echo "Database unreachable"
+```typescript
+// apps/web/src/app/api/health/route.ts
+export const GET = () => {
+  return NextResponse.json(
+    { status: "ok", timestamp: new Date().toISOString() },
+    {
+      status: 200,
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+      },
+    },
+  );
+};
 ```
+
+**Test health endpoint:**
+
+```bash
+curl -f https://sgcarstrends.com/api/health || echo "Web unhealthy"
+```
+
+## Workflow Error Handling
+
+Workflows use Vercel WDK's built-in error handling:
+
+```typescript
+// apps/web/src/workflows/cars/index.ts
+import { FatalError, RetryableError } from "workflow";
+
+// Retryable errors (will be retried automatically)
+if (message.includes("429")) {
+  throw new RetryableError("AI rate limited", { retryAfter: "1m" });
+}
+
+// Fatal errors (will not be retried)
+if (message.includes("401") || message.includes("403")) {
+  throw new FatalError("AI authentication failed");
+}
+```
+
+**Error Types:**
+- `RetryableError` - Temporary failures (rate limits, network issues)
+- `FatalError` - Permanent failures (auth errors, invalid config)
 
 ## Debugging Production Issues
 
+### 1. Check Vercel Logs
+
 ```bash
-# 1. Check recent errors
-npx sst logs --stage production --function api --filter "ERROR" --since 1h
+# Get deployment URL
+vercel ls
 
-# 2. Get Lambda metrics
-aws cloudwatch get-metric-statistics --namespace AWS/Lambda --metric-name Errors ...
-
-# 3. Test endpoint directly
-curl -v https://api.sgcarstrends.com/health
-
-# 4. Check stack events
-aws cloudformation describe-stack-events --stack-name sgcarstrends-api-production --max-items 50
+# Check logs
+vercel logs <url> --follow
 ```
+
+### 2. Check Build Output
+
+1. Vercel Dashboard → Deployments
+2. Click on deployment
+3. View "Build Logs"
+
+### 3. Test Endpoint
+
+```bash
+curl -v https://sgcarstrends.com/api/health
+```
+
+### 4. Check Function Runtime
+
+Vercel Dashboard → Project → Settings → Functions
+- View runtime version
+- Check memory allocation
+- Review timeout settings
 
 ## Common Issues
 
 | Issue | Investigation | Solution |
 |-------|--------------|----------|
-| High latency | Check duration metrics, slow queries | Increase memory, optimize queries, add caching |
-| High error rate | Check error logs, external services | Fix bugs, add error handling, check rate limits |
-| Cold starts | Check init duration, package size | Provisioned concurrency, reduce bundle, ARM |
+| High latency | Check Vercel Analytics, slow queries | Optimize queries, add caching |
+| Build failures | Check build logs | Fix build errors, update dependencies |
+| Function timeout | Check function logs | Optimize code, increase timeout |
+| Cold starts | Check function invocations | Consider edge functions |
+| Workflow failures | Check Vercel logs for workflow ID | Review error type, check retries |
+
+## Vercel Function Configuration
+
+```typescript
+// API route config
+export const config = {
+  maxDuration: 60, // seconds (Pro plan allows up to 60s)
+};
+```
+
+## Cron Job Monitoring
+
+Workflows are triggered by Vercel Cron:
+
+```json
+// apps/web/vercel.json
+{
+  "crons": [
+    { "path": "/api/workflows/cars", "schedule": "0 10 * * *" },
+    { "path": "/api/workflows/coe", "schedule": "0 10 * * *" },
+    { "path": "/api/workflows/deregistrations", "schedule": "0 10 * * *" }
+  ]
+}
+```
+
+**Monitor cron executions:**
+1. Vercel Dashboard → Project → Cron Jobs
+2. View execution history and status
+3. Check logs for each execution
 
 ## Best Practices
 
-1. **Structured Logging**: Use JSON format with context
-2. **Log Levels**: DEBUG for dev, INFO+ for prod
-3. **Don't Log Secrets**: Never log passwords, tokens, keys
-4. **Set Alarms**: Monitor error rate and latency
-5. **Log Retention**: 7-30 days to balance cost/debugging
+1. **Use Log Prefixes**: Add `[CONTEXT]` prefix for easy filtering
+2. **Log Meaningful Data**: Include relevant context (month, record counts)
+3. **Don't Log Secrets**: Never log passwords, tokens, API keys
+4. **Use Vercel Analytics**: Monitor performance metrics
+5. **Check Cron Jobs**: Monitor scheduled workflow executions
 
 ## References
 
-- CloudWatch: https://docs.aws.amazon.com/cloudwatch
-- Lambda Monitoring: https://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions.html
-- Pino Logger: https://getpino.io
+- Vercel Logs: https://vercel.com/docs/observability/runtime-logs
+- Vercel Analytics: https://vercel.com/docs/analytics
+- Speed Insights: https://vercel.com/docs/speed-insights
+- Vercel Cron Jobs: https://vercel.com/docs/cron-jobs

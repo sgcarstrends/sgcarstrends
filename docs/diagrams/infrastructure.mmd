@@ -2,72 +2,46 @@ graph TB
     %% Users and External Access
     Users[End Users]
     Developers[Developers]
-    
+
     %% DNS Layer
     subgraph "DNS Management"
-        Cloudflare[Cloudflare DNS]
-        
+        VercelDNS[Vercel DNS]
+
         subgraph "Domain Strategy"
             ProdDomain[sgcarstrends.com]
-            StagingDomain[staging.sgcarstrends.com]
-            DevDomain[dev.sgcarstrends.com]
-            APIDomain[api.sgcarstrends.com]
-            APIStagingDomain[api.staging.sgcarstrends.com]
-            APIDevDomain[api.dev.sgcarstrends.com]
+            PreviewDomain[*.vercel.app]
         end
     end
-    
-    %% AWS Infrastructure - Singapore Region
-    subgraph "AWS ap-southeast-1 (Singapore)"
-        %% CDN Layer
-        subgraph "Content Delivery"
-            CloudFront[CloudFront Distribution]
-            Router[SST Router - SGCarsTrends]
+
+    %% Vercel Infrastructure
+    subgraph "Vercel Platform"
+        %% Edge Network
+        subgraph "Edge Network"
+            EdgeFunctions[Edge Functions]
+            CDN[Global CDN]
         end
-        
-        %% API Infrastructure  
-        subgraph "API Service Infrastructure"
-            APIGateway[API Gateway]
-            APILambda[API Lambda Function]
-            
-            subgraph "API Function Config"
-                APIRuntime[Node.js 22.x - arm64]
-                APITimeout[120 second timeout]
-                HonoApp[Hono Framework App]
-            end
-        end
-        
-        %% Web Infrastructure
-        subgraph "Web Application Infrastructure"
-            NextjsSSR[Next.js SSR Functions]
+
+        %% Web Application
+        subgraph "Web Application"
+            NextjsSSR[Next.js Server Functions]
             StaticAssets[Static Assets]
-            
-            subgraph "Web Function Config"
-                WebRuntime[Node.js 22.x - arm64]
-                WebWarm[1 Warm Instance]
+
+            subgraph "Function Config"
+                Runtime[Node.js 22.x]
+                Region[Singapore Region]
                 NextjsFramework[Next.js 16 Framework]
             end
         end
-        
-        %% Lambda Functions Detail
-        subgraph "Lambda Function Details"
-            subgraph "API Lambda Environment"
-                CoreEnv[Core: STAGE, DATABASE_URL, API_TOKEN]
-                AIEnv[AI: GOOGLE_GENERATIVE_AI_API_KEY] 
-                RedisEnv[Redis: UPSTASH_REDIS_REST_*]
-                SocialEnv[Social: DISCORD, LINKEDIN, TELEGRAM, TWITTER]
-            end
-            
-            subgraph "Web Lambda Environment"
-                WebEnv[TZ: Asia/Singapore]
-                PublicEnv[NEXT_PUBLIC_API_URL, NEXT_PUBLIC_APP_ENV]
-                WebRedis[UPSTASH_REDIS_REST_*]
-                WebAuth[SG_CARS_TRENDS_API_TOKEN, REVALIDATE_TOKEN]
-                WebDB[DATABASE_URL]
-            end
+
+        %% Workflows
+        subgraph "Vercel WDK Workflows"
+            CarsWorkflow[Cars Data Workflow]
+            COEWorkflow[COE Data Workflow]
+            DeregWorkflow[Deregistrations Workflow]
+            VercelCron[Vercel Cron Scheduler]
         end
     end
-    
+
     %% External Services
     subgraph "External Services"
         %% Data Sources
@@ -75,104 +49,81 @@ graph TB
             LTA[LTA DataMall APIs]
             GeminiAI[Vercel AI SDK + Google Gemini]
         end
-        
+
         %% Databases
         subgraph "Managed Databases"
-            PostgreSQL[(PostgreSQL Database)]
-            Upstash[(Upstash Redis Cache)]
+            PostgreSQL[(PostgreSQL Database<br/>Neon)]
+            Upstash[(Redis Cache<br/>Upstash)]
+            Blob[(Vercel Blob<br/>Logo Storage)]
         end
-        
+
         %% Social Media
         subgraph "Social Media APIs"
+            Discord[Discord Webhooks]
             LinkedIn[LinkedIn API]
             Telegram[Telegram Bot API]
             Twitter[Twitter API]
         end
     end
-    
+
     %% Traffic Flow
-    Users --> Cloudflare
-    Developers --> Cloudflare
-    
+    Users --> VercelDNS
+    Developers --> VercelDNS
+
     %% DNS Resolution
-    Cloudflare --> ProdDomain
-    Cloudflare --> StagingDomain  
-    Cloudflare --> DevDomain
-    Cloudflare --> APIDomain
-    Cloudflare --> APIStagingDomain
-    Cloudflare --> APIDevDomain
-    
-    %% CloudFront Distribution
-    ProdDomain --> CloudFront
-    StagingDomain --> CloudFront
-    DevDomain --> CloudFront
-    
-    %% Router Distribution
-    CloudFront --> Router
-    
-    %% API Traffic
-    APIDomain --> Router
-    APIStagingDomain --> Router
-    APIDevDomain --> Router
-    Router --> APIGateway
-    APIGateway --> APILambda
-    
+    VercelDNS --> ProdDomain
+    VercelDNS --> PreviewDomain
+
+    %% CDN Distribution
+    ProdDomain --> CDN
+    PreviewDomain --> CDN
+
     %% Web Traffic
-    Router --> NextjsSSR
-    Router --> StaticAssets
-    
+    CDN --> EdgeFunctions
+    CDN --> NextjsSSR
+    CDN --> StaticAssets
+
     %% Function Configuration
-    APILambda --> APIRuntime
-    APILambda --> APITimeout
-    APILambda --> HonoApp
-    
-    NextjsSSR --> WebRuntime
-    NextjsSSR --> WebWarm
+    NextjsSSR --> Runtime
+    NextjsSSR --> Region
     NextjsSSR --> NextjsFramework
-    
-    %% Environment Configuration
-    APILambda --> CoreEnv
-    APILambda --> AIEnv
-    APILambda --> RedisEnv
-    APILambda --> SocialEnv
-    
-    NextjsSSR --> WebEnv
-    NextjsSSR --> PublicEnv
-    NextjsSSR --> WebRedis
-    NextjsSSR --> WebAuth
-    NextjsSSR --> WebDB
-    
+
+    %% Workflow Triggers
+    VercelCron --> CarsWorkflow
+    VercelCron --> COEWorkflow
+    VercelCron --> DeregWorkflow
+
     %% External Connections
-    APILambda --> LTA
-    APILambda --> GeminiAI
-    APILambda --> PostgreSQL
-    APILambda --> Upstash
-    APILambda --> LinkedIn
-    APILambda --> Telegram
-    APILambda --> Twitter
-    
+    CarsWorkflow --> LTA
+    COEWorkflow --> LTA
+    DeregWorkflow --> LTA
+    CarsWorkflow --> GeminiAI
+    COEWorkflow --> GeminiAI
+
     NextjsSSR --> PostgreSQL
     NextjsSSR --> Upstash
-    
-    %% Stage Configuration Notes
-    subgraph "Stage Management"
-        PermanentStages[Permanent Stages: prod, staging]
-        EphemeralStages[Ephemeral Stages: pr-*, dev]
-        DomainStrategy[Domain Strategy: Subdomain vs Environment prefix]
-        CORSConfig[Stage-specific CORS Configuration]
-    end
-    
+    NextjsSSR --> Blob
+
+    CarsWorkflow --> PostgreSQL
+    COEWorkflow --> PostgreSQL
+    DeregWorkflow --> PostgreSQL
+
+    CarsWorkflow --> Discord
+    CarsWorkflow --> LinkedIn
+    CarsWorkflow --> Telegram
+    CarsWorkflow --> Twitter
+
     %% Styling
-    classDef aws fill:#ff9900,color:#000
+    classDef vercel fill:#000,color:#fff
     classDef external fill:#e0e0e0
     classDef dns fill:#f76707
     classDef function fill:#7c4dff,color:#fff
     classDef database fill:#4caf50,color:#fff
     classDef social fill:#2196f3,color:#fff
-    
-    class CloudFront,Router,APIGateway,APILambda,NextjsSSR,StaticAssets aws
-    class Cloudflare dns
-    class APIRuntime,APITimeout,HonoApp,WebRuntime,WebWarm,NextjsFramework,CoreEnv,AIEnv,RedisEnv,SocialEnv,WebEnv,PublicEnv,WebRedis,WebAuth,WebDB function
-    class PostgreSQL,Upstash database
+
+    class EdgeFunctions,CDN,NextjsSSR,StaticAssets,CarsWorkflow,COEWorkflow,DeregWorkflow,VercelCron vercel
+    class VercelDNS dns
+    class Runtime,Region,NextjsFramework function
+    class PostgreSQL,Upstash,Blob database
     class LTA,GeminiAI external
-    class LinkedIn,Telegram,Twitter social
+    class Discord,LinkedIn,Telegram,Twitter social

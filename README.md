@@ -10,7 +10,7 @@ This monorepo provides a complete platform for SG Cars Trends, tracking Singapor
 - **Integrated Data Updater**: Vercel WDK workflow-based system for fetching and processing LTA data (consolidated into web application)
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini for market insights (runs within web workflows)
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter with trackable redirect routes (triggered by web workflows)
-- **Infrastructure**: SST v3 serverless deployment on AWS with multi-stage environments
+- **Infrastructure**: Vercel deployment with automatic CI/CD
 
 ## System Overview
 
@@ -40,7 +40,7 @@ graph TB
     end
 
     subgraph "Infrastructure"
-        AWS[AWS Lambda<br/>SST v3]
+        VERCEL[Vercel<br/>Edge Network]
     end
 
     WEB --> WORKFLOWS
@@ -57,7 +57,7 @@ graph TB
     WORKFLOWS --> TWITTER
     WORKFLOWS --> TELEGRAM
 
-    WEB --> AWS
+    WEB --> VERCEL
 
     classDef frontend fill:#e1f5fe
     classDef backend fill:#f3e5f5
@@ -70,7 +70,7 @@ graph TB
     class DB,REDIS data
     class LTA external
     class DISCORD,LINKEDIN,TWITTER,TELEGRAM social
-    class AWS infra
+    class VERCEL infra
 ```
 
 ## Project Structure
@@ -106,9 +106,6 @@ sgcarstrends/
 │   │   ├── src/lib/         # Utility functions
 │   │   └── src/styles/      # Global styles
 │   └── utils/        # Shared utility functions and Redis configuration
-├── infra/            # SST v3 infrastructure configuration
-│   ├── web.ts              # Web application configuration
-│   └── router.ts           # Domain routing and DNS management
 ```
 
 ## Technologies
@@ -120,7 +117,7 @@ sgcarstrends/
 - **API Framework**: Hono with OpenAPI documentation
 - **Database**: Neon Serverless PostgreSQL with Drizzle ORM
 - **Caching**: Upstash Redis for API responses and analytics
-- **Infrastructure**: SST v3 (Serverless Stack) on AWS
+- **Infrastructure**: Vercel with automatic deployments
 - **Scheduling**: Vercel WDK Workflows with Vercel Cron for data processing
 - **LLM Integration**: Vercel AI SDK with Google Gemini for blog content generation
 - **Package Management**: pnpm v10.22.0 workspace with catalog for centralised dependency management
@@ -138,7 +135,6 @@ For developers working on this codebase, detailed component-specific guidance is
 - **[AI Package](packages/ai/CLAUDE.md)** - AI-powered blog generation with Vercel AI SDK and Google Gemini
 - **[Logos Package](packages/logos/CLAUDE.md)** - Car logo management with Vercel Blob storage
 - **[UI Package](packages/ui/CLAUDE.md)** - Shared component library with shadcn/ui and Tailwind CSS
-- **[Infrastructure](infra/CLAUDE.md)** - SST deployment, AWS configuration, and domain management
 
 ### Architecture Documentation
 
@@ -177,7 +173,7 @@ This project uses **pnpm catalog** for centralised dependency version management
 - Utilities: `date-fns` (^3.6.0), `zod` (^4.1.13), `sonner` (2.0.7)
 
 **Root-level dependencies** (not in catalog):
-- Build tools: `sst` (3.17.25), `turbo` (^2.6.3)
+- Build tools: `turbo` (^2.6.3)
 - Code quality: `@biomejs/biome` (2.3.0), `husky` (^9.1.7), `lint-staged` (^16.1.5)
 - Release management: `semantic-release` (^24.0.0)
 
@@ -187,7 +183,7 @@ This ensures version consistency across all workspace packages and simplifies de
 
 ```bash
 # Development
-pnpm dev                    # Run web application in development mode (SST dev with local stage)
+pnpm dev                    # Run all development servers
 pnpm dev:web               # Web application only
 cd apps/web && pnpm dev    # Web application development
 
@@ -218,17 +214,13 @@ pnpm db:migrate:check      # Check migration status
 pnpm db:generate           # Generate new migrations
 pnpm db:push               # Push schema changes
 pnpm db:drop               # Drop database
-
-# Deployment
-pnpm deploy:dev            # Deploy all to dev environment
-pnpm deploy:staging        # Deploy all to staging environment
-pnpm deploy:prod           # Deploy all to production environment
-
-# Service-specific deployment
-pnpm deploy:web:dev        # Deploy web to dev
-pnpm deploy:web:staging    # Deploy web to staging
-pnpm deploy:web:prod       # Deploy web to prod
 ```
+
+### Deployment
+
+Deployment is handled automatically by Vercel:
+- **Production**: Push to `main` branch triggers automatic deployment
+- **Preview**: Pull requests get automatic preview deployments
 
 ## API Endpoints
 

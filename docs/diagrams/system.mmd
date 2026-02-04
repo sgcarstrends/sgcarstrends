@@ -1,113 +1,121 @@
 graph TB
     %% External Services
     LTA[LTA DataMall APIs]
-    Cloudflare[Cloudflare DNS]
-    
+
     %% AI Services
-    Gemini[Google Gemini AI]
-    
+    Gemini[Vercel AI SDK + Google Gemini]
+
     %% Social Media Platforms
+    Discord[Discord]
     LinkedIn[LinkedIn]
     Telegram[Telegram]
     Twitter[Twitter]
-    
+
     %% Infrastructure Layer
-    subgraph "AWS Infrastructure"
+    subgraph "Vercel Platform"
         subgraph "Compute"
-            APILambda[API Lambda Functions]
-            WebLambda[Web Lambda Functions]
+            WebFunctions[Next.js Server Functions]
+            WDKRuntime[WDK Workflow Runtime]
         end
-        
-        subgraph "Storage"
-            RDS[(PostgreSQL Database)]
-            Redis[(Redis Cache - Upstash)]
+
+        subgraph "Edge Network"
+            VercelEdge[Vercel Edge Network]
+            VercelCDN[Vercel CDN]
         end
-        
-        subgraph "Networking"
-            CloudFront[CloudFront CDN]
-            APIGateway[API Gateway]
+
+        subgraph "Cron Jobs"
+            CronScheduler[Vercel Cron]
         end
     end
-    
+
+    %% External Storage
+    subgraph "Managed Services"
+        Neon[(Neon PostgreSQL)]
+        Upstash[(Upstash Redis)]
+        Blob[Vercel Blob Storage]
+    end
+
     %% Application Layer
     subgraph "SG Cars Trends Platform"
         subgraph "Apps"
-            API[API Service - Hono]
-            Web[Web Application - Next.js]
+            Web[Web Application - Next.js 16]
         end
-        
+
         subgraph "Packages"
             Database[Database Package - Drizzle ORM]
             Types[Types Package]
             Utils[Utils Package + Redis Client]
+            AI[AI Package - Blog Generation]
+            Logos[Logos Package - Vercel Blob]
         end
     end
-    
+
     %% Workflow System
     subgraph "Data Processing"
-        WDK[Vercel WDK Workflows]
         CarsWorkflow[Cars Data Workflow]
         COEWorkflow[COE Data Workflow]
+        DeregWorkflow[Deregistrations Workflow]
         BlogWorkflow[Blog Generation Workflow]
-        SocialWorkflow[Social Media Workflow]
     end
-    
+
     %% Connections
-    %% External to Infrastructure
-    Cloudflare --> CloudFront
-    
-    %% Infrastructure connections
-    CloudFront --> APIGateway
-    CloudFront --> WebLambda
-    APIGateway --> APILambda
-    
+    %% User to Infrastructure
+    Users[Users] --> VercelEdge
+    VercelEdge --> VercelCDN
+    VercelCDN --> WebFunctions
+
     %% Application to Infrastructure
-    API --> APILambda
-    Web --> WebLambda
-    
+    Web --> WebFunctions
+
     %% Package dependencies
-    API --> Database
-    API --> Types
-    API --> Utils
+    Web --> Database
     Web --> Types
     Web --> Utils
-    
+    Web --> AI
+    Web --> Logos
+
     %% Database connections
-    Database --> RDS
-    Utils --> Redis
-    API --> RDS
-    API --> Redis
-    Web --> Redis
-    
+    Database --> Neon
+    Utils --> Upstash
+    Web --> Neon
+    Web --> Upstash
+    Logos --> Blob
+    Logos --> Upstash
+
     %% Workflow connections
-    API --> WDK
-    WDK --> CarsWorkflow
-    WDK --> COEWorkflow
-    WDK --> BlogWorkflow
-    WDK --> SocialWorkflow
-    
+    CronScheduler --> WDKRuntime
+    WDKRuntime --> CarsWorkflow
+    WDKRuntime --> COEWorkflow
+    WDKRuntime --> DeregWorkflow
+    WDKRuntime --> BlogWorkflow
+
     %% External API connections
     CarsWorkflow --> LTA
     COEWorkflow --> LTA
+    DeregWorkflow --> LTA
     BlogWorkflow --> Gemini
-    
+
     %% Social media connections
-    SocialWorkflow --> LinkedIn
-    SocialWorkflow --> Telegram
-    SocialWorkflow --> Twitter
-    
-    %% User interactions
-    Users[Users] --> CloudFront
-    
+    CarsWorkflow --> Discord
+    CarsWorkflow --> LinkedIn
+    CarsWorkflow --> Telegram
+    CarsWorkflow --> Twitter
+    COEWorkflow --> Discord
+    COEWorkflow --> LinkedIn
+    COEWorkflow --> Telegram
+    COEWorkflow --> Twitter
+
     %% Styling
     classDef app fill:#e1f5fe
     classDef package fill:#f3e5f5
     classDef infrastructure fill:#e8f5e8
     classDef external fill:#fff3e0
     classDef workflow fill:#fce4ec
-    
-    class API,Web app
-    class Database,Types,Utils package
-    class APILambda,WebLambda,RDS,Redis,CloudFront,APIGateway infrastructure
-    class LTA,Cloudflare,Gemini,LinkedIn,Telegram,Twitter external
-    class WDK,CarsWorkflow,COEWorkflow,BlogWorkflow,SocialWorkflow workflow
+    classDef storage fill:#e0f2f1
+
+    class Web app
+    class Database,Types,Utils,AI,Logos package
+    class WebFunctions,WDKRuntime,VercelEdge,VercelCDN,CronScheduler infrastructure
+    class LTA,Gemini,Discord,LinkedIn,Telegram,Twitter external
+    class CarsWorkflow,COEWorkflow,DeregWorkflow,BlogWorkflow workflow
+    class Neon,Upstash,Blob storage
