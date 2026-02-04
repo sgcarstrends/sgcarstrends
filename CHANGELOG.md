@@ -1,3 +1,11 @@
+## [4.45.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.44.0...v4.45.0) (2026-02-04)
+
+### Features
+
+* **docs:** add Developer Portal with Fumadocs ([63f2068](https://github.com/sgcarstrends/sgcarstrends/commit/63f20687049660ba26fdb6ab0cfcb9905071cdd4))
+* **web:** add api subdomain rewrite for CF proxy ([bf66c25](https://github.com/sgcarstrends/sgcarstrends/commit/bf66c25e9b23503831fc582f931754538811ca1b))
+* **web:** add Developer API with rate limiting ([b54ed3a](https://github.com/sgcarstrends/sgcarstrends/commit/b54ed3a454c0ca521479d01c75c1859d7e70fb6a))
+
 ## [4.44.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.43.0...v4.44.0) (2026-01-31)
 
 ### Features
