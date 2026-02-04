@@ -54,6 +54,7 @@
     "@heroui/toast": "^2.0.16",
     "@heroui/tooltip": "^2.2.21",
     "@icons-pack/react-simple-icons": "^10.2.0",
+    "@langfuse/otel": "catalog:",
     "@neondatabase/serverless": "1.0.1",
     "@opentelemetry/sdk-trace-node": "^2.2.0",
     "@ruchernchong/number-format": "^2.3.4",
