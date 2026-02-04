@@ -1,0 +1,56 @@
+---
+title: SG Cars Trends API
+description: Access Singapore vehicle registration data, COE results, and deregistration statistics
+---
+
+The SG Cars Trends API provides programmatic access to Singapore's vehicle market data, including car registrations, Certificate of Entitlement (COE) bidding results, and vehicle deregistration statistics.
+
+## Base URL
+
+```
+https://sgcarstrends.com/api/v1
+```
+
+## Features
+
+- **Car Registrations** - Monthly registration data by make, fuel type, and vehicle type
+- **COE Results** - Historical and latest COE bidding results across all categories
+- **Deregistrations** - Vehicle deregistration statistics
+
+## Quick Start
+
+```bash
+# Get all car makes
+curl https://sgcarstrends.com/api/v1/cars/makes
+
+# Get latest COE results
+curl https://sgcarstrends.com/api/v1/coe/latest
+
+# Get car registrations for a specific month
+curl https://sgcarstrends.com/api/v1/cars?month=2025-01
+```
+
+## Response Format
+
+All endpoints return JSON with a consistent structure:
+
+```json
+{
+  "success": true,
+  "data": [...],
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 100,
+    "totalPages": 5
+  }
+}
+```
+
+## Rate Limits
+
+The API is rate limited to **60 requests per minute** per IP address. See [Rate Limiting](/docs/rate-limiting) for details.
+
+## Data Updates
+
+Data is sourced from the Land Transport Authority (LTA) DataMall and updated monthly when new statistics are released.
