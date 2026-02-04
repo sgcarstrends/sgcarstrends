@@ -1,29 +1,23 @@
 import { cn } from "@heroui/theme";
 import { LastUpdated } from "@web/components/shared/last-updated";
-import { MonthSelector } from "@web/components/shared/month-selector";
 import Typography from "@web/components/typography";
-import type { Month } from "@web/types";
-import { type ReactNode, Suspense } from "react";
+import type { ReactNode } from "react";
 
-interface Props {
+interface PageHeaderProps {
   title: string;
   subtitle?: string;
   children?: ReactNode;
   className?: string;
   lastUpdated?: number | null;
-  months?: Month[];
-  showMonthSelector?: boolean;
 }
 
-export const PageHeader = ({
+export function PageHeader({
   title,
   subtitle,
   children,
   className,
   lastUpdated,
-  months,
-  showMonthSelector = false,
-}: Props) => {
+}: PageHeaderProps) {
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">
@@ -37,14 +31,9 @@ export const PageHeader = ({
         </div>
         <div className="flex flex-col items-start gap-2">
           {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
-          {showMonthSelector && months && (
-            <Suspense fallback={null}>
-              <MonthSelector months={months} />
-            </Suspense>
-          )}
           {children}
         </div>
       </div>
     </div>
   );
-};
+}

@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withWorkflow } from "workflow/next";
 
 const ONE_DAY = 60 * 60 * 24;
 
@@ -42,6 +43,15 @@ const nextConfig: NextConfig = {
     turbopackFileSystemCacheForBuild: true,
     typedEnv: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "api.sgcarstrends.com" }],
+        destination: "/api/v1/:path*",
+      },
+    ];
+  },
   async headers() {
     return [
       {
@@ -73,4 +83,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withWorkflow(nextConfig);

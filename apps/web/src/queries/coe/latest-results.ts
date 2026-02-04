@@ -1,9 +1,18 @@
-import { coe, db } from "@sgcarstrends/database";
+import {
+  and,
+  asc,
+  coe,
+  db,
+  desc,
+  eq,
+  max,
+  or,
+  sql,
+} from "@sgcarstrends/database";
 import type { COEResult } from "@web/types";
-import { and, asc, desc, eq, lt, max, or, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
-export const getLatestCoeResults = async (): Promise<COEResult[]> => {
+export async function getLatestCoeResults(): Promise<COEResult[]> {
   "use cache";
   cacheLife("max");
   cacheTag("coe:latest");
@@ -28,13 +37,13 @@ export const getLatestCoeResults = async (): Promise<COEResult[]> => {
     .orderBy(asc(coe.vehicleClass));
 
   return results as COEResult[];
-};
+}
 
 /**
  * Get the previous bidding round results (one round before the latest).
  * Handles both same-month previous round and previous month's last round.
  */
-export const getPreviousCoeResults = async (): Promise<COEResult[]> => {
+export async function getPreviousCoeResults(): Promise<COEResult[]> {
   "use cache";
   cacheLife("max");
   cacheTag("coe:previous");
@@ -68,16 +77,16 @@ export const getPreviousCoeResults = async (): Promise<COEResult[]> => {
     .orderBy(asc(coe.vehicleClass));
 
   return results as COEResult[];
-};
+}
 
 /**
  * Get both latest and previous bidding round results in a single call.
  * Useful for calculating period-over-period changes.
  */
-export const getLatestAndPreviousCoeResults = async (): Promise<{
+export async function getLatestAndPreviousCoeResults(): Promise<{
   latest: COEResult[];
   previous: COEResult[];
-}> => {
+}> {
   "use cache";
   cacheLife("max");
   cacheTag("coe:latest", "coe:previous");
@@ -133,4 +142,4 @@ export const getLatestAndPreviousCoeResults = async (): Promise<{
     : [];
 
   return { latest, previous };
-};
+}

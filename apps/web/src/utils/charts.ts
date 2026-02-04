@@ -1,9 +1,9 @@
-import { formatCurrency } from "@web/utils/format-currency";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import {
+  formatCurrency,
+  formatNumber,
+} from "@web/utils/formatting/format-currency";
 
-export const formatNumber = (value: number): string => {
-  return new Intl.NumberFormat("en-SG").format(value);
-};
+export { formatNumber };
 
 /**
  * Format a percentage value (already in 0-100 range) to string with 1 decimal place
@@ -42,10 +42,6 @@ export const formatCount = (value: number): string => {
 export const formatGrowthRate = (value: number): string => {
   const sign = value > 0 ? "+" : "";
   return `${sign}${value.toFixed(1)}%`;
-};
-
-export const formatMonthYear = (monthString: string): string => {
-  return formatDateToMonthYear(monthString);
 };
 
 export const createDataFormatter = (

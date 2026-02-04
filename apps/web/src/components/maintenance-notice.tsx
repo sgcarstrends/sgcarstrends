@@ -1,12 +1,8 @@
-"use client";
-
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { Divider } from "@heroui/divider";
 import { Link } from "@heroui/link";
 import Typography from "@web/components/typography";
-import useMaintenance from "@web/hooks/use-maintenance";
-import { motion, type Variants } from "framer-motion";
 import {
   Clock,
   Mail,
@@ -17,268 +13,181 @@ import {
   Wrench,
   Zap,
 } from "lucide-react";
+import {
+  AnimatedCard,
+  AnimatedCardGrid,
+  AnimatedContainer,
+  AnimatedIconWrapper,
+  AnimatedSection,
+  AnimatedText,
+  MaintenancePollingWrapper,
+} from "./maintenance-notice.client";
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
-
-const iconVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-      type: "spring",
-      stiffness: 200,
-      damping: 15,
-    },
-  },
-};
-
-const textVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.4,
-      ease: "easeOut",
-      delay: 0.2,
-    },
-  },
-};
-
-const cardGridVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.4,
-      ease: "easeOut",
-    },
-  },
-};
-
-const spinVariants: Variants = {
-  animate: {
-    rotate: 360,
-    transition: {
-      duration: 10,
-      ease: "linear",
-      repeat: Infinity,
-    },
-  },
-};
-
-export const MaintenanceNotice = () => {
-  useMaintenance();
-
+export function MaintenanceNotice() {
   return (
-    <motion.div
-      className="mx-auto flex max-w-4xl flex-col gap-8"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      layout
-    >
-      {/* Hero Section */}
-      <motion.div
-        className="flex flex-col items-center gap-4 text-center"
-        variants={itemVariants}
-      >
-        <motion.div className="mb-4" variants={iconVariants} animate="animate">
-          <motion.div variants={spinVariants} animate="animate">
+    <MaintenancePollingWrapper>
+      <AnimatedContainer>
+        {/* Hero Section */}
+        <AnimatedSection className="flex flex-col items-center gap-4 text-center">
+          <AnimatedIconWrapper>
             <Settings className="size-20 text-primary" />
-          </motion.div>
-        </motion.div>
-        <motion.div variants={textVariants}>
-          <Typography.H1>🚗 Pit Stop in Progress</Typography.H1>
-        </motion.div>
-        <motion.div variants={textVariants}>
-          <Typography.TextLg>
-            Just like a Formula 1 pit stop, we&apos;re fine-tuning our engines
-            to deliver the fastest and most reliable Singapore car market
-            insights!
-          </Typography.TextLg>
-        </motion.div>
-      </motion.div>
+          </AnimatedIconWrapper>
+          <AnimatedText>
+            <Typography.H1>Pit Stop in Progress</Typography.H1>
+          </AnimatedText>
+          <AnimatedText>
+            <Typography.TextLg>
+              Just like a Formula 1 pit stop, we&apos;re fine-tuning our engines
+              to deliver the fastest and most reliable Singapore car market
+              insights!
+            </Typography.TextLg>
+          </AnimatedText>
+        </AnimatedSection>
 
-      {/* Status Section */}
-      <motion.div variants={itemVariants}>
-        <Card className="p-3">
-          <CardBody>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Clock className="size-5 text-primary" />
-                  <Typography.Text>Estimated Completion</Typography.Text>
+        {/* Status Section */}
+        <AnimatedSection>
+          <Card className="rounded-2xl p-3">
+            <CardBody>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Clock className="size-5 text-primary" />
+                    <Typography.Text>Estimated Completion</Typography.Text>
+                  </div>
+                  <Chip variant="shadow" color="primary" size="lg">
+                    2 hours
+                  </Chip>
                 </div>
-                <Chip variant="shadow" color="primary" size="lg">
-                  2 hours
-                </Chip>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="flex items-center gap-1">
+                    <div
+                      className="size-2 animate-pulse rounded-full bg-primary"
+                      style={{ animationDelay: "0s" }}
+                    />
+                    <div
+                      className="size-2 animate-pulse rounded-full bg-primary"
+                      style={{ animationDelay: "0.2s" }}
+                    />
+                    <div
+                      className="size-2 animate-pulse rounded-full bg-primary"
+                      style={{ animationDelay: "0.4s" }}
+                    />
+                  </div>
+                  <Typography.TextSm>Maintenance in progress</Typography.TextSm>
+                </div>
+                <Typography.TextSm>
+                  We are upgrading our data processing systems for faster
+                  analysis
+                </Typography.TextSm>
               </div>
-              <div className="flex items-center justify-center gap-2">
-                <div className="flex items-center gap-1">
-                  <div
-                    className="size-2 animate-pulse rounded-full bg-primary"
-                    style={{ animationDelay: "0s" }}
-                  />
-                  <div
-                    className="size-2 animate-pulse rounded-full bg-primary"
-                    style={{ animationDelay: "0.2s" }}
-                  />
-                  <div
-                    className="size-2 animate-pulse rounded-full bg-primary"
-                    style={{ animationDelay: "0.4s" }}
-                  />
-                </div>
-                <Typography.TextSm>Maintenance in progress</Typography.TextSm>
-              </div>
-              <Typography.TextSm>
-                We are upgrading our data processing systems for faster analysis
-              </Typography.TextSm>
-            </div>
-          </CardBody>
-        </Card>
-      </motion.div>
+            </CardBody>
+          </Card>
+        </AnimatedSection>
 
-      {/* What We're Doing Section */}
-      <motion.div className="flex flex-col gap-4" variants={itemVariants}>
-        <Typography.H2>What&apos;s Under the Hood? 🔧</Typography.H2>
-        <motion.div
-          className="grid gap-4 md:grid-cols-2"
-          variants={cardGridVariants}
-        >
-          <motion.div variants={cardVariants}>
-            <Card className="p-3">
-              <CardBody className="flex flex-row items-start gap-3 p-4">
-                <Zap className="mt-1 size-6 flex-shrink-0 text-primary" />
-                <div>
-                  <Typography.H3>Performance Boost</Typography.H3>
-                  <Typography.TextSm>
-                    Turbocharging our database for lightning-fast COE trend
-                    analysis
-                  </Typography.TextSm>
-                </div>
-              </CardBody>
-            </Card>
-          </motion.div>
-          <motion.div variants={cardVariants}>
-            <Card className="p-3">
-              <CardBody className="flex flex-row items-start gap-3 p-4">
-                <Shield className="mt-1 size-6 flex-shrink-0 text-primary" />
-                <div>
-                  <Typography.H3>Security Updates</Typography.H3>
-                  <Typography.TextSm>
-                    Installing the latest security patches to protect your data
-                  </Typography.TextSm>
-                </div>
-              </CardBody>
-            </Card>
-          </motion.div>
-          <motion.div variants={cardVariants}>
-            <Card className="p-3">
-              <CardBody className="flex flex-row items-start gap-3 p-4">
-                <TrendingUp className="mt-1 size-6 flex-shrink-0 text-primary" />
-                <div>
-                  <Typography.H3>New Features</Typography.H3>
-                  <Typography.TextSm>
-                    Adding advanced analytics for better market predictions
-                  </Typography.TextSm>
-                </div>
-              </CardBody>
-            </Card>
-          </motion.div>
-          <motion.div variants={cardVariants}>
-            <Card className="p-3">
-              <CardBody className="flex flex-row items-start gap-3 p-4">
-                <Wrench className="mt-1 size-6 flex-shrink-0 text-primary" />
-                <div>
-                  <Typography.H3>Bug Fixes</Typography.H3>
-                  <Typography.TextSm>
-                    Fixing minor issues to ensure smooth sailing ahead
-                  </Typography.TextSm>
-                </div>
-              </CardBody>
-            </Card>
-          </motion.div>
-        </motion.div>
-      </motion.div>
+        {/* What We're Doing Section */}
+        <AnimatedSection className="flex flex-col gap-4">
+          <Typography.H2>What&apos;s Under the Hood?</Typography.H2>
+          <AnimatedCardGrid>
+            <AnimatedCard>
+              <Card className="rounded-2xl p-3">
+                <CardBody className="flex flex-row items-start gap-4 p-4">
+                  <Zap className="mt-1 size-6 flex-shrink-0 text-primary" />
+                  <div>
+                    <Typography.H3>Performance Boost</Typography.H3>
+                    <Typography.TextSm>
+                      Turbocharging our database for lightning-fast COE trend
+                      analysis
+                    </Typography.TextSm>
+                  </div>
+                </CardBody>
+              </Card>
+            </AnimatedCard>
+            <AnimatedCard>
+              <Card className="rounded-2xl p-3">
+                <CardBody className="flex flex-row items-start gap-4 p-4">
+                  <Shield className="mt-1 size-6 flex-shrink-0 text-primary" />
+                  <div>
+                    <Typography.H3>Security Updates</Typography.H3>
+                    <Typography.TextSm>
+                      Installing the latest security patches to protect your
+                      data
+                    </Typography.TextSm>
+                  </div>
+                </CardBody>
+              </Card>
+            </AnimatedCard>
+            <AnimatedCard>
+              <Card className="rounded-2xl p-3">
+                <CardBody className="flex flex-row items-start gap-4 p-4">
+                  <TrendingUp className="mt-1 size-6 flex-shrink-0 text-primary" />
+                  <div>
+                    <Typography.H3>New Features</Typography.H3>
+                    <Typography.TextSm>
+                      Adding advanced analytics for better market predictions
+                    </Typography.TextSm>
+                  </div>
+                </CardBody>
+              </Card>
+            </AnimatedCard>
+            <AnimatedCard>
+              <Card className="rounded-2xl p-3">
+                <CardBody className="flex flex-row items-start gap-4 p-4">
+                  <Wrench className="mt-1 size-6 flex-shrink-0 text-primary" />
+                  <div>
+                    <Typography.H3>Bug Fixes</Typography.H3>
+                    <Typography.TextSm>
+                      Fixing minor issues to ensure smooth sailing ahead
+                    </Typography.TextSm>
+                  </div>
+                </CardBody>
+              </Card>
+            </AnimatedCard>
+          </AnimatedCardGrid>
+        </AnimatedSection>
 
-      <motion.div variants={itemVariants}>
-        <Divider />
-      </motion.div>
+        <AnimatedSection>
+          <Divider />
+        </AnimatedSection>
 
-      {/* Contact Section */}
-      <motion.div
-        className="flex flex-col gap-4 text-center"
-        variants={itemVariants}
-      >
-        <Typography.H3>Need Immediate Assistance? 🚨</Typography.H3>
-        <Typography.Text>
-          While we&apos;re upgrading, our support team is still available for
-          urgent inquiries
-        </Typography.Text>
-        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link
-            href="mailto:support@sgcarstrends.com"
-            color="primary"
-            className="flex items-center gap-2 font-medium text-sm"
-          >
-            <Mail className="size-4" />
-            support@sgcarstrends.com
-          </Link>
-          <span className="hidden text-foreground-400 sm:inline">|</span>
-          <Link
-            href="https://twitter.com/sgcarstrends"
-            color="primary"
-            className="flex items-center gap-2 font-medium text-sm"
-            isExternal
-          >
-            <MessageCircle className="size-4" />
-            Follow updates on Twitter
-          </Link>
-        </div>
-      </motion.div>
+        {/* Contact Section */}
+        <AnimatedSection className="flex flex-col gap-4 text-center">
+          <Typography.H3>Need Immediate Assistance?</Typography.H3>
+          <Typography.Text>
+            While we&apos;re upgrading, our support team is still available for
+            urgent inquiries
+          </Typography.Text>
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link
+              href="mailto:support@sgcarstrends.com"
+              color="primary"
+              className="flex items-center gap-2 font-medium text-sm"
+            >
+              <Mail className="size-4" />
+              support@sgcarstrends.com
+            </Link>
+            <span className="hidden text-foreground-400 sm:inline">|</span>
+            <Link
+              href="https://twitter.com/sgcarstrends"
+              color="primary"
+              className="flex items-center gap-2 font-medium text-sm"
+              isExternal
+            >
+              <MessageCircle className="size-4" />
+              Follow updates on Twitter
+            </Link>
+          </div>
+        </AnimatedSection>
 
-      {/* Footer Message */}
-      <motion.div className="text-center" variants={itemVariants}>
-        <Typography.TextSm>
-          🏁 Thanks for your patience as we race towards a better experience!
-        </Typography.TextSm>
-        <Typography.Caption>
-          This page will automatically refresh when maintenance is complete
-        </Typography.Caption>
-      </motion.div>
-    </motion.div>
+        {/* Footer Message */}
+        <AnimatedSection className="text-center">
+          <Typography.TextSm>
+            Thanks for your patience as we race towards a better experience!
+          </Typography.TextSm>
+          <Typography.Caption>
+            This page will automatically refresh when maintenance is complete
+          </Typography.Caption>
+        </AnimatedSection>
+      </AnimatedContainer>
+    </MaintenancePollingWrapper>
   );
-};
+}

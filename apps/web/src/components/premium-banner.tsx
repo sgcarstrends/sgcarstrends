@@ -3,14 +3,14 @@
 import { Chip } from "@heroui/chip";
 import useStore from "@web/app/store";
 import type { COEResult } from "@web/types";
-import { formatCurrency } from "@web/utils/format-currency";
+import { formatCurrency } from "@web/utils/formatting/format-currency";
 import { useEffect } from "react";
 
-interface Props {
+interface PremiumBannerProps {
   data: COEResult[];
 }
 
-export const PremiumBanner = ({ data = [] }: Props) => {
+export function PremiumBanner({ data = [] }: PremiumBannerProps) {
   const setBannerContent = useStore(({ setBannerContent }) => setBannerContent);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export const PremiumBanner = ({ data = [] }: Props) => {
   }, [data, setBannerContent]);
 
   return null;
-};
+}
 
 // TODO: Move this to a common directory
 const sortByCategory = (a: COEResult, b: COEResult) =>

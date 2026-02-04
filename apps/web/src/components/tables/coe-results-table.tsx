@@ -6,13 +6,13 @@ import type { COEResult } from "@web/types";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import { useCallback, useMemo } from "react";
 
-interface Props {
+interface TrendTableProps {
   coeResults: COEResult[];
 }
 
 const defaultCategories = ["Category A", "Category B", "Category E"];
 
-export const TrendTable = ({ coeResults }: Props) => {
+export function TrendTable({ coeResults }: TrendTableProps) {
   const [categories] = useQueryState(
     "categories",
     parseAsArrayOf(parseAsString).withDefault(defaultCategories),
@@ -39,4 +39,4 @@ export const TrendTable = ({ coeResults }: Props) => {
   );
 
   return <DataTable columns={columns} data={sortedData} />;
-};
+}

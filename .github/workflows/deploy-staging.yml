@@ -5,7 +5,6 @@ on:
     branches:
       - main
     paths:
-      - 'apps/api/**'
       - 'apps/web/**'
       - 'infra/**'
       - 'packages/**'
@@ -68,7 +67,6 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DISCORD_WORKFLOW_WEBHOOK_URL: ${{ secrets.DISCORD_WORKFLOW_WEBHOOK_URL }}
           FEATURE_FLAG_RATE_LIMIT: ${{ vars.FEATURE_FLAG_RATE_LIMIT }}
           GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY }}
           LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
@@ -88,13 +86,6 @@ jobs:
           NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
           NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
           NEXT_PUBLIC_REVALIDATE_TOKEN: ${{ secrets.NEXT_PUBLIC_REVALIDATE_TOKEN }}
-          QSTASH_CURRENT_SIGNING_KEY: ${{ secrets.QSTASH_CURRENT_SIGNING_KEY }}
-          QSTASH_NEXT_SIGNING_KEY: ${{ secrets.QSTASH_NEXT_SIGNING_KEY }}
-          QSTASH_TOKEN: ${{ secrets.QSTASH_TOKEN }}
-          QSTASH_URL: ${{ secrets.QSTASH_URL }}
-          WORKFLOWS_BASE_URL: ${{ vars.WORKFLOWS_BASE_URL }}
-          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SG_CARS_TRENDS_API_TOKEN: ${{ secrets.SG_CARS_TRENDS_API_TOKEN }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

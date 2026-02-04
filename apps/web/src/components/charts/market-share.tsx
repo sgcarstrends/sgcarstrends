@@ -28,14 +28,14 @@ interface MarketShareDonutProps {
   onValueChange?: (value: any) => void;
 }
 
-export const MarketShareDonut = ({
+export function MarketShareDonut({
   data,
   title,
   subtitle,
   variant = "donut",
   showLegend = true,
   onValueChange,
-}: MarketShareDonutProps) => {
+}: MarketShareDonutProps) {
   // Consolidate all data transformations into single useMemo
   const { chartData, chartConfig, legendData } = useMemo(() => {
     const chartData = data.map((item) => ({
@@ -107,4 +107,4 @@ export const MarketShareDonut = ({
       </div>
     </ChartWidget>
   );
-};
+}

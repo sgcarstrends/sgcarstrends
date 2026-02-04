@@ -14,7 +14,7 @@ export interface MaintenanceStatus {
   message: string;
 }
 
-export const getMaintenanceStatus = async (): Promise<MaintenanceStatus> => {
+export async function getMaintenanceStatus(): Promise<MaintenanceStatus> {
   try {
     const config = await redis.get<AppConfig>("config");
 
@@ -32,4 +32,4 @@ export const getMaintenanceStatus = async (): Promise<MaintenanceStatus> => {
       message: "",
     };
   }
-};
+}

@@ -60,15 +60,14 @@ graph TB
         subgraph "Lambda Function Details"
             subgraph "API Lambda Environment"
                 CoreEnv[Core: STAGE, DATABASE_URL, API_TOKEN]
-                AIEnv[AI: GOOGLE_GENERATIVE_AI_API_KEY] 
-                QStashEnv[QStash: QSTASH_TOKEN, SIGNING_KEYS]
+                AIEnv[AI: GOOGLE_GENERATIVE_AI_API_KEY]
                 RedisEnv[Redis: UPSTASH_REDIS_REST_*]
                 SocialEnv[Social: DISCORD, LINKEDIN, TELEGRAM, TWITTER]
             end
             
             subgraph "Web Lambda Environment"
                 WebEnv[TZ: Asia/Singapore]
-                PublicEnv[NEXT_PUBLIC_API_URL, NEXT_PUBLIC_APP_ENV]
+                PublicEnv[NEXT_PUBLIC_API_URL]
                 WebRedis[UPSTASH_REDIS_REST_*]
                 WebAuth[SG_CARS_TRENDS_API_TOKEN, REVALIDATE_TOKEN]
                 WebDB[DATABASE_URL]
@@ -83,9 +82,6 @@ graph TB
             LTA[LTA DataMall APIs]
             GeminiAI[Vercel AI SDK + Google Gemini]
         end
-        
-        %% Message Queue
-        QStash[QStash Workflow Orchestrator]
         
         %% Databases
         subgraph "Managed Databases"
@@ -145,7 +141,6 @@ graph TB
     %% Environment Configuration
     APILambda --> CoreEnv
     APILambda --> AIEnv
-    APILambda --> QStashEnv
     APILambda --> RedisEnv
     APILambda --> SocialEnv
     
@@ -158,7 +153,6 @@ graph TB
     %% External Connections
     APILambda --> LTA
     APILambda --> GeminiAI
-    APILambda --> QStash
     APILambda --> PostgreSQL
     APILambda --> Upstash
     APILambda --> Discord
@@ -187,9 +181,9 @@ graph TB
     
     class CloudFront,Router,APIGateway,APILambda,NextjsSSR,StaticAssets aws
     class Cloudflare dns
-    class APIRuntime,APITimeout,HonoApp,WebRuntime,WebWarm,NextjsFramework,CoreEnv,AIEnv,QStashEnv,RedisEnv,SocialEnv,WebEnv,PublicEnv,WebRedis,WebAuth,WebDB function
+    class APIRuntime,APITimeout,HonoApp,WebRuntime,WebWarm,NextjsFramework,CoreEnv,AIEnv,RedisEnv,SocialEnv,WebEnv,PublicEnv,WebRedis,WebAuth,WebDB function
     class PostgreSQL,Upstash database
-    class LTA,GeminiAI,QStash external
+    class LTA,GeminiAI external
     class Discord,LinkedIn,Telegram,Twitter social
 ```
 
@@ -283,12 +277,11 @@ graph TB
 - **Runtime**: Node.js 22.x
 - **Timeout**: 120 seconds (for long-running workflows)
 - **Memory**: Optimized based on usage patterns
-- **Handler**: `apps/api/src/index.handler`
+- **Handler**: Hono framework application handler
 
 **Environment Variables**:
 - **Core**: `STAGE`, `DATABASE_URL`, `SG_CARS_TRENDS_API_TOKEN`
 - **AI Integration**: `GOOGLE_GENERATIVE_AI_API_KEY`
-- **Workflow**: `QSTASH_TOKEN`, `QSTASH_*_SIGNING_KEY`
 - **Caching**: `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
 - **Social Media**: Platform-specific credentials and webhook URLs
 
@@ -369,13 +362,13 @@ graph TB
 - **Usage**: Market analysis and content creation
 - **Rate Limits**: API quota management
 
-### Message Queue
+### Workflow Orchestration
 
-**QStash Workflow Orchestrator**:
+**Vercel WDK (Workflow Development Kit)**:
 - **Purpose**: Serverless workflow orchestration
-- **Features**: Scheduled jobs, retry logic, error handling
-- **Integration**: Direct Lambda function invocation
-- **Security**: Webhook signature verification
+- **Features**: Durable execution, automatic retries, step-based orchestration
+- **Scheduling**: Vercel Cron for scheduled workflow triggers
+- **Integration**: Built into Next.js application
 
 ### Databases
 
@@ -514,6 +507,5 @@ sst dev --stage local
 ## Related Documentation
 
 - [System Architecture Overview](./system)
-- [API Architecture](./api)
 - [Data Processing Workflows](./workflows)
 - [Infrastructure Configuration Documentation](../../infra/CLAUDE.md)

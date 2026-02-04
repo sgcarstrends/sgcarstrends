@@ -1,6 +1,6 @@
 import type { SelectPost } from "@sgcarstrends/database";
 import { render, screen } from "@testing-library/react";
-import { RecentPosts } from "@web/app/(dashboard)/_components/recent-posts";
+import { RecentPosts } from "@web/app/(main)/(dashboard)/components/recent-posts";
 
 vi.mock("@heroui/link", () => ({
   Link: ({ href, children, ...props }: any) => (
@@ -16,7 +16,7 @@ vi.mock("framer-motion", () => ({
   },
 }));
 
-vi.mock("@web/app/blog/_components/post", () => ({
+vi.mock("@web/app/(main)/blog/components/post", () => ({
   Post: {
     Card: ({ post }: { post: SelectPost }) => (
       <article data-testid={`post-card-${post.id}`}>
@@ -24,7 +24,7 @@ vi.mock("@web/app/blog/_components/post", () => ({
         <span data-testid={`post-date-${post.id}`}>
           {new Date(post.publishedAt ?? post.createdAt).toLocaleDateString(
             "en-SG",
-            { day: "numeric", month: "short" },
+            { year: "numeric", month: "short", day: "numeric" },
           )}
         </span>
       </article>
@@ -35,38 +35,38 @@ vi.mock("@web/app/blog/_components/post", () => ({
 describe("RecentPosts", () => {
   const mockPosts: SelectPost[] = [
     {
-      id: 1,
+      id: "post-1",
       title: "First Post",
       slug: "first-post",
       content: "Content of first post",
       excerpt: "Excerpt",
-      createdAt: new Date("2024-01-15"),
-      updatedAt: new Date("2024-01-15"),
-      publishedAt: new Date("2024-01-15"),
-      month: "2024-01",
-      aiGenerated: false,
-      aiModel: null,
+      heroImage: null,
       tags: [],
-      readingTime: 5,
-      seoTitle: null,
-      seoDescription: null,
+      highlights: null,
+      status: "published",
+      metadata: null,
+      month: "2024-01",
+      dataType: "cars",
+      createdAt: new Date("2024-01-15"),
+      modifiedAt: new Date("2024-01-15"),
+      publishedAt: new Date("2024-01-15"),
     },
     {
-      id: 2,
+      id: "post-2",
       title: "Second Post",
       slug: "second-post",
       content: "Content of second post",
       excerpt: "Excerpt",
-      createdAt: new Date("2024-02-20"),
-      updatedAt: new Date("2024-02-20"),
-      publishedAt: null,
-      month: "2024-02",
-      aiGenerated: true,
-      aiModel: "gemini",
+      heroImage: null,
       tags: [],
-      readingTime: 3,
-      seoTitle: null,
-      seoDescription: null,
+      highlights: null,
+      status: "published",
+      metadata: null,
+      month: "2024-02",
+      dataType: "coe",
+      createdAt: new Date("2024-02-20"),
+      modifiedAt: new Date("2024-02-20"),
+      publishedAt: null,
     },
   ];
 
@@ -89,13 +89,13 @@ describe("RecentPosts", () => {
   it("should render published date when available", () => {
     render(<RecentPosts posts={mockPosts} />);
 
-    expect(screen.getByText("15 Jan")).toBeInTheDocument();
+    expect(screen.getByText("15 Jan 2024")).toBeInTheDocument();
   });
 
   it("should use createdAt when publishedAt is null", () => {
     render(<RecentPosts posts={mockPosts} />);
 
-    expect(screen.getByText("20 Feb")).toBeInTheDocument();
+    expect(screen.getByText("20 Feb 2024")).toBeInTheDocument();
   });
 
   it("should render with empty posts", () => {

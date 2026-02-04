@@ -1,0 +1,178 @@
+---
+title: Cars
+description: Car registration data endpoints
+---
+
+Access Singapore vehicle registration data including monthly registrations by make, fuel type, and vehicle type.
+
+## List Car Registrations
+
+```
+GET /cars
+```
+
+Returns paginated car registration data aggregated by month, make, fuel type, and vehicle type.
+
+### Query Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `month` | string | - | Filter by month (YYYY-MM format) |
+| `page` | integer | 1 | Page number |
+| `limit` | integer | 20 | Items per page (max 100) |
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "month": "2025-01",
+      "make": "TOYOTA",
+      "fuelType": "Petrol-Electric",
+      "vehicleType": "Multi-purpose Vehicle",
+      "number": 245
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 1500,
+    "totalPages": 75,
+    "hasNextPage": true,
+    "hasPrevPage": false
+  }
+}
+```
+
+### Example
+
+```bash
+# Get registrations for January 2025
+curl "https://api.sgcarstrends.com/cars?month=2025-01&limit=10"
+```
+
+---
+
+## List Makes
+
+```
+GET /cars/makes
+```
+
+Returns a list of all car makes in the database.
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": [
+    "ALFA ROMEO",
+    "ASTON MARTIN",
+    "AUDI",
+    "BENTLEY",
+    "BMW",
+    "..."
+  ]
+}
+```
+
+---
+
+## Get Make Details
+
+```
+GET /cars/makes/{make}
+```
+
+Returns registration details for a specific car make.
+
+### Path Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `make` | string | Car make name (URL encoded) |
+
+### Query Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `month` | string | Filter by month (YYYY-MM format) |
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "total": 12500,
+    "data": [
+      {
+        "month": "2025-01",
+        "fuelType": "Petrol-Electric",
+        "vehicleType": "Sports Utility Vehicle",
+        "count": 180
+      }
+    ]
+  }
+}
+```
+
+### Example
+
+```bash
+# Get Toyota registrations for January 2025
+curl "https://api.sgcarstrends.com/cars/makes/TOYOTA?month=2025-01"
+```
+
+---
+
+## List Fuel Types
+
+```
+GET /cars/fuel-types
+```
+
+Returns all fuel types in the database.
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": [
+    "Diesel",
+    "Electric",
+    "Petrol",
+    "Petrol-Electric"
+  ]
+}
+```
+
+---
+
+## List Vehicle Types
+
+```
+GET /cars/vehicle-types
+```
+
+Returns all vehicle types in the database.
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": [
+    "Coupe/Convertible",
+    "Hatchback",
+    "Multi-purpose Vehicle",
+    "Saloon",
+    "Sports Utility Vehicle",
+    "Station-wagon"
+  ]
+}
+```

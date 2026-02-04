@@ -1,0 +1,64 @@
+---
+title: Rate Limiting
+description: API rate limits and best practices
+---
+
+The SG Cars Trends API implements rate limiting to ensure fair usage and protect against abuse.
+
+## Limits
+
+| Limit | Value |
+|-------|-------|
+| Requests per minute | 60 |
+| Scope | Per IP address |
+
+## Response Headers
+
+Every API response includes rate limit information in the headers:
+
+| Header | Description |
+|--------|-------------|
+| `X-RateLimit-Limit` | Maximum requests allowed per window |
+| `X-RateLimit-Remaining` | Requests remaining in current window |
+| `X-RateLimit-Reset` | Unix timestamp when the limit resets |
+
+## Rate Limit Exceeded
+
+When you exceed the rate limit, the API returns a `429 Too Many Requests` response:
+
+```json
+{
+  "error": "Rate limit exceeded"
+}
+```
+
+## Best Practices
+
+1. **Cache responses** - Data updates monthly, so cache aggressively on your end
+2. **Use conditional requests** - Check `Last-Modified` headers when available
+3. **Implement exponential backoff** - When rate limited, wait before retrying
+4. **Batch requests efficiently** - Fetch only the data you need
+
+## Example: Handling Rate Limits
+
+```typescript
+async function fetchWithRetry(url: string, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    const response = await fetch(url);
+
+    if (response.status === 429) {
+      const resetTime = response.headers.get('X-RateLimit-Reset');
+      const waitMs = resetTime
+        ? (parseInt(resetTime) * 1000) - Date.now()
+        : Math.pow(2, i) * 1000;
+
+      await new Promise(resolve => setTimeout(resolve, waitMs));
+      continue;
+    }
+
+    return response;
+  }
+
+  throw new Error('Rate limit exceeded after retries');
+}
+```

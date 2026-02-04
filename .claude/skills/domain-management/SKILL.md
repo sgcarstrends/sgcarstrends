@@ -31,7 +31,6 @@ api.sgcarstrends.com                # Production API
 api.staging.sgcarstrends.com        # Staging API
 api.dev.sgcarstrends.com            # Development API
 
-admin.sgcarstrends.com              # Admin app (future)
 docs.sgcarstrends.com               # Documentation (future)
 ```
 
@@ -500,7 +499,6 @@ API:
   api.dev...                 # Development
 
 Future:
-  admin.sgcarstrends.com     # Admin panel
   docs.sgcarstrends.com      # Documentation
   status.sgcarstrends.com    # Status page
 ```

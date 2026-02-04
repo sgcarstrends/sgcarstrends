@@ -7,7 +7,7 @@ import {
   SiTelegram,
   SiX,
 } from "@icons-pack/react-simple-icons";
-import { sortByName } from "@web/utils/sorting";
+import { sortByName } from "@web/utils/arrays/sorting";
 import {
   BarChart3,
   Calculator,
@@ -194,5 +194,4 @@ export const NAV_ITEMS = [
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
   { href: "/faq", label: "FAQ" },
-  // { href: "/newsletter", label: "Newsletter" },
 ] as const satisfies readonly NavItem[];

@@ -68,7 +68,14 @@
   --border: hsl(214 32% 91%); /* #E2E8F0 */
   --input: hsl(214 32% 91%); /* #E2E8F0 */
   --ring: hsl(240 63% 27%); /* Navy Blue for focus */
+
+  /* Radius tokens - Design System */
   --radius: 0.5rem;
+  --radius-sm: 0.5rem; /* 8px - rounded-lg */
+  --radius-md: 0.75rem; /* 12px - rounded-xl */
+  --radius-lg: 1rem; /* 16px - rounded-2xl */
+  --radius-xl: 1.5rem; /* 24px - rounded-3xl */
+  --radius-full: 9999px; /* rounded-full */
 
   /* Chart colours - Navy Blue gradient palette */
   --chart-1: hsl(240 64% 27%);
@@ -77,6 +84,14 @@
   --chart-4: hsl(210 14% 53%);
   --chart-5: hsl(215 23% 65%);
   --chart-6: hsl(212 17% 76%);
+
+  /* Surface colors for card hierarchy */
+  --surface-1: hsl(0 0% 100%);
+  --surface-2: hsl(213 32% 97%);
+  --surface-3: hsl(213 32% 95%);
+
+  /* Chart grid stroke */
+  --chart-grid: hsl(214 32% 91%);
 
   /* Sidebar */
   --sidebar-background: hsl(0 0% 98%);
@@ -169,6 +184,10 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar: var(--sidebar);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-chart-grid: var(--chart-grid);
 }
 
 /* Reusable keyframe animations */

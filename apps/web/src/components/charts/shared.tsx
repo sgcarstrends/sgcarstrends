@@ -1,5 +1,5 @@
 import { numberFormat } from "@ruchernchong/number-format";
-import { formatCurrency } from "@web/utils/format-currency";
+import { formatCurrency } from "@web/utils/formatting/format-currency";
 import type { CSSProperties, ReactNode } from "react";
 import { Label, XAxis, YAxis } from "recharts";
 
@@ -28,7 +28,7 @@ export const currencyTooltipFormatter = <T extends number | string>({
         }
       />
       {name}
-      <div className="ml-auto flex items-baseline gap-0.5 font-medium text-foreground tabular-nums">
+      <div className="ml-auto flex items-baseline gap-1 font-medium text-foreground tabular-nums">
         {formatCurrency(numericValue)}
       </div>
     </>
@@ -40,32 +40,36 @@ interface PriceYAxisProps {
   hide?: boolean;
 }
 
-export const PriceYAxis = ({
+export function PriceYAxis({
   label = "Price ($)",
   hide = false,
-}: PriceYAxisProps) => (
-  <YAxis
-    domain={[
-      (dataMin: number) => Math.floor(dataMin / 10000) * 10000,
-      (dataMax: number) => Math.ceil(dataMax / 10000) * 10000,
-    ]}
-    tickFormatter={numberFormat}
-    axisLine={false}
-    hide={hide}
-  >
-    <Label
-      value={label}
-      angle={-90}
-      position="insideLeft"
-      style={{ textAnchor: "middle" }}
-    />
-  </YAxis>
-);
+}: PriceYAxisProps) {
+  return (
+    <YAxis
+      domain={[
+        (dataMin: number) => Math.floor(dataMin / 10000) * 10000,
+        (dataMax: number) => Math.ceil(dataMax / 10000) * 10000,
+      ]}
+      tickFormatter={numberFormat}
+      axisLine={false}
+      hide={hide}
+    >
+      <Label
+        value={label}
+        angle={-90}
+        position="insideLeft"
+        style={{ textAnchor: "middle" }}
+      />
+    </YAxis>
+  );
+}
 
 interface MonthXAxisProps {
   tickFormatter: (value: string) => string;
 }
 
-export const MonthXAxis = ({ tickFormatter }: MonthXAxisProps) => (
-  <XAxis dataKey="month" tickFormatter={tickFormatter} axisLine={false} />
-);
+export function MonthXAxis({ tickFormatter }: MonthXAxisProps) {
+  return (
+    <XAxis dataKey="month" tickFormatter={tickFormatter} axisLine={false} />
+  );
+}

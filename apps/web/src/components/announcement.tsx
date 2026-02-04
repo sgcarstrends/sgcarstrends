@@ -4,7 +4,7 @@ import { Alert } from "@heroui/react";
 import { announcements } from "@web/config";
 import { usePathname } from "next/navigation";
 
-export const Announcement = () => {
+export function Announcement() {
   const pathname = usePathname();
 
   if (announcements.length === 0) {
@@ -32,4 +32,4 @@ export const Announcement = () => {
   return (
     <Alert radius="none" variant="solid" title={activeAnnouncement.content} />
   );
-};
+}

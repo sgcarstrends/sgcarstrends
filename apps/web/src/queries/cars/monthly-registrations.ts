@@ -1,10 +1,9 @@
-import { cars, db } from "@sgcarstrends/database";
+import { cars, db, desc, eq, gt, sql, sum } from "@sgcarstrends/database";
 import type { Comparison, Registration } from "@web/types/cars";
 import { format, subMonths } from "date-fns";
-import { desc, eq, gt, sql, sum } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
-export const getCarsData = async (month: string): Promise<Registration> => {
+export async function getCarsData(month: string): Promise<Registration> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:month:${month}`);
@@ -52,9 +51,9 @@ export const getCarsData = async (month: string): Promise<Registration> => {
     fuelType,
     vehicleType,
   };
-};
+}
 
-export const getCarsComparison = async (month: string): Promise<Comparison> => {
+export async function getCarsComparison(month: string): Promise<Comparison> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:month:${month}`);
@@ -138,4 +137,4 @@ export const getCarsComparison = async (month: string): Promise<Comparison> => {
       vehicleType: previousYearVehicleType,
     },
   };
-};
+}

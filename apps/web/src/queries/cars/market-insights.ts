@@ -1,12 +1,10 @@
-import { cars, db } from "@sgcarstrends/database";
+import { and, cars, db, desc, eq, gt, sql } from "@sgcarstrends/database";
 import {
   calculateMarketShareData,
-  calculateTopPerformersData,
   findDominantType,
 } from "@web/lib/cars/calculations";
 import { getCarsData } from "@web/queries";
 import type { FuelType, TopType } from "@web/types/cars";
-import { and, desc, eq, gt, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface CarMarketShareData {
@@ -56,7 +54,7 @@ interface TopMake {
   total: number;
 }
 
-export const getTopTypes = async (month: string): Promise<TopType> => {
+export async function getTopTypes(month: string): Promise<TopType> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:month:${month}`);
@@ -96,9 +94,9 @@ export const getTopTypes = async (month: string): Promise<TopType> => {
     topFuelType,
     topVehicleType,
   };
-};
+}
 
-export const getTopMakes = async (month: string): Promise<TopMake[]> => {
+export async function getTopMakes(month: string): Promise<TopMake[]> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:month:${month}`);
@@ -113,11 +111,11 @@ export const getTopMakes = async (month: string): Promise<TopMake[]> => {
     .groupBy(cars.make)
     .orderBy(desc(sql<number>`sum(${cars.number})`))
     .limit(10);
-};
+}
 
-export const getTopMakesByFuelType = async (
+export async function getTopMakesByFuelType(
   month: string,
-): Promise<FuelType[]> => {
+): Promise<FuelType[]> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:month:${month}`);
@@ -162,12 +160,12 @@ export const getTopMakesByFuelType = async (
     total,
     makes: topMakesResults[index].map(({ make, count }) => ({ make, count })),
   }));
-};
+}
 
-export const getCarMarketShareData = async (
+export async function getCarMarketShareData(
   month: string,
   category: "fuelType" | "vehicleType",
-): Promise<CarMarketShareResponse> => {
+): Promise<CarMarketShareResponse> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:month:${month}`, `cars:category:${category}`);
@@ -186,4 +184,4 @@ export const getCarMarketShareData = async (
     data: marketShareData,
     dominantType,
   };
-};
+}

@@ -5,8 +5,7 @@ import { vi } from "vitest";
 const mockUseMaintenance = vi.fn();
 
 vi.mock("@web/hooks/use-maintenance", () => ({
-  __esModule: true,
-  default: () => mockUseMaintenance(),
+  useMaintenance: () => mockUseMaintenance(),
 }));
 
 describe("MaintenanceNotice", () => {

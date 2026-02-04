@@ -1,8 +1,18 @@
-import { coe, db, type SelectCOE } from "@sgcarstrends/database";
+import {
+  and,
+  asc,
+  coe,
+  db,
+  desc,
+  eq,
+  gte,
+  lte,
+  max,
+  type SelectCOE,
+} from "@sgcarstrends/database";
 import { getDateRangeForYear } from "@web/lib/coe/calculations";
 import type { COECategory } from "@web/types";
 import { subMonths } from "date-fns";
-import { and, asc, desc, eq, gte, lte, max } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 const COE_CATEGORIES: COECategory[] = [
@@ -75,10 +85,10 @@ export interface CoeMonthlyPremium {
   biddingNo: number;
 }
 
-export const getCoeCategoryTrends = async (
+export async function getCoeCategoryTrends(
   category: COECategory,
   year?: number,
-): Promise<CoeMonthlyPremium[]> => {
+): Promise<CoeMonthlyPremium[]> {
   "use cache";
   cacheLife("max");
   cacheTag(`coe:category:${category}`);
@@ -96,11 +106,11 @@ export const getCoeCategoryTrends = async (
   }
 
   return Array.from(monthlyTrends.values());
-};
+}
 
-export const getAllCoeCategoryTrends = async (
+export async function getAllCoeCategoryTrends(
   year?: number,
-): Promise<Record<COECategory, CoeMonthlyPremium[]>> => {
+): Promise<Record<COECategory, CoeMonthlyPremium[]>> {
   "use cache";
   cacheLife("max");
   cacheTag("coe:trends");
@@ -142,4 +152,4 @@ export const getAllCoeCategoryTrends = async (
       Array.from(categoryTrends.get(category)?.values() ?? []),
     ]),
   ) as Record<COECategory, CoeMonthlyPremium[]>;
-};
+}

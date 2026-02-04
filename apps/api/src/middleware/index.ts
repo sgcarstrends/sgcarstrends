@@ -1,1 +1,0 @@
-export { authMiddleware } from "./auth";

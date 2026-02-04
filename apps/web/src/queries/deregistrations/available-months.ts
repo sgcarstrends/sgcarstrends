@@ -1,11 +1,10 @@
-import { db, deregistrations } from "@sgcarstrends/database";
-import { desc } from "drizzle-orm";
+import { db, deregistrations, desc } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 /**
  * Get available months in descending order (for dropdowns/selectors)
  */
-export const getDeregistrationsMonths = async () => {
+export async function getDeregistrationsMonths() {
   "use cache";
   cacheLife("max");
   cacheTag("deregistrations:months");
@@ -14,4 +13,4 @@ export const getDeregistrationsMonths = async () => {
     .selectDistinct({ month: deregistrations.month })
     .from(deregistrations)
     .orderBy(desc(deregistrations.month));
-};
+}

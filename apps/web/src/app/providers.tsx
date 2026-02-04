@@ -5,7 +5,7 @@ import { ToastProvider } from "@heroui/toast";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 
-export const Providers = ({ children }: { children: ReactNode }) => {
+export function Providers({ children }: Readonly<{ children: ReactNode }>) {
   const router = useRouter();
 
   return (
@@ -20,4 +20,4 @@ export const Providers = ({ children }: { children: ReactNode }) => {
       {children}
     </HeroUIProvider>
   );
-};
+}

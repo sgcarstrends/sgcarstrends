@@ -4,7 +4,7 @@ import { Button } from "@heroui/button";
 import type { SelectCar } from "@sgcarstrends/database";
 import { slugify } from "@sgcarstrends/utils";
 import type { ColumnDef } from "@tanstack/react-table";
-import { formatVehicleType } from "@web/utils/format-vehicle-type";
+import { formatVehicleType } from "@web/utils/formatting/format-vehicle-type";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
 

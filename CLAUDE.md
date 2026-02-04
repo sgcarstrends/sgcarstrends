@@ -14,12 +14,8 @@ This repository includes directory-specific CLAUDE.md files with detailed guidan
 
 ### Applications
 
-- **[apps/api/CLAUDE.md](apps/api/CLAUDE.md)**: API service development with Hono, workflows, and social media
-  integration
-- **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 16, HeroUI, blog features, and
-  analytics
-- **[apps/admin/CLAUDE.md](apps/admin/CLAUDE.md)**: Administrative dashboard interface (unreleased) with shadcn/ui
-  components
+- **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 16, HeroUI, blog features,
+  analytics, integrated admin interface at `/admin` path, and data updater workflows with social media integration
 
 ### Packages
 
@@ -46,7 +42,6 @@ System architecture documentation with Mermaid diagrams is available in the `doc
     - **[system.md](docs/architecture/system.md)**: System architecture overview
     - **[workflows.md](docs/architecture/workflows.md)**: Data processing workflow sequence diagrams
     - **[database.md](docs/architecture/database.md)**: Database schema and entity relationships
-    - **[api.md](docs/architecture/api.md)**: API architecture with Hono framework
     - **[infrastructure.md](docs/architecture/infrastructure.md)**: AWS deployment topology
     - **[social.md](docs/architecture/social.md)**: Social media integration workflows
 
@@ -59,14 +54,14 @@ System architecture documentation with Mermaid diagrams is available in the `doc
 SG Cars Trends is a full-stack platform providing access to Singapore vehicle registration data,
 Certificate of Entitlement (COE) bidding results, and vehicle deregistration statistics. The monorepo includes:
 
-- **API Service**: RESTful endpoints for accessing car registration and COE data (Hono framework)
 - **Web Application**: Next.js 16 frontend with Cache Components, component co-location, interactive charts, analytics,
-  and blog functionality
+  blog functionality, and integrated admin interface at `/admin` path. Also hosts the integrated data updater workflows.
 - **Integrated Updater**: Workflow-based data update system with scheduled jobs that fetch and process data from LTA
-  DataMall (QStash workflows)
+  DataMall (Vercel WDK workflows). Consolidated into the web application for simplified deployment.
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini to analyse market data
-  and generate insights
-- **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available
+  and generate insights. Runs within web application workflows.
+- **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available.
+  Triggered by web application workflows.
 
 ## Commands
 
@@ -82,8 +77,11 @@ All commands use pnpm as the package manager.
 | | `pnpm -F <package> test -- <path>` | Run specific test |
 | **Linting** | `pnpm lint` | Lint all packages (see `biome-config` skill) |
 | | `pnpm format` | Format all packages |
-| **Database** | `pnpm db:migrate` | Run migrations (see `schema-design` skill) |
+| **Database** | `pnpm db:migrate` or `pnpm migrate` | Run migrations (see `schema-design` skill) |
 | | `pnpm db:generate` | Generate migrations |
+| | `pnpm db:push` | Push schema changes directly |
+| | `pnpm db:drop` | Drop database |
+| | `pnpm db:migrate:check` or `pnpm migrate:check` | Check migration status |
 | **Deployment** | See `sst-deployment` skill | Multi-environment deployment workflows |
 | **Release** | See `release-management` skill | Automated releases with semantic-release |
 | **Auth** | `pnpm auth:generate` | Generate authentication schema |
@@ -92,17 +90,16 @@ All commands use pnpm as the package manager.
 
 ## Code Structure
 
-- **apps/api**: Unified API service using Hono framework with integrated updater workflows
-    - **src/v1**: API endpoints for data access
-    - **src/lib/workflows**: Workflow-based data update system and social media integration
-    - **src/routes**: API route handlers including workflow endpoints
-    - **src/config**: Database, Redis, QStash, and platform configurations
-- **apps/web**: Next.js frontend application
+- **apps/web**: Next.js frontend application with integrated workflows
     - **src/app**: Next.js App Router pages and layouts with blog functionality
+    - **src/app/admin**: Integrated admin interface for content management
+    - **src/app/api/workflows**: Vercel WDK workflow endpoints (cars, coe, deregistrations, trigger)
+    - **src/lib/workflows**: Workflow-based data update system and social media integration
     - **src/components**: React components with comprehensive tests
-    - **src/actions**: Server actions for blog functionality
+    - **src/actions**: Server actions for maintenance and background tasks
     - **src/utils**: Web-specific utility functions
-- **apps/admin**: Administrative interface for content management (unreleased)
+    - **src/queries**: Data fetching queries with comprehensive tests
+    - **src/config**: Database, Redis, animations, and platform configurations
 - **packages/database**: Database schema and migrations using Drizzle ORM
     - **src/schema**: Schema definitions for cars, COE, deregistrations, and posts tables
     - **migrations**: Database migration files with version tracking

@@ -30,10 +30,11 @@ pnpm format             # Format code with Biome
 
 ### Tech Stack
 
-- **Framework**: Next.js 16.0.0 with App Router and React 19.2.0
+- **Framework**: Next.js 16.1 with App Router and React 19.2
 - **Database**: PostgreSQL (Neon) with Drizzle ORM
 - **State Management**: Zustand with persistence
 - **Styling**: Tailwind CSS v4 with HeroUI components
+- **Animations**: Framer Motion with shared variants (`@web/config/animations`)
 - **Testing**: Vitest for unit tests, Playwright for E2E
 - **Deployment**: SST on AWS (Singapore region)
 
@@ -43,19 +44,24 @@ pnpm format             # Format code with Biome
 src/
 ├── app/                           # Next.js App Router - pages, layouts, API routes
 │   ├── (dashboard)/
-│   │   ├── _components/           # Dashboard-specific components (co-located)
+│   │   ├── components/            # Dashboard-specific components (co-located)
 │   │   ├── cars/
-│   │   │   └── _components/       # Cars route-specific components (co-located)
+│   │   │   └── components/        # Cars route-specific components (co-located)
 │   │   ├── coe/
-│   │   │   └── _components/       # COE route-specific components (co-located)
+│   │   │   └── components/        # COE route-specific components (co-located)
 │   │   └── annual/                # Annual statistics routes
 │   ├── (social)/                  # Social media redirect routes with UTM tracking
+│   ├── admin/                     # Integrated admin interface for content management
+│   │   ├── (dashboard)/           # Admin dashboard routes
+│   │   ├── actions/               # Admin-specific actions
+│   │   ├── components/            # Admin-specific components
+│   │   └── lib/                   # Admin utilities and helpers
 │   ├── api/                       # API routes (analytics, OG images, revalidation)
 │   ├── blog/
-│   │   ├── _actions/              # Blog-specific server actions (co-located)
-│   │   └── _components/           # Blog-specific components (co-located)
+│   │   ├── actions/               # Blog-specific server actions (co-located)
+│   │   └── components/            # Blog-specific components (co-located)
 │   └── store/                     # Zustand store slices
-├── actions/                       # Server actions (newsletter subscription)
+├── actions/                       # Server actions (maintenance tasks)
 ├── queries/                       # Data fetching queries (cars, COE, deregistrations, logos)
 │   ├── cars/                      # Car data queries with comprehensive tests
 │   ├── coe/                       # COE data queries with comprehensive tests
@@ -67,7 +73,7 @@ src/
 │   ├── dashboard/                 # Shared dashboard components (navigation, skeletons)
 │   ├── shared/                    # Generic shared components (chips, currency, metric-card)
 │   └── [others]                   # Shared components used across multiple routes
-├── config/                        # App configuration (DB, Redis, navigation)
+├── config/                        # App configuration (DB, Redis, navigation, animations)
 ├── lib/                           # Shared data fetching and business logic
 ├── schema/                        # Drizzle database schemas
 ├── types/                         # TypeScript definitions
@@ -76,23 +82,23 @@ src/
 
 ### Component Co-location Strategy
 
-This application follows **Next.js 15/16 co-location best practices** using private folders (underscore prefix):
+This application follows **Vercel/Next.js co-location best practices** with route-specific folders:
 
-#### Co-located Components (`_components/`)
+#### Co-located Components (`components/`)
 
-Route-specific components live alongside their consuming routes using private folders:
+Route-specific components live alongside their consuming routes:
 
-- **Dashboard**: `app/(dashboard)/_components/` - Key statistics, recent posts, section tabs, charts
-- **Blog**: `app/blog/_components/` - Progress bar, view counter, related posts, blog list
-- **Cars**: `app/(dashboard)/cars/_components/` - Category tabs, make selectors, trend charts
-- **COE**: `app/(dashboard)/coe/_components/` - COE categories, premium charts, PQP components
-- **Deregistrations**: `app/(dashboard)/cars/deregistrations/_components/` - Category charts, trends, breakdown tables
+- **Dashboard**: `app/(dashboard)/components/` - Key statistics, recent posts, section tabs, charts
+- **Blog**: `app/blog/components/` - Progress bar, view counter, related posts, blog list
+- **Cars**: `app/(dashboard)/cars/components/` - Category tabs, make selectors, trend charts
+- **COE**: `app/(dashboard)/coe/components/` - COE categories, premium charts, PQP components
+- **Deregistrations**: `app/(dashboard)/cars/deregistrations/components/` - Category charts, trends, breakdown tables
 
-#### Co-located Actions (`_actions/`)
+#### Co-located Actions (`actions/`)
 
-Route-specific server actions (mutations only) use private folders:
+Route-specific server actions (mutations only):
 
-- **Blog**: `app/blog/_actions/` - View incrementing, tag updates (mutations only; reads are in `lib/data/posts.ts`)
+- **Blog**: `app/blog/actions/` - View incrementing, tag updates (mutations only; reads are in `lib/data/posts.ts`)
 
 #### Centralised vs Co-located
 
@@ -107,7 +113,7 @@ Route-specific server actions (mutations only) use private folders:
 **Co-locate When:**
 
 - Component only used by single route or route segment
-- Action/query specific to one feature area (use `_actions/` or `_queries/` in route folders)
+- Action/query specific to one feature area (use `actions/` or `queries/` in route folders)
 - Utility function only needed in one place
 
 #### Import Strategy
@@ -116,8 +122,8 @@ Route-specific server actions (mutations only) use private folders:
 
 ```typescript
 // ✅ Co-located components via path alias
-import {ProgressBar} from "@web/app/blog/_components/progress-bar";
-import {KeyStatistics} from "@web/app/(dashboard)/_components/key-statistics";
+import {ProgressBar} from "@web/app/blog/components/progress-bar";
+import {KeyStatistics} from "@web/app/(dashboard)/components/key-statistics";
 
 // ✅ Shared queries and actions via path alias
 import {getCarRegistrations} from "@web/queries/cars";
@@ -129,17 +135,19 @@ import {MetricCard} from "@web/components/shared/metric-card";
 import {Button} from "@sgcarstrends/ui/components/button";
 
 // ❌ Avoid relative imports for co-located code
-import {ProgressBar} from "../_components/progress-bar"; // Don't use
+import {ProgressBar} from "../components/progress-bar"; // Don't use
 ```
 
-#### Private Folder Convention
+#### Folder Naming Convention
 
-All non-route folders in `app/` use underscore prefix to prevent routing conflicts:
+Route-specific folders in `app/` use standard naming (no underscore prefix):
 
-- `_components/` - React components
-- `_actions/` - Server actions
-- `_queries/` - Data fetching functions (if needed)
-- `_utils/` - Route-specific utilities (if needed)
+- `components/` - React components
+- `actions/` - Server actions
+- `queries/` - Data fetching functions (if needed)
+- `utils/` - Route-specific utilities (if needed)
+
+**Note**: Folders without a `page.tsx` file are not treated as routes by Next.js App Router.
 
 ### Data Architecture
 
@@ -304,8 +312,8 @@ This precisely invalidates only affected caches, avoiding unnecessary regenerati
 
 **Server Actions**: Organized in `src/actions/` directory for write operations:
 
-- Newsletter subscription (`actions/newsletter/subscribe.ts`)
-- Blog-specific actions co-located in `src/app/blog/_actions/` (view counting, related posts)
+- Maintenance tasks (`actions/maintenance.ts`)
+- Blog-specific actions co-located in `src/app/(main)/blog/actions/` (view counting, related posts)
 
 **Social Media Integration**: Implements domain-based redirect routes in `src/app/(social)/` that provide trackable,
 SEO-friendly URLs for all social media platforms. Each route includes standardised UTM parameters for analytics
@@ -323,7 +331,7 @@ External API integration through `src/utils/api/` for:
 
 **UTM Utilities** (`src/utils/utm.ts`):
 
-- **External Campaigns**: `createExternalCampaignURL()` for email newsletters and marketing campaigns
+- **External Campaigns**: `createExternalCampaignURL()` for marketing campaigns and external traffic sources
 - **Parameter Reading**: `useUTMParams()` React hook for future analytics implementation (currently unused)
 - **Best Practices**: Follows industry standards with no UTM tracking on internal navigation
 - **Type Safety**: Full TypeScript support with `UTMParams` interface and nuqs integration
@@ -346,7 +354,7 @@ See [Typography System](#typography-system) section below.
 - Recent posts sidebar with link navigation
 - Key statistics and yearly registration charts
 
-**Blog Components**: Co-located components in `src/app/blog/_components/` including:
+**Blog Components**: Co-located components in `src/app/(main)/blog/components/` including:
 
 - Progress bar for reading progress tracking
 - View counter with Redis-backed analytics
@@ -397,12 +405,13 @@ See `component-naming` skill for detailed guidance and validation checklist.
 
 ### Animation Patterns
 
-A consistent approach to animations using Framer Motion (motion package v12+) for scroll-triggered reveals and entrance effects.
+A consistent approach to animations using Framer Motion for scroll-triggered reveals and entrance effects.
+
+> **Note**: Import from `framer-motion`, not `motion/react`. HeroUI v2 depends on `framer-motion` as a peer dependency. Migration to `motion/react` will be possible after upgrading to HeroUI v3.
 
 **Design Philosophy**:
 
 - Declarative animations with Motion's `whileInView` and `initial`/`animate`
-- Accessibility-first with `useReducedMotion()` hook
 - Shared variants for consistency across components
 - CSS for hover states and infinite animations
 
@@ -410,52 +419,63 @@ A consistent approach to animations using Framer Motion (motion package v12+) fo
 
 | File | Purpose |
 |------|---------|
-| `src/app/about/_components/variants.ts` | Shared animation variants |
+| `src/config/animations.ts` | Shared animation variants (centralised) |
 | `src/components/animated-number.tsx` | Number animation component |
 
 **Standard Variants**:
 
 ```typescript
-import { fadeInUpVariants, staggerContainerVariants, staggerItemVariants } from "./variants";
+import { fadeInUpVariants, staggerContainerVariants, staggerItemVariants } from "@web/config/animations";
 ```
 
-- `fadeInUpVariants` - Base fade-in-up for section content
-- `staggerContainerVariants` - Container for staggered children
-- `staggerItemVariants` - Individual stagger item
-- `heroEntranceVariants` - Dramatic hero entrance
+- `fadeInVariants` - Simple fade-in (opacity only)
+- `fadeInUpVariants` - Fade-in with upward motion (opacity + y: 16)
+- `staggerContainerVariants` - Container for staggered children (0.08s delay between children)
+- `staggerItemVariants` - Individual stagger item (fade-in-up)
+- `scaleInVariants` - Fade-in with scale effect (opacity + scale: 0.95 → 1)
 
-**Usage Pattern**:
+**Usage Patterns**:
 
 ```typescript
-import { motion, useReducedMotion } from "framer-motion";
-import { fadeInUpVariants } from "./variants";
+// Page entrance animations (use initial/animate, not whileInView)
+import { motion } from "framer-motion";
+import { fadeInUpVariants } from "@web/config/animations";
 
-export const Section = () => {
-  const shouldReduceMotion = useReducedMotion();
-
+export function PageSection() {
   return (
     <motion.div
-      variants={shouldReduceMotion ? undefined : fadeInUpVariants}
-      initial={shouldReduceMotion ? undefined : "hidden"}
+      variants={fadeInUpVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {/* Content */}
+    </motion.div>
+  );
+}
+
+// Scroll-triggered reveals (use whileInView for scroll-based)
+export function ScrollSection() {
+  return (
+    <motion.div
+      variants={fadeInUpVariants}
+      initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
     >
       {/* Content */}
     </motion.div>
   );
-};
+}
 ```
 
 **Guidelines**:
 
-- ✅ Always use `useReducedMotion()` for accessibility
-- ✅ Pass `undefined` to variants/initial when reduced motion preferred
-- ✅ Use shared variants from `variants.ts`
-- ✅ Use `viewport={{ once: true }}` for scroll-triggered animations
+- ✅ Use shared variants from `@web/config/animations` (centralised)
+- ✅ Use `initial="hidden"` and `animate="visible"` for page entrance animations
+- ✅ Use `whileInView="visible"` with `viewport={{ once: true }}` for scroll-triggered animations
 - ✅ Keep hover states as CSS transitions (Tailwind `transition-*`)
 - ✅ Use CSS keyframes for infinite/background animations
-- ❌ Avoid inline animation definitions (use variants)
-- ❌ Avoid skipping reduced motion checks
+- ❌ Avoid inline animation definitions (use shared variants)
 
 **When to Use CSS vs Motion**:
 
@@ -1014,18 +1034,14 @@ Environment variables managed through SST config:
 - `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
 - `BLOB_READ_WRITE_TOKEN`: Vercel Blob storage access for car logos (via `@sgcarstrends/logos`)
 - `SG_CARS_TRENDS_API_TOKEN`: External API authentication
-- `APP_ENV`: Environment stage (dev/staging/prod)
-- `NEXT_PUBLIC_APP_ENV`: Client-side environment stage
 - `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`: Feature flag for unreleased features
 - `VERCEL_ENV`: Vercel's automatic environment detection (production/preview/development)
 
 #### Production Environment Detection
 
-The application uses multiple environment variables to determine production status:
+Production detection uses Vercel's automatic `VERCEL_ENV` variable:
 
-- Social media redirects and production-only features activate when:
-    - `VERCEL_ENV === "production"` (Vercel deployment), OR
-    - `NEXT_PUBLIC_APP_ENV === "prod"` (SST production stage)
+- Social media redirects and production-only features activate when `VERCEL_ENV === "production"`
 
 #### VERCEL_URL Support
 

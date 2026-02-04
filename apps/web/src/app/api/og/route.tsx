@@ -1,5 +1,5 @@
 import { loadSearchParams } from "@web/app/api/og/search-params";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 

@@ -1,12 +1,11 @@
-import { cars, db } from "@sgcarstrends/database";
-import { ilike } from "drizzle-orm";
+import { cars, db, ilike } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 const normalisePattern = (value: string) => value.replaceAll("-", "%");
 
-export const checkMakeIfExist = async (
+export async function checkMakeIfExist(
   make: string,
-): Promise<{ make: string } | undefined> => {
+): Promise<{ make: string } | undefined> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:make:${make}`);
@@ -17,11 +16,11 @@ export const checkMakeIfExist = async (
   });
 
   return result;
-};
+}
 
-export const checkFuelTypeIfExist = async (
+export async function checkFuelTypeIfExist(
   fuelType: string,
-): Promise<{ fuelType: string } | undefined> => {
+): Promise<{ fuelType: string } | undefined> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:fuel:${fuelType}`);
@@ -32,11 +31,11 @@ export const checkFuelTypeIfExist = async (
   });
 
   return result;
-};
+}
 
-export const checkVehicleTypeIfExist = async (
+export async function checkVehicleTypeIfExist(
   vehicleType: string,
-): Promise<{ vehicleType: string } | undefined> => {
+): Promise<{ vehicleType: string } | undefined> {
   "use cache";
   cacheLife("max");
   cacheTag(`cars:vehicle:${vehicleType}`);
@@ -47,4 +46,4 @@ export const checkVehicleTypeIfExist = async (
   });
 
   return result;
-};
+}

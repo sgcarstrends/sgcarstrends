@@ -1,5 +1,4 @@
-import { cars, db } from "@sgcarstrends/database";
-import { and, eq, gt, sql } from "drizzle-orm";
+import { and, cars, db, eq, gt, sql } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface CategorySummary {
@@ -15,9 +14,9 @@ const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;
  * Get category summary (total, electric, hybrid) for a given year
  * Defaults to the latest year if no year is provided
  */
-export const getCategorySummaryByYear = async (
+export async function getCategorySummaryByYear(
   year?: number,
-): Promise<CategorySummary> => {
+): Promise<CategorySummary> {
   "use cache";
   cacheLife("max");
   cacheTag("cars:annual", "cars:fuel:electric", "cars:fuel:hybrid");
@@ -58,4 +57,4 @@ export const getCategorySummaryByYear = async (
       hybrid: 0,
     }
   );
-};
+}

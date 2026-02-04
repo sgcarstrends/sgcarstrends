@@ -1,16 +1,10 @@
-import { google } from "@ai-sdk/google";
-import type { WorkflowContext } from "@upstash/workflow";
-import { generateObject, generateText } from "ai";
 import {
-  ANALYSIS_INSTRUCTIONS,
-  ANALYSIS_PROMPTS,
-  type BlogGenerationParams,
-  type BlogResult,
-  GENERATION_INSTRUCTIONS,
-  GENERATION_PROMPTS,
-} from "./config";
+  createGoogleGenerativeAI,
+  type GoogleGenerativeAIProviderOptions,
+} from "@ai-sdk/google";
+import { generateText, type LanguageModelUsage, Output, stepCountIs } from "ai";
+import { type BlogGenerationParams, INSTRUCTIONS, PROMPTS } from "./config";
 import { getHeroImage } from "./hero-images";
-import { shutdownTracing, startTracing } from "./instrumentation";
 import { savePost } from "./save-post";
 import { type GeneratedPost, postSchema } from "./schemas";
 
@@ -25,15 +19,11 @@ export interface GenerateAndSaveResult {
 }
 
 /**
- * Result of the 2-step blog content generation
+ * Result of blog content generation
  */
 export interface GenerateBlogContentResult {
-  object: GeneratedPost;
-  usage: {
-    inputTokens: number;
-    outputTokens: number;
-    totalTokens: number;
-  };
+  output: GeneratedPost;
+  usage: LanguageModelUsage;
   response: {
     id: string;
     modelId: string;
@@ -42,154 +32,133 @@ export interface GenerateBlogContentResult {
 }
 
 /**
- * Standalone blog content generation function without WorkflowContext dependency.
- * Uses a 2-step flow for accuracy and type-safety:
+ * Create the Google Generative AI provider.
  *
- * Step 1: Code Execution - Analyse data with Python code execution for accurate calculations
- * Step 2: Structured Output - Generate validated blog content matching the postSchema
- *
- * @param params - Blog generation parameters (data, month, dataType)
- * @returns Generated post object with usage stats and response metadata
+ * When used within a WDK workflow, set `globalThis.fetch = fetch` (from "workflow")
+ * before calling these functions to enable WDK's durable fetch with automatic retries.
  */
-export const generateBlogContent = async (
-  params: BlogGenerationParams,
-): Promise<GenerateBlogContentResult> => {
-  const { data, month, dataType } = params;
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+});
 
-  // Initialize LangFuse tracing
-  startTracing();
+/**
+ * Internal: AI content generation.
+ * Uses a single call with both code execution (tools) and structured output for accuracy and type-safety.
+ */
+async function generateContent(
+  options: BlogGenerationParams,
+): Promise<GenerateBlogContentResult> {
+  const { data, month, dataType } = options;
 
-  console.log(`[STEP 1] ${dataType} data analysis started...`);
+  console.log(`[GENERATE] ${dataType} blog generation started...`);
 
-  // STEP 1: Code Execution for accurate analysis
-  const analysisResult = await generateText({
-    model: google("gemini-2.5-flash"),
-    system: ANALYSIS_INSTRUCTIONS[dataType],
-    tools: { code_execution: google.tools.codeExecution({}) },
-    prompt: `Analyse this ${dataType.toUpperCase()} data for ${month}:\n${data}\n\n${ANALYSIS_PROMPTS[dataType]}`,
+  const result = await generateText({
+    model: google("gemini-3-flash-preview"),
+    tools: {
+      // @ts-expect-error - code_execution is a valid tool
+      code_execution: google.tools.codeExecution({}),
+    },
+    output: Output.object({
+      schema: postSchema,
+    }),
+    stopWhen: stepCountIs(10),
+    system: INSTRUCTIONS[dataType],
+    prompt: `Generate a blog post for ${dataType.toUpperCase()} data from ${month}:\n\n${data}\n\n${PROMPTS[dataType]}`,
     providerOptions: {
       google: {
         thinkingConfig: {
-          thinkingBudget: -1,
+          thinkingLevel: "medium",
+          includeThoughts: true,
         },
-      },
+      } satisfies GoogleGenerativeAIProviderOptions,
     },
-    experimental_telemetry: {
-      isEnabled: true,
-      functionId: `post-analysis/${dataType}`,
-      metadata: {
-        month,
-        dataType,
-        step: "analysis",
-        tags: [dataType, month, "post-analysis"],
-      },
-    },
-  });
-
-  console.log(`[STEP 1] ${dataType} data analysis completed`);
-  console.log(`[STEP 2] ${dataType} structured output generation started...`);
-
-  // STEP 2: Structured Output generation (no extended thinking - faster)
-  const { object, usage, response } = await generateObject({
-    model: google("gemini-2.5-flash"),
-    schema: postSchema,
-    system: GENERATION_INSTRUCTIONS[dataType],
-    prompt: `Based on this analysis:\n\n${analysisResult.text}\n\nOriginal data for ${month}:\n${data}\n\n${GENERATION_PROMPTS[dataType]}`,
     experimental_telemetry: {
       isEnabled: true,
       functionId: `post-generation/${dataType}`,
       metadata: {
         month,
         dataType,
-        step: "structured-output",
         tags: [dataType, month, "post-generation"],
       },
     },
   });
 
-  console.log(`[STEP 2] ${dataType} structured output generation completed`);
+  console.log(`[GENERATE] ${dataType} blog generation completed`);
+  console.log(`[GENERATE] Steps: ${result.steps?.length ?? 0}`);
+  console.log(`[GENERATE] Finish reason: ${result.finishReason}`);
+  console.log(`[GENERATE] Tool calls: ${result.toolCalls?.length ?? 0}`);
+
+  const { output, usage, response } = result;
 
   return {
-    object,
-    usage: {
-      inputTokens: usage.inputTokens ?? 0,
-      outputTokens: usage.outputTokens ?? 0,
-      totalTokens: usage.totalTokens ?? 0,
-    },
+    output,
+    usage,
     response: {
       id: response.id,
       modelId: response.modelId,
       timestamp: response.timestamp,
     },
   };
-};
+}
+
+async function saveGeneratedPost(
+  options: BlogGenerationParams,
+): Promise<GenerateAndSaveResult> {
+  const { month, dataType } = options;
+
+  const { output, usage, response } = await generateContent(options);
+
+  console.log(`${dataType} blog post generated, saving to database...`);
+
+  const heroImage = getHeroImage(dataType);
+
+  const post = await savePost({
+    title: output.title,
+    content: output.content,
+    excerpt: output.excerpt,
+    tags: output.tags,
+    highlights: output.highlights,
+    heroImage,
+    month,
+    dataType,
+    responseMetadata: {
+      responseId: response.id,
+      modelId: response.modelId,
+      timestamp: response.timestamp,
+      usage,
+    },
+  });
+
+  console.log(`${dataType} blog post saved successfully`);
+
+  return {
+    month,
+    postId: post.id,
+    title: post.title,
+    slug: post.slug,
+  };
+}
 
 /**
- * Generates and saves a blog post without WorkflowContext dependency.
- * Can be used in both workflow and non-workflow contexts (e.g., Admin app).
- * Uses 2-step flow (analysis + structured output) for accuracy and type-safety.
+ * Generates and saves a new blog post.
  *
- * @param params - Blog generation parameters (data, month, dataType)
- * @returns Result with post ID, title, slug, and success status
+ * When used within a WDK workflow, ensure `globalThis.fetch` is set to
+ * the workflow's fetch function before calling this.
  */
-export const generateAndSavePost = async (
-  params: BlogGenerationParams,
-): Promise<GenerateAndSaveResult> => {
-  const { month, dataType } = params;
+export async function generateBlogContent(
+  options: BlogGenerationParams,
+): Promise<GenerateAndSaveResult> {
+  return saveGeneratedPost(options);
+}
 
-  try {
-    // Generate blog content using 2-step flow
-    const { object, usage, response } = await generateBlogContent(params);
-
-    console.log(`${dataType} blog post generated, saving to database...`);
-
-    // Get hero image for this data type
-    const heroImage = getHeroImage(dataType);
-
-    // Save to database using structured output fields directly
-    const post = await savePost({
-      title: object.title,
-      content: object.content,
-      excerpt: object.excerpt,
-      tags: object.tags,
-      highlights: object.highlights,
-      heroImage,
-      month,
-      dataType,
-      responseMetadata: {
-        responseId: response.id,
-        modelId: response.modelId,
-        timestamp: response.timestamp,
-        usage,
-      },
-    });
-
-    console.log(`${dataType} blog post saved successfully`);
-
-    return {
-      month,
-      postId: post.id,
-      title: post.title,
-      slug: post.slug,
-    };
-  } finally {
-    // Shutdown tracing to flush remaining spans (even on error)
-    await shutdownTracing();
-  }
-};
-
-export const generatePost = async (
-  context: WorkflowContext,
-  params: BlogGenerationParams,
-): Promise<BlogResult> => {
-  const { dataType } = params;
-
-  return context.run(`Generate blog post for ${dataType}`, async () => {
-    // Use the shared generate and save function
-    const result = await generateAndSavePost(params);
-
-    console.log(`${dataType} blog post generation completed`);
-
-    return result;
-  });
-};
+/**
+ * Regenerates and updates an existing blog post.
+ *
+ * When used within a WDK workflow, ensure `globalThis.fetch` is set to
+ * the workflow's fetch function before calling this.
+ */
+export async function regenerateBlogContent(
+  options: BlogGenerationParams,
+): Promise<GenerateAndSaveResult> {
+  return saveGeneratedPost(options);
+}

@@ -1,8 +1,7 @@
-import { coe, db } from "@sgcarstrends/database";
-import { desc } from "drizzle-orm";
+import { coe, db, desc } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
-export const getCoeMonths = async (): Promise<{ month: string }[]> => {
+export async function getCoeMonths(): Promise<{ month: string }[]> {
   "use cache";
   cacheLife("max");
   cacheTag("coe:months");
@@ -11,4 +10,4 @@ export const getCoeMonths = async (): Promise<{ month: string }[]> => {
     .selectDistinct({ month: coe.month })
     .from(coe)
     .orderBy(desc(coe.month));
-};
+}

@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/utils",
   "description": "Utility functions for SG Cars Trends",
-  "version": "4.37.0",
+  "version": "4.45.2",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@sgcarstrends/types": "workspace:*",
-    "@upstash/redis": "^1.34.8",
+    "@upstash/redis": "catalog:",
     "date-fns": "catalog:",
     "slugify": "^1.6.6"
   },

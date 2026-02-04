@@ -1,1 +1,0 @@
-export { logosRoutes } from "./routes";

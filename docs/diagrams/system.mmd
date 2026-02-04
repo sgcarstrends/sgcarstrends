@@ -7,7 +7,6 @@ graph TB
     Gemini[Google Gemini AI]
     
     %% Social Media Platforms
-    Discord[Discord]
     LinkedIn[LinkedIn]
     Telegram[Telegram]
     Twitter[Twitter]
@@ -35,7 +34,6 @@ graph TB
         subgraph "Apps"
             API[API Service - Hono]
             Web[Web Application - Next.js]
-            Docs[Documentation - Mintlify]
         end
         
         subgraph "Packages"
@@ -47,7 +45,7 @@ graph TB
     
     %% Workflow System
     subgraph "Data Processing"
-        QStash[QStash Workflows]
+        WDK[Vercel WDK Workflows]
         CarsWorkflow[Cars Data Workflow]
         COEWorkflow[COE Data Workflow]
         BlogWorkflow[Blog Generation Workflow]
@@ -82,11 +80,11 @@ graph TB
     Web --> Redis
     
     %% Workflow connections
-    API --> QStash
-    QStash --> CarsWorkflow
-    QStash --> COEWorkflow
-    QStash --> BlogWorkflow
-    QStash --> SocialWorkflow
+    API --> WDK
+    WDK --> CarsWorkflow
+    WDK --> COEWorkflow
+    WDK --> BlogWorkflow
+    WDK --> SocialWorkflow
     
     %% External API connections
     CarsWorkflow --> LTA
@@ -94,14 +92,12 @@ graph TB
     BlogWorkflow --> Gemini
     
     %% Social media connections
-    SocialWorkflow --> Discord
     SocialWorkflow --> LinkedIn
     SocialWorkflow --> Telegram
     SocialWorkflow --> Twitter
     
     %% User interactions
     Users[Users] --> CloudFront
-    Developers[Developers] --> Docs
     
     %% Styling
     classDef app fill:#e1f5fe
@@ -110,8 +106,8 @@ graph TB
     classDef external fill:#fff3e0
     classDef workflow fill:#fce4ec
     
-    class API,Web,Docs app
+    class API,Web app
     class Database,Types,Utils package
     class APILambda,WebLambda,RDS,Redis,CloudFront,APIGateway infrastructure
-    class LTA,Cloudflare,Gemini,Discord,LinkedIn,Telegram,Twitter external
-    class QStash,CarsWorkflow,COEWorkflow,BlogWorkflow,SocialWorkflow workflow
+    class LTA,Cloudflare,Gemini,LinkedIn,Telegram,Twitter external
+    class WDK,CarsWorkflow,COEWorkflow,BlogWorkflow,SocialWorkflow workflow

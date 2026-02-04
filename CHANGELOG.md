@@ -1,3 +1,132 @@
+## [4.45.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.45.1...v4.45.2) (2026-02-04)
+
+### Bug Fixes
+
+* move write perms to release job level ([8c6ecc8](https://github.com/sgcarstrends/sgcarstrends/commit/8c6ecc8733c968d6fec48d85432d632cdf23779c))
+
+## [4.45.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.45.0...v4.45.1) (2026-02-04)
+
+### Bug Fixes
+
+* **web:** add missing @langfuse/otel dependency ([2f7279b](https://github.com/sgcarstrends/sgcarstrends/commit/2f7279b154ce53fc3633f9194cd8e01ab58595a2))
+
+## [4.45.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.44.0...v4.45.0) (2026-02-04)
+
+### Features
+
+* **docs:** add Developer Portal with Fumadocs ([63f2068](https://github.com/sgcarstrends/sgcarstrends/commit/63f20687049660ba26fdb6ab0cfcb9905071cdd4))
+* **web:** add api subdomain rewrite for CF proxy ([bf66c25](https://github.com/sgcarstrends/sgcarstrends/commit/bf66c25e9b23503831fc582f931754538811ca1b))
+* **web:** add Developer API with rate limiting ([b54ed3a](https://github.com/sgcarstrends/sgcarstrends/commit/b54ed3a454c0ca521479d01c75c1859d7e70fb6a))
+
+## [4.44.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.43.0...v4.44.0) (2026-01-31)
+
+### Features
+
+* add error handling for WDK ([87c6b32](https://github.com/sgcarstrends/sgcarstrends/commit/87c6b32ace7ad869a42c5958d1cd7de3f9c8d85f))
+* add month/year selectors to dashboard pages ([b6f8c41](https://github.com/sgcarstrends/sgcarstrends/commit/b6f8c41d341b6fae8d1d706dc1dc8215d0ef3c9f))
+* add page-specific context infoboxes ([f9a23a6](https://github.com/sgcarstrends/sgcarstrends/commit/f9a23a653e3b04d8831afc729e44c92e5cad00b4))
+* enable streamdown animation on page refresh ([3d70784](https://github.com/sgcarstrends/sgcarstrends/commit/3d707841c8ee94ed10c470a06038f1887ffbba23))
+* migrate workflows to Vercel WDK ([6dada6e](https://github.com/sgcarstrends/sgcarstrends/commit/6dada6eb0fdc37546f2a8eae6fb32c14aacd4ebc)), closes [#677](https://github.com/sgcarstrends/sgcarstrends/issues/677)
+* re-enable blog generation in WDK workflows ([01154b0](https://github.com/sgcarstrends/sgcarstrends/commit/01154b06eaebff9ba4763fdf8106eca569dfbbb5))
+
+### Bug Fixes
+
+* pin @upstash/redis to avoid runtime errors ([6b71864](https://github.com/sgcarstrends/sgcarstrends/commit/6b71864fa79320e99d185419500c6450cb56522c)), closes [#677](https://github.com/sgcarstrends/sgcarstrends/issues/677)
+* preserve Drizzle exports in test mocks ([1e91d01](https://github.com/sgcarstrends/sgcarstrends/commit/1e91d016e7e638e58d5031147311cb544a623ea4)), closes [#679](https://github.com/sgcarstrends/sgcarstrends/issues/679)
+* resolve Drizzle ORM type inference with Next.js cache ([abbcfd1](https://github.com/sgcarstrends/sgcarstrends/commit/abbcfd12183c991aca1c5bc029f0a5f48dd52446))
+* resolve vi.mock TypeScript inference ([ac4d962](https://github.com/sgcarstrends/sgcarstrends/commit/ac4d9622dbb379febb08ee1df595e63164b57892)), closes [#677](https://github.com/sgcarstrends/sgcarstrends/issues/677)
+* validate month across CARS/COE data sources ([e4592f6](https://github.com/sgcarstrends/sgcarstrends/commit/e4592f69093cbea41c8f32875b3fcd68b2b8be96))
+
+## [4.43.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.2...v4.43.0) (2026-01-28)
+
+### Features
+
+* add QStash scheduler via instrumentation ([eb65bb5](https://github.com/sgcarstrends/sgcarstrends/commit/eb65bb5130603f144caede56a449305656b17fca))
+* **web:** add animations to blog and FAQ pages ([c63ba26](https://github.com/sgcarstrends/sgcarstrends/commit/c63ba268af3eb439fc8d6852d6d110e9bf36176b))
+* **web:** add entrance animations to all pages ([09527b0](https://github.com/sgcarstrends/sgcarstrends/commit/09527b0e1afc33cc6b47449d109acd40313a03b3))
+* **web:** add regenerate workflow endpoint ([f6e7ab4](https://github.com/sgcarstrends/sgcarstrends/commit/f6e7ab497c29c81637caa1753a4682fd7e450ec2))
+
+### Bug Fixes
+
+* add regenerate workflow route ([b3fbd25](https://github.com/sgcarstrends/sgcarstrends/commit/b3fbd25815de1c8c7de9219b8bca158b6c8cac56))
+* add type assertion for empty COE categories array ([#673](https://github.com/sgcarstrends/sgcarstrends/issues/673)) ([1371ad7](https://github.com/sgcarstrends/sgcarstrends/commit/1371ad7828ae89b09f01de05c44915bc66bf5eb3))
+* **ai:** add bypass headers to context.call ([9a440bf](https://github.com/sgcarstrends/sgcarstrends/commit/9a440bf554969e2908904ba43cc9a267c12270d5))
+* **ai:** handle WorkflowAbort for AI SDK v6 ([3dfb288](https://github.com/sgcarstrends/sgcarstrends/commit/3dfb2882a21ead07ac3dfca4eaae676e5ef5481b))
+* **ai:** suppress ts error for code execution tool ([8741025](https://github.com/sgcarstrends/sgcarstrends/commit/874102554ee7fd46636168e2a1d62d0e681c7331))
+* **ai:** update @ai-sdk/google to 3.0.6 for structured output fix ([f9b0482](https://github.com/sgcarstrends/sgcarstrends/commit/f9b04825165c71f3d4b5d8240f29b6a5df304f8e))
+* **infra:** add missing env vars for admin integration ([e8c689a](https://github.com/sgcarstrends/sgcarstrends/commit/e8c689afd9c82446e6eef366ee6d0a3973a86c2f))
+* **infra:** prevent QStash duplicate schedules ([2c5070c](https://github.com/sgcarstrends/sgcarstrends/commit/2c5070c74b42175d7774b0c3e8335caa49104f19))
+* **infra:** prevent QStash schedule duplicates ([e6fce3f](https://github.com/sgcarstrends/sgcarstrends/commit/e6fce3f6ef416bace812e0f663eb1fa55725d8f7))
+* **infra:** skip Router creation for staging ([be90c27](https://github.com/sgcarstrends/sgcarstrends/commit/be90c272daa101c0696d985ce1644bec9d0f363f))
+* move instrumentation.ts to src dir ([68f84ba](https://github.com/sgcarstrends/sgcarstrends/commit/68f84ba0aa9313ac19e73f72d216538b54b31db8))
+* re-export LanguageModelUsage type ([c27b5a7](https://github.com/sgcarstrends/sgcarstrends/commit/c27b5a7d0c65266547f2f01dc73a601af96aae8c))
+* remove duplicate updater logging ([3d134ed](https://github.com/sgcarstrends/sgcarstrends/commit/3d134edf35e7d127471380e693a8333e3b6f0318))
+* use rolling 12-month data for COE sparklines ([ed76f33](https://github.com/sgcarstrends/sgcarstrends/commit/ed76f33936582fd3f16fc6cdb7cff23c4f27fe63))
+* **web:** add bypass headers to workflow client ([7163fd4](https://github.com/sgcarstrends/sgcarstrends/commit/7163fd436da97e2a61868dd1e9e3099c6aa5a843))
+* **web:** correct admin Suspense boundaries ([33f8c63](https://github.com/sgcarstrends/sgcarstrends/commit/33f8c63bb98d09be337f4bd2e78408e03e905dc0))
+
+### Performance Improvements
+
+* **web:** optimise Updater with ES2025 Set methods ([f72f1f5](https://github.com/sgcarstrends/sgcarstrends/commit/f72f1f566b58a2e38dffe01d1262eabdb2e63c75)), closes [#620](https://github.com/sgcarstrends/sgcarstrends/issues/620)
+
+## [4.42.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.2...v4.42.3) (2026-01-03)
+
+### Bug Fixes
+
+* **ai:** add bypass headers to context.call ([9a440bf](https://github.com/sgcarstrends/sgcarstrends/commit/9a440bf554969e2908904ba43cc9a267c12270d5))
+
+## [4.42.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.1...v4.42.2) (2026-01-03)
+
+### Bug Fixes
+
+* **web:** handle missing year in selects ([eb71893](https://github.com/sgcarstrends/sgcarstrends/commit/eb71893b1a07f34b4c23324302eaaaae345d43b3))
+
+## [4.42.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.42.0...v4.42.1) (2026-01-03)
+
+### Bug Fixes
+
+* **web:** add Vercel bypass for workflows ([b4324c5](https://github.com/sgcarstrends/sgcarstrends/commit/b4324c53932db0c2eadcd18d65b74e7efc19a6e2))
+
+## [4.42.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.41.0...v4.42.0) (2026-01-03)
+
+### Features
+
+* **web:** add Vercel bypass for QStash ([460640b](https://github.com/sgcarstrends/sgcarstrends/commit/460640bbc4df8a9e3e33fad84822f28cf39d2240))
+
+### Bug Fixes
+
+* resolve TypeScript errors in updater ([71dd16f](https://github.com/sgcarstrends/sgcarstrends/commit/71dd16f41143f41bde50b11bc263dd8a46601f5d))
+
+## [4.41.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.40.0...v4.41.0) (2025-12-24)
+
+### Features
+
+* **admin:** use API workflow for regeneration ([6f5325f](https://github.com/sgcarstrends/sgcarstrends/commit/6f5325f470f5d21ac894e116c3064ed76d96f785))
+* **ai:** use context.call() for Gemini API requests ([d32ad60](https://github.com/sgcarstrends/sgcarstrends/commit/d32ad60f576058955d20922b26342df1e263ea7e)), closes [#622](https://github.com/sgcarstrends/sgcarstrends/issues/622)
+
+### Bug Fixes
+
+* **ai:** prevent WorkflowAbort logging ([0821a22](https://github.com/sgcarstrends/sgcarstrends/commit/0821a22aa1bca2a85f0d066a36fb6f62660fc350))
+
+## [4.40.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.39.0...v4.40.0) (2025-12-23)
+
+### Features
+
+* **ai:** upgrade to gemini-3-flash-preview ([0d8aa3f](https://github.com/sgcarstrends/sgcarstrends/commit/0d8aa3f2a821923cff81b39104593157e6d747be))
+
+## [4.39.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.38.0...v4.39.0) (2025-12-23)
+
+### Features
+
+* add browser notification support ([e00e3d9](https://github.com/sgcarstrends/sgcarstrends/commit/e00e3d992f6c4db572141105f420928828a2c50c))
+* implement SSE notifications for workflow completion ([3ac8753](https://github.com/sgcarstrends/sgcarstrends/commit/3ac8753689143534ea75284cbb9f5625d97f5ceb))
+
+## [4.38.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.37.0...v4.38.0) (2025-12-23)
+
+### Features
+
+* **ai:** upgrade to Vercel AI SDK v6 ([92fe03f](https://github.com/sgcarstrends/sgcarstrends/commit/92fe03f5f848ef184e5bb2fab84472f6c37b035d)), closes [#658](https://github.com/sgcarstrends/sgcarstrends/issues/658)
+
 ## [4.37.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.36.0...v4.37.0) (2025-12-21)
 
 ### Features

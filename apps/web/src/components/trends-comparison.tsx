@@ -7,10 +7,10 @@ interface TrendsComparisonProps {
   onOpenChange: (isOpen: boolean) => void;
 }
 
-export const TrendsComparison = ({
+export function TrendsComparison({
   isOpen,
   onOpenChange,
-}: TrendsComparisonProps) => {
+}: TrendsComparisonProps) {
   return (
     <Drawer
       isOpen={isOpen}
@@ -36,4 +36,4 @@ export const TrendsComparison = ({
       </DrawerContent>
     </Drawer>
   );
-};
+}

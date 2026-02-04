@@ -1,15 +1,17 @@
 import Typography from "@web/components/typography";
 import { format } from "date-fns";
 
-interface Props {
+interface LastUpdatedProps {
   lastUpdated: number;
 }
 
-export const LastUpdated = ({ lastUpdated }: Props) => (
-  <Typography.Caption>
-    Last updated:{" "}
-    <span className="underline">
-      {format(lastUpdated, "dd MMM yyyy, h:mma")}
-    </span>
-  </Typography.Caption>
-);
+export function LastUpdated({ lastUpdated }: LastUpdatedProps) {
+  return (
+    <Typography.Caption>
+      Last updated:{" "}
+      <span className="underline">
+        {format(lastUpdated, "dd MMM yyyy, h:mma")}
+      </span>
+    </Typography.Caption>
+  );
+}

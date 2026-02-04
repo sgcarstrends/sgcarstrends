@@ -1,0 +1,205 @@
+import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params";
+import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
+import { PageHeader } from "@web/components/page-header";
+import { MonthSelector } from "@web/components/shared/month-selector";
+import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
+import { SITE_TITLE, SITE_URL } from "@web/config";
+import { loadCarsCategoryPageData } from "@web/lib/cars/page-data";
+import { createPageMetadata } from "@web/lib/metadata";
+import { getMonthOrLatest } from "@web/utils/dates/months";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import type { SearchParams } from "nuqs/server";
+import { Suspense } from "react";
+import type { WebPage, WithContext } from "schema-dts";
+import {
+  CategoryInsightsCard,
+  CategorySummaryCard,
+  CategoryTabsPanel,
+} from "./components";
+
+interface PageProps {
+  params: Promise<{ category: string }>;
+  searchParams: Promise<SearchParams>;
+}
+
+interface CategoryConfig {
+  title: string;
+  apiDataField: "fuelType" | "vehicleType";
+  apiEndpoint: string;
+  tabTitle: string;
+  description: string;
+  urlPath: string;
+}
+
+const categoryConfigs: Record<string, CategoryConfig> = {
+  "fuel-types": {
+    title: "Fuel Types",
+    apiDataField: "fuelType",
+    apiEndpoint: "fuel-types",
+    tabTitle: "Fuel Type",
+    description:
+      "Comprehensive overview of all fuel types in {month} Singapore car registrations. Compare petrol, diesel, electric, and hybrid vehicle registrations.",
+    urlPath: "/cars/fuel-types",
+  },
+  "vehicle-types": {
+    title: "Vehicle Types",
+    apiDataField: "vehicleType",
+    apiEndpoint: "vehicle-types",
+    tabTitle: "Vehicle Type",
+    description:
+      "Comprehensive overview of all vehicle types in {month} Singapore car registrations. Compare passenger cars, motorcycles, commercial vehicles, and more.",
+    urlPath: "/cars/vehicle-types",
+  },
+};
+
+export const generateStaticParams = async () =>
+  Object.keys(categoryConfigs).map((category) => ({ category }));
+
+export const generateMetadata = async ({
+  params,
+  searchParams,
+}: PageProps): Promise<Metadata> => {
+  const { category } = await params;
+  const config = categoryConfigs[category];
+
+  if (!config) {
+    return {
+      title: "Category Not Found",
+      description: "The requested category could not be found.",
+    };
+  }
+
+  const { month: parsedMonth } = await loadSearchParams(searchParams);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
+  const formattedMonth = formatDateToMonthYear(month);
+
+  const title = `${formattedMonth} ${config.title} - Car Registrations`;
+  const description = config.description.replace("{month}", formattedMonth);
+
+  return createPageMetadata({
+    title,
+    description,
+    canonical: `${config.urlPath}?month=${month}`,
+  });
+};
+
+const Page = async ({ params, searchParams }: PageProps) => {
+  const { category } = await params;
+  const { month: parsedMonth } = await loadSearchParams(searchParams);
+  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
+
+  return (
+    <CategoryPageContent
+      category={category}
+      month={month}
+      wasAdjusted={wasAdjusted}
+    />
+  );
+};
+
+export default Page;
+
+const CategoryPageContent = async ({
+  category,
+  month,
+  wasAdjusted,
+}: {
+  category: string;
+  month: string;
+  wasAdjusted: boolean;
+}) => {
+  const config = categoryConfigs[category];
+
+  if (!config) {
+    return notFound();
+  }
+
+  const {
+    lastUpdated,
+    cars,
+    marketShare,
+    months,
+    previousTotal,
+    topMakesByFuelType,
+  } = await loadCarsCategoryPageData(month, config.apiDataField);
+
+  const categoryData = cars?.[config.apiDataField] || [];
+
+  const formattedMonth = formatDateToMonthYear(month);
+  const title = `${formattedMonth} ${config.title} - Car Registrations`;
+  const description = config.description.replace("{month}", formattedMonth);
+
+  const structuredData: WithContext<WebPage> = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description,
+    url: `${SITE_URL}${config.urlPath}`,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_TITLE,
+      url: SITE_URL,
+    },
+  };
+
+  return (
+    <>
+      <StructuredData data={structuredData} />
+      <div className="flex flex-col gap-8">
+        <AnimatedSection order={0}>
+          <PageHeader
+            title={config.title}
+            subtitle={`Breakdown of registrations by ${config.title.toLowerCase()} for the selected month.`}
+            lastUpdated={lastUpdated}
+          >
+            <Suspense fallback={null}>
+              <MonthSelector
+                months={months}
+                latestMonth={months[0]}
+                wasAdjusted={wasAdjusted}
+              />
+            </Suspense>
+          </PageHeader>
+        </AnimatedSection>
+
+        {categoryData && categoryData.length > 0 ? (
+          <>
+            <AnimatedSection order={1}>
+              <div className="grid grid-cols-12 gap-6">
+                <CategorySummaryCard
+                  total={cars.total}
+                  previousTotal={previousTotal}
+                />
+                <CategoryInsightsCard
+                  categoriesCount={categoryData.length}
+                  topPerformer={marketShare.dominantType}
+                  month={month}
+                  title={config.tabTitle}
+                />
+              </div>
+            </AnimatedSection>
+            <AnimatedSection order={2}>
+              <CategoryTabsPanel
+                types={categoryData}
+                month={month}
+                title={config.tabTitle}
+                totalRegistrations={cars.total}
+                topMakesByFuelType={topMakesByFuelType}
+              />
+            </AnimatedSection>
+          </>
+        ) : (
+          <div className="py-8 text-center">
+            <Typography.Text>
+              No {config.title.toLowerCase()} data available for{" "}
+              {formattedMonth}
+            </Typography.Text>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};

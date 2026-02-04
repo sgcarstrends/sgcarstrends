@@ -5,26 +5,41 @@ import {
   AutocompleteItem,
   AutocompleteSection,
 } from "@heroui/react";
+import { addToast } from "@heroui/toast";
 import type { Month } from "@web/types";
-import { formatDateToMonthYear } from "@web/utils/format-date-to-month-year";
-import { groupByYear } from "@web/utils/group-by-year";
+import { groupByYear } from "@web/utils/arrays/group-by-year";
+import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { Calendar } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { useEffect, useMemo } from "react";
+import { parseAsString, useQueryState } from "nuqs";
+import { useEffect, useMemo, useRef } from "react";
 
-type Props = {
+interface MonthSelectorProps {
   months: Month[];
-};
+  latestMonth: Month;
+  wasAdjusted?: boolean;
+}
 
-export const MonthSelector = ({ months }: Props) => {
-  const [month, setMonth] = useQueryState("month", { shallow: false });
-  const latestMonth = months[0];
+export function MonthSelector({
+  months,
+  latestMonth,
+  wasAdjusted,
+}: MonthSelectorProps) {
+  const [month, setMonth] = useQueryState(
+    "month",
+    parseAsString.withDefault(latestMonth).withOptions({ shallow: false }),
+  );
+  const hasShownToast = useRef(false);
 
+  // Show toast if server adjusted the month
   useEffect(() => {
-    if (!month) {
-      void setMonth(latestMonth);
+    if (wasAdjusted && !hasShownToast.current) {
+      hasShownToast.current = true;
+      addToast({
+        title: `Latest data is ${formatDateToMonthYear(latestMonth)}`,
+        variant: "bordered",
+      });
     }
-  }, [latestMonth, month, setMonth]);
+  }, [wasAdjusted, latestMonth]);
 
   const memoisedGroupByYear = useMemo(() => groupByYear, []);
   const sortedMonths = useMemo(
@@ -34,7 +49,7 @@ export const MonthSelector = ({ months }: Props) => {
 
   return (
     <Autocomplete
-      selectedKey={month ?? latestMonth}
+      selectedKey={month}
       onSelectionChange={(key) => setMonth(key as string)}
       aria-label="Month"
       placeholder="Select Month"
@@ -58,4 +73,4 @@ export const MonthSelector = ({ months }: Props) => {
       ))}
     </Autocomplete>
   );
-};
+}

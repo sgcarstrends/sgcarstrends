@@ -1,7 +1,7 @@
 sequenceDiagram
     participant Trigger as Scheduler/Manual Trigger
     participant API as API Service
-    participant QStash as QStash Orchestrator
+    participant WDK as Vercel WDK
     participant Workflow as Workflow Handler
     participant Redis as Redis Cache
     participant LTA as LTA DataMall
@@ -14,8 +14,8 @@ sequenceDiagram
     Note over Trigger, Social: Cars Data Processing Workflow
     
     Trigger->>+API: POST /workflows/cars
-    API->>+QStash: Schedule Cars Workflow
-    QStash->>+Workflow: Execute carsWorkflow()
+    API->>+WDK: Schedule Cars Workflow
+    WDK->>+Workflow: Execute carsWorkflow()
     
     Workflow->>+Redis: Check last_updated:cars timestamp
     Redis-->>-Workflow: Return last update time
@@ -49,16 +49,16 @@ sequenceDiagram
         Workflow->>Workflow: Skip processing
     end
     
-    Workflow-->>-QStash: Return success result
-    QStash-->>-API: Workflow completed
+    Workflow-->>-WDK: Return success result
+    WDK-->>-API: Workflow completed
     API-->>-Trigger: HTTP 200 response
 
     %% COE Data Workflow
     Note over Trigger, Social: COE Data Processing Workflow
     
     Trigger->>+API: POST /workflows/coe
-    API->>+QStash: Schedule COE Workflow
-    QStash->>+Workflow: Execute coeWorkflow()
+    API->>+WDK: Schedule COE Workflow
+    WDK->>+Workflow: Execute coeWorkflow()
     
     Workflow->>+Redis: Check last_updated:coe timestamp
     Redis-->>-Workflow: Return last update time
@@ -94,18 +94,50 @@ sequenceDiagram
         Workflow->>Workflow: Skip processing
     end
     
-    Workflow-->>-QStash: Return success result
-    QStash-->>-API: Workflow completed
+    Workflow-->>-WDK: Return success result
+    WDK-->>-API: Workflow completed
+    API-->>-Trigger: HTTP 200 response
+
+    %% Deregistrations Data Workflow
+    Note over Trigger, Social: Deregistrations Data Processing Workflow
+
+    Trigger->>+API: POST /workflows/deregistrations
+    API->>+WDK: Schedule Deregistrations Workflow
+    WDK->>+Workflow: Execute deregistrationsWorkflow()
+
+    Workflow->>+Redis: Check last_updated:deregistrations timestamp
+    Redis-->>-Workflow: Return last update time
+
+    Workflow->>+LTA: Download deregistrations CSV file
+    LTA-->>-Workflow: Return ZIP file with CSV
+
+    Workflow->>Workflow: Validate file checksum
+
+    alt File has changes (new checksum)
+        Workflow->>Workflow: Extract & parse CSV
+        Workflow->>Workflow: Transform deregistration data
+        Workflow->>+DB: Batch insert deregistration records
+        DB-->>-Workflow: Insert confirmation
+        Workflow->>+Redis: Update last_updated:deregistrations timestamp
+        Redis-->>-Workflow: Confirmation
+        Workflow->>+Redis: Invalidate deregistrations cache tags
+        Redis-->>-Workflow: Cache invalidated
+
+    else File unchanged (same checksum)
+        Workflow->>Workflow: Skip processing
+    end
+
+    Workflow-->>-WDK: Return success result
+    WDK-->>-API: Workflow completed
     API-->>-Trigger: HTTP 200 response
 
     %% Error Handling Flow
     Note over Trigger, Social: Error Handling
-    
+
     alt Workflow Error Occurs
         Workflow->>Workflow: Catch error
-        Workflow->>+Social: Send Discord error notification
-        Social-->>-Workflow: Notification sent
-        Workflow-->>QStash: Return error result
+        Workflow->>Workflow: Log error details
+        Workflow-->>WDK: Return error result
     end
 
     %% User Access Flow

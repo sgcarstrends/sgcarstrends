@@ -5,14 +5,14 @@
 The `@sgcarstrends/ai` package provides AI-powered blog post generation for the SG Cars Trends platform. It uses Vercel AI SDK with Google Gemini to analyse car registration and COE bidding data, generating accurate, SEO-optimised blog posts with structured output validation.
 
 **Key Features:**
-- **2-Step Generation Flow**: Analysis with Code Execution Tool → Structured output with Zod validation
+- **Single-Call Generation**: Combined tool calling (Code Execution) + structured output in one API call
 - **Structured Output**: Zod-validated `postSchema` ensures consistent title, excerpt, content, tags, and highlights
 - **Code Execution Tool**: Allows Gemini to execute Python code for accurate data analysis and calculations
 - **Hero Images**: Singapore-focused Unsplash images for contextual blog post headers
 - **Tag Constants**: Predefined vocabulary for consistent categorisation (`CARS_TAGS`, `COE_TAGS`)
 - **Langfuse Telemetry**: Full observability with token usage tracking, cost analysis, and performance monitoring
 - **Idempotent Post Saving**: Prevents duplicate posts with conflict handling
-- **Shared Logic**: Single source of truth for blog generation used by both API workflows and Admin app
+- **Shared Logic**: Single source of truth for blog generation used by Vercel WDK workflows and Admin app
 
 ## Package Structure
 
@@ -20,8 +20,8 @@ The `@sgcarstrends/ai` package provides AI-powered blog post generation for the 
 packages/ai/
 ├── src/
 │   ├── index.ts                 # Package exports
-│   ├── generate-post.ts         # Core 2-step blog generation functions
-│   ├── config.ts                # System instructions and prompts (analysis + generation)
+│   ├── generate-post.ts         # Core blog generation with combined tool calling + structured output
+│   ├── config.ts                # System instructions and prompts (INSTRUCTIONS, PROMPTS)
 │   ├── schemas.ts               # Zod schemas for structured output (postSchema, highlightSchema)
 │   ├── tags.ts                  # Tag constants and types (CARS_TAGS, COE_TAGS)
 │   ├── hero-images.ts           # Hero image URLs and helpers
@@ -35,13 +35,15 @@ packages/ai/
 
 ### `generateBlogContent(params: BlogGenerationParams)`
 
-Standalone blog content generation function without WorkflowContext dependency. Uses a 2-step flow for accuracy and type-safety.
+Standalone blog content generation function. Uses a single API call combining tool calling and structured output.
 
 **Purpose**: Generate accurate, structured blog posts using Gemini with Code Execution Tool and Zod validation.
 
-**2-Step Generation Flow:**
-1. **Step 1: Code Execution** - Analyse data with Python code execution for accurate calculations
-2. **Step 2: Structured Output** - Generate validated blog content matching the `postSchema`
+**Single-Call Generation:**
+Uses Vercel AI SDK's combined tool calling + structured output in one `generateText` call:
+1. Model uses Code Execution Tool for accurate calculations
+2. Model generates structured output matching `postSchema`
+3. `stopWhen: stepCountIs(3)` ensures both tool execution and output generation complete
 
 **Parameters:**
 ```typescript
@@ -83,10 +85,10 @@ interface GeneratedPost {
 ```
 
 **Features:**
-- 2-step flow: analysis with Code Execution Tool → structured output generation
+- Single API call with combined tool calling + structured output
 - Zod-validated output ensures consistent structure
-- Extended thinking enabled for analysis step
-- Langfuse telemetry for both steps
+- Extended thinking enabled for thorough analysis
+- Langfuse telemetry for the generation
 - Can be used in both workflow and non-workflow contexts
 
 **Usage Example:**
@@ -110,84 +112,41 @@ console.log(object.tags);       // Category tags
 console.log(object.highlights); // Key statistics for visual display
 ```
 
-### `generatePost(context: WorkflowContext, params: BlogGenerationParams)`
+### `regenerateBlogContent(params: BlogGenerationParams)`
 
-Workflow-aware blog generation function for use in QStash workflows.
-
-**Purpose**: Generate and save blog posts within a QStash workflow context with automatic persistence.
-
-**Parameters:**
-- `context`: QStash WorkflowContext for step orchestration
-- `params`: BlogGenerationParams (same as `generateBlogContent`)
-
-**Returns:**
-```typescript
-interface GenerateAndSaveResult {
-  month: string;
-  postId: string;
-  title: string;
-  slug: string;
-}
-```
-
-**Features:**
-- Uses `generateBlogContent()` internally (2-step flow)
-- Automatically adds hero image based on dataType
-- Saves structured post to database with `savePost()`
-- Revalidates blog cache on web app
-- Full Langfuse tracing and telemetry
-
-**Usage Example:**
-```typescript
-import { serve } from "@upstash/workflow/nextjs";
-import { generatePost } from "@sgcarstrends/ai";
-
-export const POST = serve(async (context) => {
-  const result = await generatePost(context, {
-    data: tokenisedData,
-    month: "October 2024",
-    dataType: "cars",
-  });
-
-  return result;
-});
-```
+Regenerates an existing blog post. Same parameters and return type as `generateBlogContent()`.
 
 ## System Instructions
 
-Comprehensive prompts are defined in `config.ts` with separate instructions for analysis and generation steps:
+Comprehensive prompts are defined in `config.ts` with unified instructions for combined tool calling + structured output:
 
-### Analysis Instructions (`ANALYSIS_INSTRUCTIONS`)
+### Instructions (`INSTRUCTIONS`)
 
-Instructions for Step 1 (Code Execution):
+Single instruction set that guides both Code Execution and structured output generation:
 
-**Cars Analysis:**
+**Cars Instructions:**
+- Process: First use Code Execution for calculations, then generate structured output
 - Data structure explanation (pipe-delimited format)
-- Required calculations (totals, percentages, YoY comparisons)
-- Key metrics to extract (top makes, fuel type trends, vehicle types)
-
-**COE Analysis:**
-- Bidding data structure
-- Over-subscription rate calculations
-- Premium movement analysis
-- Category comparisons
-
-### Generation Instructions (`GENERATION_INSTRUCTIONS`)
-
-Instructions for Step 2 (Structured Output):
-
-**Cars Generation:**
+- Required calculations (totals, percentages, breakdowns)
 - Required markdown structure (without H1 title)
 - Table formatting requirements (proper column headers)
 - SEO optimisation guidelines (title length, keywords)
 - Writing style guidelines (500-700 words, professional tone)
 - Highlight selection criteria (3-6 key statistics)
 
-**COE Generation:**
+**COE Instructions:**
+- Process: First use Code Execution for calculations, then generate structured output
+- Bidding data structure
+- Over-subscription rate and premium calculations
 - Required sections (summary, two bidding tables)
 - Premium trends and market insights
 - Buyer implications
 - Tag selection from predefined vocabulary
+
+### Prompts (`PROMPTS`)
+
+Simple prompts that reinforce the process:
+- "First use code execution to calculate all metrics accurately from the data, then generate the structured blog post output."
 
 ## Structured Output Schema
 
@@ -251,7 +210,7 @@ getHeroImage(dataType: "cars" | "coe"): string
 
 ## Code Execution Tool
 
-The **critical feature** in Step 1 that prevents hallucinations:
+The **critical feature** that prevents hallucinations:
 
 ```typescript
 tools: { code_execution: google.tools.codeExecution({}) }
@@ -263,31 +222,24 @@ tools: { code_execution: google.tools.codeExecution({}) }
 - Verifies data formatting before generating structured output
 - Eliminates guesswork and hallucinated numbers
 
-**In 2-Step Flow:**
-- Step 1 uses Code Execution Tool for accurate analysis
-- Step 2 uses structured output (no Code Execution) for validated generation
-- Separation ensures accuracy AND type-safety
+**In Single-Call Flow:**
+- Combined with `output: Output.object({ schema: postSchema })`
+- `stopWhen: stepCountIs(3)` ensures tool execution completes before structured output
+- Single API call handles both Code Execution and validated generation
 
 ## Langfuse Telemetry
 
-Full observability with automatic tracing for both generation steps:
+Full observability with automatic tracing for blog generation:
 
 **Tracked Metrics:**
-- Token usage (input, output, total) for each step
+- Token usage (input, output, total)
 - API costs per generation
-- Latency and performance per step
+- Latency and performance
 - Model responses and errors
+- Step count (tool calls + structured output)
 
-**Trace Metadata (Step 1 - Analysis):**
-- `functionId`: `post-analysis/cars` or `post-analysis/coe`
-- `step`: "analysis"
-- `month`: Data month being processed
-- `dataType`: Either "cars" or "coe"
-- `tags`: [dataType, month, "post-analysis"]
-
-**Trace Metadata (Step 2 - Generation):**
+**Trace Metadata:**
 - `functionId`: `post-generation/cars` or `post-generation/coe`
-- `step`: "generation"
 - `month`: Data month being processed
 - `dataType`: Either "cars" or "coe"
 - `tags`: [dataType, month, "post-generation"]
@@ -347,9 +299,8 @@ interface SavePostParams {
 ## Dependencies
 
 **Core:**
-- `@ai-sdk/google`: ^2.0.20 - Google Gemini integration
-- `ai`: ^5.0.68 - Vercel AI SDK
-- `@upstash/workflow`: ^0.2.12 - QStash workflow support
+- `@ai-sdk/google` - Google Gemini integration
+- `ai` - Vercel AI SDK
 
 **Observability:**
 - `@langfuse/otel`: ^4.2.0 - Langfuse OpenTelemetry integration
@@ -388,28 +339,36 @@ try {
 }
 ```
 
-### Pattern 2: Workflow Integration (API)
+### Pattern 2: Workflow Integration (Vercel WDK)
 
 ```typescript
-import { serve } from "@upstash/workflow/nextjs";
-import { generatePost } from "@sgcarstrends/ai";
+import { generateBlogContent } from "@sgcarstrends/ai";
+import { tokeniser } from "@sgcarstrends/utils";
+import { fetch } from "workflow";
 
-export const POST = serve(async (context) => {
-  const result = await generatePost(context, {
-    data: tokenisedData,
-    month: "October 2024",
-    dataType: "cars",
-  });
+export async function carsWorkflow(payload: { month?: string }) {
+  "use workflow";
 
-  // Post is automatically saved to database with:
-  // - title, excerpt, content, tags, highlights from structured output
-  // - Hero image automatically added based on dataType
-  // Cache is revalidated
-  // Tracing is shutdown
+  // Enable WDK's durable fetch for AI SDK
+  globalThis.fetch = fetch;
 
-  return result;
-});
+  // Fetch and tokenise data
+  const carsData = await fetchCarsData(month);
+  const data = tokeniser(carsData);
+
+  // Generate blog post (step function)
+  const post = await generateCarsPost(data, month);
+
+  return { postId: post.postId, title: post.title };
+}
+
+async function generateCarsPost(data: string, month: string) {
+  "use step";
+  return generateBlogContent({ data, month, dataType: "cars" });
+}
 ```
+
+**Note:** When using within Vercel WDK workflows, set `globalThis.fetch = fetch` (from the `workflow` package) before calling AI functions to enable durable fetch with automatic retries.
 
 ## Code Style
 
@@ -438,6 +397,6 @@ No tests currently implemented. Future testing should cover:
 
 ## Related Documentation
 
-- **API Integration**: See [apps/api/CLAUDE.md](../../apps/api/CLAUDE.md) for workflow usage
-- **Admin Integration**: See [apps/admin/CLAUDE.md](../../apps/admin/CLAUDE.md) for standalone usage
+- **Workflow Integration**: See [apps/web/CLAUDE.md](../../apps/web/CLAUDE.md) for Vercel WDK workflow usage
+- **Admin Interface**: Admin functionality is integrated into the web app at `/admin` path
 - **Database Schema**: See [packages/database/CLAUDE.md](../database/CLAUDE.md) for posts table structure

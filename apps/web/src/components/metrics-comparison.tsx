@@ -33,11 +33,11 @@ const TrendIndicator = ({ change, label }: TrendIndicatorProps) => {
   );
 };
 
-export const MetricsComparison = ({
+export function MetricsComparison({
   current,
   previousMonth,
-}: StatsCompareProps) => {
+}: StatsCompareProps) {
   const monthChange = (current - previousMonth) / previousMonth;
 
   return <TrendIndicator change={monthChange} label="vs last month" />;
-};
+}

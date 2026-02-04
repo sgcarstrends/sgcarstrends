@@ -1,7 +1,7 @@
 import { slugify } from "@sgcarstrends/utils";
 import { withRelatedProject } from "@vercel/related-projects";
 import { VEHICLE_TYPE_MAP } from "@web/constants";
-import type { Announcement, AppEnv, LinkItem, VehicleType } from "@web/types";
+import type { Announcement, LinkItem, VehicleType } from "@web/types";
 import { Battery, Droplet, Fuel, Zap } from "lucide-react";
 
 export const DOMAIN_NAME = "sgcarstrends.com";
@@ -13,8 +13,6 @@ export const SITE_URL =
     ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
     : `https://${DOMAIN_NAME}`);
 export const SITE_TITLE = "SG Cars Trends";
-
-export const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV as AppEnv;
 
 const DEFAULT_API_URL = `https://api.${DOMAIN_NAME}`;
 export const API_BASE_URL =

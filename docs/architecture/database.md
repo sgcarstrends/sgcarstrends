@@ -39,22 +39,24 @@ erDiagram
         text title "Blog post title"
         text slug UK "URL-friendly identifier"
         text content "Markdown content"
-        jsonb metadata "Post metadata (tags, reading_time, etc)"
-        timestamp published_at "Publication date"
+        text excerpt "2-3 sentence summary"
+        text hero_image "Unsplash URL for header"
+        text[] tags "Category tags array"
+        jsonb highlights "Key statistics for display"
+        text status "Publication status (draft/published)"
+        jsonb metadata "Additional metadata"
+        text month "Source data month YYYY-MM"
+        text data_type "Source type (cars/coe)"
         timestamp created_at "Creation timestamp"
         timestamp modified_at "Last modification timestamp"
+        timestamp published_at "Publication date"
     }
 
-    analytics {
-        serial id PK "Auto-incrementing primary key"
-        timestamp date "Event timestamp with timezone"
-        text pathname "Page URL path"
-        text referrer "Referrer URL"
-        text country "Visitor country"
-        text flag "Country flag emoji"
-        text city "Visitor city"
-        text latitude "Geographic latitude"
-        text longitude "Geographic longitude"
+    deregistrations {
+        uuid id PK "Primary key (auto-generated)"
+        text month "Month in YYYY-MM format"
+        text category "VQS category"
+        integer number "Number of deregistrations"
     }
 
     %% Relationships (conceptual, not foreign keys)
@@ -116,25 +118,25 @@ CREATE INDEX number_idx ON cars (number);
 ```sql
 CREATE TABLE coe (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    month TEXT,
-    bidding_no INTEGER,
-    vehicle_class TEXT,
-    quota INTEGER,
-    bids_success INTEGER,
-    bids_received INTEGER,
-    premium INTEGER
+    month TEXT NOT NULL,
+    bidding_no INTEGER NOT NULL,
+    vehicle_class TEXT NOT NULL,
+    quota INTEGER NOT NULL,
+    bids_success INTEGER NOT NULL,
+    bids_received INTEGER NOT NULL,
+    premium INTEGER NOT NULL
 );
 ```
 
 **Columns**:
 - `id`: UUID primary key
-- `month`: Bidding month (YYYY-MM format)
-- `bidding_no`: Bidding exercise number (1 or 2 per month)
-- `vehicle_class`: COE category classification
-- `quota`: Number of certificates available
-- `bids_success`: Number of successful bids
-- `bids_received`: Total number of bids submitted
-- `premium`: Winning premium amount in SGD
+- `month`: Bidding month (YYYY-MM format), NOT NULL
+- `bidding_no`: Bidding exercise number (1 or 2 per month), NOT NULL
+- `vehicle_class`: COE category classification, NOT NULL
+- `quota`: Number of certificates available, NOT NULL
+- `bids_success`: Number of successful bids, NOT NULL
+- `bids_received`: Total number of bids submitted, NOT NULL
+- `premium`: Winning premium amount in SGD, NOT NULL
 
 **Indexes**:
 ```sql
@@ -183,7 +185,7 @@ CREATE INDEX pqp_idx ON pqp (pqp);
 
 ### Blog Posts Table
 
-**Purpose**: Stores LLM-generated blog content with comprehensive metadata
+**Purpose**: Stores LLM-generated blog content with structured output from AI generation
 
 **Table Definition**:
 ```sql
@@ -192,77 +194,80 @@ CREATE TABLE posts (
     title TEXT NOT NULL,
     slug TEXT NOT NULL UNIQUE,
     content TEXT NOT NULL,
+    excerpt TEXT,
+    hero_image TEXT,
+    tags TEXT[],
+    highlights JSONB,
+    status TEXT DEFAULT 'draft',
     metadata JSONB,
-    published_at TIMESTAMP,
+    month TEXT,
+    data_type TEXT,
     created_at TIMESTAMP DEFAULT NOW() NOT NULL,
-    modified_at TIMESTAMP DEFAULT NOW() NOT NULL
+    modified_at TIMESTAMP DEFAULT NOW() NOT NULL,
+    published_at TIMESTAMP,
+    UNIQUE (month, data_type)
 );
 ```
 
 **Columns**:
 - `id`: UUID primary key
-- `title`: Blog post title
-- `slug`: URL-friendly identifier (unique)
-- `content`: Markdown-formatted blog content
-- `metadata`: JSON blob containing tags, reading time, data source info, etc.
-- `published_at`: Publication timestamp (NULL for drafts)
+- `title`: Blog post title, NOT NULL
+- `slug`: URL-friendly identifier (unique), NOT NULL
+- `content`: Markdown-formatted blog content, NOT NULL
+- `excerpt`: 2-3 sentence summary for meta description
+- `hero_image`: Unsplash URL for blog post header
+- `tags`: Category tags array (Text[])
+- `highlights`: Key statistics for visual display (JSONB)
+- `status`: Publication status (draft/published), default 'draft'
+- `metadata`: Additional metadata (JSONB)
+- `month`: Source data month (YYYY-MM format)
+- `data_type`: Source data type ('cars' or 'coe')
 - `created_at`: Creation timestamp
 - `modified_at`: Last modification timestamp
+- `published_at`: Publication timestamp (NULL for drafts)
 
-**Metadata Structure**:
-```json
-{
-  "tags": ["cars", "market-analysis", "2024-01"],
-  "reading_time": 5,
-  "llm_model": "gemini-1.5-pro",
-  "data_month": "2024-01",
-  "data_type": "cars",
-  "excerpt": "Analysis of January 2024 vehicle registrations...",
-  "view_count": 0
-}
-```
+**Constraints**:
+- Unique constraint on `slug` for URL routing
+- Composite unique constraint on `(month, data_type)` to prevent duplicate posts
 
 **Common Queries**:
 - Published posts ordered by date
 - Posts filtered by tags
 - Posts by data month or type
-- Blog post analytics
 
-### Analytics Table
+### Deregistrations Table
 
-**Purpose**: Tracks page views and visitor metrics for performance monitoring
+**Purpose**: Stores monthly vehicle deregistration data under the Vehicle Quota System (VQS) from LTA DataMall
 
 **Table Definition**:
 ```sql
-CREATE TABLE analytics (
-    id SERIAL PRIMARY KEY,
-    date TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    pathname TEXT NOT NULL,
-    referrer TEXT,
-    country TEXT,
-    flag TEXT,
-    city TEXT,
-    latitude TEXT,
-    longitude TEXT
+CREATE TABLE deregistrations (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    month TEXT NOT NULL,
+    category TEXT NOT NULL,
+    number INTEGER DEFAULT 0
 );
 ```
 
 **Columns**:
-- `id`: Auto-incrementing primary key
-- `date`: Event timestamp with timezone
-- `pathname`: Page URL path being accessed
-- `referrer`: Referring URL (if available)
-- `country`: Visitor country (from geolocation)
-- `flag`: Country flag emoji
-- `city`: Visitor city
-- `latitude`: Geographic latitude
-- `longitude`: Geographic longitude
+- `id`: UUID primary key
+- `month`: Deregistration month (YYYY-MM format), NOT NULL
+- `category`: VQS category (e.g., "Category A", "Category B", "Vehicles Exempted From VQS", "Taxis"), NOT NULL
+- `number`: Number of deregistrations, default 0
+
+**Indexes**:
+```sql
+-- Optimized for deregistration queries
+CREATE INDEX month_category_idx ON deregistrations (month, category);
+CREATE INDEX deregistrations_month_idx ON deregistrations (month);
+CREATE INDEX deregistrations_category_idx ON deregistrations (category);
+CREATE INDEX deregistrations_number_idx ON deregistrations (number);
+```
 
 **Common Queries**:
-- Page view counts by pathname
-- Geographic visitor distribution
-- Referrer analysis
-- Traffic trends over time
+- Monthly deregistration summaries by category
+- Historical deregistration trends
+- Category-wise analysis
 
 ## Indexing Strategy
 

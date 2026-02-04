@@ -1,8 +1,7 @@
-import { coe, db } from "@sgcarstrends/database";
-import type { Period } from "@web/app/(dashboard)/coe/search-params";
+import { and, asc, coe, db, gte, lte, max, min } from "@sgcarstrends/database";
+import type { Period } from "@web/app/(main)/(dashboard)/coe/search-params";
 import { getDateRangeFromPeriod } from "@web/lib/coe/calculations";
 import type { COEResult } from "@web/types";
-import { and, asc, desc, gte, lte } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface CoeMarketShareData {
@@ -13,7 +12,7 @@ export interface CoeMarketShareData {
   colour: string;
 }
 
-export const getCoeResults = async (): Promise<COEResult[]> => {
+export async function getCoeResults(): Promise<COEResult[]> {
   "use cache";
   cacheLife("max");
   cacheTag("coe:results");
@@ -24,27 +23,26 @@ export const getCoeResults = async (): Promise<COEResult[]> => {
     .orderBy(asc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
-};
+}
 
-export const getCoeResultsByPeriod = async (
+export async function getCoeResultsByPeriod(
   period: Period = "12m",
-): Promise<COEResult[]> => {
+): Promise<COEResult[]> {
   "use cache";
   cacheLife("max");
   cacheTag(`coe:period:${period}`);
 
-  // Get latest and earliest months for period calculation
-  const monthsResult = await db
-    .selectDistinct({ month: coe.month })
-    .from(coe)
-    .orderBy(desc(coe.month));
+  const [latestResult, earliestResult] = await db.batch([
+    db.select({ month: max(coe.month) }).from(coe),
+    db.select({ month: min(coe.month) }).from(coe),
+  ]);
 
-  if (monthsResult.length === 0) {
+  const latestMonth = latestResult[0]?.month;
+  const earliestMonth = earliestResult[0]?.month;
+
+  if (!latestMonth || !earliestMonth) {
     return [];
   }
-
-  const latestMonth = monthsResult[0].month;
-  const earliestMonth = monthsResult[monthsResult.length - 1].month;
 
   const { start, end } = getDateRangeFromPeriod(
     period,
@@ -59,4 +57,4 @@ export const getCoeResultsByPeriod = async (
     .orderBy(asc(coe.month), asc(coe.biddingNo), asc(coe.vehicleClass));
 
   return results as COEResult[];
-};
+}

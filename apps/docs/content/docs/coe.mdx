@@ -1,0 +1,110 @@
+---
+title: COE
+description: Certificate of Entitlement bidding results
+---
+
+Access Singapore Certificate of Entitlement (COE) bidding results including historical data and latest results.
+
+## List COE Results
+
+```
+GET /coe
+```
+
+Returns all COE bidding results ordered by month and bidding round.
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "month": "2025-01",
+      "biddingNo": "1",
+      "vehicleClass": "Category A",
+      "quota": 1200,
+      "quotaPremium": 95000,
+      "bidsSuccess": 1200,
+      "bidsReceived": 2400
+    }
+  ]
+}
+```
+
+### Vehicle Classes
+
+| Class | Description |
+|-------|-------------|
+| Category A | Cars up to 1600cc & 97kW |
+| Category B | Cars above 1600cc or 97kW |
+| Category C | Goods vehicles & buses |
+| Category D | Motorcycles |
+| Category E | Open category |
+
+---
+
+## Latest COE Results
+
+```
+GET /coe/latest
+```
+
+Returns the most recent COE bidding results (latest month and bidding round).
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "month": "2025-01",
+      "biddingNo": "2",
+      "vehicleClass": "Category A",
+      "quota": 1150,
+      "quotaPremium": 98000,
+      "bidsSuccess": 1150,
+      "bidsReceived": 2300
+    },
+    {
+      "month": "2025-01",
+      "biddingNo": "2",
+      "vehicleClass": "Category B",
+      "quota": 1100,
+      "quotaPremium": 110000,
+      "bidsSuccess": 1100,
+      "bidsReceived": 2200
+    }
+  ]
+}
+```
+
+### Example
+
+```bash
+# Get latest COE results
+curl "https://api.sgcarstrends.com/coe/latest"
+```
+
+---
+
+## Response Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `month` | string | Bidding month (YYYY-MM) |
+| `biddingNo` | string | Bidding round number (1 or 2) |
+| `vehicleClass` | string | COE category |
+| `quota` | integer | Number of COEs available |
+| `quotaPremium` | integer | Winning premium in SGD |
+| `bidsSuccess` | integer | Number of successful bids |
+| `bidsReceived` | integer | Total bids received |
+
+## Bidding Schedule
+
+COE bidding occurs twice monthly:
+- **First round**: Usually around the 1st-7th
+- **Second round**: Usually around the 15th-21st
+
+Results are typically announced on the day after bidding closes.

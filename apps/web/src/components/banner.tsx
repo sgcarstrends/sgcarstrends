@@ -2,7 +2,7 @@
 
 import useStore from "@web/app/store";
 
-export const Banner = () => {
+export function Banner() {
   const { bannerContent } = useStore();
 
   if (!bannerContent) {
@@ -14,4 +14,4 @@ export const Banner = () => {
       <div className="px-6 py-4 lg:container lg:mx-auto">{bannerContent}</div>
     </div>
   );
-};
+}

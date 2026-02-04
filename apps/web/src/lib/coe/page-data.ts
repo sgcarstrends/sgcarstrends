@@ -1,5 +1,5 @@
 import { redis } from "@sgcarstrends/utils";
-import type { Period } from "@web/app/(dashboard)/coe/search-params";
+import type { Period } from "@web/app/(main)/(dashboard)/coe/search-params";
 import { LAST_UPDATED_COE_KEY } from "@web/config";
 import {
   calculateBiggestMovers,
@@ -19,7 +19,7 @@ import {
   getPqpRates,
 } from "@web/queries/coe";
 
-export const fetchCOEPageData = async (period: Period = "12m") => {
+export async function fetchCOEPageData(period: Period = "12m") {
   const [monthsResult, coeResults, lastUpdated] = await Promise.all([
     getCoeMonths(),
     getCoeResultsByPeriod(period),
@@ -34,7 +34,7 @@ export const fetchCOEPageData = async (period: Period = "12m") => {
     lastUpdated,
     data: groupCOEResultsByBidding(coeResults),
   };
-};
+}
 
 const ALL_CATEGORIES = [
   "Category A",
@@ -52,7 +52,7 @@ const ALL_CATEGORIES = [
  *
  * @returns COE trends, latest results, PQP rates, premium range stats, movers, key insights, and last updated timestamp
  */
-export const loadCOEOverviewPageData = async () => {
+export async function loadCOEOverviewPageData() {
   const [coeTrends, latestAndPrevious, allCoeResults, pqpRates, lastUpdated] =
     await Promise.all([
       getAllCoeCategoryTrends(),
@@ -85,7 +85,7 @@ export const loadCOEOverviewPageData = async () => {
     movers,
     keyInsights,
   };
-};
+}
 
 /**
  * Load data for the COE Results page
@@ -97,10 +97,10 @@ export const loadCOEOverviewPageData = async () => {
  * @param month - Optional specific month to show bidding rounds for (YYYY-MM format)
  * @returns COE results, grouped chart data, bidding rounds, and last updated timestamp
  */
-export const loadResultsPageData = async (
+export async function loadResultsPageData(
   period: Period = "12m",
   month?: string,
-) => {
+) {
   const [periodData, monthRounds] = await Promise.all([
     fetchCOEPageData(period),
     getMonthBiddingRounds(month),
@@ -116,4 +116,4 @@ export const loadResultsPageData = async (
     firstRound: monthRounds.firstRound,
     secondRound: monthRounds.secondRound,
   };
-};
+}

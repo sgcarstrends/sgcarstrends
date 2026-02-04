@@ -1,6 +1,6 @@
 {
   "name": "sgcarstrends",
-  "version": "4.37.0",
+  "version": "4.45.2",
   "description": "Monorepo for SG Cars Trends",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -18,22 +18,13 @@
     "prepare": "husky",
     "release": "semantic-release",
     "build:web": "turbo run @sgcarstrends/web#build",
-    "build:admin": "turbo run @sgcarstrends/admin#build",
-    "dev:api": "turbo run @sgcarstrends/api#dev",
     "dev:web": "turbo run @sgcarstrends/web#dev",
-    "dev:admin": "turbo run @sgcarstrends/admin#dev",
-    "test:api": "turbo run @sgcarstrends/api#test",
     "test:web": "turbo run @sgcarstrends/web#test",
-    "lint:admin": "turbo run @sgcarstrends/admin#lint",
-    "lint:api": "turbo run @sgcarstrends/api#lint",
     "lint:web": "turbo run @sgcarstrends/web#lint",
     "start:web": "turbo run @sgcarstrends/web#start",
     "deploy:dev": "sst deploy --stage dev",
     "deploy:staging": "sst deploy --stage staging",
     "deploy:prod": "sst deploy --stage prod",
-    "deploy:api:dev": "turbo run @sgcarstrends/api#deploy:dev",
-    "deploy:api:staging": "turbo run @sgcarstrends/api#deploy:staging",
-    "deploy:api:prod": "turbo run @sgcarstrends/api#deploy:prod",
     "deploy:web:dev": "turbo run @sgcarstrends/web#deploy:dev",
     "deploy:web:staging": "turbo run @sgcarstrends/web#deploy:staging",
     "deploy:web:prod": "turbo run @sgcarstrends/web#deploy:prod",
@@ -46,7 +37,7 @@
   },
   "dependencies": {
     "@heroui/navbar": "^2.2.26",
-    "sst": "3.17.21"
+    "sst": "3.17.38"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.0",

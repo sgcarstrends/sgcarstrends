@@ -1,0 +1,58 @@
+---
+title: Deregistrations
+description: Vehicle deregistration statistics
+---
+
+Access Singapore vehicle deregistration data showing how many vehicles are taken off the road each month.
+
+## List Deregistrations
+
+```
+GET /deregistrations
+```
+
+Returns all vehicle deregistration records ordered by month.
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "month": "2025-01",
+      "make": "TOYOTA",
+      "fuelType": "Petrol",
+      "vehicleType": "Saloon",
+      "number": 125
+    }
+  ]
+}
+```
+
+### Example
+
+```bash
+# Get all deregistration data
+curl "https://api.sgcarstrends.com/deregistrations"
+```
+
+---
+
+## Response Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `month` | string | Deregistration month (YYYY-MM) |
+| `make` | string | Vehicle make/brand |
+| `fuelType` | string | Fuel type |
+| `vehicleType` | string | Vehicle body type |
+| `number` | integer | Number of vehicles deregistered |
+
+---
+
+## Data Notes
+
+- Deregistration data is released monthly by LTA
+- Includes vehicles that have reached end of COE, exported, or scrapped
+- Data is aggregated by make, fuel type, and vehicle type

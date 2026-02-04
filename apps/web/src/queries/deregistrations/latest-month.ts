@@ -1,11 +1,10 @@
-import { db, deregistrations } from "@sgcarstrends/database";
-import { sql } from "drizzle-orm";
+import { db, deregistrations, sql } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
 /**
  * Get the latest month available in deregistrations data
  */
-export const getDeregistrationsLatestMonth = async () => {
+export async function getDeregistrationsLatestMonth() {
   "use cache";
   cacheLife("max");
   cacheTag("deregistrations:months");
@@ -15,4 +14,4 @@ export const getDeregistrationsLatestMonth = async () => {
     .from(deregistrations);
 
   return result;
-};
+}

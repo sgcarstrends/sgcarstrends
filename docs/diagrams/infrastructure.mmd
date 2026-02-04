@@ -45,7 +45,7 @@ graph TB
             subgraph "Web Function Config"
                 WebRuntime[Node.js 22.x - arm64]
                 WebWarm[1 Warm Instance]
-                NextjsFramework[Next.js 15 Framework]
+                NextjsFramework[Next.js 16 Framework]
             end
         end
         
@@ -54,7 +54,6 @@ graph TB
             subgraph "API Lambda Environment"
                 CoreEnv[Core: STAGE, DATABASE_URL, API_TOKEN]
                 AIEnv[AI: GOOGLE_GENERATIVE_AI_API_KEY] 
-                QStashEnv[QStash: QSTASH_TOKEN, SIGNING_KEYS]
                 RedisEnv[Redis: UPSTASH_REDIS_REST_*]
                 SocialEnv[Social: DISCORD, LINKEDIN, TELEGRAM, TWITTER]
             end
@@ -77,9 +76,6 @@ graph TB
             GeminiAI[Vercel AI SDK + Google Gemini]
         end
         
-        %% Message Queue
-        QStash[QStash Workflow Orchestrator]
-        
         %% Databases
         subgraph "Managed Databases"
             PostgreSQL[(PostgreSQL Database)]
@@ -88,7 +84,6 @@ graph TB
         
         %% Social Media
         subgraph "Social Media APIs"
-            Discord[Discord Webhooks]
             LinkedIn[LinkedIn API]
             Telegram[Telegram Bot API]
             Twitter[Twitter API]
@@ -138,7 +133,6 @@ graph TB
     %% Environment Configuration
     APILambda --> CoreEnv
     APILambda --> AIEnv
-    APILambda --> QStashEnv
     APILambda --> RedisEnv
     APILambda --> SocialEnv
     
@@ -151,10 +145,8 @@ graph TB
     %% External Connections
     APILambda --> LTA
     APILambda --> GeminiAI
-    APILambda --> QStash
     APILambda --> PostgreSQL
     APILambda --> Upstash
-    APILambda --> Discord
     APILambda --> LinkedIn
     APILambda --> Telegram
     APILambda --> Twitter
@@ -180,7 +172,7 @@ graph TB
     
     class CloudFront,Router,APIGateway,APILambda,NextjsSSR,StaticAssets aws
     class Cloudflare dns
-    class APIRuntime,APITimeout,HonoApp,WebRuntime,WebWarm,NextjsFramework,CoreEnv,AIEnv,QStashEnv,RedisEnv,SocialEnv,WebEnv,PublicEnv,WebRedis,WebAuth,WebDB function
+    class APIRuntime,APITimeout,HonoApp,WebRuntime,WebWarm,NextjsFramework,CoreEnv,AIEnv,RedisEnv,SocialEnv,WebEnv,PublicEnv,WebRedis,WebAuth,WebDB function
     class PostgreSQL,Upstash database
-    class LTA,GeminiAI,QStash external
-    class Discord,LinkedIn,Telegram,Twitter social
+    class LTA,GeminiAI external
+    class LinkedIn,Telegram,Twitter social

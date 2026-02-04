@@ -6,7 +6,7 @@ import {
   getMakeDetails,
 } from "@web/queries/cars";
 
-export const fetchMakePageData = async (make: string, month?: string) => {
+export async function fetchMakePageData(make: string, month?: string) {
   const [makeExists, makeDetails, makesResult, lastUpdated] = await Promise.all(
     [
       checkMakeIfExist(make),
@@ -26,4 +26,4 @@ export const fetchMakePageData = async (make: string, month?: string) => {
   };
 
   return { cars, makes, lastUpdated, makeName };
-};
+}

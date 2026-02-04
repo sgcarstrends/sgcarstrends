@@ -1,12 +1,12 @@
 ---
 name: workflow-management
-description: Create, debug, or modify QStash workflows for data updates and social media posting in the API service. Use when adding new automated jobs, fixing workflow errors, or updating scheduling logic.
+description: Create, debug, or modify Vercel WDK workflows for data updates and social media posting in the web application. Use when adding new automated jobs, fixing workflow errors, or updating scheduling logic.
 allowed-tools: Read, Edit, Write, Bash, Grep, Glob
 ---
 
 # Workflow Management Skill
 
-This skill helps you work with QStash-based workflows in `apps/api/src/lib/workflows/`.
+This skill helps you work with Vercel WDK (Workflow Development Kit) workflows in `apps/web/src/workflows/`.
 
 ## When to Use This Skill
 
@@ -18,85 +18,128 @@ This skill helps you work with QStash-based workflows in `apps/api/src/lib/workf
 
 ## Workflow Architecture
 
-The project uses QStash workflows with the following structure:
+The project uses Vercel WDK workflows with the following structure:
 
 ```
-apps/api/src/lib/workflows/
-├── cars/                 # Car registration data workflows
-│   └── update.ts        # Scheduled car data updates
-├── coe/                 # COE bidding data workflows
-│   └── update.ts        # Scheduled COE data updates
-└── social/              # Social media posting workflows
-    ├── discord.ts
-    ├── linkedin.ts
-    ├── telegram.ts
-    └── twitter.ts
+apps/web/src/workflows/
+├── cars.ts              # Car registration data workflow
+├── coe.ts               # COE bidding data workflow
+├── deregistrations.ts   # Deregistration data workflow
+├── regenerate-post.ts   # Blog post regeneration workflow
+└── shared.ts            # Shared workflow steps (social media, cache)
 ```
 
 ## Key Patterns
 
 ### 1. Workflow Definition
 
-Workflows are defined using QStash SDK:
+Workflows are defined using Vercel WDK directives:
 
 ```typescript
-import { serve } from "@upstash/workflow";
+import { fetch } from "workflow";
 
-export const POST = serve(async (context) => {
-  // Step 1: Fetch data
-  await context.run("fetch-data", async () => {
-    // Fetching logic
-  });
+export async function carsWorkflow(payload: CarsWorkflowPayload) {
+  "use workflow";
 
-  // Step 2: Process data
-  const processed = await context.run("process-data", async () => {
-    // Processing logic
-  });
+  // Enable WDK's durable fetch for AI SDK
+  globalThis.fetch = fetch;
 
-  // Step 3: Store results
-  await context.run("store-results", async () => {
-    // Storage logic
-  });
-});
+  // Step 1: Process data
+  const result = await processCarsData();
+
+  // Step 2: Revalidate cache
+  await revalidateCarsCache(month, year);
+
+  // Step 3: Generate blog post
+  const post = await generateCarsPost(data, month);
+
+  return { postId: post.postId };
+}
+
+async function processCarsData(): Promise<UpdaterResult> {
+  "use step";
+  // Processing logic - each step is durable and can retry
+  return await updateCars();
+}
 ```
 
 ### 2. Scheduling Workflows
 
-Workflows are triggered via cron schedules configured in:
-- SST infrastructure (`infra/`)
-- QStash console
-- Manual API calls to workflow endpoints
+Workflows are triggered via Vercel Cron schedules configured in `apps/web/vercel.json`:
 
-### 3. Error Handling
+```json
+{
+  "crons": [
+    { "path": "/api/workflows/cars", "schedule": "0 10 * * *" },
+    { "path": "/api/workflows/coe", "schedule": "0 10 * * *" },
+    { "path": "/api/workflows/deregistrations", "schedule": "0 10 * * *" }
+  ]
+}
+```
 
-Always include comprehensive error handling:
+### 3. API Route Integration
+
+API routes trigger workflows using WDK's `start()` function:
 
 ```typescript
-await context.run("step-name", async () => {
+import { start } from "workflow/api";
+import { carsWorkflow } from "@web/workflows/cars";
+
+export async function POST(request: Request) {
+  const payload = await request.json();
+  const run = await start(carsWorkflow, [payload]);
+  return Response.json({ message: "Workflow started", runId: run.runId });
+}
+```
+
+### 4. Shared Steps
+
+Common operations are extracted to `shared.ts`:
+
+```typescript
+export async function publishToSocialMedia(title: string, link: string) {
+  "use step";
+  await socialMediaManager.publishToAll({ message: `📰 ${title}`, link });
+}
+
+export async function revalidatePostsCache() {
+  "use step";
+  revalidateTag("posts:list", "max");
+}
+```
+
+### 5. Error Handling
+
+Steps automatically retry on failure. For custom error handling:
+
+```typescript
+async function processData() {
+  "use step";
   try {
-    // Logic here
+    const result = await updateData();
+    return result;
   } catch (error) {
     console.error("Step failed:", error);
-    // Log to monitoring service
-    throw error; // Re-throw for workflow retry
+    throw error; // Re-throw for automatic retry
   }
-});
+}
 ```
 
 ## Common Tasks
 
 ### Adding a New Workflow
 
-1. Create workflow file in appropriate directory
-2. Define workflow steps using `context.run()`
-3. Add route handler in `apps/api/src/routes/`
-4. Configure scheduling (if needed)
-5. Add tests for workflow logic
+1. Create workflow file in `apps/web/src/workflows/`
+2. Define workflow function with `"use workflow"` directive
+3. Break logic into steps using `"use step"` directive
+4. Create API route in `apps/web/src/app/api/workflows/`
+5. Add Vercel Cron schedule if needed in `vercel.json`
+6. Add tests for workflow logic
 
 ### Debugging Workflow Failures
 
-1. Check QStash dashboard for execution logs
-2. Review CloudWatch logs for Lambda errors
+1. Check Vercel dashboard for workflow execution logs
+2. Review function logs in Vercel
 3. Verify environment variables are set correctly
 4. Test workflow locally using development server
 5. Check database connectivity and Redis availability
@@ -114,14 +157,13 @@ await context.run("step-name", async () => {
 Workflows typically need:
 - `DATABASE_URL` - PostgreSQL connection
 - `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` - Redis
-- `QSTASH_TOKEN` - QStash authentication
 - Service-specific tokens (Discord webhook, Twitter API, etc.)
 
 ## Testing Workflows
 
 Run workflow tests:
 ```bash
-pnpm -F @sgcarstrends/api test -- src/lib/workflows
+pnpm -F @sgcarstrends/web test -- src/workflows
 ```
 
 Test individual workflow locally:
@@ -130,22 +172,23 @@ Test individual workflow locally:
 pnpm dev
 
 # Trigger workflow via HTTP
-curl -X POST http://localhost:3000/api/workflows/cars/update
+curl -X POST http://localhost:3000/api/workflows/cars
 ```
 
 ## References
 
-- QStash Workflows: Check Context7 for Upstash QStash documentation
+- Vercel WDK Documentation: https://vercel.com/docs/workflow-kit
 - Related files:
-  - `apps/api/src/routes/workflows.ts` - Workflow route handlers
-  - `apps/api/src/config/qstash.ts` - QStash configuration
-  - `apps/api/CLAUDE.md` - API service documentation
+  - `apps/web/src/app/api/workflows/` - Workflow route handlers
+  - `apps/web/src/config/platforms.ts` - Social media configuration
+  - `apps/web/vercel.json` - Vercel Cron schedules
+  - `apps/web/CLAUDE.md` - Web application documentation
 
 ## Best Practices
 
 1. **Idempotency**: Ensure workflows can safely retry without duplicating data
-2. **Step Granularity**: Break workflows into small, focused steps
-3. **Logging**: Add comprehensive logging for debugging
-4. **Timeouts**: Configure appropriate timeouts for long-running operations
+2. **Step Granularity**: Break workflows into small, focused steps with `"use step"`
+3. **Durable Fetch**: Set `globalThis.fetch = fetch` for AI SDK calls
+4. **Logging**: Add comprehensive logging for debugging
 5. **Testing**: Write unit tests for workflow logic
-6. **Monitoring**: Track workflow execution metrics
+6. **Monitoring**: Track workflow execution in Vercel dashboard
