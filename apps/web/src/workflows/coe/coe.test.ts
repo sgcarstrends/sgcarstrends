@@ -181,4 +181,102 @@ describe("coeWorkflow", () => {
       expect.any(Number),
     );
   });
+
+  it("should throw RetryableError when AI is rate limited (429)", async () => {
+    vi.mocked(updateCoe).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      month: "2024-01",
+      biddingNo: 2,
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCoeForMonth).mockResolvedValueOnce([
+      { category: "A", premium: 100000 },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce(
+      new Error("API error: 429 Too Many Requests"),
+    );
+
+    await expect(coeWorkflow({})).rejects.toThrow("AI rate limited");
+  });
+
+  it("should throw FatalError when AI authentication fails (401)", async () => {
+    vi.mocked(updateCoe).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      month: "2024-01",
+      biddingNo: 2,
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCoeForMonth).mockResolvedValueOnce([
+      { category: "A", premium: 100000 },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce(
+      new Error("API error: 401 Unauthorized"),
+    );
+
+    await expect(coeWorkflow({})).rejects.toThrow("AI authentication failed");
+  });
+
+  it("should throw FatalError when AI access is forbidden (403)", async () => {
+    vi.mocked(updateCoe).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      month: "2024-01",
+      biddingNo: 2,
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCoeForMonth).mockResolvedValueOnce([
+      { category: "A", premium: 100000 },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce(
+      new Error("API error: 403 Forbidden"),
+    );
+
+    await expect(coeWorkflow({})).rejects.toThrow("AI authentication failed");
+  });
+
+  it("should rethrow unknown errors from AI generation", async () => {
+    vi.mocked(updateCoe).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      month: "2024-01",
+      biddingNo: 2,
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCoeForMonth).mockResolvedValueOnce([
+      { category: "A", premium: 100000 },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce(
+      new Error("Unknown AI error"),
+    );
+
+    await expect(coeWorkflow({})).rejects.toThrow("Unknown AI error");
+  });
+
+  it("should handle non-Error objects thrown from AI generation", async () => {
+    vi.mocked(updateCoe).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      month: "2024-01",
+      biddingNo: 2,
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCoeForMonth).mockResolvedValueOnce([
+      { category: "A", premium: 100000 },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce("string error");
+
+    await expect(coeWorkflow({})).rejects.toBe("string error");
+  });
 });

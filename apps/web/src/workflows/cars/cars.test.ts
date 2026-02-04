@@ -159,4 +159,87 @@ describe("carsWorkflow", () => {
       expect.any(Number),
     );
   });
+
+  it("should throw RetryableError when AI is rate limited (429)", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
+      { make: "Toyota", count: 100 },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce(
+      new Error("API error: 429 Too Many Requests"),
+    );
+
+    await expect(carsWorkflow({})).rejects.toThrow("AI rate limited");
+  });
+
+  it("should throw FatalError when AI authentication fails (401)", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
+      { make: "Toyota", count: 100 },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce(
+      new Error("API error: 401 Unauthorized"),
+    );
+
+    await expect(carsWorkflow({})).rejects.toThrow("AI authentication failed");
+  });
+
+  it("should throw FatalError when AI access is forbidden (403)", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
+      { make: "Toyota", count: 100 },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce(
+      new Error("API error: 403 Forbidden"),
+    );
+
+    await expect(carsWorkflow({})).rejects.toThrow("AI authentication failed");
+  });
+
+  it("should rethrow unknown errors from AI generation", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
+      { make: "Toyota", count: 100 },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce(
+      new Error("Unknown AI error"),
+    );
+
+    await expect(carsWorkflow({})).rejects.toThrow("Unknown AI error");
+  });
+
+  it("should handle non-Error objects thrown from AI generation", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
+      { make: "Toyota", count: 100 },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce("string error");
+
+    await expect(carsWorkflow({})).rejects.toBe("string error");
+  });
 });
