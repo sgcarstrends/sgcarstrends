@@ -1,3 +1,9 @@
+## [4.45.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.45.1...v4.45.2) (2026-02-04)
+
+### Bug Fixes
+
+* move write perms to release job level ([8c6ecc8](https://github.com/sgcarstrends/sgcarstrends/commit/8c6ecc8733c968d6fec48d85432d632cdf23779c))
+
 ## [4.45.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.45.0...v4.45.1) (2026-02-04)
 
 ### Bug Fixes
