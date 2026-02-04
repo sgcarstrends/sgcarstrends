@@ -1,3 +1,9 @@
+## [4.45.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.45.0...v4.45.1) (2026-02-04)
+
+### Bug Fixes
+
+* **web:** add missing @langfuse/otel dependency ([2f7279b](https://github.com/sgcarstrends/sgcarstrends/commit/2f7279b154ce53fc3633f9194cd8e01ab58595a2))
+
 ## [4.45.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.44.0...v4.45.0) (2026-02-04)
 
 ### Features
