@@ -12,12 +12,13 @@ describe("revalidatePostsCache", () => {
     vi.clearAllMocks();
   });
 
-  it("should revalidate posts list cache tag", async () => {
+  it("should revalidate posts cache tags", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 
     await revalidatePostsCache();
 
     expect(revalidateTag).toHaveBeenCalledWith("posts:list", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("posts:recent", "max");
     expect(consoleSpy).toHaveBeenCalledWith(
       "[WORKFLOW] Posts cache invalidated",
     );

@@ -6,19 +6,24 @@ import { PremiumRangeCard } from "@web/app/(main)/(dashboard)/coe/components/pre
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
-import { PageHeader } from "@web/components/page-header";
+import { DashboardPageHeader } from "@web/components/dashboard-page-header";
+import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
+import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
+import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCOEOverviewPageData } from "@web/lib/coe/page-data";
+import { loadLastUpdated } from "@web/lib/common";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getLatestCoeResults } from "@web/queries/coe";
 import { formatPercent } from "@web/utils/charts";
 import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 
 const title = "COE Overview";
@@ -46,12 +51,41 @@ export const generateMetadata = async (): Promise<Metadata> => {
   });
 };
 
-const COEOverviewPage = async () => {
+const COEOverviewPage = () => {
+  return (
+    <div className="flex flex-col gap-8">
+      <DashboardPageHeader
+        title={
+          <DashboardPageTitle
+            title="COE Overview"
+            subtitle="Latest Certificate of Entitlement bidding results and premium trends."
+          />
+        }
+        meta={
+          <Suspense fallback={<SkeletonCard className="h-8 w-28" />}>
+            <COEOverviewHeaderMeta />
+          </Suspense>
+        }
+      />
+
+      <Suspense fallback={<SkeletonCard className="h-[980px] w-full" />}>
+        <COEOverviewContent />
+      </Suspense>
+    </div>
+  );
+};
+
+async function COEOverviewHeaderMeta() {
+  const lastUpdated = await loadLastUpdated("coe");
+
+  return <DashboardPageMeta lastUpdated={lastUpdated} />;
+}
+
+async function COEOverviewContent() {
   const {
     coeTrends,
     latestResults,
     pqpRates,
-    lastUpdated,
     premiumRangeStats,
     movers,
     keyInsights,
@@ -87,39 +121,33 @@ const COEOverviewPage = async () => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-8">
-        <AnimatedSection order={0}>
-          <PageHeader
-            title="COE Overview"
-            subtitle="Latest Certificate of Entitlement bidding results and premium trends."
-            lastUpdated={lastUpdated}
-          />
-        </AnimatedSection>
+      <AnimatedSection order={1}>
+        <PageContext {...PAGE_CONTEXTS.coe} />
+      </AnimatedSection>
 
-        <AnimatedSection order={1}>
-          <PageContext {...PAGE_CONTEXTS.coe} />
-        </AnimatedSection>
+      <AnimatedSection order={2}>
+        <div className="flex flex-col gap-4">
+          <Typography.H2>Latest COE Results</Typography.H2>
 
-        <AnimatedSection order={2}>
-          <div className="flex flex-col gap-4">
-            <Typography.H2>Latest COE Results</Typography.H2>
-
-            {/* ROW 1: Hero Metrics - 5 Category Cards */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {/* ROW 1: Hero Metrics - 5 Category Cards */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <Suspense fallback={<SkeletonCard className="h-[240px] w-full" />}>
               <LatestCoePremium results={latestResults} trends={coeTrends} />
-            </div>
+            </Suspense>
           </div>
+        </div>
+      </AnimatedSection>
+
+      {/* ROW 2: Key Insights */}
+      {keyInsights.length > 0 && (
+        <AnimatedSection order={3}>
+          <KeyInsights insights={keyInsights} />
         </AnimatedSection>
+      )}
 
-        {/* ROW 2: Key Insights */}
-        {keyInsights.length > 0 && (
-          <AnimatedSection order={3}>
-            <KeyInsights insights={keyInsights} />
-          </AnimatedSection>
-        )}
-
-        {/* ROW 3: Bento Grid - Fun Facts + PQP Rates side by side */}
-        <AnimatedSection order={4}>
+      {/* ROW 3: Bento Grid - Fun Facts + PQP Rates side by side */}
+      <AnimatedSection order={4}>
+        <Suspense fallback={<SkeletonCard className="h-[340px] w-full" />}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Fun Facts Card */}
             <Card className="rounded-2xl p-3">
@@ -196,20 +224,20 @@ const COEOverviewPage = async () => {
               </CardFooter>
             </Card>
           </div>
-        </AnimatedSection>
+        </Suspense>
+      </AnimatedSection>
 
-        {/* ROW 4: Premium Ranges - 5 Column Grid */}
-        <AnimatedSection order={5}>
-          <div className="flex flex-col gap-4">
-            <Typography.H2>Premium Ranges</Typography.H2>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-              <PremiumRangeCard stats={premiumRangeStats} />
-            </div>
+      {/* ROW 4: Premium Ranges - 5 Column Grid */}
+      <AnimatedSection order={5}>
+        <div className="flex flex-col gap-4">
+          <Typography.H2>Premium Ranges</Typography.H2>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+            <PremiumRangeCard stats={premiumRangeStats} />
           </div>
-        </AnimatedSection>
-      </div>
+        </div>
+      </AnimatedSection>
     </>
   );
-};
+}
 
 export default COEOverviewPage;

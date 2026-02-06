@@ -1,3 +1,4 @@
+import { getPostsWorkflowRevalidationTags } from "@web/lib/cache-tags";
 import { revalidateTag } from "next/cache";
 
 /**
@@ -6,6 +7,8 @@ import { revalidateTag } from "next/cache";
 export async function revalidatePostsCache(): Promise<void> {
   "use step";
 
-  revalidateTag("posts:list", "max");
+  for (const tag of getPostsWorkflowRevalidationTags()) {
+    revalidateTag(tag, "max");
+  }
   console.log("[WORKFLOW] Posts cache invalidated");
 }

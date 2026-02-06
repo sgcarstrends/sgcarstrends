@@ -154,7 +154,12 @@ describe("coeWorkflow", () => {
     const result = await coeWorkflow({});
 
     expect(revalidateTag).toHaveBeenCalledWith("coe:latest", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("coe:previous", "max");
     expect(revalidateTag).toHaveBeenCalledWith("coe:months", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("coe:results", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("coe:trends", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("coe:bidding-rounds", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("coe:month:2024-01", "max");
     expect(revalidateTag).toHaveBeenCalledWith("coe:year:2024", "max");
     expect(generateBlogContent).toHaveBeenCalled();
     expect(revalidatePostsCache).toHaveBeenCalled();

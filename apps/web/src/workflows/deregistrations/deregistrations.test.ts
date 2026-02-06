@@ -92,6 +92,10 @@ describe("deregistrationsWorkflow", () => {
       "max",
     );
     expect(revalidateTag).toHaveBeenCalledWith("deregistrations:months", "max");
+    expect(revalidateTag).toHaveBeenCalledWith(
+      "deregistrations:year:2024",
+      "max",
+    );
     expect(result.message).toBe(
       "[DEREGISTRATIONS] Data processed and cache revalidated successfully",
     );

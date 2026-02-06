@@ -32,6 +32,8 @@ import type { NextRequest } from "next/server";
  */
 export const POST = async (req: NextRequest) => {
   const token = req.headers.get("x-revalidate-token");
+  const expectedToken = process.env.REVALIDATE_TOKEN;
+  const fallbackToken = process.env.NEXT_PUBLIC_REVALIDATE_TOKEN;
 
   if (!token) {
     return Response.json(
@@ -40,7 +42,20 @@ export const POST = async (req: NextRequest) => {
     );
   }
 
-  if (token !== process.env.NEXT_PUBLIC_REVALIDATE_TOKEN) {
+  if (!expectedToken && !fallbackToken) {
+    return Response.json(
+      { message: "Revalidate token is not configured" },
+      { status: 500 },
+    );
+  }
+
+  if (!expectedToken && fallbackToken) {
+    console.warn(
+      "[REVALIDATE] Using NEXT_PUBLIC_REVALIDATE_TOKEN fallback. Set REVALIDATE_TOKEN instead.",
+    );
+  }
+
+  if (token !== (expectedToken ?? fallbackToken)) {
     return Response.json({ message: "Invalid token" }, { status: 401 });
   }
 

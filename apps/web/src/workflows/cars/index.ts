@@ -3,6 +3,7 @@ import {
   getCarsAggregatedByMonth,
 } from "@sgcarstrends/ai";
 import { redis, tokeniser } from "@sgcarstrends/utils";
+import { getCarsMonthlyRevalidationTags } from "@web/lib/cache-tags";
 import type { UpdaterResult } from "@web/lib/updater";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
@@ -87,7 +88,7 @@ async function getLatestMonth(): Promise<string | null> {
 async function revalidateCarsCache(month: string): Promise<void> {
   "use step";
 
-  const tags = [`cars:month:${month}`, "cars:months"];
+  const tags = getCarsMonthlyRevalidationTags(month);
   for (const tag of tags) {
     revalidateTag(tag, "max");
   }

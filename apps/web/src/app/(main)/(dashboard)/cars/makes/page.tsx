@@ -2,8 +2,11 @@ import type { CarLogo } from "@logos/types";
 import { redis } from "@sgcarstrends/utils";
 import { MakesDashboard } from "@web/app/(main)/(dashboard)/cars/components/makes";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
-import { PageHeader } from "@web/components/page-header";
+import { DashboardPageHeader } from "@web/components/dashboard-page-header";
+import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
+import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { MonthSelector } from "@web/components/shared/month-selector";
+import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -16,12 +19,10 @@ import {
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
-import { createSerializer, type SearchParams } from "nuqs/server";
+import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
-import { loadSearchParams, searchParams } from "./search-params";
-
-const serialize = createSerializer(searchParams);
+import { loadSearchParams } from "./search-params";
 
 const title = "Makes";
 const description =
@@ -39,31 +40,78 @@ export const generateMetadata = async (): Promise<Metadata> => {
   });
 };
 
-const CarMakesPage = async ({ searchParams }: PageProps) => {
-  const { make: selectedMakeSlug, month: parsedMonth } =
-    await loadSearchParams(searchParams);
-  const logos = await redis.get<CarLogo[]>("logos:all");
+const CarMakesPage = ({ searchParams }: PageProps) => {
+  return (
+    <div className="flex flex-col gap-4">
+      <DashboardPageHeader
+        title={
+          <DashboardPageTitle
+            title="Makes"
+            subtitle="List of car makes registered in Singapore."
+          />
+        }
+        meta={
+          <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+            <CarMakesHeaderMeta searchParams={searchParams} />
+          </Suspense>
+        }
+      />
+      <AnimatedSection order={1}>
+        <Suspense fallback={<SkeletonCard className="h-[560px] w-full" />}>
+          <CarMakesContent searchParams={searchParams} />
+        </Suspense>
+      </AnimatedSection>
+    </div>
+  );
+};
 
-  const [allMakes, popularMakes, months, lastUpdated] = await Promise.all([
-    getDistinctMakes(),
-    getPopularMakes(),
+async function CarMakesHeaderMeta({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const [{ month: parsedMonth }, months, lastUpdated] = await Promise.all([
+    loadSearchParams(searchParamsPromise),
     fetchMonthsForCars(),
     redis.get<number>(LAST_UPDATED_CARS_KEY),
   ]);
+  const { wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
 
-  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
-  const latestMonth = months[0];
+  return (
+    <DashboardPageMeta lastUpdated={lastUpdated}>
+      <MonthSelector
+        months={months}
+        latestMonth={months[0]}
+        wasAdjusted={wasAdjusted}
+      />
+    </DashboardPageMeta>
+  );
+}
 
-  const makes = allMakes.map(({ make }) => make);
-  const popular = popularMakes.map(({ make }) => make);
+async function CarMakesContent({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { make: selectedMakeSlug, month: parsedMonth } =
+    await loadSearchParams(searchParamsPromise);
+  const logos = await redis.get<CarLogo[]>("logos:all");
+  const [allMakes, popularMakes, lastUpdated] = await Promise.all([
+    getDistinctMakes(),
+    getPopularMakes(),
+    redis.get<number>(LAST_UPDATED_CARS_KEY),
+  ]);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
 
+  const makes = allMakes.map((item) => item.make);
+  const popular = popularMakes.map((item) => item.make);
   let selectedMakeData = null;
+
   if (selectedMakeSlug) {
     const makeExists = await checkMakeIfExist(selectedMakeSlug);
-
     if (makeExists) {
       const [makeDetails, coeComparison, logo] = await Promise.all([
-        getMakeDetails(selectedMakeSlug, month ?? undefined),
+        getMakeDetails(selectedMakeSlug, month),
         getMakeCoeComparison(selectedMakeSlug),
         redis.get<CarLogo>(`logo:${selectedMakeSlug}`),
       ]);
@@ -98,35 +146,14 @@ const CarMakesPage = async ({ searchParams }: PageProps) => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-4">
-        <AnimatedSection order={0}>
-          <PageHeader
-            title="Makes"
-            subtitle="List of car makes registered in Singapore."
-            lastUpdated={lastUpdated}
-          >
-            <Suspense fallback={null}>
-              <MonthSelector
-                months={months}
-                latestMonth={latestMonth}
-                wasAdjusted={wasAdjusted}
-              />
-            </Suspense>
-          </PageHeader>
-        </AnimatedSection>
-        <AnimatedSection order={1}>
-          <Suspense fallback={null}>
-            <MakesDashboard
-              makes={makes}
-              popularMakes={popular}
-              logos={logos}
-              selectedMakeData={selectedMakeData}
-            />
-          </Suspense>
-        </AnimatedSection>
-      </div>
+      <MakesDashboard
+        makes={makes}
+        popularMakes={popular}
+        logos={logos}
+        selectedMakeData={selectedMakeData}
+      />
     </>
   );
-};
+}
 
 export default CarMakesPage;

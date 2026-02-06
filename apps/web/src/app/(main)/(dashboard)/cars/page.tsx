@@ -3,13 +3,15 @@ import { TopMakes } from "@web/app/(main)/(dashboard)/cars/components/top-makes"
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params";
 import { TrendsCompareButton } from "@web/app/(main)/(dashboard)/cars/trends-compare-button";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
-import { PageHeader } from "@web/components/page-header";
+import { DashboardPageHeader } from "@web/components/dashboard-page-header";
+import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
+import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { MetricCard } from "@web/components/shared/metric-card";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
+import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
-import Typography from "@web/components/typography";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCarsMetadataData } from "@web/lib/cars/page-data";
@@ -57,44 +59,69 @@ export const generateMetadata = async ({
   });
 };
 
-// Wrapper: handles nuqs searchParams (runtime data)
-const Page = async ({ searchParams }: PageProps) => {
-  const { month: parsedMonth } = await loadSearchParams(searchParams);
-  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
-  const months = await fetchMonthsForCars();
-  const latestMonth = months[0];
-
+const Page = ({ searchParams }: PageProps) => {
   return (
-    <CarsPage
-      month={month}
-      months={months}
-      latestMonth={latestMonth}
-      wasAdjusted={wasAdjusted}
-    />
+    <div className="flex flex-col gap-8">
+      <DashboardPageHeader
+        title={
+          <DashboardPageTitle
+            title="Car Registrations"
+            subtitle="Monthly new car registrations in Singapore by fuel type and vehicle type."
+          />
+        }
+        meta={
+          <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+            <CarsPageHeaderMeta searchParams={searchParams} />
+          </Suspense>
+        }
+      />
+
+      <Suspense fallback={<SkeletonCard className="h-[720px] w-full" />}>
+        <CarsPageContent searchParams={searchParams} />
+      </Suspense>
+    </div>
   );
 };
 
 export default Page;
 
-const CarsPage = async ({
-  month,
-  months,
-  latestMonth,
-  wasAdjusted,
+async function CarsPageHeaderMeta({
+  searchParams: searchParamsPromise,
 }: {
-  month: string;
-  months: string[];
-  latestMonth: string;
-  wasAdjusted: boolean;
-}) => {
+  searchParams: Promise<SearchParams>;
+}) {
+  const [{ month: parsedMonth }, months, lastUpdated] = await Promise.all([
+    loadSearchParams(searchParamsPromise),
+    fetchMonthsForCars(),
+    loadLastUpdated("cars"),
+  ]);
+  const { wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
+
+  return (
+    <DashboardPageMeta lastUpdated={lastUpdated}>
+      <MonthSelector
+        months={months}
+        latestMonth={months[0]}
+        wasAdjusted={wasAdjusted}
+      />
+    </DashboardPageMeta>
+  );
+}
+
+async function CarsPageContent({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
+
   const [cars, comparison, topTypes, topMakes] = await Promise.all([
     getCarsData(month),
     getCarsComparison(month),
     getTopTypes(month),
     getTopMakesByFuelType(month),
   ]);
-
-  const lastUpdated = await loadLastUpdated("cars");
 
   if (!cars) {
     return notFound();
@@ -123,85 +150,63 @@ const CarsPage = async ({
       <StructuredData
         data={{ "@context": "https://schema.org", ...generateDatasetSchema() }}
       />
-      <div className="flex flex-col gap-8">
-        <AnimatedSection order={0}>
-          <PageHeader
-            title="Car Registrations"
-            subtitle="Monthly new car registrations in Singapore by fuel type and vehicle type."
-            lastUpdated={lastUpdated}
-          >
-            <Suspense fallback={null}>
-              <MonthSelector
-                months={months}
-                latestMonth={latestMonth}
-                wasAdjusted={wasAdjusted}
-              />
-            </Suspense>
-          </PageHeader>
-        </AnimatedSection>
+      <AnimatedSection order={1}>
+        <PageContext {...PAGE_CONTEXTS.cars} />
+      </AnimatedSection>
 
-        <AnimatedSection order={1}>
-          <PageContext {...PAGE_CONTEXTS.cars} />
-        </AnimatedSection>
-
-        <AnimatedSection order={2}>
+      <AnimatedSection order={2}>
+        <Suspense fallback={<SkeletonCard className="h-12 w-52" />}>
           <UnreleasedFeature>
             <TrendsCompareButton />
           </UnreleasedFeature>
-        </AnimatedSection>
+        </Suspense>
+      </AnimatedSection>
 
-        {/*TODO: Improvise*/}
-        {!cars && (
-          <Typography.H3>
-            No data available for the selected period.
-          </Typography.H3>
-        )}
-        {cars && (
-          <div className="flex flex-col gap-4">
-            <AnimatedSection order={3}>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                <MetricCard
-                  title="Total Registrations"
-                  value={cars.total}
-                  current={cars.total}
-                  previousMonth={comparison.previousMonth.total}
-                />
-                <MetricCard
-                  title={`Top Fuel Type: ${topTypes.topFuelType.name}`}
-                  value={topTypes.topFuelType.total}
-                  current={topTypes.topFuelType.total}
-                  previousMonth={
-                    comparison.previousMonth.fuelType.find(
-                      (f) => f.label === topTypes.topFuelType.name,
-                    )?.count ?? 0
-                  }
-                />
-                <MetricCard
-                  title={`Top Vehicle Type: ${formatVehicleType(topTypes.topVehicleType.name)}`}
-                  value={topTypes.topVehicleType.total}
-                  current={topTypes.topVehicleType.total}
-                  previousMonth={
-                    comparison.previousMonth.vehicleType.find(
-                      (v) => v.label === topTypes.topVehicleType.name,
-                    )?.count ?? 0
-                  }
-                />
-              </div>
-            </AnimatedSection>
-            <AnimatedSection order={4}>
-              <CategoryTabs cars={cars} />
-            </AnimatedSection>
-            <AnimatedSection order={5}>
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between">
-                  <Typography.H2>Top Makes by Fuel Type</Typography.H2>
-                </div>
-                <TopMakes data={topMakes} />
-              </div>
-            </AnimatedSection>
-          </div>
-        )}
+      <div className="flex flex-col gap-4">
+        <AnimatedSection order={3}>
+          <Suspense fallback={<SkeletonCard className="h-[240px] w-full" />}>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <MetricCard
+                title="Total Registrations"
+                value={cars.total}
+                current={cars.total}
+                previousMonth={comparison.previousMonth.total}
+              />
+              <MetricCard
+                title={`Top Fuel Type: ${topTypes.topFuelType.name}`}
+                value={topTypes.topFuelType.total}
+                current={topTypes.topFuelType.total}
+                previousMonth={
+                  comparison.previousMonth.fuelType.find(
+                    (fuelType) => fuelType.label === topTypes.topFuelType.name,
+                  )?.count ?? 0
+                }
+              />
+              <MetricCard
+                title={`Top Vehicle Type: ${formatVehicleType(topTypes.topVehicleType.name)}`}
+                value={topTypes.topVehicleType.total}
+                current={topTypes.topVehicleType.total}
+                previousMonth={
+                  comparison.previousMonth.vehicleType.find(
+                    (vehicleType) =>
+                      vehicleType.label === topTypes.topVehicleType.name,
+                  )?.count ?? 0
+                }
+              />
+            </div>
+          </Suspense>
+        </AnimatedSection>
+        <AnimatedSection order={4}>
+          <Suspense fallback={<SkeletonCard className="h-[420px] w-full" />}>
+            <CategoryTabs cars={cars} />
+          </Suspense>
+        </AnimatedSection>
+        <AnimatedSection order={5}>
+          <Suspense fallback={<SkeletonCard className="h-[320px] w-full" />}>
+            <TopMakes data={topMakes} />
+          </Suspense>
+        </AnimatedSection>
       </div>
     </>
   );
-};
+}

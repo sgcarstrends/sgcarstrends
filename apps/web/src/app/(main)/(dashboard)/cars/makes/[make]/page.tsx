@@ -1,10 +1,13 @@
 import { redis } from "@sgcarstrends/utils";
 import { MakeDetail } from "@web/app/(main)/(dashboard)/cars/components/makes";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
-import { PageHeader } from "@web/components/page-header";
+import { DashboardPageHeader } from "@web/components/dashboard-page-header";
+import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
+import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { MonthSelector } from "@web/components/shared/month-selector";
+import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
-import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { LAST_UPDATED_CARS_KEY } from "@web/config";
 import {
   createPageMetadata,
   createWebPageStructuredData,
@@ -14,11 +17,10 @@ import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import type { Make } from "@web/types";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
-import { createSerializer, type SearchParams } from "nuqs/server";
+import { notFound } from "next/navigation";
+import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
-import { loadSearchParams, searchParams } from "./search-params";
-
-const serialize = createSerializer(searchParams);
+import { loadSearchParams } from "./search-params";
 
 interface PageProps {
   params: Promise<{ make: Make }>;
@@ -49,22 +51,90 @@ export default async function CarMakePage({
   params,
   searchParams: searchParamsPromise,
 }: PageProps) {
-  const { make } = await params;
-  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
+  return (
+    <>
+      <div className="flex flex-col gap-4">
+        <DashboardPageHeader
+          title={
+            <DashboardPageTitle
+              title="Make Overview"
+              subtitle="Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore."
+            />
+          }
+          meta={
+            <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+              <CarMakeHeaderMeta
+                params={params}
+                searchParams={searchParamsPromise}
+              />
+            </Suspense>
+          }
+        />
 
-  const [makeExists, lastUpdated, coeComparison, months] = await Promise.all([
+        <AnimatedSection order={1}>
+          <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+            <CarMakeContent
+              params={params}
+              searchParams={searchParamsPromise}
+            />
+          </Suspense>
+        </AnimatedSection>
+      </div>
+    </>
+  );
+}
+
+async function CarMakeHeaderMeta({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: {
+  params: Promise<{ make: Make }>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const [{ make }, { month: parsedMonth }, months, lastUpdated] =
+    await Promise.all([
+      paramsPromise,
+      loadSearchParams(searchParamsPromise),
+      fetchMonthsForCars(),
+      redis.get<number>(LAST_UPDATED_CARS_KEY),
+    ]);
+  const { wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
+
+  return (
+    <DashboardPageMeta lastUpdated={lastUpdated}>
+      <MonthSelector
+        months={months}
+        latestMonth={months[0]}
+        wasAdjusted={wasAdjusted}
+      />
+    </DashboardPageMeta>
+  );
+}
+
+async function CarMakeContent({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: {
+  params: Promise<{ make: Make }>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const [{ make }, { month: parsedMonth }] = await Promise.all([
+    paramsPromise,
+    loadSearchParams(searchParamsPromise),
+  ]);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
+
+  const [makeExists, coeComparison, makeDetails] = await Promise.all([
     checkMakeIfExist(make),
-    redis.get<number>(LAST_UPDATED_CARS_KEY),
     getMakeCoeComparison(make),
-    fetchMonthsForCars(),
+    getMakeDetails(make, month),
   ]);
 
-  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
-  const latestMonth = months[0];
+  if (!makeExists) {
+    return notFound();
+  }
 
-  const makeDetails = await getMakeDetails(make, month);
-
-  const makeName = makeExists?.make ?? make.toUpperCase();
+  const makeName = makeExists.make;
   const cars = {
     make: makeName,
     total: makeDetails.total,
@@ -82,27 +152,9 @@ export default async function CarMakePage({
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-4">
-        <AnimatedSection order={0}>
-          <PageHeader
-            title={makeName}
-            subtitle={`Historical car registration trends and monthly breakdown for ${makeName} vehicles in Singapore.`}
-            lastUpdated={lastUpdated}
-          >
-            <Suspense fallback={null}>
-              <MonthSelector
-                months={months}
-                latestMonth={latestMonth}
-                wasAdjusted={wasAdjusted}
-              />
-            </Suspense>
-          </PageHeader>
-        </AnimatedSection>
-
-        <AnimatedSection order={1}>
-          <MakeDetail cars={cars} coeComparison={coeComparison} />
-        </AnimatedSection>
-      </div>
+      <Suspense fallback={<SkeletonCard className="h-[560px] w-full" />}>
+        <MakeDetail cars={cars} coeComparison={coeComparison} />
+      </Suspense>
     </>
   );
 }

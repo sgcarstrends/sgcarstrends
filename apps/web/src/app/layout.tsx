@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -79,7 +79,9 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       <body className="bg-background">
         <Providers>
           <NuqsAdapter>
-            <LoadingIndicator />
+            <Suspense fallback={null}>
+              <LoadingIndicator />
+            </Suspense>
             {children}
           </NuqsAdapter>
         </Providers>

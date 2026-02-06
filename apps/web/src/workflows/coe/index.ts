@@ -1,5 +1,6 @@
 import { generateBlogContent, getCoeForMonth } from "@sgcarstrends/ai";
 import { redis, tokeniser } from "@sgcarstrends/utils";
+import { getCoeMonthlyRevalidationTags } from "@web/lib/cache-tags";
 import type { UpdaterResult } from "@web/lib/updater";
 import { getCOELatestRecord } from "@web/queries/coe/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
@@ -44,7 +45,7 @@ export async function coeWorkflow(
   const { month, biddingNo } = record;
   const year = month.split("-")[0];
 
-  await revalidateCoeCache(year);
+  await revalidateCoeCache(month, year);
 
   // Only generate blog post when both bidding exercises are complete
   if (biddingNo !== 2) {
@@ -96,10 +97,10 @@ async function getLatestRecord(): Promise<{
   return record ?? null;
 }
 
-async function revalidateCoeCache(year: string): Promise<void> {
+async function revalidateCoeCache(month: string, year: string): Promise<void> {
   "use step";
 
-  const tags = ["coe:latest", "coe:months", `coe:year:${year}`];
+  const tags = getCoeMonthlyRevalidationTags(month, year);
   for (const tag of tags) {
     revalidateTag(tag, "max");
   }

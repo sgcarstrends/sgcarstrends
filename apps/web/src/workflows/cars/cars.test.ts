@@ -134,6 +134,10 @@ describe("carsWorkflow", () => {
 
     expect(revalidateTag).toHaveBeenCalledWith("cars:month:2024-01", "max");
     expect(revalidateTag).toHaveBeenCalledWith("cars:months", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("cars:makes", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("cars:annual", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("cars:top-makes", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("cars:year:2024", "max");
     expect(generateBlogContent).toHaveBeenCalled();
     expect(revalidatePostsCache).toHaveBeenCalled();
     expect(result.message).toBe(

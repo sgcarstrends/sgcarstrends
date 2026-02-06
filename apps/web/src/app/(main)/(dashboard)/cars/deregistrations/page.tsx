@@ -10,10 +10,13 @@ import {
   loadSearchParams,
 } from "@web/app/(main)/(dashboard)/cars/deregistrations/search-params";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
-import { PageHeader } from "@web/components/page-header";
+import { DashboardPageHeader } from "@web/components/dashboard-page-header";
+import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
+import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
+import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -126,28 +129,70 @@ export const generateMetadata = async ({
   }
 };
 
-const DeregistrationsPage = async ({ searchParams }: PageProps) => {
-  const { month: parsedMonth } = await loadSearchParams(searchParams);
+const DeregistrationsPage = ({ searchParams }: PageProps) => (
+  <div className="flex flex-col gap-8">
+    <DashboardPageHeader
+      title={
+        <DashboardPageTitle
+          title="Vehicle Deregistrations"
+          subtitle="Monthly vehicle deregistrations and scrapping trends in Singapore."
+        />
+      }
+      meta={
+        <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+          <DeregistrationsHeaderMeta searchParams={searchParams} />
+        </Suspense>
+      }
+    />
+    <Suspense fallback={<SkeletonCard className="h-[860px] w-full" />}>
+      <DeregistrationsContent searchParams={searchParams} />
+    </Suspense>
+  </div>
+);
 
+async function DeregistrationsHeaderMeta({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  try {
+    const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
+    const months = await fetchMonthsForDeregistrations();
+    const { wasAdjusted } = await getMonthOrLatest(
+      parsedMonth,
+      "deregistrations",
+    );
+
+    return (
+      <DashboardPageMeta>
+        <MonthSelector
+          months={months}
+          latestMonth={months[0]}
+          wasAdjusted={wasAdjusted}
+        />
+      </DashboardPageMeta>
+    );
+  } catch {
+    return null;
+  }
+}
+
+async function DeregistrationsContent({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
   let months: string[] = [];
   let month: string;
-  let wasAdjusted = false;
 
   try {
     months = await fetchMonthsForDeregistrations();
     const result = await getMonthOrLatest(parsedMonth, "deregistrations");
     month = result.month;
-    wasAdjusted = result.wasAdjusted;
   } catch {
-    return (
-      <div className="flex flex-col gap-4">
-        <PageHeader title="Vehicle Deregistrations" />
-        <Typography.Text>No deregistration data available.</Typography.Text>
-      </div>
-    );
+    return <Typography.Text>No deregistration data available.</Typography.Text>;
   }
-
-  const latestMonth = months[0];
 
   const [categories, allDeregistrations] = await Promise.all([
     getDeregistrationsByCategory(month),
@@ -195,113 +240,100 @@ const DeregistrationsPage = async ({ searchParams }: PageProps) => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-8">
-        {/* Header */}
-        <AnimatedSection order={0}>
-          <PageHeader
-            title="Vehicle Deregistrations"
-            subtitle="Monthly vehicle deregistrations and scrapping trends in Singapore."
-          >
-            <Suspense fallback={null}>
-              <MonthSelector
-                months={months}
-                latestMonth={latestMonth}
-                wasAdjusted={wasAdjusted}
-              />
-            </Suspense>
-          </PageHeader>
-        </AnimatedSection>
+      <AnimatedSection order={1}>
+        <PageContext {...PAGE_CONTEXTS.deregistrations} />
+      </AnimatedSection>
 
-        <AnimatedSection order={1}>
-          <PageContext {...PAGE_CONTEXTS.deregistrations} />
-        </AnimatedSection>
-
-        {/* Interactive Category Chart */}
-        <AnimatedSection order={2}>
+      {/* Interactive Category Chart */}
+      <AnimatedSection order={2}>
+        <Suspense fallback={<SkeletonCard className="h-[520px] w-full" />}>
           <CategoryChart data={allDeregistrations} months={months} />
-        </AnimatedSection>
+        </Suspense>
+      </AnimatedSection>
 
-        {/* Metrics Bar - All in one row */}
-        <AnimatedSection order={3}>
-          <section>
-            <Card className="bg-default-50 p-3">
-              <CardBody className="p-4">
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
-                  {/* Total */}
-                  <div className="col-span-2 border-default-200 sm:col-span-1 sm:border-r sm:pr-4">
-                    <div className="flex flex-col gap-2">
-                      <span className="font-medium text-default-500 text-xs uppercase tracking-wider">
-                        Total
+      {/* Metrics Bar - All in one row */}
+      <AnimatedSection order={3}>
+        <section>
+          <Card className="bg-default-50 p-3">
+            <CardBody className="p-4">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
+                {/* Total */}
+                <div className="col-span-2 border-default-200 sm:col-span-1 sm:border-r sm:pr-4">
+                  <div className="flex flex-col gap-2">
+                    <span className="font-medium text-default-500 text-xs uppercase tracking-wider">
+                      Total
+                    </span>
+                    <div className="font-bold text-3xl text-foreground">
+                      {formatNumber(totalDeregistrations)}
+                    </div>
+                    {previousMonthTotal !== undefined && (
+                      <span
+                        className={`text-xs ${totalDeregistrations > previousTotal ? "text-danger" : "text-success"}`}
+                      >
+                        {totalDeregistrations > previousTotal ? "▲" : "▼"}{" "}
+                        {formatNumber(
+                          Math.abs(totalDeregistrations - previousTotal),
+                        )}
                       </span>
-                      <div className="font-bold text-3xl text-foreground">
-                        {formatNumber(totalDeregistrations)}
-                      </div>
-                      {previousMonthTotal !== undefined && (
-                        <span
-                          className={`text-xs ${totalDeregistrations > previousTotal ? "text-danger" : "text-success"}`}
-                        >
-                          {totalDeregistrations > previousTotal ? "▲" : "▼"}{" "}
-                          {formatNumber(
-                            Math.abs(totalDeregistrations - previousTotal),
-                          )}
-                        </span>
-                      )}
+                    )}
+                  </div>
+                </div>
+
+                {/* Category metrics */}
+                {categoryCardsData.map((cat) => (
+                  <div key={cat.category} className="flex flex-col gap-2">
+                    <span className="truncate font-medium text-default-500 text-xs uppercase tracking-wider">
+                      {cat.category
+                        .replace("Category ", "Cat ")
+                        .replace("Vehicles Exempted From VQS", "VQS")}
+                    </span>
+                    <div className="font-bold text-foreground text-xl">
+                      {formatNumber(cat.total)}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="h-1.5 w-8 rounded-full"
+                        style={{ backgroundColor: cat.colour }}
+                      />
+                      <span className="text-default-400 text-xs">
+                        {((cat.total / totalDeregistrations) * 100).toFixed(0)}%
+                      </span>
                     </div>
                   </div>
+                ))}
+              </div>
+            </CardBody>
+          </Card>
+        </section>
+      </AnimatedSection>
 
-                  {/* Category metrics */}
-                  {categoryCardsData.map((cat) => (
-                    <div key={cat.category} className="flex flex-col gap-2">
-                      <span className="truncate font-medium text-default-500 text-xs uppercase tracking-wider">
-                        {cat.category
-                          .replace("Category ", "Cat ")
-                          .replace("Vehicles Exempted From VQS", "VQS")}
-                      </span>
-                      <div className="font-bold text-foreground text-xl">
-                        {formatNumber(cat.total)}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="h-1.5 w-8 rounded-full"
-                          style={{ backgroundColor: cat.colour }}
-                        />
-                        <span className="text-default-400 text-xs">
-                          {((cat.total / totalDeregistrations) * 100).toFixed(
-                            0,
-                          )}
-                          %
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardBody>
-            </Card>
-          </section>
-        </AnimatedSection>
-
-        {/* Charts - Side by side on desktop */}
-        <AnimatedSection order={4}>
-          <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            {/* Trends Chart - Larger */}
-            <div className="lg:col-span-2">
+      {/* Charts - Side by side on desktop */}
+      <AnimatedSection order={4}>
+        <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+          {/* Trends Chart - Larger */}
+          <div className="lg:col-span-2">
+            <Suspense fallback={<SkeletonCard className="h-[360px] w-full" />}>
               <TrendsChart data={trendsData} />
-            </div>
+            </Suspense>
+          </div>
 
-            {/* Category Breakdown - Compact */}
-            <div className="lg:col-span-1">
+          {/* Category Breakdown - Compact */}
+          <div className="lg:col-span-1">
+            <Suspense fallback={<SkeletonCard className="h-[360px] w-full" />}>
               <CategoryBreakdown data={categoryBreakdownData} />
-            </div>
-          </section>
-        </AnimatedSection>
+            </Suspense>
+          </div>
+        </section>
+      </AnimatedSection>
 
-        {/* Sparklines Table */}
-        <AnimatedSection order={5}>
+      {/* Sparklines Table */}
+      <AnimatedSection order={5}>
+        <Suspense fallback={<SkeletonCard className="h-[300px] w-full" />}>
           <CategoryTrendsTable data={categoryCardsData} />
-        </AnimatedSection>
-      </div>
+        </Suspense>
+      </AnimatedSection>
     </>
   );
-};
+}
 
 export default DeregistrationsPage;

@@ -1,13 +1,17 @@
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
-import { PageHeader } from "@web/components/page-header";
+import { DashboardPageHeader } from "@web/components/dashboard-page-header";
+import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
+import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { MonthSelector } from "@web/components/shared/month-selector";
+import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCarsCategoryPageData } from "@web/lib/cars/page-data";
+import { loadLastUpdated } from "@web/lib/common";
 import { createPageMetadata } from "@web/lib/metadata";
-import { getMonthOrLatest } from "@web/utils/dates/months";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -86,31 +90,76 @@ export const generateMetadata = async ({
   });
 };
 
-const Page = async ({ params, searchParams }: PageProps) => {
-  const { category } = await params;
-  const { month: parsedMonth } = await loadSearchParams(searchParams);
-  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
-
-  return (
-    <CategoryPageContent
-      category={category}
-      month={month}
-      wasAdjusted={wasAdjusted}
+const Page = ({ params, searchParams }: PageProps) => (
+  <div className="flex flex-col gap-8">
+    <DashboardPageHeader
+      title={
+        <DashboardPageTitle
+          title="Category Overview"
+          subtitle="Breakdown of registrations by category for the selected month."
+        />
+      }
+      meta={
+        <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+          <CategoryPageHeaderMeta params={params} searchParams={searchParams} />
+        </Suspense>
+      }
     />
-  );
-};
+
+    <Suspense fallback={<SkeletonCard className="h-[720px] w-full" />}>
+      <CategoryPageContent params={params} searchParams={searchParams} />
+    </Suspense>
+  </div>
+);
 
 export default Page;
 
-const CategoryPageContent = async ({
-  category,
-  month,
-  wasAdjusted,
+async function CategoryPageHeaderMeta({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
 }: {
-  category: string;
-  month: string;
-  wasAdjusted: boolean;
-}) => {
+  params: Promise<{ category: string }>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const [{ category }, { month: parsedMonth }] = await Promise.all([
+    paramsPromise,
+    loadSearchParams(searchParamsPromise),
+  ]);
+  const config = categoryConfigs[category];
+
+  if (!config) {
+    return null;
+  }
+
+  const [{ wasAdjusted }, months, lastUpdated] = await Promise.all([
+    getMonthOrLatest(parsedMonth, "cars"),
+    fetchMonthsForCars(),
+    loadLastUpdated("cars"),
+  ]);
+
+  return (
+    <DashboardPageMeta lastUpdated={lastUpdated}>
+      <MonthSelector
+        months={months}
+        latestMonth={months[0]}
+        wasAdjusted={wasAdjusted}
+      />
+    </DashboardPageMeta>
+  );
+}
+
+async function CategoryPageContent({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: {
+  params: Promise<{ category: string }>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const [{ category }, { month: parsedMonth }] = await Promise.all([
+    paramsPromise,
+    loadSearchParams(searchParamsPromise),
+  ]);
+  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
   const config = categoryConfigs[category];
 
   if (!config) {
@@ -148,26 +197,10 @@ const CategoryPageContent = async ({
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-8">
-        <AnimatedSection order={0}>
-          <PageHeader
-            title={config.title}
-            subtitle={`Breakdown of registrations by ${config.title.toLowerCase()} for the selected month.`}
-            lastUpdated={lastUpdated}
-          >
-            <Suspense fallback={null}>
-              <MonthSelector
-                months={months}
-                latestMonth={months[0]}
-                wasAdjusted={wasAdjusted}
-              />
-            </Suspense>
-          </PageHeader>
-        </AnimatedSection>
-
-        {categoryData && categoryData.length > 0 ? (
-          <>
-            <AnimatedSection order={1}>
+      {categoryData.length > 0 ? (
+        <>
+          <AnimatedSection order={1}>
+            <Suspense fallback={<SkeletonCard className="h-[300px] w-full" />}>
               <div className="grid grid-cols-12 gap-6">
                 <CategorySummaryCard
                   total={cars.total}
@@ -180,8 +213,10 @@ const CategoryPageContent = async ({
                   title={config.tabTitle}
                 />
               </div>
-            </AnimatedSection>
-            <AnimatedSection order={2}>
+            </Suspense>
+          </AnimatedSection>
+          <AnimatedSection order={2}>
+            <Suspense fallback={<SkeletonCard className="h-[620px] w-full" />}>
               <CategoryTabsPanel
                 types={categoryData}
                 month={month}
@@ -189,17 +224,16 @@ const CategoryPageContent = async ({
                 totalRegistrations={cars.total}
                 topMakesByFuelType={topMakesByFuelType}
               />
-            </AnimatedSection>
-          </>
-        ) : (
-          <div className="py-8 text-center">
-            <Typography.Text>
-              No {config.title.toLowerCase()} data available for{" "}
-              {formattedMonth}
-            </Typography.Text>
-          </div>
-        )}
-      </div>
+            </Suspense>
+          </AnimatedSection>
+        </>
+      ) : (
+        <div className="py-8 text-center">
+          <Typography.Text>
+            No {config.title.toLowerCase()} data available for {formattedMonth}
+          </Typography.Text>
+        </div>
+      )}
     </>
   );
-};
+}
