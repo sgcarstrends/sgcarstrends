@@ -1,3 +1,4 @@
+import { isValidMonth } from "@web/utils/validate-month";
 import { carsWorkflow } from "@web/workflows/cars";
 import { coeWorkflow } from "@web/workflows/coe";
 import { deregistrationsWorkflow } from "@web/workflows/deregistrations";
@@ -8,12 +9,23 @@ import { start } from "workflow/api";
  * With Vercel Cron, each workflow is triggered directly via its own endpoint.
  * This endpoint is kept for manual triggering or testing purposes.
  */
-export async function POST() {
+export async function POST(request: Request) {
   try {
+    const body = await request.json().catch(() => ({}));
+
+    if (body.month && !isValidMonth(body.month)) {
+      return Response.json(
+        { success: false, message: "Invalid month format. Expected YYYY-MM." },
+        { status: 400 },
+      );
+    }
+
+    const payload = body.month ? { month: body.month } : {};
+
     const [carsRun, coeRun, deregistrationsRun] = await Promise.all([
-      start(carsWorkflow, [{}]),
-      start(coeWorkflow, [{}]),
-      start(deregistrationsWorkflow, [{}]),
+      start(carsWorkflow, [payload]),
+      start(coeWorkflow, [payload]),
+      start(deregistrationsWorkflow, [payload]),
     ]);
 
     return Response.json({

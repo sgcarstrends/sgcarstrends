@@ -26,7 +26,7 @@ interface CarsWorkflowResult {
  * Processes car registration data and generates blog posts.
  */
 export async function carsWorkflow(
-  _payload: CarsWorkflowPayload,
+  payload: CarsWorkflowPayload,
 ): Promise<CarsWorkflowResult> {
   "use workflow";
 
@@ -41,7 +41,7 @@ export async function carsWorkflow(
     };
   }
 
-  const month = await getLatestMonth();
+  const month = payload.month ?? (await getLatestMonth());
   if (!month) {
     return { message: "[CARS] No car records found" };
   }

@@ -232,6 +232,42 @@ describe("carsWorkflow", () => {
     await expect(carsWorkflow({})).rejects.toThrow("Unknown AI error");
   });
 
+  it("should use payload.month when provided and skip DB query", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
+      { id: "existing-post-id" },
+    ]);
+
+    const result = await carsWorkflow({ month: "2023-06" });
+
+    expect(getCarsLatestMonth).not.toHaveBeenCalled();
+    expect(revalidateTag).toHaveBeenCalledWith("cars:month:2023-06", "max");
+    expect(result.message).toBe(
+      "[CARS] Data processed. Post already exists, skipping social media.",
+    );
+  });
+
+  it("should fall back to DB query when month not provided", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
+      { id: "existing-post-id" },
+    ]);
+
+    const result = await carsWorkflow({});
+
+    expect(getCarsLatestMonth).toHaveBeenCalled();
+    expect(result.message).toBe(
+      "[CARS] Data processed. Post already exists, skipping social media.",
+    );
+  });
+
   it("should handle non-Error objects thrown from AI generation", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 10,

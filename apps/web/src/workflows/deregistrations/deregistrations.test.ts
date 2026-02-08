@@ -101,6 +101,24 @@ describe("deregistrationsWorkflow", () => {
     );
   });
 
+  it("should use payload.month when provided and skip DB query", async () => {
+    vi.mocked(updateDeregistration).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+
+    const result = await deregistrationsWorkflow({ month: "2023-06" });
+
+    expect(getDeregistrationsLatestMonth).not.toHaveBeenCalled();
+    expect(revalidateTag).toHaveBeenCalledWith(
+      "deregistrations:month:2023-06",
+      "max",
+    );
+    expect(result.message).toBe(
+      "[DEREGISTRATIONS] Data processed and cache revalidated successfully",
+    );
+  });
+
   it("should update redis timestamp when records are processed", async () => {
     vi.mocked(updateDeregistration).mockResolvedValueOnce({
       recordsProcessed: 5,

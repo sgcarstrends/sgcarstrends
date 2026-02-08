@@ -267,6 +267,45 @@ describe("coeWorkflow", () => {
     await expect(coeWorkflow({})).rejects.toThrow("Unknown AI error");
   });
 
+  it("should use payload.month and skip biddingNo check", async () => {
+    vi.mocked(updateCoe).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
+      { id: "existing-post-id" },
+    ]);
+
+    const result = await coeWorkflow({ month: "2023-06" });
+
+    expect(getCOELatestRecord).not.toHaveBeenCalled();
+    expect(revalidateTag).toHaveBeenCalledWith("coe:month:2023-06", "max");
+    expect(result.message).toBe(
+      "[COE] Data processed. Post already exists, skipping social media.",
+    );
+  });
+
+  it("should fall back to DB query when month not provided", async () => {
+    vi.mocked(updateCoe).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      details: {},
+    });
+    vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      month: "2024-01",
+      biddingNo: 2,
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
+      { id: "existing-post-id" },
+    ]);
+
+    const result = await coeWorkflow({});
+
+    expect(getCOELatestRecord).toHaveBeenCalled();
+    expect(result.message).toBe(
+      "[COE] Data processed. Post already exists, skipping social media.",
+    );
+  });
+
   it("should handle non-Error objects thrown from AI generation", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,

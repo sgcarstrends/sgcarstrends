@@ -23,7 +23,7 @@ interface CoeWorkflowResult {
  * Processes COE bidding data and generates blog posts.
  */
 export async function coeWorkflow(
-  _payload: CoeWorkflowPayload,
+  payload: CoeWorkflowPayload,
 ): Promise<CoeWorkflowResult> {
   "use workflow";
 
@@ -37,23 +37,32 @@ export async function coeWorkflow(
     };
   }
 
-  const record = await getLatestRecord();
-  if (!record) {
-    return { message: "[COE] No COE records found" };
+  let month: string;
+
+  if (payload.month) {
+    // When month is explicitly provided, use it directly and skip biddingNo guard
+    month = payload.month;
+  } else {
+    const record = await getLatestRecord();
+    if (!record) {
+      return { message: "[COE] No COE records found" };
+    }
+
+    month = record.month;
+
+    // Only generate blog post when both bidding exercises are complete
+    if (record.biddingNo !== 2) {
+      const year = month.split("-")[0];
+      await revalidateCoeCache(month, year);
+      return {
+        message:
+          "[COE] Data processed. Waiting for second bidding exercise to generate post.",
+      };
+    }
   }
 
-  const { month, biddingNo } = record;
   const year = month.split("-")[0];
-
   await revalidateCoeCache(month, year);
-
-  // Only generate blog post when both bidding exercises are complete
-  if (biddingNo !== 2) {
-    return {
-      message:
-        "[COE] Data processed. Waiting for second bidding exercise to generate post.",
-    };
-  }
 
   const existingPost = await checkExistingCoePost(month);
   if (existingPost) {
