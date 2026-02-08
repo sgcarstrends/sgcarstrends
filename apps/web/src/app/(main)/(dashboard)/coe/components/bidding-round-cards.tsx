@@ -1,11 +1,11 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
+import { formatOrdinal } from "@sgcarstrends/utils";
 import { AnimatedNumber } from "@web/components/animated-number";
 import Typography from "@web/components/typography";
 import type { COEResult } from "@web/types";
 import { formatCurrency } from "@web/utils/formatting/format-currency";
 import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
-import { formatOrdinal } from "@web/utils/formatting/format-ordinal";
 import { ArrowDownIcon, ArrowUpIcon, ClockIcon } from "lucide-react";
 
 interface BiddingRoundCardsProps {
