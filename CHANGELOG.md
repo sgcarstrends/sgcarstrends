@@ -1,3 +1,10 @@
+## [4.46.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.45.2...v4.46.0) (2026-02-09)
+
+### Features
+
+* add optional month param to workflows ([372e9ba](https://github.com/sgcarstrends/sgcarstrends/commit/372e9baa1b29f3a43579ab4e97b6d39c29bae804)), closes [#619](https://github.com/sgcarstrends/sgcarstrends/issues/619)
+* add redis sorted sets for makes filtering ([f2dbc1c](https://github.com/sgcarstrends/sgcarstrends/commit/f2dbc1cb52c4c785acbfd1ecb69a245187b4e435)), closes [#480](https://github.com/sgcarstrends/sgcarstrends/issues/480)
+
 ## [4.45.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.45.1...v4.45.2) (2026-02-04)
 
 ### Bug Fixes
