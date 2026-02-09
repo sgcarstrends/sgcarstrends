@@ -7,10 +7,14 @@ export enum FuelType {
   Others = "Others",
 }
 
-export enum VehicleType {
-  MultiPurposeVehicle = "Multi-purpose Vehicle",
-  StationWagon = "Station-wagon",
-}
+export type VehicleType =
+  | "Coupe/ Convertible"
+  | "Hatchback"
+  | "Multi-purpose Vehicle"
+  | "Multi-purpose Vehicle/Station-wagon"
+  | "Sedan"
+  | "Sports Utility Vehicle"
+  | "Station-wagon";
 
 export enum Collection {
   Cars = "cars",
@@ -23,6 +27,13 @@ export enum OrderBy {
   ASC = "asc",
   DESC = "desc",
 }
+
+export type COECategory =
+  | "Category A"
+  | "Category B"
+  | "Category C"
+  | "Category D"
+  | "Category E";
 
 export enum VehicleClass {
   CategoryA = "Category A",
@@ -48,7 +59,7 @@ export interface Car {
 export interface COE {
   month: string;
   biddingNo: number;
-  vehicleClass: string;
+  vehicleClass: COECategory;
   quota: number;
   bidsSuccess: number;
   bidsReceived: number;
@@ -65,18 +76,6 @@ export interface Deregistration {
   month: string;
   category: string;
   number: number;
-}
-
-// Additional interfaces
-export interface UpdateParams {
-  collectionName: string;
-  zipFileName: string;
-  zipUrl: string;
-  keyFields: string[];
-}
-
-export interface LatestMonth {
-  latestMonth: string;
 }
 
 export interface CleanSpecialCharsOptions {

@@ -1,5 +1,5 @@
+import type { SelectCar } from "@sgcarstrends/database";
 import { render, screen } from "@testing-library/react";
-import type { Car } from "@web/types";
 import { MakeDetail } from "./make-detail";
 
 vi.mock("framer-motion", () => ({
@@ -41,7 +41,7 @@ const mockCars = {
       vehicleType: "SUV",
       number: 30,
     },
-  ] as unknown as Car[],
+  ] as unknown as SelectCar[],
 };
 
 const mockCoeComparison = [
