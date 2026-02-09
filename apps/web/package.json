@@ -72,7 +72,6 @@
     "date-fns": "catalog:",
     "drizzle-orm": "catalog:",
     "framer-motion": "^12.5.0",
-    "linkedin-api-client": "npm:@ruchernchong/linkedin-api-client@^0.3.1",
     "lucide-react": "^0.482.0",
     "match-sorter": "^8.1.0",
     "next": "catalog:",

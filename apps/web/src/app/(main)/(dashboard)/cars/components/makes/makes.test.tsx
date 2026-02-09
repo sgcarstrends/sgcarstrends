@@ -1,16 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { AllMakes } from "./all-makes";
 
-vi.mock("nuqs", () => ({
-  useQueryState: () => [null, vi.fn()],
-}));
-
-vi.mock("nuqs/server", () => ({
-  parseAsString: {},
-  createSerializer: () => (path: string) => path,
-  createLoader: () => vi.fn(),
-}));
-
 describe("Makes", () => {
   const germanMakes = ["AUDI", "BMW", "MERCEDES BENZ", "PORSCHE"];
 

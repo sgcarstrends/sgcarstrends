@@ -1,16 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { MakeCard } from "./make-card";
 
-vi.mock("nuqs", () => ({
-  useQueryState: () => [null, vi.fn()],
-}));
-
-vi.mock("nuqs/server", () => ({
-  parseAsString: {},
-  createSerializer: () => (path: string) => path,
-  createLoader: () => vi.fn(),
-}));
-
 describe("MakeCard", () => {
   const germanMakes = ["AUDI", "BMW", "MERCEDES BENZ", "VOLKSWAGEN"];
   const mockMake = germanMakes[1];

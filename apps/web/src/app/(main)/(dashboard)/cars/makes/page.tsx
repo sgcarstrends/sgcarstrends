@@ -10,13 +10,7 @@ import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
-import {
-  checkMakeIfExist,
-  getDistinctMakes,
-  getMakeDetails,
-  getPopularMakes,
-} from "@web/queries/cars";
-import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
+import { getDistinctMakes, getPopularMakes } from "@web/queries/cars";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -58,7 +52,7 @@ const CarMakesPage = ({ searchParams }: PageProps) => {
       />
       <AnimatedSection order={1}>
         <Suspense fallback={<SkeletonCard className="h-[560px] w-full" />}>
-          <CarMakesContent searchParams={searchParams} />
+          <CarMakesContent />
         </Suspense>
       </AnimatedSection>
     </div>
@@ -88,47 +82,15 @@ async function CarMakesHeaderMeta({
   );
 }
 
-async function CarMakesContent({
-  searchParams: searchParamsPromise,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const { make: selectedMakeSlug, month: parsedMonth } =
-    await loadSearchParams(searchParamsPromise);
+async function CarMakesContent() {
   const logos = await redis.get<CarLogo[]>("logos:all");
-  const [allMakes, popularMakes, lastUpdated] = await Promise.all([
+  const [allMakes, popularMakes] = await Promise.all([
     getDistinctMakes(),
     getPopularMakes(),
-    redis.get<number>(LAST_UPDATED_CARS_KEY),
   ]);
-  const { month } = await getMonthOrLatest(parsedMonth, "cars");
 
   const makes = allMakes.map((item) => item.make);
   const popular = popularMakes.map((item) => item.make);
-  let selectedMakeData = null;
-
-  if (selectedMakeSlug) {
-    const makeExists = await checkMakeIfExist(selectedMakeSlug);
-    if (makeExists) {
-      const [makeDetails, coeComparison, logo] = await Promise.all([
-        getMakeDetails(selectedMakeSlug, month),
-        getMakeCoeComparison(selectedMakeSlug),
-        redis.get<CarLogo>(`logo:${selectedMakeSlug}`),
-      ]);
-      const makeName = makeExists.make;
-      selectedMakeData = {
-        make: makeName,
-        cars: {
-          make: makeName,
-          total: makeDetails.total,
-          data: makeDetails.data,
-        },
-        lastUpdated,
-        logo,
-        coeComparison,
-      };
-    }
-  }
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -146,12 +108,7 @@ async function CarMakesContent({
   return (
     <>
       <StructuredData data={structuredData} />
-      <MakesDashboard
-        makes={makes}
-        popularMakes={popular}
-        logos={logos}
-        selectedMakeData={selectedMakeData}
-      />
+      <MakesDashboard makes={makes} popularMakes={popular} logos={logos} />
     </>
   );
 }
