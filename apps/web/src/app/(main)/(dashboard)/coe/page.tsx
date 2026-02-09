@@ -1,30 +1,19 @@
-import { Button } from "@heroui/button";
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
-import { Progress } from "@heroui/progress";
-import { formatDateToMonthYear } from "@sgcarstrends/utils";
-import { KeyInsights } from "@web/app/(main)/(dashboard)/coe/components/key-insights";
-import { PremiumRangeCard } from "@web/app/(main)/(dashboard)/coe/components/premium-range-card";
+import { FunFactsPqpSection } from "@web/app/(main)/(dashboard)/coe/components/fun-facts-pqp-section";
+import { KeyInsightsSection } from "@web/app/(main)/(dashboard)/coe/components/key-insights-section";
+import { LatestResultsSection } from "@web/app/(main)/(dashboard)/coe/components/latest-results-section";
+import { PremiumRangesSection } from "@web/app/(main)/(dashboard)/coe/components/premium-ranges-section";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
-import { AnimatedNumber } from "@web/components/animated-number";
-import { LatestCoePremium } from "@web/components/coe/latest-coe-premium";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { SkeletonCard } from "@web/components/shared/skeleton";
-import { StructuredData } from "@web/components/structured-data";
-import Typography from "@web/components/typography";
-import { SITE_TITLE, SITE_URL } from "@web/config";
-import { loadCOEOverviewPageData } from "@web/lib/coe/page-data";
 import { loadLastUpdated } from "@web/lib/common";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getLatestCoeResults } from "@web/queries/coe";
-import { formatPercent } from "@web/utils/charts";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Suspense } from "react";
-import type { WebPage, WithContext } from "schema-dts";
 
 const title = "COE Overview";
 const description =
@@ -68,9 +57,25 @@ const COEOverviewPage = () => {
         }
       />
 
-      <Suspense fallback={<SkeletonCard className="h-[980px] w-full" />}>
-        <COEOverviewContent />
-      </Suspense>
+      <AnimatedSection order={1}>
+        <PageContext {...PAGE_CONTEXTS.coe} />
+      </AnimatedSection>
+
+      <AnimatedSection order={2}>
+        <LatestResultsSection />
+      </AnimatedSection>
+
+      <AnimatedSection order={3}>
+        <KeyInsightsSection />
+      </AnimatedSection>
+
+      <AnimatedSection order={4}>
+        <FunFactsPqpSection />
+      </AnimatedSection>
+
+      <AnimatedSection order={5}>
+        <PremiumRangesSection />
+      </AnimatedSection>
     </div>
   );
 };
@@ -79,165 +84,6 @@ async function COEOverviewHeaderMeta() {
   const lastUpdated = await loadLastUpdated("coe");
 
   return <DashboardPageMeta lastUpdated={lastUpdated} />;
-}
-
-async function COEOverviewContent() {
-  const {
-    coeTrends,
-    latestResults,
-    pqpRates,
-    premiumRangeStats,
-    movers,
-    keyInsights,
-  } = await loadCOEOverviewPageData();
-
-  const structuredData: WithContext<WebPage> = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: title,
-    description,
-    url: `${SITE_URL}/coe`,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_TITLE,
-      url: SITE_URL,
-    },
-  };
-
-  // Get latest PQP rates
-  const latestPqpData = Object.entries(pqpRates)[0];
-  const latestPqpMonth = latestPqpData?.[0] ?? "";
-  const latestPqpRates = latestPqpData?.[1] ?? {};
-
-  // Calculate Category A premium as percentage of Category B
-  const categoryA =
-    latestResults.find((result) => result.vehicleClass === "Category A")
-      ?.premium || 0;
-  const categoryB =
-    latestResults.find((result) => result.vehicleClass === "Category B")
-      ?.premium || 0;
-  const categoryAPercentage = categoryB > 0 ? categoryA / categoryB : 0;
-
-  return (
-    <>
-      <StructuredData data={structuredData} />
-      <AnimatedSection order={1}>
-        <PageContext {...PAGE_CONTEXTS.coe} />
-      </AnimatedSection>
-
-      <AnimatedSection order={2}>
-        <div className="flex flex-col gap-4">
-          <Typography.H2>Latest COE Results</Typography.H2>
-
-          {/* ROW 1: Hero Metrics - 5 Category Cards */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            <Suspense fallback={<SkeletonCard className="h-[240px] w-full" />}>
-              <LatestCoePremium results={latestResults} trends={coeTrends} />
-            </Suspense>
-          </div>
-        </div>
-      </AnimatedSection>
-
-      {/* ROW 2: Key Insights */}
-      {keyInsights.length > 0 && (
-        <AnimatedSection order={3}>
-          <KeyInsights insights={keyInsights} />
-        </AnimatedSection>
-      )}
-
-      {/* ROW 3: Bento Grid - Fun Facts + PQP Rates side by side */}
-      <AnimatedSection order={4}>
-        <Suspense fallback={<SkeletonCard className="h-[340px] w-full" />}>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {/* Fun Facts Card */}
-            <Card className="rounded-2xl p-3">
-              <CardHeader className="flex flex-col items-start gap-2">
-                <Typography.H4>Category A vs B</Typography.H4>
-                <Typography.TextSm>
-                  Will the premium quota of Category A ever surpass Category B?
-                </Typography.TextSm>
-              </CardHeader>
-              <CardBody>
-                <div className="flex flex-col gap-4">
-                  <div className="flex flex-col gap-2">
-                    <Progress value={categoryAPercentage * 100} size="lg" />
-                    <div className="text-center">
-                      <span className="font-bold text-2xl text-primary tabular-nums">
-                        {formatPercent(categoryAPercentage, {
-                          maximumFractionDigits: 1,
-                        })}
-                      </span>
-                      <Typography.TextSm className="text-default-500">
-                        Category A is{" "}
-                        {formatPercent(categoryAPercentage, {
-                          maximumFractionDigits: 0,
-                        })}{" "}
-                        of Category B
-                      </Typography.TextSm>
-                    </div>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-
-            {/* Latest PQP Rates Card */}
-            <Card className="rounded-2xl p-3">
-              <CardHeader className="flex flex-col items-start gap-2">
-                <Typography.H4>Latest PQP Rates</Typography.H4>
-                <Typography.TextSm>
-                  {latestPqpMonth &&
-                    `Prevailing Quota Premium for ${formatDateToMonthYear(latestPqpMonth)}`}
-                </Typography.TextSm>
-              </CardHeader>
-              <CardBody>
-                <div className="grid grid-cols-2 gap-4">
-                  {Object.entries(latestPqpRates)
-                    .filter(([key]) =>
-                      [
-                        "Category A",
-                        "Category B",
-                        "Category C",
-                        "Category D",
-                      ].includes(key),
-                    )
-                    .map(([category, rate]) => (
-                      <div key={category} className="flex flex-col gap-1">
-                        <Typography.TextSm className="text-default-500">
-                          {category}
-                        </Typography.TextSm>
-                        <span className="font-bold text-primary text-xl tabular-nums">
-                          <AnimatedNumber value={rate} format="currency" />
-                        </span>
-                      </div>
-                    ))}
-                </div>
-              </CardBody>
-              <CardFooter className="flex-col items-start gap-2">
-                <Typography.Caption>
-                  Note: There is no PQP for Category E
-                </Typography.Caption>
-                <Link href="/coe/pqp" className="w-full">
-                  <Button color="primary" className="w-full rounded-full">
-                    View All PQP Rates
-                  </Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          </div>
-        </Suspense>
-      </AnimatedSection>
-
-      {/* ROW 4: Premium Ranges - 5 Column Grid */}
-      <AnimatedSection order={5}>
-        <div className="flex flex-col gap-4">
-          <Typography.H2>Premium Ranges</Typography.H2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-            <PremiumRangeCard stats={premiumRangeStats} />
-          </div>
-        </div>
-      </AnimatedSection>
-    </>
-  );
 }
 
 export default COEOverviewPage;

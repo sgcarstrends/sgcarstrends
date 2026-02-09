@@ -1,23 +1,11 @@
-import type { CarLogo } from "@logos/types";
-import { redis } from "@sgcarstrends/utils";
-import { MakesDashboard } from "@web/app/(main)/(dashboard)/cars/components/makes";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
-import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
-import { MonthSelector } from "@web/components/shared/month-selector";
-import { SkeletonCard } from "@web/components/shared/skeleton";
-import { StructuredData } from "@web/components/structured-data";
-import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
-import { getPopularMakes } from "@web/queries/cars";
-import { getGroupedMakes } from "@web/queries/cars/makes";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
-import { Suspense } from "react";
-import type { WebPage, WithContext } from "schema-dts";
-import { loadSearchParams } from "./search-params";
+import { MakesContentSection } from "./components/makes-content-section";
+import { MakesHeaderMeta } from "./components/makes-header-meta";
 
 const title = "Makes";
 const description =
@@ -45,76 +33,13 @@ const CarMakesPage = ({ searchParams }: PageProps) => {
             subtitle="List of car makes registered in Singapore."
           />
         }
-        meta={
-          <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
-            <CarMakesHeaderMeta searchParams={searchParams} />
-          </Suspense>
-        }
+        meta={<MakesHeaderMeta searchParams={searchParams} />}
       />
       <AnimatedSection order={1}>
-        <Suspense fallback={<SkeletonCard className="h-[560px] w-full" />}>
-          <CarMakesContent />
-        </Suspense>
+        <MakesContentSection />
       </AnimatedSection>
     </div>
   );
 };
-
-async function CarMakesHeaderMeta({
-  searchParams: searchParamsPromise,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const [{ month: parsedMonth }, months, lastUpdated] = await Promise.all([
-    loadSearchParams(searchParamsPromise),
-    fetchMonthsForCars(),
-    redis.get<number>(LAST_UPDATED_CARS_KEY),
-  ]);
-  const { wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
-
-  return (
-    <DashboardPageMeta lastUpdated={lastUpdated}>
-      <MonthSelector
-        months={months}
-        latestMonth={months[0]}
-        wasAdjusted={wasAdjusted}
-      />
-    </DashboardPageMeta>
-  );
-}
-
-async function CarMakesContent() {
-  const logos = await redis.get<CarLogo[]>("logos:all");
-  const [{ sortedMakes, groupedMakes, letters }, popularMakes] =
-    await Promise.all([getGroupedMakes(), getPopularMakes()]);
-
-  const popular = popularMakes.map((item) => item.make);
-
-  const structuredData: WithContext<WebPage> = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: title,
-    description,
-    url: `${SITE_URL}/cars/makes`,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_TITLE,
-      url: SITE_URL,
-    },
-  };
-
-  return (
-    <>
-      <StructuredData data={structuredData} />
-      <MakesDashboard
-        sortedMakes={sortedMakes}
-        groupedMakes={groupedMakes}
-        letters={letters}
-        popularMakes={popular}
-        logos={logos}
-      />
-    </>
-  );
-}
 
 export default CarMakesPage;

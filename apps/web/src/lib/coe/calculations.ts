@@ -274,7 +274,11 @@ export const calculatePremiumRangeStats = (
   allResults: COEResult[],
   categories: string[],
 ): PremiumRangeStats[] => {
-  const currentYear = new Date().getFullYear().toString();
+  // Derive current year from the latest result to avoid new Date() in prerender context
+  const latestMonth = allResults.at(-1)?.month;
+  const currentYear = latestMonth
+    ? latestMonth.slice(0, 4)
+    : new Date().getFullYear().toString();
 
   return categories
     .map((category) => {
