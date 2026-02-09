@@ -1,3 +1,4 @@
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import { CategoryTabs } from "@web/app/(main)/(dashboard)/cars/category-tabs";
 import { TopMakes } from "@web/app/(main)/(dashboard)/cars/components/top-makes";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params";
@@ -24,7 +25,6 @@ import {
   getTopTypes,
 } from "@web/queries";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { formatVehicleType } from "@web/utils/formatting/format-vehicle-type";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";

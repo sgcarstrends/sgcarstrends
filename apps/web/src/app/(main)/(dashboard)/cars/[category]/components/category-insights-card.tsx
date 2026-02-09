@@ -1,7 +1,7 @@
 import { Chip } from "@heroui/chip";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import Typography from "@web/components/typography";
 import { formatPercentage } from "@web/utils/charts";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { Award, Layers, PieChart } from "lucide-react";
 
 interface CategoryInsightsCardProps {

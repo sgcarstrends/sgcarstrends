@@ -9,6 +9,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
   type Period,
   periods,
@@ -20,7 +21,6 @@ import {
 } from "@web/components/charts/shared";
 import Typography from "@web/components/typography";
 import type { COEBiddingResult } from "@web/types";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { CalendarIcon } from "lucide-react";
 import {
   parseAsArrayOf,

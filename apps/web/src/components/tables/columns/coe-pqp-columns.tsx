@@ -1,8 +1,8 @@
 "use client";
 
+import { formatCurrency } from "@sgcarstrends/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Pqp } from "@web/types/coe";
-import { formatCurrency } from "@web/utils/formatting/format-currency";
 
 const createCategoryColumn = (category: string): ColumnDef<Pqp.TableRow> => ({
   accessorKey: category,

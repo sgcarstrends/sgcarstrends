@@ -13,7 +13,7 @@ export const MONTHS: string[] = [
   "Dec",
 ] as const;
 
-export const formatDateToMonthYear = (dateString: string): string => {
+export function formatDateToMonthYear(dateString: string): string {
   // Handle undefined or empty input
   if (!dateString) {
     return "";
@@ -22,4 +22,4 @@ export const formatDateToMonthYear = (dateString: string): string => {
   // After splitting the year and month, convert them to numbers right away
   const [year, month] = dateString.split("-").map(Number);
   return `${MONTHS[month - 1]} ${year}`;
-};
+}

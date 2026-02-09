@@ -1,6 +1,7 @@
 import { Button } from "@heroui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Progress } from "@heroui/progress";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import { KeyInsights } from "@web/app/(main)/(dashboard)/coe/components/key-insights";
 import { PremiumRangeCard } from "@web/app/(main)/(dashboard)/coe/components/premium-range-card";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
@@ -20,7 +21,6 @@ import { loadLastUpdated } from "@web/lib/common";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getLatestCoeResults } from "@web/queries/coe";
 import { formatPercent } from "@web/utils/charts";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";

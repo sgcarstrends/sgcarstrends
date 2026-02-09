@@ -1,3 +1,4 @@
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
@@ -12,7 +13,6 @@ import { loadCarsCategoryPageData } from "@web/lib/cars/page-data";
 import { loadLastUpdated } from "@web/lib/common";
 import { createPageMetadata } from "@web/lib/metadata";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";

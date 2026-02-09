@@ -1,7 +1,4 @@
-import {
-  formatCurrency,
-  formatNumber,
-} from "@web/utils/formatting/format-currency";
+import { formatCurrency, formatNumber } from "@sgcarstrends/utils";
 
 export { formatNumber };
 

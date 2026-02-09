@@ -1,6 +1,6 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import { slugify } from "@sgcarstrends/utils";
+import { formatDateToMonthYear, slugify } from "@sgcarstrends/utils";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/[category]/[type]/search-params";
 import { CarOverviewTrends } from "@web/app/(main)/(dashboard)/cars/components/overview-trends";
 import { AnimatedNumber } from "@web/components/animated-number";
@@ -22,7 +22,6 @@ import {
   getDistinctVehicleTypes,
 } from "@web/queries/cars";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";

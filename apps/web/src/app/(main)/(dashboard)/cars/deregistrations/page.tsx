@@ -1,5 +1,6 @@
 import { Card, CardBody } from "@heroui/card";
 import type { SelectDeregistration } from "@sgcarstrends/database";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import { CategoryBreakdown } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/category-breakdown";
 import { CategoryChart } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/category-chart";
 import { CategoryTrendsTable } from "@web/app/(main)/(dashboard)/cars/deregistrations/components/category-trends-table";
@@ -31,7 +32,6 @@ import {
   fetchMonthsForDeregistrations,
   getMonthOrLatest,
 } from "@web/utils/dates/months";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import type { Metadata } from "next";
 import { createSerializer, type SearchParams } from "nuqs/server";
 import { Suspense } from "react";

@@ -8,6 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
   type CategoryWithPercentage,
   toPercentageDistribution,
@@ -15,7 +16,6 @@ import {
 import { deregistrationsSearchParams } from "@web/app/(main)/(dashboard)/cars/deregistrations/search-params";
 import Typography from "@web/components/typography";
 import { formatNumber, formatPercentage } from "@web/utils/charts";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { useQueryStates } from "nuqs";
 import type React from "react";
 import { useMemo } from "react";
