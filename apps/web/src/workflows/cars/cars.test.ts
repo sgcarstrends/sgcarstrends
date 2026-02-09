@@ -26,6 +26,8 @@ vi.mock("@web/queries/posts", () => ({
 
 vi.mock("next/cache", () => ({
   revalidateTag: vi.fn(),
+  cacheLife: vi.fn(),
+  cacheTag: vi.fn(),
 }));
 
 vi.mock("workflow", () => ({
@@ -50,6 +52,10 @@ vi.mock("workflow", () => ({
 
 vi.mock("@web/workflows/shared", () => ({
   revalidatePostsCache: vi.fn(),
+}));
+
+vi.mock("@web/lib/redis/makes", () => ({
+  populateMakesSortedSet: vi.fn().mockResolvedValue(0),
 }));
 
 import {

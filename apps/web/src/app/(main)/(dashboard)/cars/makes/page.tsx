@@ -10,7 +10,8 @@ import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
-import { getDistinctMakes, getPopularMakes } from "@web/queries/cars";
+import { getPopularMakes } from "@web/queries/cars";
+import { getGroupedMakes } from "@web/queries/cars/makes";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -84,12 +85,9 @@ async function CarMakesHeaderMeta({
 
 async function CarMakesContent() {
   const logos = await redis.get<CarLogo[]>("logos:all");
-  const [allMakes, popularMakes] = await Promise.all([
-    getDistinctMakes(),
-    getPopularMakes(),
-  ]);
+  const [{ sortedMakes, groupedMakes, letters }, popularMakes] =
+    await Promise.all([getGroupedMakes(), getPopularMakes()]);
 
-  const makes = allMakes.map((item) => item.make);
   const popular = popularMakes.map((item) => item.make);
 
   const structuredData: WithContext<WebPage> = {
@@ -108,7 +106,13 @@ async function CarMakesContent() {
   return (
     <>
       <StructuredData data={structuredData} />
-      <MakesDashboard makes={makes} popularMakes={popular} logos={logos} />
+      <MakesDashboard
+        sortedMakes={sortedMakes}
+        groupedMakes={groupedMakes}
+        letters={letters}
+        popularMakes={popular}
+        logos={logos}
+      />
     </>
   );
 }

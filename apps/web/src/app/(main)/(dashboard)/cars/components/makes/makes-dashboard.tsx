@@ -11,13 +11,17 @@ import type { Make } from "@web/types";
 import { useMemo } from "react";
 
 interface MakesDashboardProps {
-  makes: Make[];
+  sortedMakes: Make[];
+  groupedMakes: Record<string, Make[]>;
+  letters: string[];
   popularMakes: Make[];
   logos?: CarLogo[] | null;
 }
 
 export function MakesDashboard({
-  makes,
+  sortedMakes,
+  groupedMakes,
+  letters,
   popularMakes,
   logos = [],
 }: MakesDashboardProps) {
@@ -34,12 +38,13 @@ export function MakesDashboard({
 
   return (
     <div className="flex flex-col gap-4">
-      <MakeSearch makes={makes} />
+      <MakeSearch makes={sortedMakes} />
       <PopularMakes makes={popularMakes} logoUrlMap={logoUrlMap} />
       <AllMakes
         title="All Makes"
-        makes={makes}
-        showLetterFilter
+        sortedMakes={sortedMakes}
+        groupedMakes={groupedMakes}
+        letters={letters}
         logoUrlMap={logoUrlMap}
       />
     </div>

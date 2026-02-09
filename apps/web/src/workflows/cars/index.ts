@@ -4,6 +4,7 @@ import {
 } from "@sgcarstrends/ai";
 import { redis, tokeniser } from "@sgcarstrends/utils";
 import { getCarsMonthlyRevalidationTags } from "@web/lib/cache-tags";
+import { populateMakesSortedSet } from "@web/lib/redis/makes";
 import type { UpdaterResult } from "@web/lib/updater";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
@@ -40,6 +41,8 @@ export async function carsWorkflow(
       message: "No car records processed. Skipped publishing to social media.",
     };
   }
+
+  await syncMakesSortedSet();
 
   const month = payload.month ?? (await getLatestMonth());
   if (!month) {
@@ -79,6 +82,11 @@ async function processCarsData(): Promise<UpdaterResult> {
   return result;
 }
 processCarsData.maxRetries = 3;
+
+async function syncMakesSortedSet(): Promise<void> {
+  "use step";
+  await populateMakesSortedSet();
+}
 
 async function getLatestMonth(): Promise<string | null> {
   "use step";
