@@ -1,9 +1,11 @@
+import { slugify } from "@sgcarstrends/utils";
 import { SITE_LINKS, SITE_URL } from "@web/config";
+import { getDistinctMakes } from "@web/queries/cars";
 import { getAllPosts } from "@web/queries/posts";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await getAllPosts();
+  const [posts, makes] = await Promise.all([getAllPosts(), getDistinctMakes()]);
 
   return [
     {
@@ -26,6 +28,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
     },
+    {
+      url: `${SITE_URL}/cars/makes`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    ...makes.map(({ make }) => ({
+      url: `${SITE_URL}/cars/makes/${slugify(make)}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    })),
     {
       url: `${SITE_URL}/faq`,
       lastModified: new Date(),
