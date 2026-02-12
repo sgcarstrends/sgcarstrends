@@ -1,3 +1,11 @@
+## [4.47.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.46.0...v4.47.0) (2026-02-12)
+
+### Features
+
+* add Claude Code agents, skills, and hooks ([80c619a](https://github.com/sgcarstrends/sgcarstrends/commit/80c619a1dae26d6332530d755d7f9249a42ae71c))
+* add makes pages to sitemap ([eceb254](https://github.com/sgcarstrends/sgcarstrends/commit/eceb2544ebca39dcc71ab776dfc396972a767c6d))
+* component-level data fetching with PPR ([4447746](https://github.com/sgcarstrends/sgcarstrends/commit/444774650053fd2ccbf912f1dd0ed0c400ee08b8)), closes [#629](https://github.com/sgcarstrends/sgcarstrends/issues/629)
+
 ## [4.46.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.45.2...v4.46.0) (2026-02-09)
 
 ### Features
