@@ -41,8 +41,10 @@
 
 # Claude
 **/.claude/*
+!**/.claude/agents/
 !**/.claude/skills/
 !**/.claude/commands/
+!**/.claude/settings.json
 
 # Turborepo
 .turbo
