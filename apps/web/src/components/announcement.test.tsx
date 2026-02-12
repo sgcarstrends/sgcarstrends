@@ -47,4 +47,13 @@ describe("Announcement", () => {
     const { container } = render(<Announcement />);
     expect(container).toBeEmptyDOMElement();
   });
+
+  it("should render nothing when no path matches and no global fallback exists", () => {
+    announcementsFixture.push({ content: "Cars update", paths: ["/cars"] });
+    mockPathname = "/coe";
+
+    const { container } = render(<Announcement />);
+
+    expect(container).toBeEmptyDOMElement();
+  });
 });
