@@ -75,7 +75,7 @@
     "lucide-react": "^0.482.0",
     "match-sorter": "^8.1.0",
     "next": "catalog:",
-    "next-mdx-remote": "^5.0.0",
+    "next-mdx-remote": "^6.0.0",
     "nuqs": "^2.8.5",
     "papaparse": "^5.5.3",
     "react": "catalog:",
