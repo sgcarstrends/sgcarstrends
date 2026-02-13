@@ -1,3 +1,9 @@
+## [4.47.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.47.0...v4.47.1) (2026-02-13)
+
+### Bug Fixes
+
+* **web:** upgrade next-mdx-remote to v6.0.0 ([8b25833](https://github.com/sgcarstrends/sgcarstrends/commit/8b25833d06058e0e2592b969e9a2cbbd39e27ce9))
+
 ## [4.47.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.46.0...v4.47.0) (2026-02-12)
 
 ### Features
