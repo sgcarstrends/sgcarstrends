@@ -24,6 +24,11 @@ interface AnnualRegistrationsChartProps {
   availableYears: { year: number }[];
 }
 
+interface YearOption {
+  key: string;
+  label: string;
+}
+
 export function AnnualRegistrationsChart({
   data,
   availableYears,
@@ -38,6 +43,10 @@ export function AnnualRegistrationsChart({
 
   const numberFormatter = new Intl.NumberFormat("en-SG");
   const selectedYear = data.find((item) => item.year === effectiveYear);
+  const yearOptions: YearOption[] = availableYears.map((item) => ({
+    key: String(item.year),
+    label: String(item.year),
+  }));
 
   const chartConfig = {
     total: { label: "Registrations", color: "var(--primary)" },
@@ -71,12 +80,9 @@ export function AnnualRegistrationsChart({
           className="max-w-xs"
           selectedKey={String(effectiveYear)}
           onSelectionChange={handleSelectionChange}
-          defaultItems={availableYears.map((item) => ({
-            key: String(item.year),
-            label: String(item.year),
-          }))}
+          defaultItems={yearOptions}
         >
-          {(item) => {
+          {(item: YearOption) => {
             return (
               <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>
             );

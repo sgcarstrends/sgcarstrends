@@ -26,6 +26,11 @@ interface CategoryChartProps {
   months: string[];
 }
 
+interface MonthOption {
+  key: string;
+  label: string;
+}
+
 export function CategoryChart({ data, months }: CategoryChartProps) {
   const [{ month, category }, setSearchParams] = useQueryStates(
     deregistrationsSearchParams,
@@ -57,6 +62,10 @@ export function CategoryChart({ data, months }: CategoryChartProps) {
     (sum, item) => sum + item.total,
     0,
   );
+  const monthOptions: MonthOption[] = months.map((item) => ({
+    key: item,
+    label: formatDateToMonthYear(item),
+  }));
 
   const chartConfig = {
     total: { label: "Deregistrations", color: "hsl(var(--heroui-primary))" },
@@ -96,12 +105,9 @@ export function CategoryChart({ data, months }: CategoryChartProps) {
           className="max-w-xs"
           selectedKey={currentMonth}
           onSelectionChange={handleMonthChange}
-          defaultItems={months.map((month) => ({
-            key: month,
-            label: formatDateToMonthYear(month),
-          }))}
+          defaultItems={monthOptions}
         >
-          {(item) => (
+          {(item: MonthOption) => (
             <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>
           )}
         </Autocomplete>
