@@ -1,3 +1,9 @@
+## [4.47.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.47.1...v4.47.2) (2026-02-13)
+
+### Bug Fixes
+
+* **web:** type autocomplete items ([e73c1ff](https://github.com/sgcarstrends/sgcarstrends/commit/e73c1ff3e18a10b644813b3710f8e969049ef888))
+
 ## [4.47.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.47.0...v4.47.1) (2026-02-13)
 
 ### Bug Fixes
