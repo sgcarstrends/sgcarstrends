@@ -1,3 +1,13 @@
+## [4.48.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.47.2...v4.48.0) (2026-02-14)
+
+### Features
+
+* **web:** add PARF calculator page ([8d70f09](https://github.com/sgcarstrends/sgcarstrends/commit/8d70f096a4aef32353eda22fe38c56340bee93ab)), closes [#684](https://github.com/sgcarstrends/sgcarstrends/issues/684)
+
+### Bug Fixes
+
+* **web:** improve disclaimer text contrast ([9cc568a](https://github.com/sgcarstrends/sgcarstrends/commit/9cc568ae9202cf8126b02828eea0c8b660fcafff))
+
 ## [4.47.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.47.1...v4.47.2) (2026-02-13)
 
 ### Bug Fixes

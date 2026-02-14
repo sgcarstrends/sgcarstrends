@@ -1,6 +1,6 @@
 {
   "name": "@sgcarstrends/docs",
-  "version": "4.47.2",
+  "version": "4.48.0",
   "private": true,
   "scripts": {
     "build": "next build",
