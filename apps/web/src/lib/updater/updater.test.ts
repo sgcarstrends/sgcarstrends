@@ -21,8 +21,9 @@ vi.mock("@web/utils/checksum");
 vi.mock("@neondatabase/serverless", () => ({
   neon: vi.fn(() => vi.fn()),
 }));
-vi.mock(import("@sgcarstrends/database"), async (importOriginal) => {
-  const actual = await importOriginal();
+vi.mock("@sgcarstrends/database", async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import("@sgcarstrends/database")>();
   return {
     ...actual,
     getTableName: vi.fn(() => "test_table"),

@@ -70,7 +70,9 @@ describe("coeWorkflow", () => {
   it("should return early when no records are processed", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 0,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
 
     const result = await coeWorkflow({});
@@ -84,9 +86,11 @@ describe("coeWorkflow", () => {
   it("should return message when no COE records found", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 5,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
-    vi.mocked(getCOELatestRecord).mockResolvedValueOnce(null);
+    vi.mocked(getCOELatestRecord).mockResolvedValueOnce(undefined);
 
     const result = await coeWorkflow({});
 
@@ -96,11 +100,19 @@ describe("coeWorkflow", () => {
   it("should wait for second bidding exercise before generating post", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      id: "test-id",
       month: "2024-01",
       biddingNo: 1,
+      vehicleClass: "A",
+      quota: 100,
+      bidsSuccess: 100,
+      bidsReceived: 200,
+      premium: 100000,
     });
 
     const result = await coeWorkflow({});
@@ -114,14 +126,22 @@ describe("coeWorkflow", () => {
   it("should skip blog generation when post already exists", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      id: "test-id",
       month: "2024-01",
       biddingNo: 2,
+      vehicleClass: "A",
+      quota: 100,
+      bidsSuccess: 100,
+      bidsReceived: 200,
+      premium: 100000,
     });
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
-      { id: "existing-post-id" },
+      { id: "existing-post-id", title: "Existing Post", slug: "existing-post" },
     ]);
 
     const result = await coeWorkflow({});
@@ -135,17 +155,34 @@ describe("coeWorkflow", () => {
   it("should generate blog post when second bidding complete", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      id: "test-id",
       month: "2024-01",
       biddingNo: 2,
+      vehicleClass: "A",
+      quota: 100,
+      bidsSuccess: 100,
+      bidsReceived: 200,
+      premium: 100000,
     });
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCoeForMonth).mockResolvedValueOnce([
-      { category: "A", premium: 100000 },
+      {
+        month: "2024-01",
+        biddingNo: 2,
+        vehicleClass: "A",
+        quota: 100,
+        bidsSuccess: 100,
+        bidsReceived: 200,
+        premium: 100000,
+      },
     ]);
     vi.mocked(generateBlogContent).mockResolvedValueOnce({
+      month: "2024-01",
       postId: "new-post-id",
       title: "January 2024 COE Results",
       slug: "january-2024-coe-results",
@@ -172,11 +209,19 @@ describe("coeWorkflow", () => {
   it("should update redis timestamp when records are processed", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 5,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      id: "test-id",
       month: "2024-02",
       biddingNo: 1,
+      vehicleClass: "A",
+      quota: 100,
+      bidsSuccess: 100,
+      bidsReceived: 200,
+      premium: 100000,
     });
 
     await coeWorkflow({});
@@ -190,15 +235,31 @@ describe("coeWorkflow", () => {
   it("should throw RetryableError when AI is rate limited (429)", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      id: "test-id",
       month: "2024-01",
       biddingNo: 2,
+      vehicleClass: "A",
+      quota: 100,
+      bidsSuccess: 100,
+      bidsReceived: 200,
+      premium: 100000,
     });
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCoeForMonth).mockResolvedValueOnce([
-      { category: "A", premium: 100000 },
+      {
+        month: "2024-01",
+        biddingNo: 2,
+        vehicleClass: "A",
+        quota: 100,
+        bidsSuccess: 100,
+        bidsReceived: 200,
+        premium: 100000,
+      },
     ]);
     vi.mocked(generateBlogContent).mockRejectedValueOnce(
       new Error("API error: 429 Too Many Requests"),
@@ -210,15 +271,31 @@ describe("coeWorkflow", () => {
   it("should throw FatalError when AI authentication fails (401)", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      id: "test-id",
       month: "2024-01",
       biddingNo: 2,
+      vehicleClass: "A",
+      quota: 100,
+      bidsSuccess: 100,
+      bidsReceived: 200,
+      premium: 100000,
     });
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCoeForMonth).mockResolvedValueOnce([
-      { category: "A", premium: 100000 },
+      {
+        month: "2024-01",
+        biddingNo: 2,
+        vehicleClass: "A",
+        quota: 100,
+        bidsSuccess: 100,
+        bidsReceived: 200,
+        premium: 100000,
+      },
     ]);
     vi.mocked(generateBlogContent).mockRejectedValueOnce(
       new Error("API error: 401 Unauthorized"),
@@ -230,15 +307,31 @@ describe("coeWorkflow", () => {
   it("should throw FatalError when AI access is forbidden (403)", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      id: "test-id",
       month: "2024-01",
       biddingNo: 2,
+      vehicleClass: "A",
+      quota: 100,
+      bidsSuccess: 100,
+      bidsReceived: 200,
+      premium: 100000,
     });
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCoeForMonth).mockResolvedValueOnce([
-      { category: "A", premium: 100000 },
+      {
+        month: "2024-01",
+        biddingNo: 2,
+        vehicleClass: "A",
+        quota: 100,
+        bidsSuccess: 100,
+        bidsReceived: 200,
+        premium: 100000,
+      },
     ]);
     vi.mocked(generateBlogContent).mockRejectedValueOnce(
       new Error("API error: 403 Forbidden"),
@@ -250,15 +343,31 @@ describe("coeWorkflow", () => {
   it("should rethrow unknown errors from AI generation", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      id: "test-id",
       month: "2024-01",
       biddingNo: 2,
+      vehicleClass: "A",
+      quota: 100,
+      bidsSuccess: 100,
+      bidsReceived: 200,
+      premium: 100000,
     });
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCoeForMonth).mockResolvedValueOnce([
-      { category: "A", premium: 100000 },
+      {
+        month: "2024-01",
+        biddingNo: 2,
+        vehicleClass: "A",
+        quota: 100,
+        bidsSuccess: 100,
+        bidsReceived: 200,
+        premium: 100000,
+      },
     ]);
     vi.mocked(generateBlogContent).mockRejectedValueOnce(
       new Error("Unknown AI error"),
@@ -270,10 +379,12 @@ describe("coeWorkflow", () => {
   it("should use payload.month and skip biddingNo check", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
-      { id: "existing-post-id" },
+      { id: "existing-post-id", title: "Existing Post", slug: "existing-post" },
     ]);
 
     const result = await coeWorkflow({ month: "2023-06" });
@@ -288,14 +399,22 @@ describe("coeWorkflow", () => {
   it("should fall back to DB query when month not provided", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      id: "test-id",
       month: "2024-01",
       biddingNo: 2,
+      vehicleClass: "A",
+      quota: 100,
+      bidsSuccess: 100,
+      bidsReceived: 200,
+      premium: 100000,
     });
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
-      { id: "existing-post-id" },
+      { id: "existing-post-id", title: "Existing Post", slug: "existing-post" },
     ]);
 
     const result = await coeWorkflow({});
@@ -309,15 +428,31 @@ describe("coeWorkflow", () => {
   it("should handle non-Error objects thrown from AI generation", async () => {
     vi.mocked(updateCoe).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "coe",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCOELatestRecord).mockResolvedValueOnce({
+      id: "test-id",
       month: "2024-01",
       biddingNo: 2,
+      vehicleClass: "A",
+      quota: 100,
+      bidsSuccess: 100,
+      bidsReceived: 200,
+      premium: 100000,
     });
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCoeForMonth).mockResolvedValueOnce([
-      { category: "A", premium: 100000 },
+      {
+        month: "2024-01",
+        biddingNo: 2,
+        vehicleClass: "A",
+        quota: 100,
+        bidsSuccess: 100,
+        bidsReceived: 200,
+        premium: 100000,
+      },
     ]);
     vi.mocked(generateBlogContent).mockRejectedValueOnce("string error");
 

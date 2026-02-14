@@ -34,9 +34,16 @@ describe("regeneratePostWorkflow", () => {
 
   it("should regenerate cars post successfully", async () => {
     vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
-      { make: "Toyota", count: 100 },
+      {
+        month: "2024-01",
+        make: "Toyota",
+        fuelType: "Petrol",
+        vehicleType: "Saloon",
+        number: 100,
+      },
     ]);
     vi.mocked(regenerateBlogContent).mockResolvedValueOnce({
+      month: "2024-01",
       postId: "regenerated-post-id",
       title: "Updated January 2024 Car Registrations",
       slug: "january-2024-car-registrations",
@@ -64,9 +71,18 @@ describe("regeneratePostWorkflow", () => {
 
   it("should regenerate coe post successfully", async () => {
     vi.mocked(getCoeForMonth).mockResolvedValueOnce([
-      { category: "A", premium: 100000 },
+      {
+        month: "2024-01",
+        biddingNo: 2,
+        vehicleClass: "A",
+        quota: 100,
+        bidsSuccess: 100,
+        bidsReceived: 200,
+        premium: 100000,
+      },
     ]);
     vi.mocked(regenerateBlogContent).mockResolvedValueOnce({
+      month: "2024-01",
       postId: "regenerated-coe-post-id",
       title: "Updated January 2024 COE Results",
       slug: "january-2024-coe-results",
@@ -93,6 +109,7 @@ describe("regeneratePostWorkflow", () => {
   it("should use cars data fetcher for cars dataType", async () => {
     vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([]);
     vi.mocked(regenerateBlogContent).mockResolvedValueOnce({
+      month: "2024-02",
       postId: "id",
       title: "Title",
       slug: "slug",
@@ -110,6 +127,7 @@ describe("regeneratePostWorkflow", () => {
   it("should use coe data fetcher for coe dataType", async () => {
     vi.mocked(getCoeForMonth).mockResolvedValueOnce([]);
     vi.mocked(regenerateBlogContent).mockResolvedValueOnce({
+      month: "2024-02",
       postId: "id",
       title: "Title",
       slug: "slug",

@@ -21,5 +21,8 @@ export function formatDateToMonthYear(dateString: string): string {
 
   // After splitting the year and month, convert them to numbers right away
   const [year, month] = dateString.split("-").map(Number);
+  if (month === undefined) {
+    return "";
+  }
   return `${MONTHS[month - 1]} ${year}`;
 }
