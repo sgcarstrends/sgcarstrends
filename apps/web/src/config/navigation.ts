@@ -128,6 +128,13 @@ export const navLinks: NavLinks = {
       description: "Analysis of saloons, hatchbacks, SUVs and more",
       iconColor: "text-purple-500",
     },
+    {
+      title: "PARF Calculator",
+      url: "/cars/parf",
+      icon: Calculator,
+      description: "Calculate PARF rebate under old and new rates",
+      badge: "new",
+    },
   ],
   coe: [
     {

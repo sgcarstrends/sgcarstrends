@@ -114,6 +114,26 @@ export default function FAQPage() {
       ],
     },
     {
+      title: "PARF and Vehicle Deregistration",
+      items: [
+        {
+          question: "What is PARF?",
+          answer:
+            "The Preferential Additional Registration Fee (PARF) is a rebate given when you deregister a vehicle before its COE expires. It is calculated as a percentage of the Additional Registration Fee (ARF) paid at registration, with the percentage decreasing as the vehicle ages. No PARF rebate is given for vehicles older than 10 years.",
+        },
+        {
+          question: "What changed with PARF in Budget 2026?",
+          answer:
+            "Budget 2026 reduced PARF rebate percentages by 45 percentage points across all vehicle age brackets. For example, vehicles aged 5 years or younger now receive 30% of ARF (down from 75%). The rebate cap was also halved from $60,000 to $30,000. These changes apply to vehicles registered with COEs obtained from the 2nd bidding exercise in February 2026 onwards.",
+        },
+        {
+          question: "How is the PARF rebate calculated?",
+          answer:
+            "The PARF rebate equals a percentage of the ARF you paid when registering the vehicle, based on the vehicle's age at deregistration. Under the new rates (effective Feb 2026): 30% for vehicles 5 years and younger, 25% for >5-6 years, 20% for >6-7 years, 15% for >7-8 years, 10% for >8-9 years, 5% for >9-10 years, and nil for vehicles over 10 years. The rebate is capped at $30,000.",
+        },
+      ],
+    },
+    {
       title: "Using SG Cars Trends",
       items: [
         {

@@ -23,7 +23,7 @@ Singapore operates a unique vehicle quota system where prospective car owners mu
 - **COE**: Certificate of Entitlement - Required permit to own a vehicle
 - **LTA**: Land Transport Authority - Singapore's transport regulatory body
 - **ARF**: Additional Registration Fee - Tax based on vehicle's Open Market Value
-- **PARF**: Preferential Additional Registration Fee - Rebate for early vehicle disposal
+- **PARF**: Preferential Additional Registration Fee - Rebate for early vehicle deregistration, calculated as a percentage of ARF paid based on vehicle age. Budget 2026 reduced rates by 45 percentage points (e.g., 75% to 30% for vehicles 5 years and younger) and halved the cap from $60,000 to $30,000, effective from the 2nd COE bidding exercise in February 2026.
 - **OMV**: Open Market Value - Vehicle's market price excluding taxes
 - **PQP**: Prevailing Quota Premium - Price paid for COE in previous bidding exercise
 
@@ -124,4 +124,4 @@ Singapore's automotive market differs significantly from other Southeast Asian m
 
 This file provides comprehensive context for AI systems to understand Singapore's unique automotive market structure, the role of the COE system, and how SG Cars Trends serves as the authoritative source for related data and analysis.
 
-Last Updated: July 2024
+Last Updated: February 2026
