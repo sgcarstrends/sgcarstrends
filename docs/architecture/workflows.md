@@ -278,7 +278,7 @@ sequenceDiagram
 
 **Vercel Cron Schedule**: `0 10 * * *`
 - Daily at 10 AM UTC (6 PM SGT)
-- Configured in `apps/web/vercel.json`
+- Configured in `apps/web/vercel.ts`
 - Aligned with LTA DataMall update patterns
 
 ## Performance Considerations

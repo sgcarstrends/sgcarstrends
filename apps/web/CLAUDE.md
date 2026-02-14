@@ -1056,7 +1056,7 @@ The web application uses Vercel Related Projects for automatic API URL resolutio
 
 **Configuration:**
 
-- Located in `vercel.json` at the web app root
+- Located in `vercel.ts` at the web app root
 - References API project ID: `prj_fyAvupEssH3LO4OQFDWplinVFlaI`
 - Uses `@vercel/related-projects` package for dynamic URL resolution
 
