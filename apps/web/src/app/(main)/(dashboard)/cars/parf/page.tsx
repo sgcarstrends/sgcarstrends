@@ -54,7 +54,7 @@ export default function PARFCalculatorPage() {
         <PARFComparisonTable />
       </AnimatedSection>
       <AnimatedSection order={4}>
-        <p className="text-center text-default-400 text-xs">
+        <p className="text-center text-default-600 text-xs">
           Figures are for illustration only. The PARF rebate is subject to the
           vehicle&apos;s actual ARF paid and age at deregistration. New rates
           apply to vehicles registered with COEs obtained from the 2nd bidding
