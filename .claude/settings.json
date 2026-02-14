@@ -1,16 +1,6 @@
 {
   "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); if [ \"$branch\" = \"main\" ]; then echo 'You are on the main branch. Create a feature branch first.' >&2; exit 2; fi"
-          }
-        ]
-      }
-    ],
+    "PreToolUse": [],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
