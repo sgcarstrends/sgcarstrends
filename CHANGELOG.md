@@ -1,3 +1,9 @@
+## [4.48.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.48.0...v4.48.1) (2026-02-14)
+
+### Bug Fixes
+
+* resolve typecheck errors across packages ([a74869a](https://github.com/sgcarstrends/sgcarstrends/commit/a74869ade80ef32a3aed94aab3867c4b70b4f39a))
+
 ## [4.48.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.47.2...v4.48.0) (2026-02-14)
 
 ### Features
