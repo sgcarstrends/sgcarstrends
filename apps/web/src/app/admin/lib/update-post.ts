@@ -28,7 +28,7 @@ export const updatePostSchema = z.object({
 
 export type UpdatePostInput = z.infer<typeof updatePostSchema>;
 
-export const updatePost = async (input: UpdatePostInput) => {
+export async function updatePost(input: UpdatePostInput) {
   const validated = updatePostSchema.parse(input);
   const newSlug = slugify(validated.title);
 
@@ -80,4 +80,4 @@ export const updatePost = async (input: UpdatePostInput) => {
   }
 
   return post;
-};
+}

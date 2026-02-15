@@ -31,7 +31,7 @@ export interface PostWithMetadata {
   } | null;
 }
 
-export const getAllPosts = async (): Promise<PostWithMetadata[]> => {
+export async function getAllPosts(): Promise<PostWithMetadata[]> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -45,12 +45,12 @@ export const getAllPosts = async (): Promise<PostWithMetadata[]> => {
   });
 
   return allPosts as PostWithMetadata[];
-};
+}
 
 const UUID_REGEX =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-export const getPostById = async (id: string): Promise<SelectPost | null> => {
+export async function getPostById(id: string): Promise<SelectPost | null> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -68,12 +68,12 @@ export const getPostById = async (id: string): Promise<SelectPost | null> => {
   });
 
   return post ?? null;
-};
+}
 
-export const regeneratePost = async (params: {
+export async function regeneratePost(params: {
   month: string;
   dataType: "cars" | "coe";
-}): Promise<{ success: boolean; error?: string; runId?: string }> => {
+}): Promise<{ success: boolean; error?: string; runId?: string }> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -100,11 +100,11 @@ export const regeneratePost = async (params: {
       error: error instanceof Error ? error.message : "Unknown error occurred",
     };
   }
-};
+}
 
-export const createBlogPost = async (
+export async function createBlogPost(
   input: CreatePostInput,
-): Promise<{ success: boolean; error?: string; postId?: string }> => {
+): Promise<{ success: boolean; error?: string; postId?: string }> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -131,11 +131,11 @@ export const createBlogPost = async (
       error: error instanceof Error ? error.message : "Unknown error occurred",
     };
   }
-};
+}
 
-export const updateBlogPost = async (
+export async function updateBlogPost(
   input: UpdatePostInput,
-): Promise<{ success: boolean; error?: string; postId?: string }> => {
+): Promise<{ success: boolean; error?: string; postId?: string }> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -162,11 +162,11 @@ export const updateBlogPost = async (
       error: error instanceof Error ? error.message : "Unknown error occurred",
     };
   }
-};
+}
 
-export const deleteBlogPost = async (
+export async function deleteBlogPost(
   id: string,
-): Promise<{ success: boolean; error?: string }> => {
+): Promise<{ success: boolean; error?: string }> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -192,4 +192,4 @@ export const deleteBlogPost = async (
       error: error instanceof Error ? error.message : "Unknown error occurred",
     };
   }
-};
+}

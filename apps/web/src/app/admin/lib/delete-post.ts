@@ -3,7 +3,7 @@ import { getPostPublishRevalidationTags } from "@web/lib/cache-tags/posts";
 import { revalidateTag } from "next/cache";
 import { cleanupPostTags } from "./post-tags";
 
-export const deletePost = async (id: string) => {
+export async function deletePost(id: string) {
   const existing = await db.query.posts.findFirst({
     where: eq(posts.id, id),
   });
@@ -23,4 +23,4 @@ export const deletePost = async (id: string) => {
   for (const tag of getPostPublishRevalidationTags(existing.slug)) {
     revalidateTag(tag, "max");
   }
-};
+}

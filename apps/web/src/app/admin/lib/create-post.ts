@@ -27,7 +27,7 @@ export const createPostSchema = z.object({
 
 export type CreatePostInput = z.infer<typeof createPostSchema>;
 
-export const createPost = async (input: CreatePostInput) => {
+export async function createPost(input: CreatePostInput) {
   const slug = slugify(input.title);
   const publishedAt = input.status === "published" ? new Date() : undefined;
 
@@ -80,4 +80,4 @@ export const createPost = async (input: CreatePostInput) => {
   }
 
   return post;
-};
+}
