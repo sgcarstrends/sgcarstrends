@@ -1,3 +1,9 @@
+## [4.50.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.49.1...v4.50.0) (2026-02-15)
+
+### Features
+
+* **web:** add PARF page to sitemap ([f3784d6](https://github.com/sgcarstrends/sgcarstrends/commit/f3784d68bf0a4c2a1b089f627810a2a616d3826b))
+
 ## [4.49.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.49.0...v4.49.1) (2026-02-15)
 
 ### Performance Improvements
