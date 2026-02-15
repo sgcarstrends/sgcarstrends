@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "zod";
+import * as z from "zod";
+import pkg from "../package.json" with { type: "json" };
 import { type ApiResponse, request } from "./client.js";
 
 function errorResult(response: ApiResponse<unknown>) {
@@ -58,8 +59,8 @@ const postBodySchema = {
 };
 
 const server = new McpServer({
-  name: "sgcarstrends",
-  version: "1.0.0",
+  name: pkg.name,
+  version: pkg.version,
 });
 
 server.tool(
