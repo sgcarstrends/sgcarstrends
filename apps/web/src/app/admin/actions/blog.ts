@@ -3,6 +3,10 @@
 import type { LanguageModelUsage } from "@sgcarstrends/ai";
 import { db, desc, posts } from "@sgcarstrends/database";
 import { auth } from "@web/app/admin/lib/auth";
+import {
+  type CreatePostInput,
+  createPost,
+} from "@web/app/admin/lib/create-post";
 import { regeneratePostWorkflow } from "@web/workflows/regenerate-post";
 import { headers } from "next/headers";
 import { start } from "workflow/api";
@@ -60,6 +64,37 @@ export const regeneratePost = async (params: {
     };
   } catch (error) {
     console.error("Error triggering regeneration workflow:", error);
+
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
+};
+
+export const createBlogPost = async (
+  input: CreatePostInput,
+): Promise<{ success: boolean; error?: string; postId?: string }> => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return {
+      success: false,
+      error: "Unauthorised",
+    };
+  }
+
+  try {
+    const post = await createPost(input);
+
+    return {
+      success: true,
+      postId: post.id,
+    };
+  } catch (error) {
+    console.error("Error creating blog post:", error);
 
     return {
       success: false,

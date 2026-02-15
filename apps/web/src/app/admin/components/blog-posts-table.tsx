@@ -131,11 +131,11 @@ export function BlogPostsTable({ initialPosts }: BlogPostsTableProps) {
                   {posts.map((post) => (
                     <TableRow key={post.id}>
                       <TableCell className="font-medium">
-                        {post.month}
+                        {post.month ?? "N/A"}
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline">
-                          {post.dataType.toUpperCase()}
+                          {post.dataType?.toUpperCase() ?? "N/A"}
                         </Badge>
                       </TableCell>
                       <TableCell className="max-w-md truncate">
