@@ -1,4 +1,4 @@
-import { CreatePostForm } from "@web/app/admin/components/create-post-form";
+import { BlogPostForm } from "@web/app/admin/components/blog-post-form";
 import { PenLine } from "lucide-react";
 
 export default function CreatePostPage() {
@@ -14,7 +14,7 @@ export default function CreatePostPage() {
         </p>
       </div>
 
-      <CreatePostForm />
+      <BlogPostForm mode="create" />
     </div>
   );
 }

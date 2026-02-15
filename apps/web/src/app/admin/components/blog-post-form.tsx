@@ -1,5 +1,17 @@
 "use client";
 
+import type { SelectPost } from "@sgcarstrends/database";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@sgcarstrends/ui/components/alert-dialog";
 import { Button } from "@sgcarstrends/ui/components/button";
 import {
   Card,
@@ -10,10 +22,22 @@ import {
 } from "@sgcarstrends/ui/components/card";
 import { Input } from "@sgcarstrends/ui/components/input";
 import { Label } from "@sgcarstrends/ui/components/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@sgcarstrends/ui/components/select";
 import { Textarea } from "@sgcarstrends/ui/components/textarea";
-import { createBlogPost } from "@web/app/admin/actions/blog";
+import {
+  createBlogPost,
+  regeneratePost,
+  updateBlogPost,
+} from "@web/app/admin/actions/blog";
 import type { CreatePostInput } from "@web/app/admin/lib/create-post";
-import { Loader2, Plus, Save, Trash2 } from "lucide-react";
+import type { UpdatePostInput } from "@web/app/admin/lib/update-post";
+import { Loader2, Plus, RefreshCw, Save, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -25,19 +49,38 @@ interface Highlight {
   detail: string;
 }
 
-export function CreatePostForm() {
+interface BlogPostFormProps {
+  mode: "create" | "edit";
+  defaultValues?: SelectPost;
+}
+
+export function BlogPostForm({ mode, defaultValues }: BlogPostFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRegenerating, setIsRegenerating] = useState(false);
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [excerpt, setExcerpt] = useState("");
-  const [heroImage, setHeroImage] = useState("");
-  const [tags, setTags] = useState("");
-  const [month, setMonth] = useState("");
-  const [dataType, setDataType] = useState("");
-  const [status, setStatus] = useState<"draft" | "published">("draft");
-  const [highlights, setHighlights] = useState<Highlight[]>([]);
+  const [title, setTitle] = useState(defaultValues?.title ?? "");
+  const [content, setContent] = useState(defaultValues?.content ?? "");
+  const [excerpt, setExcerpt] = useState(defaultValues?.excerpt ?? "");
+  const [heroImage, setHeroImage] = useState(defaultValues?.heroImage ?? "");
+  const [tags, setTags] = useState(defaultValues?.tags?.join(", ") ?? "");
+  const [month, setMonth] = useState(defaultValues?.month ?? "");
+  const [dataType, setDataType] = useState(defaultValues?.dataType ?? "");
+  const [status, setStatus] = useState<"draft" | "published">(
+    (defaultValues?.status as "draft" | "published") ?? "draft",
+  );
+  const [highlights, setHighlights] = useState<Highlight[]>(() => {
+    if (!defaultValues?.highlights) return [];
+    const raw = defaultValues.highlights as Array<{
+      value: string;
+      label: string;
+      detail: string;
+    }>;
+    return raw.map((h) => ({ ...h, id: crypto.randomUUID() }));
+  });
+
+  const canRegenerate =
+    mode === "edit" && defaultValues?.month && defaultValues?.dataType;
 
   const addHighlight = () => {
     setHighlights([
@@ -66,41 +109,98 @@ export function CreatePostForm() {
     );
   };
 
+  const handleRegenerate = async () => {
+    if (!defaultValues?.month || !defaultValues?.dataType) return;
+
+    setIsRegenerating(true);
+
+    try {
+      const result = await regeneratePost({
+        month: defaultValues.month,
+        dataType: defaultValues.dataType as "cars" | "coe",
+      });
+
+      if (result.success) {
+        toast.success("Post regenerated successfully. Refreshing...");
+        router.refresh();
+      } else {
+        throw new Error(result.error || "Unknown error");
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to regenerate blog post.",
+      );
+    } finally {
+      setIsRegenerating(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const input: CreatePostInput = {
-      title,
-      content,
-      status,
-      ...(excerpt && { excerpt }),
-      ...(heroImage && { heroImage }),
-      ...(tags && {
-        tags: tags
+    const parsedTags = tags
+      ? tags
           .split(",")
           .map((t) => t.trim())
-          .filter(Boolean),
-      }),
-      ...(month && { month }),
-      ...(dataType && { dataType }),
-      ...(highlights.length > 0 && {
-        highlights: highlights.map(({ value, label, detail }) => ({
-          value,
-          label,
-          detail,
-        })),
-      }),
-    };
+          .filter(Boolean)
+      : undefined;
+
+    const parsedHighlights =
+      highlights.length > 0
+        ? highlights.map(({ value, label, detail }) => ({
+            value,
+            label,
+            detail,
+          }))
+        : undefined;
 
     try {
-      const result = await createBlogPost(input);
+      if (mode === "edit" && defaultValues) {
+        const input: UpdatePostInput = {
+          id: defaultValues.id,
+          title,
+          content,
+          status,
+          ...(excerpt && { excerpt }),
+          ...(heroImage && { heroImage }),
+          ...(parsedTags && { tags: parsedTags }),
+          ...(month && { month }),
+          ...(dataType && { dataType }),
+          ...(parsedHighlights && { highlights: parsedHighlights }),
+        };
 
-      if (result.success) {
-        toast.success("Blog post created successfully");
-        router.push("/admin/content/blog");
+        const result = await updateBlogPost(input);
+
+        if (result.success) {
+          toast.success("Blog post updated successfully");
+          router.push("/admin/content/blog");
+        } else {
+          toast.error(result.error ?? "Failed to update blog post");
+        }
       } else {
-        toast.error(result.error ?? "Failed to create blog post");
+        const input: CreatePostInput = {
+          title,
+          content,
+          status,
+          ...(excerpt && { excerpt }),
+          ...(heroImage && { heroImage }),
+          ...(parsedTags && { tags: parsedTags }),
+          ...(month && { month }),
+          ...(dataType && { dataType }),
+          ...(parsedHighlights && { highlights: parsedHighlights }),
+        };
+
+        const result = await createBlogPost(input);
+
+        if (result.success) {
+          toast.success("Blog post created successfully");
+          router.push("/admin/content/blog");
+        } else {
+          toast.error(result.error ?? "Failed to create blog post");
+        }
       }
     } catch {
       toast.error("An unexpected error occurred");
@@ -111,6 +211,69 @@ export function CreatePostForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+      {canRegenerate && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <RefreshCw className="size-5 text-muted-foreground" />
+              <div className="flex flex-col gap-1">
+                <CardTitle>AI Regeneration</CardTitle>
+                <CardDescription>
+                  Fetch fresh data for{" "}
+                  <strong>
+                    {defaultValues.month} ({defaultValues.dataType})
+                  </strong>{" "}
+                  and regenerate content using AI. The existing post will be
+                  replaced.
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={isRegenerating}
+                >
+                  {isRegenerating ? (
+                    <>
+                      <Loader2 className="mr-2 size-4 animate-spin" />
+                      Regenerating...
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="mr-2 size-4" />
+                      Regenerate Content
+                    </>
+                  )}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Regenerate Blog Post?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will fetch fresh data for{" "}
+                    <strong>
+                      {defaultValues.month} ({defaultValues.dataType})
+                    </strong>{" "}
+                    and generate new content using AI. The current content will
+                    be replaced.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleRegenerate}>
+                    Regenerate
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </CardContent>
+        </Card>
+      )}
+
       <Card>
         <CardHeader>
           <CardTitle>Post Details</CardTitle>
@@ -205,17 +368,18 @@ export function CreatePostForm() {
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="status">Status</Label>
-            <select
-              id="status"
+            <Select
               value={status}
-              onChange={(e) =>
-                setStatus(e.target.value as "draft" | "published")
-              }
-              className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-base shadow-xs md:text-sm"
+              onValueChange={(v) => setStatus(v as "draft" | "published")}
             >
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
-            </select>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="published">Published</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
@@ -296,7 +460,13 @@ export function CreatePostForm() {
           ) : (
             <Save className="mr-2 size-4" />
           )}
-          {isSubmitting ? "Creating..." : "Create Post"}
+          {isSubmitting
+            ? mode === "edit"
+              ? "Updating..."
+              : "Creating..."
+            : mode === "edit"
+              ? "Update Post"
+              : "Create Post"}
         </Button>
       </div>
     </form>
