@@ -1,13 +1,32 @@
+import { db, desc, eq, posts } from "@sgcarstrends/database";
 import { createPost, createPostSchema } from "@web/app/admin/lib/create-post";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { validateApiToken } from "../lib/auth";
 
-export const POST = async (request: Request) => {
-  const authHeader = request.headers.get("authorization");
-  const token = authHeader?.replace("Bearer ", "");
+export async function GET(request: NextRequest) {
+  const authError = validateApiToken(request);
+  if (authError) return authError;
 
-  if (!token || token !== process.env.SG_CARS_TRENDS_API_TOKEN) {
-    return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
-  }
+  const status = request.nextUrl.searchParams.get("status");
+  const limit = Number(request.nextUrl.searchParams.get("limit")) || 50;
+
+  const conditions = status
+    ? eq(posts.status, status as "draft" | "published")
+    : undefined;
+
+  const results = await db.query.posts.findMany({
+    where: conditions,
+    orderBy: desc(posts.createdAt),
+    limit,
+  });
+
+  return NextResponse.json(results);
+}
+
+export async function POST(request: Request) {
+  const authError = validateApiToken(request);
+  if (authError) return authError;
 
   const body = await request.json();
   const result = createPostSchema.safeParse(body);
@@ -31,4 +50,4 @@ export const POST = async (request: Request) => {
       { status: 500 },
     );
   }
-};
+}
