@@ -1,3 +1,9 @@
+## [4.51.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.1...v4.51.2) (2026-02-15)
+
+### Bug Fixes
+
+* **mcp:** pretty-print JSON in error responses ([22f7cc1](https://github.com/sgcarstrends/sgcarstrends/commit/22f7cc181d6fe21d54102b671813408c59fdc43e))
+
 ## [4.51.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.0...v4.51.1) (2026-02-15)
 
 ### Bug Fixes
