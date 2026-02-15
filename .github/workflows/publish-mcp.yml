@@ -1,8 +1,11 @@
 name: Publish MCP
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/mcp/**"
 
 jobs:
   publish:
