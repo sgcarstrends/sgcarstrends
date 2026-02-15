@@ -1,3 +1,9 @@
+## [4.49.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.49.0...v4.49.1) (2026-02-15)
+
+### Performance Improvements
+
+* **web:** replace ILIKE wildcards with exact matching ([8cc5971](https://github.com/sgcarstrends/sgcarstrends/commit/8cc59712e8f58daa83bdbcd132a98fbfe68c48e5))
+
 ## [4.49.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.48.2...v4.49.0) (2026-02-15)
 
 ### Features
