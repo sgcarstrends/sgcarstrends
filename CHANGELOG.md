@@ -1,3 +1,9 @@
+## [4.49.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.48.2...v4.49.0) (2026-02-15)
+
+### Features
+
+* **web:** add "New" badge to PARF Calculator page title ([3c930b2](https://github.com/sgcarstrends/sgcarstrends/commit/3c930b23a2d27e222e7e16672a460ad79be19749))
+
 ## [4.48.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.48.1...v4.48.2) (2026-02-15)
 
 ### Bug Fixes
