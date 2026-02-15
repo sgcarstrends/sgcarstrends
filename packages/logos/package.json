@@ -15,7 +15,6 @@
     "@vercel/blob": "^2.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.1.1",
     "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
