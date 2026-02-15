@@ -1,3 +1,9 @@
+## [4.51.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.0...v4.51.1) (2026-02-15)
+
+### Bug Fixes
+
+* **infra:** trigger MCP publish on push to main with paths filter ([c2ca205](https://github.com/sgcarstrends/sgcarstrends/commit/c2ca205ad8f925e3f7689e81a852c8397ad83ef5))
+
 ## [4.51.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.50.0...v4.51.0) (2026-02-15)
 
 ### Features
