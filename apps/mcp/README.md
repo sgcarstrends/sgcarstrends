@@ -1,0 +1,61 @@
+# SG Cars Trends MCP
+
+MCP (Model Context Protocol) server for managing SG Cars Trends blog posts. Provides CRUD tools callable from Claude Code and other MCP-compatible clients via stdio transport.
+
+## Tools
+
+| Tool            | Description                                       |
+| --------------- | ------------------------------------------------- |
+| `list_posts`    | List blog posts with optional status filter/limit |
+| `get_post`      | Get a single blog post by UUID                    |
+| `create_post`   | Create a new blog post                            |
+| `update_post`   | Update an existing blog post                      |
+| `delete_post`   | Delete a blog post permanently                    |
+
+## Setup
+
+### Environment Variables
+
+| Variable                    | Description                        | Required |
+| --------------------------- | ---------------------------------- | -------- |
+| `SG_CARS_TRENDS_API_TOKEN`  | Bearer token for REST API auth     | Yes      |
+
+### Claude Code
+
+Add to your Claude Code MCP settings (`~/.claude/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "sgcarstrends": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@sgcarstrends/mcp"],
+      "env": {
+        "SG_CARS_TRENDS_API_TOKEN": "<your-token>"
+      }
+    }
+  }
+}
+```
+
+### Local Development
+
+```sh
+pnpm install
+pnpm --filter @sgcarstrends/mcp build
+```
+
+The dev script watches for changes:
+
+```sh
+pnpm --filter @sgcarstrends/mcp dev
+```
+
+## Publishing
+
+Automated via GitHub Actions. Pushing changes to `apps/mcp/**` on the `main` branch triggers a build and publish to npm with provenance.
+
+## License
+
+MIT
