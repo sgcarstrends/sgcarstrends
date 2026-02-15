@@ -1,7 +1,9 @@
 import { cars, db, ilike } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
 
-const normalisePattern = (value: string) => value.replaceAll("-", "%");
+function normalisePattern(input: string) {
+  return input.replaceAll("-", "%");
+}
 
 export async function checkMakeIfExist(
   make: string,
@@ -11,7 +13,7 @@ export async function checkMakeIfExist(
   cacheTag(`cars:make:${make}`);
 
   const result = await db.query.cars.findFirst({
-    where: ilike(cars.make, normalisePattern(make)),
+    where: ilike(cars.make, make),
     columns: { make: true },
   });
 

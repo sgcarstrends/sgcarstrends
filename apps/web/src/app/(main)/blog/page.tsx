@@ -1,10 +1,7 @@
-import { BlogList } from "@web/app/(main)/blog/components/blog-list";
+import { BlogListSection } from "@web/app/(main)/blog/components/blog-list-section";
 import { BlogPageHeader } from "@web/app/(main)/blog/components/blog-page-header";
-import { PopularPosts } from "@web/app/(main)/blog/components/popular-posts";
+import { PopularPostsSection } from "@web/app/(main)/blog/components/popular-posts-section";
 import { StructuredData } from "@web/components/structured-data";
-import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import { getPopularPostsWithData } from "@web/lib/data/posts";
-import { getAllPosts } from "@web/queries/posts";
 import type { Metadata } from "next";
 import type { Blog, WithContext } from "schema-dts";
 
@@ -38,21 +35,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BlogPage() {
-  const [posts, popularPosts] = await Promise.all([
-    getAllPosts(),
-    getPopularPostsWithData(5),
-  ]);
-
+export default function BlogPage() {
   return (
     <>
       <StructuredData data={structuredData} />
       <section className="flex flex-col gap-8">
         <BlogPageHeader title={title} description={description} />
-        <UnreleasedFeature>
-          <PopularPosts posts={popularPosts} />
-        </UnreleasedFeature>
-        <BlogList posts={posts} />
+        <PopularPostsSection />
+        <BlogListSection />
       </section>
     </>
   );

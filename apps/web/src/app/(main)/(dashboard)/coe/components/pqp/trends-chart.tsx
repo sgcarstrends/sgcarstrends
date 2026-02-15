@@ -9,9 +9,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import Typography from "@web/components/typography";
 import type { Pqp } from "@web/types/coe";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 interface TrendsChartProps {

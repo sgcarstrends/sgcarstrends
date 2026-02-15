@@ -26,4 +26,10 @@ Data is sourced monthly from the **Land Transport Authority (LTA)**.`,
 
 It provides insights into fleet turnover and the impact of the 10-year COE lifecycle.`,
   },
+  parf: {
+    title: "What is PARF?",
+    content: `The **Preferential Additional Registration Fee (PARF)** rebate is given when you deregister a vehicle before its COE expires. The rebate is a percentage of the Additional Registration Fee (ARF) paid, decreasing as the vehicle ages.
+
+**Budget 2026 Changes (effective Feb 2026):** Rebate percentages cut by 45 percentage points across all brackets, and the cap halved from $60,000 to $30,000.`,
+  },
 } as const;

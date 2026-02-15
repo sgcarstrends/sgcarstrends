@@ -1,6 +1,6 @@
 ---
 name: performance
-description: Optimize application performance - bundle size, API response times, database queries, React rendering, and Lambda cold starts. Use when investigating slow pages, profiling, load testing, or before production deployments.
+description: Optimize application performance - bundle size, API response times, database queries, React rendering, and serverless function performance. Use when investigating slow pages, profiling, load testing, or before production deployments.
 allowed-tools: Read, Edit, Bash, Grep, Glob
 ---
 
@@ -166,19 +166,16 @@ import Image from "next/image";
 />
 ```
 
-## Lambda Optimization
+## Vercel Function Optimization
 
 ```typescript
-// infra/api.ts - SST Function construct
-{
-  handler: "apps/api/src/index.handler",
-  runtime: "nodejs20.x",
-  architecture: "arm64",  // Graviton2 for better performance
-  memory: 1024,           // More memory = faster CPU
-  nodejs: {
-    esbuild: { minify: true, bundle: true },
-  },
-}
+// API route with optimized config
+export const config = {
+  maxDuration: 60, // seconds
+};
+
+// Use edge functions for low-latency endpoints
+export const runtime = "edge";
 ```
 
 ## Profiling
@@ -212,19 +209,13 @@ if (duration > 100) {
 }
 ```
 
-### CloudWatch Metrics
+### Vercel Analytics
 
-```bash
-# Get Lambda duration metrics
-aws cloudwatch get-metric-statistics \
-  --namespace AWS/Lambda \
-  --metric-name Duration \
-  --dimensions Name=FunctionName,Value=sgcarstrends-api-prod \
-  --start-time $(date -u -d '1 hour ago' +%Y-%m-%dT%H:%M:%S) \
-  --end-time $(date -u +%Y-%m-%dT%H:%M:%S) \
-  --period 300 \
-  --statistics Average,Maximum
-```
+Check Vercel Dashboard → Analytics for:
+- Function execution times
+- Edge response times
+- Web Vitals metrics
+- Request volumes and errors
 
 ## Load Testing
 

@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/utils",
   "description": "Utility functions for SG Cars Trends",
-  "version": "4.45.2",
+  "version": "4.49.1",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -11,7 +11,8 @@
     "dev": "tsc --watch",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@sgcarstrends/types": "workspace:*",

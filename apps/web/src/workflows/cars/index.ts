@@ -3,6 +3,8 @@ import {
   getCarsAggregatedByMonth,
 } from "@sgcarstrends/ai";
 import { redis, tokeniser } from "@sgcarstrends/utils";
+import { getCarsMonthlyRevalidationTags } from "@web/lib/cache-tags";
+import { populateMakesSortedSet } from "@web/lib/redis/makes";
 import type { UpdaterResult } from "@web/lib/updater";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
@@ -25,7 +27,7 @@ interface CarsWorkflowResult {
  * Processes car registration data and generates blog posts.
  */
 export async function carsWorkflow(
-  _payload: CarsWorkflowPayload,
+  payload: CarsWorkflowPayload,
 ): Promise<CarsWorkflowResult> {
   "use workflow";
 
@@ -40,7 +42,9 @@ export async function carsWorkflow(
     };
   }
 
-  const month = await getLatestMonth();
+  await syncMakesSortedSet();
+
+  const month = payload.month ?? (await getLatestMonth());
   if (!month) {
     return { message: "[CARS] No car records found" };
   }
@@ -79,6 +83,11 @@ async function processCarsData(): Promise<UpdaterResult> {
 }
 processCarsData.maxRetries = 3;
 
+async function syncMakesSortedSet(): Promise<void> {
+  "use step";
+  await populateMakesSortedSet();
+}
+
 async function getLatestMonth(): Promise<string | null> {
   "use step";
   return getCarsLatestMonth();
@@ -87,7 +96,7 @@ async function getLatestMonth(): Promise<string | null> {
 async function revalidateCarsCache(month: string): Promise<void> {
   "use step";
 
-  const tags = [`cars:month:${month}`, "cars:months"];
+  const tags = getCarsMonthlyRevalidationTags(month);
   for (const tag of tags) {
     revalidateTag(tag, "max");
   }

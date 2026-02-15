@@ -9,8 +9,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import type { MakeCoeComparisonData } from "@web/queries/cars/makes/coe-comparison";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import {
   Bar,
   CartesianGrid,

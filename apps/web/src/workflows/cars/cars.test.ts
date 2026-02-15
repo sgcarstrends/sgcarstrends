@@ -26,6 +26,8 @@ vi.mock("@web/queries/posts", () => ({
 
 vi.mock("next/cache", () => ({
   revalidateTag: vi.fn(),
+  cacheLife: vi.fn(),
+  cacheTag: vi.fn(),
 }));
 
 vi.mock("workflow", () => ({
@@ -52,6 +54,10 @@ vi.mock("@web/workflows/shared", () => ({
   revalidatePostsCache: vi.fn(),
 }));
 
+vi.mock("@web/lib/redis/makes", () => ({
+  populateMakesSortedSet: vi.fn().mockResolvedValue(0),
+}));
+
 import {
   generateBlogContent,
   getCarsAggregatedByMonth,
@@ -73,7 +79,9 @@ describe("carsWorkflow", () => {
   it("should return early when no records are processed", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 0,
-      details: {},
+      table: "cars",
+      message: "",
+      timestamp: "",
     });
 
     const result = await carsWorkflow({});
@@ -87,7 +95,9 @@ describe("carsWorkflow", () => {
   it("should return message when no car records found", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 5,
-      details: {},
+      table: "cars",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCarsLatestMonth).mockResolvedValueOnce(null);
 
@@ -99,11 +109,13 @@ describe("carsWorkflow", () => {
   it("should skip blog generation when post already exists", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "cars",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
-      { id: "existing-post-id" },
+      { id: "existing-post-id", title: "Existing Post", slug: "existing-post" },
     ]);
 
     const result = await carsWorkflow({});
@@ -117,14 +129,23 @@ describe("carsWorkflow", () => {
   it("should generate blog post when new data arrives", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "cars",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
-      { make: "Toyota", count: 100 },
+      {
+        month: "2024-01",
+        make: "Toyota",
+        fuelType: "Petrol",
+        vehicleType: "Saloon",
+        number: 100,
+      },
     ]);
     vi.mocked(generateBlogContent).mockResolvedValueOnce({
+      month: "2024-01",
       postId: "new-post-id",
       title: "January 2024 Car Registrations",
       slug: "january-2024-car-registrations",
@@ -134,6 +155,10 @@ describe("carsWorkflow", () => {
 
     expect(revalidateTag).toHaveBeenCalledWith("cars:month:2024-01", "max");
     expect(revalidateTag).toHaveBeenCalledWith("cars:months", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("cars:makes", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("cars:annual", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("cars:top-makes", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("cars:year:2024", "max");
     expect(generateBlogContent).toHaveBeenCalled();
     expect(revalidatePostsCache).toHaveBeenCalled();
     expect(result.message).toBe(
@@ -145,11 +170,13 @@ describe("carsWorkflow", () => {
   it("should update redis timestamp when records are processed", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 5,
-      details: {},
+      table: "cars",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-02");
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
-      { id: "existing" },
+      { id: "existing", title: "Existing Post", slug: "existing-post" },
     ]);
 
     await carsWorkflow({});
@@ -163,12 +190,20 @@ describe("carsWorkflow", () => {
   it("should throw RetryableError when AI is rate limited (429)", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "cars",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
-      { make: "Toyota", count: 100 },
+      {
+        month: "2024-01",
+        make: "Toyota",
+        fuelType: "Petrol",
+        vehicleType: "Saloon",
+        number: 100,
+      },
     ]);
     vi.mocked(generateBlogContent).mockRejectedValueOnce(
       new Error("API error: 429 Too Many Requests"),
@@ -180,12 +215,20 @@ describe("carsWorkflow", () => {
   it("should throw FatalError when AI authentication fails (401)", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "cars",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
-      { make: "Toyota", count: 100 },
+      {
+        month: "2024-01",
+        make: "Toyota",
+        fuelType: "Petrol",
+        vehicleType: "Saloon",
+        number: 100,
+      },
     ]);
     vi.mocked(generateBlogContent).mockRejectedValueOnce(
       new Error("API error: 401 Unauthorized"),
@@ -197,12 +240,20 @@ describe("carsWorkflow", () => {
   it("should throw FatalError when AI access is forbidden (403)", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "cars",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
-      { make: "Toyota", count: 100 },
+      {
+        month: "2024-01",
+        make: "Toyota",
+        fuelType: "Petrol",
+        vehicleType: "Saloon",
+        number: 100,
+      },
     ]);
     vi.mocked(generateBlogContent).mockRejectedValueOnce(
       new Error("API error: 403 Forbidden"),
@@ -214,12 +265,20 @@ describe("carsWorkflow", () => {
   it("should rethrow unknown errors from AI generation", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "cars",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
-      { make: "Toyota", count: 100 },
+      {
+        month: "2024-01",
+        make: "Toyota",
+        fuelType: "Petrol",
+        vehicleType: "Saloon",
+        number: 100,
+      },
     ]);
     vi.mocked(generateBlogContent).mockRejectedValueOnce(
       new Error("Unknown AI error"),
@@ -228,15 +287,63 @@ describe("carsWorkflow", () => {
     await expect(carsWorkflow({})).rejects.toThrow("Unknown AI error");
   });
 
+  it("should use payload.month when provided and skip DB query", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      table: "cars",
+      message: "",
+      timestamp: "",
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
+      { id: "existing-post-id", title: "Existing Post", slug: "existing-post" },
+    ]);
+
+    const result = await carsWorkflow({ month: "2023-06" });
+
+    expect(getCarsLatestMonth).not.toHaveBeenCalled();
+    expect(revalidateTag).toHaveBeenCalledWith("cars:month:2023-06", "max");
+    expect(result.message).toBe(
+      "[CARS] Data processed. Post already exists, skipping social media.",
+    );
+  });
+
+  it("should fall back to DB query when month not provided", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      table: "cars",
+      message: "",
+      timestamp: "",
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
+      { id: "existing-post-id", title: "Existing Post", slug: "existing-post" },
+    ]);
+
+    const result = await carsWorkflow({});
+
+    expect(getCarsLatestMonth).toHaveBeenCalled();
+    expect(result.message).toBe(
+      "[CARS] Data processed. Post already exists, skipping social media.",
+    );
+  });
+
   it("should handle non-Error objects thrown from AI generation", async () => {
     vi.mocked(updateCars).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "cars",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
     vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
     vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
-      { make: "Toyota", count: 100 },
+      {
+        month: "2024-01",
+        make: "Toyota",
+        fuelType: "Petrol",
+        vehicleType: "Saloon",
+        number: 100,
+      },
     ]);
     vi.mocked(generateBlogContent).mockRejectedValueOnce("string error");
 

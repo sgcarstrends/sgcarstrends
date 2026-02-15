@@ -1,5 +1,5 @@
 import { numberFormat } from "@ruchernchong/number-format";
-import { formatCurrency } from "@web/utils/formatting/format-currency";
+import { formatCurrency } from "@sgcarstrends/utils";
 import type { CSSProperties, ReactNode } from "react";
 import { Label, XAxis, YAxis } from "recharts";
 

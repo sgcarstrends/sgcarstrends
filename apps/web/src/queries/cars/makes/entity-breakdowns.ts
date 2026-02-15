@@ -37,7 +37,7 @@ interface VehicleTypeData {
 
 export async function getMakeDetails(
   make: string,
-  month?: string,
+  month?: string | null,
 ): Promise<MakeDetails> {
   "use cache";
   cacheLife("max");
@@ -46,8 +46,7 @@ export async function getMakeDetails(
     cacheTag(`cars:month:${month}`);
   }
 
-  const pattern = make.replaceAll("-", "%");
-  const whereConditions = [ilike(cars.make, pattern)];
+  const whereConditions = [ilike(cars.make, make)];
 
   if (month) {
     whereConditions.push(eq(cars.month, month));

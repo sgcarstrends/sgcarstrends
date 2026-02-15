@@ -74,8 +74,6 @@ export default defineConfig({
       reporter: ["text", "text-summary", "json", "html", "lcov"],
       reportsDirectory: "./coverage",
       thresholds: {
-        // Auto-update in 5% increments, cap at 80%
-        autoUpdate: (threshold) => Math.min(Math.floor(threshold / 5) * 5, 80),
         lines: 80,
         functions: 80,
         branches: 80,

@@ -23,7 +23,7 @@ pnpm test:e2e:ui        # Run E2E tests with Playwright UI
 pnpm lint               # Run Next.js ESLint
 pnpm format             # Format code with Biome
 
-# Deployment (see `sst-deployment` skill)
+# Deployment via Vercel (automatic on push to main)
 ```
 
 ## Architecture Overview
@@ -36,7 +36,7 @@ pnpm format             # Format code with Biome
 - **Styling**: Tailwind CSS v4 with HeroUI components
 - **Animations**: Framer Motion with shared variants (`@web/config/animations`)
 - **Testing**: Vitest for unit tests, Playwright for E2E
-- **Deployment**: SST on AWS (Singapore region)
+- **Deployment**: Vercel (Singapore region)
 
 ### Key Directories
 
@@ -1028,7 +1028,7 @@ it("displays empty state when data is empty", () => {
 
 ### Environment Configuration
 
-Environment variables managed through SST config:
+Environment variables managed through Vercel project settings:
 
 - `DATABASE_URL`: Neon PostgreSQL connection
 - `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
@@ -1056,7 +1056,7 @@ The web application uses Vercel Related Projects for automatic API URL resolutio
 
 **Configuration:**
 
-- Located in `vercel.json` at the web app root
+- Located in `vercel.ts` at the web app root
 - References API project ID: `prj_fyAvupEssH3LO4OQFDWplinVFlaI`
 - Uses `@vercel/related-projects` package for dynamic URL resolution
 
@@ -1071,17 +1071,14 @@ The web application uses Vercel Related Projects for automatic API URL resolutio
 - No manual API URL configuration needed in Vercel deployments
 - Preview deployments automatically connect to correct API environment
 - Type-safe with full TypeScript support
-- Backward compatible with SST deployments
+- Works seamlessly with Vercel deployments
 
 ### Deployment
 
-Multi-stage deployment via SST with domain mapping:
+Deployed via Vercel with automatic deployments:
 
-- **dev**: `dev.sgcarstrends.com`
-- **staging**: `staging.sgcarstrends.com`
-- **prod**: `sgcarstrends.com` (apex domain)
-
-See `sst-deployment` skill for deployment workflows and infrastructure details.
+- **Production**: `sgcarstrends.com` (apex domain) - deployed on push to main
+- **Preview**: Automatic preview URLs for pull requests
 
 ## Development Notes
 

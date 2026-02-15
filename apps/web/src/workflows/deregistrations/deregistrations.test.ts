@@ -52,7 +52,9 @@ describe("deregistrationsWorkflow", () => {
   it("should return early when no records are processed", async () => {
     vi.mocked(updateDeregistration).mockResolvedValueOnce({
       recordsProcessed: 0,
-      details: {},
+      table: "deregistrations",
+      message: "",
+      timestamp: "",
     });
 
     const result = await deregistrationsWorkflow({});
@@ -64,10 +66,12 @@ describe("deregistrationsWorkflow", () => {
   it("should return message when no deregistration data found", async () => {
     vi.mocked(updateDeregistration).mockResolvedValueOnce({
       recordsProcessed: 5,
-      details: {},
+      table: "deregistrations",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getDeregistrationsLatestMonth).mockResolvedValueOnce({
-      month: null,
+      month: null as unknown as string,
     });
 
     const result = await deregistrationsWorkflow({});
@@ -78,7 +82,9 @@ describe("deregistrationsWorkflow", () => {
   it("should process data and revalidate cache on success", async () => {
     vi.mocked(updateDeregistration).mockResolvedValueOnce({
       recordsProcessed: 10,
-      details: {},
+      table: "deregistrations",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getDeregistrationsLatestMonth).mockResolvedValueOnce({
       month: "2024-01",
@@ -92,6 +98,30 @@ describe("deregistrationsWorkflow", () => {
       "max",
     );
     expect(revalidateTag).toHaveBeenCalledWith("deregistrations:months", "max");
+    expect(revalidateTag).toHaveBeenCalledWith(
+      "deregistrations:year:2024",
+      "max",
+    );
+    expect(result.message).toBe(
+      "[DEREGISTRATIONS] Data processed and cache revalidated successfully",
+    );
+  });
+
+  it("should use payload.month when provided and skip DB query", async () => {
+    vi.mocked(updateDeregistration).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      table: "deregistrations",
+      message: "",
+      timestamp: "",
+    });
+
+    const result = await deregistrationsWorkflow({ month: "2023-06" });
+
+    expect(getDeregistrationsLatestMonth).not.toHaveBeenCalled();
+    expect(revalidateTag).toHaveBeenCalledWith(
+      "deregistrations:month:2023-06",
+      "max",
+    );
     expect(result.message).toBe(
       "[DEREGISTRATIONS] Data processed and cache revalidated successfully",
     );
@@ -100,7 +130,9 @@ describe("deregistrationsWorkflow", () => {
   it("should update redis timestamp when records are processed", async () => {
     vi.mocked(updateDeregistration).mockResolvedValueOnce({
       recordsProcessed: 5,
-      details: {},
+      table: "deregistrations",
+      message: "",
+      timestamp: "",
     });
     vi.mocked(getDeregistrationsLatestMonth).mockResolvedValueOnce({
       month: "2024-02",

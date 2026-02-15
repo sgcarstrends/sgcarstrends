@@ -3,3 +3,6 @@ gitleaks protect --staged --verbose
 
 # Lint staged files
 pnpm lint-staged
+
+# Type check
+pnpm typecheck

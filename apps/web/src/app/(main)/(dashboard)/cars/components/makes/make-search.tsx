@@ -1,9 +1,10 @@
+"use client";
+
 import { Autocomplete, AutocompleteItem } from "@heroui/autocomplete";
 import { slugify } from "@sgcarstrends/utils";
 import type { Make } from "@web/types";
 import { Search } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { parseAsString } from "nuqs/server";
+import { useRouter } from "next/navigation";
 import type { Key } from "react";
 
 interface MakeSearchProps {
@@ -11,16 +12,11 @@ interface MakeSearchProps {
 }
 
 export function MakeSearch({ makes }: MakeSearchProps) {
-  const [make, setMake] = useQueryState(
-    "make",
-    parseAsString.withOptions({ shallow: false }),
-  );
+  const router = useRouter();
 
   const handleSelectionChange = (key: Key | null) => {
-    if (key === null) {
-      setMake(null);
-    } else {
-      setMake(slugify(key as string));
+    if (key) {
+      router.push(`/cars/makes/${slugify(key as string)}`);
     }
   };
 
@@ -29,7 +25,6 @@ export function MakeSearch({ makes }: MakeSearchProps) {
       aria-label="Search make..."
       placeholder="Search make..."
       startContent={<Search className="size-4" />}
-      selectedKey={make}
       onSelectionChange={handleSelectionChange}
       variant="underlined"
     >

@@ -8,142 +8,136 @@ This document provides a high-level overview of the SG Cars Trends platform arch
 graph TB
     %% External Services
     LTA[LTA DataMall APIs]
-    Cloudflare[Cloudflare DNS]
-    
+
     %% AI Services
     Gemini[Vercel AI SDK + Google Gemini]
-    
+
     %% Social Media Platforms
     Discord[Discord]
     LinkedIn[LinkedIn]
     Telegram[Telegram]
     Twitter[Twitter]
-    
+
     %% Infrastructure Layer
-    subgraph "AWS Infrastructure"
+    subgraph "Vercel Platform"
         subgraph "Compute"
-            APILambda[API Lambda Functions]
-            WebLambda[Web Lambda Functions]
+            WebFunctions[Next.js Server Functions]
+            WDKRuntime[WDK Workflow Runtime]
         end
-        
-        subgraph "Storage"
-            RDS[(PostgreSQL Database)]
-            Redis[(Redis Cache - Upstash)]
+
+        subgraph "Edge Network"
+            VercelEdge[Vercel Edge Network]
+            VercelCDN[Vercel CDN]
         end
-        
-        subgraph "Networking"
-            CloudFront[CloudFront CDN]
-            APIGateway[API Gateway]
+
+        subgraph "Cron Jobs"
+            CronScheduler[Vercel Cron]
         end
     end
-    
+
+    %% External Storage
+    subgraph "Managed Services"
+        Neon[(Neon PostgreSQL)]
+        Upstash[(Upstash Redis)]
+        Blob[Vercel Blob Storage]
+    end
+
     %% Application Layer
     subgraph "SG Cars Trends Platform"
         subgraph "Apps"
-            API[API Service - Hono]
-            Web[Web Application - Next.js]
-            Docs[Documentation - Mintlify]
+            Web[Web Application - Next.js 16]
         end
-        
+
         subgraph "Packages"
             Database[Database Package - Drizzle ORM]
             Types[Types Package]
             Utils[Utils Package + Redis Client]
+            AI[AI Package - Blog Generation]
+            Logos[Logos Package - Vercel Blob]
         end
     end
-    
+
     %% Workflow System
     subgraph "Data Processing"
-        WDK[Vercel WDK Workflows]
         CarsWorkflow[Cars Data Workflow]
         COEWorkflow[COE Data Workflow]
+        DeregWorkflow[Deregistrations Workflow]
         BlogWorkflow[Blog Generation Workflow]
-        SocialWorkflow[Social Media Workflow]
     end
-    
+
     %% Connections
-    %% External to Infrastructure
-    Cloudflare --> CloudFront
-    
-    %% Infrastructure connections
-    CloudFront --> APIGateway
-    CloudFront --> WebLambda
-    APIGateway --> APILambda
-    
+    %% User to Infrastructure
+    Users[Users] --> VercelEdge
+    VercelEdge --> VercelCDN
+    VercelCDN --> WebFunctions
+
     %% Application to Infrastructure
-    API --> APILambda
-    Web --> WebLambda
-    
+    Web --> WebFunctions
+
     %% Package dependencies
-    API --> Database
-    API --> Types
-    API --> Utils
+    Web --> Database
     Web --> Types
     Web --> Utils
-    
+    Web --> AI
+    Web --> Logos
+
     %% Database connections
-    Database --> RDS
-    Utils --> Redis
-    API --> RDS
-    API --> Redis
-    Web --> Redis
-    
+    Database --> Neon
+    Utils --> Upstash
+    Web --> Neon
+    Web --> Upstash
+    Logos --> Blob
+    Logos --> Upstash
+
     %% Workflow connections
-    API --> WDK
-    WDK --> CarsWorkflow
-    WDK --> COEWorkflow
-    WDK --> BlogWorkflow
-    WDK --> SocialWorkflow
-    
+    CronScheduler --> WDKRuntime
+    WDKRuntime --> CarsWorkflow
+    WDKRuntime --> COEWorkflow
+    WDKRuntime --> DeregWorkflow
+    WDKRuntime --> BlogWorkflow
+
     %% External API connections
     CarsWorkflow --> LTA
     COEWorkflow --> LTA
+    DeregWorkflow --> LTA
     BlogWorkflow --> Gemini
-    
+
     %% Social media connections
-    SocialWorkflow --> Discord
-    SocialWorkflow --> LinkedIn
-    SocialWorkflow --> Telegram
-    SocialWorkflow --> Twitter
-    
-    %% User interactions
-    Users[Users] --> CloudFront
-    Developers[Developers] --> Docs
-    
+    CarsWorkflow --> Discord
+    CarsWorkflow --> LinkedIn
+    CarsWorkflow --> Telegram
+    CarsWorkflow --> Twitter
+    COEWorkflow --> Discord
+    COEWorkflow --> LinkedIn
+    COEWorkflow --> Telegram
+    COEWorkflow --> Twitter
+
     %% Styling
     classDef app fill:#e1f5fe
     classDef package fill:#f3e5f5
     classDef infrastructure fill:#e8f5e8
     classDef external fill:#fff3e0
     classDef workflow fill:#fce4ec
-    
-    class API,Web,Docs app
-    class Database,Types,Utils package
-    class APILambda,WebLambda,RDS,Redis,CloudFront,APIGateway infrastructure
-    class LTA,Cloudflare,Gemini,Discord,LinkedIn,Telegram,Twitter external
-    class WDK,CarsWorkflow,COEWorkflow,BlogWorkflow,SocialWorkflow workflow
+    classDef storage fill:#e0f2f1
+
+    class Web app
+    class Database,Types,Utils,AI,Logos package
+    class WebFunctions,WDKRuntime,VercelEdge,VercelCDN,CronScheduler infrastructure
+    class LTA,Gemini,Discord,LinkedIn,Telegram,Twitter external
+    class CarsWorkflow,COEWorkflow,DeregWorkflow,BlogWorkflow workflow
+    class Neon,Upstash,Blob storage
 ```
 
 ## System Components
 
 ### Applications Layer
 
-**API Service (Hono Framework)**
-- RESTful endpoints for data access (`/v1/cars`, `/v1/coe`, `/v1/months`)
-- Workflow orchestration endpoints
-- Social media webhook handlers
-- Bearer token authentication
-
-**Web Application (Next.js 15)**
+**Web Application (Next.js 16)**
 - User-facing interface with interactive charts and analytics
 - Blog functionality with LLM-generated content
-- Server-side rendering for optimal performance
-- Real-time analytics tracking
-
-**Documentation Site (Mintlify)**
-- Comprehensive API documentation
-- Developer guides and examples
-- Interactive API exploration
+- Integrated workflow API endpoints (`/api/workflows/*`)
+- Server Components with `"use cache"` for optimal performance
+- Real-time analytics tracking with Vercel Analytics
 
 ### Shared Packages
 
@@ -153,6 +147,18 @@ graph TB
 - Migration management
 - Shared database client configuration
 
+**AI Package**
+- Vercel AI SDK with Google Gemini integration
+- 2-step blog generation (analysis → structured output)
+- Zod schemas for structured responses
+- Langfuse telemetry for LLM observability
+
+**Logos Package**
+- Car brand logo management
+- Vercel Blob storage integration
+- Redis caching for performance
+- Brand name normalization
+
 **Types Package**
 - Shared TypeScript interfaces
 - API request/response types
@@ -160,39 +166,43 @@ graph TB
 
 **Utils Package**
 - Common utility functions
-- Redis client configuration
+- Redis client configuration (Upstash)
 - Date formatting and calculations
 
 ### Infrastructure Layer
 
-**AWS Services (Singapore Region - ap-southeast-1)**
-- **Lambda Functions**: Serverless compute for API and web applications
-- **CloudFront**: Global content delivery network
-- **API Gateway**: RESTful API routing and management
-- **RDS PostgreSQL**: Primary data storage
-- **Upstash Redis**: Caching and session management
+**Vercel Platform (Singapore Region - sin1)**
+- **Server Functions**: Next.js App Router with Server Components
+- **Edge Network**: Global CDN with edge caching
+- **Cron Jobs**: Scheduled workflow triggers
+- **WDK Runtime**: Durable workflow execution
 
-**DNS Management (Cloudflare)**
-- Domain routing and SSL termination
-- Global DNS resolution
-- DDoS protection and security features
+**Managed Services**
+- **Neon PostgreSQL**: Serverless PostgreSQL database
+- **Upstash Redis**: Serverless Redis for caching
+- **Vercel Blob**: Object storage for car logos
 
 ### Data Processing Workflows
 
 **WDK Orchestration**
-- Scheduled data updates (hourly during business hours)
-- Workflow state management and error handling
-- Message queue processing
+- Scheduled via Vercel Cron (daily at 10 AM UTC / 6 PM SGT)
+- Durable workflow state with automatic retries
+- Error handling with RetryableError and FatalError
 
 **Cars Data Workflow**
 - LTA DataMall integration for vehicle registration data
 - CSV processing and data transformation
 - Database updates with duplicate detection
+- Blog generation and social media distribution
 
 **COE Data Workflow**
 - COE bidding results processing
 - Prevailing Quota Premium (PQP) data handling
 - Conditional blog generation when bidding cycles complete
+
+**Deregistrations Workflow**
+- Vehicle deregistration data processing
+- Monthly statistics aggregation
 
 **Blog Generation Workflow**
 - Vercel AI SDK with Google Gemini for content creation
@@ -213,12 +223,12 @@ graph TB
 
 ## Data Flow
 
-1. **Data Ingestion**: Scheduled workflows fetch data from LTA DataMall
+1. **Data Ingestion**: Cron-triggered workflows fetch data from LTA DataMall
 2. **Data Processing**: CSV files are parsed, validated, and transformed
-3. **Data Storage**: Processed data is stored in PostgreSQL with Redis caching
+3. **Data Storage**: Processed data is stored in Neon PostgreSQL with Redis caching
 4. **Content Generation**: AI generates blog posts from processed data
 5. **Distribution**: Updates are published to social media platforms
-6. **User Access**: Web application and API serve data to end users
+6. **User Access**: Web application serves data via Vercel Edge Network
 
 ## Key Architectural Decisions
 
@@ -227,10 +237,11 @@ graph TB
 - Consistent tooling and development experience
 - Type safety across application boundaries
 
-**Serverless Infrastructure**
-- Cost-effective scaling based on usage
-- Minimal infrastructure management overhead
-- Regional deployment for low latency
+**Vercel Platform**
+- Zero-config deployments from GitHub
+- Automatic preview deployments for PRs
+- Global edge network for low latency
+- Integrated cron and workflow runtime
 
 **Workflow-Based Processing**
 - Reliable data processing with error recovery
@@ -246,6 +257,5 @@ graph TB
 
 - [Data Processing Workflows](./workflows)
 - [Database Schema](./database)
-- [API Architecture](./api)
 - [Infrastructure Setup](./infrastructure)
 - [Social Media Integration](./social)

@@ -1,22 +1,11 @@
 import { redis } from "@sgcarstrends/utils";
 import type { Period } from "@web/app/(main)/(dashboard)/coe/search-params";
 import { LAST_UPDATED_COE_KEY } from "@web/config";
+import { groupCOEResultsByBidding } from "@web/lib/coe/calculations";
 import {
-  calculateBiggestMovers,
-  calculateNearRecords,
-  calculatePremiumRangeStats,
-  generateKeyInsights,
-  groupCOEResultsByBidding,
-} from "@web/lib/coe/calculations";
-import { loadLastUpdated } from "@web/lib/common";
-import {
-  getAllCoeCategoryTrends,
   getCoeMonths,
-  getCoeResults,
   getCoeResultsByPeriod,
-  getLatestAndPreviousCoeResults,
   getMonthBiddingRounds,
-  getPqpRates,
 } from "@web/queries/coe";
 
 export async function fetchCOEPageData(period: Period = "12m") {
@@ -33,57 +22,6 @@ export async function fetchCOEPageData(period: Period = "12m") {
     months,
     lastUpdated,
     data: groupCOEResultsByBidding(coeResults),
-  };
-}
-
-const ALL_CATEGORIES = [
-  "Category A",
-  "Category B",
-  "Category C",
-  "Category D",
-  "Category E",
-];
-
-/**
- * Load all data for the COE overview page
- *
- * Uses getAllCoeCategoryTrends() to fetch all 5 categories in a single batched query
- * instead of 5 separate getCoeCategoryTrends() calls
- *
- * @returns COE trends, latest results, PQP rates, premium range stats, movers, key insights, and last updated timestamp
- */
-export async function loadCOEOverviewPageData() {
-  const [coeTrends, latestAndPrevious, allCoeResults, pqpRates, lastUpdated] =
-    await Promise.all([
-      getAllCoeCategoryTrends(),
-      getLatestAndPreviousCoeResults(),
-      getCoeResults(),
-      getPqpRates(),
-      loadLastUpdated("coe"),
-    ]);
-
-  const { latest: latestResults, previous: previousResults } =
-    latestAndPrevious;
-
-  // Calculate premium range stats for key insights
-  const premiumRangeStats = calculatePremiumRangeStats(
-    allCoeResults,
-    ALL_CATEGORIES,
-  );
-
-  // Calculate key insights data
-  const movers = calculateBiggestMovers(latestResults, previousResults);
-  const nearRecords = calculateNearRecords(latestResults, premiumRangeStats);
-  const keyInsights = generateKeyInsights(movers, nearRecords);
-
-  return {
-    coeTrends,
-    latestResults,
-    pqpRates,
-    lastUpdated,
-    premiumRangeStats,
-    movers,
-    keyInsights,
   };
 }
 

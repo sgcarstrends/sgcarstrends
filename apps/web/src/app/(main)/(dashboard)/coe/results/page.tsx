@@ -3,10 +3,13 @@ import { BiddingRoundCards } from "@web/app/(main)/(dashboard)/coe/components/bi
 import { COEPremiumChart } from "@web/app/(main)/(dashboard)/coe/components/premium-chart";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/coe/search-params";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
-import { PageHeader } from "@web/components/page-header";
+import { DashboardPageHeader } from "@web/components/dashboard-page-header";
+import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
+import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
+import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
 import Typography from "@web/components/typography";
@@ -48,17 +51,53 @@ export const generateMetadata = async (): Promise<Metadata> => {
   });
 };
 
-const COEResultsPage = async ({ searchParams }: PageProps) => {
-  const { period, month } = await loadSearchParams(searchParams);
-  const {
-    coeResults,
-    chartData,
-    lastUpdated,
-    months,
-    biddingMonth,
-    firstRound,
-    secondRound,
-  } = await loadResultsPageData(period, month ?? undefined);
+const COEResultsPage = ({ searchParams }: PageProps) => (
+  <div className="flex flex-col gap-6">
+    <DashboardPageHeader
+      title={
+        <DashboardPageTitle
+          title="COE Results"
+          subtitle="Historical COE bidding results by category and month."
+        />
+      }
+      meta={
+        <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+          <COEResultsHeaderMeta searchParams={searchParams} />
+        </Suspense>
+      }
+    />
+    <Suspense fallback={<SkeletonCard className="h-[840px] w-full" />}>
+      <COEResultsContent searchParams={searchParams} />
+    </Suspense>
+  </div>
+);
+
+async function COEResultsHeaderMeta({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { period, month } = await loadSearchParams(searchParamsPromise);
+  const { lastUpdated, months } = await loadResultsPageData(
+    period,
+    month ?? undefined,
+  );
+
+  return (
+    <DashboardPageMeta lastUpdated={lastUpdated}>
+      <MonthSelector months={months} latestMonth={months[0]} />
+    </DashboardPageMeta>
+  );
+}
+
+async function COEResultsContent({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { period, month } = await loadSearchParams(searchParamsPromise);
+  const { coeResults, chartData, biddingMonth, firstRound, secondRound } =
+    await loadResultsPageData(period, month ?? undefined);
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -76,56 +115,48 @@ const COEResultsPage = async ({ searchParams }: PageProps) => {
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-6">
-        <AnimatedSection order={0}>
-          <PageHeader
-            title="COE Results"
-            subtitle="Historical COE bidding results by category and month."
-            lastUpdated={lastUpdated}
-          >
-            <Suspense fallback={null}>
-              <MonthSelector months={months} latestMonth={months[0]} />
-            </Suspense>
-          </PageHeader>
-        </AnimatedSection>
+      <AnimatedSection order={1}>
+        <PageContext {...PAGE_CONTEXTS.coe} />
+      </AnimatedSection>
 
-        <AnimatedSection order={1}>
-          <PageContext {...PAGE_CONTEXTS.coe} />
-        </AnimatedSection>
-
-        {/* Bidding Rounds for Current Month */}
-        {firstRound.length > 0 && (
-          <AnimatedSection order={2}>
+      {/* Bidding Rounds for Current Month */}
+      {firstRound.length > 0 && (
+        <AnimatedSection order={2}>
+          <Suspense fallback={<SkeletonCard className="h-[280px] w-full" />}>
             <BiddingRoundCards
               month={biddingMonth}
               firstRound={firstRound}
               secondRound={secondRound}
             />
-          </AnimatedSection>
-        )}
+          </Suspense>
+        </AnimatedSection>
+      )}
 
-        {/* Premium Chart - Full Width */}
-        <AnimatedSection order={3}>
+      {/* Premium Chart - Full Width */}
+      <AnimatedSection order={3}>
+        <Suspense fallback={<SkeletonCard className="h-[420px] w-full" />}>
           <COEPremiumChart data={chartData} />
-        </AnimatedSection>
+        </Suspense>
+      </AnimatedSection>
 
-        {/* Historical Data Table - Full Width */}
-        <AnimatedSection order={4}>
-          <Card className="rounded-2xl p-3">
-            <CardHeader className="flex flex-col items-start gap-2">
-              <Typography.H4>Historical Data</Typography.H4>
-              <Typography.TextSm>
-                Complete list of historical COE prices
-              </Typography.TextSm>
-            </CardHeader>
-            <CardBody>
+      {/* Historical Data Table - Full Width */}
+      <AnimatedSection order={4}>
+        <Card className="rounded-2xl p-3">
+          <CardHeader className="flex flex-col items-start gap-2">
+            <Typography.H4>Historical Data</Typography.H4>
+            <Typography.TextSm>
+              Complete list of historical COE prices
+            </Typography.TextSm>
+          </CardHeader>
+          <CardBody>
+            <Suspense fallback={<SkeletonCard className="h-[420px] w-full" />}>
               <TrendTable coeResults={coeResults} />
-            </CardBody>
-          </Card>
-        </AnimatedSection>
-      </div>
+            </Suspense>
+          </CardBody>
+        </Card>
+      </AnimatedSection>
     </>
   );
-};
+}
 
 export default COEResultsPage;

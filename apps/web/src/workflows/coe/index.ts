@@ -1,5 +1,6 @@
 import { generateBlogContent, getCoeForMonth } from "@sgcarstrends/ai";
 import { redis, tokeniser } from "@sgcarstrends/utils";
+import { getCoeMonthlyRevalidationTags } from "@web/lib/cache-tags";
 import type { UpdaterResult } from "@web/lib/updater";
 import { getCOELatestRecord } from "@web/queries/coe/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
@@ -22,7 +23,7 @@ interface CoeWorkflowResult {
  * Processes COE bidding data and generates blog posts.
  */
 export async function coeWorkflow(
-  _payload: CoeWorkflowPayload,
+  payload: CoeWorkflowPayload,
 ): Promise<CoeWorkflowResult> {
   "use workflow";
 
@@ -36,23 +37,32 @@ export async function coeWorkflow(
     };
   }
 
-  const record = await getLatestRecord();
-  if (!record) {
-    return { message: "[COE] No COE records found" };
+  let month: string;
+
+  if (payload.month) {
+    // When month is explicitly provided, use it directly and skip biddingNo guard
+    month = payload.month;
+  } else {
+    const record = await getLatestRecord();
+    if (!record) {
+      return { message: "[COE] No COE records found" };
+    }
+
+    month = record.month;
+
+    // Only generate blog post when both bidding exercises are complete
+    if (record.biddingNo !== 2) {
+      const year = month.split("-")[0];
+      await revalidateCoeCache(month, year);
+      return {
+        message:
+          "[COE] Data processed. Waiting for second bidding exercise to generate post.",
+      };
+    }
   }
 
-  const { month, biddingNo } = record;
   const year = month.split("-")[0];
-
-  await revalidateCoeCache(year);
-
-  // Only generate blog post when both bidding exercises are complete
-  if (biddingNo !== 2) {
-    return {
-      message:
-        "[COE] Data processed. Waiting for second bidding exercise to generate post.",
-    };
-  }
+  await revalidateCoeCache(month, year);
 
   const existingPost = await checkExistingCoePost(month);
   if (existingPost) {
@@ -96,10 +106,10 @@ async function getLatestRecord(): Promise<{
   return record ?? null;
 }
 
-async function revalidateCoeCache(year: string): Promise<void> {
+async function revalidateCoeCache(month: string, year: string): Promise<void> {
   "use step";
 
-  const tags = ["coe:latest", "coe:months", `coe:year:${year}`];
+  const tags = getCoeMonthlyRevalidationTags(month, year);
   for (const tag of tags) {
     revalidateTag(tag, "max");
   }

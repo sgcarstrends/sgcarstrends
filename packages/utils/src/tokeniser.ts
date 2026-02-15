@@ -3,7 +3,12 @@ export const tokeniser = (data: Record<string, unknown>[]): string => {
     return "";
   }
 
-  const headers = Object.keys(data[0]);
+  const firstItem = data[0];
+  if (!firstItem) {
+    return "";
+  }
+
+  const headers = Object.keys(firstItem);
   const headerLine = headers.join("|");
 
   const formattedData = data

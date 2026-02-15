@@ -1,3 +1,64 @@
+## [4.49.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.49.0...v4.49.1) (2026-02-15)
+
+### Performance Improvements
+
+* **web:** replace ILIKE wildcards with exact matching ([8cc5971](https://github.com/sgcarstrends/sgcarstrends/commit/8cc59712e8f58daa83bdbcd132a98fbfe68c48e5))
+
+## [4.49.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.48.2...v4.49.0) (2026-02-15)
+
+### Features
+
+* **web:** add "New" badge to PARF Calculator page title ([3c930b2](https://github.com/sgcarstrends/sgcarstrends/commit/3c930b23a2d27e222e7e16672a460ad79be19749))
+
+## [4.48.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.48.1...v4.48.2) (2026-02-15)
+
+### Bug Fixes
+
+* **deps:** upgrade recharts 2.x to 3.x for React 19 type compatibility ([87388d3](https://github.com/sgcarstrends/sgcarstrends/commit/87388d31f9a1ea025cdb849eb6edde6ea25c93e9))
+
+## [4.48.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.48.0...v4.48.1) (2026-02-14)
+
+### Bug Fixes
+
+* resolve typecheck errors across packages ([a74869a](https://github.com/sgcarstrends/sgcarstrends/commit/a74869ade80ef32a3aed94aab3867c4b70b4f39a))
+
+## [4.48.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.47.2...v4.48.0) (2026-02-14)
+
+### Features
+
+* **web:** add PARF calculator page ([8d70f09](https://github.com/sgcarstrends/sgcarstrends/commit/8d70f096a4aef32353eda22fe38c56340bee93ab)), closes [#684](https://github.com/sgcarstrends/sgcarstrends/issues/684)
+
+### Bug Fixes
+
+* **web:** improve disclaimer text contrast ([9cc568a](https://github.com/sgcarstrends/sgcarstrends/commit/9cc568ae9202cf8126b02828eea0c8b660fcafff))
+
+## [4.47.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.47.1...v4.47.2) (2026-02-13)
+
+### Bug Fixes
+
+* **web:** type autocomplete items ([e73c1ff](https://github.com/sgcarstrends/sgcarstrends/commit/e73c1ff3e18a10b644813b3710f8e969049ef888))
+
+## [4.47.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.47.0...v4.47.1) (2026-02-13)
+
+### Bug Fixes
+
+* **web:** upgrade next-mdx-remote to v6.0.0 ([8b25833](https://github.com/sgcarstrends/sgcarstrends/commit/8b25833d06058e0e2592b969e9a2cbbd39e27ce9))
+
+## [4.47.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.46.0...v4.47.0) (2026-02-12)
+
+### Features
+
+* add Claude Code agents, skills, and hooks ([80c619a](https://github.com/sgcarstrends/sgcarstrends/commit/80c619a1dae26d6332530d755d7f9249a42ae71c))
+* add makes pages to sitemap ([eceb254](https://github.com/sgcarstrends/sgcarstrends/commit/eceb2544ebca39dcc71ab776dfc396972a767c6d))
+* component-level data fetching with PPR ([4447746](https://github.com/sgcarstrends/sgcarstrends/commit/444774650053fd2ccbf912f1dd0ed0c400ee08b8)), closes [#629](https://github.com/sgcarstrends/sgcarstrends/issues/629)
+
+## [4.46.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.45.2...v4.46.0) (2026-02-09)
+
+### Features
+
+* add optional month param to workflows ([372e9ba](https://github.com/sgcarstrends/sgcarstrends/commit/372e9baa1b29f3a43579ab4e97b6d39c29bae804)), closes [#619](https://github.com/sgcarstrends/sgcarstrends/issues/619)
+* add redis sorted sets for makes filtering ([f2dbc1c](https://github.com/sgcarstrends/sgcarstrends/commit/f2dbc1cb52c4c785acbfd1ecb69a245187b4e435)), closes [#480](https://github.com/sgcarstrends/sgcarstrends/issues/480)
+
 ## [4.45.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.45.1...v4.45.2) (2026-02-04)
 
 ### Bug Fixes

@@ -7,10 +7,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import { ChartWidget } from "@web/components/charts/widget";
 import { CHART_MARGINS } from "@web/config/design-system";
 import { formatNumber } from "@web/utils/charts";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { useMemo } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 

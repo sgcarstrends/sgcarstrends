@@ -1,14 +1,15 @@
 {
   "name": "sgcarstrends",
-  "version": "4.45.2",
+  "version": "4.49.1",
   "description": "Monorepo for SG Cars Trends",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
   "scripts": {
     "build": "turbo build",
-    "dev": "sst dev --stage local",
+    "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "turbo format",
+    "typecheck": "turbo typecheck",
     "start": "turbo start",
     "test": "turbo test",
     "test:coverage": "turbo test:coverage",
@@ -21,13 +22,8 @@
     "dev:web": "turbo run @sgcarstrends/web#dev",
     "test:web": "turbo run @sgcarstrends/web#test",
     "lint:web": "turbo run @sgcarstrends/web#lint",
+    "typecheck:web": "turbo run @sgcarstrends/web#typecheck",
     "start:web": "turbo run @sgcarstrends/web#start",
-    "deploy:dev": "sst deploy --stage dev",
-    "deploy:staging": "sst deploy --stage staging",
-    "deploy:prod": "sst deploy --stage prod",
-    "deploy:web:dev": "turbo run @sgcarstrends/web#deploy:dev",
-    "deploy:web:staging": "turbo run @sgcarstrends/web#deploy:staging",
-    "deploy:web:prod": "turbo run @sgcarstrends/web#deploy:prod",
     "db:migrate": "turbo run @sgcarstrends/database#migrate",
     "db:migrate:check": "turbo run @sgcarstrends/database#migrate:check",
     "db:generate": "turbo run @sgcarstrends/database#generate",
@@ -36,8 +32,7 @@
     "auth:generate": "turbo run auth:generate"
   },
   "dependencies": {
-    "@heroui/navbar": "^2.2.26",
-    "sst": "3.17.38"
+    "@heroui/navbar": "^2.2.26"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.0",

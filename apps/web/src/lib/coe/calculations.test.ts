@@ -225,20 +225,27 @@ describe("COE Calculations", () => {
     });
 
     it("should return null YTD when no data exists for current year", () => {
+      // Latest data is from 2025, but Category B only has 2024 data
+      // so Category B should have null YTD
       const mockResults: COEResult[] = [
         createMockCOEResult({
           month: "2024-01",
-          vehicleClass: "Category A",
+          vehicleClass: "Category B",
           premium: 80000,
         }),
         createMockCOEResult({
           month: "2024-12",
-          vehicleClass: "Category A",
+          vehicleClass: "Category B",
           premium: 95000,
+        }),
+        createMockCOEResult({
+          month: "2025-01",
+          vehicleClass: "Category A",
+          premium: 90000,
         }),
       ];
 
-      const result = calculatePremiumRangeStats(mockResults, ["Category A"]);
+      const result = calculatePremiumRangeStats(mockResults, ["Category B"]);
 
       expect(result).toHaveLength(1);
       expect(result[0]?.ytd).toBeNull();

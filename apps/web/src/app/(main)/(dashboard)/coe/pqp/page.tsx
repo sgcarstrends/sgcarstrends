@@ -7,24 +7,25 @@ import {
   TrendsChart,
 } from "@web/app/(main)/(dashboard)/coe/components/pqp";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
-import { PageHeader } from "@web/components/page-header";
+import { DashboardPageHeader } from "@web/components/dashboard-page-header";
+import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
+import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
+import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { LAST_UPDATED_COE_KEY, SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getPQPOverview } from "@web/queries/coe";
 import type { Pqp } from "@web/types/coe";
 import { fetchMonthsForCOE, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
-import { createSerializer, type SearchParams } from "nuqs/server";
+import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
-import { loadSearchParams, searchParams } from "./search-params";
-
-const serialize = createSerializer(searchParams);
+import { loadSearchParams } from "./search-params";
 
 const title = "COE PQP Rates";
 const description =
@@ -45,17 +46,60 @@ export const generateMetadata = (): Metadata => {
 
 const PQPRatesPage = async ({
   searchParams: searchParamsPromise,
-}: PageProps) => {
-  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
+}: PageProps) => (
+  <div className="flex flex-col gap-4">
+    <DashboardPageHeader
+      title={
+        <DashboardPageTitle
+          title="PQP Rates"
+          subtitle="Prevailing Quota Premium rates for COE renewal in Singapore."
+        />
+      }
+      meta={
+        <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+          <PQPRatesHeaderMeta searchParams={searchParamsPromise} />
+        </Suspense>
+      }
+    />
+    <Suspense fallback={<SkeletonCard className="h-[880px] w-full" />}>
+      <PQPRatesContent searchParams={searchParamsPromise} />
+    </Suspense>
+  </div>
+);
 
+async function PQPRatesHeaderMeta({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
+  const [months, lastUpdated] = await Promise.all([
+    fetchMonthsForCOE(),
+    redis.get<number>(LAST_UPDATED_COE_KEY),
+  ]);
+  const { wasAdjusted } = await getMonthOrLatest(parsedMonth, "coe");
+
+  return (
+    <DashboardPageMeta lastUpdated={lastUpdated}>
+      <MonthSelector
+        months={months}
+        latestMonth={months[0]}
+        wasAdjusted={wasAdjusted}
+      />
+    </DashboardPageMeta>
+  );
+}
+
+async function PQPRatesContent({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
   const [overview, lastUpdated, months] = await Promise.all([
     getPQPOverview(),
     redis.get<number>(LAST_UPDATED_COE_KEY),
     fetchMonthsForCOE(),
   ]);
-
-  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "coe");
-  const latestMonth = months[0];
 
   const columns: Pqp.TableColumn[] = [
     { key: "month", label: "Month", sortable: true },
@@ -76,50 +120,40 @@ const PQPRatesPage = async ({
   return (
     <>
       <StructuredData data={structuredData} />
-      <div className="flex flex-col gap-4">
-        <AnimatedSection order={0}>
-          <PageHeader
-            title="PQP Rates"
-            subtitle="Prevailing Quota Premium rates for COE renewal in Singapore."
-            lastUpdated={lastUpdated}
-          >
-            <Suspense fallback={null}>
-              <MonthSelector
-                months={months}
-                latestMonth={latestMonth}
-                wasAdjusted={wasAdjusted}
-              />
-            </Suspense>
-          </PageHeader>
-        </AnimatedSection>
+      <AnimatedSection order={1}>
+        <PageContext {...PAGE_CONTEXTS.pqp} />
+      </AnimatedSection>
 
-        <AnimatedSection order={1}>
-          <PageContext {...PAGE_CONTEXTS.pqp} />
-        </AnimatedSection>
-
-        <AnimatedSection order={2}>
+      <AnimatedSection order={2}>
+        <Suspense fallback={<SkeletonCard className="h-[260px] w-full" />}>
           <ComparisonSummaryCard data={overview.comparison} />
-        </AnimatedSection>
+        </Suspense>
+      </AnimatedSection>
 
-        <AnimatedSection order={3}>
+      <AnimatedSection order={3}>
+        <Suspense fallback={<SkeletonCard className="h-[420px] w-full" />}>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <TrendsChart data={overview.trendData} />
             <ComparisonMixedChart data={overview.comparison} />
           </div>
-        </AnimatedSection>
+        </Suspense>
+      </AnimatedSection>
 
-        <AnimatedSection order={4}>
+      <AnimatedSection order={4}>
+        <Suspense fallback={<SkeletonCard className="h-[480px] w-full" />}>
           <DataTable rows={overview.tableRows} columns={columns} />
-        </AnimatedSection>
+        </Suspense>
+      </AnimatedSection>
 
-        <AnimatedSection order={5}>
+      <AnimatedSection order={5}>
+        <Suspense fallback={<SkeletonCard className="h-[280px] w-full" />}>
           <UnreleasedFeature>
             <RenewalCalculator data={overview.categorySummaries} />
           </UnreleasedFeature>
-        </AnimatedSection>
-      </div>
+        </Suspense>
+      </AnimatedSection>
     </>
   );
-};
+}
 
 export default PQPRatesPage;

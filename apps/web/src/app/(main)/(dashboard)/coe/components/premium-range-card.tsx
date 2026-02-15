@@ -1,9 +1,8 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
+import { formatCurrency, formatDateToMonthYear } from "@sgcarstrends/utils";
 import Typography from "@web/components/typography";
 import type { PremiumRangeStats } from "@web/lib/coe/calculations";
-import { formatCurrency } from "@web/utils/formatting/format-currency";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 
 interface PremiumRangeCardProps {
   stats: PremiumRangeStats[];
@@ -136,11 +135,15 @@ export function PremiumRangeCard({ stats }: PremiumRangeCardProps) {
   const globalMin = Math.min(...allPremiums);
   const globalMax = Math.max(...allPremiums);
 
+  // Derive current year from YTD data or all-time data to avoid new Date() in prerender
+  const firstWithYtd = stats.find((s) => s.ytd?.highestDate);
+  const currentYear = firstWithYtd?.ytd?.highestDate
+    ? Number.parseInt(firstWithYtd.ytd.highestDate.slice(0, 4), 10)
+    : Number.parseInt(stats[0]?.allTime.highestDate?.slice(0, 4) ?? "2025", 10);
+
   return (
     <>
       {stats.map((stat) => {
-        const currentYear = new Date().getFullYear();
-
         return (
           <Card
             key={stat.category}

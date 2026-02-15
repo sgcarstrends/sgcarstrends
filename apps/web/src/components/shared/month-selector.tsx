@@ -6,9 +6,9 @@ import {
   AutocompleteSection,
 } from "@heroui/react";
 import { addToast } from "@heroui/toast";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import type { Month } from "@web/types";
 import { groupByYear } from "@web/utils/arrays/group-by-year";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { Calendar } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
 import { useEffect, useMemo, useRef } from "react";

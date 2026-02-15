@@ -10,7 +10,6 @@
 **/out/
 **/.build/
 **/.open-next/
-**/.sst/
 
 # Environment files
 .env*
@@ -36,15 +35,16 @@
 
 # Framework files
 **/next-env.d.ts
-**/sst-env.d.ts
 
 # Changesets
 .changeset/pre.json
 
 # Claude
 **/.claude/*
+!**/.claude/agents/
 !**/.claude/skills/
 !**/.claude/commands/
+!**/.claude/settings.json
 
 # Turborepo
 .turbo

@@ -3,6 +3,10 @@ import { redis, slugify } from "@sgcarstrends/utils";
 import type { LanguageModelUsage } from "ai";
 import type { Highlight } from "./schemas";
 
+const getPostPublishRevalidationTags = (slug: string): string[] => {
+  return ["posts:list", "posts:recent", `posts:slug:${slug}`];
+};
+
 export interface PostParams {
   title: string;
   content: string;
@@ -77,23 +81,30 @@ async function revalidateWebCache(slug: string): Promise<void> {
   try {
     const webUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
-    const revalidateToken = process.env.NEXT_PUBLIC_REVALIDATE_TOKEN;
+    const revalidateToken = process.env.REVALIDATE_TOKEN;
+    const fallbackToken = process.env.NEXT_PUBLIC_REVALIDATE_TOKEN;
 
-    if (!revalidateToken) {
+    if (!revalidateToken && !fallbackToken) {
       console.warn(
-        "[BLOG_SAVE] NEXT_PUBLIC_REVALIDATE_TOKEN not set, skipping cache invalidation",
+        "[BLOG_SAVE] REVALIDATE_TOKEN not set, skipping cache invalidation",
       );
       return;
+    }
+
+    if (!revalidateToken && fallbackToken) {
+      console.warn(
+        "[BLOG_SAVE] Using NEXT_PUBLIC_REVALIDATE_TOKEN fallback. Set REVALIDATE_TOKEN instead.",
+      );
     }
 
     const response = await fetch(`${webUrl}/api/revalidate`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-revalidate-token": revalidateToken,
+        "x-revalidate-token": revalidateToken ?? fallbackToken ?? "",
       },
       body: JSON.stringify({
-        tags: ["posts:list", "posts:recent", `posts:slug:${slug}`],
+        tags: getPostPublishRevalidationTags(slug),
       }),
     });
 

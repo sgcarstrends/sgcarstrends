@@ -1,14 +1,10 @@
 import { Avatar } from "@heroui/avatar";
 import { Card, CardBody } from "@heroui/card";
 import { slugify } from "@sgcarstrends/utils";
-import { searchParams } from "@web/app/(main)/(dashboard)/cars/makes/search-params";
 import Typography from "@web/components/typography";
 import type { Make } from "@web/types";
 import Image from "next/image";
 import Link from "next/link";
-import { createSerializer } from "nuqs/server";
-
-const serialize = createSerializer(searchParams);
 
 interface MakeCardProps {
   make: Make;
@@ -16,7 +12,7 @@ interface MakeCardProps {
 }
 
 export function MakeCard({ make, logoUrl }: MakeCardProps) {
-  const href = serialize("/cars/makes", { make: slugify(make) });
+  const href = `/cars/makes/${slugify(make)}`;
 
   return (
     <Card

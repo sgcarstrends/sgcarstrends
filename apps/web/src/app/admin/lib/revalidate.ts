@@ -7,11 +7,12 @@ export const revalidateWebCache = async (
   tags: string[],
 ): Promise<{ success: boolean; error?: string }> => {
   try {
-    const revalidateToken = process.env.NEXT_PUBLIC_REVALIDATE_TOKEN;
+    const revalidateToken = process.env.REVALIDATE_TOKEN;
+    const fallbackToken = process.env.NEXT_PUBLIC_REVALIDATE_TOKEN;
 
-    if (!revalidateToken) {
+    if (!revalidateToken && !fallbackToken) {
       console.warn(
-        "[ADMIN] NEXT_PUBLIC_REVALIDATE_TOKEN not set, skipping cache invalidation",
+        "[ADMIN] REVALIDATE_TOKEN not set, skipping cache invalidation",
       );
       return {
         success: false,
@@ -19,11 +20,17 @@ export const revalidateWebCache = async (
       };
     }
 
+    if (!revalidateToken && fallbackToken) {
+      console.warn(
+        "[ADMIN] Using NEXT_PUBLIC_REVALIDATE_TOKEN fallback. Set REVALIDATE_TOKEN instead.",
+      );
+    }
+
     const response = await fetch(`${SITE_URL}/api/revalidate`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-revalidate-token": revalidateToken,
+        "x-revalidate-token": revalidateToken ?? fallbackToken ?? "",
       },
       body: JSON.stringify({ tags }),
     });

@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/database",
   "description": "Database schema and migrations for SG Cars Trends",
-  "version": "4.45.2",
+  "version": "4.49.1",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -13,7 +13,8 @@
     "generate": "drizzle-kit generate",
     "check": "drizzle-kit check",
     "migrate": "drizzle-kit migrate",
-    "migrate:check": "drizzle-kit check"
+    "migrate:check": "drizzle-kit check",
+    "typecheck": "tsc --noEmit"
   },
   "packageManager": "pnpm@10.22.0",
   "dependencies": {

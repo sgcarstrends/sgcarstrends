@@ -1,34 +1,54 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { AllMakes } from "./all-makes";
 
-vi.mock("nuqs", () => ({
-  useQueryState: () => [null, vi.fn()],
-}));
-
-vi.mock("nuqs/server", () => ({
-  parseAsString: {},
-  createSerializer: () => (path: string) => path,
-  createLoader: () => vi.fn(),
-}));
-
 describe("Makes", () => {
   const germanMakes = ["AUDI", "BMW", "MERCEDES BENZ", "PORSCHE"];
 
+  const groupedGerman: Record<string, string[]> = {
+    A: ["AUDI"],
+    B: ["BMW"],
+    M: ["MERCEDES BENZ"],
+    P: ["PORSCHE"],
+  };
+
+  const lettersGerman = ["ALL", "A", "B", "M", "P"];
+
   it("should render the section with title and count", () => {
-    render(<AllMakes title="Test Makes" makes={germanMakes} />);
+    render(
+      <AllMakes
+        title="Test Makes"
+        sortedMakes={germanMakes}
+        groupedMakes={groupedGerman}
+        letters={lettersGerman}
+      />,
+    );
     expect(screen.getByText("Test Makes")).toBeVisible();
     expect(screen.getByText(germanMakes.length.toString())).toBeVisible();
   });
 
-  it("should render all makes in grid without letter filter", () => {
-    render(<AllMakes title="Test Makes" makes={germanMakes} />);
+  it("should render all makes when ALL is selected by default", () => {
+    render(
+      <AllMakes
+        title="Test Makes"
+        sortedMakes={germanMakes}
+        groupedMakes={groupedGerman}
+        letters={lettersGerman}
+      />,
+    );
     germanMakes.forEach((make) => {
       expect(screen.getByText(make)).toBeVisible();
     });
   });
 
   it("should render nothing when no makes exist", () => {
-    const { container } = render(<AllMakes title="Test Makes" makes={[]} />);
+    const { container } = render(
+      <AllMakes
+        title="Test Makes"
+        sortedMakes={[]}
+        groupedMakes={{}}
+        letters={["ALL"]}
+      />,
+    );
     expect(container).toBeEmptyDOMElement();
   });
 
@@ -37,13 +57,13 @@ describe("Makes", () => {
       render(
         <AllMakes
           title="All Makes"
-          makes={germanMakes}
-          showLetterFilter={true}
+          sortedMakes={germanMakes}
+          groupedMakes={groupedGerman}
+          letters={lettersGerman}
         />,
       );
       expect(screen.getByText("All Makes")).toBeVisible();
       expect(screen.getByText(germanMakes.length.toString())).toBeVisible();
-      // Letter filter buttons are now custom buttons
       expect(screen.getByRole("button", { name: "ALL" })).toBeVisible();
     });
 
@@ -51,11 +71,11 @@ describe("Makes", () => {
       render(
         <AllMakes
           title="All Makes"
-          makes={germanMakes}
-          showLetterFilter={true}
+          sortedMakes={germanMakes}
+          groupedMakes={groupedGerman}
+          letters={lettersGerman}
         />,
       );
-      // The ALL button should have primary styling (visual indicator)
       const allButton = screen.getByRole("button", { name: "ALL" });
       expect(allButton).toHaveClass("bg-primary");
       germanMakes.forEach((make) => {
@@ -67,8 +87,9 @@ describe("Makes", () => {
       render(
         <AllMakes
           title="All Makes"
-          makes={germanMakes}
-          showLetterFilter={true}
+          sortedMakes={germanMakes}
+          groupedMakes={groupedGerman}
+          letters={lettersGerman}
         />,
       );
 
@@ -89,9 +110,20 @@ describe("Makes", () => {
   });
 
   it("should show Other for # letter category", async () => {
-    const mixedMakes = ["AUDI", "123MOTORS"];
+    const mixedMakes = ["123MOTORS", "AUDI"];
+    const groupedMixed: Record<string, string[]> = {
+      "#": ["123MOTORS"],
+      A: ["AUDI"],
+    };
+    const lettersMixed = ["ALL", "A", "#"];
+
     render(
-      <AllMakes title="All Makes" makes={mixedMakes} showLetterFilter={true} />,
+      <AllMakes
+        title="All Makes"
+        sortedMakes={mixedMakes}
+        groupedMakes={groupedMixed}
+        letters={lettersMixed}
+      />,
     );
 
     fireEvent.click(screen.getByRole("button", { name: "#" }));

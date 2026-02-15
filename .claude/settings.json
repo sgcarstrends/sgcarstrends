@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PreToolUse": [],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' | xargs -I {} pnpm biome check --write --unsafe {} 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '\\n--- Pre-commit checklist ---\\n  pnpm biome check .\\n  pnpm tsc --noEmit\\n  pnpm test\\n---\\n'"
+          }
+        ]
+      }
+    ]
+  }
+}

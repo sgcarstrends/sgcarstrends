@@ -1,6 +1,6 @@
 # Infrastructure Architecture
 
-This document describes the AWS-based infrastructure setup for the SG Cars Trends platform, including deployment strategies, domain management, and stage configurations.
+This document describes the Vercel-based infrastructure setup for the SG Cars Trends platform.
 
 ## Infrastructure Diagram
 
@@ -9,72 +9,46 @@ graph TB
     %% Users and External Access
     Users[End Users]
     Developers[Developers]
-    
+
     %% DNS Layer
     subgraph "DNS Management"
-        Cloudflare[Cloudflare DNS]
-        
+        VercelDNS[Vercel DNS]
+
         subgraph "Domain Strategy"
             ProdDomain[sgcarstrends.com]
-            StagingDomain[staging.sgcarstrends.com]
-            DevDomain[dev.sgcarstrends.com]
-            APIDomain[api.sgcarstrends.com]
-            APIStagingDomain[api.staging.sgcarstrends.com]
-            APIDevDomain[api.dev.sgcarstrends.com]
+            PreviewDomain[*.vercel.app]
         end
     end
-    
-    %% AWS Infrastructure - Singapore Region
-    subgraph "AWS ap-southeast-1 (Singapore)"
-        %% CDN Layer
-        subgraph "Content Delivery"
-            CloudFront[CloudFront Distribution]
-            Router[SST Router - SGCarsTrends]
+
+    %% Vercel Infrastructure
+    subgraph "Vercel Platform"
+        %% Edge Network
+        subgraph "Edge Network"
+            EdgeFunctions[Edge Functions]
+            CDN[Global CDN]
         end
-        
-        %% API Infrastructure  
-        subgraph "API Service Infrastructure"
-            APIGateway[API Gateway]
-            APILambda[API Lambda Function]
-            
-            subgraph "API Function Config"
-                APIRuntime[Node.js 22.x - arm64]
-                APITimeout[120 second timeout]
-                HonoApp[Hono Framework App]
-            end
-        end
-        
-        %% Web Infrastructure
-        subgraph "Web Application Infrastructure"
-            NextjsSSR[Next.js SSR Functions]
+
+        %% Web Application
+        subgraph "Web Application"
+            NextjsSSR[Next.js Server Functions]
             StaticAssets[Static Assets]
-            
-            subgraph "Web Function Config"
-                WebRuntime[Node.js 22.x - arm64]
-                WebWarm[1 Warm Instance]
-                NextjsFramework[Next.js 15 Framework]
+
+            subgraph "Function Config"
+                Runtime[Node.js 22.x]
+                Region[Singapore Region]
+                NextjsFramework[Next.js 16 Framework]
             end
         end
-        
-        %% Lambda Functions Detail
-        subgraph "Lambda Function Details"
-            subgraph "API Lambda Environment"
-                CoreEnv[Core: STAGE, DATABASE_URL, API_TOKEN]
-                AIEnv[AI: GOOGLE_GENERATIVE_AI_API_KEY]
-                RedisEnv[Redis: UPSTASH_REDIS_REST_*]
-                SocialEnv[Social: DISCORD, LINKEDIN, TELEGRAM, TWITTER]
-            end
-            
-            subgraph "Web Lambda Environment"
-                WebEnv[TZ: Asia/Singapore]
-                PublicEnv[NEXT_PUBLIC_API_URL]
-                WebRedis[UPSTASH_REDIS_REST_*]
-                WebAuth[SG_CARS_TRENDS_API_TOKEN, REVALIDATE_TOKEN]
-                WebDB[DATABASE_URL]
-            end
+
+        %% Workflows
+        subgraph "Vercel WDK Workflows"
+            CarsWorkflow[Cars Data Workflow]
+            COEWorkflow[COE Data Workflow]
+            DeregWorkflow[Deregistrations Workflow]
+            VercelCron[Vercel Cron Scheduler]
         end
     end
-    
+
     %% External Services
     subgraph "External Services"
         %% Data Sources
@@ -82,13 +56,14 @@ graph TB
             LTA[LTA DataMall APIs]
             GeminiAI[Vercel AI SDK + Google Gemini]
         end
-        
+
         %% Databases
         subgraph "Managed Databases"
-            PostgreSQL[(PostgreSQL Database)]
-            Upstash[(Upstash Redis Cache)]
+            PostgreSQL[(PostgreSQL Database<br/>Neon)]
+            Upstash[(Redis Cache<br/>Upstash)]
+            Blob[(Vercel Blob<br/>Logo Storage)]
         end
-        
+
         %% Social Media
         subgraph "Social Media APIs"
             Discord[Discord Webhooks]
@@ -97,92 +72,66 @@ graph TB
             Twitter[Twitter API]
         end
     end
-    
+
     %% Traffic Flow
-    Users --> Cloudflare
-    Developers --> Cloudflare
-    
+    Users --> VercelDNS
+    Developers --> VercelDNS
+
     %% DNS Resolution
-    Cloudflare --> ProdDomain
-    Cloudflare --> StagingDomain  
-    Cloudflare --> DevDomain
-    Cloudflare --> APIDomain
-    Cloudflare --> APIStagingDomain
-    Cloudflare --> APIDevDomain
-    
-    %% CloudFront Distribution
-    ProdDomain --> CloudFront
-    StagingDomain --> CloudFront
-    DevDomain --> CloudFront
-    
-    %% Router Distribution
-    CloudFront --> Router
-    
-    %% API Traffic
-    APIDomain --> Router
-    APIStagingDomain --> Router
-    APIDevDomain --> Router
-    Router --> APIGateway
-    APIGateway --> APILambda
-    
+    VercelDNS --> ProdDomain
+    VercelDNS --> PreviewDomain
+
+    %% CDN Distribution
+    ProdDomain --> CDN
+    PreviewDomain --> CDN
+
     %% Web Traffic
-    Router --> NextjsSSR
-    Router --> StaticAssets
-    
+    CDN --> EdgeFunctions
+    CDN --> NextjsSSR
+    CDN --> StaticAssets
+
     %% Function Configuration
-    APILambda --> APIRuntime
-    APILambda --> APITimeout
-    APILambda --> HonoApp
-    
-    NextjsSSR --> WebRuntime
-    NextjsSSR --> WebWarm
+    NextjsSSR --> Runtime
+    NextjsSSR --> Region
     NextjsSSR --> NextjsFramework
-    
-    %% Environment Configuration
-    APILambda --> CoreEnv
-    APILambda --> AIEnv
-    APILambda --> RedisEnv
-    APILambda --> SocialEnv
-    
-    NextjsSSR --> WebEnv
-    NextjsSSR --> PublicEnv
-    NextjsSSR --> WebRedis
-    NextjsSSR --> WebAuth
-    NextjsSSR --> WebDB
-    
+
+    %% Workflow Triggers
+    VercelCron --> CarsWorkflow
+    VercelCron --> COEWorkflow
+    VercelCron --> DeregWorkflow
+
     %% External Connections
-    APILambda --> LTA
-    APILambda --> GeminiAI
-    APILambda --> PostgreSQL
-    APILambda --> Upstash
-    APILambda --> Discord
-    APILambda --> LinkedIn
-    APILambda --> Telegram
-    APILambda --> Twitter
-    
+    CarsWorkflow --> LTA
+    COEWorkflow --> LTA
+    DeregWorkflow --> LTA
+    CarsWorkflow --> GeminiAI
+    COEWorkflow --> GeminiAI
+
     NextjsSSR --> PostgreSQL
     NextjsSSR --> Upstash
-    
-    %% Stage Configuration Notes
-    subgraph "Stage Management"
-        PermanentStages[Permanent Stages: prod, staging]
-        EphemeralStages[Ephemeral Stages: pr-*, dev]
-        DomainStrategy[Domain Strategy: Subdomain vs Environment prefix]
-        CORSConfig[Stage-specific CORS Configuration]
-    end
-    
+    NextjsSSR --> Blob
+
+    CarsWorkflow --> PostgreSQL
+    COEWorkflow --> PostgreSQL
+    DeregWorkflow --> PostgreSQL
+
+    CarsWorkflow --> Discord
+    CarsWorkflow --> LinkedIn
+    CarsWorkflow --> Telegram
+    CarsWorkflow --> Twitter
+
     %% Styling
-    classDef aws fill:#ff9900,color:#000
+    classDef vercel fill:#000,color:#fff
     classDef external fill:#e0e0e0
     classDef dns fill:#f76707
     classDef function fill:#7c4dff,color:#fff
     classDef database fill:#4caf50,color:#fff
     classDef social fill:#2196f3,color:#fff
-    
-    class CloudFront,Router,APIGateway,APILambda,NextjsSSR,StaticAssets aws
-    class Cloudflare dns
-    class APIRuntime,APITimeout,HonoApp,WebRuntime,WebWarm,NextjsFramework,CoreEnv,AIEnv,RedisEnv,SocialEnv,WebEnv,PublicEnv,WebRedis,WebAuth,WebDB function
-    class PostgreSQL,Upstash database
+
+    class EdgeFunctions,CDN,NextjsSSR,StaticAssets,CarsWorkflow,COEWorkflow,DeregWorkflow,VercelCron vercel
+    class VercelDNS dns
+    class Runtime,Region,NextjsFramework function
+    class PostgreSQL,Upstash,Blob database
     class LTA,GeminiAI external
     class Discord,LinkedIn,Telegram,Twitter social
 ```
@@ -191,321 +140,98 @@ graph TB
 
 ### Technology Stack
 
-**Framework**: SST (Serverless Stack) v3
-- Infrastructure as Code using TypeScript
-- Serverless-first architecture
-- Multi-stage deployment support
-- AWS resource provisioning and management
+**Platform**: Vercel
+- Automatic deployments from Git
+- Global edge network
+- Serverless functions
+- Built-in CI/CD
 
-**Cloud Provider**: Amazon Web Services (AWS)
-- **Region**: ap-southeast-1 (Singapore)
-- **Architecture**: ARM64 for cost optimization
-- **Runtime**: Node.js 22.x for latest performance features
-
-**DNS Provider**: Cloudflare
+**DNS**: Vercel DNS
+- Automatic SSL/TLS certificates
 - Global DNS resolution
-- DDoS protection and security features
-- SSL/TLS certificate management
-- Performance optimization
+- Custom domain support
 
-## Stage Management
+### Deployment Strategy
 
-### Stage Types
+**Production**
+- Domain: `sgcarstrends.com`
+- Trigger: Push to `main` branch
+- Automatic deployments
 
-**Permanent Stages**
-- **Production (`prod`)**: Live user-facing environment
-- **Staging (`staging`)**: Pre-production testing environment
-- **Development (`dev`)**: Development and testing environment
+**Preview**
+- Domain: `*.vercel.app` (auto-generated)
+- Trigger: Pull requests
+- Automatic preview URLs for each PR
 
-**Ephemeral Stages**
-- **Pull Request Stages (`pr-*`)**: Temporary environments for feature testing
-- **Feature Branches**: Individual developer environments
+### Environment Variables
 
-### Domain Strategy
+Environment variables are managed in the Vercel dashboard:
 
-#### Permanent Stages
+**Core**
+- `DATABASE_URL`: Neon PostgreSQL connection
+- `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`: Redis cache
 
-**Web Application Domains**:
-- **Production**: `sgcarstrends.com` (apex domain for SEO optimization)
-- **Staging**: `staging.sgcarstrends.com`
-- **Development**: `dev.sgcarstrends.com`
+**Storage**
+- `BLOB_READ_WRITE_TOKEN`: Vercel Blob for logo storage
 
-**API Service Domains**:
-- **Production**: `api.sgcarstrends.com`
-- **Staging**: `api.staging.sgcarstrends.com`
-- **Development**: `api.dev.sgcarstrends.com`
+**AI Integration**
+- `GOOGLE_GENERATIVE_AI_API_KEY`: Google Gemini for blog generation
 
-#### Ephemeral Stages
-
-**Dynamic Subdomain Pattern**:
-- **Web**: `{stage-name}.sgcarstrends.com`
-- **API**: `api-{stage-name}.sgcarstrends.com`
-
-**Examples**:
-- PR #123: `pr-123.sgcarstrends.com` and `api-pr-123.sgcarstrends.com`
-- Feature branch: `feature-auth.sgcarstrends.com`
-
-### Stage Configuration
-
-**Resource Protection**:
-- **Production**: Protected from accidental deletion
-- **Staging**: Retained for stability
-- **Ephemeral**: Automatically cleaned up after use
-
-**CORS Configuration**:
-```typescript
-// Production: Strict origin policy
-{
-  allowOrigins: ["https://sgcarstrends.com"],
-  maxAge: "1 day"
-}
-
-// Staging/Development: Open for testing
-{
-  allowOrigins: ["*"]
-}
-```
-
-## AWS Infrastructure Components
-
-### Compute Layer
-
-#### API Service Lambda Function
-
-**Configuration**:
-- **Architecture**: ARM64 (cost-optimized)
-- **Runtime**: Node.js 22.x
-- **Timeout**: 120 seconds (for long-running workflows)
-- **Memory**: Optimized based on usage patterns
-- **Handler**: Hono framework application handler
-
-**Environment Variables**:
-- **Core**: `STAGE`, `DATABASE_URL`, `SG_CARS_TRENDS_API_TOKEN`
-- **AI Integration**: `GOOGLE_GENERATIVE_AI_API_KEY`
-- **Caching**: `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
-- **Social Media**: Platform-specific credentials and webhook URLs
-
-#### Web Application Lambda Functions
-
-**Next.js SSR Functions**:
-- **Architecture**: ARM64
-- **Runtime**: Node.js 22.x
-- **Warm Instances**: 1 (to reduce cold starts)
-- **Framework**: Next.js 15 with App Router
-
-**Static Assets**:
-- **CloudFront Distribution**: Global CDN for static content
-- **S3 Integration**: Automatic asset deployment
-- **Caching**: Optimized cache policies for performance
-
-### Networking Layer
-
-#### CloudFront Distribution
-
-**Global CDN**:
-- **Edge Locations**: Worldwide distribution for low latency
-- **Cache Policies**: Optimized for static assets and API responses
-- **Security**: SSL/TLS termination and DDoS protection
-- **Compression**: Automatic gzip compression
-
-#### API Gateway
-
-**REST API Management**:
-- **Request Routing**: Route API requests to Lambda functions
-- **Authentication**: Integration with Lambda authorizers
-- **Rate Limiting**: Built-in request throttling
-- **Monitoring**: Request/response logging and metrics
-
-#### SST Router
-
-**Unified Routing System**:
-- **Domain Management**: Single router for all subdomains
-- **SSL Certificates**: Automatic certificate provisioning
-- **Alias Support**: Wildcard subdomain support (`*.sgcarstrends.com`)
-- **Redirects**: www → apex domain redirects for production
-
-### DNS and Domain Management
-
-#### Cloudflare DNS
-
-**DNS Resolution**:
-- **Global Anycast**: Fast DNS resolution worldwide
-- **DNSSEC**: DNS security extensions enabled
-- **Analytics**: DNS query analytics and insights
-
-**Security Features**:
-- **DDoS Protection**: Automatic attack mitigation
-- **Bot Management**: Intelligent bot detection
-- **Web Application Firewall**: Customizable security rules
-
-#### Domain Configuration
-
-**SSL/TLS Certificates**:
-- **Automatic Provisioning**: SST handles certificate creation
-- **Wildcard Certificates**: `*.sgcarstrends.com` for subdomains
-- **Auto-renewal**: Managed certificate lifecycle
+**Social Media**
+- Discord, LinkedIn, Telegram, Twitter credentials
 
 ## External Service Integration
 
 ### Data Sources
 
-**LTA DataMall APIs**:
-- **Authentication**: API key-based access
-- **Data Formats**: CSV files in ZIP archives
-- **Update Frequency**: Daily updates for vehicle registration and COE data
-- **Rate Limits**: Respect API quotas and throttling
+**LTA DataMall APIs**
+- Vehicle registration data
+- COE bidding results
+- Daily updates via Vercel Cron
 
-**Vercel AI SDK + Google Gemini**:
-- **Purpose**: LLM-powered blog content generation
-- **SDK**: Vercel AI SDK with Google Gemini provider
-- **Authentication**: API key authentication
-- **Usage**: Market analysis and content creation
-- **Rate Limits**: API quota management
-
-### Workflow Orchestration
-
-**Vercel WDK (Workflow Development Kit)**:
-- **Purpose**: Serverless workflow orchestration
-- **Features**: Durable execution, automatic retries, step-based orchestration
-- **Scheduling**: Vercel Cron for scheduled workflow triggers
-- **Integration**: Built into Next.js application
+**Vercel AI SDK + Google Gemini**
+- Automated blog post generation
+- Market analysis content
 
 ### Databases
 
-#### PostgreSQL Database
+**PostgreSQL (Neon)**
+- Serverless PostgreSQL
+- Auto-scaling
+- Branch-based development databases
 
-**Managed Service**: External PostgreSQL provider
-- **Connection**: SSL-encrypted connections
-- **Backup**: Automated backup and point-in-time recovery
-- **Scaling**: Read replicas for scaled read operations
-- **Monitoring**: Performance insights and query analysis
+**Redis (Upstash)**
+- Serverless Redis
+- API response caching
+- Rate limiting
 
-#### Redis Cache (Upstash)
+**Vercel Blob**
+- Car logo storage
+- Global CDN delivery
 
-**Managed Redis Service**:
-- **Purpose**: Caching, session storage, workflow state
-- **Features**: REST API for serverless compatibility
-- **Persistence**: Optional data persistence
-- **Security**: TLS encryption and authentication tokens
+### Workflow Orchestration
 
-### Social Media Integration
+**Vercel WDK (Workflow Development Kit)**
+- Durable workflow execution
+- Automatic retries
+- Step-based orchestration
 
-**Platform APIs**:
-- **Discord**: Webhook-based notifications
-- **LinkedIn**: OAuth-based API access with token refresh
-- **Telegram**: Bot API for channel messaging
-- **Twitter**: API v2 integration with OAuth 1.0a
+**Vercel Cron**
+- Scheduled workflow triggers
+- Daily data updates (10:00 AM SGT)
 
-## Deployment Architecture
+## Monitoring
 
-### Deployment Pipeline
+**Vercel Dashboard**
+- Deployment logs
+- Function logs
+- Analytics and metrics
 
-**Infrastructure Deployment**:
-```bash
-# Deploy to specific stage
-sst deploy --stage prod
-sst deploy --stage staging
-sst deploy --stage dev
-
-# Local development
-sst dev --stage local
-```
-
-**Stage Isolation**:
-- Each stage has completely isolated resources
-- Environment variables configured per stage
-- Independent CloudWatch log groups
-- Separate domain configurations
-
-### Resource Management
-
-**Resource Naming**:
-- Resources prefixed with stage name
-- Consistent naming convention across stages
-- Easy identification and management
-
-**Cost Optimization**:
-- ARM64 architecture for 20% cost savings
-- Serverless pay-per-use model
-- Optimized Lambda memory allocation
-- CDN caching to reduce origin requests
-
-### Monitoring and Observability
-
-#### CloudWatch Integration
-
-**Logging**:
-- **Lambda Logs**: Automatic log collection per function
-- **API Gateway Logs**: Request/response logging
-- **CloudFront Logs**: Access logs for CDN analysis
-- **Custom Metrics**: Business logic metrics
-
-**Alerting**:
-- **Error Rate Monitoring**: Automatic alerts for high error rates
-- **Performance Monitoring**: Slow response time alerts
-- **Resource Utilization**: Memory and timeout alerts
-
-#### Application Monitoring
-
-**Health Checks**:
-- **API Health**: `/health` endpoint monitoring
-- **Database Connectivity**: Connection health checks
-- **External Service Health**: Dependency monitoring
-
-**Performance Metrics**:
-- **Response Times**: API endpoint performance
-- **Cache Hit Rates**: Redis cache effectiveness
-- **Error Rates**: Platform-specific error tracking
-
-## Security Configuration
-
-### Network Security
-
-**HTTPS Everywhere**:
-- **SSL/TLS Termination**: At CloudFront edge
-- **HSTS Headers**: Enforce secure connections
-- **Certificate Management**: Automatic provisioning and renewal
-
-**API Security**:
-- **Bearer Token Authentication**: API access control
-- **CORS Policies**: Stage-specific cross-origin policies
-- **Rate Limiting**: Configurable request throttling (disabled by default)
-
-### Environment Security
-
-**Secrets Management**:
-- **Environment Variables**: Secure storage of API keys and tokens
-- **No Hardcoded Secrets**: All sensitive data in environment variables
-- **Stage Isolation**: Separate secrets per environment
-
-**Access Control**:
-- **IAM Roles**: Least-privilege Lambda execution roles
-- **Resource Policies**: Granular access control
-- **VPC Integration**: Optional VPC isolation for enhanced security
-
-## Disaster Recovery
-
-### Backup Strategy
-
-**Database Backups**:
-- **Automated Backups**: Daily database snapshots
-- **Point-in-time Recovery**: Restore to specific timestamp
-- **Cross-region Replication**: Optional for critical data
-
-**Configuration Backup**:
-- **Infrastructure as Code**: Complete infrastructure defined in code
-- **Version Control**: All configurations in Git repository
-- **Rapid Reconstruction**: Complete environment recreation
-
-### Recovery Procedures
-
-**Service Recovery**:
-- **Automated Rollback**: SST deployment rollback capabilities
-- **Health Monitoring**: Automatic failure detection
-- **Multi-region Failover**: Optional setup for high availability
+**Error Tracking**
+- Function error logging
+- Workflow failure notifications via Discord
 
 ## Related Documentation
 
-- [System Architecture Overview](./system)
-- [Data Processing Workflows](./workflows)
-- [Infrastructure Configuration Documentation](../../infra/CLAUDE.md)
+- [System Architecture Overview](./system.md)
+- [Data Processing Workflows](./workflows.md)

@@ -36,9 +36,9 @@ pnpm dev
 ## Tech Stack
 
 - **Frontend**: Next.js 16, HeroUI, Recharts, Tailwind CSS
-- **Backend**: Hono, Drizzle ORM, PostgreSQL, Upstash Redis
-- **Infrastructure**: SST v3, AWS Lambda, Cloudflare
-- **AI**: Google Gemini, QStash workflows
+- **Backend**: Drizzle ORM, PostgreSQL, Upstash Redis
+- **Infrastructure**: Vercel
+- **AI**: Google Gemini, Vercel AI SDK
 
 ## Project Structure
 
@@ -51,7 +51,6 @@ sgcarstrends/
 │   ├── database/     # Drizzle schemas
 │   ├── ui/           # UI components
 │   └── utils/        # Shared utilities
-└── infra/            # SST infrastructure
 \`\`\`
 
 ## Development

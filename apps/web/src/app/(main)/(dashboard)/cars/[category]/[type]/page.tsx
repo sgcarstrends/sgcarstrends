@@ -1,15 +1,19 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import { slugify } from "@sgcarstrends/utils";
+import { formatDateToMonthYear, slugify } from "@sgcarstrends/utils";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/[category]/[type]/search-params";
 import { CarOverviewTrends } from "@web/app/(main)/(dashboard)/cars/components/overview-trends";
 import { AnimatedNumber } from "@web/components/animated-number";
-import { PageHeader } from "@web/components/page-header";
+import { DashboardPageHeader } from "@web/components/dashboard-page-header";
+import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
+import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { MonthSelector } from "@web/components/shared/month-selector";
+import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCarsTypePageData } from "@web/lib/cars/page-data";
+import { loadLastUpdated } from "@web/lib/common";
 import { createPageMetadata } from "@web/lib/metadata";
 import {
   checkFuelTypeIfExist,
@@ -17,9 +21,7 @@ import {
   getDistinctFuelTypes,
   getDistinctVehicleTypes,
 } from "@web/queries/cars";
-import { getMonthOrLatest } from "@web/utils/dates/months";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
-import { formatVehicleTypeSlug } from "@web/utils/formatting/format-vehicle-type";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
@@ -95,11 +97,78 @@ export const generateStaticParams = async () => {
   return params;
 };
 
-export default async function Page({ params, searchParams }: PageProps) {
-  const { category, type } = await params;
-  const { month: parsedMonth } = await loadSearchParams(searchParams);
-  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
+export default function Page({ params, searchParams }: PageProps) {
+  return (
+    <div className="flex flex-col gap-4">
+      <DashboardPageHeader
+        meta={
+          <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+            <CarsTypePageHeaderMeta
+              params={params}
+              searchParams={searchParams}
+            />
+          </Suspense>
+        }
+        title={
+          <DashboardPageTitle
+            title="Type Overview"
+            subtitle="Registration trends and monthly statistics for Singapore vehicles."
+          />
+        }
+      />
 
+      <Suspense fallback={<SkeletonCard className="h-[520px] w-full" />}>
+        <CarsTypePageContent params={params} searchParams={searchParams} />
+      </Suspense>
+    </div>
+  );
+}
+
+async function CarsTypePageHeaderMeta({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: {
+  params: Promise<{ category: string; type: string }>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const [{ category }, { month: parsedMonth }] = await Promise.all([
+    paramsPromise,
+    loadSearchParams(searchParamsPromise),
+  ]);
+  const config = categoryConfigs[category as keyof typeof categoryConfigs];
+  if (!config) {
+    return null;
+  }
+
+  const [{ wasAdjusted }, months, lastUpdated] = await Promise.all([
+    getMonthOrLatest(parsedMonth, "cars"),
+    fetchMonthsForCars(),
+    loadLastUpdated("cars"),
+  ]);
+
+  return (
+    <DashboardPageMeta lastUpdated={lastUpdated}>
+      <MonthSelector
+        months={months}
+        latestMonth={months[0]}
+        wasAdjusted={wasAdjusted}
+      />
+    </DashboardPageMeta>
+  );
+}
+
+async function CarsTypePageContent({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: {
+  params: Promise<{ category: string; type: string }>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const [{ category, type }, { month: parsedMonth }] = await Promise.all([
+    paramsPromise,
+    loadSearchParams(searchParamsPromise),
+  ]);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
   const config = categoryConfigs[category as keyof typeof categoryConfigs];
   if (!config) {
     notFound();
@@ -109,22 +178,13 @@ export default async function Page({ params, searchParams }: PageProps) {
     category === "fuel-types"
       ? await checkFuelTypeIfExist(type)
       : await checkVehicleTypeIfExist(type);
-
   if (!typeExists) {
     notFound();
   }
 
-  const { cars, months, lastUpdated } = await loadCarsTypePageData(
-    category,
-    type,
-    month,
-  );
-
-  const formattedMonth = formatDateToMonthYear(month);
-
+  const { cars } = await loadCarsTypePageData(category, type, month);
   const title = "Cars in Singapore";
   const description = config.description;
-
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -143,42 +203,28 @@ export default async function Page({ params, searchParams }: PageProps) {
     },
   };
 
+  const formattedMonth = formatDateToMonthYear(month);
+
   return (
     <>
       <StructuredData data={structuredData} />
+
       <div className="flex flex-col gap-4">
-        <PageHeader
-          title={
-            category === "vehicle-types" ? formatVehicleTypeSlug(type) : type
-          }
-          subtitle={`Registration trends for ${category === "vehicle-types" ? formatVehicleTypeSlug(type) : type} vehicles in Singapore.`}
-          lastUpdated={lastUpdated}
-        >
-          <Suspense fallback={null}>
-            <MonthSelector
-              months={months}
-              latestMonth={months[0]}
-              wasAdjusted={wasAdjusted}
-            />
-          </Suspense>
-        </PageHeader>
-        <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <Card className="rounded-2xl p-3">
-              <CardHeader className="flex flex-row items-center justify-between gap-2">
-                <Typography.H4>Registrations</Typography.H4>
-                <Chip size="sm" variant="flat">
-                  {formattedMonth}
-                </Chip>
-              </CardHeader>
-              <CardBody className="font-bold text-4xl text-primary">
-                <AnimatedNumber value={cars.total} />
-              </CardBody>
-            </Card>
-          </div>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+          <Card className="rounded-2xl p-3">
+            <CardHeader className="flex flex-row items-center justify-between gap-2">
+              <Typography.H4>Registrations</Typography.H4>
+              <Chip size="sm" variant="flat">
+                {formattedMonth}
+              </Chip>
+            </CardHeader>
+            <CardBody className="font-bold text-4xl text-primary">
+              <AnimatedNumber value={cars.total} />
+            </CardBody>
+          </Card>
         </div>
-        <CarOverviewTrends cars={cars.data} total={cars.total} />
       </div>
+      <CarOverviewTrends cars={cars.data} total={cars.total} />
     </>
   );
 }

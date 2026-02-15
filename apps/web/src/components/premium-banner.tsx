@@ -1,9 +1,9 @@
 "use client";
 
 import { Chip } from "@heroui/chip";
+import { formatCurrency } from "@sgcarstrends/utils";
 import useStore from "@web/app/store";
 import type { COEResult } from "@web/types";
-import { formatCurrency } from "@web/utils/formatting/format-currency";
 import { useEffect } from "react";
 
 interface PremiumBannerProps {

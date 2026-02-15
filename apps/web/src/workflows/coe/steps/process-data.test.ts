@@ -13,7 +13,7 @@ vi.mock("@web/config/workflow", () => ({
 
 vi.mock("@web/lib/updater", () => ({
   Updater: class MockUpdater {
-    private updateFn: ReturnType<typeof vi.fn>;
+    private updateFn: () => unknown;
     constructor(config: unknown) {
       capturedConfigs.push(config);
       // First instance is COE, second is PQP

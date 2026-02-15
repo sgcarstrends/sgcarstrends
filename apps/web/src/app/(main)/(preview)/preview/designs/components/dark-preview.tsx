@@ -165,7 +165,7 @@ export function MonochromeBoldPreview() {
                     fontWeight: 700,
                     boxShadow: "4px 4px 0 0 #18181b",
                   }}
-                  formatter={(value: number) => [formatNumber(value), "Units"]}
+                  formatter={(value) => [formatNumber(Number(value)), "Units"]}
                 />
                 <Bar
                   dataKey="value"

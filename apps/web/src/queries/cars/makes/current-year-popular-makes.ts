@@ -4,7 +4,8 @@ import {
   db,
   desc,
   gt,
-  ilike,
+  gte,
+  lte,
   max,
   sql,
 } from "@sgcarstrends/database";
@@ -14,7 +15,11 @@ import { cacheLife, cacheTag } from "next/cache";
  * Get popular car makes based on annual registration totals
  */
 const getPopularMakesByYearData = async (year: string, limit: number = 8) => {
-  const whereConditions = [ilike(cars.month, `${year}-%`), gt(cars.number, 0)];
+  const whereConditions = [
+    gte(cars.month, `${year}-01`),
+    lte(cars.month, `${year}-12`),
+    gt(cars.number, 0),
+  ];
 
   return db
     .select({

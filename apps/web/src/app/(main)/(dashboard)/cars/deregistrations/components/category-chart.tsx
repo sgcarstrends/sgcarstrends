@@ -8,6 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
   type CategoryWithPercentage,
   toPercentageDistribution,
@@ -15,7 +16,6 @@ import {
 import { deregistrationsSearchParams } from "@web/app/(main)/(dashboard)/cars/deregistrations/search-params";
 import Typography from "@web/components/typography";
 import { formatNumber, formatPercentage } from "@web/utils/charts";
-import { formatDateToMonthYear } from "@web/utils/formatting/format-date-to-month-year";
 import { useQueryStates } from "nuqs";
 import type React from "react";
 import { useMemo } from "react";
@@ -24,6 +24,11 @@ import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 interface CategoryChartProps {
   data: SelectDeregistration[];
   months: string[];
+}
+
+interface MonthOption {
+  key: string;
+  label: string;
 }
 
 export function CategoryChart({ data, months }: CategoryChartProps) {
@@ -57,6 +62,10 @@ export function CategoryChart({ data, months }: CategoryChartProps) {
     (sum, item) => sum + item.total,
     0,
   );
+  const monthOptions: MonthOption[] = months.map((item) => ({
+    key: item,
+    label: formatDateToMonthYear(item),
+  }));
 
   const chartConfig = {
     total: { label: "Deregistrations", color: "hsl(var(--heroui-primary))" },
@@ -96,12 +105,9 @@ export function CategoryChart({ data, months }: CategoryChartProps) {
           className="max-w-xs"
           selectedKey={currentMonth}
           onSelectionChange={handleMonthChange}
-          defaultItems={months.map((month) => ({
-            key: month,
-            label: formatDateToMonthYear(month),
-          }))}
+          defaultItems={monthOptions}
         >
-          {(item) => (
+          {(item: MonthOption) => (
             <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>
           )}
         </Autocomplete>
