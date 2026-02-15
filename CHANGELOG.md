@@ -1,3 +1,11 @@
+## [4.51.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.50.0...v4.51.0) (2026-02-15)
+
+### Features
+
+* add MCP server with full CRUD blog post tools ([#687](https://github.com/sgcarstrends/sgcarstrends/issues/687)) ([80c60b2](https://github.com/sgcarstrends/sgcarstrends/commit/80c60b274a89bc33252437a867215e00ea17dbe1))
+* **web:** add blog post creation system with API and admin UI ([5d8cf02](https://github.com/sgcarstrends/sgcarstrends/commit/5d8cf022f7d99032e7673a81a1de762ca6ca15d9))
+* **web:** add full CRUD to blog admin with edit, update, and delete ([601ce50](https://github.com/sgcarstrends/sgcarstrends/commit/601ce50de56aed607dff524a61556a4848ef6963))
+
 ## [4.50.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.49.1...v4.50.0) (2026-02-15)
 
 ### Features
