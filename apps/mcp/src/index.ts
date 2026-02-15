@@ -10,7 +10,7 @@ function errorResult(response: ApiResponse<unknown>) {
     content: [
       {
         type: "text" as const,
-        text: `Error ${response.status}: ${JSON.stringify(response.data)}`,
+        text: `Error ${response.status}: ${JSON.stringify(response.data, null, 2)}`,
       },
     ],
     isError: true,
