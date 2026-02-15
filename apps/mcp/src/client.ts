@@ -6,7 +6,7 @@ const baseUrl = withRelatedProject({
 });
 const apiToken = process.env.SG_CARS_TRENDS_API_TOKEN;
 
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
   ok: boolean;
   status: number;
   data: T;

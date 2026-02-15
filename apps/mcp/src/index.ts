@@ -2,7 +2,60 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { request } from "./client.js";
+import { type ApiResponse, request } from "./client.js";
+
+function errorResult(response: ApiResponse<unknown>) {
+  return {
+    content: [
+      {
+        type: "text" as const,
+        text: `Error ${response.status}: ${JSON.stringify(response.data)}`,
+      },
+    ],
+    isError: true,
+  };
+}
+
+function jsonResult(data: unknown) {
+  return {
+    content: [
+      {
+        type: "text" as const,
+        text: JSON.stringify(data, null, 2),
+      },
+    ],
+  };
+}
+
+const postBodySchema = {
+  title: z.string().min(1).describe("Post title"),
+  content: z.string().min(1).describe("Post content in MDX format"),
+  excerpt: z.string().optional().describe("Short excerpt/summary"),
+  heroImage: z.string().optional().describe("Hero image URL"),
+  tags: z.array(z.string()).optional().describe("Post tags"),
+  highlights: z
+    .array(
+      z.object({
+        value: z.string(),
+        label: z.string(),
+        detail: z.string(),
+      }),
+    )
+    .optional()
+    .describe("Key highlights to display"),
+  month: z
+    .string()
+    .optional()
+    .describe("Data month (e.g. 2024-01) for deduplication"),
+  dataType: z
+    .string()
+    .optional()
+    .describe("Data type (e.g. cars, coe) for deduplication"),
+  status: z
+    .enum(["draft", "published"])
+    .default("draft")
+    .describe("Post status"),
+};
 
 const server = new McpServer({
   name: "sgcarstrends",
@@ -34,26 +87,8 @@ server.tool(
     const path = `/api/v1/posts${query ? `?${query}` : ""}`;
     const response = await request<unknown[]>(path);
 
-    if (!response.ok) {
-      return {
-        content: [
-          {
-            type: "text" as const,
-            text: `Error ${response.status}: ${JSON.stringify(response.data)}`,
-          },
-        ],
-        isError: true,
-      };
-    }
-
-    return {
-      content: [
-        {
-          type: "text" as const,
-          text: JSON.stringify(response.data, null, 2),
-        },
-      ],
-    };
+    if (!response.ok) return errorResult(response);
+    return jsonResult(response.data);
   },
 );
 
@@ -66,87 +101,23 @@ server.tool(
   async ({ id }) => {
     const response = await request<unknown>(`/api/v1/posts/${id}`);
 
-    if (!response.ok) {
-      return {
-        content: [
-          {
-            type: "text" as const,
-            text: `Error ${response.status}: ${JSON.stringify(response.data)}`,
-          },
-        ],
-        isError: true,
-      };
-    }
-
-    return {
-      content: [
-        {
-          type: "text" as const,
-          text: JSON.stringify(response.data, null, 2),
-        },
-      ],
-    };
+    if (!response.ok) return errorResult(response);
+    return jsonResult(response.data);
   },
 );
 
 server.tool(
   "create_post",
   "Create a new blog post",
-  {
-    title: z.string().min(1).describe("Post title"),
-    content: z.string().min(1).describe("Post content in MDX format"),
-    excerpt: z.string().optional().describe("Short excerpt/summary"),
-    heroImage: z.string().optional().describe("Hero image URL"),
-    tags: z.array(z.string()).optional().describe("Post tags"),
-    highlights: z
-      .array(
-        z.object({
-          value: z.string(),
-          label: z.string(),
-          detail: z.string(),
-        }),
-      )
-      .optional()
-      .describe("Key highlights to display"),
-    month: z
-      .string()
-      .optional()
-      .describe("Data month (e.g. 2024-01) for deduplication"),
-    dataType: z
-      .string()
-      .optional()
-      .describe("Data type (e.g. cars, coe) for deduplication"),
-    status: z
-      .enum(["draft", "published"])
-      .default("draft")
-      .describe("Post status"),
-  },
+  postBodySchema,
   async (input) => {
     const response = await request<unknown>("/api/v1/posts", {
       method: "POST",
       body: JSON.stringify(input),
     });
 
-    if (!response.ok) {
-      return {
-        content: [
-          {
-            type: "text" as const,
-            text: `Error ${response.status}: ${JSON.stringify(response.data)}`,
-          },
-        ],
-        isError: true,
-      };
-    }
-
-    return {
-      content: [
-        {
-          type: "text" as const,
-          text: JSON.stringify(response.data, null, 2),
-        },
-      ],
-    };
+    if (!response.ok) return errorResult(response);
+    return jsonResult(response.data);
   },
 );
 
@@ -155,33 +126,7 @@ server.tool(
   "Update an existing blog post",
   {
     id: z.string().uuid().describe("The UUID of the post to update"),
-    title: z.string().min(1).describe("Post title"),
-    content: z.string().min(1).describe("Post content in MDX format"),
-    excerpt: z.string().optional().describe("Short excerpt/summary"),
-    heroImage: z.string().optional().describe("Hero image URL"),
-    tags: z.array(z.string()).optional().describe("Post tags"),
-    highlights: z
-      .array(
-        z.object({
-          value: z.string(),
-          label: z.string(),
-          detail: z.string(),
-        }),
-      )
-      .optional()
-      .describe("Key highlights to display"),
-    month: z
-      .string()
-      .optional()
-      .describe("Data month (e.g. 2024-01) for deduplication"),
-    dataType: z
-      .string()
-      .optional()
-      .describe("Data type (e.g. cars, coe) for deduplication"),
-    status: z
-      .enum(["draft", "published"])
-      .default("draft")
-      .describe("Post status"),
+    ...postBodySchema,
   },
   async ({ id, ...body }) => {
     const response = await request<unknown>(`/api/v1/posts/${id}`, {
@@ -189,26 +134,8 @@ server.tool(
       body: JSON.stringify(body),
     });
 
-    if (!response.ok) {
-      return {
-        content: [
-          {
-            type: "text" as const,
-            text: `Error ${response.status}: ${JSON.stringify(response.data)}`,
-          },
-        ],
-        isError: true,
-      };
-    }
-
-    return {
-      content: [
-        {
-          type: "text" as const,
-          text: JSON.stringify(response.data, null, 2),
-        },
-      ],
-    };
+    if (!response.ok) return errorResult(response);
+    return jsonResult(response.data);
   },
 );
 
@@ -223,17 +150,7 @@ server.tool(
       method: "DELETE",
     });
 
-    if (!response.ok) {
-      return {
-        content: [
-          {
-            type: "text" as const,
-            text: `Error ${response.status}: ${JSON.stringify(response.data)}`,
-          },
-        ],
-        isError: true,
-      };
-    }
+    if (!response.ok) return errorResult(response);
 
     return {
       content: [
