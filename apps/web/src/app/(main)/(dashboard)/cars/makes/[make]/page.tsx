@@ -12,8 +12,9 @@ import {
   createPageMetadata,
   createWebPageStructuredData,
 } from "@web/lib/metadata";
-import { checkMakeIfExist, getMakeDetails } from "@web/queries/cars";
+import { getMakeDetails } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
+import { getMakeFromSlug } from "@web/queries/cars/makes/get-make-from-slug";
 import type { Make } from "@web/types";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
@@ -32,12 +33,12 @@ export const generateMetadata = async ({
 }: PageProps): Promise<Metadata> => {
   const { make } = await params;
 
-  const makeName = make.toUpperCase().replaceAll("-", " ");
+  const exactMake = make.toUpperCase().replaceAll("-", " ");
 
-  const title = `${makeName} Cars Overview: Registration Trends`;
-  const description = `${makeName} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
+  const title = `${exactMake} Cars Overview: Registration Trends`;
+  const description = `${exactMake} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
 
-  const images = `/api/og?title=${makeName}&subtitle=Stats by Make`;
+  const images = `/api/og?title=${exactMake}&subtitle=Stats by Make`;
 
   return createPageMetadata({
     title,
@@ -52,35 +53,30 @@ export default async function CarMakePage({
   searchParams: searchParamsPromise,
 }: PageProps) {
   return (
-    <>
-      <div className="flex flex-col gap-4">
-        <DashboardPageHeader
-          title={
-            <DashboardPageTitle
-              title="Make Overview"
-              subtitle="Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore."
-            />
-          }
-          meta={
-            <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
-              <CarMakeHeaderMeta
-                params={params}
-                searchParams={searchParamsPromise}
-              />
-            </Suspense>
-          }
-        />
-
-        <AnimatedSection order={1}>
+    <div className="flex flex-col gap-4">
+      <DashboardPageHeader
+        title={
+          <DashboardPageTitle
+            title="Make Overview"
+            subtitle="Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore."
+          />
+        }
+        meta={
           <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
-            <CarMakeContent
+            <CarMakeHeaderMeta
               params={params}
               searchParams={searchParamsPromise}
             />
           </Suspense>
-        </AnimatedSection>
-      </div>
-    </>
+        }
+      />
+
+      <AnimatedSection order={1}>
+        <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+          <CarMakeContent params={params} searchParams={searchParamsPromise} />
+        </Suspense>
+      </AnimatedSection>
+    </div>
   );
 }
 
@@ -122,27 +118,27 @@ async function CarMakeContent({
     paramsPromise,
     loadSearchParams(searchParamsPromise),
   ]);
-  const { month } = await getMonthOrLatest(parsedMonth, "cars");
 
-  const [makeExists, coeComparison, makeDetails] = await Promise.all([
-    checkMakeIfExist(make),
-    getMakeCoeComparison(make),
-    getMakeDetails(make, month),
-  ]);
-
-  if (!makeExists) {
+  const exactMake = await getMakeFromSlug(make);
+  if (!exactMake) {
     return notFound();
   }
 
-  const makeName = makeExists.make;
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
+
+  const [coeComparison, makeDetails] = await Promise.all([
+    getMakeCoeComparison(exactMake),
+    getMakeDetails(exactMake, month),
+  ]);
+
   const cars = {
-    make: makeName,
+    make: exactMake,
     total: makeDetails.total,
     data: makeDetails.data,
   };
 
-  const title = `${makeName} Cars Overview: Registration Trends`;
-  const description = `${makeName} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
+  const title = `${exactMake} Cars Overview: Registration Trends`;
+  const description = `${exactMake} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
   const structuredData = createWebPageStructuredData(
     title,
     description,

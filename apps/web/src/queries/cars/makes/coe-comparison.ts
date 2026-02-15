@@ -30,8 +30,6 @@ export async function getMakeCoeComparison(
   const { startMonth, endMonth } = getDateRange24Months();
   cacheTag(`cars:make:${make}`);
 
-  const pattern = make.replaceAll("-", "%");
-
   // Execute both queries in parallel using db.batch()
   const [makeRegistrations, coePremiums] = await db.batch([
     // Query 1: Fetch make registrations by month
@@ -43,7 +41,7 @@ export async function getMakeCoeComparison(
       .from(cars)
       .where(
         and(
-          ilike(cars.make, pattern),
+          ilike(cars.make, make),
           gte(cars.month, startMonth),
           lte(cars.month, endMonth),
         ),

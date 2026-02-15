@@ -1,4 +1,4 @@
-import { getMakeDetails } from "@web/queries/cars/makes";
+import { getMakeDetails, getMakeFromSlug } from "@web/queries/cars/makes";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
@@ -8,9 +8,17 @@ export async function GET(
 ) {
   const { make } = await params;
 
+  const exactMake = await getMakeFromSlug(make);
+  if (!exactMake) {
+    return NextResponse.json(
+      { success: false, error: "Make not found", data: null },
+      { status: 404 },
+    );
+  }
+
   try {
-    const month = request.nextUrl.searchParams.get("month") ?? undefined;
-    const data = await getMakeDetails(make, month);
+    const month = request.nextUrl.searchParams.get("month");
+    const data = await getMakeDetails(exactMake, month);
 
     return NextResponse.json({
       success: true,
