@@ -150,7 +150,7 @@ export function WarmMinimalPreview() {
                     borderRadius: "8px",
                     boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
                   }}
-                  formatter={(value: number) => [formatNumber(value), "Units"]}
+                  formatter={(value) => [formatNumber(Number(value)), "Units"]}
                 />
                 <Area
                   type="monotone"

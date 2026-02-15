@@ -121,15 +121,17 @@ export function COEPremiumChart({ data }: COEPremiumChartProps) {
               content={
                 <ChartTooltipContent
                   indicator="line"
-                  labelFormatter={formatDateToMonthYear}
+                  labelFormatter={(label) =>
+                    formatDateToMonthYear(String(label))
+                  }
                   formatter={(value, name, _, index) =>
                     currencyTooltipFormatter({
                       value:
                         typeof value === "number"
                           ? value
                           : Number.parseFloat(String(value)),
-                      name,
-                      index,
+                      name: name ?? "",
+                      index: index ?? 0,
                     })
                   }
                 />

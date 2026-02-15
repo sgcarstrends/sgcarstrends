@@ -82,7 +82,7 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "reading-time": "^1.5.0",
-    "recharts": "^2.15.4",
+    "recharts": "^3.7.0",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",

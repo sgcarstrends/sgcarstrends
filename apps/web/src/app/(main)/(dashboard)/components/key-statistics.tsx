@@ -111,7 +111,7 @@ const YearOverYearChart = ({
               dataKey="change"
               position="top"
               className="fill-foreground font-mono text-[10px]"
-              formatter={(v: number) => numberFormatter.format(v)}
+              formatter={(v) => numberFormatter.format(Number(v))}
             />
           </Bar>
         </BarChart>

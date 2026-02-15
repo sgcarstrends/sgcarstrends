@@ -172,7 +172,7 @@ export function BoldPreview() {
                     fontWeight: 700,
                     boxShadow: "4px 4px 0 0 #14b8a6",
                   }}
-                  formatter={(value: number) => [formatNumber(value), "Units"]}
+                  formatter={(value) => [formatNumber(Number(value)), "Units"]}
                 />
                 <Bar
                   dataKey="value"
