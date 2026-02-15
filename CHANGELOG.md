@@ -1,3 +1,9 @@
+## [4.48.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.48.1...v4.48.2) (2026-02-15)
+
+### Bug Fixes
+
+* **deps:** upgrade recharts 2.x to 3.x for React 19 type compatibility ([87388d3](https://github.com/sgcarstrends/sgcarstrends/commit/87388d31f9a1ea025cdb849eb6edde6ea25c93e9))
+
 ## [4.48.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.48.0...v4.48.1) (2026-02-14)
 
 ### Bug Fixes
