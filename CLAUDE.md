@@ -16,6 +16,7 @@ This repository includes directory-specific CLAUDE.md files with detailed guidan
 
 - **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 16, HeroUI, blog features,
   analytics, integrated admin interface at `/admin` path, and data updater workflows with social media integration
+- **apps/mcp**: MCP server for blog post CRUD via Claude Code (stdio transport, `@modelcontextprotocol/sdk`)
 
 ### Packages
 
@@ -57,6 +58,8 @@ Certificate of Entitlement (COE) bidding results, and vehicle deregistration sta
   and generate insights. Runs within web application workflows.
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available.
   Triggered by web application workflows.
+- **MCP Server**: Blog post management tools (list, get, create, update, delete) callable from Claude Code via stdio
+  transport. Communicates with the web application's REST API.
 
 ## Commands
 
@@ -85,6 +88,9 @@ All commands use pnpm as the package manager.
 
 ## Code Structure
 
+- **apps/mcp**: MCP server for blog post CRUD
+    - **src/index.ts**: McpServer with 5 tool definitions (list, get, create, update, delete posts)
+    - **src/client.ts**: HTTP client with Bearer token auth and `@vercel/related-projects` URL resolution
 - **apps/web**: Next.js frontend application with integrated workflows
     - **src/app**: Next.js App Router pages and layouts with blog functionality
     - **src/app/admin**: Integrated admin interface for content management
@@ -172,7 +178,7 @@ Follow conventional commit format (enforced by commitlint):
 - `chore:`, `docs:`, `refactor:`, `test:` (no bump)
 - **Keep SHORT**: 50 chars preferred, 72 max
 - **Optional scopes**: `feat(api):`, `fix(web):`, `chore(database):`
-- Available scopes: `api`, `web`, `database`, `types`, `ui`, `utils`, `infra`, `deps`, `release`
+- Available scopes: `api`, `web`, `mcp`, `database`, `types`, `ui`, `utils`, `infra`, `deps`, `release`
 
 ### Other
 
@@ -197,6 +203,7 @@ Core cross-cutting variables:
 
 - `DATABASE_URL` - PostgreSQL connection string
 - `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` - Redis configuration
+- `SG_CARS_TRENDS_API_TOKEN` - Bearer token for REST API authentication (used by MCP server and external clients)
 
 *See component CLAUDE.md files for service-specific environment variables.*
 

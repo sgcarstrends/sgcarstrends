@@ -40,7 +40,8 @@
         "infra",
         "deps",
         "release",
-        "logos"
+        "logos",
+        "mcp"
       ]
     ],
     "body-max-line-length": [0, "always"],

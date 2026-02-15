@@ -321,7 +321,13 @@ tracking.
 
 ### API Structure
 
-External API integration through `src/utils/api/` for:
+**REST API** (`src/app/api/v1/`):
+
+- `GET/POST /api/v1/posts` — list and create blog posts (Bearer token auth)
+- `GET/PUT/DELETE /api/v1/posts/[id]` — single post CRUD by UUID (Bearer token auth)
+- Shared auth helper at `src/app/api/v1/lib/auth.ts`
+
+**External API integration** through `src/utils/api/` for:
 
 - Car comparison data
 - Market share analytics
