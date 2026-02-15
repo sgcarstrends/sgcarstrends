@@ -39,7 +39,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
     })),
     {
+      url: `${SITE_URL}/cars/deregistrations`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    {
       url: `${SITE_URL}/cars/parf`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    {
+      url: `${SITE_URL}/coe/results`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    {
+      url: `${SITE_URL}/coe/pqp`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    {
+      url: `${SITE_URL}/annual`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    {
+      url: `${SITE_URL}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    {
+      url: `${SITE_URL}/contact`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
     },
