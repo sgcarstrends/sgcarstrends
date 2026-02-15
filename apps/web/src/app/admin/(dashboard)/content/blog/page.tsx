@@ -1,3 +1,4 @@
+import { Button } from "@sgcarstrends/ui/components/button";
 import {
   Card,
   CardContent,
@@ -7,7 +8,8 @@ import {
 import { getAllPosts } from "@web/app/admin/actions/blog";
 import { BlogPostsTable } from "@web/app/admin/components/blog-posts-table";
 import { ListSkeleton } from "@web/components/shared/skeleton";
-import { FileText } from "lucide-react";
+import { FileText, Plus } from "lucide-react";
+import Link from "next/link";
 import { Suspense } from "react";
 
 export default async function BlogManagementPage() {
@@ -16,14 +18,22 @@ export default async function BlogManagementPage() {
   return (
     <div className="flex flex-col gap-6">
       {/* Header */}
-      <div>
-        <h1 className="flex items-center gap-2 font-bold text-3xl tracking-tight">
-          <FileText className="size-8" />
-          Blog Management
-        </h1>
-        <p className="text-muted-foreground">
-          View and regenerate blog posts generated from market data.
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="flex items-center gap-2 font-bold text-3xl tracking-tight">
+            <FileText className="size-8" />
+            Blog Management
+          </h1>
+          <p className="text-muted-foreground">
+            View and regenerate blog posts generated from market data.
+          </p>
+        </div>
+        <Button asChild>
+          <Link href="/admin/content/blog/create">
+            <Plus className="mr-2 size-4" />
+            Create Post
+          </Link>
+        </Button>
       </div>
 
       {/* Posts Table */}

@@ -10,6 +10,8 @@ This monorepo provides a complete platform for SG Cars Trends, tracking Singapor
 - **Integrated Data Updater**: Vercel WDK workflow-based system for fetching and processing LTA data (consolidated into web application)
 - **LLM Blog Generation**: Automated blog post creation using Vercel AI SDK with Google Gemini for market insights (runs within web workflows)
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter with trackable redirect routes (triggered by web workflows)
+- **MCP Server**: Published npm package for blog post CRUD operations via Claude Code
+- **Documentation Site**: Fumadocs-powered documentation for technical guides and API reference
 - **Infrastructure**: Vercel deployment with automatic CI/CD
 
 ## System Overview
@@ -78,6 +80,12 @@ graph TB
 ```
 sgcarstrends/
 ├── apps/
+│   ├── docs/         # Fumadocs documentation site (Next.js 16)
+│   │   ├── content/         # MDX documentation files
+│   │   ├── src/app/         # Next.js App Router with docs layout
+│   │   └── src/lib/         # Fumadocs source adapter and shared config
+│   ├── mcp/          # MCP server for blog post CRUD (published to npm)
+│   │   └── src/             # TypeScript server implementation
 │   ├── web/          # Next.js 16 frontend application with integrated workflows
 │   │   ├── src/app/         # Next.js App Router pages and layouts
 │   │   │   ├── (social)/    # Social media redirect routes with UTM tracking
@@ -131,8 +139,8 @@ For developers working on this codebase, detailed component-specific guidance is
 
 - **[Root CLAUDE.md](CLAUDE.md)** - Overall project guidance and conventions
 - **[Web Application](apps/web/CLAUDE.md)** - Next.js development, HeroUI components, blog features, and data updater workflows
-- **[Database Package](packages/database/CLAUDE.md)** - Schema management, migrations, and TypeScript integration
 - **[AI Package](packages/ai/CLAUDE.md)** - AI-powered blog generation with Vercel AI SDK and Google Gemini
+- **[Database Package](packages/database/CLAUDE.md)** - Schema management, migrations, and TypeScript integration
 - **[Logos Package](packages/logos/CLAUDE.md)** - Car logo management with Vercel Blob storage
 - **[UI Package](packages/ui/CLAUDE.md)** - Shared component library with shadcn/ui and Tailwind CSS
 

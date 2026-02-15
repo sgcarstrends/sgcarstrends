@@ -16,6 +16,8 @@ This repository includes directory-specific CLAUDE.md files with detailed guidan
 
 - **[apps/web/CLAUDE.md](apps/web/CLAUDE.md)**: Web application development with Next.js 16, HeroUI, blog features,
   analytics, integrated admin interface at `/admin` path, and data updater workflows with social media integration
+- **apps/mcp**: MCP server for blog post CRUD via Claude Code (stdio transport, `@modelcontextprotocol/sdk`)
+- **apps/docs**: Documentation site built with Fumadocs and Next.js 16 for technical documentation and guides
 
 ### Packages
 
@@ -57,6 +59,9 @@ Certificate of Entitlement (COE) bidding results, and vehicle deregistration sta
   and generate insights. Runs within web application workflows.
 - **Social Media Integration**: Automated posting to Discord, LinkedIn, Telegram, and Twitter when new data is available.
   Triggered by web application workflows.
+- **MCP Server**: Blog post management tools (list, get, create, update, delete) callable from Claude Code via stdio
+  transport. Communicates with the web application's REST API. Published to npm registry with automated releases.
+- **Documentation Site**: Fumadocs-powered Next.js documentation application for technical guides and API reference.
 
 ## Commands
 
@@ -69,14 +74,14 @@ All commands use pnpm as the package manager.
 | | `pnpm start:web` | Start production web server |
 | **Testing** | `pnpm test` | Run all tests (see `api-testing`, `e2e-testing`, `coverage-analysis` skills) |
 | | `pnpm test:watch` | Run tests in watch mode |
-| | `pnpm -F <package> test -- <path>` | Run specific test |
+| | `pnpm test:web -- <path>` | Run specific web tests (use Turborepo commands, not filter syntax) |
 | **Linting** | `pnpm lint` | Lint all packages (see `biome-config` skill) |
 | | `pnpm format` | Format all packages |
-| **Database** | `pnpm db:migrate` or `pnpm migrate` | Run migrations (see `schema-design` skill) |
-| | `pnpm db:generate` | Generate migrations |
+| **Database** | `pnpm db:migrate` | Run database migrations (see `schema-design` skill) |
+| | `pnpm db:generate` | Generate new migrations |
 | | `pnpm db:push` | Push schema changes directly |
 | | `pnpm db:drop` | Drop database |
-| | `pnpm db:migrate:check` or `pnpm migrate:check` | Check migration status |
+| | `pnpm db:migrate:check` | Check migration status |
 | **Deployment** | Deployed via Vercel | Automatic deployments on push to main |
 | **Release** | See `release-management` skill | Automated releases with semantic-release |
 | **Auth** | `pnpm auth:generate` | Generate authentication schema |
@@ -85,6 +90,13 @@ All commands use pnpm as the package manager.
 
 ## Code Structure
 
+- **apps/docs**: Documentation site using Fumadocs
+    - **content/**: MDX documentation files
+    - **src/app**: Next.js App Router with docs layout
+    - **src/lib**: Fumadocs content source adapter and shared layout configuration
+- **apps/mcp**: MCP server for blog post CRUD
+    - **src/index.ts**: McpServer with 5 tool definitions (list, get, create, update, delete posts)
+    - **src/client.ts**: HTTP client with Bearer token auth and `@vercel/related-projects` URL resolution
 - **apps/web**: Next.js frontend application with integrated workflows
     - **src/app**: Next.js App Router pages and layouts with blog functionality
     - **src/app/admin**: Integrated admin interface for content management
@@ -172,7 +184,7 @@ Follow conventional commit format (enforced by commitlint):
 - `chore:`, `docs:`, `refactor:`, `test:` (no bump)
 - **Keep SHORT**: 50 chars preferred, 72 max
 - **Optional scopes**: `feat(api):`, `fix(web):`, `chore(database):`
-- Available scopes: `api`, `web`, `database`, `types`, `ui`, `utils`, `infra`, `deps`, `release`
+- Available scopes: `api`, `web`, `mcp`, `database`, `types`, `ui`, `utils`, `infra`, `deps`, `release`
 
 ### Other
 
@@ -197,6 +209,7 @@ Core cross-cutting variables:
 
 - `DATABASE_URL` - PostgreSQL connection string
 - `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` - Redis configuration
+- `SG_CARS_TRENDS_API_TOKEN` - Bearer token for REST API authentication (used by MCP server and external clients)
 
 *See component CLAUDE.md files for service-specific environment variables.*
 
@@ -246,8 +259,14 @@ Automated via semantic-release with unified "v" prefix versioning (v1.0.0, v1.1.
 
 ## GitHub Actions
 
-**Active**: `release.yml`, `run-migrations.yml`, `checks.yml`
+**Active**: `release.yml`, `run-migrations.yml`, `checks.yml`, `publish-mcp.yml`
 **Reusable**: `test.yml` (called by other workflows)
+
+- `release.yml` - Automated semantic releases for the monorepo
+- `run-migrations.yml` - Database migration deployment
+- `checks.yml` - CI checks (lint, typecheck, tests)
+- `publish-mcp.yml` - Publish MCP server package to npm registry
+- `test.yml` - Reusable test workflow called by other jobs
 
 See `github-actions` skill for workflow management and automation.
 
