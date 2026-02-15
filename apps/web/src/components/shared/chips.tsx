@@ -10,7 +10,7 @@ export function BetaChip() {
 
 export function NewChip() {
   return (
-    <Chip color="primary" size="sm" variant="flat">
+    <Chip color="primary" size="sm">
       New
     </Chip>
   );

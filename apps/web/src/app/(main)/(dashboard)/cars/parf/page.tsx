@@ -1,6 +1,7 @@
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
+import { NewChip } from "@web/components/shared/chips";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
@@ -41,6 +42,7 @@ export default function PARFCalculatorPage() {
           <DashboardPageTitle
             title="PARF Calculator"
             subtitle="Compare PARF rebates before and after the Budget 2026 changes."
+            badge={<NewChip />}
           />
         }
       />
