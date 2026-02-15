@@ -52,10 +52,6 @@ The dev script watches for changes:
 pnpm --filter @sgcarstrends/mcp dev
 ```
 
-## Publishing
-
-Automated via GitHub Actions. Pushing changes to `apps/mcp/**` on the `main` branch triggers a build and publish to npm with provenance.
-
 ## License
 
 MIT
