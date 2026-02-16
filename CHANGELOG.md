@@ -1,3 +1,10 @@
+## [4.51.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.2...v4.51.3) (2026-02-16)
+
+### Bug Fixes
+
+* **web:** add missing routes to sitemap ([08a6eaa](https://github.com/sgcarstrends/sgcarstrends/commit/08a6eaa92acb29b5035a17f2350246c2a2bbc94e))
+* **web:** resolve /coe prerender bailout ([b7a354f](https://github.com/sgcarstrends/sgcarstrends/commit/b7a354f44302016cc477a32869e29e7dd0a4f5d0))
+
 ## [4.51.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.1...v4.51.2) (2026-02-15)
 
 ### Bug Fixes
