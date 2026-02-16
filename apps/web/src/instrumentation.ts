@@ -1,21 +1,24 @@
-import { LangfuseSpanProcessor, type ShouldExportSpan } from "@langfuse/otel";
+import { randomBytes } from "node:crypto";
+import { LangfuseSpanProcessor } from "@langfuse/otel";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 
-/**
- * Filter to only export AI SDK spans.
- * Excludes Next.js infra spans and other generic HTTP/fetch spans.
- */
-const shouldExportSpan: ShouldExportSpan = ({ otelSpan }) =>
-  ["langfuse-sdk", "ai"].includes(otelSpan.instrumentationScope.name);
+export function register() {
+  const langfuseSpanProcessor = new LangfuseSpanProcessor({
+    shouldExportSpan: ({ otelSpan }) =>
+      ["langfuse-sdk", "ai"].includes(otelSpan.instrumentationScope.name),
+    // Export spans immediately in serverless environments (no batching)
+    exportMode: "immediate",
+  });
 
-const langfuseSpanProcessor = new LangfuseSpanProcessor({
-  shouldExportSpan,
-  // Export spans immediately in serverless environments (no batching)
-  exportMode: "immediate",
-});
+  const tracerProvider = new NodeTracerProvider({
+    spanProcessors: [langfuseSpanProcessor],
+    // Use crypto-based ID generator to avoid Math.random() which triggers
+    // Next.js prerender bailout in Server Components.
+    idGenerator: {
+      generateTraceId: () => randomBytes(16).toString("hex"),
+      generateSpanId: () => randomBytes(8).toString("hex"),
+    },
+  });
 
-const tracerProvider = new NodeTracerProvider({
-  spanProcessors: [langfuseSpanProcessor],
-});
-
-tracerProvider.register();
+  tracerProvider.register();
+}
