@@ -1,8 +1,5 @@
-import {
-  SortDirection,
-  sortByName,
-  sortByValue,
-} from "@web/utils/arrays/sorting";
+import { describe, expect, it } from "vitest";
+import { SortDirection, sortByName, sortByValue } from "../sorting";
 
 describe("SortDirection", () => {
   it("should have ASC and DESC values", () => {

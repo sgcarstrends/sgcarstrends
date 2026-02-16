@@ -8,7 +8,7 @@ import {
 import { addToast } from "@heroui/toast";
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import type { Month } from "@web/types";
-import { groupByYear } from "@web/utils/arrays/group-by-year";
+import { groupByYear } from "@web/utils/group-by-year";
 import { Calendar } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
 import { useEffect, useMemo, useRef } from "react";

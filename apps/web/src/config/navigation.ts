@@ -7,7 +7,7 @@ import {
   SiTelegram,
   SiX,
 } from "@icons-pack/react-simple-icons";
-import { sortByName } from "@web/utils/arrays/sorting";
+import { sortByName } from "@sgcarstrends/utils";
 import {
   BarChart3,
   Calculator,

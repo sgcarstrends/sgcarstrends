@@ -18,7 +18,7 @@ vi.mock("@web/utils/formatting/format-date-to-month-year", () => ({
   formatDateToMonthYear: vi.fn(() => "January 2024"),
 }));
 
-vi.mock("@web/utils/arrays/group-by-year", () => ({
+vi.mock("@web/utils/group-by-year", () => ({
   groupByYear: vi.fn(() => ({ "2024": ["01"] })),
 }));
 

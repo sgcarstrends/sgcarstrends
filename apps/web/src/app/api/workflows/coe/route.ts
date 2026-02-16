@@ -1,4 +1,4 @@
-import { isValidMonth } from "@web/utils/validate-month";
+import { isValidMonth } from "@sgcarstrends/utils";
 import { coeWorkflow } from "@web/workflows/coe";
 import { start } from "workflow/api";
 

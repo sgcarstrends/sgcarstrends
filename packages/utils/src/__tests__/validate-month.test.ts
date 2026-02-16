@@ -1,5 +1,5 @@
-import { isValidMonth } from "@web/utils/validate-month";
 import { describe, expect, it } from "vitest";
+import { isValidMonth } from "../validate-month";
 
 describe("isValidMonth", () => {
   it("should accept valid YYYY-MM formats", () => {
