@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import { MessageSquare } from "lucide-react";
+import { FileText, MessageSquare } from "lucide-react";
 import Link from "next/link";
 
 const Page = () => (
@@ -38,18 +38,22 @@ const Page = () => (
         </Card>
       </Link>
 
-      {/* Future content management items can be added here */}
-      <Card className="h-full opacity-50">
-        <CardHeader>
-          <CardTitle className="text-lg">Blog Posts</CardTitle>
-          <CardDescription>Coming soon</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground text-sm">
-            Manage blog content and articles.
-          </p>
-        </CardContent>
-      </Card>
+      <Link href="/admin/content/blog" className="group">
+        <Card className="h-full transition-colors hover:bg-muted/50">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <FileText className="size-5 text-primary" />
+              <CardTitle className="text-lg">Blog Posts</CardTitle>
+            </div>
+            <CardDescription>Manage blog content and articles</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground text-sm">
+              Create, view, and regenerate blog posts from market data.
+            </p>
+          </CardContent>
+        </Card>
+      </Link>
 
       <Card className="h-full opacity-50">
         <CardHeader>

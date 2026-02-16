@@ -1,8 +1,18 @@
 "use server";
 
 import type { LanguageModelUsage } from "@sgcarstrends/ai";
-import { db, desc, posts } from "@sgcarstrends/database";
+import type { SelectPost } from "@sgcarstrends/database";
+import { db, desc, eq, posts } from "@sgcarstrends/database";
 import { auth } from "@web/app/admin/lib/auth";
+import {
+  type CreatePostInput,
+  createPost,
+} from "@web/app/admin/lib/create-post";
+import { deletePost } from "@web/app/admin/lib/delete-post";
+import {
+  type UpdatePostInput,
+  updatePost,
+} from "@web/app/admin/lib/update-post";
 import { regeneratePostWorkflow } from "@web/workflows/regenerate-post";
 import { headers } from "next/headers";
 import { start } from "workflow/api";
@@ -13,6 +23,7 @@ export interface PostWithMetadata {
   slug: string;
   month: string;
   dataType: string;
+  status: string;
   createdAt: Date;
   metadata: {
     modelId?: string;
@@ -20,7 +31,7 @@ export interface PostWithMetadata {
   } | null;
 }
 
-export const getAllPosts = async (): Promise<PostWithMetadata[]> => {
+export async function getAllPosts(): Promise<PostWithMetadata[]> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -34,12 +45,35 @@ export const getAllPosts = async (): Promise<PostWithMetadata[]> => {
   });
 
   return allPosts as PostWithMetadata[];
-};
+}
 
-export const regeneratePost = async (params: {
+const UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export async function getPostById(id: string): Promise<SelectPost | null> {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    throw new Error("Unauthorised");
+  }
+
+  if (!UUID_REGEX.test(id)) {
+    return null;
+  }
+
+  const post = await db.query.posts.findFirst({
+    where: eq(posts.id, id),
+  });
+
+  return post ?? null;
+}
+
+export async function regeneratePost(params: {
   month: string;
   dataType: "cars" | "coe";
-}): Promise<{ success: boolean; error?: string; runId?: string }> => {
+}): Promise<{ success: boolean; error?: string; runId?: string }> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -66,4 +100,96 @@ export const regeneratePost = async (params: {
       error: error instanceof Error ? error.message : "Unknown error occurred",
     };
   }
-};
+}
+
+export async function createBlogPost(
+  input: CreatePostInput,
+): Promise<{ success: boolean; error?: string; postId?: string }> {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return {
+      success: false,
+      error: "Unauthorised",
+    };
+  }
+
+  try {
+    const post = await createPost(input);
+
+    return {
+      success: true,
+      postId: post.id,
+    };
+  } catch (error) {
+    console.error("Error creating blog post:", error);
+
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
+}
+
+export async function updateBlogPost(
+  input: UpdatePostInput,
+): Promise<{ success: boolean; error?: string; postId?: string }> {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return {
+      success: false,
+      error: "Unauthorised",
+    };
+  }
+
+  try {
+    const post = await updatePost(input);
+
+    return {
+      success: true,
+      postId: post.id,
+    };
+  } catch (error) {
+    console.error("Error updating blog post:", error);
+
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
+}
+
+export async function deleteBlogPost(
+  id: string,
+): Promise<{ success: boolean; error?: string }> {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return {
+      success: false,
+      error: "Unauthorised",
+    };
+  }
+
+  try {
+    await deletePost(id);
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    console.error("Error deleting blog post:", error);
+
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
+}

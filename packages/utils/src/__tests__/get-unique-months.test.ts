@@ -1,4 +1,5 @@
-import { getUniqueMonths } from "@web/utils/arrays/get-unique-months";
+import { describe, expect, it } from "vitest";
+import { getUniqueMonths } from "../get-unique-months";
 
 describe("getUniqueMonths", () => {
   it("should return a unique set of dates", () => {

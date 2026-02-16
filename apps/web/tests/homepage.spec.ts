@@ -1,3 +1,4 @@
+// biome-ignore-all format: Playwright chained method formatting
 import { expect, test } from "@playwright/test";
 
 test.describe.skip("Homepage/Dashboard", () => {

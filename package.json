@@ -1,6 +1,6 @@
 {
   "name": "sgcarstrends",
-  "version": "4.49.1",
+  "version": "4.51.3",
   "description": "Monorepo for SG Cars Trends",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -35,7 +35,7 @@
     "@heroui/navbar": "^2.2.26"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.0",
+    "@biomejs/biome": "2.4.0",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@semantic-release/changelog": "^6.0.3",

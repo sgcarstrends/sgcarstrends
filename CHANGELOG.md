@@ -1,3 +1,36 @@
+## [4.51.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.2...v4.51.3) (2026-02-16)
+
+### Bug Fixes
+
+* **web:** add missing routes to sitemap ([08a6eaa](https://github.com/sgcarstrends/sgcarstrends/commit/08a6eaa92acb29b5035a17f2350246c2a2bbc94e))
+* **web:** resolve /coe prerender bailout ([b7a354f](https://github.com/sgcarstrends/sgcarstrends/commit/b7a354f44302016cc477a32869e29e7dd0a4f5d0))
+
+## [4.51.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.1...v4.51.2) (2026-02-15)
+
+### Bug Fixes
+
+* **mcp:** pretty-print JSON in error responses ([22f7cc1](https://github.com/sgcarstrends/sgcarstrends/commit/22f7cc181d6fe21d54102b671813408c59fdc43e))
+
+## [4.51.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.0...v4.51.1) (2026-02-15)
+
+### Bug Fixes
+
+* **infra:** trigger MCP publish on push to main with paths filter ([c2ca205](https://github.com/sgcarstrends/sgcarstrends/commit/c2ca205ad8f925e3f7689e81a852c8397ad83ef5))
+
+## [4.51.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.50.0...v4.51.0) (2026-02-15)
+
+### Features
+
+* add MCP server with full CRUD blog post tools ([#687](https://github.com/sgcarstrends/sgcarstrends/issues/687)) ([80c60b2](https://github.com/sgcarstrends/sgcarstrends/commit/80c60b274a89bc33252437a867215e00ea17dbe1))
+* **web:** add blog post creation system with API and admin UI ([5d8cf02](https://github.com/sgcarstrends/sgcarstrends/commit/5d8cf022f7d99032e7673a81a1de762ca6ca15d9))
+* **web:** add full CRUD to blog admin with edit, update, and delete ([601ce50](https://github.com/sgcarstrends/sgcarstrends/commit/601ce50de56aed607dff524a61556a4848ef6963))
+
+## [4.50.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.49.1...v4.50.0) (2026-02-15)
+
+### Features
+
+* **web:** add PARF page to sitemap ([f3784d6](https://github.com/sgcarstrends/sgcarstrends/commit/f3784d68bf0a4c2a1b089f627810a2a616d3826b))
+
 ## [4.49.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.49.0...v4.49.1) (2026-02-15)
 
 ### Performance Improvements
