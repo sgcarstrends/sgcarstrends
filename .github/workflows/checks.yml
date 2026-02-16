@@ -9,9 +9,6 @@ on:
       - ready_for_review
   merge_group:
 
-permissions:
-  contents: read
-
 concurrency:
   group: pr-${{ github.ref }}
   cancel-in-progress: true
@@ -20,6 +17,8 @@ jobs:
   checks:
     name: ${{ matrix.check }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
