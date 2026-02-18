@@ -1,3 +1,9 @@
+## [4.51.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.3...v4.51.4) (2026-02-18)
+
+### Bug Fixes
+
+* **web:** use dynamic imports in instrumentation register() ([a4fa015](https://github.com/sgcarstrends/sgcarstrends/commit/a4fa0158e2a1d37d89fd5479bdf95fab309b3dc1))
+
 ## [4.51.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.2...v4.51.3) (2026-02-16)
 
 ### Bug Fixes
