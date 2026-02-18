@@ -6,6 +6,7 @@ import { DataTable } from "@sgcarstrends/ui/components/data-table";
 import {
   CoeComparisonChart,
   MakeTrendChart,
+  TypeBreakdownChart,
 } from "@web/app/(main)/(dashboard)/cars/components/makes";
 import { EmptyState } from "@web/components/shared/empty-state";
 import { columns } from "@web/components/tables/columns/cars-make-columns";
@@ -18,9 +19,17 @@ interface MakeDetailProps {
   cars: { make: string; total: number; data: Partial<SelectCar>[] } | null;
   coeComparison: MakeCoeComparisonData[];
   logo?: CarLogo | null;
+  fuelTypeBreakdown?: { name: string; value: number }[];
+  vehicleTypeBreakdown?: { name: string; value: number }[];
 }
 
-export function MakeDetail({ cars, coeComparison, logo }: MakeDetailProps) {
+export function MakeDetail({
+  cars,
+  coeComparison,
+  logo,
+  fuelTypeBreakdown = [],
+  vehicleTypeBreakdown = [],
+}: MakeDetailProps) {
   if (!cars) {
     return <EmptyState />;
   }
@@ -102,6 +111,26 @@ export function MakeDetail({ cars, coeComparison, logo }: MakeDetailProps) {
           <MakeTrendChart data={cars.data.toReversed()} />
         </CardBody>
       </Card>
+
+      {/* Fuel & Vehicle Type Breakdown Charts */}
+      {(fuelTypeBreakdown.length > 0 || vehicleTypeBreakdown.length > 0) && (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {fuelTypeBreakdown.length > 0 && (
+            <TypeBreakdownChart
+              data={fuelTypeBreakdown}
+              title="Fuel Type Breakdown"
+              description="Registrations by fuel type"
+            />
+          )}
+          {vehicleTypeBreakdown.length > 0 && (
+            <TypeBreakdownChart
+              data={vehicleTypeBreakdown}
+              title="Vehicle Type Breakdown"
+              description="Registrations by vehicle type"
+            />
+          )}
+        </div>
+      )}
 
       {/* COE Comparison Chart */}
       <Card className="rounded-2xl p-3">
