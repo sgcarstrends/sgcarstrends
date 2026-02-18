@@ -9,7 +9,7 @@ import {
   getGroupedMakes,
   getMakeRegistrationStats,
 } from "@web/queries/cars/makes";
-import type { MakeStats } from "@web/types";
+import type { MakeStats, MakesSummary } from "@web/types";
 import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 
@@ -29,12 +29,26 @@ async function CarMakesContent() {
   const popular = popularMakes.map((item) => item.make);
 
   const makeStatsMap = statsArray.reduce<Record<string, MakeStats>>(
-    (acc, { make, count, share, trend }) => {
-      acc[make] = { count, share, trend };
+    (acc, { make, count, share, trend, yoyChange }) => {
+      acc[make] = { count, share, trend, yoyChange };
       return acc;
     },
     {},
   );
+
+  const totalRegistrations = statsArray.reduce(
+    (sum, { count }) => sum + count,
+    0,
+  );
+  const marketLeader = statsArray.reduce(
+    (top, row) => (row.count > top.count ? row : top),
+    statsArray[0] ?? { make: "", count: 0 },
+  );
+  const makesSummary: MakesSummary = {
+    totalMakes: statsArray.length,
+    totalRegistrations,
+    marketLeader: marketLeader.make,
+  };
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -59,6 +73,7 @@ async function CarMakesContent() {
         popularMakes={popular}
         logos={logos}
         makeStatsMap={makeStatsMap}
+        makesSummary={makesSummary}
       />
     </>
   );

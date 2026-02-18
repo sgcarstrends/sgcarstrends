@@ -66,6 +66,13 @@ export interface MakeStats {
   count: number;
   share: number;
   trend: { value: number }[];
+  yoyChange: number | null;
+}
+
+export interface MakesSummary {
+  totalMakes: number;
+  totalRegistrations: number;
+  marketLeader: string;
 }
 
 export type Month = string;

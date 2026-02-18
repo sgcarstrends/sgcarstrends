@@ -6,4 +6,5 @@ export { MakeGrid } from "./make-grid";
 export { MakeSearch } from "./make-search";
 export { MakeTrendChart } from "./make-trend-chart";
 export { MakesDashboard } from "./makes-dashboard";
+export { MakesSummary } from "./makes-summary";
 export { PopularMakes } from "./popular-makes";

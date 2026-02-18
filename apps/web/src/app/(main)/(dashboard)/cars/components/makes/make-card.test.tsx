@@ -40,4 +40,30 @@ describe("MakeCard", () => {
     render(<MakeCard make={mockMake} count={1234} />);
     expect(screen.queryByText(/regs/)).not.toBeInTheDocument();
   });
+
+  it("should render positive YoY growth chip when yoyChange is positive", () => {
+    render(
+      <MakeCard make={mockMake} count={1234} share={12.5} yoyChange={8.3} />,
+    );
+    expect(screen.getByText("+8.3%")).toBeVisible();
+  });
+
+  it("should render negative YoY growth chip when yoyChange is negative", () => {
+    render(
+      <MakeCard make={mockMake} count={1234} share={12.5} yoyChange={-5.2} />,
+    );
+    expect(screen.getByText("-5.2%")).toBeVisible();
+  });
+
+  it("should not render YoY growth chip when yoyChange is null", () => {
+    render(
+      <MakeCard make={mockMake} count={1234} share={12.5} yoyChange={null} />,
+    );
+    expect(screen.queryByText(/[+-]\d+\.\d+%/)).not.toBeInTheDocument();
+  });
+
+  it("should not render YoY growth chip when yoyChange is not provided", () => {
+    render(<MakeCard make={mockMake} count={1234} share={12.5} />);
+    expect(screen.queryByText(/[+-]\d+\.\d+%/)).not.toBeInTheDocument();
+  });
 });

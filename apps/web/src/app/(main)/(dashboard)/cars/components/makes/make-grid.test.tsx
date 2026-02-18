@@ -32,6 +32,7 @@ describe("MakeGrid", () => {
         count: 1234,
         share: 12.5,
         trend: [{ value: 100 }, { value: 120 }],
+        yoyChange: 8.3,
       },
     };
     render(<MakeGrid makes={germanMakes} makeStatsMap={makeStatsMap} />);
