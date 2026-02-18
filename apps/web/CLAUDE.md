@@ -1040,6 +1040,7 @@ Environment variables managed through Vercel project settings:
 - `UPSTASH_REDIS_REST_URL/TOKEN`: Redis caching
 - `BLOB_READ_WRITE_TOKEN`: Vercel Blob storage access for car logos (via `@sgcarstrends/logos`)
 - `SG_CARS_TRENDS_API_TOKEN`: External API authentication
+- `CRON_SECRET`: Auto-provisioned by Vercel; authenticates cron requests via `Authorization: Bearer <CRON_SECRET>`. Workflow `GET` handlers validate this header
 - `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`: Feature flag for unreleased features
 - `VERCEL_ENV`: Vercel's automatic environment detection (production/preview/development)
 
