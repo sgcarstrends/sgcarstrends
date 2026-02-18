@@ -1,3 +1,9 @@
+## [4.53.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.52.0...v4.53.0) (2026-02-18)
+
+### Features
+
+* **web:** add month-to-month comparison feature ([#261](https://github.com/sgcarstrends/sgcarstrends/issues/261)) ([#696](https://github.com/sgcarstrends/sgcarstrends/issues/696)) ([0795655](https://github.com/sgcarstrends/sgcarstrends/commit/079565509d1da3e072542ab259fd428f622810dd))
+
 ## [4.52.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.7...v4.52.0) (2026-02-18)
 
 ### Features
