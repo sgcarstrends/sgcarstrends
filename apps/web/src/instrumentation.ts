@@ -1,8 +1,8 @@
-import { randomBytes } from "node:crypto";
-import { LangfuseSpanProcessor } from "@langfuse/otel";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+export async function register() {
+  const { randomBytes } = await import("node:crypto");
+  const { LangfuseSpanProcessor } = await import("@langfuse/otel");
+  const { NodeTracerProvider } = await import("@opentelemetry/sdk-trace-node");
 
-export function register() {
   const langfuseSpanProcessor = new LangfuseSpanProcessor({
     shouldExportSpan: ({ otelSpan }) =>
       ["langfuse-sdk", "ai"].includes(otelSpan.instrumentationScope.name),
