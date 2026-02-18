@@ -1,3 +1,9 @@
+## [4.51.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.4...v4.51.5) (2026-02-18)
+
+### Bug Fixes
+
+* **web:** replace node:crypto with Web Crypto API in instrumentation ([04b2ce0](https://github.com/sgcarstrends/sgcarstrends/commit/04b2ce0d16bb656059afde701dcc81da91b51c5e))
+
 ## [4.51.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.3...v4.51.4) (2026-02-18)
 
 ### Bug Fixes
