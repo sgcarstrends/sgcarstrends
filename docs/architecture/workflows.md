@@ -135,9 +135,8 @@ sequenceDiagram
 
 **Purpose**: Process monthly vehicle registration data from LTA DataMall
 
-**Trigger**: 
+**Trigger**:
 - Scheduled: Every hour during business hours (9 AM - 6 PM, Mon-Fri)
-- Manual: `POST /workflows/trigger` endpoint
 
 **Process Flow**:
 
@@ -169,7 +168,6 @@ sequenceDiagram
 
 **Trigger**:
 - Scheduled: Every hour during business hours
-- Manual: `POST /workflows/trigger` endpoint
 
 **Process Flow**:
 

@@ -17,10 +17,9 @@ graph TB
         end
 
         subgraph "Workflow Endpoints"
-            WorkflowCars[POST /api/workflows/cars - Cars Workflow]
-            WorkflowCOE[POST /api/workflows/coe - COE Workflow]
-            WorkflowDereg[POST /api/workflows/deregistrations - Deregistrations Workflow]
-            WorkflowTrigger[POST /api/workflows/trigger - Manual Trigger]
+            WorkflowCars[GET /api/workflows/cars - Cars Workflow]
+            WorkflowCOE[GET /api/workflows/coe - COE Workflow]
+            WorkflowDereg[GET /api/workflows/deregistrations - Deregistrations Workflow]
         end
 
         subgraph "Internal APIs"
@@ -75,7 +74,6 @@ graph TB
     NextJS --> WorkflowCars
     NextJS --> WorkflowCOE
     NextJS --> WorkflowDereg
-    NextJS --> WorkflowTrigger
     VercelCron --> WorkflowCars
     VercelCron --> WorkflowCOE
     VercelCron --> WorkflowDereg
@@ -121,7 +119,7 @@ graph TB
     classDef database fill:#e8f5e8
     classDef platform fill:#f3e5f5
 
-    class HealthCheck,Revalidate,OGImages,Analytics,WorkflowCars,WorkflowCOE,WorkflowDereg,WorkflowTrigger endpoint
+    class HealthCheck,Revalidate,OGImages,Analytics,WorkflowCars,WorkflowCOE,WorkflowDereg endpoint
     class CarsWorkflow,COEWorkflow,DeregWorkflow,BlogGeneration,SocialPosting workflow
     class LTA,Gemini,Discord,LinkedIn,Telegram,Twitter external
     class Neon,Upstash,Blob database

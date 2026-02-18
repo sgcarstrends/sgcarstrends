@@ -235,11 +235,9 @@ Deployment is handled automatically by Vercel:
 ### Web Application Workflows (apps/web)
 
 **Workflow Endpoints (Vercel Cron Triggered):**
-- `POST /api/workflows/trigger` - Trigger data update workflows
-- `POST /api/workflows/cars` - Car data processing workflow
-- `POST /api/workflows/coe` - COE data processing workflow
-- `POST /api/workflows/deregistrations` - Vehicle deregistration processing workflow
-- `POST /api/workflows/regenerate` - Regenerate blog post workflow
+- `GET /api/workflows/cars` - Car data processing workflow
+- `GET /api/workflows/coe` - COE data processing workflow
+- `GET /api/workflows/deregistrations` - Vehicle deregistration processing workflow
 
 ## Repo Activity
 

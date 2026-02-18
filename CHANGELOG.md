@@ -1,3 +1,9 @@
+## [4.51.7](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.6...v4.51.7) (2026-02-18)
+
+### Bug Fixes
+
+* **web:** secure workflow routes with CRON_SECRET auth only ([7f16aef](https://github.com/sgcarstrends/sgcarstrends/commit/7f16aef172ab481281c2ab9cc5d42ca72d938c4a))
+
 ## [4.51.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.5...v4.51.6) (2026-02-18)
 
 ### Bug Fixes
