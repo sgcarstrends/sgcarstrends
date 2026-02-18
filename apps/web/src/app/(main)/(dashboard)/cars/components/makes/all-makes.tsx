@@ -1,6 +1,6 @@
 "use client";
 
-import type { Make } from "@web/types";
+import type { Make, MakeStats } from "@web/types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Key } from "react";
 import { useCallback, useRef, useState } from "react";
@@ -12,6 +12,7 @@ interface AllMakesProps {
   groupedMakes: Record<string, Make[]>;
   letters: string[];
   logoUrlMap?: Record<string, string>;
+  makeStatsMap?: Record<string, MakeStats>;
 }
 
 export function AllMakes({
@@ -20,6 +21,7 @@ export function AllMakes({
   groupedMakes,
   letters,
   logoUrlMap = {},
+  makeStatsMap,
 }: AllMakesProps) {
   const [selectedLetter, setSelectedLetter] = useState(letters[0]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -109,7 +111,11 @@ export function AllMakes({
             {activeMakes.length} {activeMakes.length === 1 ? "make" : "makes"}
           </span>
         </div>
-        <MakeGrid makes={activeMakes} logoUrlMap={logoUrlMap} />
+        <MakeGrid
+          makes={activeMakes}
+          logoUrlMap={logoUrlMap}
+          makeStatsMap={makeStatsMap}
+        />
       </div>
     </section>
   );

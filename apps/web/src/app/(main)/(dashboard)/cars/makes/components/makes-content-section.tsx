@@ -5,7 +5,11 @@ import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { getPopularMakes } from "@web/queries/cars";
-import { getGroupedMakes } from "@web/queries/cars/makes";
+import {
+  getGroupedMakes,
+  getMakeRegistrationStats,
+} from "@web/queries/cars/makes";
+import type { MakeStats } from "@web/types";
 import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 
@@ -15,10 +19,22 @@ const description =
 
 async function CarMakesContent() {
   const logos = await redis.get<CarLogo[]>("logos:all");
-  const [{ sortedMakes, groupedMakes, letters }, popularMakes] =
-    await Promise.all([getGroupedMakes(), getPopularMakes()]);
+  const [{ sortedMakes, groupedMakes, letters }, popularMakes, statsArray] =
+    await Promise.all([
+      getGroupedMakes(),
+      getPopularMakes(),
+      getMakeRegistrationStats(),
+    ]);
 
   const popular = popularMakes.map((item) => item.make);
+
+  const makeStatsMap = statsArray.reduce<Record<string, MakeStats>>(
+    (acc, { make, count, share, trend }) => {
+      acc[make] = { count, share, trend };
+      return acc;
+    },
+    {},
+  );
 
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
@@ -42,6 +58,7 @@ async function CarMakesContent() {
         letters={letters}
         popularMakes={popular}
         logos={logos}
+        makeStatsMap={makeStatsMap}
       />
     </>
   );
