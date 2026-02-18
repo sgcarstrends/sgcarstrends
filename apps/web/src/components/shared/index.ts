@@ -1,4 +1,4 @@
-export { BetaChip, NewChip } from "./chips";
+export { NewChip } from "./chips";
 export { Currency } from "./currency";
 export { EmptyState } from "./empty-state";
 export { LastUpdated } from "./last-updated";

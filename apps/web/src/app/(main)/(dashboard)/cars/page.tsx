@@ -12,10 +12,10 @@ import { MonthSelector } from "@web/components/shared/month-selector";
 import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { SkeletonCard } from "@web/components/shared/skeleton";
-import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { loadCarsMetadataData } from "@web/lib/cars/page-data";
 import { loadLastUpdated } from "@web/lib/common";
 import { createPageMetadata } from "@web/lib/metadata";
+import { getComparisonData } from "@web/queries/cars/compare";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -71,9 +71,7 @@ const Page = ({ searchParams }: PageProps) => {
 
       <AnimatedSection order={2}>
         <Suspense fallback={<SkeletonCard className="h-12 w-52" />}>
-          <UnreleasedFeature>
-            <TrendsCompareButton />
-          </UnreleasedFeature>
+          <CarsCompareSection searchParams={searchParams} />
         </Suspense>
       </AnimatedSection>
 
@@ -84,12 +82,40 @@ const Page = ({ searchParams }: PageProps) => {
   );
 };
 
-async function CarsPageSections({
-  searchParams: searchParamsPromise,
+async function CarsCompareSection({
+  searchParams,
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
+  const {
+    month: parsedMonth,
+    compareA,
+    compareB,
+  } = await loadSearchParams(searchParams);
+  const [months, { month }] = await Promise.all([
+    fetchMonthsForCars(),
+    getMonthOrLatest(parsedMonth, "cars"),
+  ]);
+
+  const comparisonData =
+    (compareA && compareB && (await getComparisonData(compareA, compareB))) ||
+    false;
+
+  return (
+    <TrendsCompareButton
+      currentMonth={month}
+      months={months}
+      comparisonData={comparisonData}
+    />
+  );
+}
+
+async function CarsPageSections({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { month: parsedMonth } = await loadSearchParams(searchParams);
   const { month } = await getMonthOrLatest(parsedMonth, "cars");
 
   return (
@@ -110,16 +136,16 @@ async function CarsPageSections({
 export default Page;
 
 async function CarsPageHeaderMeta({
-  searchParams: searchParamsPromise,
+  searchParams,
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const [{ month: parsedMonth }, months, lastUpdated] = await Promise.all([
-    loadSearchParams(searchParamsPromise),
+  const { month: parsedMonth } = await loadSearchParams(searchParams);
+  const [months, lastUpdated, { wasAdjusted }] = await Promise.all([
     fetchMonthsForCars(),
     loadLastUpdated("cars"),
+    getMonthOrLatest(parsedMonth, "cars"),
   ]);
-  const { wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
 
   return (
     <DashboardPageMeta lastUpdated={lastUpdated}>
