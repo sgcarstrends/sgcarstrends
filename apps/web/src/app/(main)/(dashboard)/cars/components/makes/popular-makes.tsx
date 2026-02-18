@@ -1,6 +1,6 @@
 import { slugify } from "@sgcarstrends/utils";
 import type { Make, MakeStats } from "@web/types";
-import { Flame } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 import { MakeCard } from "./make-card";
 
 interface PopularMakesProps {
@@ -22,14 +22,14 @@ export function PopularMakes({
     <section className="flex flex-col gap-6">
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <div className="flex size-7 items-center justify-center rounded-lg bg-gradient-to-br from-amber-400 to-orange-500">
-            <Flame className="size-4 text-white" />
+          <div className="flex size-7 items-center justify-center rounded-lg bg-primary">
+            <TrendingUp className="size-4 text-primary-foreground" />
           </div>
           <h2 className="font-semibold text-foreground text-lg">
             Popular Makes
           </h2>
         </div>
-        <span className="rounded-full bg-amber-500/10 px-2.5 py-0.5 font-medium text-amber-600 text-xs">
+        <span className="rounded-full bg-primary/10 px-2.5 py-0.5 font-medium text-primary text-xs">
           Top {makes.length}
         </span>
       </div>
