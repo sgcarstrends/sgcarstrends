@@ -1,3 +1,21 @@
+## [4.51.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.5...v4.51.6) (2026-02-18)
+
+### Bug Fixes
+
+* **web:** add GET handlers and CRON_SECRET auth to workflow routes ([4c1b21b](https://github.com/sgcarstrends/sgcarstrends/commit/4c1b21bd7fe6c58217ce444b96f7780ead8b7c2f))
+
+## [4.51.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.4...v4.51.5) (2026-02-18)
+
+### Bug Fixes
+
+* **web:** replace node:crypto with Web Crypto API in instrumentation ([04b2ce0](https://github.com/sgcarstrends/sgcarstrends/commit/04b2ce0d16bb656059afde701dcc81da91b51c5e))
+
+## [4.51.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.3...v4.51.4) (2026-02-18)
+
+### Bug Fixes
+
+* **web:** use dynamic imports in instrumentation register() ([a4fa015](https://github.com/sgcarstrends/sgcarstrends/commit/a4fa0158e2a1d37d89fd5479bdf95fab309b3dc1))
+
 ## [4.51.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.2...v4.51.3) (2026-02-16)
 
 ### Bug Fixes

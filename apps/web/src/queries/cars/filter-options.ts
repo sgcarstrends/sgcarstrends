@@ -1,5 +1,6 @@
 import { and, cars, db, desc, eq, gt, sum } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
+import { FUEL_TYPE, type TypeConfig, VEHICLE_TYPE } from "./categories";
 
 export async function getDistinctMakes() {
   "use cache";
@@ -7,6 +8,25 @@ export async function getDistinctMakes() {
   cacheTag("cars:makes");
 
   return db.selectDistinct({ make: cars.make }).from(cars).orderBy(cars.make);
+}
+
+function queryDistinctTypeValues(config: TypeConfig, month?: string) {
+  const filters = [];
+
+  if (month) {
+    filters.push(eq(cars.month, month));
+  }
+
+  return (
+    db
+      // biome-ignore lint/suspicious/noExplicitAny: computed property key requires type assertion for Drizzle's SelectedFields
+      .select({ [config.fieldName]: config.column } as any)
+      .from(cars)
+      .where(filters.length > 0 ? and(...filters) : undefined)
+      .groupBy(config.column)
+      .having(gt(sum(cars.number), 0))
+      .orderBy(config.column)
+  );
 }
 
 export async function getDistinctFuelTypes(
@@ -18,19 +38,8 @@ export async function getDistinctFuelTypes(
     cacheTag(`cars:month:${month}`);
   }
 
-  const filters = [];
-
-  if (month) {
-    filters.push(eq(cars.month, month));
-  }
-
-  return db
-    .select({ fuelType: cars.fuelType })
-    .from(cars)
-    .where(filters.length > 0 ? and(...filters) : undefined)
-    .groupBy(cars.fuelType)
-    .having(gt(sum(cars.number), 0))
-    .orderBy(cars.fuelType);
+  const result = await queryDistinctTypeValues(FUEL_TYPE, month);
+  return result as { fuelType: string }[];
 }
 
 export async function getDistinctVehicleTypes(
@@ -42,19 +51,8 @@ export async function getDistinctVehicleTypes(
     cacheTag(`cars:month:${month}`);
   }
 
-  const filters = [];
-
-  if (month) {
-    filters.push(eq(cars.month, month));
-  }
-
-  return db
-    .select({ vehicleType: cars.vehicleType })
-    .from(cars)
-    .where(filters.length > 0 ? and(...filters) : undefined)
-    .groupBy(cars.vehicleType)
-    .having(gt(sum(cars.number), 0))
-    .orderBy(cars.vehicleType);
+  const result = await queryDistinctTypeValues(VEHICLE_TYPE, month);
+  return result as { vehicleType: string }[];
 }
 
 export async function getCarsMonths(): Promise<{ month: string }[]> {

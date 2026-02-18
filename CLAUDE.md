@@ -210,6 +210,7 @@ Core cross-cutting variables:
 - `DATABASE_URL` - PostgreSQL connection string
 - `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` - Redis configuration
 - `SG_CARS_TRENDS_API_TOKEN` - Bearer token for REST API authentication (used by MCP server and external clients)
+- `CRON_SECRET` - Auto-provisioned by Vercel; used to authenticate cron job requests via `Authorization: Bearer <CRON_SECRET>`
 
 *See component CLAUDE.md files for service-specific environment variables.*
 

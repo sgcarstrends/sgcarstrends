@@ -96,6 +96,46 @@ describe("car make breakdown queries", () => {
       ],
     });
   });
+
+  it("should return fuel type data without month filter", async () => {
+    queueBatch([
+      [{ total: 25 }],
+      [{ month: "2024-01", make: "Tesla", fuelType: "Electric", count: 25 }],
+    ]);
+
+    const result = await getFuelTypeData("electric");
+
+    expect(result).toEqual({
+      total: 25,
+      data: [
+        { month: "2024-01", make: "Tesla", fuelType: "Electric", count: 25 },
+      ],
+    });
+  });
+
+  it("should return vehicle type data without month filter", async () => {
+    queueBatch([
+      [{ total: 15 }],
+      [{ month: "2024-01", make: "Toyota", vehicleType: "SUV", count: 15 }],
+    ]);
+
+    const result = await getVehicleTypeData("suv");
+
+    expect(result).toEqual({
+      total: 15,
+      data: [
+        { month: "2024-01", make: "Toyota", vehicleType: "SUV", count: 15 },
+      ],
+    });
+  });
+
+  it("should return zero total when no results match", async () => {
+    queueBatch([[{ total: null }], []]);
+
+    const result = await getFuelTypeData("nonexistent");
+
+    expect(result).toEqual({ total: 0, data: [] });
+  });
 });
 
 describe("entity existence checks", () => {

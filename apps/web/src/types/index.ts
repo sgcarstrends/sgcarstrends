@@ -1,5 +1,4 @@
 import type { COECategory, VehicleType } from "@sgcarstrends/types";
-import type { FUEL_TYPE } from "@web/config";
 import type { LucideIcon } from "lucide-react";
 
 export type { COECategory, VehicleType };
@@ -62,6 +61,12 @@ export enum RevalidateTags {
 }
 
 export type Make = string;
+
+export interface MakeStats {
+  count: number;
+  share: number;
+  trend: { value: number }[];
+}
 
 export type Month = string;
 

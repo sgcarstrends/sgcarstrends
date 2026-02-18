@@ -5,15 +5,37 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
+import { mdxComponents } from "@web/app/(main)/blog/components/mdx-components";
 import { getAllPosts } from "@web/app/admin/actions/blog";
 import { BlogPostsTable } from "@web/app/admin/components/blog-posts-table";
 import { ListSkeleton } from "@web/components/shared/skeleton";
 import { FileText, Plus } from "lucide-react";
 import Link from "next/link";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import type { ReactNode } from "react";
 import { Suspense } from "react";
+import remarkGfm from "remark-gfm";
 
 export default async function BlogManagementPage() {
   const posts = await getAllPosts();
+
+  const previews: Record<string, ReactNode> = {};
+  for (const post of posts) {
+    const content = (post as unknown as { content: string }).content;
+    if (content) {
+      previews[post.id] = (
+        <article className="prose max-w-none p-6">
+          <MDXRemote
+            source={content}
+            components={mdxComponents}
+            options={{
+              mdxOptions: { format: "md", remarkPlugins: [remarkGfm] },
+            }}
+          />
+        </article>
+      );
+    }
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -38,7 +60,7 @@ export default async function BlogManagementPage() {
 
       {/* Posts Table */}
       <Suspense fallback={<ListSkeleton count={5} itemHeight="h-16" />}>
-        <BlogPostsTable initialPosts={posts} />
+        <BlogPostsTable initialPosts={posts} previews={previews} />
       </Suspense>
 
       {/* Instructions */}
