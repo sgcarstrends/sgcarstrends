@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/database",
   "description": "Database schema and migrations for SG Cars Trends",
-  "version": "4.51.5",
+  "version": "4.51.6",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",

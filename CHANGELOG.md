@@ -1,3 +1,9 @@
+## [4.51.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.5...v4.51.6) (2026-02-18)
+
+### Bug Fixes
+
+* **web:** add GET handlers and CRON_SECRET auth to workflow routes ([4c1b21b](https://github.com/sgcarstrends/sgcarstrends/commit/4c1b21bd7fe6c58217ce444b96f7780ead8b7c2f))
+
 ## [4.51.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.4...v4.51.5) (2026-02-18)
 
 ### Bug Fixes
