@@ -83,7 +83,7 @@ import {
   Trash2,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffectEvent, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 interface BlogPostsTableProps {
@@ -189,7 +189,7 @@ export function BlogPostsTable({ initialPosts }: BlogPostsTableProps) {
     }
   };
 
-  const handlePreview = useEffectEvent(async (post: PostWithMetadata) => {
+  const handlePreview = useCallback(async (post: PostWithMetadata) => {
     setPreviewDialog({ open: true, post, content: null, loading: true });
     try {
       const fullPost = await getPostById(post.id);
@@ -199,7 +199,8 @@ export function BlogPostsTable({ initialPosts }: BlogPostsTableProps) {
         content: fullPost?.content ?? null,
         loading: false,
       });
-    } catch {
+    } catch (error) {
+      console.error("Failed to load post content:", error);
       toast.error("Failed to load post content.");
       setPreviewDialog({
         open: false,
@@ -208,7 +209,7 @@ export function BlogPostsTable({ initialPosts }: BlogPostsTableProps) {
         loading: false,
       });
     }
-  });
+  }, []);
 
   const columns = useMemo<ColumnDef<PostWithMetadata>[]>(
     () => [
@@ -376,7 +377,7 @@ export function BlogPostsTable({ initialPosts }: BlogPostsTableProps) {
       },
     ],
     // biome-ignore lint/correctness/useExhaustiveDependencies: regeneratingId/deletingId drive loading state in cell renderers; handlePreview is stable within this closure
-    [regeneratingId, deletingId],
+    [regeneratingId, deletingId, handlePreview],
   );
 
   const table = useReactTable({
