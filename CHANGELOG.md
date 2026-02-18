@@ -1,3 +1,9 @@
+## [4.52.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.7...v4.52.0) (2026-02-18)
+
+### Features
+
+* **web:** add YoY growth chips and header summary to makes page ([#694](https://github.com/sgcarstrends/sgcarstrends/issues/694)) ([0199f31](https://github.com/sgcarstrends/sgcarstrends/commit/0199f318927bf70ffbf99b032adea88f64e78b83))
+
 ## [4.51.7](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.6...v4.51.7) (2026-02-18)
 
 ### Bug Fixes
