@@ -1,9 +1,5 @@
 {
   "mcpServers": {
-    "next-devtools": {
-      "command": "bunx",
-      "args": ["-y", "@vercel/next-devtools-mcp"]
-    },
     "sgcarstrends": {
       "command": "bunx",
       "args": ["-y", "@sgcarstrends/mcp"]
