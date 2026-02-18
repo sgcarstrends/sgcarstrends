@@ -1,6 +1,13 @@
 "use client";
 
 import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from "@heroui/modal";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -19,13 +26,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@sgcarstrends/ui/components/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -62,7 +62,6 @@ import {
 import {
   deleteBlogPost,
   getAllPosts,
-  getPostById,
   type PostWithMetadata,
   regeneratePost,
 } from "@web/app/admin/actions/blog";
@@ -83,11 +82,12 @@ import {
   Trash2,
 } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 interface BlogPostsTableProps {
   initialPosts: PostWithMetadata[];
+  previews: Record<string, ReactNode>;
 }
 
 function formatDate(date: Date): string {
@@ -121,7 +121,10 @@ function SortableHeader({
   );
 }
 
-export function BlogPostsTable({ initialPosts }: BlogPostsTableProps) {
+export function BlogPostsTable({
+  initialPosts,
+  previews,
+}: BlogPostsTableProps) {
   const [posts, setPosts] = useState(initialPosts);
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState<SortingState>([
@@ -137,9 +140,7 @@ export function BlogPostsTable({ initialPosts }: BlogPostsTableProps) {
   const [previewDialog, setPreviewDialog] = useState<{
     open: boolean;
     post: PostWithMetadata | null;
-    content: string | null;
-    loading: boolean;
-  }>({ open: false, post: null, content: null, loading: false });
+  }>({ open: false, post: null });
 
   const handleRegenerate = async (post: PostWithMetadata) => {
     setRegeneratingId(post.id);
@@ -189,26 +190,8 @@ export function BlogPostsTable({ initialPosts }: BlogPostsTableProps) {
     }
   };
 
-  const handlePreview = useCallback(async (post: PostWithMetadata) => {
-    setPreviewDialog({ open: true, post, content: null, loading: true });
-    try {
-      const fullPost = await getPostById(post.id);
-      setPreviewDialog({
-        open: true,
-        post,
-        content: fullPost?.content ?? null,
-        loading: false,
-      });
-    } catch (error) {
-      console.error("Failed to load post content:", error);
-      toast.error("Failed to load post content.");
-      setPreviewDialog({
-        open: false,
-        post: null,
-        content: null,
-        loading: false,
-      });
-    }
+  const handlePreview = useCallback((post: PostWithMetadata) => {
+    setPreviewDialog({ open: true, post });
   }, []);
 
   const columns = useMemo<ColumnDef<PostWithMetadata>[]>(
@@ -632,38 +615,25 @@ export function BlogPostsTable({ initialPosts }: BlogPostsTableProps) {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Content Preview Dialog */}
-      <Dialog
-        open={previewDialog.open}
+      {/* Content Preview Modal */}
+      <Modal
+        isOpen={previewDialog.open}
         onOpenChange={(open) => {
           if (!open) {
-            setPreviewDialog({
-              open: false,
-              post: null,
-              content: null,
-              loading: false,
-            });
+            setPreviewDialog({ open: false, post: null });
           }
         }}
+        size="5xl"
+        scrollBehavior="inside"
       >
-        <DialogContent className="flex max-h-[80vh] max-w-2xl flex-col overflow-hidden">
-          <DialogHeader>
-            <DialogTitle className="line-clamp-2 pr-6">
-              {previewDialog.post?.title}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="flex-1 overflow-y-auto">
-            {previewDialog.loading ? (
-              <div className="flex items-center justify-center py-12">
-                <Loader2 className="size-6 animate-spin text-muted-foreground" />
-              </div>
-            ) : (
-              <pre className="whitespace-pre-wrap text-sm leading-relaxed">
-                {previewDialog.content ?? "No content available."}
-              </pre>
-            )}
-          </div>
-          <DialogFooter>
+        <ModalContent>
+          <ModalHeader className="line-clamp-2">
+            {previewDialog.post?.title}
+          </ModalHeader>
+          <ModalBody>
+            {previewDialog.post && previews[previewDialog.post.id]}
+          </ModalBody>
+          <ModalFooter>
             {previewDialog.post?.slug && (
               <Button asChild variant="outline">
                 <Link
@@ -676,9 +646,9 @@ export function BlogPostsTable({ initialPosts }: BlogPostsTableProps) {
                 </Link>
               </Button>
             )}
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }
