@@ -1,10 +1,15 @@
 import { Avatar } from "@heroui/avatar";
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import { formatPercentage, slugify } from "@sgcarstrends/utils";
+import {
+  formatGrowthRate,
+  formatPercentage,
+  slugify,
+} from "@sgcarstrends/utils";
 import { Sparkline } from "@web/components/charts/sparkline";
 import Typography from "@web/components/typography";
 import type { Make } from "@web/types";
+import { TrendingDown, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,6 +19,7 @@ interface MakeCardProps {
   count?: number;
   share?: number;
   trend?: { value: number }[];
+  yoyChange?: number | null;
 }
 
 export function MakeCard({
@@ -22,9 +28,9 @@ export function MakeCard({
   count,
   share,
   trend,
+  yoyChange,
 }: MakeCardProps) {
   const href = `/cars/makes/${slugify(make)}`;
-  const hasStats = count !== undefined && share !== undefined;
 
   return (
     <Card
@@ -35,7 +41,7 @@ export function MakeCard({
     >
       <CardBody>
         <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
+          <div className="flex items-start gap-2">
             <div className="flex size-16 shrink-0 items-center justify-center">
               {logoUrl ? (
                 <Image
@@ -57,7 +63,7 @@ export function MakeCard({
             </div>
             <div className="flex min-w-0 flex-col gap-2">
               <Typography.Label className="truncate">{make}</Typography.Label>
-              {hasStats && (
+              {count && share && (
                 <div className="flex flex-col gap-2">
                   <div className="flex items-baseline gap-2">
                     <span className="font-bold text-xl tabular-nums leading-none">
@@ -65,14 +71,32 @@ export function MakeCard({
                     </span>
                     <Typography.Caption>regs</Typography.Caption>
                   </div>
-                  <Chip
-                    color="primary"
-                    variant="flat"
-                    size="sm"
-                    className="w-fit rounded-full"
-                  >
-                    {formatPercentage(share)} share
-                  </Chip>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Chip
+                      color="primary"
+                      variant="flat"
+                      size="sm"
+                      className="rounded-full"
+                    >
+                      {formatPercentage(share)} share
+                    </Chip>
+                    {yoyChange && (
+                      <Chip
+                        color={yoyChange >= 0 ? "success" : "danger"}
+                        variant="flat"
+                        size="sm"
+                        startContent={
+                          yoyChange >= 0 ? (
+                            <TrendingUp className="size-3" />
+                          ) : (
+                            <TrendingDown className="size-3" />
+                          )
+                        }
+                      >
+                        {formatGrowthRate(yoyChange)}
+                      </Chip>
+                    )}
+                  </div>
                 </div>
               )}
             </div>

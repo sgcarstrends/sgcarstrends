@@ -6,6 +6,7 @@ export interface MakeRegistrationStat {
   count: number;
   share: number;
   trend: { value: number }[];
+  yoyChange: number | null;
 }
 
 /**
@@ -73,10 +74,39 @@ export async function getMakeRegistrationStats(): Promise<
     {},
   );
 
-  return annualRows.map((row) => ({
-    make: row.make,
-    count: row.count,
-    share: grandTotal > 0 ? (row.count / grandTotal) * 100 : 0,
-    trend: trendByMake[row.make] ?? [],
-  }));
+  const prevYear = String(Number(year) - 1);
+
+  // Annual totals for the previous year (for YoY comparison)
+  const prevYearRows = await db
+    .select({
+      make: cars.make,
+      count: sql<number>`cast(sum(${cars.number}) as int)`,
+    })
+    .from(cars)
+    .where(
+      sql`${cars.month} >= ${`${prevYear}-01`} and ${cars.month} <= ${`${prevYear}-12`}`,
+    )
+    .groupBy(cars.make);
+
+  const prevYearByMake = prevYearRows.reduce<Record<string, number>>(
+    (acc, row) => {
+      acc[row.make] = row.count;
+      return acc;
+    },
+    {},
+  );
+
+  return annualRows.map((row) => {
+    const prev = prevYearByMake[row.make];
+    const yoyChange =
+      prev !== undefined && prev > 0 ? ((row.count - prev) / prev) * 100 : null;
+
+    return {
+      make: row.make,
+      count: row.count,
+      share: grandTotal > 0 ? (row.count / grandTotal) * 100 : 0,
+      trend: trendByMake[row.make] ?? [],
+      yoyChange,
+    };
+  });
 }

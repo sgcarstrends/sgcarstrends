@@ -44,6 +44,7 @@ export function PopularMakes({
               count={stats?.count}
               share={stats?.share}
               trend={stats?.trend}
+              yoyChange={stats?.yoyChange}
             />
           );
         })}
