@@ -35,8 +35,9 @@ describe("MakeGrid", () => {
       },
     };
     render(<MakeGrid makes={germanMakes} makeStatsMap={makeStatsMap} />);
-    expect(screen.getByText("1,234 regs")).toBeVisible();
-    expect(screen.getByText("12.5% share")).toBeVisible();
+    expect(screen.getByText("1,234")).toBeVisible();
+    expect(screen.getByText("regs")).toBeVisible();
+    expect(screen.getByText(/12\.5%/)).toBeVisible();
   });
 
   it("should render without stats when makeStatsMap is not provided", () => {
