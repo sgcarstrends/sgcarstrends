@@ -7,7 +7,7 @@ import {
   MakeSearch,
   PopularMakes,
 } from "@web/app/(main)/(dashboard)/cars/components/makes";
-import type { Make } from "@web/types";
+import type { Make, MakeStats } from "@web/types";
 import { useMemo } from "react";
 
 interface MakesDashboardProps {
@@ -16,6 +16,7 @@ interface MakesDashboardProps {
   letters: string[];
   popularMakes: Make[];
   logos?: CarLogo[] | null;
+  makeStatsMap?: Record<string, MakeStats>;
 }
 
 export function MakesDashboard({
@@ -24,6 +25,7 @@ export function MakesDashboard({
   letters,
   popularMakes,
   logos = [],
+  makeStatsMap,
 }: MakesDashboardProps) {
   const logoUrlMap = useMemo(() => {
     return (
@@ -39,7 +41,11 @@ export function MakesDashboard({
   return (
     <div className="flex flex-col gap-4">
       <MakeSearch makes={sortedMakes} />
-      <PopularMakes makes={popularMakes} logoUrlMap={logoUrlMap} />
+      <PopularMakes
+        makes={popularMakes}
+        logoUrlMap={logoUrlMap}
+        makeStatsMap={makeStatsMap}
+      />
       <AllMakes
         title="All Makes"
         sortedMakes={sortedMakes}

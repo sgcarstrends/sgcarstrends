@@ -1,13 +1,19 @@
-import type { Make } from "@web/types";
+import { slugify } from "@sgcarstrends/utils";
+import type { Make, MakeStats } from "@web/types";
 import { Flame } from "lucide-react";
-import { MakeGrid } from "./make-grid";
+import { MakeCard } from "./make-card";
 
 interface PopularMakesProps {
   makes: Make[];
   logoUrlMap?: Record<string, string>;
+  makeStatsMap?: Record<string, MakeStats>;
 }
 
-export function PopularMakes({ makes, logoUrlMap = {} }: PopularMakesProps) {
+export function PopularMakes({
+  makes,
+  logoUrlMap = {},
+  makeStatsMap,
+}: PopularMakesProps) {
   if (makes.length === 0) {
     return null;
   }
@@ -27,7 +33,21 @@ export function PopularMakes({ makes, logoUrlMap = {} }: PopularMakesProps) {
           Top {makes.length}
         </span>
       </div>
-      <MakeGrid makes={makes} logoUrlMap={logoUrlMap} />
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+        {makes.map((make) => {
+          const stats = makeStatsMap?.[make];
+          return (
+            <MakeCard
+              key={make}
+              make={make}
+              logoUrl={logoUrlMap[slugify(make)]}
+              count={stats?.count}
+              share={stats?.share}
+              trend={stats?.trend}
+            />
+          );
+        })}
+      </div>
     </section>
   );
 }

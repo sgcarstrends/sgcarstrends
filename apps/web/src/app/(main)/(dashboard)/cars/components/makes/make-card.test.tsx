@@ -22,4 +22,21 @@ describe("MakeCard", () => {
       screen.queryByRole("img", { name: `${mockMake} logo` }),
     ).not.toBeInTheDocument();
   });
+
+  it("should render registration count and market share when stats are provided", () => {
+    render(<MakeCard make={mockMake} count={1234} share={12.5} />);
+    expect(screen.getByText("1,234 regs")).toBeVisible();
+    expect(screen.getByText("12.5% share")).toBeVisible();
+  });
+
+  it("should not render stats when count and share are not provided", () => {
+    render(<MakeCard make={mockMake} />);
+    expect(screen.queryByText(/regs/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/share/)).not.toBeInTheDocument();
+  });
+
+  it("should not render stats when only count is provided", () => {
+    render(<MakeCard make={mockMake} count={1234} />);
+    expect(screen.queryByText(/regs/)).not.toBeInTheDocument();
+  });
 });

@@ -25,4 +25,22 @@ describe("MakeGrid", () => {
     render(<MakeGrid makes={[]} />);
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
+
+  it("should pass stats to MakeCard when makeStatsMap is provided", () => {
+    const makeStatsMap = {
+      BMW: {
+        count: 1234,
+        share: 12.5,
+        trend: [{ value: 100 }, { value: 120 }],
+      },
+    };
+    render(<MakeGrid makes={germanMakes} makeStatsMap={makeStatsMap} />);
+    expect(screen.getByText("1,234 regs")).toBeVisible();
+    expect(screen.getByText("12.5% share")).toBeVisible();
+  });
+
+  it("should render without stats when makeStatsMap is not provided", () => {
+    render(<MakeGrid makes={germanMakes} />);
+    expect(screen.queryByText(/regs/)).not.toBeInTheDocument();
+  });
 });
