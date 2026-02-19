@@ -3,10 +3,12 @@
   "extends": ["//"],
   "tasks": {
     "build": {
-      "inputs": ["$TURBO_DEFAULT$", ".env"]
+      "inputs": ["$TURBO_DEFAULT$", ".env"],
+      "env": ["CRON_SECRET"]
     },
     "dev": {
-      "inputs": ["$TURBO_DEFAULT$", ".env"]
+      "inputs": ["$TURBO_DEFAULT$", ".env"],
+      "env": ["CRON_SECRET"]
     }
   }
 }
