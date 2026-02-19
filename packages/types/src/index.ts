@@ -21,6 +21,7 @@ export enum Collection {
   COE = "coe",
   PQP = "pqp",
   Deregistrations = "deregistrations",
+  VehiclePopulation = "vehicle-population",
 }
 
 export enum OrderBy {
@@ -75,6 +76,13 @@ export interface PQP {
 export interface Deregistration {
   month: string;
   category: string;
+  number: number;
+}
+
+export interface VehiclePopulation {
+  year: string;
+  category: string;
+  fuelType: string;
   number: number;
 }
 

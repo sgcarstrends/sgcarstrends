@@ -1,14 +1,21 @@
-import { AnnualRegistrationsChart } from "@web/app/(main)/(dashboard)/annual/components/annual-registrations-chart";
+import { FuelTypeBreakdown } from "@web/app/(main)/(dashboard)/annual/components/fuel-type-breakdown";
+import { VehiclePopulationChart } from "@web/app/(main)/(dashboard)/annual/components/vehicle-population-chart";
+import { VehiclePopulationMetrics } from "@web/app/(main)/(dashboard)/annual/components/vehicle-population-metrics";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
-import { KeyStatisticsSection } from "@web/app/(main)/(dashboard)/components/key-statistics-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
+import { EmptyState } from "@web/components/shared/empty-state";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { YearSelector } from "@web/components/shared/year-selector";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { getAvailableYears, getYearlyRegistrations } from "@web/queries";
+import {
+  getVehiclePopulationByYearAndFuelType,
+  getVehiclePopulationYearlyTotals,
+  getVehiclePopulationYears,
+} from "@web/queries/vehicle-population";
+import { BarChart3 } from "lucide-react";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
@@ -16,13 +23,13 @@ import type { WebPage, WithContext } from "schema-dts";
 import { loadSearchParams } from "./search-params";
 
 export const metadata: Metadata = {
-  title: "Annual Car Registrations & Statistics | Singapore Trends",
+  title: "Annual Vehicle Population | Singapore Trends",
   description:
-    "Comprehensive annual car registration statistics for Singapore. Interactive charts, year-over-year comparisons, and key insights including highest and lowest registration years.",
+    "Annual motor vehicle population in Singapore by fuel type. Track the growth of electric, hybrid, petrol, and diesel vehicles on Singapore roads.",
   openGraph: {
-    title: "Annual Car Registrations & Statistics - Singapore",
+    title: "Annual Vehicle Population - Singapore",
     description:
-      "Explore annual car registration trends in Singapore with interactive charts, year-over-year comparisons, and key statistics.",
+      "Explore annual vehicle population trends in Singapore by fuel type with interactive charts and key statistics.",
     type: "website",
   },
   alternates: {
@@ -33,9 +40,9 @@ export const metadata: Metadata = {
 const structuredData: WithContext<WebPage> = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "Annual Car Registrations",
+  name: "Annual Vehicle Population",
   description:
-    "Total new car registrations in Singapore by year with interactive charts",
+    "Motor vehicle population in Singapore by type of fuel used, with interactive charts and year-over-year analysis",
   url: `${SITE_URL}/annual`,
   publisher: {
     "@type": "Organization",
@@ -48,7 +55,7 @@ interface PageProps {
   searchParams: Promise<SearchParams>;
 }
 
-const AnnualPage = async ({ searchParams: searchParamsPromise }: PageProps) => {
+async function AnnualPage({ searchParams: searchParamsPromise }: PageProps) {
   return (
     <>
       <StructuredData data={structuredData} />
@@ -56,8 +63,8 @@ const AnnualPage = async ({ searchParams: searchParamsPromise }: PageProps) => {
         <DashboardPageHeader
           title={
             <DashboardPageTitle
-              title="Annual Registrations"
-              subtitle="Yearly car registration statistics and trends in Singapore."
+              title="Vehicle Population"
+              subtitle="Annual motor vehicle population in Singapore by type of fuel used."
             />
           }
           meta={
@@ -73,7 +80,7 @@ const AnnualPage = async ({ searchParams: searchParamsPromise }: PageProps) => {
       </section>
     </>
   );
-};
+}
 
 async function AnnualHeaderMeta({
   searchParams: searchParamsPromise,
@@ -81,9 +88,13 @@ async function AnnualHeaderMeta({
   searchParams: Promise<SearchParams>;
 }) {
   const { year: parsedYear } = await loadSearchParams(searchParamsPromise);
-  const availableYearsData = await getAvailableYears();
+  const availableYearsData = await getVehiclePopulationYears();
 
-  const years = availableYearsData.map(({ year }) => year);
+  if (availableYearsData.length === 0) {
+    return null;
+  }
+
+  const years = availableYearsData.map(({ year }) => Number(year));
   const latestYear = years[0];
   const wasAdjusted = parsedYear !== null && !years.includes(parsedYear);
 
@@ -105,22 +116,45 @@ async function AnnualContent({
 }) {
   await loadSearchParams(searchParamsPromise);
 
-  const [yearlyData, availableYearsData] = await Promise.all([
-    getYearlyRegistrations(),
-    getAvailableYears(),
+  const [yearlyTotals, fuelTypeData, availableYearsData] = await Promise.all([
+    getVehiclePopulationYearlyTotals(),
+    getVehiclePopulationByYearAndFuelType(),
+    getVehiclePopulationYears(),
   ]);
+
+  if (availableYearsData.length === 0) {
+    return (
+      <EmptyState
+        icon={
+          <div className="flex size-16 items-center justify-center rounded-2xl bg-default-100">
+            <BarChart3 className="size-8 text-default-400" />
+          </div>
+        }
+        title="No Data Available Yet"
+        description="Annual vehicle population data is not available at the moment. Please check back later."
+        showDefaultActions={false}
+      />
+    );
+  }
 
   return (
     <>
       <AnimatedSection order={1}>
-        <AnnualRegistrationsChart
-          data={yearlyData}
-          availableYears={availableYearsData}
+        <VehiclePopulationMetrics
+          yearlyTotals={yearlyTotals}
+          fuelTypeData={fuelTypeData}
         />
       </AnimatedSection>
 
       <AnimatedSection order={2}>
-        <KeyStatisticsSection />
+        <VehiclePopulationChart
+          data={fuelTypeData}
+          availableYears={availableYearsData}
+        />
+      </AnimatedSection>
+
+      <AnimatedSection order={3}>
+        <FuelTypeBreakdown data={fuelTypeData} />
       </AnimatedSection>
     </>
   );

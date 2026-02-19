@@ -14,3 +14,8 @@ export {
   type SelectDeregistration,
 } from "./deregistration";
 export { type InsertPost, posts, type SelectPost } from "./posts";
+export {
+  type InsertVehiclePopulation,
+  type SelectVehiclePopulation,
+  vehiclePopulation,
+} from "./vehicle-population";
