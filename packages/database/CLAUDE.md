@@ -8,6 +8,7 @@ platform. It uses Drizzle ORM v0.44.3 with PostgreSQL to manage:
 - **Car Registration Data**: Monthly vehicle registration statistics by make, fuel type, and vehicle type
 - **COE Bidding Results**: Certificate of Entitlement bidding data and Prevailing Quota Premium rates
 - **Vehicle Deregistrations**: Monthly deregistration statistics by VQS category
+- **Vehicle Population**: Annual vehicle population statistics by category and fuel type
 - **Blog Posts**: LLM-generated blog content with metadata and SEO information
 
 ## Commands
@@ -34,6 +35,7 @@ src/
 │   ├── cars.ts          # Car registration table schema
 │   ├── coe.ts           # COE bidding tables (coe, pqp)
 │   ├── deregistration.ts # Vehicle deregistration table schema
+│   ├── vehicle-population.ts # Vehicle population table schema
 │   └── posts.ts         # Blog posts table schema
 ├── client.ts            # Drizzle client setup
 ├── index.ts             # Package entry point (re-exports schema & client)
@@ -130,6 +132,24 @@ Stores monthly vehicle deregistration data under the Vehicle Quota System (VQS) 
 - Individual indexes on `month`, `category` for filtering
 - Index on `number` for deregistration volume sorting
 
+### Vehicle Population Table (`vehicle_population`)
+
+Stores annual vehicle population data by category and fuel type from LTA DataMall.
+
+**Columns:**
+
+- `id`: UUID primary key (auto-generated)
+- `year`: Text, NOT NULL (YYYY format, e.g., "2024")
+- `category`: Text, NOT NULL (vehicle category, e.g., "Cars", "Taxis")
+- `fuelType`: Text, NOT NULL ("Petrol", "Diesel", "Electric", "Petrol-Electric", etc.)
+- `number`: Integer, default 0 (number of vehicles)
+
+**Indexes:**
+
+- Compound index on `year` + `category`
+- Compound index on `year` + `fuelType`
+- Individual indexes on `year`, `category`, `fuelType`
+
 ### Blog Posts (`posts`)
 
 Stores LLM-generated blog content with structured output from AI generation.
@@ -169,6 +189,7 @@ export type InsertCar = typeof cars.$inferInsert;
 export type InsertCOE = typeof coe.$inferInsert;
 export type InsertPqp = typeof pqp.$inferInsert;
 export type InsertDeregistration = typeof deregistrations.$inferInsert;
+export type InsertVehiclePopulation = typeof vehiclePopulation.$inferInsert;
 export type InsertPost = typeof posts.$inferInsert;
 
 // Select types (for query results)
@@ -176,6 +197,7 @@ export type SelectCar = typeof cars.$inferSelect;
 export type SelectCOE = typeof coe.$inferSelect;
 export type SelectPqp = typeof pqp.$inferSelect;
 export type SelectDeregistration = typeof deregistrations.$inferSelect;
+export type SelectVehiclePopulation = typeof vehiclePopulation.$inferSelect;
 export type SelectPost = typeof posts.$inferSelect;
 ```
 
