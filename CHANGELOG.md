@@ -1,3 +1,9 @@
+## [4.54.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.53.1...v4.54.0) (2026-02-20)
+
+### Features
+
+* use pgvector semantic embeddings for related posts ([#702](https://github.com/sgcarstrends/sgcarstrends/issues/702)) ([3e3d783](https://github.com/sgcarstrends/sgcarstrends/commit/3e3d783923df4fafc165cd9bf153663734a03bcc))
+
 ## [4.53.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.53.0...v4.53.1) (2026-02-20)
 
 ### Bug Fixes
