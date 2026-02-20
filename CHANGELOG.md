@@ -1,3 +1,9 @@
+## [4.53.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.53.0...v4.53.1) (2026-02-20)
+
+### Bug Fixes
+
+* **web:** add missing vehicle-population cron job ([82beda4](https://github.com/sgcarstrends/sgcarstrends/commit/82beda4be72fc35753a5be9e516782fcf8daccf4))
+
 ## [4.53.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.52.0...v4.53.0) (2026-02-18)
 
 ### Features
