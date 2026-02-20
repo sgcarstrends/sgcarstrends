@@ -99,6 +99,13 @@
       "when": 1771556475435,
       "tag": "0013_steady_glorian",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1771587056290,
+      "tag": "0014_friendly_warpath",
+      "breakpoints": true
     }
   ]
 }

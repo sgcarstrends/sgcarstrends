@@ -10,7 +10,6 @@ export const updatePostSchema = z.object({
   title: z.string().min(1),
   content: z.string().min(1),
   excerpt: z.string().optional(),
-  heroImage: z.string().optional(),
   tags: z.array(z.string()).optional(),
   highlights: z
     .array(
@@ -54,7 +53,6 @@ export async function updatePost(input: UpdatePostInput) {
       slug: newSlug,
       content: validated.content,
       excerpt: validated.excerpt,
-      heroImage: validated.heroImage,
       tags: validated.tags,
       highlights: validated.highlights,
       status: validated.status,

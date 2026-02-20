@@ -13,7 +13,6 @@ export interface PostParams {
   excerpt: string;
   tags: string[];
   highlights: Highlight[];
-  heroImage: string;
   month: string;
   dataType: "cars" | "coe";
   responseMetadata: {
@@ -36,7 +35,6 @@ export const savePost = async (data: PostParams) => {
       excerpt: data.excerpt,
       tags: data.tags,
       highlights: data.highlights,
-      heroImage: data.heroImage,
       status: "published",
       metadata: data.responseMetadata,
       month: data.month,
@@ -52,7 +50,6 @@ export const savePost = async (data: PostParams) => {
         excerpt: data.excerpt,
         tags: data.tags,
         highlights: data.highlights,
-        heroImage: data.heroImage,
         metadata: data.responseMetadata,
         modifiedAt: new Date(),
       },

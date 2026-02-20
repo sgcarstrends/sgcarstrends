@@ -51,9 +51,6 @@ export const generateMetadata = async ({
   const publishedDate = post.publishedAt ?? post.createdAt;
   const modifiedDate = post.modifiedAt;
 
-  // Generate Open Graph image URL
-  const ogImageUrl = `${SITE_URL}/api/og?title=${encodeURIComponent(post.title)}`;
-
   return {
     title: post.title,
     description: post.excerpt || "",
@@ -70,20 +67,11 @@ export const generateMetadata = async ({
       authors: ["SG Cars Trends"],
       tags: post.tags ?? [],
       url: `${SITE_URL}${canonical}`,
-      images: [
-        {
-          url: ogImageUrl,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt || "",
-      images: [ogImageUrl],
       creator: "@sgcarstrends",
       site: "@sgcarstrends",
     },
@@ -113,14 +101,6 @@ const BlogPostPage = async ({ params }: PageProps) => {
     getNextPost(publishedDate),
   ]);
 
-  // Fallback hero images based on data type
-  const defaultHeroImages: Record<string, string> = {
-    cars: "https://images.unsplash.com/photo-1519043916581-33ecfdba3b1c?w=1200&h=514&fit=crop",
-    coe: "https://images.unsplash.com/photo-1519045550819-021aa92e9312?w=1200&h=514&fit=crop",
-  };
-  const heroImage =
-    post.heroImage || defaultHeroImages[post.dataType ?? "cars"];
-
   const structuredData: WithContext<BlogPosting> = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -142,12 +122,10 @@ const BlogPostPage = async ({ params }: PageProps) => {
       name: "SG Cars Trends",
       url: SITE_URL,
     },
-    image: heroImage
-      ? {
-          "@type": "ImageObject",
-          url: heroImage,
-        }
-      : undefined,
+    image: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/blog/${post.slug}/opengraph-image`,
+    },
     keywords: post.tags?.join(", "),
     articleSection:
       post.dataType === "cars" ? "Market Analysis" : "COE Bidding",
@@ -171,7 +149,6 @@ const BlogPostPage = async ({ params }: PageProps) => {
         <BlogHero
           title={post.title}
           slug={post.slug}
-          heroImage={heroImage}
           publishedAt={publishedDate}
           readingTimeText={readingTimeText}
           tags={post.tags ?? undefined}
