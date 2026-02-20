@@ -32,7 +32,6 @@ const postBodySchema = {
   title: z.string().min(1).describe("Post title"),
   content: z.string().min(1).describe("Post content in MDX format"),
   excerpt: z.string().optional().describe("Short excerpt/summary"),
-  heroImage: z.string().optional().describe("Hero image URL"),
   tags: z.array(z.string()).optional().describe("Post tags"),
   highlights: z
     .array(

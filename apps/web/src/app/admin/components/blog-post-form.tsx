@@ -62,7 +62,6 @@ export function BlogPostForm({ mode, defaultValues }: BlogPostFormProps) {
   const [title, setTitle] = useState(defaultValues?.title ?? "");
   const [content, setContent] = useState(defaultValues?.content ?? "");
   const [excerpt, setExcerpt] = useState(defaultValues?.excerpt ?? "");
-  const [heroImage, setHeroImage] = useState(defaultValues?.heroImage ?? "");
   const [tags, setTags] = useState(defaultValues?.tags?.join(", ") ?? "");
   const [month, setMonth] = useState(defaultValues?.month ?? "");
   const [dataType, setDataType] = useState(defaultValues?.dataType ?? "");
@@ -165,7 +164,6 @@ export function BlogPostForm({ mode, defaultValues }: BlogPostFormProps) {
           content,
           status,
           ...(excerpt && { excerpt }),
-          ...(heroImage && { heroImage }),
           ...(parsedTags && { tags: parsedTags }),
           ...(month && { month }),
           ...(dataType && { dataType }),
@@ -186,7 +184,6 @@ export function BlogPostForm({ mode, defaultValues }: BlogPostFormProps) {
           content,
           status,
           ...(excerpt && { excerpt }),
-          ...(heroImage && { heroImage }),
           ...(parsedTags && { tags: parsedTags }),
           ...(month && { month }),
           ...(dataType && { dataType }),
@@ -312,16 +309,6 @@ export function BlogPostForm({ mode, defaultValues }: BlogPostFormProps) {
               onChange={(e) => setContent(e.target.value)}
               rows={16}
               required
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="heroImage">Hero Image URL</Label>
-            <Input
-              id="heroImage"
-              placeholder="https://images.unsplash.com/..."
-              value={heroImage}
-              onChange={(e) => setHeroImage(e.target.value)}
             />
           </div>
 
