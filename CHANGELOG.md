@@ -1,3 +1,9 @@
+## [4.54.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.54.0...v4.54.1) (2026-02-20)
+
+### Bug Fixes
+
+* add turbo backfill task for ai embeddings ([5d9421d](https://github.com/sgcarstrends/sgcarstrends/commit/5d9421dafff5adb16a7678a700b329be8a1f2e5e))
+
 ## [4.54.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.53.1...v4.54.0) (2026-02-20)
 
 ### Features
