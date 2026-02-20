@@ -1,5 +1,6 @@
 "use client";
 
+import { Card, CardBody } from "@heroui/card";
 import type { SelectPost } from "@sgcarstrends/database";
 import Link from "next/link";
 import { Cover } from "./cover";
@@ -10,7 +11,7 @@ interface HeroProps {
 }
 
 /**
- * Featured blog post — horizontal layout.
+ * Featured blog post — horizontal layout wrapped in HeroUI Card.
  * Cover image on the left, text on the right.
  */
 export function Hero({ post }: HeroProps) {
@@ -19,30 +20,34 @@ export function Hero({ post }: HeroProps) {
   const excerpt = getExcerpt(post);
 
   return (
-    <Link
+    <Card
+      isPressable
+      as={Link}
       href={`/blog/${post.slug}`}
-      className="group grid grid-cols-1 gap-6 md:grid-cols-5"
+      className="overflow-hidden"
     >
-      <Cover
-        category={post.dataType ?? "default"}
-        title={post.title}
-        className="aspect-[2/1] rounded-xl md:col-span-3"
-      />
-      <div className="flex flex-col justify-center gap-4 md:col-span-2">
-        <div className="flex items-center gap-2 text-default-400 text-sm">
-          <span>{formatDate(publishedDate)}</span>
-          <span className="size-1 rounded-full bg-default-300" />
-          <span>{readingTime} min read</span>
+      <CardBody className="grid grid-cols-1 gap-0 p-0 md:grid-cols-5">
+        <Cover
+          category={post.dataType ?? "default"}
+          title={post.title}
+          className="aspect-[2/1] md:col-span-2 md:aspect-[4/3]"
+        />
+        <div className="flex flex-col justify-center gap-4 p-6 md:col-span-3">
+          <div className="flex items-center gap-2 text-default-400 text-sm">
+            <span>{formatDate(publishedDate)}</span>
+            <span className="size-1 rounded-full bg-default-300" />
+            <span>{readingTime} min read</span>
+          </div>
+          <h2 className="line-clamp-3 font-bold text-2xl leading-tight md:text-3xl">
+            {post.title}
+          </h2>
+          {excerpt && (
+            <p className="line-clamp-3 text-base text-default-500 leading-relaxed">
+              {excerpt}
+            </p>
+          )}
         </div>
-        <h2 className="line-clamp-3 font-bold text-2xl leading-tight transition-colors group-hover:text-primary md:text-3xl">
-          {post.title}
-        </h2>
-        {excerpt && (
-          <p className="line-clamp-3 text-base text-default-500 leading-relaxed">
-            {excerpt}
-          </p>
-        )}
-      </div>
-    </Link>
+      </CardBody>
+    </Card>
   );
 }
