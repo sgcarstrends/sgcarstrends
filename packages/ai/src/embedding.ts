@@ -24,6 +24,14 @@ export async function generatePostEmbedding(post: {
     providerOptions: {
       google: { outputDimensionality: 768 },
     },
+    experimental_telemetry: {
+      isEnabled: true,
+      functionId: "post-embedding",
+      metadata: {
+        title: post.title,
+        contentLength: String(post.content.length),
+      },
+    },
   });
 
   return embedding;
