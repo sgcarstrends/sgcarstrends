@@ -1,9 +1,9 @@
-import { db, posts } from "@sgcarstrends/database";
+import { generatePostEmbedding } from "@sgcarstrends/ai";
+import { db, eq, posts } from "@sgcarstrends/database";
 import { slugify } from "@sgcarstrends/utils";
 import { getPostPublishRevalidationTags } from "@web/lib/cache-tags/posts";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
-import { syncPostTags } from "./post-tags";
 
 export const createPostSchema = z.object({
   title: z.string().min(1),
@@ -66,9 +66,18 @@ export async function createPost(input: CreatePostInput) {
         .returning()
     : await db.insert(posts).values(values).returning();
 
-  // Sync tags to Redis for related posts functionality
-  if (input.tags && input.tags.length > 0) {
-    await syncPostTags(post.id, input.tags);
+  try {
+    const embedding = await generatePostEmbedding({
+      title: input.title,
+      excerpt: input.excerpt,
+      content: input.content,
+    });
+    await db.update(posts).set({ embedding }).where(eq(posts.id, post.id));
+  } catch (error) {
+    console.error(
+      "[ADMIN] Failed to generate embedding:",
+      error instanceof Error ? error.message : String(error),
+    );
   }
 
   // Revalidate cache directly (same Next.js process)

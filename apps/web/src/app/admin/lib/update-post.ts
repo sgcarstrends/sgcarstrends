@@ -1,9 +1,9 @@
+import { generatePostEmbedding } from "@sgcarstrends/ai";
 import { db, eq, posts } from "@sgcarstrends/database";
 import { slugify } from "@sgcarstrends/utils";
 import { getPostPublishRevalidationTags } from "@web/lib/cache-tags/posts";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
-import { syncPostTags } from "./post-tags";
 
 export const updatePostSchema = z.object({
   id: z.string().uuid(),
@@ -64,9 +64,18 @@ export async function updatePost(input: UpdatePostInput) {
     .where(eq(posts.id, validated.id))
     .returning();
 
-  // Sync tags to Redis
-  if (validated.tags && validated.tags.length > 0) {
-    await syncPostTags(post.id, validated.tags);
+  try {
+    const embedding = await generatePostEmbedding({
+      title: validated.title,
+      excerpt: validated.excerpt,
+      content: validated.content,
+    });
+    await db.update(posts).set({ embedding }).where(eq(posts.id, post.id));
+  } catch (error) {
+    console.error(
+      "[ADMIN] Failed to generate embedding:",
+      error instanceof Error ? error.message : String(error),
+    );
   }
 
   // Revalidate cache for both old and new slugs

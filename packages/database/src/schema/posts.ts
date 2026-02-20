@@ -1,10 +1,12 @@
 import {
+  index,
   jsonb,
   pgTable,
   text,
   timestamp,
   unique,
   uuid,
+  vector,
 } from "drizzle-orm/pg-core";
 
 export const posts = pgTable(
@@ -21,13 +23,14 @@ export const posts = pgTable(
     metadata: jsonb(),
     month: text(),
     dataType: text(),
+    embedding: vector({ dimensions: 768 }),
     createdAt: timestamp().defaultNow().notNull(),
     modifiedAt: timestamp().defaultNow().notNull(),
     publishedAt: timestamp(),
   },
   (table) => [
-    // Composite unique constraint to prevent duplicate posts for same month + dataType
     unique().on(table.month, table.dataType),
+    index().using("hnsw", table.embedding.op("vector_cosine_ops")),
   ],
 );
 

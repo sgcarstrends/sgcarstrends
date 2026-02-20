@@ -1,6 +1,7 @@
-import { db, posts } from "@sgcarstrends/database";
-import { redis, slugify } from "@sgcarstrends/utils";
+import { db, eq, posts } from "@sgcarstrends/database";
+import { slugify } from "@sgcarstrends/utils";
 import type { LanguageModelUsage } from "ai";
+import { generatePostEmbedding } from "./embedding";
 import type { Highlight } from "./schemas";
 
 const getPostPublishRevalidationTags = (slug: string): string[] => {
@@ -60,9 +61,19 @@ export const savePost = async (data: PostParams) => {
     `[BLOG_SAVE] Post saved successfully - id: ${post.id}, slug: ${post.slug}, month: ${data.month}, category: ${data.dataType}`,
   );
 
-  // Sync tags to Redis for related posts functionality
-  if (data.tags && data.tags.length > 0) {
-    await syncPostTags(post.id, data.tags);
+  try {
+    const embedding = await generatePostEmbedding({
+      title: data.title,
+      excerpt: data.excerpt,
+      content: data.content,
+    });
+    await db.update(posts).set({ embedding }).where(eq(posts.id, post.id));
+    console.log(`[BLOG_SAVE] Embedding generated for post ${post.id}`);
+  } catch (error) {
+    console.error(
+      "[BLOG_SAVE] Failed to generate embedding:",
+      error instanceof Error ? error.message : String(error),
+    );
   }
 
   // Invalidate cache for the blog post
@@ -120,47 +131,6 @@ async function revalidateWebCache(slug: string): Promise<void> {
   } catch (error) {
     console.error(
       "[BLOG_SAVE] Error invalidating cache:",
-      error instanceof Error ? error.message : String(error),
-    );
-  }
-}
-
-/**
- * Syncs post tags to Redis for related posts functionality
- * Creates bidirectional mappings:
- * - posts:{id}:tags (set) - tags for a post
- * - tags:{slug}:posts (sorted set) - posts with this tag, score=1 for zunion aggregation
- */
-async function syncPostTags(postId: string, tags: string[]): Promise<void> {
-  try {
-    // Clear existing tags for this post
-    const existingTags = await redis.smembers(`posts:${postId}:tags`);
-    if (existingTags.length > 0) {
-      const pipeline = redis.pipeline();
-      for (const tag of existingTags) {
-        pipeline.zrem(`tags:${tag}:posts`, postId);
-      }
-      pipeline.del(`posts:${postId}:tags`);
-      await pipeline.exec();
-    }
-
-    // Add new tags (bidirectional mapping)
-    {
-      const pipeline = redis.pipeline();
-      for (const tag of tags) {
-        const tagSlug = slugify(tag);
-        pipeline.zadd(`tags:${tagSlug}:posts`, { score: 1, member: postId });
-        pipeline.sadd(`posts:${postId}:tags`, tagSlug);
-      }
-      await pipeline.exec();
-    }
-
-    console.log(
-      `[BLOG_SAVE] Tags synced for post ${postId}: ${tags.join(", ")}`,
-    );
-  } catch (error) {
-    console.error(
-      "[BLOG_SAVE] Failed to sync tags:",
       error instanceof Error ? error.message : String(error),
     );
   }
