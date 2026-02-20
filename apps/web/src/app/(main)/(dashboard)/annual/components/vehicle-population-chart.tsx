@@ -12,6 +12,7 @@ import {
   FUEL_GROUP_MAP,
   FUEL_GROUPS,
 } from "@web/app/(main)/(dashboard)/annual/constants";
+import { useEffectiveYear } from "@web/app/(main)/(dashboard)/annual/hooks/use-effective-year";
 import { searchParams } from "@web/app/(main)/(dashboard)/annual/search-params";
 import Typography from "@web/components/typography";
 import {
@@ -51,14 +52,10 @@ export function VehiclePopulationChart({
   data,
   availableYears,
 }: VehiclePopulationChartProps) {
-  const [{ year }, setSearchParams] = useQueryStates(searchParams);
-
-  const effectiveYear = useMemo(() => {
-    const yearExists = availableYears.some(
-      (item) => Number(item.year) === year,
-    );
-    return yearExists ? year : (Number(availableYears[0]?.year) ?? year);
-  }, [year, availableYears]);
+  const [, setSearchParams] = useQueryStates(searchParams);
+  const effectiveYear = useEffectiveYear(
+    availableYears.map((item) => Number(item.year)),
+  );
 
   const numberFormatter = new Intl.NumberFormat("en-SG");
 

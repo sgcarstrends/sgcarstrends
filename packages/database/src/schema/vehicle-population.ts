@@ -7,7 +7,7 @@ export const vehiclePopulation = pgTable(
     year: text().notNull(),
     category: text().notNull(),
     fuelType: text().notNull(),
-    number: integer().default(0),
+    number: integer().notNull().default(0),
   },
   (table) => [
     index().on(table.year, table.category),

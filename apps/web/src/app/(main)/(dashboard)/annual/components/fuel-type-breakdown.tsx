@@ -12,10 +12,9 @@ import {
   FUEL_GROUP_MAP,
   FUEL_GROUPS,
 } from "@web/app/(main)/(dashboard)/annual/constants";
-import { searchParams } from "@web/app/(main)/(dashboard)/annual/search-params";
+import { useEffectiveYear } from "@web/app/(main)/(dashboard)/annual/hooks/use-effective-year";
 import Typography from "@web/components/typography";
 import { CARD_PADDING, CHART_HEIGHTS, RADIUS } from "@web/config/design-system";
-import { useQueryStates } from "nuqs";
 import { useMemo } from "react";
 import { Cell, Pie, PieChart } from "recharts";
 
@@ -30,15 +29,13 @@ interface FuelTypeBreakdownProps {
 }
 
 export function FuelTypeBreakdown({ data }: FuelTypeBreakdownProps) {
-  const [{ year }] = useQueryStates(searchParams);
+  const availableYears = useMemo(
+    () =>
+      [...new Set(data.map((item) => Number(item.year)))].sort((a, b) => b - a),
+    [data],
+  );
+  const effectiveYear = useEffectiveYear(availableYears);
   const numberFormatter = new Intl.NumberFormat("en-SG");
-
-  const effectiveYear = useMemo(() => {
-    const years = [...new Set(data.map((item) => Number(item.year)))].sort(
-      (a, b) => b - a,
-    );
-    return years.includes(year) ? year : (years[0] ?? year);
-  }, [year, data]);
 
   const groupedData = useMemo(() => {
     const yearData = data.filter((item) => Number(item.year) === effectiveYear);

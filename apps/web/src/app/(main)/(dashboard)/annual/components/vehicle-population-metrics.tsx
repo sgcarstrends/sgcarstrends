@@ -3,10 +3,9 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { cn } from "@heroui/theme";
-import { searchParams } from "@web/app/(main)/(dashboard)/annual/search-params";
+import { useEffectiveYear } from "@web/app/(main)/(dashboard)/annual/hooks/use-effective-year";
 import Typography from "@web/components/typography";
 import { CARD_PADDING, RADIUS } from "@web/config/design-system";
-import { useQueryStates } from "nuqs";
 import { useMemo } from "react";
 
 interface YearlyTotal {
@@ -29,13 +28,10 @@ export function VehiclePopulationMetrics({
   yearlyTotals,
   fuelTypeData,
 }: VehiclePopulationMetricsProps) {
-  const [{ year }] = useQueryStates(searchParams);
+  const effectiveYear = useEffectiveYear(
+    yearlyTotals.map((item) => Number(item.year)),
+  );
   const numberFormatter = new Intl.NumberFormat("en-SG");
-
-  const effectiveYear = useMemo(() => {
-    const years = yearlyTotals.map((item) => Number(item.year));
-    return years.includes(year) ? year : (years[0] ?? year);
-  }, [year, yearlyTotals]);
 
   const currentYearData = yearlyTotals.find(
     (item) => Number(item.year) === effectiveYear,
