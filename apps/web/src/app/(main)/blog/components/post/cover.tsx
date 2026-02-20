@@ -2,7 +2,6 @@ import { cn } from "@heroui/theme";
 
 interface CoverProps {
   category: string;
-  title?: string;
   className?: string;
 }
 
@@ -11,13 +10,19 @@ const categoryLabels: Record<string, string> = {
   cars: "Cars",
 };
 
+const categoryTaglines: Record<string, string> = {
+  coe: "Bidding Insights",
+  cars: "Market Report",
+};
+
 /**
- * Abstract gradient cover with glassmorphic shapes and optional title overlay.
+ * Abstract gradient cover with glassmorphic shapes and centred category label.
  * Different gradient palette and shape arrangement per category.
  */
-export function Cover({ category, title, className }: CoverProps) {
+export function Cover({ category, className }: CoverProps) {
   const isCoe = category === "coe";
   const label = categoryLabels[category];
+  const tagline = categoryTaglines[category];
 
   return (
     <div
@@ -58,17 +63,17 @@ export function Cover({ category, title, className }: CoverProps) {
         </>
       )}
 
-      {/* Text overlay */}
-      {title && (
-        <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/40 to-transparent p-4">
-          {label && (
-            <span className="mb-2 w-fit rounded-full bg-white/20 px-2 py-0.5 text-white text-xs backdrop-blur-sm">
-              {label}
+      {/* Centred category label */}
+      {label && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+          <span className="font-bold text-3xl text-white tracking-wide">
+            {label}
+          </span>
+          {tagline && (
+            <span className="rounded-full bg-white/15 px-4 py-1 text-white/80 text-xs backdrop-blur-sm">
+              {tagline}
             </span>
           )}
-          <p className="line-clamp-2 font-semibold text-white leading-snug">
-            {title}
-          </p>
         </div>
       )}
     </div>

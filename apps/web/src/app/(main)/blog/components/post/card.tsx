@@ -34,11 +34,7 @@ export function Card({ post }: CardProps) {
       className="h-full overflow-hidden"
     >
       <CardBody className="flex flex-col gap-0 p-0">
-        <Cover
-          category={post.dataType ?? "default"}
-          title={post.title}
-          className="aspect-[2/1]"
-        />
+        <Cover category={post.dataType ?? "default"} className="aspect-[2/1]" />
         <div className="flex flex-col gap-2 p-4">
           <div className="flex items-center gap-2 text-default-400 text-xs">
             <span>{formatDate(publishedDate)}</span>

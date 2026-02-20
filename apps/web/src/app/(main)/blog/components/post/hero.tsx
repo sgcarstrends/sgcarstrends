@@ -29,7 +29,6 @@ export function Hero({ post }: HeroProps) {
       <CardBody className="grid grid-cols-1 gap-0 p-0 md:grid-cols-5">
         <Cover
           category={post.dataType ?? "default"}
-          title={post.title}
           className="aspect-[2/1] md:col-span-2 md:aspect-[4/3]"
         />
         <div className="flex flex-col justify-center gap-4 p-6 md:col-span-3">
