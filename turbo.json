@@ -75,6 +75,10 @@
     "auth:generate": {
       "cache": false,
       "env": ["DATABASE_URL"]
+    },
+    "backfill": {
+      "cache": false,
+      "env": ["DATABASE_URL", "GOOGLE_GENERATIVE_AI_API_KEY"]
     }
   }
 }

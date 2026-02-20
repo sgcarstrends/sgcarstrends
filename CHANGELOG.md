@@ -1,3 +1,39 @@
+## [4.55.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.54.1...v4.55.0) (2026-02-20)
+
+### Features
+
+* **ai:** add Langfuse telemetry to post embeddings ([79cd9d4](https://github.com/sgcarstrends/sgcarstrends/commit/79cd9d43a43188b1bee6ad6fd78686c148b41f6b))
+
+## [4.54.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.54.0...v4.54.1) (2026-02-20)
+
+### Bug Fixes
+
+* add turbo backfill task for ai embeddings ([5d9421d](https://github.com/sgcarstrends/sgcarstrends/commit/5d9421dafff5adb16a7678a700b329be8a1f2e5e))
+
+## [4.54.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.53.1...v4.54.0) (2026-02-20)
+
+### Features
+
+* use pgvector semantic embeddings for related posts ([#702](https://github.com/sgcarstrends/sgcarstrends/issues/702)) ([3e3d783](https://github.com/sgcarstrends/sgcarstrends/commit/3e3d783923df4fafc165cd9bf153663734a03bcc))
+
+## [4.53.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.53.0...v4.53.1) (2026-02-20)
+
+### Bug Fixes
+
+* **web:** add missing vehicle-population cron job ([82beda4](https://github.com/sgcarstrends/sgcarstrends/commit/82beda4be72fc35753a5be9e516782fcf8daccf4))
+
+## [4.53.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.52.0...v4.53.0) (2026-02-18)
+
+### Features
+
+* **web:** add month-to-month comparison feature ([#261](https://github.com/sgcarstrends/sgcarstrends/issues/261)) ([#696](https://github.com/sgcarstrends/sgcarstrends/issues/696)) ([0795655](https://github.com/sgcarstrends/sgcarstrends/commit/079565509d1da3e072542ab259fd428f622810dd))
+
+## [4.52.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.7...v4.52.0) (2026-02-18)
+
+### Features
+
+* **web:** add YoY growth chips and header summary to makes page ([#694](https://github.com/sgcarstrends/sgcarstrends/issues/694)) ([0199f31](https://github.com/sgcarstrends/sgcarstrends/commit/0199f318927bf70ffbf99b032adea88f64e78b83))
+
 ## [4.51.7](https://github.com/sgcarstrends/sgcarstrends/compare/v4.51.6...v4.51.7) (2026-02-18)
 
 ### Bug Fixes

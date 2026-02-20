@@ -5,9 +5,14 @@ import { slugify } from "@sgcarstrends/utils";
 import {
   AllMakes,
   MakeSearch,
+  MakesSummary,
   PopularMakes,
 } from "@web/app/(main)/(dashboard)/cars/components/makes";
-import type { Make, MakeStats } from "@web/types";
+import type {
+  Make,
+  MakeStats,
+  MakesSummary as MakesSummaryType,
+} from "@web/types";
 import { useMemo } from "react";
 
 interface MakesDashboardProps {
@@ -17,6 +22,7 @@ interface MakesDashboardProps {
   popularMakes: Make[];
   logos?: CarLogo[] | null;
   makeStatsMap?: Record<string, MakeStats>;
+  makesSummary?: MakesSummaryType;
 }
 
 export function MakesDashboard({
@@ -26,6 +32,7 @@ export function MakesDashboard({
   popularMakes,
   logos = [],
   makeStatsMap,
+  makesSummary,
 }: MakesDashboardProps) {
   const logoUrlMap = useMemo(() => {
     return (
@@ -40,6 +47,7 @@ export function MakesDashboard({
 
   return (
     <div className="flex flex-col gap-4">
+      {makesSummary && <MakesSummary summary={makesSummary} />}
       <MakeSearch makes={sortedMakes} />
       <PopularMakes
         makes={popularMakes}

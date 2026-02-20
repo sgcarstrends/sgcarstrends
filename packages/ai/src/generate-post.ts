@@ -4,7 +4,6 @@ import {
 } from "@ai-sdk/google";
 import { generateText, type LanguageModelUsage, Output, stepCountIs } from "ai";
 import { type BlogGenerationParams, INSTRUCTIONS, PROMPTS } from "./config";
-import { getHeroImage } from "./hero-images";
 import { savePost } from "./save-post";
 import { type GeneratedPost, postSchema } from "./schemas";
 
@@ -110,15 +109,12 @@ async function saveGeneratedPost(
 
   console.log(`${dataType} blog post generated, saving to database...`);
 
-  const heroImage = getHeroImage(dataType);
-
   const post = await savePost({
     title: output.title,
     content: output.content,
     excerpt: output.excerpt,
     tags: output.tags,
     highlights: output.highlights,
-    heroImage,
     month,
     dataType,
     responseMetadata: {

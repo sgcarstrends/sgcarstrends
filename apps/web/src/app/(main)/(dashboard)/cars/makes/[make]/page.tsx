@@ -14,6 +14,10 @@ import {
 } from "@web/lib/metadata";
 import { getMakeDetails } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
+import {
+  getMakeFuelTypeBreakdown,
+  getMakeVehicleTypeBreakdown,
+} from "@web/queries/cars/makes/entity-breakdowns";
 import { getMakeFromSlug } from "@web/queries/cars/makes/get-make-from-slug";
 import type { Make } from "@web/types";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
@@ -126,10 +130,13 @@ async function CarMakeContent({
 
   const { month } = await getMonthOrLatest(parsedMonth, "cars");
 
-  const [coeComparison, makeDetails] = await Promise.all([
-    getMakeCoeComparison(exactMake),
-    getMakeDetails(exactMake, month),
-  ]);
+  const [coeComparison, makeDetails, fuelTypeBreakdown, vehicleTypeBreakdown] =
+    await Promise.all([
+      getMakeCoeComparison(exactMake),
+      getMakeDetails(exactMake, month),
+      getMakeFuelTypeBreakdown(exactMake, month),
+      getMakeVehicleTypeBreakdown(exactMake, month),
+    ]);
 
   const cars = {
     make: exactMake,
@@ -149,7 +156,12 @@ async function CarMakeContent({
     <>
       <StructuredData data={structuredData} />
       <Suspense fallback={<SkeletonCard className="h-[560px] w-full" />}>
-        <MakeDetail cars={cars} coeComparison={coeComparison} />
+        <MakeDetail
+          cars={cars}
+          coeComparison={coeComparison}
+          fuelTypeBreakdown={fuelTypeBreakdown}
+          vehicleTypeBreakdown={vehicleTypeBreakdown}
+        />
       </Suspense>
     </>
   );

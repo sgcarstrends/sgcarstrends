@@ -62,10 +62,11 @@ src/
 │   │   └── components/            # Blog-specific components (co-located)
 │   └── store/                     # Zustand store slices
 ├── actions/                       # Server actions (maintenance tasks)
-├── queries/                       # Data fetching queries (cars, COE, deregistrations, logos)
+├── queries/                       # Data fetching queries (cars, COE, deregistrations, vehicle population, logos)
 │   ├── cars/                      # Car data queries with comprehensive tests
 │   ├── coe/                       # COE data queries with comprehensive tests
 │   ├── deregistrations/           # Deregistration data queries (monthly, category breakdowns)
+│   ├── vehicle-population/        # Vehicle population queries (yearly totals, fuel type breakdown, available years)
 │   ├── logos/                     # Logo queries
 │   └── __tests__/                 # Comprehensive query test suite
 ├── components/                    # Shared React components
@@ -88,7 +89,7 @@ This application follows **Vercel/Next.js co-location best practices** with rout
 
 Route-specific components live alongside their consuming routes:
 
-- **Dashboard**: `app/(dashboard)/components/` - Key statistics, recent posts, section tabs, charts
+- **Dashboard**: `app/(dashboard)/components/` - Recent posts, section tabs, charts, animated sections
 - **Blog**: `app/blog/components/` - Progress bar, view counter, related posts, blog list
 - **Cars**: `app/(dashboard)/cars/components/` - Category tabs, make selectors, trend charts
 - **COE**: `app/(dashboard)/coe/components/` - COE categories, premium charts, PQP components
@@ -123,7 +124,7 @@ Route-specific server actions (mutations only):
 ```typescript
 // ✅ Co-located components via path alias
 import {ProgressBar} from "@web/app/blog/components/progress-bar";
-import {KeyStatistics} from "@web/app/(dashboard)/components/key-statistics";
+import {VehiclePopulationMetrics} from "@web/app/(main)/(dashboard)/annual/components/vehicle-population-metrics";
 
 // ✅ Shared queries and actions via path alias
 import {getCarRegistrations} from "@web/queries/cars";
@@ -202,6 +203,9 @@ Granular cache tags enable precise invalidation without over-fetching:
 | `posts:views:{postId}` | Individual post view count | `posts:views:abc123` |
 | `posts:popular` | Popular posts list | - |
 | `posts:related:{postId}` | Related posts for a post | `posts:related:abc123` |
+| `vehicle-population:years` | Available vehicle population years | - |
+| `vehicle-population:totals` | Yearly population totals | - |
+| `vehicle-population:year:{year}` | Year-specific population data | `vehicle-population:year:2024` |
 
 **Cache Strategy Best Practices**:
 
@@ -290,6 +294,11 @@ revalidateTag("coe:months", "max");
 // Invalidate deregistration data
 revalidateTag("deregistrations:month:2024-01", "max");
 revalidateTag("deregistrations:months", "max");
+
+// Invalidate vehicle population data
+revalidateTag("vehicle-population:years", "max");
+revalidateTag("vehicle-population:totals", "max");
+revalidateTag("vehicle-population:year:2024", "max");
 ```
 
 This precisely invalidates only affected caches, avoiding unnecessary regeneration of unrelated queries.
@@ -299,6 +308,7 @@ This precisely invalidates only affected caches, avoiding unnecessary regenerati
 - **Car Queries** (`queries/cars/`): Registration data, market insights, makes, yearly statistics, filter options
 - **COE Queries** (`queries/coe/`): Historical results, latest results, available months, PQP rates
 - **Deregistration Queries** (`queries/deregistrations/`): Monthly deregistration data, category breakdowns, available months, totals by month
+- **Vehicle Population Queries** (`queries/vehicle-population/`): Annual vehicle population by fuel type, yearly totals, available years
 - **Logo Queries** (`queries/logos/`): Dynamic logo loading via `@sgcarstrends/logos` package with Vercel Blob storage
 - All queries include comprehensive unit tests in `queries/__tests__/`
 
@@ -358,7 +368,7 @@ See [Typography System](#typography-system) section below.
 - Section tabs with responsive overflow handling and dynamic font sizing
 - Latest COE results display with card-based layout
 - Recent posts sidebar with link navigation
-- Key statistics and yearly registration charts
+- Annual vehicle population charts and fuel type breakdown
 
 **Blog Components**: Co-located components in `src/app/(main)/blog/components/` including:
 
@@ -634,7 +644,7 @@ Dashboard pages use professional, SEO-aligned H1 titles that match the `<title>`
 | COE Overview | `/coe` | COE Overview |
 | COE PQP | `/coe/pqp` | PQP Rates |
 | COE Results | `/coe/results` | COE Results |
-| Annual | `/annual` | Annual Registrations |
+| Annual | `/annual` | Vehicle Population |
 | Deregistrations | `/cars/deregistrations` | Vehicle Deregistrations |
 | Makes | `/cars/makes` | Makes |
 

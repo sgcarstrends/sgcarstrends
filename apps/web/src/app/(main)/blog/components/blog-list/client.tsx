@@ -58,8 +58,7 @@ export function BlogListClient({ posts, counts }: BlogListClientProps) {
   }, [posts, selectedTab]);
 
   const heroPost = filteredPosts[0];
-  const secondPost = filteredPosts[1];
-  const remainingPosts = filteredPosts.slice(2);
+  const remainingPosts = filteredPosts.slice(1);
 
   if (posts.length === 0) {
     return (
@@ -94,23 +93,13 @@ export function BlogListClient({ posts, counts }: BlogListClientProps) {
 
       {heroPost && (
         <motion.div
-          className="grid grid-cols-1 gap-6 lg:grid-cols-3"
           variants={staggerContainerVariants}
           initial="hidden"
           animate="visible"
         >
-          <motion.div className="lg:col-span-2" variants={staggerItemVariants}>
+          <motion.div variants={staggerItemVariants}>
             <Post.Hero post={heroPost} />
           </motion.div>
-
-          {secondPost && (
-            <motion.div
-              className="lg:col-span-1"
-              variants={staggerItemVariants}
-            >
-              <Post.Card post={secondPost} />
-            </motion.div>
-          )}
         </motion.div>
       )}
 

@@ -100,7 +100,7 @@ All commands use pnpm as the package manager.
 - **apps/web**: Next.js frontend application with integrated workflows
     - **src/app**: Next.js App Router pages and layouts with blog functionality
     - **src/app/admin**: Integrated admin interface for content management
-    - **src/app/api/workflows**: Vercel WDK workflow endpoints (cars, coe, deregistrations, trigger)
+    - **src/app/api/workflows**: Vercel WDK workflow endpoints (cars, coe, deregistrations, vehicle-population, trigger)
     - **src/lib/workflows**: Workflow-based data update system and social media integration
     - **src/components**: React components with comprehensive tests
     - **src/actions**: Server actions for maintenance and background tasks
@@ -108,7 +108,7 @@ All commands use pnpm as the package manager.
     - **src/queries**: Data fetching queries with comprehensive tests
     - **src/config**: Database, Redis, animations, and platform configurations
 - **packages/database**: Database schema and migrations using Drizzle ORM
-    - **src/schema**: Schema definitions for cars, COE, deregistrations, and posts tables
+    - **src/schema**: Schema definitions for cars, COE, deregistrations, vehicle population, and posts tables
     - **migrations**: Database migration files with version tracking
 - **packages/ai**: AI-powered blog generation shared package
     - **src/generate-post.ts**: 2-step blog generation (analysis → structured output)
@@ -233,7 +233,7 @@ See `domain-management` skill for DNS configuration and routing details.
 
 PostgreSQL with Drizzle ORM using **camelCase** column naming:
 
-- `cars`, `coe`, `pqp`, `deregistrations`, `posts`
+- `cars`, `coe`, `pqp`, `deregistrations`, `vehicle_population`, `posts`
 
 **Naming Strategy:**
 - Table names: `snake_case` (e.g., `cars`, `coe`, `pqp`)

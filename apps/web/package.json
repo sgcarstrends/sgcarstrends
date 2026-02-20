@@ -1,7 +1,7 @@
 {
   "name": "@sgcarstrends/web",
   "description": "Web application for SG Cars Trends",
-  "version": "4.51.7",
+  "version": "4.55.0",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "typecheck": "tsc --noEmit",
-    "vercel-build": "turbo run @sgcarstrends/database#migrate && next build"
+    "vercel-build": "turbo run @sgcarstrends/database#migrate && turbo run @sgcarstrends/ai#backfill && next build"
   },
   "dependencies": {
     "@better-auth/passkey": "^1.4.7",

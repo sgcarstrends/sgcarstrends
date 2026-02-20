@@ -1,12 +1,15 @@
 {
   "name": "@sgcarstrends/ai",
   "description": "AI-powered blog generation for SG Cars Trends",
-  "version": "4.51.7",
+  "version": "4.55.0",
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
   "license": "MIT",
   "main": "src/index.ts",
   "module": "src/index.ts",
+  "scripts": {
+    "backfill": "tsx src/backfill-embeddings.ts"
+  },
   "dependencies": {
     "@ai-sdk/google": "catalog:",
     "@langfuse/otel": "catalog:",
@@ -16,5 +19,8 @@
     "ai": "catalog:",
     "drizzle-orm": "catalog:",
     "zod": "catalog:"
+  },
+  "devDependencies": {
+    "tsx": "catalog:"
   }
 }

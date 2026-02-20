@@ -26,7 +26,7 @@ const Image = async ({ params }: ImageProps) => {
 
   const fonts = await getOGFonts();
 
-  return new ImageResponse(<Article title={post.title} />, {
+  return new ImageResponse(<Article eyebrow="Blog" title={post.title} />, {
     ...size,
     fonts,
     headers: OG_HEADERS,

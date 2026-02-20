@@ -1,101 +1,86 @@
-import { OG_COLOURS } from "../colours";
+import { OG_COLOURS, OG_NAVY_GRADIENT } from "../colours";
 import { OG_CONFIG } from "../config";
+import { Layout } from "./layout";
 
 interface ArticleProps {
+  /** Eyebrow text displayed in chip (e.g., "Blog") */
+  eyebrow: string;
+  /** Blog post title */
   title: string;
 }
 
 /**
  * Article template for blog post OG images
  *
- * Features centered layout with decorative shapes and Navy Blue accent
+ * Vercel-style clean layout: eyebrow chip, title with navy gradient, branding
  */
-export function Article({ title }: ArticleProps) {
+export function Article({ eyebrow, title }: ArticleProps) {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-        position: "relative",
-        background: "#ffffff",
-        fontFamily: OG_CONFIG.fontFamily,
-      }}
-    >
-      {/* Decorative shapes */}
+    <Layout>
+      {/* Eyebrow chip */}
       <div
         style={{
-          position: "absolute",
-          top: 50,
-          right: 100,
-          width: 200,
-          height: 6,
-          backgroundColor: "rgba(25, 25, 112, 0.3)",
-          borderRadius: "3px",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: 150,
-          left: 80,
-          width: 150,
-          height: 4,
-          backgroundColor: "rgba(25, 25, 112, 0.25)",
-          borderRadius: "2px",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          top: 200,
-          left: 50,
-          width: 100,
-          height: 100,
-          backgroundColor: "rgba(25, 25, 112, 0.1)",
-          borderRadius: "8px",
-        }}
-      />
-
-      {/* Content */}
-      <div
-        style={{
-          fontSize: 24,
-          color: "#475569",
-          marginBottom: 20,
-          textTransform: "uppercase",
-          letterSpacing: "0.1em",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          padding: "8px 16px",
+          backgroundColor: OG_COLOURS.chipBackground,
+          border: `1px solid ${OG_COLOURS.chipBorder}`,
+          borderRadius: 9999,
+          marginBottom: 32,
         }}
       >
-        {OG_CONFIG.siteName}
+        <div
+          style={{
+            width: 8,
+            height: 8,
+            borderRadius: "50%",
+            backgroundColor: OG_COLOURS.primary,
+          }}
+        />
+        <span
+          style={{
+            fontSize: 16,
+            fontWeight: 500,
+            color: OG_COLOURS.subtleForeground,
+            letterSpacing: "0.025em",
+          }}
+        >
+          {eyebrow}
+        </span>
       </div>
+
+      {/* Title */}
       <div
         style={{
-          fontSize: 48,
-          color: OG_COLOURS.foreground,
-          textAlign: "center",
-          lineHeight: 1.2,
-          maxWidth: "80%",
-          marginBottom: 30,
+          display: "flex",
+          fontSize: 52,
+          fontWeight: 700,
+          lineHeight: 1.15,
+          letterSpacing: "-0.025em",
+          backgroundImage: OG_NAVY_GRADIENT,
+          backgroundClip: "text",
+          color: "transparent",
+          maxWidth: "90%",
         }}
       >
         {title}
       </div>
 
-      {/* Navy Blue line at bottom */}
+      {/* Branding */}
       <div
         style={{
           position: "absolute",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: 8,
-          backgroundColor: OG_COLOURS.primary,
+          bottom: 80,
+          right: 100,
+          fontSize: 18,
+          fontWeight: 500,
+          color: OG_COLOURS.mutedForeground,
+          letterSpacing: "0.025em",
         }}
-      />
-    </div>
+      >
+        {OG_CONFIG.siteUrl}
+      </div>
+    </Layout>
   );
 }

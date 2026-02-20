@@ -1,91 +1,52 @@
 "use client";
 
-import { Chip } from "@heroui/chip";
-import { Link } from "@heroui/link";
+import { Card, CardBody } from "@heroui/card";
 import type { SelectPost } from "@sgcarstrends/database";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import {
-  formatDate,
-  getCategoryConfig,
-  getPostImage,
-  getReadingTime,
-  isNewPost,
-} from "./utils";
+import Link from "next/link";
+import { Cover } from "./cover";
+import { formatDate, getExcerpt, getReadingTime } from "./utils";
 
 interface HeroProps {
   post: SelectPost;
 }
 
 /**
- * Bloomberg-style Hero Card
- *
- * Large editorial card with text overlaid on image.
- * Used for featured/hero posts in the blog list.
+ * Featured blog post — horizontal layout wrapped in HeroUI Card.
+ * Cover image on the left, text on the right.
  */
 export function Hero({ post }: HeroProps) {
   const publishedDate = post.publishedAt ?? post.createdAt;
-  const category = getCategoryConfig(post);
-  const imageUrl = getPostImage(post, "hero");
   const readingTime = getReadingTime(post);
-
-  // Check if post is new only on client to avoid prerender issues with new Date()
-  const [isNew, setIsNew] = useState(false);
-  useEffect(() => {
-    setIsNew(isNewPost(post));
-  }, [post]);
+  const excerpt = getExcerpt(post);
 
   return (
-    <Link href={`/blog/${post.slug}`} className="group block h-full">
-      <article className="relative aspect-[16/10] w-full overflow-hidden rounded-lg md:aspect-[21/12]">
-        {/* Background Image */}
-        <Image
-          src={imageUrl}
-          alt={`Cover image for ${post.title}`}
-          fill
-          sizes="(max-width: 768px) 100vw, 60vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          priority
+    <Card
+      isPressable
+      as={Link}
+      href={`/blog/${post.slug}`}
+      className="overflow-hidden"
+    >
+      <CardBody className="grid grid-cols-1 gap-0 p-0 md:grid-cols-5">
+        <Cover
+          category={post.dataType ?? "default"}
+          className="aspect-[2/1] md:col-span-2 md:aspect-[4/3]"
         />
-
-        {/* Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
-
-        {/* NEW Badge */}
-        {isNew && (
-          <Chip
-            size="sm"
-            color="warning"
-            variant="shadow"
-            classNames={{
-              base: "absolute top-4 right-4 z-10",
-              content: "font-bold text-xs tracking-wide",
-            }}
-          >
-            NEW
-          </Chip>
-        )}
-
-        {/* Content - Bottom aligned */}
-        <div className="absolute inset-0 flex flex-col justify-end p-6">
-          {/* Category */}
-          <span className="mb-3 font-bold text-white/70 text-xs uppercase tracking-[0.2em] drop-shadow-md">
-            {category.label}
-          </span>
-
-          {/* Title */}
-          <h2 className="mb-3 line-clamp-3 max-w-2xl font-bold text-2xl text-white leading-tight drop-shadow-lg md:text-3xl">
-            {post.title}
-          </h2>
-
-          {/* Metadata */}
-          <div className="flex items-center gap-4 text-sm text-white/70 drop-shadow-md">
+        <div className="flex flex-col justify-center gap-4 p-6 md:col-span-3">
+          <div className="flex items-center gap-2 text-default-400 text-sm">
             <span>{formatDate(publishedDate)}</span>
-            <span className="h-1 w-1 rounded-full bg-white/50" />
+            <span className="size-1 rounded-full bg-default-300" />
             <span>{readingTime} min read</span>
           </div>
+          <h2 className="line-clamp-3 font-bold text-2xl leading-tight md:text-3xl">
+            {post.title}
+          </h2>
+          {excerpt && (
+            <p className="line-clamp-3 text-base text-default-500 leading-relaxed">
+              {excerpt}
+            </p>
+          )}
         </div>
-      </article>
-    </Link>
+      </CardBody>
+    </Card>
   );
 }

@@ -1,33 +1,24 @@
 "use client";
 
-import { Chip } from "@heroui/chip";
-import { Link } from "@heroui/link";
+import { CardBody, Card as HeroCard } from "@heroui/card";
 import type { SelectPost } from "@sgcarstrends/database";
-import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import {
-  formatDate,
-  getCategoryConfig,
-  getPostImage,
-  getReadingTime,
-  isNewPost,
-} from "./utils";
+import { Cover } from "./cover";
+import { formatDate, getExcerpt, getReadingTime, isNewPost } from "./utils";
 
 interface CardProps {
   post: SelectPost;
 }
 
 /**
- * Bloomberg-style Card
- *
- * Editorial card design with text overlaid on image.
- * Features dark gradient overlay and drop shadows for legibility.
+ * Blog post card — vertical layout wrapped in HeroUI Card.
+ * Cover image on top, text below.
  */
 export function Card({ post }: CardProps) {
   const publishedDate = post.publishedAt ?? post.createdAt;
-  const category = getCategoryConfig(post);
-  const imageUrl = getPostImage(post, "card");
   const readingTime = getReadingTime(post);
+  const excerpt = getExcerpt(post);
 
   // Check if post is new only on client to avoid prerender issues with new Date()
   const [isNew, setIsNew] = useState(false);
@@ -36,55 +27,31 @@ export function Card({ post }: CardProps) {
   }, [post]);
 
   return (
-    <Link href={`/blog/${post.slug}`} className="group block h-full">
-      <article className="relative aspect-[16/10] w-full overflow-hidden rounded-lg">
-        {/* Background Image */}
-        <Image
-          src={imageUrl}
-          alt={`Cover image for ${post.title}`}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-
-        {/* Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
-
-        {/* NEW Badge */}
-        {isNew && (
-          <Chip
-            size="sm"
-            color="warning"
-            variant="shadow"
-            classNames={{
-              base: "absolute top-4 right-4 z-10",
-              content: "font-bold text-xs tracking-wide",
-            }}
-          >
-            NEW
-          </Chip>
-        )}
-
-        {/* Content - Bottom aligned */}
-        <div className="absolute inset-0 flex flex-col justify-end p-4">
-          {/* Category */}
-          <span className="mb-2 font-bold text-[10px] text-white/70 uppercase tracking-[0.2em] drop-shadow-md">
-            {category.label}
-          </span>
-
-          {/* Title */}
-          <h3 className="mb-2 line-clamp-2 font-bold text-lg text-white leading-tight drop-shadow-lg">
+    <HeroCard
+      isPressable
+      as={Link}
+      href={`/blog/${post.slug}`}
+      className="h-full overflow-hidden"
+    >
+      <CardBody className="flex flex-col gap-0 p-0">
+        <Cover category={post.dataType ?? "default"} className="aspect-[2/1]" />
+        <div className="flex flex-col gap-2 p-4">
+          <div className="flex items-center gap-2 text-default-400 text-xs">
+            <span>{formatDate(publishedDate)}</span>
+            <span className="size-1 rounded-full bg-default-300" />
+            <span>{readingTime} min read</span>
+            {isNew && (
+              <span className="font-bold text-warning tracking-wide">NEW</span>
+            )}
+          </div>
+          <h3 className="line-clamp-2 font-bold text-lg leading-tight">
             {post.title}
           </h3>
-
-          {/* Metadata */}
-          <div className="flex items-center gap-2 text-white/70 text-xs drop-shadow-md">
-            <span>{formatDate(publishedDate)}</span>
-            <span className="h-1 w-1 rounded-full bg-white/50" />
-            <span>{readingTime} min read</span>
-          </div>
+          {excerpt && (
+            <p className="line-clamp-2 text-default-500 text-sm">{excerpt}</p>
+          )}
         </div>
-      </article>
-    </Link>
+      </CardBody>
+    </HeroCard>
   );
 }

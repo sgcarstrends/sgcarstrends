@@ -147,6 +147,68 @@ export async function getFuelTypeData(
   return result as FuelTypeData;
 }
 
+export async function getMakeFuelTypeBreakdown(
+  make: string,
+  month?: string | null,
+): Promise<{ name: string; value: number }[]> {
+  "use cache";
+  cacheLife("max");
+  cacheTag(`cars:make:${make}`);
+  if (month) {
+    cacheTag(`cars:month:${month}`);
+  }
+
+  const whereConditions = [ilike(cars.make, make)];
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  const rows = await db
+    .select({
+      name: cars.fuelType,
+      value: sql<number>`cast(sum(${cars.number}) as int)`,
+    })
+    .from(cars)
+    .where(and(...whereConditions))
+    .groupBy(cars.fuelType)
+    .orderBy(desc(sql<number>`sum(${cars.number})`));
+
+  return rows
+    .filter((row) => row.name)
+    .map((row) => ({ name: row.name!, value: row.value }));
+}
+
+export async function getMakeVehicleTypeBreakdown(
+  make: string,
+  month?: string | null,
+): Promise<{ name: string; value: number }[]> {
+  "use cache";
+  cacheLife("max");
+  cacheTag(`cars:make:${make}`);
+  if (month) {
+    cacheTag(`cars:month:${month}`);
+  }
+
+  const whereConditions = [ilike(cars.make, make)];
+  if (month) {
+    whereConditions.push(eq(cars.month, month));
+  }
+
+  const rows = await db
+    .select({
+      name: cars.vehicleType,
+      value: sql<number>`cast(sum(${cars.number}) as int)`,
+    })
+    .from(cars)
+    .where(and(...whereConditions))
+    .groupBy(cars.vehicleType)
+    .orderBy(desc(sql<number>`sum(${cars.number})`));
+
+  return rows
+    .filter((row) => row.name)
+    .map((row) => ({ name: row.name!, value: row.value }));
+}
+
 export async function getVehicleTypeData(
   vehicleType: string,
   month?: string,

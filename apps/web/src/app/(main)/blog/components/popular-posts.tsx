@@ -9,8 +9,6 @@ import {
 } from "@web/config/animations";
 import { motion } from "framer-motion";
 import { Flame, TrendingUp } from "lucide-react";
-import Image from "next/image";
-import { getPostImage } from "./post/utils";
 
 interface PostWithViews extends SelectPost {
   viewCount: number;
@@ -58,27 +56,15 @@ export function PopularPosts({ posts }: PopularPostsProps) {
           <motion.div key={post.id} variants={staggerItemVariants}>
             <Link
               href={`/blog/${post.slug}`}
-              className="group relative flex h-full overflow-hidden rounded-xl border border-default-200 bg-default-50 transition-all duration-300 hover:border-default-300 hover:shadow-lg"
+              className="group flex h-full items-center gap-4 overflow-hidden rounded-xl border border-default-200 bg-default-50 p-4 transition-all duration-300 hover:border-default-300 hover:shadow-lg"
             >
-              {/* Image Section */}
-              <div className="relative aspect-square w-24 shrink-0 overflow-hidden">
-                <Image
-                  src={getPostImage(post, "compact")}
-                  alt=""
-                  fill
-                  sizes="96px"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                {/* Rank badge overlay */}
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                  <span className="font-black text-2xl text-white/90">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
-              </div>
+              {/* Rank */}
+              <span className="shrink-0 font-black text-2xl text-primary/20">
+                {String(index + 1).padStart(2, "0")}
+              </span>
 
-              {/* Content Section */}
-              <div className="flex flex-1 flex-col justify-center gap-2 p-4">
+              {/* Content */}
+              <div className="flex flex-1 flex-col gap-2">
                 <span className="line-clamp-2 font-medium text-default-800 text-sm leading-snug transition-colors group-hover:text-primary">
                   {post.title}
                 </span>
