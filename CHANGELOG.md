@@ -1,3 +1,9 @@
+## [4.55.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.54.1...v4.55.0) (2026-02-20)
+
+### Features
+
+* **ai:** add Langfuse telemetry to post embeddings ([79cd9d4](https://github.com/sgcarstrends/sgcarstrends/commit/79cd9d43a43188b1bee6ad6fd78686c148b41f6b))
+
 ## [4.54.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.54.0...v4.54.1) (2026-02-20)
 
 ### Bug Fixes
