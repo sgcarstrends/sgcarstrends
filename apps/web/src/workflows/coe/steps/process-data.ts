@@ -1,7 +1,7 @@
 import { coe, pqp } from "@sgcarstrends/database";
 import type { COE, PQP } from "@sgcarstrends/types";
 import { LTA_DATAMALL_BASE_URL } from "@web/config/workflow";
-import { Updater } from "@web/lib/updater";
+import { update } from "@web/lib/updater";
 
 export const updateCoe = async () => {
   const filename = "COE Bidding Results.zip";
@@ -24,7 +24,7 @@ export const updateCoe = async () => {
     "premium",
   ];
 
-  const coeUpdater = new Updater<COE>({
+  const coeResult = await update<COE>({
     table: coe,
     url,
     csvFile: "M11-coe_results.csv",
@@ -41,15 +41,13 @@ export const updateCoe = async () => {
       ),
     },
   });
-
-  const coeResult = await coeUpdater.update();
   console.log("[COE]", coeResult);
 
   // Update COE PQP (Prevailing Quota Premium)
   const pqpKeyFields: Array<keyof PQP> = ["month", "vehicleClass", "pqp"];
   const pqpParseNumericFields: Array<keyof PQP> = ["pqp"];
 
-  const pqpUpdater = new Updater<PQP>({
+  const pqpResult = await update<PQP>({
     table: pqp,
     url,
     csvFile: "M11-coe_results_pqp.csv",
@@ -63,8 +61,6 @@ export const updateCoe = async () => {
       ),
     },
   });
-
-  const pqpResult = await pqpUpdater.update();
   console.log("[COE PQP]", pqpResult);
 
   return coeResult;

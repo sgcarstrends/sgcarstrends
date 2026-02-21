@@ -1,7 +1,7 @@
 import { deregistrations } from "@sgcarstrends/database";
 import type { Deregistration } from "@sgcarstrends/types";
 import { LTA_DATAMALL_BASE_URL } from "@web/config/workflow";
-import { Updater } from "@web/lib/updater";
+import { update } from "@web/lib/updater";
 
 export const updateDeregistration = () => {
   const filename =
@@ -9,7 +9,7 @@ export const updateDeregistration = () => {
   const url = `${LTA_DATAMALL_BASE_URL}/${filename}`;
   const keyFields: Array<keyof Deregistration> = ["month", "category"];
 
-  const updater = new Updater<Deregistration>({
+  return update<Deregistration>({
     table: deregistrations,
     url,
     keyFields,
@@ -19,6 +19,4 @@ export const updateDeregistration = () => {
       },
     },
   });
-
-  return updater.update();
 };

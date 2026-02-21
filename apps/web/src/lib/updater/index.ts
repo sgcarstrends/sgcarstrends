@@ -4,4 +4,4 @@ export type {
   UpdaterOptions,
   UpdaterResult,
 } from "./updater";
-export { Updater } from "./updater";
+export { update } from "./updater";
