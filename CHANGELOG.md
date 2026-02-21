@@ -1,3 +1,9 @@
+## [4.56.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.55.0...v4.56.0) (2026-02-21)
+
+### Features
+
+* **web:** paginate make table and clean up annual view ([fb0cea2](https://github.com/sgcarstrends/sgcarstrends/commit/fb0cea2bbe8a2a3998b970115f9f245f807177a4))
+
 ## [4.55.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.54.1...v4.55.0) (2026-02-20)
 
 ### Features
