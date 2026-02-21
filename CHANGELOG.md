@@ -1,3 +1,9 @@
+## [4.57.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.56.0...v4.57.0) (2026-02-21)
+
+### Features
+
+* **web:** add blog search with hybrid keyword and vector ([#436](https://github.com/sgcarstrends/sgcarstrends/issues/436)) ([#706](https://github.com/sgcarstrends/sgcarstrends/issues/706)) ([eacec3f](https://github.com/sgcarstrends/sgcarstrends/commit/eacec3fa6bf9f7fc9489c14d7befd7c48c0a6b15))
+
 ## [4.56.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.55.0...v4.56.0) (2026-02-21)
 
 ### Features
