@@ -86,6 +86,13 @@ export interface VehiclePopulation {
   number: number;
 }
 
+export interface CarPopulation {
+  year: string;
+  make: string;
+  fuelType: string | null;
+  number: number;
+}
+
 export interface CleanSpecialCharsOptions {
   separator?: string;
   joinSeparator?: string;
