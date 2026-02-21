@@ -1,6 +1,3 @@
-const mockUpdate = vi.fn();
-let capturedConfig: unknown = null;
-
 vi.mock("@sgcarstrends/database", () => ({
   cars: { name: "cars" },
 }));
@@ -27,59 +24,58 @@ vi.mock("@web/config/workflow", () => ({
 }));
 
 vi.mock("@web/lib/updater", () => ({
-  Updater: class MockUpdater {
-    constructor(config: unknown) {
-      capturedConfig = config;
-    }
-    update = mockUpdate;
-  },
+  update: vi.fn(),
 }));
 
 import { cleanSpecialChars } from "@sgcarstrends/utils";
+import { type UpdaterResult, update } from "@web/lib/updater";
 import { updateCars } from "./process-data";
+
+const mockResult = (overrides?: Partial<UpdaterResult>): UpdaterResult => ({
+  table: "cars",
+  recordsProcessed: 0,
+  message: "",
+  timestamp: new Date().toISOString(),
+  ...overrides,
+});
 
 describe("updateCars", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    capturedConfig = null;
   });
 
-  it("should create an Updater with correct configuration", async () => {
-    mockUpdate.mockResolvedValueOnce({
-      recordsProcessed: 10,
-      message: "10 records inserted",
-    });
+  it("should call update with correct configuration", async () => {
+    vi.mocked(update).mockResolvedValueOnce(
+      mockResult({ recordsProcessed: 10, message: "10 records inserted" }),
+    );
 
     await updateCars();
 
-    expect(capturedConfig).toMatchObject({
+    expect(vi.mocked(update).mock.calls[0][0]).toMatchObject({
       url: "https://example.com/datamall/Monthly New Registration of Cars by Make.zip",
       keyFields: ["month", "make", "fuelType", "vehicleType"],
     });
   });
 
-  it("should call update on the Updater instance", async () => {
-    const expectedResult = {
+  it("should return the result from update", async () => {
+    const expectedResult = mockResult({
       recordsProcessed: 5,
       message: "5 records inserted",
-    };
-    mockUpdate.mockResolvedValueOnce(expectedResult);
+    });
+    vi.mocked(update).mockResolvedValueOnce(expectedResult);
 
     const result = await updateCars();
 
-    expect(mockUpdate).toHaveBeenCalledTimes(1);
+    expect(update).toHaveBeenCalledTimes(1);
     expect(result).toEqual(expectedResult);
   });
 
   it("should configure CSV transform options with column mappings", async () => {
-    mockUpdate.mockResolvedValueOnce({
-      recordsProcessed: 0,
-      message: "No new data",
-    });
+    vi.mocked(update).mockResolvedValueOnce(mockResult());
 
     await updateCars();
 
-    const config = capturedConfig as {
+    const config = vi.mocked(update).mock.calls[0][0] as {
       csvTransformOptions?: { columnMapping?: Record<string, string> };
     };
     expect(config.csvTransformOptions?.columnMapping).toEqual({
@@ -90,14 +86,11 @@ describe("updateCars", () => {
   });
 
   it("should transform make field to uppercase with special chars cleaned", async () => {
-    mockUpdate.mockResolvedValueOnce({
-      recordsProcessed: 1,
-      message: "1 record inserted",
-    });
+    vi.mocked(update).mockResolvedValueOnce(mockResult());
 
     await updateCars();
 
-    const config = capturedConfig as {
+    const config = vi.mocked(update).mock.calls[0][0] as {
       csvTransformOptions?: {
         fields?: Record<string, (value: string) => string>;
       };
@@ -112,14 +105,11 @@ describe("updateCars", () => {
   });
 
   it("should transform vehicleType with slash separator", async () => {
-    mockUpdate.mockResolvedValueOnce({
-      recordsProcessed: 1,
-      message: "1 record inserted",
-    });
+    vi.mocked(update).mockResolvedValueOnce(mockResult());
 
     await updateCars();
 
-    const config = capturedConfig as {
+    const config = vi.mocked(update).mock.calls[0][0] as {
       csvTransformOptions?: {
         fields?: Record<string, (value: string) => string>;
       };
@@ -132,14 +122,11 @@ describe("updateCars", () => {
   });
 
   it("should transform empty number values to 0", async () => {
-    mockUpdate.mockResolvedValueOnce({
-      recordsProcessed: 1,
-      message: "1 record inserted",
-    });
+    vi.mocked(update).mockResolvedValueOnce(mockResult());
 
     await updateCars();
 
-    const config = capturedConfig as {
+    const config = vi.mocked(update).mock.calls[0][0] as {
       csvTransformOptions?: {
         fields?: Record<string, (value: string | number) => number>;
       };

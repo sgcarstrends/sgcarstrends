@@ -1,7 +1,3 @@
-const mockCoeUpdate = vi.fn();
-const mockPqpUpdate = vi.fn();
-const capturedConfigs: unknown[] = [];
-
 vi.mock("@sgcarstrends/database", () => ({
   coe: { name: "coe" },
   pqp: { name: "pqp" },
@@ -12,76 +8,85 @@ vi.mock("@web/config/workflow", () => ({
 }));
 
 vi.mock("@web/lib/updater", () => ({
-  Updater: class MockUpdater {
-    private updateFn: () => unknown;
-    constructor(config: unknown) {
-      capturedConfigs.push(config);
-      // First instance is COE, second is PQP
-      this.updateFn =
-        capturedConfigs.length === 1 ? mockCoeUpdate : mockPqpUpdate;
-    }
-    update = () => this.updateFn();
-  },
+  update: vi.fn(),
 }));
 
+import { type UpdaterResult, update } from "@web/lib/updater";
 import { updateCoe } from "./process-data";
+
+const mockResult = (overrides?: Partial<UpdaterResult>): UpdaterResult => ({
+  table: "coe",
+  recordsProcessed: 0,
+  message: "",
+  timestamp: new Date().toISOString(),
+  ...overrides,
+});
 
 describe("updateCoe", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    capturedConfigs.length = 0;
   });
 
-  it("should create COE and PQP updaters with correct configurations", async () => {
-    mockCoeUpdate.mockResolvedValueOnce({
-      recordsProcessed: 10,
-      message: "10 records inserted",
-    });
-    mockPqpUpdate.mockResolvedValueOnce({
-      recordsProcessed: 5,
-      message: "5 records inserted",
-    });
+  it("should call update with correct COE and PQP configurations", async () => {
+    vi.mocked(update)
+      .mockResolvedValueOnce(
+        mockResult({ recordsProcessed: 10, message: "10 records inserted" }),
+      )
+      .mockResolvedValueOnce(
+        mockResult({
+          table: "pqp",
+          recordsProcessed: 5,
+          message: "5 records inserted",
+        }),
+      );
 
     await updateCoe();
 
-    expect(capturedConfigs).toHaveLength(2);
+    expect(update).toHaveBeenCalledTimes(2);
 
-    // First call - COE updater
-    expect(capturedConfigs[0]).toMatchObject({
+    // First call - COE
+    expect(vi.mocked(update).mock.calls[0][0]).toMatchObject({
       url: "https://example.com/datamall/COE Bidding Results.zip",
       csvFile: "M11-coe_results.csv",
       keyFields: ["month", "biddingNo"],
     });
 
-    // Second call - PQP updater
-    expect(capturedConfigs[1]).toMatchObject({
+    // Second call - PQP
+    expect(vi.mocked(update).mock.calls[1][0]).toMatchObject({
       url: "https://example.com/datamall/COE Bidding Results.zip",
       csvFile: "M11-coe_results_pqp.csv",
       keyFields: ["month", "vehicleClass", "pqp"],
     });
   });
 
-  it("should call update on both COE and PQP updaters", async () => {
-    const coeResult = { recordsProcessed: 10, message: "10 records inserted" };
-    const pqpResult = { recordsProcessed: 5, message: "5 records inserted" };
+  it("should return the COE result", async () => {
+    const coeResult = mockResult({
+      recordsProcessed: 10,
+      message: "10 records inserted",
+    });
+    const pqpResult = mockResult({
+      table: "pqp",
+      recordsProcessed: 5,
+      message: "5 records inserted",
+    });
 
-    mockCoeUpdate.mockResolvedValueOnce(coeResult);
-    mockPqpUpdate.mockResolvedValueOnce(pqpResult);
+    vi.mocked(update)
+      .mockResolvedValueOnce(coeResult)
+      .mockResolvedValueOnce(pqpResult);
 
     const result = await updateCoe();
 
-    expect(mockCoeUpdate).toHaveBeenCalledTimes(1);
-    expect(mockPqpUpdate).toHaveBeenCalledTimes(1);
     expect(result).toEqual(coeResult);
   });
 
   it("should configure COE column mappings correctly", async () => {
-    mockCoeUpdate.mockResolvedValueOnce({ recordsProcessed: 0 });
-    mockPqpUpdate.mockResolvedValueOnce({ recordsProcessed: 0 });
+    vi.mocked(update)
+      .mockResolvedValueOnce(mockResult())
+      .mockResolvedValueOnce(mockResult({ table: "pqp" }));
 
     await updateCoe();
 
-    const coeConfig = capturedConfigs[0] as {
+    const coeConfig = vi.mocked(update).mock.calls[0][0] as {
       csvTransformOptions?: { columnMapping?: Record<string, string> };
     };
     expect(coeConfig.csvTransformOptions?.columnMapping).toEqual({
@@ -93,12 +98,13 @@ describe("updateCoe", () => {
   });
 
   it("should configure PQP column mappings correctly", async () => {
-    mockCoeUpdate.mockResolvedValueOnce({ recordsProcessed: 0 });
-    mockPqpUpdate.mockResolvedValueOnce({ recordsProcessed: 0 });
+    vi.mocked(update)
+      .mockResolvedValueOnce(mockResult())
+      .mockResolvedValueOnce(mockResult({ table: "pqp" }));
 
     await updateCoe();
 
-    const pqpConfig = capturedConfigs[1] as {
+    const pqpConfig = vi.mocked(update).mock.calls[1][0] as {
       csvTransformOptions?: { columnMapping?: Record<string, string> };
     };
     expect(pqpConfig.csvTransformOptions?.columnMapping).toEqual({
@@ -107,18 +113,18 @@ describe("updateCoe", () => {
   });
 
   it("should parse numeric strings with commas correctly", async () => {
-    mockCoeUpdate.mockResolvedValueOnce({ recordsProcessed: 1 });
-    mockPqpUpdate.mockResolvedValueOnce({ recordsProcessed: 1 });
+    vi.mocked(update)
+      .mockResolvedValueOnce(mockResult())
+      .mockResolvedValueOnce(mockResult({ table: "pqp" }));
 
     await updateCoe();
 
-    const coeConfig = capturedConfigs[0] as {
+    const coeConfig = vi.mocked(update).mock.calls[0][0] as {
       csvTransformOptions?: {
         fields?: Record<string, (value: string | number) => number>;
       };
     };
 
-    // Test the quota field transform
     const quotaTransform = coeConfig.csvTransformOptions?.fields?.quota;
     expect(quotaTransform).toBeDefined();
     expect(quotaTransform?.("1,234")).toBe(1234);
@@ -127,12 +133,13 @@ describe("updateCoe", () => {
   });
 
   it("should parse all numeric COE fields", async () => {
-    mockCoeUpdate.mockResolvedValueOnce({ recordsProcessed: 1 });
-    mockPqpUpdate.mockResolvedValueOnce({ recordsProcessed: 1 });
+    vi.mocked(update)
+      .mockResolvedValueOnce(mockResult())
+      .mockResolvedValueOnce(mockResult({ table: "pqp" }));
 
     await updateCoe();
 
-    const coeConfig = capturedConfigs[0] as {
+    const coeConfig = vi.mocked(update).mock.calls[0][0] as {
       csvTransformOptions?: { fields?: Record<string, unknown> };
     };
     const fields = coeConfig.csvTransformOptions?.fields;
@@ -144,12 +151,13 @@ describe("updateCoe", () => {
   });
 
   it("should parse PQP numeric fields", async () => {
-    mockCoeUpdate.mockResolvedValueOnce({ recordsProcessed: 1 });
-    mockPqpUpdate.mockResolvedValueOnce({ recordsProcessed: 1 });
+    vi.mocked(update)
+      .mockResolvedValueOnce(mockResult())
+      .mockResolvedValueOnce(mockResult({ table: "pqp" }));
 
     await updateCoe();
 
-    const pqpConfig = capturedConfigs[1] as {
+    const pqpConfig = vi.mocked(update).mock.calls[1][0] as {
       csvTransformOptions?: {
         fields?: Record<string, (value: string | number) => number>;
       };
@@ -163,14 +171,13 @@ describe("updateCoe", () => {
   it("should log COE and PQP results", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 
-    mockCoeUpdate.mockResolvedValueOnce({
-      recordsProcessed: 10,
-      message: "success",
-    });
-    mockPqpUpdate.mockResolvedValueOnce({
-      recordsProcessed: 5,
-      message: "success",
-    });
+    vi.mocked(update)
+      .mockResolvedValueOnce(
+        mockResult({ recordsProcessed: 10, message: "success" }),
+      )
+      .mockResolvedValueOnce(
+        mockResult({ table: "pqp", recordsProcessed: 5, message: "success" }),
+      );
 
     await updateCoe();
 

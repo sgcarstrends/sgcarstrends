@@ -1,6 +1,3 @@
-const mockUpdate = vi.fn();
-let capturedConfig: unknown = null;
-
 vi.mock("@sgcarstrends/database", () => ({
   deregistrations: { name: "deregistrations" },
 }));
@@ -10,72 +7,68 @@ vi.mock("@web/config/workflow", () => ({
 }));
 
 vi.mock("@web/lib/updater", () => ({
-  Updater: class MockUpdater {
-    constructor(config: unknown) {
-      capturedConfig = config;
-    }
-    update = mockUpdate;
-  },
+  update: vi.fn(),
 }));
 
+import { type UpdaterResult, update } from "@web/lib/updater";
 import { updateDeregistration } from "./process-data";
+
+const mockResult = (overrides?: Partial<UpdaterResult>): UpdaterResult => ({
+  table: "deregistrations",
+  recordsProcessed: 0,
+  message: "",
+  timestamp: new Date().toISOString(),
+  ...overrides,
+});
 
 describe("updateDeregistration", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    capturedConfig = null;
   });
 
-  it("should create an Updater with correct configuration", async () => {
-    mockUpdate.mockResolvedValueOnce({
-      recordsProcessed: 10,
-      message: "10 records inserted",
-    });
+  it("should call update with correct configuration", async () => {
+    vi.mocked(update).mockResolvedValueOnce(
+      mockResult({ recordsProcessed: 10, message: "10 records inserted" }),
+    );
 
     await updateDeregistration();
 
-    expect(capturedConfig).toMatchObject({
+    expect(vi.mocked(update).mock.calls[0][0]).toMatchObject({
       url: "https://example.com/datamall/Monthly De-Registered Motor Vehicles under Vehicle Quota System (VQS).zip",
       keyFields: ["month", "category"],
     });
   });
 
-  it("should call update on the Updater instance", async () => {
-    const expectedResult = {
+  it("should return the result from update", async () => {
+    const expectedResult = mockResult({
       recordsProcessed: 5,
       message: "5 records inserted",
-    };
-    mockUpdate.mockResolvedValueOnce(expectedResult);
+    });
+    vi.mocked(update).mockResolvedValueOnce(expectedResult);
 
     const result = await updateDeregistration();
 
-    expect(mockUpdate).toHaveBeenCalledTimes(1);
+    expect(update).toHaveBeenCalledTimes(1);
     expect(result).toEqual(expectedResult);
   });
 
-  it("should not have column mappings (uses default column names)", async () => {
-    mockUpdate.mockResolvedValueOnce({
-      recordsProcessed: 0,
-      message: "No new data",
-    });
+  it("should not have column mappings", async () => {
+    vi.mocked(update).mockResolvedValueOnce(mockResult());
 
     await updateDeregistration();
 
-    const config = capturedConfig as {
+    const config = vi.mocked(update).mock.calls[0][0] as {
       csvTransformOptions?: { columnMapping?: Record<string, string> };
     };
     expect(config.csvTransformOptions?.columnMapping).toBeUndefined();
   });
 
   it("should transform empty number values to 0", async () => {
-    mockUpdate.mockResolvedValueOnce({
-      recordsProcessed: 1,
-      message: "1 record inserted",
-    });
+    vi.mocked(update).mockResolvedValueOnce(mockResult());
 
     await updateDeregistration();
 
-    const config = capturedConfig as {
+    const config = vi.mocked(update).mock.calls[0][0] as {
       csvTransformOptions?: {
         fields?: Record<string, (value: string | number) => number>;
       };
@@ -89,14 +82,13 @@ describe("updateDeregistration", () => {
   });
 
   it("should use correct key fields for deduplication", async () => {
-    mockUpdate.mockResolvedValueOnce({
-      recordsProcessed: 0,
-      message: "No new data",
-    });
+    vi.mocked(update).mockResolvedValueOnce(mockResult());
 
     await updateDeregistration();
 
-    const config = capturedConfig as { keyFields: string[] };
+    const config = vi.mocked(update).mock.calls[0][0] as {
+      keyFields: string[];
+    };
     expect(config.keyFields).toEqual(["month", "category"]);
   });
 });
