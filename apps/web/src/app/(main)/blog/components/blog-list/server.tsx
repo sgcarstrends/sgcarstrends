@@ -4,9 +4,10 @@ import { BlogListClient } from "./client";
 
 interface BlogListProps {
   posts: SelectPost[];
+  query: string;
 }
 
-export async function BlogList({ posts }: BlogListProps) {
+export async function BlogList({ posts, query }: BlogListProps) {
   const postCounts = await getPostCountsByCategory();
 
   const counts = {
@@ -18,5 +19,5 @@ export async function BlogList({ posts }: BlogListProps) {
     ),
   };
 
-  return <BlogListClient posts={posts} counts={counts} />;
+  return <BlogListClient posts={posts} counts={counts} query={query} />;
 }

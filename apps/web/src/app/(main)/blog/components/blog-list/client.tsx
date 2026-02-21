@@ -18,6 +18,7 @@ interface PostCounts {
 interface BlogListClientProps {
   posts: SelectPost[];
   counts: PostCounts;
+  query: string;
 }
 
 interface PostsGridProps {
@@ -47,7 +48,7 @@ const PostsGrid = ({ posts }: PostsGridProps) => {
   );
 };
 
-export function BlogListClient({ posts, counts }: BlogListClientProps) {
+export function BlogListClient({ posts, counts, query }: BlogListClientProps) {
   const [selectedTab, setSelectedTab] = useState("all");
 
   const filteredPosts = useMemo(() => {
@@ -63,7 +64,23 @@ export function BlogListClient({ posts, counts }: BlogListClientProps) {
   if (posts.length === 0) {
     return (
       <div className="py-12 text-center">
-        <p className="text-muted-foreground">No blog posts available.</p>
+        <p className="text-muted-foreground">
+          {query
+            ? `No results found for "${query}".`
+            : "No blog posts available."}
+        </p>
+      </div>
+    );
+  }
+
+  if (query) {
+    return (
+      <div className="flex flex-col gap-8">
+        <p className="text-default-600">
+          {filteredPosts.length} result{filteredPosts.length !== 1 && "s"} for "
+          {query}"
+        </p>
+        <PostsGrid posts={filteredPosts} />
       </div>
     );
   }
