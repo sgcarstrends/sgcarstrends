@@ -1,17 +1,63 @@
 import {
   and,
   asc,
+  cosineDistance,
   count,
   db,
   desc,
   eq,
   gt,
+  ilike,
   inArray,
   isNotNull,
   lt,
+  or,
   posts,
+  type SelectPost,
+  sql,
 } from "@sgcarstrends/database";
 import { cacheLife, cacheTag } from "next/cache";
+
+export async function searchPosts(query: string): Promise<SelectPost[]> {
+  const pattern = `%${query}%`;
+
+  const keywordResults = await db
+    .select()
+    .from(posts)
+    .where(
+      and(
+        isNotNull(posts.publishedAt),
+        or(ilike(posts.title, pattern), ilike(posts.excerpt, pattern)),
+      ),
+    )
+    .orderBy(desc(posts.publishedAt))
+    .limit(20);
+
+  if (keywordResults.length > 0) {
+    return keywordResults;
+  }
+
+  const { generatePostEmbedding } = await import("@sgcarstrends/ai");
+  const embedding = await generatePostEmbedding({
+    title: query,
+    content: query,
+  });
+
+  const similarity = sql<number>`1 - (${cosineDistance(posts.embedding, embedding)})`;
+
+  return db
+    .select()
+    .from(posts)
+    .where(
+      and(
+        isNotNull(posts.publishedAt),
+        isNotNull(posts.embedding),
+        gt(similarity, 0.3),
+      ),
+    )
+    .orderBy(desc(similarity))
+    .limit(20);
+}
 
 export async function getAllPosts() {
   "use cache";
