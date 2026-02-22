@@ -83,18 +83,12 @@ async function AnnualPage({ searchParams }: PageProps) {
           }
         />
 
-        <AnnualViewTabs
-          fuelTypeContent={
-            <Suspense>
-              <ByFuelTypeContent />
-            </Suspense>
-          }
-          makeContent={
-            <Suspense>
-              <ByMakeContent />
-            </Suspense>
-          }
-        />
+        <Suspense>
+          <AnnualViewTabs
+            fuelTypeContent={<ByFuelTypeContent />}
+            makeContent={<ByMakeContent />}
+          />
+        </Suspense>
       </section>
     </>
   );
