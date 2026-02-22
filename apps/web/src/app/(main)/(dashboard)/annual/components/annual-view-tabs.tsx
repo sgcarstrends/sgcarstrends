@@ -2,22 +2,21 @@
 
 import { Tab, Tabs } from "@heroui/tabs";
 import {
-  searchParams,
+  VIEWS,
   type View,
 } from "@web/app/(main)/(dashboard)/annual/search-params";
-import { useQueryStates } from "nuqs";
+import { parseAsStringLiteral, useQueryState } from "nuqs";
 
-interface AnnualViewTabsProps {
-  currentView: View;
-}
-
-export function AnnualViewTabs({ currentView }: AnnualViewTabsProps) {
-  const [, setSearchParams] = useQueryStates(searchParams);
+export function AnnualViewTabs() {
+  const [view, setView] = useQueryState(
+    "view",
+    parseAsStringLiteral(VIEWS).withDefault("fuel-type"),
+  );
 
   return (
     <Tabs
-      selectedKey={currentView}
-      onSelectionChange={(key) => setSearchParams({ view: key as View })}
+      selectedKey={view}
+      onSelectionChange={(key) => setView(key as View)}
       variant="underlined"
       aria-label="Annual data view"
     >
