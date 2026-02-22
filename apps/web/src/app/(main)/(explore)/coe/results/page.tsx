@@ -1,6 +1,6 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
-import { BiddingRoundCards } from "@web/app/(main)/(explore)/coe/components/bidding-round-cards";
-import { COEPremiumChart } from "@web/app/(main)/(explore)/coe/components/premium-chart";
+import { BiddingRoundCards } from "@web/app/(main)/(explore)/coe/premiums/components/bidding-round-cards";
+import { COEPremiumChart } from "@web/app/(main)/(explore)/coe/premiums/components/premium-chart";
 import { loadSearchParams } from "@web/app/(main)/(explore)/coe/search-params";
 import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";

@@ -1,4 +1,4 @@
-import { KeyInsights } from "@web/app/(main)/(explore)/coe/components/key-insights";
+import { KeyInsights } from "@web/app/(main)/(explore)/coe/premiums/components/key-insights";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import {
   calculateBiggestMovers,

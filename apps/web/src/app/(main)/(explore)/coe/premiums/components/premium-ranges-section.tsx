@@ -1,4 +1,4 @@
-import { PremiumRangeCard } from "@web/app/(main)/(explore)/coe/components/premium-range-card";
+import { PremiumRangeCard } from "@web/app/(main)/(explore)/coe/premiums/components/premium-range-card";
 import { GridSkeleton, SectionSkeleton } from "@web/components/shared/skeleton";
 import Typography from "@web/components/typography";
 import { calculatePremiumRangeStats } from "@web/lib/coe/calculations";

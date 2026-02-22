@@ -25,7 +25,7 @@ async function LatestResultsContent() {
     "@type": "WebPage",
     name: title,
     description,
-    url: `${SITE_URL}/coe`,
+    url: `${SITE_URL}/coe/premiums`,
     publisher: {
       "@type": "Organization",
       name: SITE_TITLE,

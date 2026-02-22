@@ -1,89 +1,58 @@
-import { FunFactsPqpSection } from "@web/app/(main)/(explore)/coe/components/fun-facts-pqp-section";
-import { KeyInsightsSection } from "@web/app/(main)/(explore)/coe/components/key-insights-section";
-import { LatestResultsSection } from "@web/app/(main)/(explore)/coe/components/latest-results-section";
-import { PremiumRangesSection } from "@web/app/(main)/(explore)/coe/components/premium-ranges-section";
-import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
-import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
-import { PageContext } from "@web/components/shared/page-context";
-import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
-import { SkeletonCard } from "@web/components/shared/skeleton";
-import { loadLastUpdated } from "@web/lib/common";
+import Typography from "@web/components/typography";
+import { navLinks } from "@web/config/navigation";
 import { createPageMetadata } from "@web/lib/metadata";
-import { getLatestCoeResults } from "@web/queries/coe";
 import type { Metadata } from "next";
-import { Suspense } from "react";
+import Link from "next/link";
 
-const title = "COE Overview";
+const title = "COE";
 const description =
-  "Certificate of Entitlement (COE) analysis hub for Singapore vehicle registration. View latest premiums, trends, and category-specific insights.";
+  "Certificate of Entitlement (COE) data for Singapore. View premiums, historical results, and PQP rates.";
 
-export const generateMetadata = async (): Promise<Metadata> => {
-  const results = await getLatestCoeResults();
-  const categories = results.reduce<Record<string, number>>(
-    (category, current) => {
-      category[current.vehicleClass] = current.premium;
-      return category;
-    },
-    {},
-  );
+export const metadata: Metadata = createPageMetadata({
+  title,
+  description,
+  canonical: "/coe",
+});
 
-  const images = `/api/og/coe?title=COE Overview&subtitle=Overview&biddingNo=2&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
-
-  return createPageMetadata({
-    title,
-    description,
-    canonical: "/coe",
-    images,
-    includeAuthors: true,
-  });
-};
-
-const COEOverviewPage = () => {
+const COELandingPage = () => {
   return (
     <div className="flex flex-col gap-8">
       <DashboardPageHeader
         title={
           <DashboardPageTitle
-            title="COE Overview"
-            subtitle="Latest Certificate of Entitlement bidding results and premium trends."
+            title="COE"
+            subtitle="Certificate of Entitlement data and analysis for Singapore."
           />
-        }
-        meta={
-          <Suspense fallback={<SkeletonCard className="h-8 w-28" />}>
-            <COEOverviewHeaderMeta />
-          </Suspense>
         }
       />
 
-      <AnimatedSection order={1}>
-        <PageContext {...PAGE_CONTEXTS.coe} />
-      </AnimatedSection>
-
-      <AnimatedSection order={2}>
-        <LatestResultsSection />
-      </AnimatedSection>
-
-      <AnimatedSection order={3}>
-        <KeyInsightsSection />
-      </AnimatedSection>
-
-      <AnimatedSection order={4}>
-        <FunFactsPqpSection />
-      </AnimatedSection>
-
-      <AnimatedSection order={5}>
-        <PremiumRangesSection />
-      </AnimatedSection>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        {navLinks.coe.map((item) => (
+          <Link key={item.url} href={item.url}>
+            <Card
+              isPressable
+              className="h-full rounded-2xl bg-content1 p-3 transition-shadow duration-300 hover:shadow-lg"
+            >
+              <CardHeader className="flex flex-col items-start gap-2">
+                {item.icon && (
+                  <div className="flex size-10 items-center justify-center rounded-xl bg-primary/10">
+                    <item.icon className="size-5 text-primary" />
+                  </div>
+                )}
+                <Typography.H4>{item.title}</Typography.H4>
+              </CardHeader>
+              <CardBody className="pt-0">
+                <Typography.TextSm>{item.description}</Typography.TextSm>
+              </CardBody>
+            </Card>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };
 
-async function COEOverviewHeaderMeta() {
-  const lastUpdated = await loadLastUpdated("coe");
-
-  return <DashboardPageMeta lastUpdated={lastUpdated} />;
-}
-
-export default COEOverviewPage;
+export default COELandingPage;
