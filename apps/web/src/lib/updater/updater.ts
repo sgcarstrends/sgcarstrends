@@ -88,9 +88,13 @@ export async function update<T>(
   const tableColumns = table as any;
 
   // === Phase 1: Partition-Level Deduplication ===
+  // String() coercion is required because PapaParse's dynamicTyping converts
+  // numeric-looking values (e.g. year "2024") to numbers, while the DB stores
+  // them as text. Without coercion, Set.difference() uses strict equality and
+  // treats 2024 !== "2024", causing all partitions to appear "new".
   const incomingPartitions = new Set(
-    processedData.map(
-      (record) => (record as Record<string, unknown>)[partitionField] as string,
+    processedData.map((record) =>
+      String((record as Record<string, unknown>)[partitionField]),
     ),
   );
 
@@ -98,8 +102,8 @@ export async function update<T>(
     .selectDistinct({ [partitionField]: tableColumns[partitionField] })
     .from(table);
   const existingPartitions = new Set(
-    existingPartitionsQuery.map(
-      (record) => (record as Record<string, unknown>)[partitionField] as string,
+    existingPartitionsQuery.map((record) =>
+      String((record as Record<string, unknown>)[partitionField]),
     ),
   );
 
@@ -113,9 +117,9 @@ export async function update<T>(
   const recordsFromOverlappingPartitions: T[] = [];
 
   for (const record of processedData) {
-    const partition = (record as Record<string, unknown>)[
-      partitionField
-    ] as string;
+    const partition = String(
+      (record as Record<string, unknown>)[partitionField],
+    );
     if (newPartitions.has(partition)) {
       recordsFromNewPartitions.push(record);
     } else {
