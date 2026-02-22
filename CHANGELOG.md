@@ -1,3 +1,10 @@
+## [4.57.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.1...v4.57.2) (2026-02-22)
+
+### Bug Fixes
+
+* **web:** use HeroUI Tabs with content panels and shallow false ([4bc6e38](https://github.com/sgcarstrends/sgcarstrends/commit/4bc6e389046832a608aff99ec37682f7e36bad80))
+* **web:** wrap AnnualViewTabs in Suspense for prerendering ([1f23e5d](https://github.com/sgcarstrends/sgcarstrends/commit/1f23e5dce3fb97f3f79692a785a2f61f70e97277))
+
 ## [4.57.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.0...v4.57.1) (2026-02-22)
 
 ### Bug Fixes
