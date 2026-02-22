@@ -11,125 +11,57 @@ import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCarsCategoryPageData } from "@web/lib/cars/page-data";
 import { loadLastUpdated } from "@web/lib/common";
-import { createPageMetadata } from "@web/lib/metadata";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
-import {
-  CategoryInsightsCard,
-  CategorySummaryCard,
-  CategoryTabsPanel,
-} from "./components";
+import { CategoryInsightsCard } from "./category-insights-card";
+import { CategorySummaryCard } from "./category-summary-card";
+import { CategoryTabsPanel } from "./category-tabs-panel";
 
-interface PageProps {
-  params: Promise<{ category: string }>;
-  searchParams: Promise<SearchParams>;
-}
-
-interface CategoryConfig {
+export interface CategoryConfig {
   title: string;
   apiDataField: "fuelType" | "vehicleType";
-  apiEndpoint: string;
   tabTitle: string;
   description: string;
   urlPath: string;
 }
 
-const categoryConfigs: Record<string, CategoryConfig> = {
-  "fuel-types": {
-    title: "Fuel Types",
-    apiDataField: "fuelType",
-    apiEndpoint: "fuel-types",
-    tabTitle: "Fuel Type",
-    description:
-      "Comprehensive overview of all fuel types in {month} Singapore car registrations. Compare petrol, diesel, electric, and hybrid vehicle registrations.",
-    urlPath: "/cars/fuel-types",
-  },
-  "vehicle-types": {
-    title: "Vehicle Types",
-    apiDataField: "vehicleType",
-    apiEndpoint: "vehicle-types",
-    tabTitle: "Vehicle Type",
-    description:
-      "Comprehensive overview of all vehicle types in {month} Singapore car registrations. Compare passenger cars, motorcycles, commercial vehicles, and more.",
-    urlPath: "/cars/vehicle-types",
-  },
-};
+interface CategoryPageProps {
+  config: CategoryConfig;
+  searchParams: Promise<SearchParams>;
+}
 
-export const generateStaticParams = async () =>
-  Object.keys(categoryConfigs).map((category) => ({ category }));
+export function CategoryPage({ config, searchParams }: CategoryPageProps) {
+  return (
+    <div className="flex flex-col gap-8">
+      <DashboardPageHeader
+        title={
+          <DashboardPageTitle
+            title="Category Overview"
+            subtitle="Breakdown of registrations by category for the selected month."
+          />
+        }
+        meta={
+          <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+            <CategoryPageHeaderMeta searchParams={searchParams} />
+          </Suspense>
+        }
+      />
 
-export const generateMetadata = async ({
-  params,
-  searchParams,
-}: PageProps): Promise<Metadata> => {
-  const { category } = await params;
-  const config = categoryConfigs[category];
-
-  if (!config) {
-    return {
-      title: "Category Not Found",
-      description: "The requested category could not be found.",
-    };
-  }
-
-  const { month: parsedMonth } = await loadSearchParams(searchParams);
-  const { month } = await getMonthOrLatest(parsedMonth, "cars");
-  const formattedMonth = formatDateToMonthYear(month);
-
-  const title = `${formattedMonth} ${config.title} - Car Registrations`;
-  const description = config.description.replace("{month}", formattedMonth);
-
-  return createPageMetadata({
-    title,
-    description,
-    canonical: `${config.urlPath}?month=${month}`,
-  });
-};
-
-const Page = ({ params, searchParams }: PageProps) => (
-  <div className="flex flex-col gap-8">
-    <DashboardPageHeader
-      title={
-        <DashboardPageTitle
-          title="Category Overview"
-          subtitle="Breakdown of registrations by category for the selected month."
-        />
-      }
-      meta={
-        <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
-          <CategoryPageHeaderMeta params={params} searchParams={searchParams} />
-        </Suspense>
-      }
-    />
-
-    <Suspense fallback={<SkeletonCard className="h-[720px] w-full" />}>
-      <CategoryPageContent params={params} searchParams={searchParams} />
-    </Suspense>
-  </div>
-);
-
-export default Page;
+      <Suspense fallback={<SkeletonCard className="h-[720px] w-full" />}>
+        <CategoryPageContent config={config} searchParams={searchParams} />
+      </Suspense>
+    </div>
+  );
+}
 
 async function CategoryPageHeaderMeta({
-  params: paramsPromise,
   searchParams: searchParamsPromise,
 }: {
-  params: Promise<{ category: string }>;
   searchParams: Promise<SearchParams>;
 }) {
-  const [{ category }, { month: parsedMonth }] = await Promise.all([
-    paramsPromise,
-    loadSearchParams(searchParamsPromise),
-  ]);
-  const config = categoryConfigs[category];
-
-  if (!config) {
-    return null;
-  }
+  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
 
   const [{ wasAdjusted }, months, lastUpdated] = await Promise.all([
     getMonthOrLatest(parsedMonth, "cars"),
@@ -149,31 +81,17 @@ async function CategoryPageHeaderMeta({
 }
 
 async function CategoryPageContent({
-  params: paramsPromise,
+  config,
   searchParams: searchParamsPromise,
 }: {
-  params: Promise<{ category: string }>;
+  config: CategoryConfig;
   searchParams: Promise<SearchParams>;
 }) {
-  const [{ category }, { month: parsedMonth }] = await Promise.all([
-    paramsPromise,
-    loadSearchParams(searchParamsPromise),
-  ]);
-  const { month, wasAdjusted } = await getMonthOrLatest(parsedMonth, "cars");
-  const config = categoryConfigs[category];
+  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
 
-  if (!config) {
-    return notFound();
-  }
-
-  const {
-    lastUpdated,
-    cars,
-    marketShare,
-    months,
-    previousTotal,
-    topMakesByFuelType,
-  } = await loadCarsCategoryPageData(month, config.apiDataField);
+  const { cars, marketShare, previousTotal, topMakesByFuelType } =
+    await loadCarsCategoryPageData(month, config.apiDataField);
 
   const categoryData = cars?.[config.apiDataField] || [];
 

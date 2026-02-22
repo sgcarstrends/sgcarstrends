@@ -1,7 +1,6 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import { formatDateToMonthYear, slugify } from "@sgcarstrends/utils";
-import { loadSearchParams } from "@web/app/(main)/(explore)/cars/[category]/[type]/search-params";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import { CarOverviewTrends } from "@web/app/(main)/(explore)/cars/components/overview-trends";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
@@ -14,99 +13,42 @@ import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCarsTypePageData } from "@web/lib/cars/page-data";
 import { loadLastUpdated } from "@web/lib/common";
-import { createPageMetadata } from "@web/lib/metadata";
 import {
   checkFuelTypeIfExist,
   checkVehicleTypeIfExist,
-  getDistinctFuelTypes,
-  getDistinctVehicleTypes,
 } from "@web/queries/cars";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
+import { createLoader, parseAsString } from "nuqs/server";
 import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 
-interface PageProps {
-  params: Promise<{ category: string; type: string }>;
+const typeSearchParams = { month: parseAsString };
+const loadSearchParams = createLoader(typeSearchParams);
+
+export interface TypeDetailConfig {
+  category: "fuel-types" | "vehicle-types";
+  description: string;
+}
+
+interface TypeDetailPageProps {
+  config: TypeDetailConfig;
+  params: Promise<{ type: string }>;
   searchParams: Promise<SearchParams>;
 }
 
-const categoryConfigs = {
-  "fuel-types": {
-    description:
-      "cars registrations by month. Explore registration trends, statistics and distribution by fuel type for the month in Singapore.",
-  },
-  "vehicle-types": {
-    description:
-      "cars registrations by month. Explore registration trends, statistics and distribution by vehicle type for the month in Singapore.",
-  },
-} as const;
-
-export const generateMetadata = async ({
+export function TypeDetailPage({
+  config,
   params,
   searchParams,
-}: PageProps): Promise<Metadata> => {
-  const { category, type } = await params;
-  const { month } = await loadSearchParams(searchParams);
-
-  const config = categoryConfigs[category as keyof typeof categoryConfigs];
-  if (!config) {
-    return {
-      title: "Not Found",
-      description: "The requested page could not be found.",
-    };
-  }
-
-  const title = "Cars in Singapore";
-  const description = config.description;
-
-  return createPageMetadata({
-    title,
-    description,
-    canonical: `/cars/${category}/${type}?month=${month}`,
-    images: `${SITE_URL}/opengraph-image.png`,
-  });
-};
-
-export const generateStaticParams = async () => {
-  const [fuelTypesResult, vehicleTypesResult] = await Promise.all([
-    getDistinctFuelTypes(),
-    getDistinctVehicleTypes(),
-  ]);
-
-  const params: { category: string; type: string }[] = [];
-
-  // Add fuel-types params
-  fuelTypesResult.forEach(({ fuelType }) => {
-    params.push({
-      category: "fuel-types",
-      type: slugify(fuelType),
-    });
-  });
-
-  // Add vehicle-types params
-  vehicleTypesResult.forEach(({ vehicleType }) => {
-    params.push({
-      category: "vehicle-types",
-      type: slugify(vehicleType),
-    });
-  });
-
-  return params;
-};
-
-export default function Page({ params, searchParams }: PageProps) {
+}: TypeDetailPageProps) {
   return (
     <div className="flex flex-col gap-4">
       <DashboardPageHeader
         meta={
           <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
-            <CarsTypePageHeaderMeta
-              params={params}
-              searchParams={searchParams}
-            />
+            <TypeDetailHeaderMeta searchParams={searchParams} />
           </Suspense>
         }
         title={
@@ -118,27 +60,22 @@ export default function Page({ params, searchParams }: PageProps) {
       />
 
       <Suspense fallback={<SkeletonCard className="h-[520px] w-full" />}>
-        <CarsTypePageContent params={params} searchParams={searchParams} />
+        <TypeDetailContent
+          config={config}
+          params={params}
+          searchParams={searchParams}
+        />
       </Suspense>
     </div>
   );
 }
 
-async function CarsTypePageHeaderMeta({
-  params: paramsPromise,
+async function TypeDetailHeaderMeta({
   searchParams: searchParamsPromise,
 }: {
-  params: Promise<{ category: string; type: string }>;
   searchParams: Promise<SearchParams>;
 }) {
-  const [{ category }, { month: parsedMonth }] = await Promise.all([
-    paramsPromise,
-    loadSearchParams(searchParamsPromise),
-  ]);
-  const config = categoryConfigs[category as keyof typeof categoryConfigs];
-  if (!config) {
-    return null;
-  }
+  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
 
   const [{ wasAdjusted }, months, lastUpdated] = await Promise.all([
     getMonthOrLatest(parsedMonth, "cars"),
@@ -157,32 +94,30 @@ async function CarsTypePageHeaderMeta({
   );
 }
 
-async function CarsTypePageContent({
+async function TypeDetailContent({
+  config,
   params: paramsPromise,
   searchParams: searchParamsPromise,
 }: {
-  params: Promise<{ category: string; type: string }>;
+  config: TypeDetailConfig;
+  params: Promise<{ type: string }>;
   searchParams: Promise<SearchParams>;
 }) {
-  const [{ category, type }, { month: parsedMonth }] = await Promise.all([
+  const [{ type }, { month: parsedMonth }] = await Promise.all([
     paramsPromise,
     loadSearchParams(searchParamsPromise),
   ]);
   const { month } = await getMonthOrLatest(parsedMonth, "cars");
-  const config = categoryConfigs[category as keyof typeof categoryConfigs];
-  if (!config) {
-    notFound();
-  }
 
   const typeExists =
-    category === "fuel-types"
+    config.category === "fuel-types"
       ? await checkFuelTypeIfExist(type)
       : await checkVehicleTypeIfExist(type);
   if (!typeExists) {
     notFound();
   }
 
-  const { cars } = await loadCarsTypePageData(category, type, month);
+  const { cars } = await loadCarsTypePageData(config.category, type, month);
   const title = "Cars in Singapore";
   const description = config.description;
   const structuredData: WithContext<WebPage> = {
@@ -190,7 +125,7 @@ async function CarsTypePageContent({
     "@type": "WebPage",
     name: title,
     description,
-    url: `${SITE_URL}/cars/${category}/${type}`,
+    url: `${SITE_URL}/cars/${config.category}/${type}`,
     publisher: {
       "@type": "Organization",
       name: SITE_TITLE,
