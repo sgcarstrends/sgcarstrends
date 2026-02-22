@@ -1,3 +1,9 @@
+## [4.57.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.2...v4.57.3) (2026-02-22)
+
+### Bug Fixes
+
+* **web:** coerce partition values to strings in updater dedup ([400061f](https://github.com/sgcarstrends/sgcarstrends/commit/400061fa47d134396e60f5a7dec4d54f70528cfd))
+
 ## [4.57.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.1...v4.57.2) (2026-02-22)
 
 ### Bug Fixes
