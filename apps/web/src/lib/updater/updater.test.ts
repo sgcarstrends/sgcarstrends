@@ -3,9 +3,9 @@ import { db } from "@sgcarstrends/database";
 import { createUniqueKey } from "@sgcarstrends/utils";
 import { AWS_LAMBDA_TEMP_DIR } from "@web/config/workflow";
 import {
-  Updater,
   type UpdaterConfig,
   type UpdaterOptions,
+  update,
 } from "@web/lib/updater";
 import { calculateChecksum } from "@web/lib/updater/services/calculate-checksum";
 import { downloadFile } from "@web/lib/updater/services/download-file";
@@ -52,7 +52,7 @@ const mockTable = {
   fuel_type: "fuel_type",
 } as any;
 
-describe("Updater", () => {
+describe("update", () => {
   let mockChecksum: Checksum;
   let updaterConfig: UpdaterConfig<any>;
   let updaterOptions: UpdaterOptions;
@@ -123,14 +123,13 @@ describe("Updater", () => {
     vi.clearAllMocks();
   });
 
-  // Helper to mock existing months and records for overlapping month scenarios
-  const mockExistingMonthsAndRecords = (
-    existingMonths: Array<{ month: string }>,
+  const mockExistingPartitionsAndRecords = (
+    existingPartitions: Array<Record<string, string>>,
     existingRecords: Array<Record<string, unknown>>,
     insertCount?: number,
   ) => {
     const mockSelectDistinct = {
-      from: vi.fn().mockResolvedValue(existingMonths),
+      from: vi.fn().mockResolvedValue(existingPartitions),
     };
     vi.mocked(db.selectDistinct).mockReturnValue(mockSelectDistinct as any);
 
@@ -150,256 +149,235 @@ describe("Updater", () => {
     }
   };
 
-  describe("constructor", () => {
-    it("should initialize with default options", () => {
-      const updater = new Updater(updaterConfig);
+  it("should successfully process new data", async () => {
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
+    vi.mocked(mockChecksum.cacheChecksum).mockResolvedValue(null);
 
-      expect(updater).toBeInstanceOf(Updater);
+    const result = await update(updaterConfig, updaterOptions);
+
+    expect(result).toEqual({
+      table: "test_table",
+      recordsProcessed: 2,
+      message: "2 record(s) inserted",
+      timestamp: expect.any(String),
     });
 
-    it("should initialize with custom options", () => {
-      const updater = new Updater(updaterConfig, updaterOptions);
-
-      expect(updater).toBeInstanceOf(Updater);
-    });
+    expect(downloadFile).toHaveBeenCalledWith(
+      "https://example.com/data.zip",
+      undefined,
+    );
+    expect(calculateChecksum).toHaveBeenCalledWith(
+      path.join(AWS_LAMBDA_TEMP_DIR, "test-file.csv"),
+    );
+    expect(mockChecksum.cacheChecksum).toHaveBeenCalledWith(
+      "test-file.csv",
+      "abc123",
+    );
   });
 
-  describe("update", () => {
-    it("should successfully process new data", async () => {
-      // Mock no cached checksum (first run)
-      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
-      vi.mocked(mockChecksum.cacheChecksum).mockResolvedValue(null);
+  it("should return early when file hasn't changed", async () => {
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue("abc123");
 
-      const updater = new Updater(updaterConfig, updaterOptions);
-      const result = await updater.update();
+    const result = await update(updaterConfig, updaterOptions);
 
-      expect(result).toEqual({
-        table: "test_table",
-        recordsProcessed: 2,
-        message: "2 record(s) inserted",
-        timestamp: expect.any(String),
-      });
-
-      expect(downloadFile).toHaveBeenCalledWith(
-        "https://example.com/data.zip",
-        undefined,
-      );
-      expect(calculateChecksum).toHaveBeenCalledWith(
-        path.join(AWS_LAMBDA_TEMP_DIR, "test-file.csv"),
-      );
-      expect(mockChecksum.cacheChecksum).toHaveBeenCalledWith(
-        "test-file.csv",
-        "abc123",
-      );
+    expect(result).toEqual({
+      table: "test_table",
+      recordsProcessed: 0,
+      message: "File has not changed since last update",
+      timestamp: expect.any(String),
     });
 
-    it("should return early when file hasn't changed", async () => {
-      // Mock cached checksum matches current checksum
-      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue("abc123");
-
-      const updater = new Updater(updaterConfig, updaterOptions);
-      const result = await updater.update();
-
-      expect(result).toEqual({
-        table: "test_table",
-        recordsProcessed: 0,
-        message: "File has not changed since last update",
-        timestamp: expect.any(String),
-      });
-
-      // Should not process data or insert records
-      expect(processCsv).not.toHaveBeenCalled();
-      expect(db.insert).not.toHaveBeenCalled();
-    });
-
-    it("should handle no new records to insert", async () => {
-      // Mock checksum change but all records already exist
-      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(
-        "different123",
-      );
-
-      mockExistingMonthsAndRecords([{ month: "2024-01" }], mockData);
-
-      const updater = new Updater(updaterConfig, updaterOptions);
-      const result = await updater.update();
-
-      expect(result).toEqual({
-        table: "test_table",
-        recordsProcessed: 0,
-        message:
-          "No new data to insert. The provided data matches the existing records.",
-        timestamp: expect.any(String),
-      });
-
-      expect(db.insert).not.toHaveBeenCalled();
-    });
-
-    it("should process data in batches", async () => {
-      const largeDataSet = Array(5)
-        .fill(null)
-        .map((_, i) => ({
-          month: "2024-01",
-          make: `MAKE_${i}`,
-          fuel_type: "Petrol",
-        }));
-
-      vi.mocked(processCsv).mockResolvedValue(largeDataSet);
-      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
-
-      // Mock insert to return the batch
-      const mockInsert = {
-        values: vi.fn().mockReturnThis(),
-        returning: vi
-          .fn()
-          .mockResolvedValueOnce([{}, {}]) // First batch of 2
-          .mockResolvedValueOnce([{}, {}]) // Second batch of 2
-          .mockResolvedValueOnce([{}]), // Third batch of 1
-      };
-      vi.mocked(db.insert).mockReturnValue(mockInsert as any);
-
-      const updater = new Updater(updaterConfig, updaterOptions);
-      const result = await updater.update();
-
-      expect(result.recordsProcessed).toBe(5);
-      expect(db.insert).toHaveBeenCalledTimes(3); // 3 batches
-    });
-
-    it("should propagate errors from download", async () => {
-      vi.mocked(downloadFile).mockRejectedValue(new Error("Download failed"));
-
-      const updater = new Updater(updaterConfig, updaterOptions);
-
-      await expect(updater.update()).rejects.toThrow("Download failed");
-    });
+    expect(processCsv).not.toHaveBeenCalled();
+    expect(db.insert).not.toHaveBeenCalled();
   });
 
-  describe("downloadAndVerify", () => {
-    it("should download file and calculate checksum", async () => {
-      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
+  it("should handle no new records to insert", async () => {
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue("different123");
 
-      const updater = new Updater(updaterConfig, updaterOptions);
-      // Access private method for testing
-      const result = await (updater as any).downloadAndVerify();
+    mockExistingPartitionsAndRecords([{ month: "2024-01" }], mockData);
 
-      expect(result).toEqual({
-        filePath: path.join(AWS_LAMBDA_TEMP_DIR, "test-file.csv"),
-        checksum: "abc123",
-      });
+    const result = await update(updaterConfig, updaterOptions);
 
-      expect(downloadFile).toHaveBeenCalledWith(
-        "https://example.com/data.zip",
-        undefined,
-      );
-      expect(calculateChecksum).toHaveBeenCalledWith(
-        path.join(AWS_LAMBDA_TEMP_DIR, "test-file.csv"),
-      );
+    expect(result).toEqual({
+      table: "test_table",
+      recordsProcessed: 0,
+      message:
+        "No new data to insert. The provided data matches the existing records.",
+      timestamp: expect.any(String),
     });
 
-    it("should return null checksum when file hasn't changed", async () => {
-      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue("abc123");
-
-      const updater = new Updater(updaterConfig, updaterOptions);
-      const result = await (updater as any).downloadAndVerify();
-
-      expect(result.checksum).toBeNull();
-    });
-
-    it("should use csvFile parameter when provided", async () => {
-      const configWithCsvFile = {
-        ...updaterConfig,
-        csvFile: "specific-file.csv",
-      };
-
-      vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
-
-      const updater = new Updater(configWithCsvFile, updaterOptions);
-      await (updater as any).downloadAndVerify();
-
-      expect(downloadFile).toHaveBeenCalledWith(
-        "https://example.com/data.zip",
-        "specific-file.csv",
-      );
-    });
+    expect(db.insert).not.toHaveBeenCalled();
   });
 
-  describe("processData", () => {
-    it("should process CSV with transform options", async () => {
-      const configWithTransforms = {
-        ...updaterConfig,
-        csvTransformOptions: {
-          fields: {
-            make: (value: string) => value.toUpperCase(),
-          },
-        },
-      };
+  it("should process data in batches", async () => {
+    const largeDataSet = Array(5)
+      .fill(null)
+      .map((_, i) => ({
+        month: "2024-01",
+        make: `MAKE_${i}`,
+        fuel_type: "Petrol",
+      }));
 
-      const updater = new Updater(configWithTransforms, updaterOptions);
-      const result = await (updater as any).processData("/path/to/file.csv");
+    vi.mocked(processCsv).mockResolvedValue(largeDataSet);
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
 
-      expect(processCsv).toHaveBeenCalledWith(
-        "/path/to/file.csv",
-        configWithTransforms.csvTransformOptions,
-      );
-      expect(result).toEqual(mockData);
-    });
+    const mockInsert = {
+      values: vi.fn().mockReturnThis(),
+      returning: vi
+        .fn()
+        .mockResolvedValueOnce([{}, {}])
+        .mockResolvedValueOnce([{}, {}])
+        .mockResolvedValueOnce([{}]),
+    };
+    vi.mocked(db.insert).mockReturnValue(mockInsert as any);
+
+    const result = await update(updaterConfig, updaterOptions);
+
+    expect(result.recordsProcessed).toBe(5);
+    expect(db.insert).toHaveBeenCalledTimes(3);
   });
 
-  describe("insertNewRecords", () => {
-    it("should insert all records when month is new (Phase 1 optimisation)", async () => {
-      // No existing months - all records from new month
-      const mockSelectDistinct = {
-        from: vi.fn().mockResolvedValue([]),
-      };
-      vi.mocked(db.selectDistinct).mockReturnValue(mockSelectDistinct as any);
+  it("should propagate errors from download", async () => {
+    vi.mocked(downloadFile).mockRejectedValue(new Error("Download failed"));
 
-      const updater = new Updater(updaterConfig, updaterOptions);
-      const result = await (updater as any).insertNewRecords(mockData);
+    await expect(update(updaterConfig, updaterOptions)).rejects.toThrow(
+      "Download failed",
+    );
+  });
 
-      expect(result).toBe(2); // All records inserted (new month)
-      // db.select should NOT be called for key comparison when month is new
-      expect(db.select).not.toHaveBeenCalled();
-    });
+  it("should use csvFile parameter when provided", async () => {
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
 
-    it("should filter out existing records for overlapping months (Phase 2)", async () => {
-      // One record already exists (TOYOTA), HONDA should be inserted
-      const existingRecords = [
-        { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" },
-      ];
-      mockExistingMonthsAndRecords([{ month: "2024-01" }], existingRecords, 1);
+    const configWithCsvFile = {
+      ...updaterConfig,
+      csvFile: "specific-file.csv",
+    };
 
-      const updater = new Updater(updaterConfig, updaterOptions);
-      const result = await (updater as any).insertNewRecords(mockData);
+    await update(configWithCsvFile, updaterOptions);
 
-      expect(result).toBe(1); // Only HONDA inserted (TOYOTA exists)
-    });
+    expect(downloadFile).toHaveBeenCalledWith(
+      "https://example.com/data.zip",
+      "specific-file.csv",
+    );
+  });
 
-    it("should return 0 when all records exist (isSubsetOf early exit)", async () => {
-      mockExistingMonthsAndRecords([{ month: "2024-01" }], mockData);
+  it("should insert all records when partition is new (Phase 1)", async () => {
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
 
-      const updater = new Updater(updaterConfig, updaterOptions);
-      const result = await (updater as any).insertNewRecords(mockData);
+    const result = await update(updaterConfig, updaterOptions);
 
-      expect(result).toBe(0);
-      expect(db.insert).not.toHaveBeenCalled();
-    });
+    expect(result.recordsProcessed).toBe(2);
+    expect(db.select).not.toHaveBeenCalled();
+  });
 
-    it("should handle mixed months (some new, some overlapping)", async () => {
-      const mixedData = [
-        { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" }, // Existing month
-        { month: "2024-02", make: "BMW", fuel_type: "Electric" }, // New month
-      ];
+  it("should filter out existing records for overlapping partitions (Phase 2)", async () => {
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue("different123");
 
-      // TOYOTA already exists in 2024-01, BMW from new month should be inserted
-      const existingRecords = [
-        { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" },
-      ];
-      mockExistingMonthsAndRecords([{ month: "2024-01" }], existingRecords, 1);
+    const existingRecords = [
+      { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" },
+    ];
+    mockExistingPartitionsAndRecords(
+      [{ month: "2024-01" }],
+      existingRecords,
+      1,
+    );
 
-      const updater = new Updater(updaterConfig, updaterOptions);
-      const result = await (updater as any).insertNewRecords(mixedData);
+    const result = await update(updaterConfig, updaterOptions);
 
-      // BMW inserted (new month), TOYOTA skipped (exists)
-      expect(result).toBe(1);
-    });
+    expect(result.recordsProcessed).toBe(1);
+  });
+
+  it("should return 0 when all records exist (isSubsetOf early exit)", async () => {
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue("different123");
+
+    mockExistingPartitionsAndRecords([{ month: "2024-01" }], mockData);
+
+    const result = await update(updaterConfig, updaterOptions);
+
+    expect(result.recordsProcessed).toBe(0);
+    expect(db.insert).not.toHaveBeenCalled();
+  });
+
+  it("should handle mixed partitions (some new, some overlapping)", async () => {
+    const mixedData = [
+      { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" },
+      { month: "2024-02", make: "BMW", fuel_type: "Electric" },
+    ];
+
+    vi.mocked(processCsv).mockResolvedValue(mixedData);
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue("different123");
+
+    const existingRecords = [
+      { month: "2024-01", make: "TOYOTA", fuel_type: "Petrol" },
+    ];
+    mockExistingPartitionsAndRecords(
+      [{ month: "2024-01" }],
+      existingRecords,
+      1,
+    );
+
+    const result = await update(updaterConfig, updaterOptions);
+
+    expect(result.recordsProcessed).toBe(1);
+  });
+
+  it("should support year-based partitioning", async () => {
+    const yearTable = {
+      year: "year",
+      category: "category",
+      fuelType: "fuelType",
+    } as any;
+    const yearData = [
+      { year: "2024", category: "Cars", fuelType: "Petrol" },
+      { year: "2024", category: "Cars", fuelType: "Electric" },
+    ];
+
+    vi.mocked(processCsv).mockResolvedValue(yearData);
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
+
+    const result = await update(
+      {
+        table: yearTable,
+        url: "https://example.com/annual.zip",
+        partitionField: "year",
+        keyFields: ["year", "category", "fuelType"],
+      },
+      updaterOptions,
+    );
+
+    expect(result.recordsProcessed).toBe(2);
+    expect(db.select).not.toHaveBeenCalled();
+  });
+
+  it("should deduplicate by year for overlapping year partitions", async () => {
+    const yearTable = {
+      year: "year",
+      category: "category",
+      fuelType: "fuelType",
+    } as any;
+    const yearData = [
+      { year: "2024", category: "Cars", fuelType: "Petrol" },
+      { year: "2024", category: "Cars", fuelType: "Electric" },
+    ];
+
+    vi.mocked(processCsv).mockResolvedValue(yearData);
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue("different123");
+
+    const existingRecords = [
+      { year: "2024", category: "Cars", fuelType: "Petrol" },
+    ];
+    mockExistingPartitionsAndRecords([{ year: "2024" }], existingRecords, 1);
+
+    const result = await update(
+      {
+        table: yearTable,
+        url: "https://example.com/annual.zip",
+        partitionField: "year",
+        keyFields: ["year", "category", "fuelType"],
+      },
+      updaterOptions,
+    );
+
+    expect(result.recordsProcessed).toBe(1);
   });
 });

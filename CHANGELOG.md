@@ -1,3 +1,15 @@
+## [4.57.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.56.0...v4.57.0) (2026-02-21)
+
+### Features
+
+* **web:** add blog search with hybrid keyword and vector ([#436](https://github.com/sgcarstrends/sgcarstrends/issues/436)) ([#706](https://github.com/sgcarstrends/sgcarstrends/issues/706)) ([eacec3f](https://github.com/sgcarstrends/sgcarstrends/commit/eacec3fa6bf9f7fc9489c14d7befd7c48c0a6b15))
+
+## [4.56.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.55.0...v4.56.0) (2026-02-21)
+
+### Features
+
+* **web:** paginate make table and clean up annual view ([fb0cea2](https://github.com/sgcarstrends/sgcarstrends/commit/fb0cea2bbe8a2a3998b970115f9f245f807177a4))
+
 ## [4.55.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.54.1...v4.55.0) (2026-02-20)
 
 ### Features

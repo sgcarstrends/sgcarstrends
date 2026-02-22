@@ -113,6 +113,13 @@
       "when": 1771612001508,
       "tag": "0015_sharp_omega_sentinel",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1771669469093,
+      "tag": "0016_deep_jack_power",
+      "breakpoints": true
     }
   ]
 }

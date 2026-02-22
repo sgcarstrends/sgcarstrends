@@ -2,7 +2,7 @@ import { cars } from "@sgcarstrends/database";
 import type { Car } from "@sgcarstrends/types";
 import { cleanSpecialChars } from "@sgcarstrends/utils";
 import { LTA_DATAMALL_BASE_URL } from "@web/config/workflow";
-import { Updater } from "@web/lib/updater";
+import { update } from "@web/lib/updater";
 
 export const updateCars = () => {
   const filename = "Monthly New Registration of Cars by Make.zip";
@@ -14,7 +14,7 @@ export const updateCars = () => {
     "vehicleType",
   ];
 
-  const updater = new Updater<Car>({
+  return update<Car>({
     table: cars,
     url,
     keyFields,
@@ -33,6 +33,4 @@ export const updateCars = () => {
       },
     },
   });
-
-  return updater.update();
 };

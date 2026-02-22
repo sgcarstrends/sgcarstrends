@@ -1,4 +1,7 @@
+import { CarPopulationChart } from "@web/app/(main)/(dashboard)/annual/components/car-population-chart";
+import { CarPopulationMetrics } from "@web/app/(main)/(dashboard)/annual/components/car-population-metrics";
 import { FuelTypeBreakdown } from "@web/app/(main)/(dashboard)/annual/components/fuel-type-breakdown";
+import { MakeBreakdown } from "@web/app/(main)/(dashboard)/annual/components/make-breakdown";
 import { VehiclePopulationChart } from "@web/app/(main)/(dashboard)/annual/components/vehicle-population-chart";
 import { VehiclePopulationMetrics } from "@web/app/(main)/(dashboard)/annual/components/vehicle-population-metrics";
 import { AnimatedSection } from "@web/app/(main)/(dashboard)/components/animated-section";
@@ -11,6 +14,11 @@ import { YearSelector } from "@web/components/shared/year-selector";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import {
+  getCarPopulationByYearAndMake,
+  getCarPopulationYearlyTotals,
+  getCarPopulationYears,
+} from "@web/queries/car-population";
+import {
   getVehiclePopulationByYearAndFuelType,
   getVehiclePopulationYearlyTotals,
   getVehiclePopulationYears,
@@ -20,16 +28,17 @@ import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
+import { AnnualViewTabs } from "./components/annual-view-tabs";
 import { loadSearchParams } from "./search-params";
 
 export const metadata: Metadata = {
   title: "Annual Vehicle Population | Singapore Trends",
   description:
-    "Annual motor vehicle population in Singapore by fuel type. Track the growth of electric, hybrid, petrol, and diesel vehicles on Singapore roads.",
+    "Annual motor vehicle population in Singapore by fuel type and car population by make. Track the growth of electric, hybrid, petrol, and diesel vehicles on Singapore roads.",
   openGraph: {
     title: "Annual Vehicle Population - Singapore",
     description:
-      "Explore annual vehicle population trends in Singapore by fuel type with interactive charts and key statistics.",
+      "Explore annual vehicle population trends in Singapore with interactive charts and key statistics.",
     type: "website",
   },
   alternates: {
@@ -42,7 +51,7 @@ const structuredData: WithContext<WebPage> = {
   "@type": "WebPage",
   name: "Annual Vehicle Population",
   description:
-    "Motor vehicle population in Singapore by type of fuel used, with interactive charts and year-over-year analysis",
+    "Motor vehicle population in Singapore by type of fuel used and car population by make, with interactive charts and year-over-year analysis",
   url: `${SITE_URL}/annual`,
   publisher: {
     "@type": "Organization",
@@ -64,7 +73,7 @@ async function AnnualPage({ searchParams: searchParamsPromise }: PageProps) {
           title={
             <DashboardPageTitle
               title="Vehicle Population"
-              subtitle="Annual motor vehicle population in Singapore by type of fuel used."
+              subtitle="Annual motor vehicle population in Singapore."
             />
           }
           meta={
@@ -73,6 +82,10 @@ async function AnnualPage({ searchParams: searchParamsPromise }: PageProps) {
             </Suspense>
           }
         />
+
+        <Suspense fallback={<SkeletonCard className="h-10 w-64" />}>
+          <AnnualViewTabsWrapper searchParams={searchParamsPromise} />
+        </Suspense>
 
         <Suspense fallback={<SkeletonCard className="h-[460px] w-full" />}>
           <AnnualContent searchParams={searchParamsPromise} />
@@ -87,8 +100,13 @@ async function AnnualHeaderMeta({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { year: parsedYear } = await loadSearchParams(searchParamsPromise);
-  const availableYearsData = await getVehiclePopulationYears();
+  const { year: parsedYear, view } =
+    await loadSearchParams(searchParamsPromise);
+
+  const availableYearsData =
+    view === "make"
+      ? await getCarPopulationYears()
+      : await getVehiclePopulationYears();
 
   if (availableYearsData.length === 0) {
     return null;
@@ -109,13 +127,31 @@ async function AnnualHeaderMeta({
   );
 }
 
+async function AnnualViewTabsWrapper({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { view } = await loadSearchParams(searchParamsPromise);
+
+  return <AnnualViewTabs currentView={view} />;
+}
+
 async function AnnualContent({
   searchParams: searchParamsPromise,
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  await loadSearchParams(searchParamsPromise);
+  const { view } = await loadSearchParams(searchParamsPromise);
 
+  if (view === "make") {
+    return <ByMakeContent />;
+  }
+
+  return <ByFuelTypeContent />;
+}
+
+async function ByFuelTypeContent() {
   const [yearlyTotals, fuelTypeData, availableYearsData] = await Promise.all([
     getVehiclePopulationYearlyTotals(),
     getVehiclePopulationByYearAndFuelType(),
@@ -155,6 +191,48 @@ async function AnnualContent({
 
       <AnimatedSection order={3}>
         <FuelTypeBreakdown data={fuelTypeData} />
+      </AnimatedSection>
+    </>
+  );
+}
+
+async function ByMakeContent() {
+  const [yearlyTotals, makeData, availableYearsData] = await Promise.all([
+    getCarPopulationYearlyTotals(),
+    getCarPopulationByYearAndMake(),
+    getCarPopulationYears(),
+  ]);
+
+  if (availableYearsData.length === 0) {
+    return (
+      <EmptyState
+        icon={
+          <div className="flex size-16 items-center justify-center rounded-2xl bg-default-100">
+            <BarChart3 className="size-8 text-default-400" />
+          </div>
+        }
+        title="No Data Available Yet"
+        description="Annual car population by make data is not available at the moment. Please check back later."
+        showDefaultActions={false}
+      />
+    );
+  }
+
+  return (
+    <>
+      <AnimatedSection order={1}>
+        <CarPopulationMetrics makeData={makeData} yearlyTotals={yearlyTotals} />
+      </AnimatedSection>
+
+      <AnimatedSection order={2}>
+        <CarPopulationChart
+          data={makeData}
+          availableYears={availableYearsData}
+        />
+      </AnimatedSection>
+
+      <AnimatedSection order={3}>
+        <MakeBreakdown data={makeData} availableYears={availableYearsData} />
       </AnimatedSection>
     </>
   );

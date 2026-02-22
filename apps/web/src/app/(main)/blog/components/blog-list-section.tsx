@@ -1,22 +1,34 @@
 import { BlogList } from "@web/app/(main)/blog/components/blog-list";
 import { ListSkeleton } from "@web/components/shared/skeleton";
-import { getAllPosts } from "@web/queries/posts";
+import { getAllPosts, searchPosts } from "@web/queries/posts";
 import { Suspense } from "react";
 
-async function BlogListContent() {
-  const posts = await getAllPosts();
+interface BlogListSectionProps {
+  query: string;
+}
 
-  return <BlogList posts={posts} />;
+function fetchPosts(query: string) {
+  if (query) {
+    return searchPosts(query);
+  }
+
+  return getAllPosts();
+}
+
+async function BlogListContent({ query }: BlogListSectionProps) {
+  const posts = await fetchPosts(query);
+
+  return <BlogList posts={posts} query={query} />;
 }
 
 function BlogListSkeleton() {
   return <ListSkeleton count={3} />;
 }
 
-export function BlogListSection() {
+export function BlogListSection({ query }: BlogListSectionProps) {
   return (
-    <Suspense fallback={<BlogListSkeleton />}>
-      <BlogListContent />
+    <Suspense key={query} fallback={<BlogListSkeleton />}>
+      <BlogListContent query={query} />
     </Suspense>
   );
 }
