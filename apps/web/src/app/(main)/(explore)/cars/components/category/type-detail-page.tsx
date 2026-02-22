@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
-import { CarOverviewTrends } from "@web/app/(main)/(explore)/cars/components/overview-trends";
+import { CarOverviewTrends } from "@web/app/(main)/(explore)/cars/registrations/components/overview-trends";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageMeta } from "@web/components/dashboard-page-meta";

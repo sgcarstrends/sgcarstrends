@@ -1,4 +1,4 @@
-import { TopMakes } from "@web/app/(main)/(explore)/cars/components/top-makes";
+import { TopMakes } from "@web/app/(main)/(explore)/cars/registrations/components/top-makes";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { getTopMakesByFuelType } from "@web/queries";
 import { Suspense } from "react";

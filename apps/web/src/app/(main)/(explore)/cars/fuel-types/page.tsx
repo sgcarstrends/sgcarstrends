@@ -3,7 +3,7 @@ import {
   type CategoryConfig,
   CategoryPage,
 } from "@web/app/(main)/(explore)/cars/components/category";
-import { loadSearchParams } from "@web/app/(main)/(explore)/cars/search-params";
+import { loadSearchParams } from "@web/app/(main)/(explore)/cars/registrations/search-params";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";

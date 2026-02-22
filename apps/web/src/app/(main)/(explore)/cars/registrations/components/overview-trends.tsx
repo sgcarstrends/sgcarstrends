@@ -1,6 +1,6 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { slugify } from "@sgcarstrends/utils";
-import { TrendChart } from "@web/app/(main)/(explore)/cars/trend-chart";
+import { TrendChart } from "@web/app/(main)/(explore)/cars/registrations/trend-chart";
 import { AnimatedNumber } from "@web/components/animated-number";
 import Typography from "@web/components/typography";
 import Link from "next/link";

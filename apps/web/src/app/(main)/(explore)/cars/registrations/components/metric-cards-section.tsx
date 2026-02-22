@@ -34,7 +34,7 @@ async function MetricCardsContent({ month }: MetricCardsSectionProps) {
     "@type": "WebPage",
     name: title,
     description,
-    url: `${SITE_URL}/cars`,
+    url: `${SITE_URL}/cars/registrations`,
     publisher: {
       "@type": "Organization",
       name: SITE_TITLE,
