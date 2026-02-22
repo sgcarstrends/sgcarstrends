@@ -7,9 +7,7 @@
   "license": "MIT",
   "main": "src/index.ts",
   "module": "src/index.ts",
-  "scripts": {
-    "backfill": "tsx src/backfill-embeddings.ts"
-  },
+  "scripts": {},
   "dependencies": {
     "@ai-sdk/google": "catalog:",
     "@langfuse/otel": "catalog:",
@@ -19,8 +17,5 @@
     "ai": "catalog:",
     "drizzle-orm": "catalog:",
     "zod": "catalog:"
-  },
-  "devDependencies": {
-    "tsx": "catalog:"
   }
 }

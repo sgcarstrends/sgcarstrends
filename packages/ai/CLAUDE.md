@@ -1,14 +1,5 @@
 # SG Cars Trends AI Package
 
-## TODO: Post-deployment cleanup
-
-After the pgvector embedding backfill has been fully deployed to production:
-
-1. Delete `src/backfill-embeddings.ts`
-2. Remove `tsx packages/ai/src/backfill-embeddings.ts` from `apps/web/package.json` `vercel-build` script
-3. Remove `embedding: null` from test fixtures in `apps/web/src/components/recent-posts.test.tsx`
-4. Add `.notNull()` to the `embedding` column in `packages/database/src/schema/posts.ts` and generate a migration
-
 ## Overview
 
 The `@sgcarstrends/ai` package provides AI-powered blog post generation for the SG Cars Trends platform. It uses Vercel AI SDK with Google Gemini to analyse car registration and COE bidding data, generating accurate, SEO-optimised blog posts with structured output validation.
