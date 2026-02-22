@@ -11,8 +11,8 @@ import {
   FUEL_GROUP_COLORS,
   FUEL_GROUP_MAP,
   FUEL_GROUPS,
-} from "@web/app/(main)/(explore)/annual/constants";
-import { useEffectiveYear } from "@web/app/(main)/(explore)/annual/hooks/use-effective-year";
+} from "@web/app/(main)/(explore)/cars/annual/constants";
+import { useEffectiveYear } from "@web/app/(main)/(explore)/cars/annual/hooks/use-effective-year";
 import Typography from "@web/components/typography";
 import { CARD_PADDING, CHART_HEIGHTS, RADIUS } from "@web/config/design-system";
 import { useMemo } from "react";

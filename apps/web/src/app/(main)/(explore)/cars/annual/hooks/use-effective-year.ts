@@ -1,4 +1,4 @@
-import { searchParams } from "@web/app/(main)/(explore)/annual/search-params";
+import { searchParams } from "@web/app/(main)/(explore)/cars/annual/search-params";
 import { useQueryStates } from "nuqs";
 import { useMemo } from "react";
 

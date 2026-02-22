@@ -18,7 +18,7 @@ async function YearlyChartContent() {
           </p>
         </div>
         <Link
-          href="/annual"
+          href="/cars/annual"
           className="flex size-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"
         >
           <ArrowUpRight className="size-6" />

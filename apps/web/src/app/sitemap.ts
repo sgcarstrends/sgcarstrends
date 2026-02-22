@@ -59,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
     },
     {
-      url: `${SITE_URL}/annual`,
+      url: `${SITE_URL}/cars/annual`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
     },

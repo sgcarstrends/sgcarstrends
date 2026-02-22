@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@heroui/table";
 import { cn } from "@heroui/theme";
-import { useEffectiveYear } from "@web/app/(main)/(explore)/annual/hooks/use-effective-year";
+import { useEffectiveYear } from "@web/app/(main)/(explore)/cars/annual/hooks/use-effective-year";
 import Typography from "@web/components/typography";
 import { CARD_PADDING, RADIUS } from "@web/config/design-system";
 import { type Key, useCallback, useMemo, useState } from "react";

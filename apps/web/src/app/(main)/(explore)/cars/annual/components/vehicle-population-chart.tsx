@@ -11,9 +11,9 @@ import {
   FUEL_GROUP_COLORS,
   FUEL_GROUP_MAP,
   FUEL_GROUPS,
-} from "@web/app/(main)/(explore)/annual/constants";
-import { useEffectiveYear } from "@web/app/(main)/(explore)/annual/hooks/use-effective-year";
-import { searchParams } from "@web/app/(main)/(explore)/annual/search-params";
+} from "@web/app/(main)/(explore)/cars/annual/constants";
+import { useEffectiveYear } from "@web/app/(main)/(explore)/cars/annual/hooks/use-effective-year";
+import { searchParams } from "@web/app/(main)/(explore)/cars/annual/search-params";
 import Typography from "@web/components/typography";
 import {
   CARD_PADDING,

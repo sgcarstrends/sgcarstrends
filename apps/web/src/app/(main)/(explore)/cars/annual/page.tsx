@@ -1,9 +1,9 @@
-import { CarPopulationChart } from "@web/app/(main)/(explore)/annual/components/car-population-chart";
-import { CarPopulationMetrics } from "@web/app/(main)/(explore)/annual/components/car-population-metrics";
-import { FuelTypeBreakdown } from "@web/app/(main)/(explore)/annual/components/fuel-type-breakdown";
-import { MakeBreakdown } from "@web/app/(main)/(explore)/annual/components/make-breakdown";
-import { VehiclePopulationChart } from "@web/app/(main)/(explore)/annual/components/vehicle-population-chart";
-import { VehiclePopulationMetrics } from "@web/app/(main)/(explore)/annual/components/vehicle-population-metrics";
+import { CarPopulationChart } from "@web/app/(main)/(explore)/cars/annual/components/car-population-chart";
+import { CarPopulationMetrics } from "@web/app/(main)/(explore)/cars/annual/components/car-population-metrics";
+import { FuelTypeBreakdown } from "@web/app/(main)/(explore)/cars/annual/components/fuel-type-breakdown";
+import { MakeBreakdown } from "@web/app/(main)/(explore)/cars/annual/components/make-breakdown";
+import { VehiclePopulationChart } from "@web/app/(main)/(explore)/cars/annual/components/vehicle-population-chart";
+import { VehiclePopulationMetrics } from "@web/app/(main)/(explore)/cars/annual/components/vehicle-population-metrics";
 import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "/annual",
+    canonical: "/cars/annual",
   },
 };
 
@@ -52,7 +52,7 @@ const structuredData: WithContext<WebPage> = {
   name: "Annual Vehicle Population",
   description:
     "Motor vehicle population in Singapore by type of fuel used and car population by make, with interactive charts and year-over-year analysis",
-  url: `${SITE_URL}/annual`,
+  url: `${SITE_URL}/cars/annual`,
   publisher: {
     "@type": "Organization",
     name: SITE_TITLE,

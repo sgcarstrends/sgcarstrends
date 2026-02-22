@@ -93,7 +93,7 @@ export const navLinks: NavLinks = {
   cars: [
     {
       title: "New Registrations",
-      url: "/cars",
+      url: "/cars/registrations",
       icon: FilePlus,
       description: "Monthly car registration statistics and trends",
       iconColor: "text-blue-500",
@@ -139,7 +139,7 @@ export const navLinks: NavLinks = {
   coe: [
     {
       title: "Premiums",
-      url: "/coe",
+      url: "/coe/premiums",
       icon: BarChart3,
       description: "Latest COE premiums and quick insights",
     },
@@ -177,7 +177,7 @@ export const navLinks: NavLinks = {
 
 const dashboardItems: NavigationItem[] = [
   { title: "Overview", url: "/", icon: LayoutDashboard },
-  { title: "Annual", url: "/annual", icon: Calendar },
+  { title: "Annual", url: "/cars/annual", icon: Calendar },
 ];
 
 export const navigationSections: NavigationSection[] = [

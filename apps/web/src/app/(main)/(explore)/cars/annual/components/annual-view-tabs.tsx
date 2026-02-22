@@ -4,7 +4,7 @@ import { Tab, Tabs } from "@heroui/tabs";
 import {
   VIEWS,
   type View,
-} from "@web/app/(main)/(explore)/annual/search-params";
+} from "@web/app/(main)/(explore)/cars/annual/search-params";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { type ReactNode, useTransition } from "react";
 
