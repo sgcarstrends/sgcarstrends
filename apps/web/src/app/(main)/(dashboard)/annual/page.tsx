@@ -64,7 +64,7 @@ interface PageProps {
   searchParams: Promise<SearchParams>;
 }
 
-async function AnnualPage({ searchParams: searchParamsPromise }: PageProps) {
+async function AnnualPage({ searchParams }: PageProps) {
   return (
     <>
       <StructuredData data={structuredData} />
@@ -78,17 +78,17 @@ async function AnnualPage({ searchParams: searchParamsPromise }: PageProps) {
           }
           meta={
             <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
-              <AnnualHeaderMeta searchParams={searchParamsPromise} />
+              <AnnualHeaderMeta searchParams={searchParams} />
             </Suspense>
           }
         />
 
-        <Suspense fallback={<SkeletonCard className="h-10 w-64" />}>
-          <AnnualViewTabsWrapper searchParams={searchParamsPromise} />
+        <Suspense>
+          <AnnualViewTabs />
         </Suspense>
 
         <Suspense fallback={<SkeletonCard className="h-[460px] w-full" />}>
-          <AnnualContent searchParams={searchParamsPromise} />
+          <AnnualContent searchParams={searchParams} />
         </Suspense>
       </section>
     </>
@@ -96,12 +96,11 @@ async function AnnualPage({ searchParams: searchParamsPromise }: PageProps) {
 }
 
 async function AnnualHeaderMeta({
-  searchParams: searchParamsPromise,
+  searchParams,
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { year: parsedYear, view } =
-    await loadSearchParams(searchParamsPromise);
+  const { year: parsedYear, view } = await loadSearchParams(searchParams);
 
   const availableYearsData =
     view === "make"
@@ -127,22 +126,12 @@ async function AnnualHeaderMeta({
   );
 }
 
-async function AnnualViewTabsWrapper({
-  searchParams: searchParamsPromise,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const { view } = await loadSearchParams(searchParamsPromise);
-
-  return <AnnualViewTabs currentView={view} />;
-}
-
 async function AnnualContent({
-  searchParams: searchParamsPromise,
+  searchParams,
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { view } = await loadSearchParams(searchParamsPromise);
+  const { view } = await loadSearchParams(searchParams);
 
   if (view === "make") {
     return <ByMakeContent />;
