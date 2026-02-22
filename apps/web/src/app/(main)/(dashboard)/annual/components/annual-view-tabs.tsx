@@ -12,11 +12,11 @@ interface AnnualViewTabsProps {
 }
 
 export function AnnualViewTabs({ currentView }: AnnualViewTabsProps) {
-  const [, setSearchParams] = useQueryStates(searchParams);
+  const [{ view }, setSearchParams] = useQueryStates(searchParams);
 
   return (
     <Tabs
-      selectedKey={currentView}
+      selectedKey={view ?? currentView}
       onSelectionChange={(key) => setSearchParams({ view: key as View })}
       variant="underlined"
       aria-label="Annual data view"
