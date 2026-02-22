@@ -1,6 +1,6 @@
 export { CategoryHeroCard } from "./category-hero-card";
 export { CategoryInsightsCard } from "./category-insights-card";
-export { type CategoryConfig, CategoryPage } from "./category-page";
+export { type CategoryConfig, CategoryOverview } from "./category-overview";
 export {
   CategoryInsightsCardSkeleton,
   CategorySummaryCardSkeleton,

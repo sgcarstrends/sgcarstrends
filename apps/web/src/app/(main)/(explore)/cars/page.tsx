@@ -27,9 +27,9 @@ export default function Page() {
           <Link key={url} href={url}>
             <Card
               isPressable
-              className="h-full bg-content1 p-3 transition-shadow hover:shadow-md"
+              className="h-full bg-content1 p-4 transition-shadow hover:shadow-md"
             >
-              <CardHeader className="flex flex-row items-center gap-3">
+              <CardHeader className="flex flex-row items-center gap-2">
                 {Icon && <Icon className="size-5 text-primary" />}
                 <Typography.H4>{title}</Typography.H4>
               </CardHeader>

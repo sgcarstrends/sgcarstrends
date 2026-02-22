@@ -1,8 +1,8 @@
 import { slugify } from "@sgcarstrends/utils";
 import {
+  TypeDetail,
   type TypeDetailConfig,
-  TypeDetailPage,
-} from "@web/app/(main)/(explore)/cars/components/category/type-detail-page";
+} from "@web/app/(main)/(explore)/cars/components/category/type-detail";
 import { SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getDistinctVehicleTypes } from "@web/queries/cars";
@@ -48,10 +48,6 @@ export async function generateStaticParams() {
 
 export default function Page({ params, searchParams }: PageProps) {
   return (
-    <TypeDetailPage
-      config={config}
-      params={params}
-      searchParams={searchParams}
-    />
+    <TypeDetail config={config} params={params} searchParams={searchParams} />
   );
 }

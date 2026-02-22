@@ -1,7 +1,7 @@
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
   type CategoryConfig,
-  CategoryPage,
+  CategoryOverview,
 } from "@web/app/(main)/(explore)/cars/components/category";
 import { loadSearchParams } from "@web/app/(main)/(explore)/cars/registrations/search-params";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -40,5 +40,5 @@ export async function generateMetadata({
 }
 
 export default function Page({ searchParams }: PageProps) {
-  return <CategoryPage config={config} searchParams={searchParams} />;
+  return <CategoryOverview config={config} searchParams={searchParams} />;
 }

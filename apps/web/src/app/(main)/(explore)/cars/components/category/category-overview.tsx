@@ -27,12 +27,15 @@ export interface CategoryConfig {
   urlPath: string;
 }
 
-interface CategoryPageProps {
+interface CategoryOverviewProps {
   config: CategoryConfig;
   searchParams: Promise<SearchParams>;
 }
 
-export function CategoryPage({ config, searchParams }: CategoryPageProps) {
+export function CategoryOverview({
+  config,
+  searchParams,
+}: CategoryOverviewProps) {
   return (
     <div className="flex flex-col gap-8">
       <DashboardPageHeader
@@ -44,19 +47,19 @@ export function CategoryPage({ config, searchParams }: CategoryPageProps) {
         }
         meta={
           <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
-            <CategoryPageHeaderMeta searchParams={searchParams} />
+            <CategoryOverviewHeaderMeta searchParams={searchParams} />
           </Suspense>
         }
       />
 
       <Suspense fallback={<SkeletonCard className="h-[720px] w-full" />}>
-        <CategoryPageContent config={config} searchParams={searchParams} />
+        <CategoryOverviewContent config={config} searchParams={searchParams} />
       </Suspense>
     </div>
   );
 }
 
-async function CategoryPageHeaderMeta({
+async function CategoryOverviewHeaderMeta({
   searchParams: searchParamsPromise,
 }: {
   searchParams: Promise<SearchParams>;
@@ -80,7 +83,7 @@ async function CategoryPageHeaderMeta({
   );
 }
 
-async function CategoryPageContent({
+async function CategoryOverviewContent({
   config,
   searchParams: searchParamsPromise,
 }: {
