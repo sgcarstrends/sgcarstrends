@@ -129,6 +129,13 @@ export const navLinks: NavLinks = {
       iconColor: "text-purple-500",
     },
     {
+      title: "Annual",
+      url: "/cars/annual",
+      icon: Calendar,
+      description: "Yearly vehicle population and registration trends",
+      iconColor: "text-amber-500",
+    },
+    {
       title: "PARF Calculator",
       url: "/cars/parf",
       icon: Calculator,
@@ -177,7 +184,6 @@ export const navLinks: NavLinks = {
 
 const dashboardItems: NavigationItem[] = [
   { title: "Overview", url: "/", icon: LayoutDashboard },
-  { title: "Annual", url: "/cars/annual", icon: Calendar },
 ];
 
 export const navigationSections: NavigationSection[] = [
@@ -197,7 +203,7 @@ export type NavItem = {
 };
 
 export const NAV_ITEMS = [
-  { href: "/", label: "Dashboard" },
+  { href: "/", label: "Overview" },
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
   { href: "/faq", label: "FAQ" },
