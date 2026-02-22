@@ -2,17 +2,20 @@ import { render, screen } from "@testing-library/react";
 import type { RegistrationStat } from "@web/types/cars";
 import { StatCard } from "./stat-card";
 
-vi.mock("@web/app/(main)/(explore)/cars/bar-chart-by-type", () => ({
-  BarChartByType: ({ data }: { data: RegistrationStat[] }) => (
-    <div data-testid="bar-chart">
-      {data.map((item) => (
-        <div key={item.name}>
-          {item.name}: {item.count}
-        </div>
-      ))}
-    </div>
-  ),
-}));
+vi.mock(
+  "@web/app/(main)/(explore)/cars/registrations/bar-chart-by-type",
+  () => ({
+    BarChartByType: ({ data }: { data: RegistrationStat[] }) => (
+      <div data-testid="bar-chart">
+        {data.map((item) => (
+          <div key={item.name}>
+            {item.name}: {item.count}
+          </div>
+        ))}
+      </div>
+    ),
+  }),
+);
 
 vi.mock("@web/config", () => ({
   FUEL_TYPE: {
