@@ -349,6 +349,42 @@ describe("update", () => {
     expect(db.select).not.toHaveBeenCalled();
   });
 
+  it("should handle numeric partition values from dynamicTyping CSV", async () => {
+    const yearTable = {
+      year: "year",
+      category: "category",
+      fuelType: "fuelType",
+    } as any;
+    // PapaParse dynamicTyping converts "2024" to number 2024
+    const yearData = [
+      { year: 2024, category: "Cars", fuelType: "Petrol" },
+      { year: 2024, category: "Cars", fuelType: "Electric" },
+    ];
+
+    vi.mocked(processCsv).mockResolvedValue(yearData);
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue("different123");
+
+    // DB returns string values for text columns
+    const existingRecords = [
+      { year: "2024", category: "Cars", fuelType: "Petrol" },
+      { year: "2024", category: "Cars", fuelType: "Electric" },
+    ];
+    mockExistingPartitionsAndRecords([{ year: "2024" }], existingRecords);
+
+    const result = await update(
+      {
+        table: yearTable,
+        url: "https://example.com/annual.zip",
+        partitionField: "year",
+        keyFields: ["year", "category", "fuelType"],
+      },
+      updaterOptions,
+    );
+
+    expect(result.recordsProcessed).toBe(0);
+    expect(db.insert).not.toHaveBeenCalled();
+  });
+
   it("should deduplicate by year for overlapping year partitions", async () => {
     const yearTable = {
       year: "year",
