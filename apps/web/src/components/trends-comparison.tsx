@@ -10,8 +10,8 @@ import {
   DrawerHeader,
 } from "@heroui/react";
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
-import { ComparisonBarChart } from "@web/app/(main)/(dashboard)/cars/components/comparison-bar-chart";
-import { ComparisonSummary } from "@web/app/(main)/(dashboard)/cars/components/comparison-summary";
+import { ComparisonBarChart } from "@web/app/(main)/(explore)/cars/components/comparison-bar-chart";
+import { ComparisonSummary } from "@web/app/(main)/(explore)/cars/components/comparison-summary";
 import type { ComparisonData } from "@web/queries/cars/compare";
 import type { Month } from "@web/types";
 import { groupByYear } from "@web/utils/group-by-year";
