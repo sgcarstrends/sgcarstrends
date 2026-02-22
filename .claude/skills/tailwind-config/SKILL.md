@@ -121,19 +121,23 @@ Use `size-*` instead of `h-* w-*` for equal dimensions:
 
 ## Dark Mode
 
-```typescript
-// tailwind.config.ts
-export default {
-  darkMode: ["class"],
-};
+**Tailwind v4** uses a CSS custom variant instead of config-based `darkMode`:
+
+```css
+/* globals.css */
+@custom-variant dark (&:is(.dark *));
 ```
 
-Toggle with next-themes:
+This is already configured in both `apps/web/src/app/globals.css` and `packages/ui/src/styles/globals.css`. Dark CSS variables are fully defined in `.dark` blocks in both files.
+
+**Theme switching** uses `next-themes` with `attribute="class"` to toggle `.dark` on `<html>`:
 
 ```tsx
 import { useTheme } from "next-themes";
-const { theme, setTheme } = useTheme();
+const { resolvedTheme, setTheme } = useTheme();
 ```
+
+**Status**: Dark mode activation is deferred until after HeroUI v3 migration (#714, blocked by #587). The CSS infrastructure is ready.
 
 ## Debugging
 

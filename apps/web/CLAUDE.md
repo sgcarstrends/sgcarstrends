@@ -766,6 +766,8 @@ When refactoring existing code:
 
 A professional colour scheme optimised for HeroUI integration and automotive industry data visualisation (see GitHub issue #406). See `design-language-system` skill for comprehensive colour guidelines, chart implementation patterns, and migration checklists.
 
+**Dark Mode**: Dark CSS variables are fully defined in `globals.css` (`.dark` block) but dark mode is not yet activated (#714, blocked by HeroUI v3 migration #587). Use `bg-content1` instead of `bg-white` for card/panel backgrounds to future-proof for dark mode.
+
 **Brand Colour Palette**:
 
 | Role | Colour | Hex | HSL | Usage |
