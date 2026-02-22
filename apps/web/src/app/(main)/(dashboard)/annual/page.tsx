@@ -84,11 +84,10 @@ async function AnnualPage({ searchParams }: PageProps) {
         />
 
         <Suspense>
-          <AnnualViewTabs />
-        </Suspense>
-
-        <Suspense fallback={<SkeletonCard className="h-[460px] w-full" />}>
-          <AnnualContent searchParams={searchParams} />
+          <AnnualViewTabs
+            fuelTypeContent={<ByFuelTypeContent />}
+            makeContent={<ByMakeContent />}
+          />
         </Suspense>
       </section>
     </>
@@ -124,20 +123,6 @@ async function AnnualHeaderMeta({
       />
     </DashboardPageMeta>
   );
-}
-
-async function AnnualContent({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const { view } = await loadSearchParams(searchParams);
-
-  if (view === "make") {
-    return <ByMakeContent />;
-  }
-
-  return <ByFuelTypeContent />;
 }
 
 async function ByFuelTypeContent() {
