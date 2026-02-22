@@ -78,14 +78,17 @@ ${popularMakes.map(({ make }) => make).join(", ")}
 
 ## Main Sections
 
-- [Dashboard](${SITE_URL}): Latest COE results, market trends, and key statistics
-- [Cars](${SITE_URL}/cars): Vehicle registration data and analytics
-- [COE Overview](${SITE_URL}/coe): Certificate of Entitlement bidding results
+- [Overview](${SITE_URL}): Latest COE results, market trends, and key statistics
+- [Cars Hub](${SITE_URL}/cars): Vehicle registration data and analytics
+- [COE Hub](${SITE_URL}/coe): Certificate of Entitlement bidding results
 - [Blog](${SITE_URL}/blog): AI-generated market insights and automotive analysis
 
 ## Car Registration Data
 
-- [New Registrations](${SITE_URL}/cars): Monthly vehicle registration statistics
+- [New Registrations](${SITE_URL}/cars/registrations): Monthly vehicle registration statistics
+- [Vehicle Population](${SITE_URL}/cars/annual): Annual vehicle population statistics
+- [Deregistrations](${SITE_URL}/cars/deregistrations): Monthly vehicle deregistration data
+- [PARF Calculator](${SITE_URL}/cars/parf): Calculate PARF rebate values
 - [Cars by Make](${SITE_URL}/cars/makes): Browse registrations by manufacturer
 - [All Makes Directory](${SITE_URL}/cars/makes): Complete list of car manufacturers
 - [Electric Vehicles](${SITE_URL}/cars/fuel-types/electric): BEV registration data
@@ -100,17 +103,9 @@ ${popularMakes.map(({ make }) => make).join(", ")}
 
 ## COE Bidding Results
 
-- [COE Overview](${SITE_URL}/coe): Current COE landscape and bidding results
-- [Latest COE Results](${SITE_URL}/coe/latest): Most recent bidding outcomes
+- [COE Premiums](${SITE_URL}/coe/premiums): Current COE landscape and premium trends
 - [Historical Results](${SITE_URL}/coe/results): Complete bidding history
-- [COE Trends](${SITE_URL}/coe/trends): Price trends and pattern analysis
-- [Bidding Results](${SITE_URL}/coe/bidding): Detailed bidding data
 - [PQP Rates](${SITE_URL}/coe/pqp): Prevailing Quota Premium rates
-- [Category A](${SITE_URL}/coe/categories/a): Cars up to 1600cc and 97kW
-- [Category B](${SITE_URL}/coe/categories/b): Cars above 1600cc or 97kW
-- [Category C](${SITE_URL}/coe/categories/c): Goods vehicles and buses
-- [Category D](${SITE_URL}/coe/categories/d): Motorcycles
-- [Category E](${SITE_URL}/coe/categories/e): Open category
 
 ## Recent Blog Posts
 
