@@ -29,6 +29,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
     },
     {
+      url: `${SITE_URL}/cars/registrations`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    {
+      url: `${SITE_URL}/cars/fuel-types`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    {
+      url: `${SITE_URL}/cars/vehicle-types`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    {
       url: `${SITE_URL}/cars/makes`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
@@ -49,6 +64,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
     },
     {
+      url: `${SITE_URL}/coe`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    {
+      url: `${SITE_URL}/coe/premiums`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    },
+    {
       url: `${SITE_URL}/coe/results`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
@@ -59,7 +84,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
     },
     {
-      url: `${SITE_URL}/annual`,
+      url: `${SITE_URL}/cars/annual`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
     },
