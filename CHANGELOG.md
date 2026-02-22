@@ -1,3 +1,9 @@
+## [4.57.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.0...v4.57.1) (2026-02-22)
+
+### Bug Fixes
+
+* **web:** annual view tabs not updating on click ([2a4076b](https://github.com/sgcarstrends/sgcarstrends/commit/2a4076bb1c5573a473de1a76db54f7092c327801))
+
 ## [4.57.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.56.0...v4.57.0) (2026-02-21)
 
 ### Features
