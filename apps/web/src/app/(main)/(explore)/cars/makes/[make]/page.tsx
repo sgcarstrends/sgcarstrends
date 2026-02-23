@@ -1,4 +1,4 @@
-import { redis } from "@sgcarstrends/utils";
+import { redis, slugify } from "@sgcarstrends/utils";
 import { MakeDetail } from "@web/app/(main)/(explore)/cars/components/makes";
 import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
@@ -12,7 +12,7 @@ import {
   createPageMetadata,
   createWebPageStructuredData,
 } from "@web/lib/metadata";
-import { getMakeDetails } from "@web/queries/cars";
+import { getDistinctMakes, getMakeDetails } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import {
   getMakeFuelTypeBreakdown,
@@ -30,6 +30,11 @@ import { loadSearchParams } from "./search-params";
 interface PageProps {
   params: Promise<{ make: Make }>;
   searchParams: Promise<SearchParams>;
+}
+
+export async function generateStaticParams() {
+  const makes = await getDistinctMakes();
+  return makes.map(({ make }) => ({ make: slugify(make) }));
 }
 
 export const generateMetadata = async ({
