@@ -40,6 +40,14 @@ export interface EvLatestSummary {
   topMake: string;
 }
 
+export interface EvMakeDetail {
+  make: string;
+  bev: number;
+  phev: number;
+  hybrid: number;
+  total: number;
+}
+
 export async function getEvMonthlyTrend(): Promise<EvMonthlyTrend[]> {
   "use cache";
   cacheLife("max");
@@ -145,6 +153,60 @@ export async function getEvTopMakes(limit = 10): Promise<EvTopMake[]> {
     .groupBy(cars.make)
     .orderBy(desc(sql<number>`sum(${cars.number})`))
     .limit(limit);
+}
+
+export async function getEvMakeDetails(): Promise<EvMakeDetail[]> {
+  "use cache";
+  cacheLife("max");
+  cacheTag("cars:fuel:electric", "cars:fuel:hybrid");
+
+  const latestMonthResult = await db
+    .select({ month: cars.month })
+    .from(cars)
+    .where(inArray(cars.fuelType, ALL_EV_FUEL_TYPES))
+    .orderBy(desc(cars.month))
+    .limit(1);
+
+  const latestMonth = latestMonthResult[0]?.month;
+  if (!latestMonth) return [];
+
+  const results = await db
+    .select({
+      make: cars.make,
+      fuelType: cars.fuelType,
+      count: sql<number>`sum(${cars.number})`.mapWith(Number),
+    })
+    .from(cars)
+    .where(
+      sql`${cars.month} = ${latestMonth} AND ${cars.fuelType} IN ${ALL_EV_FUEL_TYPES}`,
+    )
+    .groupBy(cars.make, cars.fuelType);
+
+  const makeMap = new Map<string, EvMakeDetail>();
+
+  for (const row of results) {
+    if (!makeMap.has(row.make)) {
+      makeMap.set(row.make, {
+        make: row.make,
+        bev: 0,
+        phev: 0,
+        hybrid: 0,
+        total: 0,
+      });
+    }
+    const entry = makeMap.get(row.make)!;
+
+    if (BEV_FUEL_TYPES.includes(row.fuelType)) {
+      entry.bev += row.count;
+    } else if (PHEV_FUEL_TYPES.includes(row.fuelType)) {
+      entry.phev += row.count;
+    } else if (HYBRID_FUEL_TYPES.includes(row.fuelType)) {
+      entry.hybrid += row.count;
+    }
+    entry.total += row.count;
+  }
+
+  return Array.from(makeMap.values()).sort((a, b) => b.total - a.total);
 }
 
 export async function getEvLatestSummary(): Promise<EvLatestSummary | null> {

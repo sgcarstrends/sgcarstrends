@@ -1,5 +1,6 @@
 import { AdoptionTrendChart } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/adoption-trend-chart";
 import { EvMetrics } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/ev-metrics";
+import { MakeTable } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/make-table";
 import { MarketShareChart } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/market-share-chart";
 import { TopMakesChart } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/top-makes-chart";
 import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
@@ -12,6 +13,7 @@ import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import {
   getEvLatestSummary,
+  getEvMakeDetails,
   getEvMarketShare,
   getEvMonthlyTrend,
   getEvTopMakes,
@@ -50,12 +52,14 @@ const structuredData: WithContext<WebPage> = {
 };
 
 export default async function ElectricVehiclesPage() {
-  const [summary, monthlyTrend, marketShare, topMakes] = await Promise.all([
-    getEvLatestSummary(),
-    getEvMonthlyTrend(),
-    getEvMarketShare(),
-    getEvTopMakes(),
-  ]);
+  const [summary, monthlyTrend, marketShare, topMakes, makeDetails] =
+    await Promise.all([
+      getEvLatestSummary(),
+      getEvMonthlyTrend(),
+      getEvMarketShare(),
+      getEvTopMakes(),
+      getEvMakeDetails(),
+    ]);
 
   if (!summary) {
     return (
@@ -103,6 +107,10 @@ export default async function ElectricVehiclesPage() {
 
         <AnimatedSection order={5}>
           <TopMakesChart data={topMakes} month={summary.month} />
+        </AnimatedSection>
+
+        <AnimatedSection order={6}>
+          <MakeTable data={makeDetails} month={summary.month} />
         </AnimatedSection>
       </section>
     </>
