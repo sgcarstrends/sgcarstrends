@@ -32,4 +32,10 @@ It provides insights into fleet turnover and the impact of the 10-year COE lifec
 
 **Budget 2026 Changes (effective Feb 2026):** Rebate percentages cut by 45 percentage points across all brackets, and the cap halved from $60,000 to $30,000.`,
   },
+  electricVehicles: {
+    title: "Singapore's EV Story",
+    content: `Singapore is accelerating its transition to **electric vehicles (EVs)** as part of the **Singapore Green Plan 2030**. The goal is to phase out internal combustion engine vehicles by 2040 and have all vehicles run on cleaner energy.
+
+This page tracks three categories of electrified vehicles: **BEV** (Battery Electric), **PHEV** (Plug-In Hybrid), and **Hybrid** (conventional hybrid). Together they show how Singapore's roads are going green.`,
+  },
 } as const;
