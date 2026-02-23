@@ -1,6 +1,7 @@
 export * from "./categories";
 export * from "./category-summary";
 export * from "./compare";
+export * from "./electric-vehicles";
 export * from "./filter-options";
 export * from "./latest-month";
 export * from "./makes";

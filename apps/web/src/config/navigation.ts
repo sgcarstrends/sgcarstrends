@@ -22,6 +22,7 @@ import {
   LayoutDashboard,
   type LucideIcon,
   TrendingUp,
+  Zap,
 } from "lucide-react";
 import type { Route } from "next";
 
@@ -134,6 +135,14 @@ export const navLinks: NavLinks = {
       icon: Calendar,
       description: "Yearly vehicle population and registration trends",
       iconColor: "text-amber-500",
+    },
+    {
+      title: "Electric Vehicles",
+      url: "/cars/electric-vehicles",
+      icon: Zap,
+      description: "BEV, PHEV and hybrid adoption trends and market share",
+      badge: "new",
+      iconColor: "text-emerald-500",
     },
     {
       title: "PARF Calculator",
