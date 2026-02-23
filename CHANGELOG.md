@@ -1,3 +1,9 @@
+## [4.58.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.4...v4.58.0) (2026-02-23)
+
+### Features
+
+* **api,mcp:** add maintenance mode API endpoint and MCP tools ([#717](https://github.com/sgcarstrends/sgcarstrends/issues/717)) ([b4519bc](https://github.com/sgcarstrends/sgcarstrends/commit/b4519bcdba358ae8e11aaeb9ae801cd97e038d71))
+
 ## [4.57.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.3...v4.57.4) (2026-02-23)
 
 ### Bug Fixes
