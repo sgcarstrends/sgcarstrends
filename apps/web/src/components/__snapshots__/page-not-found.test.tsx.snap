@@ -97,9 +97,9 @@ exports[`PageNotFound > renders the 404 error message 1`] = `
          
         <a
           class="text-primary hover:underline"
-          href="/faq"
+          href="/resources"
         >
-          FAQ page
+          resources page
         </a>
          
         or go back to the

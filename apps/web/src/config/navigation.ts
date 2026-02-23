@@ -10,6 +10,7 @@ import {
 import { sortByName } from "@sgcarstrends/utils";
 import {
   BarChart3,
+  BookOpen,
   Calculator,
   Calendar,
   Car,
@@ -18,7 +19,6 @@ import {
   FilePlus,
   FileText,
   Fuel,
-  HelpCircle,
   LayoutDashboard,
   type LucideIcon,
   TrendingUp,
@@ -172,10 +172,11 @@ export const navLinks: NavLinks = {
       show: true,
     },
     {
-      title: "FAQ",
-      url: "/faq",
-      icon: HelpCircle,
-      description: "Frequently asked questions about COE and car buying",
+      title: "Resources",
+      url: "/resources",
+      icon: BookOpen,
+      description:
+        "Educational hub with FAQs, glossary, guides and data sources",
       show: true,
     },
   ],
@@ -206,7 +207,7 @@ export const NAV_ITEMS = [
   { href: "/", label: "Overview" },
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
-  { href: "/faq", label: "FAQ" },
+  { href: "/resources", label: "Resources" },
 ] as const satisfies readonly NavItem[];
 
 export const POLAR_DONATION_URL = "https://polar.sh/sgcarstrends";
