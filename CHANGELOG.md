@@ -1,3 +1,9 @@
+## [4.61.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.1...v4.61.2) (2026-02-23)
+
+### Bug Fixes
+
+* **ui:** add initialDimension to suppress Recharts width/height warning ([0d8d760](https://github.com/sgcarstrends/sgcarstrends/commit/0d8d7609a9b8f14743bc37b1d6e94553c85601f4))
+
 ## [4.61.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.0...v4.61.1) (2026-02-23)
 
 ### Bug Fixes
