@@ -2,6 +2,7 @@
 
 import { Button } from "@heroui/button";
 import { cn } from "@heroui/react";
+import { NewChip } from "@web/components/shared/chips";
 import { navigationSections } from "@web/config/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,7 +29,7 @@ export function DashboardNav() {
     <nav className="flex max-w-full items-center gap-2 overflow-x-auto">
       {navigationSections.map((section) => (
         <div key={section.name} className="flex shrink-0 items-center gap-2">
-          {section.children.map(({ title, url, icon: Icon }) => {
+          {section.children.map(({ title, url, icon: Icon, badge }) => {
             const isActive = activeKey === url;
             return (
               <Button
@@ -42,6 +43,7 @@ export function DashboardNav() {
                     : "bg-transparent text-default-600 hover:bg-default-100",
                 )}
                 startContent={Icon && <Icon className="size-4" />}
+                endContent={badge && <NewChip />}
               >
                 {title}
               </Button>

@@ -1,4 +1,5 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
+import { NewChip } from "@web/components/shared/chips";
 import Typography from "@web/components/typography";
 import { navLinks } from "@web/config/navigation";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -23,7 +24,7 @@ export default function Page() {
         </Typography.TextLg>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {navLinks.cars.map(({ title, url, icon: Icon, description }) => (
+        {navLinks.cars.map(({ title, url, icon: Icon, description, badge }) => (
           <Link key={url} href={url}>
             <Card
               isPressable
@@ -32,6 +33,7 @@ export default function Page() {
               <CardHeader className="flex flex-row items-center gap-2">
                 {Icon && <Icon className="size-5 text-primary" />}
                 <Typography.H4>{title}</Typography.H4>
+                {badge && <NewChip />}
               </CardHeader>
               {description && (
                 <CardBody>
