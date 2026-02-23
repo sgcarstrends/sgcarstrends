@@ -1,3 +1,9 @@
+## [4.57.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.3...v4.57.4) (2026-02-23)
+
+### Bug Fixes
+
+* **deps:** upgrade dependencies to resolve Dependabot security alerts ([f52ba20](https://github.com/sgcarstrends/sgcarstrends/commit/f52ba20572b676502ab319b0c9bb9f8e4ff84528))
+
 ## [4.57.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.2...v4.57.3) (2026-02-22)
 
 ### Bug Fixes
