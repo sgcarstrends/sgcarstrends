@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@sgcarstrends/utils": "workspace:*",
-    "@vercel/blob": "^2.0.0"
+    "@vercel/blob": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "catalog:",
