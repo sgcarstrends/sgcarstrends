@@ -1,3 +1,9 @@
+## [4.59.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.58.0...v4.59.0) (2026-02-23)
+
+### Features
+
+* **web:** add NewChip badge to navigation for Electric Vehicles ([5c7d28f](https://github.com/sgcarstrends/sgcarstrends/commit/5c7d28f5c14e2194cc432b850bce9b44eb8f2712))
+
 ## [4.58.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.4...v4.58.0) (2026-02-23)
 
 ### Features
