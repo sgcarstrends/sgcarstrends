@@ -26,6 +26,7 @@ vi.mock("@sgcarstrends/ui/components/data-table", () => ({
 const mockCars = {
   make: "BMW",
   total: 100,
+  monthTotal: 50,
   data: [
     {
       month: "2024-01",
@@ -34,12 +35,19 @@ const mockCars = {
       vehicleType: "SALOON",
       number: 50,
     },
+  ] as unknown as SelectCar[],
+  historicalData: [
+    {
+      month: "2024-01",
+      fuelType: "PETROL",
+      vehicleType: "SALOON",
+      count: 50,
+    },
     {
       month: "2024-02",
-      make: "BMW",
       fuelType: "HYBRID",
       vehicleType: "SUV",
-      number: 30,
+      count: 30,
     },
   ] as unknown as SelectCar[],
 };

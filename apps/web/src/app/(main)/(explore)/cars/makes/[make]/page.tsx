@@ -19,6 +19,7 @@ import {
   getMakeVehicleTypeBreakdown,
 } from "@web/queries/cars/makes/entity-breakdowns";
 import { getMakeFromSlug } from "@web/queries/cars/makes/get-make-from-slug";
+import { getCarLogo } from "@web/queries/logos";
 import type { Make } from "@web/types";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
@@ -42,7 +43,14 @@ export const generateMetadata = async ({
 }: PageProps): Promise<Metadata> => {
   const { make } = await params;
 
-  const exactMake = make.toUpperCase().replaceAll("-", " ");
+  const exactMake = await getMakeFromSlug(make);
+  if (!exactMake) {
+    return createPageMetadata({
+      title: "Car Make Not Found",
+      description: "The requested car make could not be found.",
+      canonical: `/cars/makes/${make}`,
+    });
+  }
 
   const title = `${exactMake} Cars Overview: Registration Trends`;
   const description = `${exactMake} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
@@ -135,18 +143,28 @@ async function CarMakeContent({
 
   const { month } = await getMonthOrLatest(parsedMonth, "cars");
 
-  const [coeComparison, makeDetails, fuelTypeBreakdown, vehicleTypeBreakdown] =
-    await Promise.all([
-      getMakeCoeComparison(exactMake),
-      getMakeDetails(exactMake, month),
-      getMakeFuelTypeBreakdown(exactMake, month),
-      getMakeVehicleTypeBreakdown(exactMake, month),
-    ]);
+  const [
+    coeComparison,
+    makeDetails,
+    historicalDetails,
+    fuelTypeBreakdown,
+    vehicleTypeBreakdown,
+    logo,
+  ] = await Promise.all([
+    getMakeCoeComparison(exactMake),
+    getMakeDetails(exactMake, month),
+    getMakeDetails(exactMake),
+    getMakeFuelTypeBreakdown(exactMake, month),
+    getMakeVehicleTypeBreakdown(exactMake, month),
+    getCarLogo(exactMake),
+  ]);
 
   const cars = {
     make: exactMake,
-    total: makeDetails.total,
+    total: historicalDetails.total,
+    monthTotal: makeDetails.total,
     data: makeDetails.data,
+    historicalData: historicalDetails.data,
   };
 
   const title = `${exactMake} Cars Overview: Registration Trends`;
@@ -164,6 +182,7 @@ async function CarMakeContent({
         <MakeDetail
           cars={cars}
           coeComparison={coeComparison}
+          logo={logo}
           fuelTypeBreakdown={fuelTypeBreakdown}
           vehicleTypeBreakdown={vehicleTypeBreakdown}
         />

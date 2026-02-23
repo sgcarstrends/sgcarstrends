@@ -16,7 +16,13 @@ import { Calendar, Car, TrendingUp } from "lucide-react";
 import Image from "next/image";
 
 interface MakeDetailProps {
-  cars: { make: string; total: number; data: Partial<SelectCar>[] } | null;
+  cars: {
+    make: string;
+    total: number;
+    monthTotal: number;
+    data: Partial<SelectCar>[];
+    historicalData: Partial<SelectCar>[];
+  } | null;
   coeComparison: MakeCoeComparisonData[];
   logo?: CarLogo | null;
   fuelTypeBreakdown?: { name: string; value: number }[];
@@ -84,7 +90,7 @@ export function MakeDetail({
             </Typography.Caption>
           </div>
           <span className="font-bold text-foreground text-xl tabular-nums">
-            {cars.data[0]?.number?.toLocaleString() ?? "N/A"}
+            {cars.monthTotal.toLocaleString()}
           </span>
         </div>
         <div className="flex flex-col gap-2 rounded-2xl bg-default-100 p-4">
@@ -93,7 +99,7 @@ export function MakeDetail({
             <Typography.Caption>Tracked</Typography.Caption>
           </div>
           <span className="font-bold text-foreground text-xl tabular-nums">
-            {cars.data.length}
+            {new Set(cars.historicalData.map((d) => d.month)).size}
             <span className="ml-1 font-normal text-default-400 text-sm">
               mo
             </span>
@@ -108,7 +114,7 @@ export function MakeDetail({
           <Typography.Caption>Past registrations</Typography.Caption>
         </CardHeader>
         <CardBody>
-          <MakeTrendChart data={cars.data.toReversed()} />
+          <MakeTrendChart data={cars.historicalData.toReversed()} />
         </CardBody>
       </Card>
 
