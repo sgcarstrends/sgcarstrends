@@ -1,3 +1,9 @@
+## [4.60.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.59.0...v4.60.0) (2026-02-23)
+
+### Features
+
+* **web:** add generateStaticParams for car makes pages ([eee4171](https://github.com/sgcarstrends/sgcarstrends/commit/eee4171ff22a9e14f6fc9d0dbcc5c8bd252ddb32))
+
 ## [4.59.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.58.0...v4.59.0) (2026-02-23)
 
 ### Features
