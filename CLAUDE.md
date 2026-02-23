@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Automatically use Context7 for code generation and library documentation.
 
+## GitHub Operations
+
+Prefer using the GitHub MCP tools (`mcp__github__*`) over the `gh` CLI for all GitHub operations (issues, pull requests, checks, releases).
+
 # SG Cars Trends - Developer Reference Guide
 
 ## Project-Specific CLAUDE.md Files
