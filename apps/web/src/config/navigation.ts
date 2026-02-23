@@ -10,6 +10,7 @@ import {
 import { sortByName } from "@sgcarstrends/utils";
 import {
   BarChart3,
+  BookOpen,
   Calculator,
   Calendar,
   Car,
