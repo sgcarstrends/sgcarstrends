@@ -1,3 +1,9 @@
+## [4.61.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.60.0...v4.61.0) (2026-02-23)
+
+### Features
+
+* **web:** redesign resources page from tabs to scroll-based sections ([17649e8](https://github.com/sgcarstrends/sgcarstrends/commit/17649e839fe3d4a63f501537f34891b3432ad7b7))
+
 ## [4.60.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.59.0...v4.60.0) (2026-02-23)
 
 ### Features
