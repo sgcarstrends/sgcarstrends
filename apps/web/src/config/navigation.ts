@@ -208,3 +208,5 @@ export const NAV_ITEMS = [
   { href: "/blog", label: "Blog" },
   { href: "/faq", label: "FAQ" },
 ] as const satisfies readonly NavItem[];
+
+export const POLAR_DONATION_URL = "https://polar.sh/sgcarstrends";
