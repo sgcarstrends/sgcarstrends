@@ -1,7 +1,6 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
-import { Chip } from "@heroui/chip";
 import Typography from "@web/components/typography";
 import {
   fadeInUpVariants,
@@ -14,7 +13,6 @@ import { BookOpen, Car, Landmark, Layers, TrendingUp } from "lucide-react";
 
 interface GlossaryTerm {
   term: string;
-  abbreviation: boolean;
   definition: string;
 }
 
@@ -33,37 +31,31 @@ const GLOSSARY_CATEGORIES: GlossaryCategory[] = [
     terms: [
       {
         term: "COE",
-        abbreviation: true,
         definition:
           "Certificate of Entitlement — a quota licence required to register a vehicle in Singapore, valid for 10 years.",
       },
       {
         term: "PQP",
-        abbreviation: true,
         definition:
           "Prevailing Quota Premium — the moving average of COE prices used to calculate COE renewal costs after 10 years.",
       },
       {
         term: "PARF",
-        abbreviation: true,
         definition:
           "Preferential Additional Registration Fee — a rebate given when deregistering a vehicle before its COE expires, calculated as a percentage of the ARF paid.",
       },
       {
         term: "ARF",
-        abbreviation: true,
         definition:
           "Additional Registration Fee — a tax levied on top of the vehicle's Open Market Value at registration. The rate is tiered based on OMV.",
       },
       {
         term: "OMV",
-        abbreviation: true,
         definition:
           "Open Market Value — the price of a vehicle before any Singapore-specific taxes, assessed by Singapore Customs.",
       },
       {
         term: "Road Tax",
-        abbreviation: false,
         definition:
           "An annual tax based on engine capacity (for ICE vehicles) or power output (for EVs), payable to renew the vehicle's road usage rights.",
       },
@@ -76,29 +68,24 @@ const GLOSSARY_CATEGORIES: GlossaryCategory[] = [
     terms: [
       {
         term: "Category A",
-        abbreviation: false,
         definition:
           "Cars up to 1,600cc and 130bhp, or electric cars with power up to 110kW.",
       },
       {
         term: "Category B",
-        abbreviation: false,
         definition:
           "Cars above 1,600cc or 130bhp, or electric cars with power above 110kW.",
       },
       {
         term: "Category C",
-        abbreviation: false,
         definition: "Goods vehicles and buses.",
       },
       {
         term: "Category D",
-        abbreviation: false,
         definition: "Motorcycles.",
       },
       {
         term: "Category E",
-        abbreviation: false,
         definition:
           "Open category — can be used for any vehicle type. Typically attracts the highest premiums.",
       },
@@ -111,19 +98,19 @@ const GLOSSARY_CATEGORIES: GlossaryCategory[] = [
     terms: [
       {
         term: "BEV",
-        abbreviation: true,
+
         definition:
           "Battery Electric Vehicle — powered entirely by an electric motor and battery, with zero tailpipe emissions.",
       },
       {
         term: "PHEV",
-        abbreviation: true,
+
         definition:
           "Plug-in Hybrid Electric Vehicle — has both an electric motor and internal combustion engine, with a battery that can be charged externally.",
       },
       {
         term: "HEV",
-        abbreviation: true,
+
         definition:
           "Hybrid Electric Vehicle — combines an internal combustion engine with an electric motor but cannot be plugged in to charge.",
       },
@@ -136,31 +123,31 @@ const GLOSSARY_CATEGORIES: GlossaryCategory[] = [
     terms: [
       {
         term: "LTA",
-        abbreviation: true,
+
         definition:
           "Land Transport Authority — the government agency responsible for planning, operating, and maintaining Singapore's land transport infrastructure and systems.",
       },
       {
         term: "VQS",
-        abbreviation: true,
+
         definition:
           "Vehicle Quota System — the overall system that controls vehicle population growth in Singapore through COE quotas.",
       },
       {
         term: "VES",
-        abbreviation: true,
+
         definition:
           "Vehicular Emissions Scheme — a scheme that provides rebates or surcharges based on a vehicle's emissions, encouraging cleaner vehicles.",
       },
       {
         term: "CEVS",
-        abbreviation: true,
+
         definition:
           "Carbon Emissions-based Vehicle Scheme — the predecessor to VES, which provided rebates or surcharges based on carbon emissions alone.",
       },
       {
         term: "ERP",
-        abbreviation: true,
+
         definition:
           "Electronic Road Pricing — a congestion pricing system that charges motorists for using certain roads during peak hours.",
       },
@@ -173,25 +160,25 @@ const GLOSSARY_CATEGORIES: GlossaryCategory[] = [
     terms: [
       {
         term: "Quota Premium",
-        abbreviation: false,
+
         definition:
           "The price of a COE as determined by the bidding exercise — the lowest successful bid in each category.",
       },
       {
         term: "Deregistration",
-        abbreviation: false,
+
         definition:
           "The process of removing a vehicle from the Singapore register, either for export, scrappage, or to claim PARF/COE rebates.",
       },
       {
         term: "Parallel Import",
-        abbreviation: false,
+
         definition:
           "Vehicles imported by dealers other than the official authorised distributor, often at competitive prices.",
       },
       {
         term: "Paper Bid",
-        abbreviation: false,
+
         definition:
           "A pre-bidding COE commitment made through authorised dealers before the actual bidding exercise.",
       },
@@ -253,21 +240,11 @@ export function GlossarySection() {
                 <Typography.H3>{category.title}</Typography.H3>
               </div>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {category.terms.map(({ term, abbreviation, definition }) => (
+                {category.terms.map(({ term, definition }) => (
                   <motion.div key={term} variants={staggerItemVariants}>
                     <Card className="h-full border-default-200/80 transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-                      <CardHeader className="flex flex-row items-center gap-3 pb-0">
+                      <CardHeader className="pb-0">
                         <Typography.H4>{term}</Typography.H4>
-                        {abbreviation && (
-                          <Chip
-                            size="sm"
-                            variant="flat"
-                            color="primary"
-                            className="font-mono"
-                          >
-                            {term}
-                          </Chip>
-                        )}
                       </CardHeader>
                       <CardBody>
                         <Typography.TextSm>{definition}</Typography.TextSm>
