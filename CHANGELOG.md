@@ -1,3 +1,9 @@
+## [4.61.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.0...v4.61.1) (2026-02-23)
+
+### Bug Fixes
+
+* **web:** remove redundant abbreviation chip from glossary terms ([f753f1f](https://github.com/sgcarstrends/sgcarstrends/commit/f753f1f0fe6c3ed37d729aa6cf478fe0cd8cd2cc))
+
 ## [4.61.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.60.0...v4.61.0) (2026-02-23)
 
 ### Features
