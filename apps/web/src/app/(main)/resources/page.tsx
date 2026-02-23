@@ -2,7 +2,13 @@ import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
-import { ResourcesPageContent } from "./resources-page-content";
+import { CtaSection } from "./components/cta-section";
+import { DataSourcesSection } from "./components/data-sources-section";
+import { FAQSection } from "./components/faq-section";
+import { GlossarySection } from "./components/glossary-section";
+import { GuidesSection } from "./components/guides-section";
+import { HeroSection } from "./components/hero-section";
+import { QuickNavSection } from "./components/quick-nav-section";
 
 const title = "Resources";
 const description =
@@ -48,7 +54,15 @@ export default function ResourcesPage() {
   return (
     <>
       <StructuredData data={structuredData} />
-      <ResourcesPageContent />
+      <div className="flex flex-col">
+        <HeroSection />
+        <QuickNavSection />
+        <FAQSection />
+        <GlossarySection />
+        <DataSourcesSection />
+        <GuidesSection />
+        <CtaSection />
+      </div>
     </>
   );
 }
