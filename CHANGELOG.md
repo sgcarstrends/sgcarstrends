@@ -1,3 +1,9 @@
+## [4.61.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.2...v4.61.3) (2026-02-23)
+
+### Bug Fixes
+
+* **web:** fix broken features on car make detail page ([d83b58d](https://github.com/sgcarstrends/sgcarstrends/commit/d83b58d70596cfeb91dffd9af454a9201ba35c42))
+
 ## [4.61.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.1...v4.61.2) (2026-02-23)
 
 ### Bug Fixes
