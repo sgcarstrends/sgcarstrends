@@ -6,7 +6,7 @@ import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-s
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
-import { PageContext } from "@web/components/shared/page-context";
+import { Infobox } from "@web/components/shared/infobox";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { loadLastUpdated } from "@web/lib/common";
@@ -58,7 +58,7 @@ const COEOverviewPage = () => {
       />
 
       <AnimatedSection order={1}>
-        <PageContext {...PAGE_CONTEXTS.coe} />
+        <Infobox {...PAGE_CONTEXTS.coe} />
       </AnimatedSection>
 
       <AnimatedSection order={2}>

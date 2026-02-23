@@ -7,7 +7,7 @@ import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-s
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { EmptyState } from "@web/components/shared/empty-state";
-import { PageContext } from "@web/components/shared/page-context";
+import { Infobox } from "@web/components/shared/infobox";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -90,7 +90,7 @@ export default async function ElectricVehiclesPage() {
         />
 
         <AnimatedSection order={1}>
-          <PageContext {...PAGE_CONTEXTS.electricVehicles} />
+          <Infobox {...PAGE_CONTEXTS.electricVehicles} />
         </AnimatedSection>
 
         <AnimatedSection order={2}>

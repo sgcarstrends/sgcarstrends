@@ -8,8 +8,8 @@ import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-s
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
+import { Infobox } from "@web/components/shared/infobox";
 import { MonthSelector } from "@web/components/shared/month-selector";
-import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { loadCarsMetadataData } from "@web/lib/cars/page-data";
@@ -66,7 +66,7 @@ const Page = ({ searchParams }: PageProps) => {
       />
 
       <AnimatedSection order={1}>
-        <PageContext {...PAGE_CONTEXTS.cars} />
+        <Infobox {...PAGE_CONTEXTS.cars} />
       </AnimatedSection>
 
       <AnimatedSection order={2}>

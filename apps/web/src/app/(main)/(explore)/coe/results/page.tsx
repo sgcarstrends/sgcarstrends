@@ -6,8 +6,8 @@ import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-s
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
+import { Infobox } from "@web/components/shared/infobox";
 import { MonthSelector } from "@web/components/shared/month-selector";
-import { PageContext } from "@web/components/shared/page-context";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
@@ -116,7 +116,7 @@ async function COEResultsContent({
     <>
       <StructuredData data={structuredData} />
       <AnimatedSection order={1}>
-        <PageContext {...PAGE_CONTEXTS.coe} />
+        <Infobox {...PAGE_CONTEXTS.coe} />
       </AnimatedSection>
 
       {/* Bidding Rounds for Current Month */}
