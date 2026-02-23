@@ -2,6 +2,7 @@ import { Button } from "@heroui/button";
 import { Divider } from "@heroui/divider";
 import { BrandLogo } from "@web/components/brand-logo";
 import Typography from "@web/components/typography";
+import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import {
   NAV_ITEMS,
   navLinks,
@@ -59,16 +60,18 @@ export function Footer() {
                 </Link>
               ))}
             </div>
-            <Divider />
-            <Link
-              href={POLAR_DONATION_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-default-600 transition-colors hover:text-primary"
-            >
-              <Heart className="size-4" />
-              <Typography.TextSm>Support this project</Typography.TextSm>
-            </Link>
+            <UnreleasedFeature>
+              <Divider />
+              <Link
+                href={POLAR_DONATION_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-default-600 transition-colors hover:text-primary"
+              >
+                <Heart className="size-4" />
+                <Typography.TextSm>Support this project</Typography.TextSm>
+              </Link>
+            </UnreleasedFeature>
           </div>
         </div>
 
