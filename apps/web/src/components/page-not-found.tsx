@@ -19,8 +19,8 @@ export function PageNotFound() {
 
         <Typography.TextSm>
           Need help? Visit our{" "}
-          <Link href="/faq" className="text-primary hover:underline">
-            FAQ page
+          <Link href="/resources" className="text-primary hover:underline">
+            resources page
           </Link>{" "}
           or go back to the{" "}
           <Link href="/" className="text-primary hover:underline">
