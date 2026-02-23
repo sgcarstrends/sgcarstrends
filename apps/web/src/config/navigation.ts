@@ -26,6 +26,8 @@ import {
 } from "lucide-react";
 import type { Route } from "next";
 
+export const POLAR_DONATION_URL = "https://polar.sh/sgcarstrends";
+
 export interface NavigationItem {
   title: string;
   url: string;
