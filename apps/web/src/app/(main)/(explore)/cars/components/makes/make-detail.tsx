@@ -3,11 +3,9 @@ import { Card, CardBody, CardHeader } from "@heroui/card";
 import type { CarLogo } from "@logos/types";
 import type { SelectCar } from "@sgcarstrends/database";
 import { DataTable } from "@sgcarstrends/ui/components/data-table";
-import {
-  CoeComparisonChart,
-  MakeTrendChart,
-  TypeBreakdownChart,
-} from "@web/app/(main)/(explore)/cars/components/makes";
+import { CoeComparisonChart } from "@web/app/(main)/(explore)/cars/components/makes/coe-comparison-chart";
+import { MakeTrendChart } from "@web/app/(main)/(explore)/cars/components/makes/make-trend-chart";
+import { TypeBreakdownChart } from "@web/app/(main)/(explore)/cars/components/makes/type-breakdown-chart";
 import { EmptyState } from "@web/components/shared/empty-state";
 import { columns } from "@web/components/tables/columns/cars-make-columns";
 import Typography from "@web/components/typography";

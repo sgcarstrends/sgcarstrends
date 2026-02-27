@@ -1,6 +1,6 @@
 import { CategoryTabs } from "@web/app/(main)/(explore)/cars/registrations/category-tabs";
 import { SkeletonCard } from "@web/components/shared/skeleton";
-import { getCarsData } from "@web/queries";
+import { getCarsData } from "@web/queries/cars/monthly-registrations";
 import { Suspense } from "react";
 
 interface CategoryTabsSectionProps {

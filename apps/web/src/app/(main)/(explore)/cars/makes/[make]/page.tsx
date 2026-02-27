@@ -1,5 +1,5 @@
 import { redis, slugify } from "@sgcarstrends/utils";
-import { MakeDetail } from "@web/app/(main)/(explore)/cars/components/makes";
+import { MakeDetail } from "@web/app/(main)/(explore)/cars/components/makes/make-detail";
 import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
@@ -12,9 +12,10 @@ import {
   createPageMetadata,
   createWebPageStructuredData,
 } from "@web/lib/metadata";
-import { getDistinctMakes, getMakeDetails } from "@web/queries/cars";
+import { getDistinctMakes } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import {
+  getMakeDetails,
   getMakeFuelTypeBreakdown,
   getMakeVehicleTypeBreakdown,
 } from "@web/queries/cars/makes/entity-breakdowns";

@@ -2,12 +2,10 @@
 
 import type { CarLogo } from "@logos/types";
 import { slugify } from "@sgcarstrends/utils";
-import {
-  AllMakes,
-  MakeSearch,
-  MakesSummary,
-  PopularMakes,
-} from "@web/app/(main)/(explore)/cars/components/makes";
+import { AllMakes } from "@web/app/(main)/(explore)/cars/components/makes/all-makes";
+import { MakeSearch } from "@web/app/(main)/(explore)/cars/components/makes/make-search";
+import { MakesSummary } from "@web/app/(main)/(explore)/cars/components/makes/makes-summary";
+import { PopularMakes } from "@web/app/(main)/(explore)/cars/components/makes/popular-makes";
 import type {
   Make,
   MakeStats,

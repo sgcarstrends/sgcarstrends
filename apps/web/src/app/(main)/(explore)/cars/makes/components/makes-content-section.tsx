@@ -1,14 +1,12 @@
 import type { CarLogo } from "@logos/types";
 import { redis } from "@sgcarstrends/utils";
-import { MakesDashboard } from "@web/app/(main)/(explore)/cars/components/makes";
+import { MakesDashboard } from "@web/app/(main)/(explore)/cars/components/makes/makes-dashboard";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { getPopularMakes } from "@web/queries/cars";
-import {
-  getGroupedMakes,
-  getMakeRegistrationStats,
-} from "@web/queries/cars/makes";
+import { getPopularMakes } from "@web/queries/cars/makes/current-year-popular-makes";
+import { getGroupedMakes } from "@web/queries/cars/makes/grouped-makes";
+import { getMakeRegistrationStats } from "@web/queries/cars/makes/registration-stats";
 import type { MakeStats, MakesSummary } from "@web/types";
 import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";

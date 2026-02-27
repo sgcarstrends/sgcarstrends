@@ -4,7 +4,7 @@ import {
   getCoeResultsByPeriod,
   getLatestCoeResults,
   getPreviousCoeResults,
-} from "@web/queries";
+} from "@web/queries/coe";
 import { describe, expect, it } from "vitest";
 import {
   cacheLifeMock,

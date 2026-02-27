@@ -14,10 +14,19 @@ vi.mock("framer-motion", () => ({
   },
 }));
 
-vi.mock("@web/app/(main)/(explore)/cars/components/makes", () => ({
-  MakeTrendChart: () => <div>TrendChart</div>,
-  CoeComparisonChart: () => <div>CoeComparisonChart</div>,
-}));
+vi.mock(
+  "@web/app/(main)/(explore)/cars/components/makes/make-trend-chart",
+  () => ({
+    MakeTrendChart: () => <div>TrendChart</div>,
+  }),
+);
+
+vi.mock(
+  "@web/app/(main)/(explore)/cars/components/makes/coe-comparison-chart",
+  () => ({
+    CoeComparisonChart: () => <div>CoeComparisonChart</div>,
+  }),
+);
 
 vi.mock("@sgcarstrends/ui/components/data-table", () => ({
   DataTable: () => <div>DataTable</div>,

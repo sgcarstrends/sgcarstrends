@@ -1,6 +1,6 @@
 import { TopMakes } from "@web/app/(main)/(explore)/cars/registrations/components/top-makes";
 import { SkeletonCard } from "@web/components/shared/skeleton";
-import { getTopMakesByFuelType } from "@web/queries";
+import { getTopMakesByFuelType } from "@web/queries/cars/market-insights";
 import { Suspense } from "react";
 
 interface TopMakesFuelSectionProps {

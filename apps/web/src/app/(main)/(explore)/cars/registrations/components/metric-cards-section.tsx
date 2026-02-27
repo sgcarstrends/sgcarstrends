@@ -4,7 +4,11 @@ import { SkeletonMetricCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { generateDatasetSchema } from "@web/lib/metadata";
-import { getCarsComparison, getCarsData, getTopTypes } from "@web/queries";
+import { getTopTypes } from "@web/queries/cars/market-insights";
+import {
+  getCarsComparison,
+  getCarsData,
+} from "@web/queries/cars/monthly-registrations";
 import { formatVehicleType } from "@web/utils/formatting/format-vehicle-type";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";

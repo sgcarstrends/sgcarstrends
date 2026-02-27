@@ -2,7 +2,7 @@ import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
   type CategoryConfig,
   CategoryOverview,
-} from "@web/app/(main)/(explore)/cars/components/category";
+} from "@web/app/(main)/(explore)/cars/components/category/category-overview";
 import { loadSearchParams } from "@web/app/(main)/(explore)/cars/registrations/search-params";
 import { createPageMetadata } from "@web/lib/metadata";
 import { getMonthOrLatest } from "@web/utils/dates/months";

@@ -7,11 +7,11 @@ import {
   resetDbMocks,
 } from "./test-utils";
 
-vi.mock("@web/queries", () => ({
+vi.mock("@web/queries/cars/monthly-registrations", () => ({
   getCarsData: vi.fn(),
 }));
 
-import { getCarsData } from "@web/queries";
+import { getCarsData } from "@web/queries/cars/monthly-registrations";
 import * as marketInsights from "./cars/market-insights";
 
 const mockedGetCarsData = vi.mocked(getCarsData);

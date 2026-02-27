@@ -1,11 +1,9 @@
 import { redis } from "@sgcarstrends/utils";
-import {
-  ComparisonMixedChart,
-  ComparisonSummaryCard,
-  DataTable,
-  RenewalCalculator,
-  TrendsChart,
-} from "@web/app/(main)/(explore)/coe/components/pqp";
+import { ComparisonMixedChart } from "@web/app/(main)/(explore)/coe/components/pqp/comparison-mixed-chart";
+import { ComparisonSummaryCard } from "@web/app/(main)/(explore)/coe/components/pqp/comparison-summary-card";
+import { DataTable } from "@web/app/(main)/(explore)/coe/components/pqp/data-table";
+import { RenewalCalculator } from "@web/app/(main)/(explore)/coe/components/pqp/renewal-calculator";
+import { TrendsChart } from "@web/app/(main)/(explore)/coe/components/pqp/trends-chart";
 import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
