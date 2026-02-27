@@ -1,3 +1,9 @@
+## [4.61.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.3...v4.61.4) (2026-02-27)
+
+### Performance Improvements
+
+* **web:** use sync font loading for static OG image prerendering ([9654336](https://github.com/sgcarstrends/sgcarstrends/commit/9654336a302840716c1605024ac3d163d02cd264))
+
 ## [4.61.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.2...v4.61.3) (2026-02-23)
 
 ### Bug Fixes
