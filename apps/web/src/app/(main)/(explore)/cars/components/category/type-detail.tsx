@@ -40,7 +40,8 @@ export async function generateTypeDetailMetadata(
   searchParams: Promise<SearchParams>,
 ): Promise<Metadata> {
   const { type } = await params;
-  const { month } = await loadTypeSearchParams(searchParams);
+  const { month: parsedMonth } = await loadTypeSearchParams(searchParams);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
 
   return createPageMetadata({
     title: "Cars in Singapore",
