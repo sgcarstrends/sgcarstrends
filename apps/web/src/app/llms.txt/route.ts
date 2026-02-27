@@ -14,8 +14,13 @@ import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getLatestCoeResults } from "@web/queries/coe";
 import { getCOELatestMonth } from "@web/queries/coe/latest-month";
 import { getAllPosts } from "@web/queries/posts";
+import { cacheLife, cacheTag } from "next/cache";
 
-export const GET = async () => {
+async function generateLlmsTxt() {
+  "use cache";
+  cacheLife("max");
+  cacheTag("llms-txt", "posts:list", "cars:makes", "coe:latest");
+
   // Fetch all dynamic data in parallel
   const [
     carsLatestMonth,
@@ -58,7 +63,7 @@ export const GET = async () => {
     ? new Date(coeLastUpdated).toISOString()
     : "unknown";
 
-  const content = `# ${SITE_TITLE}
+  return `# ${SITE_TITLE}
 
 > Singapore's comprehensive platform for vehicle registration data, COE (Certificate of Entitlement) bidding results, and automotive market insights. Access historical trends, market analysis, and AI-generated blog content about Singapore's car market.
 
@@ -146,10 +151,14 @@ ${recentPosts.map((post) => `- [${post.title}](${SITE_URL}/blog/${post.slug})`).
 - [Telegram](${SITE_URL}/telegram): Join our Telegram channel
 - [Discord](${SITE_URL}/discord): Join our Discord community
 `;
+}
+
+export async function GET() {
+  const content = await generateLlmsTxt();
 
   return new Response(content, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
     },
   });
-};
+}

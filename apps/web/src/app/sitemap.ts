@@ -3,8 +3,13 @@ import { SITE_LINKS, SITE_URL } from "@web/config";
 import { getDistinctMakes } from "@web/queries/cars";
 import { getAllPosts } from "@web/queries/posts";
 import type { MetadataRoute } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  "use cache";
+  cacheLife("max");
+  cacheTag("sitemap", "posts:list", "cars:makes");
+
   const [posts, makes] = await Promise.all([getAllPosts(), getDistinctMakes()]);
 
   return [
