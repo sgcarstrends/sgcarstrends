@@ -22,6 +22,7 @@ import {
 } from "@web/queries/posts";
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -86,7 +87,50 @@ export const generateStaticParams = async () => {
   return posts.map((post) => ({ slug: post.slug }));
 };
 
-const BlogPostPage = async ({ params }: PageProps) => {
+async function Article({ slug, content }: { slug: string; content: string }) {
+  "use cache";
+  cacheLife("max");
+  cacheTag(`posts:slug:${slug}`);
+
+  return (
+    <article className="prose dark:prose-invert max-w-none">
+      <MDXRemote
+        source={content}
+        components={mdxComponents}
+        options={{
+          mdxOptions: {
+            format: "md",
+            remarkPlugins: [
+              remarkGfm,
+              [
+                remarkToc,
+                {
+                  heading: "Table of Contents|Contents|TOC",
+                  maxDepth: 3,
+                  tight: true,
+                },
+              ],
+            ],
+            rehypePlugins: [
+              rehypeSlug,
+              [
+                rehypeAutolinkHeadings,
+                {
+                  behavior: "append",
+                  properties: {
+                    className: ["permalink"],
+                  },
+                },
+              ],
+            ],
+          },
+        }}
+      />
+    </article>
+  );
+}
+
+export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 
@@ -190,40 +234,7 @@ const BlogPostPage = async ({ params }: PageProps) => {
           />
 
           {/* Article Content */}
-          <article className="prose dark:prose-invert max-w-none">
-            <MDXRemote
-              source={post.content}
-              components={mdxComponents}
-              options={{
-                mdxOptions: {
-                  format: "md",
-                  remarkPlugins: [
-                    remarkGfm,
-                    [
-                      remarkToc,
-                      {
-                        heading: "Table of Contents|Contents|TOC",
-                        maxDepth: 3,
-                        tight: true,
-                      },
-                    ],
-                  ],
-                  rehypePlugins: [
-                    rehypeSlug,
-                    [
-                      rehypeAutolinkHeadings,
-                      {
-                        behavior: "append",
-                        properties: {
-                          className: ["permalink"],
-                        },
-                      },
-                    ],
-                  ],
-                },
-              }}
-            />
-          </article>
+          <Article slug={post.slug} content={post.content} />
 
           {/* Post Navigation */}
           <PostNavigation previous={previousPost} next={nextPost} />
@@ -244,6 +255,4 @@ const BlogPostPage = async ({ params }: PageProps) => {
       </div>
     </>
   );
-};
-
-export default BlogPostPage;
+}
