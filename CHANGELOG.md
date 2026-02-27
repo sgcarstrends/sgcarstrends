@@ -1,3 +1,10 @@
+## [4.61.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.4...v4.61.5) (2026-02-27)
+
+### Performance Improvements
+
+* **web:** cache MDX compilation in blog post page ([79399d6](https://github.com/sgcarstrends/sgcarstrends/commit/79399d6f3ae1bc5e3a9203f975fee31db4d05758))
+* **web:** cache sitemap and llms.txt with use cache directive ([bef0bb5](https://github.com/sgcarstrends/sgcarstrends/commit/bef0bb58c59b7df7e35e4faff43d72b407ad11ac))
+
 ## [4.61.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.3...v4.61.4) (2026-02-27)
 
 ### Performance Improvements
