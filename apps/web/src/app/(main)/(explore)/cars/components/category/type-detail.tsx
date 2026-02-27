@@ -13,23 +13,41 @@ import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCarsTypePageData } from "@web/lib/cars/page-data";
 import { loadLastUpdated } from "@web/lib/common";
+import { createPageMetadata } from "@web/lib/metadata";
 import {
   checkFuelTypeIfExist,
   checkVehicleTypeIfExist,
 } from "@web/queries/cars";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import { createLoader, parseAsString } from "nuqs/server";
 import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 
-const typeSearchParams = { month: parseAsString };
-const loadSearchParams = createLoader(typeSearchParams);
+export const typeSearchParams = { month: parseAsString };
+export const loadTypeSearchParams = createLoader(typeSearchParams);
 
 export interface TypeDetailConfig {
   category: "fuel-types" | "vehicle-types";
   description: string;
+}
+
+export async function generateTypeDetailMetadata(
+  config: TypeDetailConfig,
+  params: Promise<{ type: string }>,
+  searchParams: Promise<SearchParams>,
+): Promise<Metadata> {
+  const { type } = await params;
+  const { month } = await loadTypeSearchParams(searchParams);
+
+  return createPageMetadata({
+    title: "Cars in Singapore",
+    description: config.description,
+    canonical: `/cars/${config.category}/${type}?month=${month}`,
+    images: `${SITE_URL}/opengraph-image.png`,
+  });
 }
 
 interface TypeDetailProps {
@@ -71,7 +89,8 @@ async function TypeDetailHeaderMeta({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { month: parsedMonth } = await loadSearchParams(searchParamsPromise);
+  const { month: parsedMonth } =
+    await loadTypeSearchParams(searchParamsPromise);
 
   const [{ wasAdjusted }, months, lastUpdated] = await Promise.all([
     getMonthOrLatest(parsedMonth, "cars"),
@@ -101,7 +120,7 @@ async function TypeDetailContent({
 }) {
   const [{ type }, { month: parsedMonth }] = await Promise.all([
     paramsPromise,
-    loadSearchParams(searchParamsPromise),
+    loadTypeSearchParams(searchParamsPromise),
   ]);
   const { month } = await getMonthOrLatest(parsedMonth, "cars");
 

@@ -15,6 +15,7 @@ import { cn } from "@heroui/theme";
 import Typography from "@web/components/typography";
 import { CARD_PADDING, RADIUS } from "@web/config/design-system";
 import type { EvMakeDetail } from "@web/queries/cars";
+import { sortByDescriptor } from "@web/utils/sort";
 import { type Key, useCallback, useMemo, useState } from "react";
 
 interface MakeTableProps {
@@ -49,21 +50,7 @@ export function MakeTable({ data, month }: MakeTableProps) {
   }, [data]);
 
   const sortedData = useMemo(() => {
-    return [...rankedData].sort((a, b) => {
-      const column = sortDescriptor.column as keyof typeof a;
-      const first = a[column];
-      const second = b[column];
-
-      if (typeof first === "number" && typeof second === "number") {
-        return sortDescriptor.direction === "ascending"
-          ? first - second
-          : second - first;
-      }
-
-      return sortDescriptor.direction === "ascending"
-        ? String(first).localeCompare(String(second))
-        : String(second).localeCompare(String(first));
-    });
+    return sortByDescriptor(rankedData, sortDescriptor);
   }, [rankedData, sortDescriptor]);
 
   const pages = Math.ceil(sortedData.length / ROWS_PER_PAGE);

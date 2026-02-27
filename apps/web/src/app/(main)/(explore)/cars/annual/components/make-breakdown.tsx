@@ -15,6 +15,7 @@ import { cn } from "@heroui/theme";
 import { useEffectiveYear } from "@web/app/(main)/(explore)/cars/annual/hooks/use-effective-year";
 import Typography from "@web/components/typography";
 import { CARD_PADDING, RADIUS } from "@web/config/design-system";
+import { sortByDescriptor } from "@web/utils/sort";
 import { type Key, useCallback, useMemo, useState } from "react";
 
 interface MakeData {
@@ -64,21 +65,7 @@ export function MakeBreakdown({ data, availableYears }: MakeBreakdownProps) {
   }, [data, effectiveYear]);
 
   const sortedData = useMemo(() => {
-    return [...yearData].sort((a, b) => {
-      const column = sortDescriptor.column as keyof (typeof yearData)[0];
-      const first = a[column];
-      const second = b[column];
-
-      if (typeof first === "number" && typeof second === "number") {
-        return sortDescriptor.direction === "ascending"
-          ? first - second
-          : second - first;
-      }
-
-      return sortDescriptor.direction === "ascending"
-        ? String(first).localeCompare(String(second))
-        : String(second).localeCompare(String(first));
-    });
+    return sortByDescriptor(yearData, sortDescriptor);
   }, [yearData, sortDescriptor]);
 
   const pages = Math.ceil(sortedData.length / ROWS_PER_PAGE);
