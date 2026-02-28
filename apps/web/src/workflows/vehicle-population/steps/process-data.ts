@@ -9,8 +9,6 @@ export const updateVehiclePopulation = () =>
   update<VehiclePopulation>({
     table: vehiclePopulation,
     url: VEHICLE_POPULATION_URL,
-    partitionField: "year",
-    keyFields: ["year", "category", "fuelType"],
     csvTransformOptions: {
       columnMapping: {
         type: "category",

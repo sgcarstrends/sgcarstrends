@@ -53,7 +53,6 @@ describe("updateCars", () => {
 
     expect(vi.mocked(update).mock.calls[0][0]).toMatchObject({
       url: "https://example.com/datamall/Monthly New Registration of Cars by Make.zip",
-      keyFields: ["month", "make", "fuelType", "vehicleType"],
     });
   });
 

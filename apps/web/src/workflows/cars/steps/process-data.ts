@@ -7,17 +7,10 @@ import { update } from "@web/lib/updater";
 export const updateCars = () => {
   const filename = "Monthly New Registration of Cars by Make.zip";
   const url = `${LTA_DATAMALL_BASE_URL}/${filename}`;
-  const keyFields: Array<keyof Car> = [
-    "month",
-    "make",
-    "fuelType",
-    "vehicleType",
-  ];
 
   return update<Car>({
     table: cars,
     url,
-    keyFields,
     csvTransformOptions: {
       columnMapping: {
         fuel_type: "fuelType",
