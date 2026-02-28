@@ -14,6 +14,7 @@ export interface UpdaterConfig<T> {
   table: Table;
   url: string;
   csvFile?: string;
+  filePath?: string;
   partitionField?: string;
   keyFields: string[];
   csvTransformOptions?: CSVTransformOptions<T>;
@@ -46,20 +47,25 @@ export async function update<T>(
   const { url, csvFile, csvTransformOptions = {} } = config;
 
   // === Download and verify ===
-  const extractedFileName = await downloadFile(url, csvFile);
-  const destinationPath = path.join(AWS_LAMBDA_TEMP_DIR, extractedFileName);
+  let destinationPath: string;
+  if (config.filePath) {
+    destinationPath = config.filePath;
+  } else {
+    const extractedFileName = await downloadFile(url, csvFile);
+    destinationPath = path.join(AWS_LAMBDA_TEMP_DIR, extractedFileName);
+  }
   console.log("Destination path:", destinationPath);
 
+  const checksumKey = path.basename(destinationPath);
   const checksum = await calculateChecksum(destinationPath);
   console.log("Checksum:", checksum);
 
-  const cachedChecksum =
-    await checksumService.getCachedChecksum(extractedFileName);
+  const cachedChecksum = await checksumService.getCachedChecksum(checksumKey);
   console.log("Cached checksum:", cachedChecksum);
 
   if (!cachedChecksum) {
     console.log("No cached checksum found. This might be the first run.");
-    await checksumService.cacheChecksum(extractedFileName, checksum);
+    await checksumService.cacheChecksum(checksumKey, checksum);
   } else if (cachedChecksum === checksum) {
     console.log(
       `File has not changed since last update (Checksum: ${checksum})`,
@@ -72,7 +78,7 @@ export async function update<T>(
     };
   }
 
-  await checksumService.cacheChecksum(extractedFileName, checksum);
+  await checksumService.cacheChecksum(checksumKey, checksum);
   console.log("Checksum has been changed.");
 
   // === Process CSV ===
