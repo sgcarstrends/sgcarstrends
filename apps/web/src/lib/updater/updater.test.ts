@@ -261,6 +261,24 @@ describe("update", () => {
     );
   });
 
+  it("should skip download when filePath is provided", async () => {
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
+
+    const configWithFilePath = {
+      ...updaterConfig,
+      filePath: "/tmp/pre-extracted.csv",
+    };
+
+    await update(configWithFilePath, updaterOptions);
+
+    expect(downloadFile).not.toHaveBeenCalled();
+    expect(calculateChecksum).toHaveBeenCalledWith("/tmp/pre-extracted.csv");
+    expect(mockChecksum.cacheChecksum).toHaveBeenCalledWith(
+      "pre-extracted.csv",
+      "abc123",
+    );
+  });
+
   it("should insert all records when partition is new (Phase 1)", async () => {
     vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
 
