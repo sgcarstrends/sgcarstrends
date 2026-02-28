@@ -1,3 +1,9 @@
+## [4.61.7](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.6...v4.61.7) (2026-02-28)
+
+### Bug Fixes
+
+* **web:** resolve SonarCloud leaked value and sort bugs ([f542adb](https://github.com/sgcarstrends/sgcarstrends/commit/f542adbf8708478036ad648b9a32143c2d2a69d7))
+
 ## [4.61.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.5...v4.61.6) (2026-02-28)
 
 ### Bug Fixes
