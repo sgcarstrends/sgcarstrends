@@ -11,7 +11,6 @@ import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { Infobox } from "@web/components/shared/infobox";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
-import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { LAST_UPDATED_COE_KEY, SITE_URL } from "@web/config";
@@ -54,12 +53,12 @@ const PQPRatesPage = async ({
         />
       }
       meta={
-        <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+        <Suspense>
           <PQPRatesHeaderMeta searchParams={searchParamsPromise} />
         </Suspense>
       }
     />
-    <Suspense fallback={<SkeletonCard className="h-[880px] w-full" />}>
+    <Suspense>
       <PQPRatesContent searchParams={searchParamsPromise} />
     </Suspense>
   </div>
@@ -123,13 +122,13 @@ async function PQPRatesContent({
       </AnimatedSection>
 
       <AnimatedSection order={2}>
-        <Suspense fallback={<SkeletonCard className="h-[260px] w-full" />}>
+        <Suspense>
           <ComparisonSummaryCard data={overview.comparison} />
         </Suspense>
       </AnimatedSection>
 
       <AnimatedSection order={3}>
-        <Suspense fallback={<SkeletonCard className="h-[420px] w-full" />}>
+        <Suspense>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <TrendsChart data={overview.trendData} />
             <ComparisonMixedChart data={overview.comparison} />
@@ -138,13 +137,13 @@ async function PQPRatesContent({
       </AnimatedSection>
 
       <AnimatedSection order={4}>
-        <Suspense fallback={<SkeletonCard className="h-[480px] w-full" />}>
+        <Suspense>
           <DataTable rows={overview.tableRows} columns={columns} />
         </Suspense>
       </AnimatedSection>
 
       <AnimatedSection order={5}>
-        <Suspense fallback={<SkeletonCard className="h-[280px] w-full" />}>
+        <Suspense>
           <UnreleasedFeature>
             <RenewalCalculator data={overview.categorySummaries} />
           </UnreleasedFeature>
