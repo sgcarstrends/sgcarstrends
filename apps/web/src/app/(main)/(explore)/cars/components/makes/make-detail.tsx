@@ -19,7 +19,7 @@ interface MakeDetailProps {
     total: number;
     monthTotal: number;
     data: Partial<SelectCar>[];
-    historicalData: Partial<SelectCar>[];
+    historicalData: { month: string; count: number }[];
     monthsTracked: number;
   } | null;
   coeComparison: MakeCoeComparisonData[];

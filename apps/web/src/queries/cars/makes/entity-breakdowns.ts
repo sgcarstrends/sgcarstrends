@@ -16,6 +16,11 @@ export interface MakeDetails {
   data: Partial<SelectCar>[];
 }
 
+export interface MakeMonthlyTotal {
+  month: string;
+  count: number;
+}
+
 export interface FuelTypeData {
   total: number;
   data: Array<{
@@ -226,4 +231,22 @@ export async function getVehicleTypeData(
     month,
   );
   return result as VehicleTypeData;
+}
+
+export async function getMakeMonthlyTotals(
+  make: string,
+): Promise<MakeMonthlyTotal[]> {
+  "use cache";
+  cacheLife("max");
+  cacheTag(`cars:make:${make}`);
+
+  return db
+    .select({
+      month: cars.month,
+      count: sql<number>`sum(${cars.number})`.mapWith(Number),
+    })
+    .from(cars)
+    .where(ilike(cars.make, make))
+    .groupBy(cars.month)
+    .orderBy(desc(cars.month));
 }
