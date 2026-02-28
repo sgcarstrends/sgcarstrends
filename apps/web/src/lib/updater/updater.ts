@@ -1,6 +1,5 @@
 import path from "node:path";
-import { db, getTableName, inArray, type Table } from "@sgcarstrends/database";
-import { createUniqueKey } from "@sgcarstrends/utils";
+import { db, getTableName, type Table } from "@sgcarstrends/database";
 import { AWS_LAMBDA_TEMP_DIR } from "@web/config/workflow";
 import { calculateChecksum } from "@web/lib/updater/services/calculate-checksum";
 import { downloadFile } from "@web/lib/updater/services/download-file";
@@ -15,8 +14,6 @@ export interface UpdaterConfig<T> {
   url: string;
   csvFile?: string;
   filePath?: string;
-  partitionField?: string;
-  keyFields: string[];
   csvTransformOptions?: CSVTransformOptions<T>;
 }
 
@@ -42,7 +39,6 @@ export async function update<T>(
   const checksumService = options.checksum || new Checksum();
   const batchSize = options.batchSize || DEFAULT_BATCH_SIZE;
   const tableName = getTableName(config.table);
-  const partitionField = config.partitionField ?? "month";
 
   const { url, csvFile, csvTransformOptions = {} } = config;
 
@@ -87,120 +83,19 @@ export async function update<T>(
     csvTransformOptions,
   );
 
-  // === Insert new records ===
-  const { table, keyFields } = config;
-
-  // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any type
-  const tableColumns = table as any;
-
-  // === Phase 1: Partition-Level Deduplication ===
-  // String() coercion is required because PapaParse's dynamicTyping converts
-  // numeric-looking values (e.g. year "2024") to numbers, while the DB stores
-  // them as text. Without coercion, Set.difference() uses strict equality and
-  // treats 2024 !== "2024", causing all partitions to appear "new".
-  const incomingPartitions = new Set(
-    processedData.map((record) =>
-      String((record as Record<string, unknown>)[partitionField]),
-    ),
-  );
-
-  const existingPartitionsQuery = await db
-    .selectDistinct({ [partitionField]: tableColumns[partitionField] })
-    .from(table);
-  const existingPartitions = new Set(
-    existingPartitionsQuery.map((record) =>
-      String((record as Record<string, unknown>)[partitionField]),
-    ),
-  );
-
-  const newPartitions = incomingPartitions.difference(existingPartitions);
-
-  console.log(
-    `Partition analysis (${partitionField}): ${incomingPartitions.size} incoming, ${existingPartitions.size} existing, ${newPartitions.size} new`,
-  );
-
-  const recordsFromNewPartitions: T[] = [];
-  const recordsFromOverlappingPartitions: T[] = [];
-
-  for (const record of processedData) {
-    const partition = String(
-      (record as Record<string, unknown>)[partitionField],
-    );
-    if (newPartitions.has(partition)) {
-      recordsFromNewPartitions.push(record);
-    } else {
-      recordsFromOverlappingPartitions.push(record);
-    }
-  }
-
-  console.log(
-    `Records: ${recordsFromNewPartitions.length} from new ${partitionField}s, ${recordsFromOverlappingPartitions.length} from overlapping ${partitionField}s`,
-  );
-
-  // === Phase 2: Key-Level Comparison (overlapping partitions only) ===
-  let newRecordsFromOverlapping: T[] = [];
-
-  if (recordsFromOverlappingPartitions.length > 0) {
-    const overlappingPartitions =
-      incomingPartitions.intersection(existingPartitions);
-
-    const existingKeysQuery = await db
-      .select(
-        Object.fromEntries(
-          keyFields.map((field) => [field, tableColumns[field]]),
-        ),
-      )
-      .from(table)
-      .where(inArray(tableColumns[partitionField], [...overlappingPartitions]));
-
-    const existingKeys = new Set(
-      existingKeysQuery.map((record) => createUniqueKey(record, keyFields)),
-    );
-
-    const incomingKeys = new Set(
-      recordsFromOverlappingPartitions.map((record) =>
-        createUniqueKey(record as Record<string, unknown>, keyFields),
-      ),
-    );
-
-    if (incomingKeys.isSubsetOf(existingKeys)) {
-      console.log(
-        `Early exit: all records from overlapping ${partitionField}s already exist`,
-      );
-    } else {
-      newRecordsFromOverlapping = recordsFromOverlappingPartitions.filter(
-        (record) => {
-          const identifier = createUniqueKey(
-            record as Record<string, unknown>,
-            keyFields,
-          );
-          return !existingKeys.has(identifier);
-        },
-      );
-    }
-  }
-
-  const newRecords = [
-    ...recordsFromNewPartitions,
-    ...newRecordsFromOverlapping,
-  ];
-
-  if (newRecords.length === 0) {
-    return {
-      table: tableName,
-      recordsProcessed: 0,
-      message:
-        "No new data to insert. The provided data matches the existing records.",
-      timestamp: new Date().toISOString(),
-    };
-  }
+  // === Insert records (idempotent via unique constraints) ===
+  const { table } = config;
 
   let totalInserted = 0;
   const start = performance.now();
 
-  for (let i = 0; i < newRecords.length; i += batchSize) {
-    const batch = newRecords.slice(i, i + batchSize);
-    const inserted = await db.insert(table).values(batch).returning();
+  for (let i = 0; i < processedData.length; i += batchSize) {
+    const batch = processedData.slice(i, i + batchSize);
+    const inserted = await db
+      .insert(table)
+      .values(batch)
+      .onConflictDoNothing()
+      .returning();
     totalInserted += inserted.length;
     console.log(
       `Inserted batch of ${inserted.length} records. Total: ${totalInserted}`,
@@ -211,6 +106,16 @@ export async function update<T>(
   console.log(
     `Inserted ${totalInserted} record(s) in ${Math.round(end - start)}ms`,
   );
+
+  if (totalInserted === 0) {
+    return {
+      table: tableName,
+      recordsProcessed: 0,
+      message:
+        "No new data to insert. The provided data matches the existing records.",
+      timestamp: new Date().toISOString(),
+    };
+  }
 
   return {
     table: tableName,

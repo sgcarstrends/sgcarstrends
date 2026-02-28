@@ -71,13 +71,11 @@ describe("updateCoe", () => {
     // COE call uses filePath
     expect(vi.mocked(update).mock.calls[0][0]).toMatchObject({
       filePath: "/tmp/M11-coe_results.csv",
-      keyFields: ["month", "biddingNo"],
     });
 
     // PQP call uses filePath
     expect(vi.mocked(update).mock.calls[1][0]).toMatchObject({
       filePath: "/tmp/M11-coe_results_pqp.csv",
-      keyFields: ["month", "vehicleClass", "pqp"],
     });
   });
 

@@ -68,7 +68,7 @@ export async function fetchAndExtractZip(
       console.log("Found file in ZIP:", entry.entryName);
       zip.extractEntryTo(entry, AWS_LAMBDA_TEMP_DIR, true, true);
       extracted.set(
-        entry.entryName,
+        path.basename(entry.entryName),
         path.join(AWS_LAMBDA_TEMP_DIR, entry.entryName),
       );
     }
