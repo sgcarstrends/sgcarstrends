@@ -14,6 +14,17 @@ vi.mock("@sgcarstrends/utils", () => ({
   slugify: (str: string) => str.toLowerCase().replace(/\s+/g, "-"),
 }));
 
+vi.mock("node:path", () => ({
+  default: {
+    parse: (fileName: string) => {
+      const lastDot = fileName.lastIndexOf(".");
+      return lastDot === -1
+        ? { name: fileName }
+        : { name: fileName.slice(0, lastDot) };
+    },
+  },
+}));
+
 describe("Checksum", () => {
   let checksum: Checksum;
 
@@ -29,7 +40,7 @@ describe("Checksum", () => {
       const result = await checksum.cacheChecksum("test-file.csv", "abc123");
 
       expect(mockHset).toHaveBeenCalledWith("checksum", {
-        "test-file.csv": "abc123",
+        "test-file": "abc123",
       });
       expect(result).toBe(1);
     });
@@ -40,7 +51,7 @@ describe("Checksum", () => {
       await checksum.cacheChecksum("Test File Name.csv", "def456");
 
       expect(mockHset).toHaveBeenCalledWith("checksum", {
-        "test-file-name.csv": "def456",
+        "test-file-name": "def456",
       });
     });
 
@@ -67,7 +78,7 @@ describe("Checksum", () => {
 
       const result = await checksum.getCachedChecksum("test-file.csv");
 
-      expect(mockHget).toHaveBeenCalledWith("checksum", "test-file.csv");
+      expect(mockHget).toHaveBeenCalledWith("checksum", "test-file");
       expect(result).toBe("cached-checksum-value");
     });
 

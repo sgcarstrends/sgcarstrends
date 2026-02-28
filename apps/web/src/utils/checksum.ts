@@ -1,3 +1,4 @@
+import path from "node:path";
 import { redis, slugify } from "@sgcarstrends/utils";
 import type { Redis } from "@upstash/redis";
 
@@ -17,7 +18,7 @@ export class Checksum {
    */
   async cacheChecksum(fileName: string, checksum: string) {
     try {
-      const key = slugify(fileName);
+      const key = slugify(path.parse(fileName).name);
       return await this.redis.hset("checksum", { [key]: checksum });
     } catch (error) {
       console.error(`Error caching checksum: ${error}`);
@@ -33,7 +34,7 @@ export class Checksum {
    */
   async getCachedChecksum(fileName: string) {
     try {
-      const key = slugify(fileName);
+      const key = slugify(path.parse(fileName).name);
       return await this.redis.hget<string>("checksum", key);
     } catch (error) {
       console.error(`Error retrieving cached checksum: ${error}`);
