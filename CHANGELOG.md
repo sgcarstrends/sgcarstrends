@@ -1,3 +1,9 @@
+## [4.62.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.62.0...v4.62.1) (2026-02-28)
+
+### Performance Improvements
+
+* **web:** download COE ZIP once for both coe and pqp tables ([#742](https://github.com/sgcarstrends/sgcarstrends/issues/742)) ([b70eaa8](https://github.com/sgcarstrends/sgcarstrends/commit/b70eaa8dfe84afddfeeda397cf6f7e304bd43b82))
+
 ## [4.62.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.8...v4.62.0) (2026-02-28)
 
 ### Features
