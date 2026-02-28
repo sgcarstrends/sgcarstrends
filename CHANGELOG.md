@@ -1,3 +1,9 @@
+## [4.62.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.8...v4.62.0) (2026-02-28)
+
+### Features
+
+* **infra:** add GitHub Agentic Workflow for maintenance mode ([#741](https://github.com/sgcarstrends/sgcarstrends/issues/741)) ([6f522cf](https://github.com/sgcarstrends/sgcarstrends/commit/6f522cf7847362a568ddf3665f3574950ee7b452))
+
 ## [4.61.8](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.7...v4.61.8) (2026-02-28)
 
 ### Bug Fixes
