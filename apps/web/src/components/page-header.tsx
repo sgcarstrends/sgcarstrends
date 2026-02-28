@@ -30,7 +30,7 @@ export function PageHeader({
           )}
         </div>
         <div className="flex flex-col items-start gap-2">
-          {lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
+          {!!lastUpdated && <LastUpdated lastUpdated={lastUpdated} />}
           {children}
         </div>
       </div>

@@ -63,7 +63,7 @@ export function MakeCard({
             </div>
             <div className="flex min-w-0 flex-col gap-2">
               <Typography.Label className="truncate">{make}</Typography.Label>
-              {count && share && (
+              {!!count && !!share && (
                 <div className="flex flex-col gap-2">
                   <div className="flex items-baseline gap-2">
                     <span className="font-bold text-xl tabular-nums leading-none">
@@ -80,7 +80,7 @@ export function MakeCard({
                     >
                       {formatPercentage(share)} share
                     </Chip>
-                    {yoyChange && (
+                    {!!yoyChange && (
                       <Chip
                         color={yoyChange >= 0 ? "success" : "danger"}
                         variant="flat"
