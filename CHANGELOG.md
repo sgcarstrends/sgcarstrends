@@ -1,3 +1,99 @@
+## [4.61.7](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.6...v4.61.7) (2026-02-28)
+
+### Bug Fixes
+
+* **web:** resolve SonarCloud leaked value and sort bugs ([f542adb](https://github.com/sgcarstrends/sgcarstrends/commit/f542adbf8708478036ad648b9a32143c2d2a69d7))
+
+## [4.61.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.5...v4.61.6) (2026-02-28)
+
+### Bug Fixes
+
+* **web:** resolve null month in type detail canonical URL ([3b0817b](https://github.com/sgcarstrends/sgcarstrends/commit/3b0817b7cb16fab840f6538b3e778c05a3f6e2ca))
+
+### Performance Improvements
+
+* **web:** remove Suspense fallbacks causing CLS on mobile ([65a0bfa](https://github.com/sgcarstrends/sgcarstrends/commit/65a0bfad2c7edb137387884706151ec64608d1fc))
+
+## [4.61.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.4...v4.61.5) (2026-02-27)
+
+### Performance Improvements
+
+* **web:** cache MDX compilation in blog post page ([79399d6](https://github.com/sgcarstrends/sgcarstrends/commit/79399d6f3ae1bc5e3a9203f975fee31db4d05758))
+* **web:** cache sitemap and llms.txt with use cache directive ([bef0bb5](https://github.com/sgcarstrends/sgcarstrends/commit/bef0bb58c59b7df7e35e4faff43d72b407ad11ac))
+
+## [4.61.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.3...v4.61.4) (2026-02-27)
+
+### Performance Improvements
+
+* **web:** use sync font loading for static OG image prerendering ([9654336](https://github.com/sgcarstrends/sgcarstrends/commit/9654336a302840716c1605024ac3d163d02cd264))
+
+## [4.61.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.2...v4.61.3) (2026-02-23)
+
+### Bug Fixes
+
+* **web:** fix broken features on car make detail page ([d83b58d](https://github.com/sgcarstrends/sgcarstrends/commit/d83b58d70596cfeb91dffd9af454a9201ba35c42))
+
+## [4.61.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.1...v4.61.2) (2026-02-23)
+
+### Bug Fixes
+
+* **ui:** add initialDimension to suppress Recharts width/height warning ([0d8d760](https://github.com/sgcarstrends/sgcarstrends/commit/0d8d7609a9b8f14743bc37b1d6e94553c85601f4))
+
+## [4.61.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.0...v4.61.1) (2026-02-23)
+
+### Bug Fixes
+
+* **web:** remove redundant abbreviation chip from glossary terms ([f753f1f](https://github.com/sgcarstrends/sgcarstrends/commit/f753f1f0fe6c3ed37d729aa6cf478fe0cd8cd2cc))
+
+## [4.61.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.60.0...v4.61.0) (2026-02-23)
+
+### Features
+
+* **web:** redesign resources page from tabs to scroll-based sections ([17649e8](https://github.com/sgcarstrends/sgcarstrends/commit/17649e839fe3d4a63f501537f34891b3432ad7b7))
+
+## [4.60.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.59.0...v4.60.0) (2026-02-23)
+
+### Features
+
+* **web:** add generateStaticParams for car makes pages ([eee4171](https://github.com/sgcarstrends/sgcarstrends/commit/eee4171ff22a9e14f6fc9d0dbcc5c8bd252ddb32))
+
+## [4.59.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.58.0...v4.59.0) (2026-02-23)
+
+### Features
+
+* **web:** add NewChip badge to navigation for Electric Vehicles ([5c7d28f](https://github.com/sgcarstrends/sgcarstrends/commit/5c7d28f5c14e2194cc432b850bce9b44eb8f2712))
+
+## [4.58.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.4...v4.58.0) (2026-02-23)
+
+### Features
+
+* **api,mcp:** add maintenance mode API endpoint and MCP tools ([#717](https://github.com/sgcarstrends/sgcarstrends/issues/717)) ([b4519bc](https://github.com/sgcarstrends/sgcarstrends/commit/b4519bcdba358ae8e11aaeb9ae801cd97e038d71))
+
+## [4.57.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.3...v4.57.4) (2026-02-23)
+
+### Bug Fixes
+
+* **deps:** upgrade dependencies to resolve Dependabot security alerts ([f52ba20](https://github.com/sgcarstrends/sgcarstrends/commit/f52ba20572b676502ab319b0c9bb9f8e4ff84528))
+
+## [4.57.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.2...v4.57.3) (2026-02-22)
+
+### Bug Fixes
+
+* **web:** coerce partition values to strings in updater dedup ([400061f](https://github.com/sgcarstrends/sgcarstrends/commit/400061fa47d134396e60f5a7dec4d54f70528cfd))
+
+## [4.57.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.1...v4.57.2) (2026-02-22)
+
+### Bug Fixes
+
+* **web:** use HeroUI Tabs with content panels and shallow false ([4bc6e38](https://github.com/sgcarstrends/sgcarstrends/commit/4bc6e389046832a608aff99ec37682f7e36bad80))
+* **web:** wrap AnnualViewTabs in Suspense for prerendering ([1f23e5d](https://github.com/sgcarstrends/sgcarstrends/commit/1f23e5dce3fb97f3f79692a785a2f61f70e97277))
+
+## [4.57.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.57.0...v4.57.1) (2026-02-22)
+
+### Bug Fixes
+
+* **web:** annual view tabs not updating on click ([2a4076b](https://github.com/sgcarstrends/sgcarstrends/commit/2a4076bb1c5573a473de1a76db54f7092c327801))
+
 ## [4.57.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.56.0...v4.57.0) (2026-02-21)
 
 ### Features

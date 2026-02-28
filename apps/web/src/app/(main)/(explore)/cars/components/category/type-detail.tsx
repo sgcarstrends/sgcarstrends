@@ -1,0 +1,181 @@
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Chip } from "@heroui/chip";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
+import { CarOverviewTrends } from "@web/app/(main)/(explore)/cars/registrations/components/overview-trends";
+import { AnimatedNumber } from "@web/components/animated-number";
+import { DashboardPageHeader } from "@web/components/dashboard-page-header";
+import { DashboardPageMeta } from "@web/components/dashboard-page-meta";
+import { DashboardPageTitle } from "@web/components/dashboard-page-title";
+import { MonthSelector } from "@web/components/shared/month-selector";
+import { SkeletonCard } from "@web/components/shared/skeleton";
+import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
+import { SITE_TITLE, SITE_URL } from "@web/config";
+import { loadCarsTypePageData } from "@web/lib/cars/page-data";
+import { loadLastUpdated } from "@web/lib/common";
+import { createPageMetadata } from "@web/lib/metadata";
+import {
+  checkFuelTypeIfExist,
+  checkVehicleTypeIfExist,
+} from "@web/queries/cars";
+import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import type { SearchParams } from "nuqs/server";
+import { createLoader, parseAsString } from "nuqs/server";
+import { Suspense } from "react";
+import type { WebPage, WithContext } from "schema-dts";
+
+export const typeSearchParams = { month: parseAsString };
+export const loadTypeSearchParams = createLoader(typeSearchParams);
+
+export interface TypeDetailConfig {
+  category: "fuel-types" | "vehicle-types";
+  description: string;
+}
+
+export async function generateTypeDetailMetadata(
+  config: TypeDetailConfig,
+  params: Promise<{ type: string }>,
+  searchParams: Promise<SearchParams>,
+): Promise<Metadata> {
+  const { type } = await params;
+  const { month: parsedMonth } = await loadTypeSearchParams(searchParams);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
+
+  return createPageMetadata({
+    title: "Cars in Singapore",
+    description: config.description,
+    canonical: `/cars/${config.category}/${type}?month=${month}`,
+    images: `${SITE_URL}/opengraph-image.png`,
+  });
+}
+
+interface TypeDetailProps {
+  config: TypeDetailConfig;
+  params: Promise<{ type: string }>;
+  searchParams: Promise<SearchParams>;
+}
+
+export function TypeDetail({ config, params, searchParams }: TypeDetailProps) {
+  return (
+    <div className="flex flex-col gap-4">
+      <DashboardPageHeader
+        meta={
+          <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+            <TypeDetailHeaderMeta searchParams={searchParams} />
+          </Suspense>
+        }
+        title={
+          <DashboardPageTitle
+            title="Type Overview"
+            subtitle="Registration trends and monthly statistics for Singapore vehicles."
+          />
+        }
+      />
+
+      <Suspense fallback={<SkeletonCard className="h-[520px] w-full" />}>
+        <TypeDetailContent
+          config={config}
+          params={params}
+          searchParams={searchParams}
+        />
+      </Suspense>
+    </div>
+  );
+}
+
+async function TypeDetailHeaderMeta({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { month: parsedMonth } =
+    await loadTypeSearchParams(searchParamsPromise);
+
+  const [{ wasAdjusted }, months, lastUpdated] = await Promise.all([
+    getMonthOrLatest(parsedMonth, "cars"),
+    fetchMonthsForCars(),
+    loadLastUpdated("cars"),
+  ]);
+
+  return (
+    <DashboardPageMeta lastUpdated={lastUpdated}>
+      <MonthSelector
+        months={months}
+        latestMonth={months[0]}
+        wasAdjusted={wasAdjusted}
+      />
+    </DashboardPageMeta>
+  );
+}
+
+async function TypeDetailContent({
+  config,
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: {
+  config: TypeDetailConfig;
+  params: Promise<{ type: string }>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const [{ type }, { month: parsedMonth }] = await Promise.all([
+    paramsPromise,
+    loadTypeSearchParams(searchParamsPromise),
+  ]);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
+
+  const typeExists =
+    config.category === "fuel-types"
+      ? await checkFuelTypeIfExist(type)
+      : await checkVehicleTypeIfExist(type);
+  if (!typeExists) {
+    notFound();
+  }
+
+  const { cars } = await loadCarsTypePageData(config.category, type, month);
+  const title = "Cars in Singapore";
+  const description = config.description;
+  const structuredData: WithContext<WebPage> = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description,
+    url: `${SITE_URL}/cars/${config.category}/${type}`,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_TITLE,
+      url: SITE_URL,
+    },
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_TITLE,
+      url: SITE_URL,
+    },
+  };
+
+  const formattedMonth = formatDateToMonthYear(month);
+
+  return (
+    <>
+      <StructuredData data={structuredData} />
+
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+          <Card className="rounded-2xl bg-content1 p-4">
+            <CardHeader className="flex flex-row items-center justify-between gap-2">
+              <Typography.H4>Registrations</Typography.H4>
+              <Chip size="sm" variant="flat">
+                {formattedMonth}
+              </Chip>
+            </CardHeader>
+            <CardBody className="font-bold text-4xl text-primary">
+              <AnimatedNumber value={cars.total} />
+            </CardBody>
+          </Card>
+        </div>
+      </div>
+      <CarOverviewTrends cars={cars.data} total={cars.total} />
+    </>
+  );
+}

@@ -9,14 +9,13 @@ interface ImageProps {
 }
 
 export const size = OG_SIZE;
-export const dynamic = "force-static";
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-const Image = async ({ params }: ImageProps) => {
+export default async function Image({ params }: ImageProps) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 
@@ -24,13 +23,11 @@ const Image = async ({ params }: ImageProps) => {
     return new Response("Not found", { status: 404 });
   }
 
-  const fonts = await getOGFonts();
+  const fonts = getOGFonts();
 
   return new ImageResponse(<Article eyebrow="Blog" title={post.title} />, {
     ...size,
     fonts,
     headers: OG_HEADERS,
   });
-};
-
-export default Image;
+}

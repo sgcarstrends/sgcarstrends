@@ -17,11 +17,11 @@ export const config: VercelConfig = {
     },
     {
       path: "/api/workflows/vehicle-population",
-      schedule: "0 10 * * *",
+      schedule: "0 10 1 * *",
     },
     {
       path: "/api/workflows/car-population",
-      schedule: "0 10 * * *",
+      schedule: "0 10 1 * *",
     },
   ],
   regions: ["sin1"],

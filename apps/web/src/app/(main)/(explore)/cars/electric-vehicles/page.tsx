@@ -1,0 +1,118 @@
+import { AdoptionTrendChart } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/adoption-trend-chart";
+import { EvMetrics } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/ev-metrics";
+import { MakeTable } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/make-table";
+import { MarketShareChart } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/market-share-chart";
+import { TopMakesChart } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/top-makes-chart";
+import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
+import { DashboardPageHeader } from "@web/components/dashboard-page-header";
+import { DashboardPageTitle } from "@web/components/dashboard-page-title";
+import { EmptyState } from "@web/components/shared/empty-state";
+import { Infobox } from "@web/components/shared/infobox";
+import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
+import { StructuredData } from "@web/components/structured-data";
+import { SITE_TITLE, SITE_URL } from "@web/config";
+import {
+  getEvLatestSummary,
+  getEvMakeDetails,
+  getEvMarketShare,
+  getEvMonthlyTrend,
+  getEvTopMakes,
+} from "@web/queries/cars";
+import { Zap } from "lucide-react";
+import type { Metadata } from "next";
+import type { WebPage, WithContext } from "schema-dts";
+
+export const metadata: Metadata = {
+  title: "Electric Vehicles | Singapore EV Trends",
+  description:
+    "Track Singapore's electric vehicle adoption with BEV, PHEV, and hybrid registration trends, market share analysis, and top EV makes.",
+  openGraph: {
+    title: "Electric Vehicles - Singapore EV Trends",
+    description:
+      "Explore BEV, PHEV, and hybrid adoption trends, market share, and brand rankings in Singapore.",
+    type: "website",
+  },
+  alternates: {
+    canonical: "/cars/electric-vehicles",
+  },
+};
+
+const structuredData: WithContext<WebPage> = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Electric Vehicles",
+  description:
+    "Singapore electric vehicle adoption trends including BEV, PHEV, and hybrid registrations, market share analysis, and top EV makes",
+  url: `${SITE_URL}/cars/electric-vehicles`,
+  publisher: {
+    "@type": "Organization",
+    name: SITE_TITLE,
+    url: SITE_URL,
+  },
+};
+
+export default async function ElectricVehiclesPage() {
+  const [summary, monthlyTrend, marketShare, topMakes, makeDetails] =
+    await Promise.all([
+      getEvLatestSummary(),
+      getEvMonthlyTrend(),
+      getEvMarketShare(),
+      getEvTopMakes(),
+      getEvMakeDetails(),
+    ]);
+
+  if (!summary) {
+    return (
+      <EmptyState
+        icon={
+          <div className="flex size-16 items-center justify-center rounded-2xl bg-default-100">
+            <Zap className="size-8 text-default-400" />
+          </div>
+        }
+        title="No Data Available Yet"
+        description="Electric vehicle registration data is not available at the moment. Please check back later."
+        showDefaultActions={false}
+      />
+    );
+  }
+
+  return (
+    <>
+      <StructuredData data={structuredData} />
+      <section className="flex flex-col gap-10">
+        <DashboardPageHeader
+          title={
+            <DashboardPageTitle
+              title="Electric Vehicles"
+              subtitle="BEV, PHEV, and hybrid adoption trends and market share in Singapore."
+            />
+          }
+        />
+
+        <AnimatedSection order={1}>
+          <Infobox {...PAGE_CONTEXTS.electricVehicles} />
+        </AnimatedSection>
+
+        <AnimatedSection order={2}>
+          <EvMetrics summary={summary} />
+        </AnimatedSection>
+
+        <AnimatedSection order={3}>
+          <AdoptionTrendChart data={monthlyTrend} />
+        </AnimatedSection>
+
+        <AnimatedSection order={4}>
+          <MarketShareChart data={marketShare} />
+        </AnimatedSection>
+
+        <AnimatedSection order={5}>
+          <TopMakesChart data={topMakes} month={summary.month} />
+        </AnimatedSection>
+
+        <AnimatedSection order={6}>
+          <MakeTable data={makeDetails} month={summary.month} />
+        </AnimatedSection>
+      </section>
+    </>
+  );
+}

@@ -99,7 +99,7 @@ export function BlogListClient({ posts, counts, query }: BlogListClientProps) {
       >
         <Tab key="all" title={`${tabLabels.all} (${counts.total})`} />
         {Object.keys(counts.category)
-          .sort()
+          .sort((a, b) => a.localeCompare(b))
           .map((cat) => (
             <Tab
               key={cat}

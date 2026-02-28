@@ -6,164 +6,127 @@ allowed-tools: Read, Edit, Write, Grep, Glob
 
 # Chart Implementation Skill
 
-Uses **Recharts** for data visualization. Always use CSS variables for colors (see `design-language-system` skill).
+Uses **Recharts** via shadcn/ui `ChartContainer` for data visualization. Always use CSS variables for colors (see `design-language-system` skill).
 
-## Common Chart Types
+## Core Pattern
 
-### Line Chart
+All charts use `ChartContainer` from `@sgcarstrends/ui/components/chart` wrapped in `ChartWidget` from `@web/components/charts/widget`. **Never use raw `ResponsiveContainer` directly.**
 
-```typescript
+```tsx
 "use client";
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-
-export function TrendChart({ data }: { data: { month: string; value: number }[] }) {
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="month" />
-        <YAxis />
-        <Tooltip />
-        <Line type="monotone" dataKey="value" stroke="var(--chart-1)" strokeWidth={2} />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
-```
-
-### Bar Chart
-
-```typescript
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@sgcarstrends/ui/components/chart";
+import { ChartWidget } from "@web/components/charts/widget";
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from "recharts";
 
 export function TopMakesChart({ data }: { data: { make: string; count: number }[] }) {
+  const chartConfig = {
+    count: { label: "Count", color: "var(--chart-1)" },
+  };
+
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <BarChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="make" />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="count" fill="var(--chart-1)" radius={[8, 8, 0, 0]} />
-      </BarChart>
-    </ResponsiveContainer>
+    <ChartWidget title="Top Makes" isEmpty={data.length === 0}>
+      <ChartContainer config={chartConfig} className="h-[300px] w-full">
+        <BarChart data={data}>
+          <CartesianGrid vertical={false} strokeDasharray="3 3" className="stroke-default-200" />
+          <XAxis dataKey="make" tickLine={false} axisLine={false} className="text-xs" />
+          <YAxis tickLine={false} axisLine={false} className="text-xs" />
+          <ChartTooltip content={<ChartTooltipContent />} />
+          <Bar dataKey="count" fill="var(--chart-1)" radius={[8, 8, 0, 0]} />
+        </BarChart>
+      </ChartContainer>
+    </ChartWidget>
   );
 }
 ```
 
-### Multi-Line Chart (COE Categories)
+## ChartContainer
 
-```typescript
-export function COETrends({ data }: { data: any[] }) {
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="biddingNo" />
-        <YAxis />
-        <Tooltip formatter={(value) => `$${Number(value).toLocaleString()}`} />
-        <Line dataKey="catA" stroke="var(--chart-1)" name="Cat A" />
-        <Line dataKey="catB" stroke="var(--chart-2)" name="Cat B" />
-        <Line dataKey="catC" stroke="var(--chart-3)" name="Cat C" />
-        <Line dataKey="catE" stroke="var(--chart-4)" name="Cat E" />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
+`ChartContainer` wraps Recharts' `ResponsiveContainer` with theming support. Set dimensions via CSS class on the container:
+
+```tsx
+// ✅ Correct - height via className
+<ChartContainer config={chartConfig} className="h-[300px] w-full">
+  <BarChart data={data}>...</BarChart>
+</ChartContainer>
+
+// ❌ Wrong - raw ResponsiveContainer
+<ResponsiveContainer width="100%" height={400}>
+  <BarChart data={data}>...</BarChart>
+</ResponsiveContainer>
 ```
 
-### Pie Chart
+### Width/Height -1 Warning
 
-```typescript
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+Recharts `ResponsiveContainer` logs `width(-1) and height(-1)` warnings on first render before `ResizeObserver` fires. Fix by setting `initialDimension` on `ResponsiveContainer` in `packages/ui/src/components/chart.tsx`:
 
-export function MarketShareChart({ data }: { data: { name: string; value: number }[] }) {
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <PieChart>
-        <Pie data={data} dataKey="value" cx="50%" cy="50%" outerRadius={120}>
-          {data.map((entry, index) => (
-            <Cell key={entry.name} fill={`var(--chart-${index + 1})`} />
-          ))}
-        </Pie>
-        <Tooltip />
-      </PieChart>
-    </ResponsiveContainer>
-  );
-}
+```tsx
+<RechartsPrimitive.ResponsiveContainer initialDimension={{ width: 0, height: 400 }}>
+  {children}
+</RechartsPrimitive.ResponsiveContainer>
 ```
 
-## Custom Tooltip
+Reference: [shadcn/ui PR #8486](https://github.com/shadcn-ui/ui/pull/8486), [recharts #6716](https://github.com/recharts/recharts/issues/6716)
 
-```typescript
-import { TooltipProps } from "recharts";
+## ChartWidget
 
-function CustomTooltip({ active, payload, label }: TooltipProps<number, string>) {
-  if (!active || !payload?.length) return null;
-  return (
-    <div className="bg-white p-4 rounded-lg shadow-lg border">
-      <p className="font-semibold">{label}</p>
-      {payload.map((entry, i) => (
-        <p key={i} style={{ color: entry.color }}>{entry.name}: {entry.value?.toLocaleString()}</p>
-      ))}
-    </div>
-  );
-}
+Wraps charts in a Card with title, subtitle, empty state, and entrance animation:
+
+```tsx
+<ChartWidget
+  title="Registration Trends"
+  subtitle="Monthly breakdown"
+  isEmpty={data.length === 0}
+  emptyMessage="No trend data available"
+>
+  <ChartContainer ...>...</ChartContainer>
+</ChartWidget>
+```
+
+## Chart Config
+
+Define chart config for theming and legend/tooltip labels:
+
+```tsx
+const chartConfig = {
+  diesel: { label: "Diesel", color: "var(--chart-1)" },
+  petrol: { label: "Petrol", color: "var(--chart-2)" },
+  electric: { label: "Electric", color: "var(--chart-3)" },
+};
 ```
 
 ## Performance
 
-### Lazy Load Charts
+### Memoize Data and Config
 
 ```typescript
-import dynamic from "next/dynamic";
-
-const Chart = dynamic(() => import("./chart"), {
-  ssr: false,
-  loading: () => <div>Loading chart...</div>,
-});
-```
-
-### Memoize Data
-
-```typescript
-const chartData = useMemo(() => transformData(rawData), [rawData]);
-```
-
-## Common Issues
-
-### Chart Not Rendering
-
-Ensure parent has explicit height:
-
-```tsx
-// ❌ Wrong
-<ResponsiveContainer width="100%" height={400}>
-
-// ✅ Correct - parent with height
-<div className="h-[400px]">
-  <ResponsiveContainer width="100%" height="100%">
-```
-
-### SSR Errors
-
-Use dynamic import with `ssr: false`:
-
-```typescript
-const Chart = dynamic(() => import("./chart"), { ssr: false });
+const chartConfig = useMemo(() => {
+  return Object.fromEntries(
+    categories.map((category, index) => [
+      category,
+      { label: category, color: `var(--chart-${index + 1})` },
+    ]),
+  );
+}, [categories]);
 ```
 
 ## Best Practices
 
-1. **ResponsiveContainer** - Always wrap charts
-2. **CSS Variables** - Use `var(--chart-N)` for colors
-3. **Lazy Load** - Dynamic import with `ssr: false`
-4. **Memoize** - Use useMemo for data transformations
-5. **Tooltips** - Provide formatted, detailed tooltips
-6. **Mobile** - Test on small screens
+1. **ChartContainer** - Always use `ChartContainer` with `className="h-[300px] w-full"` (never raw `ResponsiveContainer`)
+2. **ChartWidget** - Wrap in `ChartWidget` for consistent card layout and empty states
+3. **CSS Variables** - Use `var(--chart-N)` for colors (1-6 available)
+4. **Axis styling** - Use `tickLine={false} axisLine={false} className="text-xs"` for clean axes
+5. **Grid** - Use `<CartesianGrid vertical={false} strokeDasharray="3 3" className="stroke-default-200" />`
+6. **Tooltips** - Use shadcn `<ChartTooltip content={<ChartTooltipContent />} />`
+7. **Memoize** - Use `useMemo` for chart config and data transformations
 
 ## References
 
 - Recharts: Use Context7 for latest docs
 - Design Language System: See `design-language-system` skill for colors
+- Chart component source: `packages/ui/src/components/chart.tsx`
+- Widget component: `apps/web/src/components/charts/widget.tsx`

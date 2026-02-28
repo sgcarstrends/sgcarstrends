@@ -43,13 +43,27 @@ pnpm format             # Format code with Biome
 ```
 src/
 ├── app/                           # Next.js App Router - pages, layouts, API routes
-│   ├── (dashboard)/
-│   │   ├── components/            # Dashboard-specific components (co-located)
-│   │   ├── cars/
-│   │   │   └── components/        # Cars route-specific components (co-located)
-│   │   ├── coe/
-│   │   │   └── components/        # COE route-specific components (co-located)
-│   │   └── annual/                # Annual statistics routes
+│   ├── (main)/                    # Main site layout group
+│   │   ├── (explore)/             # Explore route group (cars, COE data)
+│   │   │   ├── components/        # Explore-level shared components (co-located)
+│   │   │   ├── cars/              # Car data routes
+│   │   │   │   ├── registrations/ # Car registrations (/cars/registrations)
+│   │   │   │   ├── fuel-types/    # Fuel type breakdowns (/cars/fuel-types)
+│   │   │   │   ├── vehicle-types/ # Vehicle type breakdowns (/cars/vehicle-types)
+│   │   │   │   ├── makes/         # Car makes (/cars/makes)
+│   │   │   │   ├── annual/        # Annual statistics (/cars/annual)
+│   │   │   │   ├── deregistrations/ # Deregistrations (/cars/deregistrations)
+│   │   │   │   ├── parf/          # PARF rates (/cars/parf)
+│   │   │   │   └── components/    # Cars route-specific components (co-located)
+│   │   │   └── coe/               # COE data routes
+│   │   │       ├── results/       # COE results (/coe/results)
+│   │   │       ├── premiums/      # COE premiums (/coe/premiums)
+│   │   │       ├── pqp/           # PQP rates (/coe/pqp)
+│   │   │       └── components/    # COE route-specific components (co-located)
+│   │   ├── blog/                  # Blog routes
+│   │   │   ├── actions/           # Blog-specific server actions (co-located)
+│   │   │   └── components/        # Blog-specific components (co-located)
+│   │   └── about/, contact/, faq/ # Static pages
 │   ├── (social)/                  # Social media redirect routes with UTM tracking
 │   ├── admin/                     # Integrated admin interface for content management
 │   │   ├── (dashboard)/           # Admin dashboard routes
@@ -57,9 +71,6 @@ src/
 │   │   ├── components/            # Admin-specific components
 │   │   └── lib/                   # Admin utilities and helpers
 │   ├── api/                       # API routes (analytics, OG images, revalidation)
-│   ├── blog/
-│   │   ├── actions/               # Blog-specific server actions (co-located)
-│   │   └── components/            # Blog-specific components (co-located)
 │   └── store/                     # Zustand store slices
 ├── actions/                       # Server actions (maintenance tasks)
 ├── queries/                       # Data fetching queries (cars, COE, deregistrations, vehicle population, logos)
@@ -89,17 +100,18 @@ This application follows **Vercel/Next.js co-location best practices** with rout
 
 Route-specific components live alongside their consuming routes:
 
-- **Dashboard**: `app/(dashboard)/components/` - Recent posts, section tabs, charts, animated sections
-- **Blog**: `app/blog/components/` - Progress bar, view counter, related posts, blog list
-- **Cars**: `app/(dashboard)/cars/components/` - Category tabs, make selectors, trend charts
-- **COE**: `app/(dashboard)/coe/components/` - COE categories, premium charts, PQP components
-- **Deregistrations**: `app/(dashboard)/cars/deregistrations/components/` - Category charts, trends, breakdown tables
+- **Explore**: `app/(main)/(explore)/components/` - Recent posts, section tabs, charts, animated sections
+- **Blog**: `app/(main)/blog/components/` - Progress bar, view counter, related posts, blog list
+- **Cars**: `app/(main)/(explore)/cars/components/` - Category tabs, make selectors, trend charts
+- **Cars Registrations**: `app/(main)/(explore)/cars/registrations/components/` - Registration-specific components
+- **COE**: `app/(main)/(explore)/coe/components/` - COE categories, premium charts, PQP components
+- **Deregistrations**: `app/(main)/(explore)/cars/deregistrations/components/` - Category charts, trends, breakdown tables
 
 #### Co-located Actions (`actions/`)
 
 Route-specific server actions (mutations only):
 
-- **Blog**: `app/blog/actions/` - View incrementing, tag updates (mutations only; reads are in `lib/data/posts.ts`)
+- **Blog**: `app/(main)/blog/actions/` - View incrementing, tag updates (mutations only; reads are in `lib/data/posts.ts`)
 
 #### Centralised vs Co-located
 
@@ -123,8 +135,8 @@ Route-specific server actions (mutations only):
 
 ```typescript
 // ✅ Co-located components via path alias
-import {ProgressBar} from "@web/app/blog/components/progress-bar";
-import {VehiclePopulationMetrics} from "@web/app/(main)/(dashboard)/annual/components/vehicle-population-metrics";
+import {ProgressBar} from "@web/app/(main)/blog/components/progress-bar";
+import {VehiclePopulationMetrics} from "@web/app/(main)/(explore)/cars/annual/components/vehicle-population-metrics";
 
 // ✅ Shared queries and actions via path alias
 import {getCarRegistrations} from "@web/queries/cars";
@@ -639,12 +651,15 @@ Dashboard pages use professional, SEO-aligned H1 titles that match the `<title>`
 | Page | Route | H1 |
 |------|-------|-----|
 | Homepage | `/` | Overview |
-| Car Registrations | `/cars` | Car Registrations |
-| Fuel/Vehicle Types | `/cars/[category]` | {config.title} (dynamic) |
+| Cars Hub | `/cars` | Cars |
+| Car Registrations | `/cars/registrations` | Car Registrations |
+| Fuel Types | `/cars/fuel-types` | Fuel Types |
+| Vehicle Types | `/cars/vehicle-types` | Vehicle Types |
 | COE Overview | `/coe` | COE Overview |
+| COE Premiums | `/coe/premiums` | COE Premiums |
 | COE PQP | `/coe/pqp` | PQP Rates |
 | COE Results | `/coe/results` | COE Results |
-| Annual | `/annual` | Vehicle Population |
+| Annual | `/cars/annual` | Vehicle Population |
 | Deregistrations | `/cars/deregistrations` | Vehicle Deregistrations |
 | Makes | `/cars/makes` | Makes |
 
@@ -656,12 +671,13 @@ Previously used playful label + H1 pattern for a friendlier, stats-focused exper
 | Page | Route | Label | H1 |
 |------|-------|-------|-----|
 | Homepage | `/` | Welcome | What's Trending |
-| Car Registrations | `/cars` | This Month | What Got Registered |
-| Fuel/Vehicle Types | `/cars/[category]` | The Breakdown | What's Popular? |
+| Car Registrations | `/cars/registrations` | This Month | What Got Registered |
+| Fuel/Vehicle Types | `/cars/fuel-types`, `/cars/vehicle-types` | The Breakdown | What's Popular? |
 | COE Overview | `/coe` | Latest Results | How Much This Round? |
+| COE Premiums | `/coe/premiums` | Premium Tracker | What's the Premium? |
 | COE PQP | `/coe/pqp` | Extend Your COE | How Much to Stay on the Road? |
 | COE Results | `/coe/results` | Past Rounds | What Did People Pay? |
-| Annual | `/annual` | Year in Review | Trends Over Time |
+| Annual | `/cars/annual` | Year in Review | Trends Over Time |
 | Deregistrations | `/cars/deregistrations` | Outflow Stats | Who's Leaving? |
 | Makes | `/cars/makes` | Brand Rankings | Who's on Top |
 
@@ -765,6 +781,8 @@ When refactoring existing code:
 ### Colour System
 
 A professional colour scheme optimised for HeroUI integration and automotive industry data visualisation (see GitHub issue #406). See `design-language-system` skill for comprehensive colour guidelines, chart implementation patterns, and migration checklists.
+
+**Dark Mode**: Dark CSS variables are fully defined in `globals.css` (`.dark` block) but dark mode is not yet activated (#714, blocked by HeroUI v3 migration #587). Use `bg-content1` instead of `bg-white` for card/panel backgrounds to future-proof for dark mode.
 
 **Brand Colour Palette**:
 

@@ -87,20 +87,21 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 ```
 src/
 ├── app/                           # Next.js App Router - pages, layouts, API routes
-│   ├── (dashboard)/              # Dashboard route group
-│   │   ├── (home)/
-│   │   │   └── _components/      # Home page-specific components (co-located)
-│   │   ├── cars/
-│   │   │   └── _components/      # Cars route-specific components (co-located)
-│   │   └── coe/
-│   │       └── _components/      # COE route-specific components (co-located)
+│   ├── (main)/                   # Main site layout group
+│   │   ├── (explore)/            # Explore route group (cars, COE data)
+│   │   │   ├── cars/             # Car data routes (registrations, fuel-types, etc.)
+│   │   │   │   └── components/   # Cars route-specific components (co-located)
+│   │   │   └── coe/              # COE data routes (results, premiums, pqp)
+│   │   │       └── components/   # COE route-specific components (co-located)
+│   │   ├── blog/                 # Blog routes
+│   │   │   ├── actions/          # Blog-specific server actions (co-located)
+│   │   │   └── components/       # Blog-specific components (co-located)
+│   │   └── about/, faq/          # Static pages
 │   ├── (social)/                 # Social media redirect routes with UTM tracking
+│   ├── admin/                    # Admin interface for content management
 │   ├── api/                      # API routes (analytics, OG images, revalidation)
-│   ├── blog/
-│   │   ├── _actions/             # Blog-specific server actions (co-located)
-│   │   └── _components/          # Blog-specific components (co-located)
 │   └── store/                    # Zustand store slices
-├── actions/                      # Server actions (newsletter subscription)
+├── actions/                      # Server actions (maintenance tasks)
 ├── queries/                      # Data fetching queries (cars, COE, logos) with tests
 ├── components/                   # Shared React components
 │   ├── coe/                      # Shared COE components

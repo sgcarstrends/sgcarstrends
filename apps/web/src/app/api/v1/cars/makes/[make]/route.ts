@@ -1,4 +1,5 @@
-import { getMakeDetails, getMakeFromSlug } from "@web/queries/cars/makes";
+import { getMakeDetails } from "@web/queries/cars/makes/entity-breakdowns";
+import { getMakeFromSlug } from "@web/queries/cars/makes/get-make-from-slug";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 

@@ -6,10 +6,9 @@ import { ImageResponse } from "next/og";
 export const alt = "About SG Cars Trends";
 export const size = OG_SIZE;
 export const contentType = "image/png";
-export const dynamic = "force-static";
 
-export default async function Image() {
-  const fonts = await getOGFonts();
+export default function Image() {
+  const fonts = getOGFonts();
 
   return new ImageResponse(
     <Section

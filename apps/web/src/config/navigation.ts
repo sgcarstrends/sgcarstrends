@@ -10,6 +10,7 @@ import {
 import { sortByName } from "@sgcarstrends/utils";
 import {
   BarChart3,
+  BookOpen,
   Calculator,
   Calendar,
   Car,
@@ -18,10 +19,10 @@ import {
   FilePlus,
   FileText,
   Fuel,
-  HelpCircle,
   LayoutDashboard,
   type LucideIcon,
   TrendingUp,
+  Zap,
 } from "lucide-react";
 import type { Route } from "next";
 
@@ -93,7 +94,7 @@ export const navLinks: NavLinks = {
   cars: [
     {
       title: "New Registrations",
-      url: "/cars",
+      url: "/cars/registrations",
       icon: FilePlus,
       description: "Monthly car registration statistics and trends",
       iconColor: "text-blue-500",
@@ -129,6 +130,21 @@ export const navLinks: NavLinks = {
       iconColor: "text-purple-500",
     },
     {
+      title: "Annual",
+      url: "/cars/annual",
+      icon: Calendar,
+      description: "Yearly vehicle population and registration trends",
+      iconColor: "text-amber-500",
+    },
+    {
+      title: "Electric Vehicles",
+      url: "/cars/electric-vehicles",
+      icon: Zap,
+      description: "BEV, PHEV and hybrid adoption trends and market share",
+      badge: "new",
+      iconColor: "text-emerald-500",
+    },
+    {
       title: "PARF Calculator",
       url: "/cars/parf",
       icon: Calculator,
@@ -139,7 +155,7 @@ export const navLinks: NavLinks = {
   coe: [
     {
       title: "Premiums",
-      url: "/coe",
+      url: "/coe/premiums",
       icon: BarChart3,
       description: "Latest COE premiums and quick insights",
     },
@@ -165,10 +181,11 @@ export const navLinks: NavLinks = {
       show: true,
     },
     {
-      title: "FAQ",
-      url: "/faq",
-      icon: HelpCircle,
-      description: "Frequently asked questions about COE and car buying",
+      title: "Resources",
+      url: "/resources",
+      icon: BookOpen,
+      description:
+        "Educational hub with FAQs, glossary, guides and data sources",
       show: true,
     },
   ],
@@ -177,7 +194,6 @@ export const navLinks: NavLinks = {
 
 const dashboardItems: NavigationItem[] = [
   { title: "Overview", url: "/", icon: LayoutDashboard },
-  { title: "Annual", url: "/annual", icon: Calendar },
 ];
 
 export const navigationSections: NavigationSection[] = [
@@ -197,8 +213,10 @@ export type NavItem = {
 };
 
 export const NAV_ITEMS = [
-  { href: "/", label: "Dashboard" },
+  { href: "/", label: "Overview" },
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
-  { href: "/faq", label: "FAQ" },
+  { href: "/resources", label: "Resources" },
 ] as const satisfies readonly NavItem[];
+
+export const POLAR_DONATION_URL = "https://polar.sh/sgcarstrends";

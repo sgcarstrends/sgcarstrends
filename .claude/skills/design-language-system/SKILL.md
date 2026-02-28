@@ -115,12 +115,13 @@ Navy Blue gradient palette for data visualisation:
 ```tsx
 // ✅ Good - Use semantic classes
 <div className="bg-primary text-primary-foreground">Primary action</div>
+<div className="bg-content1">Card/panel background</div>
 <div className="bg-default-100">Subtle background</div>
 <div className="bg-default-200">Hover state</div>
-<div className="bg-white">Card background</div>
 
 // ❌ Bad - Hardcoded colours
 <div className="bg-[#191970]">Navy background</div>
+<div className="bg-white">Not theme-adaptive</div>
 ```
 
 ### Chart Colours
@@ -276,18 +277,30 @@ Use the `default` scale for UI element states:
 | `text-default-600` | Secondary text |
 | `text-default-900` | Strong emphasis (H4 headings) |
 
+## Dark Mode
+
+Dark CSS variables are fully defined in `apps/web/src/app/globals.css` (`.dark` block) and `packages/ui/src/styles/globals.css`. Dark mode activation is deferred until after HeroUI v3 migration (#714, blocked by #587).
+
+**Dark mode readiness guidelines:**
+
+- Use `bg-content1` instead of `bg-white` for card/panel backgrounds (HeroUI semantic, theme-adaptive)
+- Use `bg-background` for page-level backgrounds (already in use)
+- All CSS variable-based colours (`--primary`, `--chart-N`, etc.) automatically adapt to dark mode
+- shadcn/ui and HeroUI components using semantic classes already support dark mode
+
 ## Migration Checklist
 
 When migrating existing code to the design system:
 
-- [ ] Replace hardcoded hex colours with CSS variables or semantic classes
-- [ ] Remove colour constant arrays (e.g., `CHART_COLORS`, `MARKET_SHARE_COLOURS`)
-- [ ] Use `var(--chart-N)` inline for chart colours
-- [ ] Replace `text-gray-*` with `text-default-*`
-- [ ] Replace `bg-gray-*` with `bg-default-*`
-- [ ] Ensure chart series count is 6 or fewer
-- [ ] Remove modulo operations if series count is controlled
-- [ ] Use `text-foreground` instead of `text-gray-900` for body text
+- Replace hardcoded hex colours with CSS variables or semantic classes
+- Remove colour constant arrays (e.g., `CHART_COLORS`, `MARKET_SHARE_COLOURS`)
+- Use `var(--chart-N)` inline for chart colours
+- Replace `text-gray-*` with `text-default-*`
+- Replace `bg-gray-*` with `bg-default-*`
+- Replace `bg-white` with `bg-content1` for card/panel backgrounds
+- Ensure chart series count is 6 or fewer
+- Remove modulo operations if series count is controlled
+- Use `text-foreground` instead of `text-gray-900` for body text
 
 ## Anti-Patterns
 

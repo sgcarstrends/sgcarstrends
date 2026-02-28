@@ -34,7 +34,7 @@ const features = [
 
 export function DataSection() {
   return (
-    <section className="-mx-6 relative overflow-hidden bg-default-100 px-6 py-20 lg:py-28">
+    <section className="relative -mx-6 overflow-hidden bg-default-100 px-6 py-20 lg:py-28">
       {/* Subtle background pattern */}
       <div
         className="pointer-events-none absolute inset-0 opacity-50"

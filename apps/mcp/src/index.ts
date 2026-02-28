@@ -163,6 +163,39 @@ server.tool(
   },
 );
 
+server.tool(
+  "get_maintenance_status",
+  "Get the current maintenance mode status",
+  {},
+  async () => {
+    const response = await request<unknown>("/api/v1/maintenance");
+
+    if (!response.ok) return errorResult(response);
+    return jsonResult(response.data);
+  },
+);
+
+server.tool(
+  "update_maintenance_status",
+  "Enable or disable maintenance mode",
+  {
+    enabled: z.boolean().describe("Whether maintenance mode is enabled"),
+    message: z
+      .string()
+      .optional()
+      .describe("Message to display during maintenance"),
+  },
+  async ({ enabled, message }) => {
+    const response = await request<unknown>("/api/v1/maintenance", {
+      method: "PUT",
+      body: JSON.stringify({ enabled, message }),
+    });
+
+    if (!response.ok) return errorResult(response);
+    return jsonResult(response.data);
+  },
+);
+
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);

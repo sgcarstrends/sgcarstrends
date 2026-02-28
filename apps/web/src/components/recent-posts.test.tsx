@@ -1,6 +1,6 @@
 import type { SelectPost } from "@sgcarstrends/database";
 import { render, screen } from "@testing-library/react";
-import { RecentPosts } from "@web/app/(main)/(dashboard)/components/recent-posts";
+import { RecentPosts } from "@web/app/(main)/(explore)/components/recent-posts";
 
 vi.mock("@heroui/link", () => ({
   Link: ({ href, children, ...props }: any) => (

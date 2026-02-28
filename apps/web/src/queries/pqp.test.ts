@@ -1,4 +1,5 @@
-import { getPQPOverview, getPqpRates } from "@web/queries";
+import { getPQPOverview } from "@web/queries/coe/pqp/overview";
+import { getPqpRates } from "@web/queries/coe/pqp/rates";
 import { describe, expect, it } from "vitest";
 import {
   queueBatch,

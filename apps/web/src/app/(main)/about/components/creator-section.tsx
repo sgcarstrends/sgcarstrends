@@ -11,7 +11,7 @@ import { Heart } from "lucide-react";
 
 export function CreatorSection() {
   return (
-    <section className="-mx-6 relative overflow-hidden px-6 py-20 lg:py-28">
+    <section className="relative -mx-6 overflow-hidden px-6 py-20 lg:py-28">
       {/* Subtle decorative elements */}
       <div
         className="pointer-events-none absolute inset-0 overflow-hidden"

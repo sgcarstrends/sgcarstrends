@@ -3,7 +3,7 @@ import {
   calculateMarketShareData,
   findDominantType,
 } from "@web/lib/cars/calculations";
-import { getCarsData } from "@web/queries";
+import { getCarsData } from "@web/queries/cars/monthly-registrations";
 import type { FuelType, TopType } from "@web/types/cars";
 import { cacheLife, cacheTag } from "next/cache";
 
