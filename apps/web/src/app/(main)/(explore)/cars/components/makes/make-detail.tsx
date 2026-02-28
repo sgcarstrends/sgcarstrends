@@ -20,6 +20,7 @@ interface MakeDetailProps {
     monthTotal: number;
     data: Partial<SelectCar>[];
     historicalData: Partial<SelectCar>[];
+    monthsTracked: number;
   } | null;
   coeComparison: MakeCoeComparisonData[];
   logo?: CarLogo | null;
@@ -97,7 +98,7 @@ export function MakeDetail({
             <Typography.Caption>Tracked</Typography.Caption>
           </div>
           <span className="font-bold text-foreground text-xl tabular-nums">
-            {new Set(cars.historicalData.map((d) => d.month)).size}
+            {cars.monthsTracked}
             <span className="ml-1 font-normal text-default-400 text-sm">
               mo
             </span>

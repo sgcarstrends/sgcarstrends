@@ -1,22 +1,19 @@
 import type { SortDescriptor } from "@heroui/table";
+import { SortDirection, sortByName, sortByValue } from "@sgcarstrends/utils";
 
 export function sortByDescriptor<T extends Record<string, unknown>>(
   data: T[],
   descriptor: SortDescriptor,
 ): T[] {
-  return [...data].sort((a, b) => {
-    const column = descriptor.column as keyof T;
-    const first = a[column];
-    const second = b[column];
+  const sortKey = descriptor.column as keyof T;
+  const direction =
+    descriptor.direction === "ascending"
+      ? SortDirection.ASC
+      : SortDirection.DESC;
 
-    if (typeof first === "number" && typeof second === "number") {
-      return descriptor.direction === "ascending"
-        ? first - second
-        : second - first;
-    }
-
-    return descriptor.direction === "ascending"
-      ? String(first).localeCompare(String(second))
-      : String(second).localeCompare(String(first));
-  });
+  const sample = data[0]?.[sortKey];
+  if (typeof sample === "number") {
+    return sortByValue(data, { sortKey, direction });
+  }
+  return sortByName(data, { sortKey, direction });
 }

@@ -59,6 +59,7 @@ const mockCars = {
       count: 30,
     },
   ] as unknown as SelectCar[],
+  monthsTracked: 2,
 };
 
 const mockCoeComparison = [

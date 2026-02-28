@@ -166,6 +166,7 @@ async function CarMakeContent({
     monthTotal: makeDetails.total,
     data: makeDetails.data,
     historicalData: historicalDetails.data,
+    monthsTracked: new Set(historicalDetails.data.map((d) => d.month)).size,
   };
 
   const title = `${exactMake} Cars Overview: Registration Trends`;
