@@ -1,3 +1,13 @@
+## [4.61.6](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.5...v4.61.6) (2026-02-28)
+
+### Bug Fixes
+
+* **web:** resolve null month in type detail canonical URL ([3b0817b](https://github.com/sgcarstrends/sgcarstrends/commit/3b0817b7cb16fab840f6538b3e778c05a3f6e2ca))
+
+### Performance Improvements
+
+* **web:** remove Suspense fallbacks causing CLS on mobile ([65a0bfa](https://github.com/sgcarstrends/sgcarstrends/commit/65a0bfad2c7edb137387884706151ec64608d1fc))
+
 ## [4.61.5](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.4...v4.61.5) (2026-02-27)
 
 ### Performance Improvements
