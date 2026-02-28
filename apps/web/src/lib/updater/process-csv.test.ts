@@ -76,6 +76,7 @@ describe("processCSV", () => {
         header: true,
         dynamicTyping: true,
         skipEmptyLines: true,
+        transformHeader: expect.any(Function),
         transform: expect.any(Function),
       }),
     );
