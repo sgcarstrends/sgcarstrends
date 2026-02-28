@@ -16,8 +16,7 @@ import { getDistinctMakes } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
 import {
   getMakeDetails,
-  getMakeFuelTypeBreakdown,
-  getMakeVehicleTypeBreakdown,
+  getMakeMonthlyTotals,
 } from "@web/queries/cars/makes/entity-breakdowns";
 import { getMakeFromSlug } from "@web/queries/cars/makes/get-make-from-slug";
 import { getCarLogo } from "@web/queries/logos";
@@ -144,28 +143,52 @@ async function CarMakeContent({
 
   const { month } = await getMonthOrLatest(parsedMonth, "cars");
 
-  const [
-    coeComparison,
-    makeDetails,
-    historicalDetails,
-    fuelTypeBreakdown,
-    vehicleTypeBreakdown,
-    logo,
-  ] = await Promise.all([
+  const [coeComparison, makeDetails, monthlyTotals, logo] = await Promise.all([
     getMakeCoeComparison(exactMake),
     getMakeDetails(exactMake, month),
-    getMakeDetails(exactMake),
-    getMakeFuelTypeBreakdown(exactMake, month),
-    getMakeVehicleTypeBreakdown(exactMake, month),
+    getMakeMonthlyTotals(exactMake),
     getCarLogo(exactMake),
   ]);
 
+  // Derive breakdowns from makeDetails.data to avoid 2 extra DB queries.
+  // makeDetails.data contains rows grouped by (month, fuelType, vehicleType) with a `count` field.
+  type MakeRow = {
+    fuelType?: string | null;
+    vehicleType?: string | null;
+    count?: number;
+  };
+  const fuelTypeMap = new Map<string, number>();
+  const vehicleTypeMap = new Map<string, number>();
+  for (const row of makeDetails.data as MakeRow[]) {
+    if (row.fuelType) {
+      fuelTypeMap.set(
+        row.fuelType,
+        (fuelTypeMap.get(row.fuelType) ?? 0) + (row.count ?? 0),
+      );
+    }
+    if (row.vehicleType) {
+      vehicleTypeMap.set(
+        row.vehicleType,
+        (vehicleTypeMap.get(row.vehicleType) ?? 0) + (row.count ?? 0),
+      );
+    }
+  }
+  const fuelTypeBreakdown = Array.from(fuelTypeMap, ([name, value]) => ({
+    name,
+    value,
+  })).sort((a, b) => b.value - a.value);
+  const vehicleTypeBreakdown = Array.from(vehicleTypeMap, ([name, value]) => ({
+    name,
+    value,
+  })).sort((a, b) => b.value - a.value);
+
   const cars = {
     make: exactMake,
-    total: historicalDetails.total,
+    total: monthlyTotals.reduce((sum, row) => sum + row.count, 0),
     monthTotal: makeDetails.total,
     data: makeDetails.data,
-    historicalData: historicalDetails.data,
+    historicalData: monthlyTotals,
+    monthsTracked: monthlyTotals.length,
   };
 
   const title = `${exactMake} Cars Overview: Registration Trends`;

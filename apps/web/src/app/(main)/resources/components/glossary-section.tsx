@@ -98,19 +98,16 @@ const GLOSSARY_CATEGORIES: GlossaryCategory[] = [
     terms: [
       {
         term: "BEV",
-
         definition:
           "Battery Electric Vehicle — powered entirely by an electric motor and battery, with zero tailpipe emissions.",
       },
       {
         term: "PHEV",
-
         definition:
           "Plug-in Hybrid Electric Vehicle — has both an electric motor and internal combustion engine, with a battery that can be charged externally.",
       },
       {
         term: "HEV",
-
         definition:
           "Hybrid Electric Vehicle — combines an internal combustion engine with an electric motor but cannot be plugged in to charge.",
       },
@@ -123,31 +120,26 @@ const GLOSSARY_CATEGORIES: GlossaryCategory[] = [
     terms: [
       {
         term: "LTA",
-
         definition:
           "Land Transport Authority — the government agency responsible for planning, operating, and maintaining Singapore's land transport infrastructure and systems.",
       },
       {
         term: "VQS",
-
         definition:
           "Vehicle Quota System — the overall system that controls vehicle population growth in Singapore through COE quotas.",
       },
       {
         term: "VES",
-
         definition:
           "Vehicular Emissions Scheme — a scheme that provides rebates or surcharges based on a vehicle's emissions, encouraging cleaner vehicles.",
       },
       {
         term: "CEVS",
-
         definition:
           "Carbon Emissions-based Vehicle Scheme — the predecessor to VES, which provided rebates or surcharges based on carbon emissions alone.",
       },
       {
         term: "ERP",
-
         definition:
           "Electronic Road Pricing — a congestion pricing system that charges motorists for using certain roads during peak hours.",
       },
@@ -160,25 +152,21 @@ const GLOSSARY_CATEGORIES: GlossaryCategory[] = [
     terms: [
       {
         term: "Quota Premium",
-
         definition:
           "The price of a COE as determined by the bidding exercise — the lowest successful bid in each category.",
       },
       {
         term: "Deregistration",
-
         definition:
           "The process of removing a vehicle from the Singapore register, either for export, scrappage, or to claim PARF/COE rebates.",
       },
       {
         term: "Parallel Import",
-
         definition:
           "Vehicles imported by dealers other than the official authorised distributor, often at competitive prices.",
       },
       {
         term: "Paper Bid",
-
         definition:
           "A pre-bidding COE commitment made through authorised dealers before the actual bidding exercise.",
       },

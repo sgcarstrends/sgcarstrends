@@ -1,3 +1,13 @@
+## [4.61.8](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.7...v4.61.8) (2026-02-28)
+
+### Bug Fixes
+
+* **utils:** exclude dist from vitest to prevent stale test failures ([6a29c0b](https://github.com/sgcarstrends/sgcarstrends/commit/6a29c0b282585d2e6ac5f0f4977a9d3a36862fcf))
+
+### Performance Improvements
+
+* **web:** reduce DB queries and data volume on car makes page ([9e5a1f5](https://github.com/sgcarstrends/sgcarstrends/commit/9e5a1f52f537ae64e54ca96d30afabbb8a6be1de))
+
 ## [4.61.7](https://github.com/sgcarstrends/sgcarstrends/compare/v4.61.6...v4.61.7) (2026-02-28)
 
 ### Bug Fixes

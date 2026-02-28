@@ -3,6 +3,7 @@ import { downloadLogo } from "@logos/services/scraper";
 import type { CarLogo } from "@logos/types";
 import { normaliseMake } from "@logos/utils/normalise-make";
 import { redis } from "@sgcarstrends/utils";
+import { cacheLife, cacheTag } from "next/cache";
 
 /**
  * Get a single car logo by make
@@ -12,6 +13,10 @@ import { redis } from "@sgcarstrends/utils";
  * @returns Logo object with actual values or empty strings if not found/download fails
  */
 export async function getCarLogo(make: string): Promise<CarLogo | undefined> {
+  "use cache";
+  cacheLife("max");
+  cacheTag(`logos:make:${make}`);
+
   try {
     const normalisedMake = normaliseMake(make);
     const cacheKey = `logo:${normalisedMake}`;

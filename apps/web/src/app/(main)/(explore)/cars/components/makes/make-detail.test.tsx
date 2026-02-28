@@ -46,19 +46,10 @@ const mockCars = {
     },
   ] as unknown as SelectCar[],
   historicalData: [
-    {
-      month: "2024-01",
-      fuelType: "PETROL",
-      vehicleType: "SALOON",
-      count: 50,
-    },
-    {
-      month: "2024-02",
-      fuelType: "HYBRID",
-      vehicleType: "SUV",
-      count: 30,
-    },
-  ] as unknown as SelectCar[],
+    { month: "2024-01", count: 50 },
+    { month: "2024-02", count: 30 },
+  ],
+  monthsTracked: 2,
 };
 
 const mockCoeComparison = [
