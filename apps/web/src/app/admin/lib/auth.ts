@@ -12,6 +12,15 @@ export const auth = betterAuth({
     usePlural: true,
   }),
   trustedOrigins: ["https://*.sgcarstrends.com"],
+  advanced: {
+    trustedProxyHeaders: true,
+    allowedHosts: [
+      "sgcarstrends.com",
+      "*.sgcarstrends.com",
+      "*.vercel.app",
+      "localhost:3000",
+    ],
+  },
   plugins: [
     admin(),
     nextCookies(), // Make sure this is the last plugin in the array

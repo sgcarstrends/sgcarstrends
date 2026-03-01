@@ -51,7 +51,7 @@
       "outputs": ["migrations/**"],
       "env": ["DATABASE_URL"]
     },
-    "migrate:check": {
+    "check": {
       "inputs": ["migrations/**/*.sql"],
       "env": ["DATABASE_URL"]
     },

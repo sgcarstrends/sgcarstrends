@@ -18,10 +18,10 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "typecheck": "tsc --noEmit",
+    "auth:generate": "pnpm dlx auth@latest generate --config ./src/app/admin/lib/auth.ts --output ../../packages/database/src/schema/auth.ts --yes",
     "vercel-build": "turbo run @sgcarstrends/database#migrate && next build"
   },
   "dependencies": {
-    "@better-auth/passkey": "^1.4.7",
     "@heroui/accordion": "^2.2.24",
     "@heroui/alert": "^2.2.26",
     "@heroui/autocomplete": "^2.3.29",
@@ -69,7 +69,7 @@
     "@vercel/related-projects": "^1.0.0",
     "@vercel/speed-insights": "^1.2.0",
     "adm-zip": "^0.5.16",
-    "better-auth": "^1.4.7",
+    "better-auth": "^1.5.0",
     "date-fns": "catalog:",
     "drizzle-orm": "catalog:",
     "framer-motion": "^12.5.0",

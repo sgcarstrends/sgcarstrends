@@ -13,7 +13,6 @@
     "generate": "drizzle-kit generate",
     "check": "drizzle-kit check",
     "migrate": "drizzle-kit migrate",
-    "migrate:check": "drizzle-kit check",
     "typecheck": "tsc --noEmit"
   },
   "packageManager": "pnpm@10.22.0",

@@ -25,7 +25,7 @@
     "typecheck:web": "turbo run @sgcarstrends/web#typecheck",
     "start:web": "turbo run @sgcarstrends/web#start",
     "db:migrate": "turbo run @sgcarstrends/database#migrate",
-    "db:migrate:check": "turbo run @sgcarstrends/database#migrate:check",
+    "db:check": "turbo run @sgcarstrends/database#check",
     "db:generate": "turbo run @sgcarstrends/database#generate",
     "db:push": "turbo run @sgcarstrends/database#push",
     "db:drop": "turbo run @sgcarstrends/database#drop",
