@@ -1,4 +1,5 @@
 import { CostMetrics } from "@web/app/(main)/(explore)/cars/costs/components/cost-metrics";
+import { CostRangeCard } from "@web/app/(main)/(explore)/cars/costs/components/cost-range-card";
 import { CostTable } from "@web/app/(main)/(explore)/cars/costs/components/cost-table";
 import { FuelTypeCostChart } from "@web/app/(main)/(explore)/cars/costs/components/fuel-type-cost-chart";
 import { VesDistributionChart } from "@web/app/(main)/(explore)/cars/costs/components/ves-distribution-chart";
@@ -9,6 +10,7 @@ import { EmptyState } from "@web/components/shared/empty-state";
 import { Infobox } from "@web/components/shared/infobox";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
+import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { getLatestCarCosts } from "@web/queries/car-costs";
 import { DollarSign } from "lucide-react";
@@ -83,6 +85,15 @@ export default async function CarCostsPage() {
             </AnimatedSection>
 
             <AnimatedSection order={3}>
+              <div className="flex flex-col gap-4">
+                <Typography.H2>Price Ranges by Fuel Type</Typography.H2>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  <CostRangeCard data={data} />
+                </div>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection order={4}>
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
                 <div className="lg:col-span-3">
                   <FuelTypeCostChart data={data} />
@@ -93,7 +104,7 @@ export default async function CarCostsPage() {
               </div>
             </AnimatedSection>
 
-            <AnimatedSection order={4}>
+            <AnimatedSection order={5}>
               <Suspense>
                 <CostTable data={data} />
               </Suspense>

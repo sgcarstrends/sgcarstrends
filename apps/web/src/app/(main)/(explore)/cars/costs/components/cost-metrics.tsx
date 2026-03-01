@@ -10,45 +10,37 @@ interface CostMetricsProps {
 }
 
 export function CostMetrics({ data }: CostMetricsProps) {
-  const totalModels = data.length;
-
   const quotedModels = data.filter((item) => item.sellingPriceWithCoe > 0);
 
-  const avgSellingPrice =
-    quotedModels.length > 0
-      ? quotedModels.reduce((sum, item) => sum + item.sellingPriceWithCoe, 0) /
-        quotedModels.length
-      : 0;
+  const sorted = quotedModels.toSorted(
+    (a, b) => a.sellingPriceWithCoe - b.sellingPriceWithCoe,
+  );
 
-  const cheapest =
-    quotedModels.length > 0
-      ? quotedModels.reduce((min, item) =>
-          item.sellingPriceWithCoe < min.sellingPriceWithCoe ? item : min,
-        )
-      : null;
+  const mid = Math.floor(sorted.length / 2);
+  const median =
+    sorted.length === 0
+      ? 0
+      : sorted.length % 2 !== 0
+        ? sorted[mid].sellingPriceWithCoe
+        : (sorted[mid - 1].sellingPriceWithCoe +
+            sorted[mid].sellingPriceWithCoe) /
+          2;
 
   const metrics = [
     {
-      title: "Models Tracked",
-      value: totalModels.toString(),
-      description: "Across all fuel types and VES bands",
+      title: "Models Quoted",
+      value: `${quotedModels.length} of ${data.length}`,
+      description: "Models with AD selling prices",
     },
     {
-      title: "Avg Selling Price (w/ COE)",
-      value: formatCurrency(avgSellingPrice),
-      description: "Average AD selling price including COE",
-    },
-    {
-      title: "Most Affordable",
-      value: cheapest ? `${cheapest.make} ${cheapest.model}` : "-",
-      description: cheapest
-        ? formatCurrency(cheapest.sellingPriceWithCoe)
-        : "No quoted prices available",
+      title: "Median Price",
+      value: sorted.length > 0 ? formatCurrency(median) : "-",
+      description: `Middle price point across ${sorted.length} models`,
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {metrics.map((metric) => (
         <Card
           key={metric.title}
