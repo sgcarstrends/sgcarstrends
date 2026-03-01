@@ -7,8 +7,6 @@ import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-s
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { EmptyState } from "@web/components/shared/empty-state";
-import { Infobox } from "@web/components/shared/infobox";
-import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -63,10 +61,6 @@ export default async function CarCostsPage() {
           }
         />
 
-        <AnimatedSection order={1}>
-          <Infobox {...PAGE_CONTEXTS.carCosts} />
-        </AnimatedSection>
-
         {data.length === 0 ? (
           <EmptyState
             icon={
@@ -80,11 +74,11 @@ export default async function CarCostsPage() {
           />
         ) : (
           <>
-            <AnimatedSection order={2}>
+            <AnimatedSection order={1}>
               <CostMetrics data={data} />
             </AnimatedSection>
 
-            <AnimatedSection order={3}>
+            <AnimatedSection order={2}>
               <div className="flex flex-col gap-4">
                 <Typography.H2>Price Ranges by Fuel Type</Typography.H2>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -93,7 +87,7 @@ export default async function CarCostsPage() {
               </div>
             </AnimatedSection>
 
-            <AnimatedSection order={4}>
+            <AnimatedSection order={3}>
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
                 <div className="lg:col-span-3">
                   <FuelTypeCostChart data={data} />
@@ -104,7 +98,7 @@ export default async function CarCostsPage() {
               </div>
             </AnimatedSection>
 
-            <AnimatedSection order={5}>
+            <AnimatedSection order={4}>
               <Suspense>
                 <CostTable data={data} />
               </Suspense>

@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { Input } from "@heroui/input";
 import { Pagination } from "@heroui/pagination";
@@ -17,9 +16,9 @@ import {
 import { cn } from "@heroui/theme";
 import type { SelectCarCost } from "@sgcarstrends/database";
 import { formatCurrency } from "@sgcarstrends/utils";
+import { CostLegend } from "@web/app/(main)/(explore)/cars/costs/components/cost-legend";
 import { FUEL_TYPE_LABELS } from "@web/app/(main)/(explore)/cars/costs/constants";
 import Typography from "@web/components/typography";
-import { CARD_PADDING, RADIUS } from "@web/config/design-system";
 import { sortByDescriptor } from "@web/utils/sort";
 import { Search } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
@@ -202,102 +201,99 @@ export function CostTable({ data }: CostTableProps) {
   }, []);
 
   return (
-    <Card className={cn(RADIUS.card, CARD_PADDING.standard)}>
-      <CardHeader className="flex flex-col items-start gap-4">
-        <div className="flex flex-col gap-2">
-          <Typography.H4>All Models</Typography.H4>
-          <Typography.TextSm className="text-default-500">
-            {filteredData.length} models found
-          </Typography.TextSm>
-        </div>
-        <div className="flex w-full flex-col gap-4 sm:flex-row">
-          <Input
-            type="search"
-            placeholder="Search make or model..."
-            value={search}
-            onValueChange={(value) => {
-              setSearch(value);
-              setPage(1);
-            }}
-            startContent={<Search className="size-4 text-default-400" />}
-            className="sm:max-w-xs"
-          />
-          <Select
-            placeholder="All Makes"
-            selectedKeys={makeFilter ? [makeFilter] : []}
-            onSelectionChange={(keys) => {
-              const selected = Array.from(keys)[0] as string | undefined;
-              setMakeFilter(selected ?? "");
-              setPage(1);
-            }}
-            className="sm:max-w-[200px]"
-            aria-label="Filter by make"
-          >
-            {makes.map((make) => (
-              <SelectItem key={make}>{make}</SelectItem>
-            ))}
-          </Select>
-          <Select
-            placeholder="All Fuel Types"
-            selectedKeys={fuelFilter ? [fuelFilter] : []}
-            onSelectionChange={(keys) => {
-              const selected = Array.from(keys)[0] as string | undefined;
-              setFuelFilter(selected ?? "");
-              setPage(1);
-            }}
-            className="sm:max-w-[240px]"
-            aria-label="Filter by fuel type"
-          >
-            {fuelTypes.map((fuelType) => (
-              <SelectItem key={fuelType}>
-                {FUEL_TYPE_LABELS[fuelType] ?? fuelType}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-      </CardHeader>
-      <CardBody>
-        <Table
-          aria-label="Car cost breakdown table"
-          sortDescriptor={sortDescriptor}
-          onSortChange={setSortDescriptor}
-          bottomContent={
-            pages > 1 ? (
-              <div className="flex w-full justify-center">
-                <Pagination
-                  isCompact
-                  showControls
-                  showShadow
-                  page={effectivePage}
-                  total={pages}
-                  onChange={setPage}
-                />
-              </div>
-            ) : null
-          }
-          bottomContentPlacement="outside"
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <Typography.H4>All Models</Typography.H4>
+        <Typography.TextSm className="text-default-500">
+          {filteredData.length} models found
+        </Typography.TextSm>
+      </div>
+      <CostLegend />
+      <div className="flex w-full flex-col gap-4 sm:flex-row">
+        <Input
+          type="search"
+          placeholder="Search make or model..."
+          value={search}
+          onValueChange={(value) => {
+            setSearch(value);
+            setPage(1);
+          }}
+          startContent={<Search className="size-4 text-default-400" />}
+          className="sm:max-w-xs"
+        />
+        <Select
+          placeholder="All Makes"
+          selectedKeys={makeFilter ? [makeFilter] : []}
+          onSelectionChange={(keys) => {
+            const selected = Array.from(keys)[0] as string | undefined;
+            setMakeFilter(selected ?? "");
+            setPage(1);
+          }}
+          className="sm:max-w-[200px]"
+          aria-label="Filter by make"
         >
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn
-                key={column.key}
-                allowsSorting={!["fuelType", "vesBanding"].includes(column.key)}
-              >
-                {column.label}
-              </TableColumn>
-            )}
-          </TableHeader>
-          <TableBody items={paginatedData}>
-            {(item) => (
-              <TableRow key={`${item.make}-${item.model}`}>
-                {(columnKey) => (
-                  <TableCell>{renderCell(item, columnKey)}</TableCell>
-                )}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </CardBody>
-    </Card>
+          {makes.map((make) => (
+            <SelectItem key={make}>{make}</SelectItem>
+          ))}
+        </Select>
+        <Select
+          placeholder="All Fuel Types"
+          selectedKeys={fuelFilter ? [fuelFilter] : []}
+          onSelectionChange={(keys) => {
+            const selected = Array.from(keys)[0] as string | undefined;
+            setFuelFilter(selected ?? "");
+            setPage(1);
+          }}
+          className="sm:max-w-[240px]"
+          aria-label="Filter by fuel type"
+        >
+          {fuelTypes.map((fuelType) => (
+            <SelectItem key={fuelType}>
+              {FUEL_TYPE_LABELS[fuelType] ?? fuelType}
+            </SelectItem>
+          ))}
+        </Select>
+      </div>
+      <Table
+        aria-label="Car cost breakdown table"
+        sortDescriptor={sortDescriptor}
+        onSortChange={setSortDescriptor}
+        bottomContent={
+          pages > 1 ? (
+            <div className="flex w-full justify-center">
+              <Pagination
+                isCompact
+                showControls
+                showShadow
+                page={effectivePage}
+                total={pages}
+                onChange={setPage}
+              />
+            </div>
+          ) : null
+        }
+        bottomContentPlacement="outside"
+      >
+        <TableHeader columns={columns}>
+          {(column) => (
+            <TableColumn
+              key={column.key}
+              allowsSorting={!["fuelType", "vesBanding"].includes(column.key)}
+            >
+              {column.label}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody items={paginatedData}>
+          {(item) => (
+            <TableRow key={`${item.make}-${item.model}`}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 }
