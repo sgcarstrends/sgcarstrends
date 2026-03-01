@@ -1,3 +1,9 @@
+## [4.63.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.62.1...v4.63.0) (2026-03-01)
+
+### Features
+
+* upgrade Better Auth to 1.5 with Dynamic Base URL ([e3eb3e1](https://github.com/sgcarstrends/sgcarstrends/commit/e3eb3e1ef99288b0cd2772c238b261fcee4667c4))
+
 ## [4.62.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.62.0...v4.62.1) (2026-02-28)
 
 ### Performance Improvements
