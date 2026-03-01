@@ -1,6 +1,6 @@
-import { CarCostTable } from "@web/app/(main)/(explore)/cars/costs/components/car-cost-table";
+import { CostMetrics } from "@web/app/(main)/(explore)/cars/costs/components/cost-metrics";
+import { CostTable } from "@web/app/(main)/(explore)/cars/costs/components/cost-table";
 import { FuelTypeCostChart } from "@web/app/(main)/(explore)/cars/costs/components/fuel-type-cost-chart";
-import { SummaryMetrics } from "@web/app/(main)/(explore)/cars/costs/components/summary-metrics";
 import { VesDistributionChart } from "@web/app/(main)/(explore)/cars/costs/components/ves-distribution-chart";
 import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
@@ -51,7 +51,7 @@ export default async function CarCostsPage() {
   return (
     <>
       <StructuredData data={structuredData} />
-      <section className="flex flex-col gap-10">
+      <section className="flex flex-col gap-4">
         <DashboardPageHeader
           title={
             <DashboardPageTitle
@@ -79,11 +79,11 @@ export default async function CarCostsPage() {
         ) : (
           <>
             <AnimatedSection order={2}>
-              <SummaryMetrics data={data} />
+              <CostMetrics data={data} />
             </AnimatedSection>
 
             <AnimatedSection order={3}>
-              <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
+              <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
                 <div className="lg:col-span-3">
                   <FuelTypeCostChart data={data} />
                 </div>
@@ -95,7 +95,7 @@ export default async function CarCostsPage() {
 
             <AnimatedSection order={4}>
               <Suspense>
-                <CarCostTable data={data} />
+                <CostTable data={data} />
               </Suspense>
             </AnimatedSection>
           </>

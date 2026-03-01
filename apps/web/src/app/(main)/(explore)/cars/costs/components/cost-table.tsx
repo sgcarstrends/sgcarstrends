@@ -25,7 +25,7 @@ import { Search } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
 import { type Key, useCallback, useMemo, useState } from "react";
 
-interface CarCostTableProps {
+interface CostTableProps {
   data: SelectCarCost[];
 }
 
@@ -67,7 +67,7 @@ const VES_BAND_COLORS: Record<
   C3: "danger",
 };
 
-export function CarCostTable({ data }: CarCostTableProps) {
+export function CostTable({ data }: CostTableProps) {
   const [search, setSearch] = useQueryState(
     "q",
     parseAsString
