@@ -41,7 +41,7 @@ export async function updateFromXlsx<T>(
 
   // === Checksum on raw bytes ===
   const checksum = createHash("sha256")
-    .update(Buffer.from(buffer))
+    .update(new Uint8Array(buffer))
     .digest("hex");
   console.log("Checksum:", checksum);
 

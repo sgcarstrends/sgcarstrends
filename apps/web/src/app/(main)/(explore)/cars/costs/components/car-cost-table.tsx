@@ -17,6 +17,7 @@ import {
 import { cn } from "@heroui/theme";
 import type { SelectCarCost } from "@sgcarstrends/database";
 import { formatCurrency } from "@sgcarstrends/utils";
+import { FUEL_TYPE_LABELS } from "@web/app/(main)/(explore)/cars/costs/constants";
 import Typography from "@web/components/typography";
 import { CARD_PADDING, RADIUS } from "@web/config/design-system";
 import { sortByDescriptor } from "@web/utils/sort";
@@ -44,13 +45,6 @@ const columns = [
 ];
 
 const ROWS_PER_PAGE = 20;
-
-const FUEL_TYPE_LABELS: Record<string, string> = {
-  E: "Electric",
-  H: "Petrol-Electric",
-  R: "Petrol-Electric (Plug-In)",
-  P: "Petrol",
-};
 
 const FUEL_TYPE_COLORS: Record<
   string,
@@ -128,19 +122,16 @@ export function CarCostTable({ data }: CarCostTableProps) {
   }, [data, search, makeFilter, fuelFilter]);
 
   const sortedData = useMemo(
-    () =>
-      sortByDescriptor(
-        filteredData as unknown as Record<string, unknown>[],
-        sortDescriptor,
-      ) as unknown as SelectCarCost[],
+    () => sortByDescriptor(filteredData, sortDescriptor),
     [filteredData, sortDescriptor],
   );
 
   const pages = Math.ceil(sortedData.length / ROWS_PER_PAGE);
+  const effectivePage = Math.min(page, Math.max(pages, 1));
   const paginatedData = useMemo(() => {
-    const start = (page - 1) * ROWS_PER_PAGE;
+    const start = (effectivePage - 1) * ROWS_PER_PAGE;
     return sortedData.slice(start, start + ROWS_PER_PAGE);
-  }, [sortedData, page]);
+  }, [sortedData, effectivePage]);
 
   const renderCell = useCallback((item: SelectCarCost, columnKey: Key) => {
     switch (columnKey) {
@@ -277,7 +268,7 @@ export function CarCostTable({ data }: CarCostTableProps) {
                   isCompact
                   showControls
                   showShadow
-                  page={page}
+                  page={effectivePage}
                   total={pages}
                   onChange={setPage}
                 />

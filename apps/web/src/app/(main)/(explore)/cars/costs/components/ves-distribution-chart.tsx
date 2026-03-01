@@ -8,6 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import { VES_BAND_ORDER } from "@web/app/(main)/(explore)/cars/costs/constants";
 import Typography from "@web/components/typography";
 import { CARD_PADDING, CHART_HEIGHTS, RADIUS } from "@web/config/design-system";
 import { Cell, Pie, PieChart } from "recharts";
@@ -15,8 +16,6 @@ import { Cell, Pie, PieChart } from "recharts";
 interface VesDistributionChartProps {
   data: SelectCarCost[];
 }
-
-const VES_BAND_ORDER = ["A", "B", "C1", "C2", "C3"];
 
 const VES_BAND_COLORS: Record<string, string> = {
   A: "var(--chart-1)",

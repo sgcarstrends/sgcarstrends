@@ -1,6 +1,8 @@
 import { redis } from "@sgcarstrends/utils";
+import { LAST_UPDATED_CAR_COSTS_KEY } from "@web/config";
 import type { UpdaterResult } from "@web/lib/updater";
 import { updateCarCosts } from "@web/workflows/car-costs/steps/process-data";
+import { revalidateTag } from "next/cache";
 
 interface CarCostsWorkflowResult {
   message: string;
@@ -19,8 +21,10 @@ export async function carCostsWorkflow(): Promise<CarCostsWorkflowResult> {
     return { message: "No car cost records processed." };
   }
 
+  await revalidateCarCostsCache();
+
   return {
-    message: "[CAR COSTS] Data processed successfully",
+    message: "[CAR COSTS] Data processed and cache revalidated successfully",
   };
 }
 
@@ -30,9 +34,16 @@ async function processCarCostsData(): Promise<UpdaterResult> {
   const result = await updateCarCosts();
 
   if (result.recordsProcessed > 0) {
-    await redis.set("last_updated:car_costs", Date.now());
+    await redis.set(LAST_UPDATED_CAR_COSTS_KEY, Date.now());
   }
 
   return result;
 }
 processCarCostsData.maxRetries = 3;
+
+async function revalidateCarCostsCache(): Promise<void> {
+  "use step";
+
+  revalidateTag("cars:costs:latest", "max");
+}
+revalidateCarCostsCache.maxRetries = 1;

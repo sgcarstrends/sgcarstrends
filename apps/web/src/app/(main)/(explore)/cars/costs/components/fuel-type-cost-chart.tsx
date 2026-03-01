@@ -9,6 +9,10 @@ import {
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import { formatCurrency } from "@sgcarstrends/utils";
+import {
+  FUEL_TYPE_LABELS,
+  FUEL_TYPE_ORDER,
+} from "@web/app/(main)/(explore)/cars/costs/constants";
 import Typography from "@web/components/typography";
 import {
   CARD_PADDING,
@@ -22,15 +26,6 @@ import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 interface FuelTypeCostChartProps {
   data: SelectCarCost[];
 }
-
-const FUEL_TYPE_ORDER = ["E", "R", "H", "P"];
-
-const FUEL_TYPE_LABELS: Record<string, string> = {
-  E: "Electric",
-  R: "Petrol-Electric (Plug-In)",
-  H: "Petrol-Electric",
-  P: "Petrol",
-};
 
 const chartConfig = {
   avgCost: { label: "Avg Selling Price (w/ COE)", color: "var(--chart-1)" },
