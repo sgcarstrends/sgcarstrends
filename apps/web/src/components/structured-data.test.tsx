@@ -17,6 +17,7 @@ describe("StructuredData", () => {
     };
 
     const { container } = render(<StructuredData data={data} />);
+    expect(container).toMatchSnapshot();
     const script = container.querySelector(
       "script#structured-data",
     ) as HTMLScriptElement;

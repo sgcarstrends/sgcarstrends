@@ -1,0 +1,76 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`RecentPosts > should render title and view all link 1`] = `
+<div>
+  <div
+    class="rounded-3xl bg-white p-6"
+  >
+    <div
+      class="mb-5 flex items-center justify-between"
+    >
+      <h3
+        class="scroll-m-20 font-medium text-2xl text-foreground tracking-tight"
+      >
+        Recent Posts
+      </h3>
+      <a
+        aria-label="View all blog posts"
+        class="flex size-10 items-center justify-center rounded-full bg-default-100 text-default-500 transition-colors hover:bg-default-200"
+        href="/blog"
+      >
+        <svg
+          class="lucide lucide-arrow-up-right size-6"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7 7h10v10"
+          />
+          <path
+            d="M7 17 17 7"
+          />
+        </svg>
+      </a>
+    </div>
+    <div
+      class="grid grid-cols-1 gap-4 lg:grid-cols-3"
+    >
+      <article
+        data-testid="post-card-post-1"
+      >
+        <a
+          href="/blog/first-post"
+        >
+          First Post
+        </a>
+        <span
+          data-testid="post-date-post-1"
+        >
+          15 Jan 2024
+        </span>
+      </article>
+      <article
+        data-testid="post-card-post-2"
+      >
+        <a
+          href="/blog/second-post"
+        >
+          Second Post
+        </a>
+        <span
+          data-testid="post-date-post-2"
+        >
+          20 Feb 2024
+        </span>
+      </article>
+    </div>
+  </div>
+</div>
+`;

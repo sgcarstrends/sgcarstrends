@@ -1,0 +1,18 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ComingSoon > should render ComingSoon label 1`] = `
+<div>
+  <div
+    class="pointer-events-none relative inline-block rounded-sm"
+  >
+    <span>
+      Trends
+    </span>
+    <span
+      class="absolute top-0 left-0 translate-x-1/2 -translate-y-1/2 rotate-3 transform text-nowrap rounded-sm bg-blue-100 px-2 py-1 font-bold text-blue-600 text-xs"
+    >
+      Coming Soon
+    </span>
+  </div>
+</div>
+`;

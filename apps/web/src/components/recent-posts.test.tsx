@@ -73,6 +73,7 @@ describe("RecentPosts", () => {
   it("should render title and view all link", () => {
     render(<RecentPosts posts={mockPosts} />);
 
+    expect(document.body.firstChild).toMatchSnapshot();
     expect(screen.getByText("Recent Posts")).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: "View all blog posts" }),

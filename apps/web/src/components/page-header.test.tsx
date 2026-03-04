@@ -13,6 +13,7 @@ describe("PageHeader", () => {
       </PageHeader>,
     );
 
+    expect(document.body.firstChild).toMatchSnapshot();
     expect(screen.getByText("COE Trends")).toBeInTheDocument();
     expect(screen.getByText("Latest insights")).toBeInTheDocument();
     expect(screen.getByText(/Last updated/)).toBeInTheDocument();

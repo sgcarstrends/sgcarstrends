@@ -77,6 +77,7 @@ const mockLogo = {
 describe("MakeDetail", () => {
   it("should render metric cards", () => {
     render(<MakeDetail cars={mockCars} coeComparison={mockCoeComparison} />);
+    expect(document.body.firstChild).toMatchSnapshot();
     expect(screen.getByText("100")).toBeVisible();
     expect(screen.getByText("Total")).toBeVisible();
     expect(screen.getByText("50")).toBeVisible();
