@@ -1,4 +1,4 @@
-import { BlogList } from "@web/app/(main)/blog/components/blog-list";
+import { BlogList } from "@web/app/(main)/(site)/blog/components/blog-list";
 import { ListSkeleton } from "@web/components/shared/skeleton";
 import { getAllPosts, searchPosts } from "@web/queries/posts";
 import { Suspense } from "react";

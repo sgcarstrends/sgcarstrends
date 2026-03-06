@@ -1,4 +1,4 @@
-import { PopularPosts } from "@web/app/(main)/blog/components/popular-posts";
+import { PopularPosts } from "@web/app/(main)/(site)/blog/components/popular-posts";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { getPopularPostsWithData } from "@web/lib/data/posts";

@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@heroui/theme";
-import { incrementPostView } from "@web/app/(main)/blog/actions/views";
+import { incrementPostView } from "@web/app/(main)/(site)/blog/actions/views";
 import { useEffect, useEffectEvent, useState } from "react";
 
 interface ViewCounterProps {

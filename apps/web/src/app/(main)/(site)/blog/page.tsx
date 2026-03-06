@@ -1,8 +1,8 @@
-import { BlogListSection } from "@web/app/(main)/blog/components/blog-list-section";
-import { BlogPageHeader } from "@web/app/(main)/blog/components/blog-page-header";
-import { BlogSearchInput } from "@web/app/(main)/blog/components/blog-search-input";
-import { PopularPostsSection } from "@web/app/(main)/blog/components/popular-posts-section";
-import { loadSearchParams } from "@web/app/(main)/blog/search-params";
+import { BlogListSection } from "@web/app/(main)/(site)/blog/components/blog-list-section";
+import { BlogPageHeader } from "@web/app/(main)/(site)/blog/components/blog-page-header";
+import { BlogSearchInput } from "@web/app/(main)/(site)/blog/components/blog-search-input";
+import { PopularPostsSection } from "@web/app/(main)/(site)/blog/components/popular-posts-section";
+import { loadSearchParams } from "@web/app/(main)/(site)/blog/search-params";
 import { StructuredData } from "@web/components/structured-data";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";

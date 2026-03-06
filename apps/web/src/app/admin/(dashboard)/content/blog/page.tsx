@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
-import { mdxComponents } from "@web/app/(main)/blog/components/mdx-components";
+import { mdxComponents } from "@web/app/(main)/(site)/blog/components/mdx-components";
 import { getAllPosts } from "@web/app/admin/actions/blog";
 import { BlogPostsTable } from "@web/app/admin/components/blog-posts-table";
 import { ListSkeleton } from "@web/components/shared/skeleton";

@@ -1,4 +1,4 @@
-import { ViewCounter } from "@web/app/(main)/blog/components/view-counter";
+import { ViewCounter } from "@web/app/(main)/(site)/blog/components/view-counter";
 import { Suspense } from "react";
 
 interface BlogHeroProps {

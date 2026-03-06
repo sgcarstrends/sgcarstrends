@@ -16,7 +16,7 @@ vi.mock("framer-motion", () => ({
   },
 }));
 
-vi.mock("@web/app/(main)/blog/components/post", () => ({
+vi.mock("@web/app/(main)/(site)/blog/components/post", () => ({
   Post: {
     Card: ({ post }: { post: SelectPost }) => (
       <article data-testid={`post-card-${post.id}`}>
