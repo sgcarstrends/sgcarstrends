@@ -1,3 +1,14 @@
+## [4.64.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.63.0...v4.64.0) (2026-03-07)
+
+### Features
+
+* ingest LTA Car Cost Update XLSX into Postgres ([#729](https://github.com/sgcarstrends/sgcarstrends/issues/729)) ([ef22a82](https://github.com/sgcarstrends/sgcarstrends/commit/ef22a829f5582ff118e16090f21a816e5f76178d))
+* **web:** redesign car costs cards and add fuel type ranges ([85d09e1](https://github.com/sgcarstrends/sgcarstrends/commit/85d09e16a77a34287b2eae7fdf9aa554ffa349cb))
+
+### Bug Fixes
+
+* **web:** improve car costs cache, constants, and pagination ([c054245](https://github.com/sgcarstrends/sgcarstrends/commit/c054245c541d11ae5ef83aa4877429eed583a423))
+
 ## [4.63.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.62.1...v4.63.0) (2026-03-01)
 
 ### Features
