@@ -91,17 +91,17 @@ export class LogoBlobService {
 
 ```bash
 # Fetch logos from CDN
-pnpm -F @sgcarstrends/logos fetch-logos
+pnpm -F @motormetrics/logos fetch-logos
 
 # Scrape logos from websites
-pnpm -F @sgcarstrends/logos scrape-logos
+pnpm -F @motormetrics/logos scrape-logos
 ```
 
 ## Usage in Apps
 
 ```typescript
 // API route
-import { getLogoUrl } from "@sgcarstrends/logos";
+import { getLogoUrl } from "@motormetrics/logos";
 
 app.get("/logos/:brand", async (c) => {
   const logoUrl = await getLogoUrl(c.req.param("brand"));

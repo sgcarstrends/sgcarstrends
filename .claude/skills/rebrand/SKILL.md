@@ -4,7 +4,7 @@ description: "Temporary skill to guide the rebrand from SG Cars Trends / @sgcars
 allowed-tools: Read, Edit, Write, Bash, Grep, Glob
 ---
 
-# Rebrand: SG Cars Trends → MotorMetrics
+# Rebrand: MotorMetrics → MotorMetrics
 
 **Tracking issue:** #749
 
@@ -12,10 +12,10 @@ allowed-tools: Read, Edit, Write, Bash, Grep, Glob
 
 | Category | Old | New |
 |----------|-----|-----|
-| Display name | SG Cars Trends | MotorMetrics |
-| npm scope | `@sgcarstrends/*` | `@motormetrics/*` |
-| Domain | `sgcarstrends.com` | TBD |
-| Env var prefix | `SG_CARS_TRENDS_*` | `MOTORMETRICS_*` |
+| Display name | MotorMetrics | MotorMetrics |
+| npm scope | `@motormetrics/*` | `@motormetrics/*` |
+| Domain | `motormetrics.app` | TBD |
+| Env var prefix | `MOTORMETRICS_*` | `MOTORMETRICS_*` |
 | GitHub org | `sgcarstrends` | `motormetrics` |
 
 ---
@@ -27,22 +27,22 @@ allowed-tools: Read, Edit, Write, Bash, Grep, Glob
 ### Find affected files
 
 ```bash
-grep -r "@sgcarstrends/" --include="*.ts" --include="*.tsx" --include="*.json" -l .
+grep -r "@motormetrics/" --include="*.ts" --include="*.tsx" --include="*.json" -l .
 ```
 
 ### Replacement patterns
 
 | Pattern | Replacement |
 |---------|-------------|
-| `@sgcarstrends/database` | `@motormetrics/database` |
-| `@sgcarstrends/ui` | `@motormetrics/ui` |
-| `@sgcarstrends/utils` | `@motormetrics/utils` |
-| `@sgcarstrends/types` | `@motormetrics/types` |
-| `@sgcarstrends/ai` | `@motormetrics/ai` |
-| `@sgcarstrends/logos` | `@motormetrics/logos` |
-| `@sgcarstrends/web` | `@motormetrics/web` |
-| `@sgcarstrends/mcp` | `@motormetrics/mcp` |
-| `@sgcarstrends/docs` | `@motormetrics/docs` |
+| `@motormetrics/database` | `@motormetrics/database` |
+| `@motormetrics/ui` | `@motormetrics/ui` |
+| `@motormetrics/utils` | `@motormetrics/utils` |
+| `@motormetrics/types` | `@motormetrics/types` |
+| `@motormetrics/ai` | `@motormetrics/ai` |
+| `@motormetrics/logos` | `@motormetrics/logos` |
+| `@motormetrics/web` | `@motormetrics/web` |
+| `@motormetrics/mcp` | `@motormetrics/mcp` |
+| `@motormetrics/docs` | `@motormetrics/docs` |
 
 ### Steps
 
@@ -63,7 +63,7 @@ grep -r "@sgcarstrends/" --include="*.ts" --include="*.tsx" --include="*.json" -
 ### Find affected files
 
 ```bash
-grep -ri "SG Cars Trends" --include="*.ts" --include="*.tsx" --include="*.json" --include="*.md" -l .
+grep -ri "MotorMetrics" --include="*.ts" --include="*.tsx" --include="*.json" --include="*.md" -l .
 ```
 
 ### Key files to update
@@ -78,11 +78,11 @@ grep -ri "SG Cars Trends" --include="*.ts" --include="*.tsx" --include="*.json" 
 
 ### Steps
 
-1. Replace all display text "SG Cars Trends" → "MotorMetrics"
+1. Replace all display text "MotorMetrics" → "MotorMetrics"
 2. Update SEO metadata (title templates, descriptions)
 3. Update AI blog generation system prompts
 4. Update social media notification templates
-5. Verify: `grep -ri "SG Cars Trends" .` returns no results
+5. Verify: `grep -ri "MotorMetrics" .` returns no results
 
 ---
 
@@ -98,7 +98,7 @@ grep -r "sgcarstrends\.com" --include="*.ts" --include="*.tsx" --include="*.json
 
 ### Steps
 
-1. Replace `sgcarstrends.com` with new domain in all source files
+1. Replace `motormetrics.app` with new domain in all source files
 2. Update CORS and CSP headers
 3. Update `robots.txt` and sitemap generation
 4. Update canonical URLs
@@ -134,7 +134,7 @@ grep -ri "sgcarstrends" --include="*.md" -l .
 
 ### Steps
 
-1. Rename `SG_CARS_TRENDS_API_TOKEN` → `MOTORMETRICS_API_TOKEN` in GitHub Actions
+1. Rename `MOTORMETRICS_API_TOKEN` → `MOTORMETRICS_API_TOKEN` in GitHub Actions
 2. Update `.github/workflows/*.yml` references
 3. Update Vercel environment variables (manual step)
 4. Update npm publish config for `@motormetrics` scope
@@ -164,13 +164,13 @@ Run these commands to confirm no references remain:
 grep -r "@sgcarstrends" --include="*.ts" --include="*.tsx" --include="*.json" .
 
 # Check for display name references
-grep -ri "SG Cars Trends" --include="*.ts" --include="*.tsx" --include="*.json" --include="*.md" .
+grep -ri "MotorMetrics" --include="*.ts" --include="*.tsx" --include="*.json" --include="*.md" .
 
 # Check for domain references
 grep -r "sgcarstrends\.com" .
 
 # Check for env var references
-grep -r "SG_CARS_TRENDS" --include="*.ts" --include="*.tsx" --include="*.yml" --include="*.json" .
+grep -r "MOTORMETRICS" --include="*.ts" --include="*.tsx" --include="*.yml" --include="*.json" .
 
 # Build, test, lint
 pnpm build && pnpm test && pnpm lint

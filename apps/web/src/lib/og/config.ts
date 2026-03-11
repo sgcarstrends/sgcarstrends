@@ -10,10 +10,10 @@ export const OG_CONFIG = {
   fontFamily: "Geist",
 
   /** Site name for branding */
-  siteName: "SG Cars Trends",
+  siteName: "MotorMetrics",
 
   /** Site URL for branding */
-  siteUrl: "sgcarstrends.com",
+  siteUrl: "motormetrics.app",
 
   /** Border radius in pixels */
   borderRadius: 10,

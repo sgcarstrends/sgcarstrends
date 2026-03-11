@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@sgcarstrends/ai", () => ({
+vi.mock("@motormetrics/ai", () => ({
   generateBlogContent: vi.fn(),
   getCoeForMonth: vi.fn(),
 }));
 
-vi.mock("@sgcarstrends/utils", () => ({
+vi.mock("@motormetrics/utils", () => ({
   redis: {
     set: vi.fn(),
   },
@@ -52,8 +52,8 @@ vi.mock("@web/workflows/shared", () => ({
   revalidatePostsCache: vi.fn(),
 }));
 
-import { generateBlogContent, getCoeForMonth } from "@sgcarstrends/ai";
-import { redis } from "@sgcarstrends/utils";
+import { generateBlogContent, getCoeForMonth } from "@motormetrics/ai";
+import { redis } from "@motormetrics/utils";
 import { getCOELatestRecord } from "@web/queries/coe/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { coeWorkflow } from "@web/workflows/coe";

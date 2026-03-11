@@ -3,7 +3,7 @@
 import {
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
+} from "@motormetrics/ui/components/chart";
 import { CHART_CURSOR, type ChartCursor } from "@web/config/design-system";
 import type { ComponentProps } from "react";
 

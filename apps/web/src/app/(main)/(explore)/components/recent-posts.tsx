@@ -1,5 +1,5 @@
 import { Link } from "@heroui/link";
-import type { SelectPost } from "@sgcarstrends/database";
+import type { SelectPost } from "@motormetrics/database";
 import { Post } from "@web/app/(main)/(site)/blog/components/post";
 import Typography from "@web/components/typography";
 import { ArrowUpRight } from "lucide-react";

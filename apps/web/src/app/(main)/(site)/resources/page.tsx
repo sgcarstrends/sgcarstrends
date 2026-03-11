@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    site: "@sgcarstrends",
-    creator: "@sgcarstrends",
+    site: "@motormetrics",
+    creator: "@motormetrics",
   },
   alternates: {
     canonical: "/resources",

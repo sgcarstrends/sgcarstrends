@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@sgcarstrends/ai", () => ({
+vi.mock("@motormetrics/ai", () => ({
   getCarsAggregatedByMonth: vi.fn(),
   getCoeForMonth: vi.fn(),
   regenerateBlogContent: vi.fn(),
 }));
 
-vi.mock("@sgcarstrends/utils", () => ({
+vi.mock("@motormetrics/utils", () => ({
   tokeniser: vi.fn((data) => JSON.stringify(data)),
 }));
 
@@ -22,7 +22,7 @@ import {
   getCarsAggregatedByMonth,
   getCoeForMonth,
   regenerateBlogContent,
-} from "@sgcarstrends/ai";
+} from "@motormetrics/ai";
 import { regeneratePostWorkflow } from "@web/workflows/regenerate-post";
 import { revalidatePostsCache } from "@web/workflows/shared";
 

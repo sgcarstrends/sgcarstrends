@@ -29,12 +29,12 @@ export const generateDatasetSchema = (): Dataset => ({
   url: `${SITE_URL}/cars`,
   creator: {
     "@type": "Organization",
-    name: "SG Cars Trends",
+    name: "MotorMetrics",
     url: SITE_URL,
   },
   publisher: {
     "@type": "Organization",
-    name: "SG Cars Trends",
+    name: "MotorMetrics",
     url: SITE_URL,
   },
   provider: {

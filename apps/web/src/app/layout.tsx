@@ -26,9 +26,9 @@ export const metadata: Metadata = {
     default: title,
   },
   description,
-  authors: [{ name: "SG Cars Trends", url: SITE_URL }],
-  creator: "SG Cars Trends",
-  publisher: "SG Cars Trends",
+  authors: [{ name: "MotorMetrics", url: SITE_URL }],
+  creator: "MotorMetrics",
+  publisher: "MotorMetrics",
   category: "Automotive Statistics",
   robots: {
     index: true,
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/opengraph-image.png`,
         width: 1200,
         height: 630,
-        alt: "SG Cars Trends - Singapore Car Registration Statistics",
+        alt: "MotorMetrics - Singapore Car Registration Statistics",
       },
     ],
     url,
@@ -62,8 +62,8 @@ export const metadata: Metadata = {
     title,
     description,
     images: [`${SITE_URL}/twitter-image.png`],
-    site: "@sgcarstrends",
-    creator: "@sgcarstrends",
+    site: "@motormetrics",
+    creator: "@motormetrics",
   },
   alternates: {
     canonical: SITE_URL,
@@ -90,9 +90,9 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       </body>
       <Script
         defer
-        src="https://analytics.sgcarstrends.com/script.js"
+        src="https://analytics.motormetrics.app/script.js"
         data-website-id="b98dda44-ccc9-4a73-87d4-dcbe561aedb8"
-        data-domains="sgcarstrends.com"
+        data-domains="motormetrics.app"
       />
     </html>
   );

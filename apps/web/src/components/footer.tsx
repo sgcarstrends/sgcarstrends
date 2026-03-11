@@ -81,7 +81,7 @@ export function Footer() {
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:gap-0">
           <div className="text-center text-default-600 md:text-left">
             <Typography.TextSm>
-              © {CURRENT_YEAR} SGCarsTrends. All rights reserved. • v{version}
+              © {CURRENT_YEAR} MotorMetrics. All rights reserved. • v{version}
             </Typography.TextSm>
             <Typography.TextSm>
               Data provided by{" "}

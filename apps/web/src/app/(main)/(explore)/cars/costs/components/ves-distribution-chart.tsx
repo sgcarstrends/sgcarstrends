@@ -2,12 +2,12 @@
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { cn } from "@heroui/theme";
-import type { SelectCarCost } from "@sgcarstrends/database";
+import type { SelectCarCost } from "@motormetrics/database";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
+} from "@motormetrics/ui/components/chart";
 import { VES_BAND_ORDER } from "@web/app/(main)/(explore)/cars/costs/constants";
 import Typography from "@web/components/typography";
 import { CARD_PADDING, CHART_HEIGHTS, RADIUS } from "@web/config/design-system";

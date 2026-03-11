@@ -53,7 +53,7 @@ export {
 Use in apps:
 
 ```typescript
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@sgcarstrends/ui";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@motormetrics/ui";
 ```
 
 ## Core Components
@@ -145,7 +145,7 @@ export function StatCard({ title, value, trend, className }: StatCardProps) {
 ## cn() Utility
 
 ```typescript
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { cn } from "@motormetrics/ui/lib/utils";
 
 <div className={cn("base-classes", condition && "conditional", className)}>
 ```

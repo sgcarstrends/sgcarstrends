@@ -1,10 +1,10 @@
-import { slugify } from "@sgcarstrends/utils";
+import { slugify } from "@motormetrics/utils";
 import { withRelatedProject } from "@vercel/related-projects";
 import { VEHICLE_TYPE_MAP } from "@web/constants";
 import type { Announcement, LinkItem, VehicleType } from "@web/types";
 import { Battery, Droplet, Fuel, Zap } from "lucide-react";
 
-export const DOMAIN_NAME = "sgcarstrends.com";
+export const DOMAIN_NAME = "motormetrics.app";
 const API_VERSION = "v1";
 
 export const SITE_URL =
@@ -12,7 +12,7 @@ export const SITE_URL =
   (process.env.NEXT_PUBLIC_VERCEL_URL
     ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
     : `https://${DOMAIN_NAME}`);
-export const SITE_TITLE = "SG Cars Trends";
+export const SITE_TITLE = "MotorMetrics";
 
 const DEFAULT_API_URL = `https://api.${DOMAIN_NAME}`;
 export const API_BASE_URL =

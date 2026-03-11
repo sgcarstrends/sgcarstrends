@@ -26,8 +26,8 @@ describe("Metadata Utilities", () => {
           card: "summary_large_image",
           title: "COE Results",
           description: "Latest COE bidding results for Singapore",
-          site: "@sgcarstrends",
-          creator: "@sgcarstrends",
+          site: "@motormetrics",
+          creator: "@motormetrics",
         },
         alternates: {
           canonical: "/coe/results",
@@ -74,11 +74,9 @@ describe("Metadata Utilities", () => {
         includeAuthors: true,
       });
 
-      expect(result.authors).toEqual([
-        { name: "SG Cars Trends", url: SITE_URL },
-      ]);
-      expect(result.creator).toBe("SG Cars Trends");
-      expect(result.publisher).toBe("SG Cars Trends");
+      expect(result.authors).toEqual([{ name: "MotorMetrics", url: SITE_URL }]);
+      expect(result.creator).toBe("MotorMetrics");
+      expect(result.publisher).toBe("MotorMetrics");
     });
 
     it("should not include author information by default", () => {
@@ -130,9 +128,9 @@ describe("Metadata Utilities", () => {
       expect(result).toMatchObject({
         title: "Car Registrations",
         description: "Singapore car registration statistics",
-        authors: [{ name: "SG Cars Trends", url: SITE_URL }],
-        creator: "SG Cars Trends",
-        publisher: "SG Cars Trends",
+        authors: [{ name: "MotorMetrics", url: SITE_URL }],
+        creator: "MotorMetrics",
+        publisher: "MotorMetrics",
       });
       expect(result.openGraph?.images).toBe("/api/og?title=Cars");
       expect(result.twitter?.images).toBe("/api/og?title=Cars");

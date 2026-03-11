@@ -1,4 +1,4 @@
-import { slugify } from "@sgcarstrends/utils";
+import { slugify } from "@motormetrics/utils";
 import { SITE_LINKS, SITE_URL } from "@web/config";
 import { getDistinctMakes } from "@web/queries/cars";
 import { getAllPosts } from "@web/queries/posts";

@@ -52,8 +52,8 @@ export const createPageMetadata = ({
       card: "summary_large_image",
       title,
       description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
+      site: "@motormetrics",
+      creator: "@motormetrics",
     },
     alternates: {
       canonical,
@@ -73,9 +73,9 @@ export const createPageMetadata = ({
 
   // Add author information if requested
   if (includeAuthors) {
-    metadata.authors = [{ name: "SG Cars Trends", url: SITE_URL }];
-    metadata.creator = "SG Cars Trends";
-    metadata.publisher = "SG Cars Trends";
+    metadata.authors = [{ name: "MotorMetrics", url: SITE_URL }];
+    metadata.creator = "MotorMetrics";
+    metadata.publisher = "MotorMetrics";
   }
 
   return metadata;

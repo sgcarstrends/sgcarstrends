@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardBody } from "@heroui/card";
-import type { SelectPost } from "@sgcarstrends/database";
+import type { SelectPost } from "@motormetrics/database";
 import Link from "next/link";
 import { Cover } from "./cover";
 import { formatDate, getExcerpt, getReadingTime } from "./utils";

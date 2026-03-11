@@ -2,13 +2,13 @@
 
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { cn } from "@heroui/theme";
-import type { SelectCarCost } from "@sgcarstrends/database";
+import type { SelectCarCost } from "@motormetrics/database";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
-import { formatCurrency } from "@sgcarstrends/utils";
+} from "@motormetrics/ui/components/chart";
+import { formatCurrency } from "@motormetrics/utils";
 import {
   FUEL_TYPE_LABELS,
   FUEL_TYPE_ORDER,

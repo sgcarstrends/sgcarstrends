@@ -1,5 +1,5 @@
 import type { CarLogo } from "@logos/types";
-import { redis } from "@sgcarstrends/utils";
+import { redis } from "@motormetrics/utils";
 import { MakesDashboard } from "@web/app/(main)/(explore)/cars/components/makes/makes-dashboard";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
