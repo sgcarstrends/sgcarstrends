@@ -1,8 +1,12 @@
 {
   "mcpServers": {
-    "sgcarstrends": {
+    "motormetrics": {
       "command": "bunx",
-      "args": ["-y", "@sgcarstrends/mcp"]
+      "args": ["-y", "@motormetrics/mcp"]
+    },
+    "heroui-migration": {
+      "type": "http",
+      "url": "staging-migration-mcp.heroui.com"
     }
   }
 }

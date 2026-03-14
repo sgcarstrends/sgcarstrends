@@ -1,4 +1,4 @@
-import { redis, slugify } from "@sgcarstrends/utils";
+import { redis, slugify } from "@motormetrics/utils";
 import { MakeDetail } from "@web/app/(main)/(explore)/cars/components/makes/make-detail";
 import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";

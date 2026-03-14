@@ -54,7 +54,6 @@ async function generateContent(
   const result = await generateText({
     model: google("gemini-3-flash-preview"),
     tools: {
-      // @ts-expect-error - code_execution is a valid tool
       code_execution: google.tools.codeExecution({}),
     },
     output: Output.object({

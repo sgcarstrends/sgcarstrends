@@ -56,16 +56,16 @@ export const generateMetadata = async ({
     title: post.title,
     description: post.excerpt || "",
     keywords: post.tags ?? [],
-    authors: [{ name: "SG Cars Trends AI", url: SITE_URL }],
-    creator: "SG Cars Trends",
-    publisher: "SG Cars Trends",
+    authors: [{ name: "MotorMetrics AI", url: SITE_URL }],
+    creator: "MotorMetrics",
+    publisher: "MotorMetrics",
     openGraph: {
       title: post.title,
       description: post.excerpt || "",
       type: "article",
       publishedTime: publishedDate.toISOString(),
       modifiedTime: modifiedDate.toISOString(),
-      authors: ["SG Cars Trends"],
+      authors: ["MotorMetrics"],
       tags: post.tags ?? [],
       url: `${SITE_URL}${canonical}`,
     },
@@ -73,8 +73,8 @@ export const generateMetadata = async ({
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt || "",
-      creator: "@sgcarstrends",
-      site: "@sgcarstrends",
+      creator: "@motormetrics",
+      site: "@motormetrics",
     },
     alternates: {
       canonical,
@@ -158,12 +158,12 @@ export default async function BlogPostPage({ params }: PageProps) {
     inLanguage: "en-SG",
     author: {
       "@type": "Organization",
-      name: "SG Cars Trends",
+      name: "MotorMetrics",
       url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
-      name: "SG Cars Trends",
+      name: "MotorMetrics",
       url: SITE_URL,
     },
     image: {
@@ -175,7 +175,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       post.dataType === "cars" ? "Market Analysis" : "COE Bidding",
     isPartOf: {
       "@type": "Blog",
-      name: "SG Cars Trends Blog",
+      name: "MotorMetrics Blog",
       url: `${SITE_URL}/blog`,
     },
   };

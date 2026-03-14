@@ -1,4 +1,4 @@
-import { cars, coe, db } from "@sgcarstrends/database";
+import { cars, coe, db } from "@motormetrics/database";
 import { and, asc, eq, gt, sql } from "drizzle-orm";
 
 export const getCarsAggregatedByMonth = (month: string) =>

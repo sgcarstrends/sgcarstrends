@@ -2,8 +2,8 @@ import {
   getCarsAggregatedByMonth,
   getCoeForMonth,
   regenerateBlogContent,
-} from "@sgcarstrends/ai";
-import { tokeniser } from "@sgcarstrends/utils";
+} from "@motormetrics/ai";
+import { tokeniser } from "@motormetrics/utils";
 import { revalidatePostsCache } from "@web/workflows/shared";
 import { fetch } from "workflow";
 

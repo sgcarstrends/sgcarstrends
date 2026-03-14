@@ -1,4 +1,4 @@
-import { slugify } from "@sgcarstrends/utils";
+import { slugify } from "@motormetrics/utils";
 import {
   generateTypeDetailMetadata,
   TypeDetail,

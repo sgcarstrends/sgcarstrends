@@ -1,7 +1,7 @@
 "use client";
 
 import { CardBody, Card as HeroCard } from "@heroui/card";
-import type { SelectPost } from "@sgcarstrends/database";
+import type { SelectPost } from "@motormetrics/database";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Cover } from "./cover";

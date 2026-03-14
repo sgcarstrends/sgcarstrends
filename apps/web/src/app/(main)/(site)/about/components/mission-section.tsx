@@ -45,7 +45,7 @@ export function MissionSection() {
                 decisions feels nearly impossible.
               </Typography.TextLg>
               <Typography.TextLg className="text-default-600">
-                We built SG Cars Trends to change that. By aggregating official
+                We built MotorMetrics to change that. By aggregating official
                 data from the Land Transport Authority and presenting it through
                 intuitive visualisations, we hope to make this data easier to
                 find and explore, rather than scattered across government

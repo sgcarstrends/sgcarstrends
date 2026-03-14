@@ -158,16 +158,16 @@ export function MaintenanceNotice() {
           </Typography.Text>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="mailto:support@sgcarstrends.com"
+              href="mailto:support@motormetrics.app"
               color="primary"
               className="flex items-center gap-2 font-medium text-sm"
             >
               <Mail className="size-4" />
-              support@sgcarstrends.com
+              support@motormetrics.app
             </Link>
             <span className="hidden text-foreground-400 sm:inline">|</span>
             <Link
-              href="https://twitter.com/sgcarstrends"
+              href="https://twitter.com/motormetrics"
               color="primary"
               className="flex items-center gap-2 font-medium text-sm"
               isExternal

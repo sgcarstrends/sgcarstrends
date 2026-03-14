@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@sgcarstrends/utils", () => ({
+vi.mock("@motormetrics/utils", () => ({
   redis: {
     set: vi.fn(),
   },
@@ -37,7 +37,7 @@ vi.mock("next/cache", () => ({
   revalidateTag: vi.fn(),
 }));
 
-import { redis } from "@sgcarstrends/utils";
+import { redis } from "@motormetrics/utils";
 import { getVehiclePopulationYears } from "@web/queries/vehicle-population";
 import { vehiclePopulationWorkflow } from "@web/workflows/vehicle-population";
 import { updateVehiclePopulation } from "@web/workflows/vehicle-population/steps/process-data";

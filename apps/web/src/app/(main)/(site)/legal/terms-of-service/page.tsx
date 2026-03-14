@@ -13,7 +13,7 @@ const TermsPage = () => (
     <section>
       <h2>Using Our Website</h2>
       <p>
-        By using SGCarsTrends, you agree to these terms. Pretty straightforward!
+        By using MotorMetrics, you agree to these terms. Pretty straightforward!
       </p>
     </section>
 

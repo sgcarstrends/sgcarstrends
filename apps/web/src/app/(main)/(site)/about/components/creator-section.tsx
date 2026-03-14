@@ -45,7 +45,7 @@ export function CreatorSection() {
                 Singapore
               </Typography.H2>
               <Typography.TextLg className="text-default-600">
-                SG Cars Trends is an independent project created by{" "}
+                MotorMetrics is an independent project created by{" "}
                 <Link
                   href="https://ruchern.dev"
                   isExternal

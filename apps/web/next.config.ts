@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "assets.sgcarstrends.com",
+        hostname: "assets.motormetrics.app",
         pathname: "/logos/**",
       },
       {
@@ -37,7 +37,7 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
-  transpilePackages: ["@sgcarstrends/ui"],
+  transpilePackages: ["@motormetrics/ui"],
   experimental: {
     mcpServer: true,
     turbopackFileSystemCacheForBuild: true,
@@ -47,7 +47,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/:path*",
-        has: [{ type: "host", value: "api.sgcarstrends.com" }],
+        has: [{ type: "host", value: "api.motormetrics.app" }],
         destination: "/api/v1/:path*",
       },
     ];

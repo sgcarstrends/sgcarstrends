@@ -14,7 +14,7 @@ const PrivacyPage = () => (
       <h2>Privacy? We&apos;ve Got You Covered</h2>
       <p>
         We care about your privacy. This policy explains how we collect and use
-        your information when you visit SGCarsTrends. We&apos;ll keep it simple
+        your information when you visit MotorMetrics. We&apos;ll keep it simple
         and straightforward.
       </p>
     </section>

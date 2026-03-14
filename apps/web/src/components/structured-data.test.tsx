@@ -13,7 +13,7 @@ describe("StructuredData", () => {
     const data: WithContext<Organization> = {
       "@context": "https://schema.org",
       "@type": "Organization",
-      name: "SG Cars Trends",
+      name: "MotorMetrics",
     };
 
     const { container } = render(<StructuredData data={data} />);
@@ -23,6 +23,6 @@ describe("StructuredData", () => {
     ) as HTMLScriptElement;
 
     expect(script).toBeTruthy();
-    expect(script.textContent).toContain("SG Cars Trends");
+    expect(script.textContent).toContain("MotorMetrics");
   });
 });

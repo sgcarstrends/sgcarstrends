@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { cn } from "@heroui/theme";
-import type { SelectCarCost } from "@sgcarstrends/database";
-import { formatCurrency } from "@sgcarstrends/utils";
+import type { SelectCarCost } from "@motormetrics/database";
+import { formatCurrency } from "@motormetrics/utils";
 import Typography from "@web/components/typography";
 import { CARD_PADDING, RADIUS } from "@web/config/design-system";
 

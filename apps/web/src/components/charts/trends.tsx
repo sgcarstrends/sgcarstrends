@@ -6,8 +6,8 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
-import { formatDateToMonthYear } from "@sgcarstrends/utils";
+} from "@motormetrics/ui/components/chart";
+import { formatDateToMonthYear } from "@motormetrics/utils";
 import { ChartWidget } from "@web/components/charts/widget";
 import { CHART_MARGINS } from "@web/config/design-system";
 import { formatNumber } from "@web/utils/charts";

@@ -6,7 +6,7 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
+} from "@motormetrics/ui/components/chart";
 import { EV_COLORS } from "@web/app/(main)/(explore)/cars/electric-vehicles/constants";
 import Typography from "@web/components/typography";
 import {

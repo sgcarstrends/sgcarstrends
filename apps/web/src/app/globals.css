@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@sgcarstrends/ui/globals.css";
+@import "@motormetrics/ui/globals.css";
 
 @plugin "@tailwindcss/typography";
 @plugin "./hero.ts";

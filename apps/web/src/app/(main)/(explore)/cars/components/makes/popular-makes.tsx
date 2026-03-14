@@ -1,4 +1,4 @@
-import { slugify } from "@sgcarstrends/utils";
+import { slugify } from "@motormetrics/utils";
 import type { Make, MakeStats } from "@web/types";
 import { TrendingUp } from "lucide-react";
 import { MakeCard } from "./make-card";

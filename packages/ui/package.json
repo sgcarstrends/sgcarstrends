@@ -1,9 +1,9 @@
 {
-  "name": "@sgcarstrends/ui",
+  "name": "@motormetrics/ui",
   "description": "",
   "version": "4.64.0",
   "type": "module",
-  "author": "Ru Chern Chong <ruchern.chong@sgcarstrends.com>",
+  "author": "Ru Chern Chong <ruchern.chong@motormetrics.app>",
   "license": "MIT",
   "scripts": {
     "lint": "biome check .",

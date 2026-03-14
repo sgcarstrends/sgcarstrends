@@ -12,7 +12,7 @@ import { TimelineSection } from "./components/timeline-section";
 
 const title = "About";
 const description =
-  "Learn about SG Cars Trends, a platform for exploring Singapore car registration statistics, COE bidding results, and market data. Built to make car market information easier to find and understand.";
+  "Learn about MotorMetrics, a platform for exploring Singapore car registration statistics, COE bidding results, and market data. Built to make car market information easier to find and understand.";
 
 export const metadata: Metadata = {
   title,
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${title} - ${SITE_TITLE}`,
     description,
-    site: "@sgcarstrends",
-    creator: "@sgcarstrends",
+    site: "@motormetrics",
+    creator: "@motormetrics",
   },
   alternates: {
     canonical: "/about",
@@ -60,11 +60,11 @@ export default async function AboutPage() {
     description:
       "A platform for exploring Singapore car registration statistics, COE bidding results, and market data.",
     sameAs: [
-      "https://twitter.com/sgcarstrends",
-      "https://github.com/sgcarstrends",
-      "https://linkedin.com/company/sgcarstrends",
-      "https://t.me/sgcarstrends",
-      "https://discord.gg/sgcarstrends",
+      "https://twitter.com/motormetrics",
+      "https://github.com/motormetrics",
+      "https://linkedin.com/company/motormetrics",
+      "https://t.me/motormetrics",
+      "https://discord.gg/motormetrics",
     ],
     founder: {
       "@type": "Person",

@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@sgcarstrends/ai", () => ({
+vi.mock("@motormetrics/ai", () => ({
   generateBlogContent: vi.fn(),
   getCarsAggregatedByMonth: vi.fn(),
 }));
 
-vi.mock("@sgcarstrends/utils", () => ({
+vi.mock("@motormetrics/utils", () => ({
   redis: {
     set: vi.fn(),
   },
@@ -61,8 +61,8 @@ vi.mock("@web/lib/redis/makes", () => ({
 import {
   generateBlogContent,
   getCarsAggregatedByMonth,
-} from "@sgcarstrends/ai";
-import { redis } from "@sgcarstrends/utils";
+} from "@motormetrics/ai";
+import { redis } from "@motormetrics/utils";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { carsWorkflow } from "@web/workflows/cars";
