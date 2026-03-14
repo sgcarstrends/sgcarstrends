@@ -7,6 +7,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
+    // detectAsyncLeaks: true, // Available for targeted debugging; too noisy with framer-motion animation leaks
     coverage: {
       enabled: true,
       include: ["src"],
