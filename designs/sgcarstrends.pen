@@ -1,0 +1,4995 @@
+{
+  "version": "2.9",
+  "children": [
+    {
+      "type": "frame",
+      "id": "QIew6",
+      "x": 0,
+      "y": 0,
+      "name": "Component/NavBar",
+      "reusable": true,
+      "width": 1280,
+      "height": 64,
+      "fill": "$--bg",
+      "padding": [
+        0,
+        24
+      ],
+      "justifyContent": "space_between",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "jNM9p",
+          "name": "brand",
+          "gap": 8,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 6,
+              "id": "q8t3t",
+              "name": "logo",
+              "fill": "$--primary",
+              "width": 28,
+              "height": 28
+            },
+            {
+              "type": "text",
+              "id": "G2t89",
+              "name": "logoText",
+              "fill": "$--text",
+              "content": "SG Cars Trends",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "F33Rp",
+          "name": "navLinks",
+          "gap": 4,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "dsiae",
+              "name": "navActive",
+              "fill": "$--primary",
+              "cornerRadius": 99,
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "kyQkM",
+                  "name": "navActiveText",
+                  "fill": "$--primary-fg",
+                  "content": "Dashboard",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "2J6Cg",
+              "name": "navItem1",
+              "fill": "$--bg-subtle",
+              "cornerRadius": 99,
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "G6c1m",
+                  "name": "navItem1Text",
+                  "fill": "$--text",
+                  "content": "Blog",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "UChKJ",
+              "name": "navItem2",
+              "fill": "$--bg-subtle",
+              "cornerRadius": 99,
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "b9YKR",
+                  "name": "navItem2Text",
+                  "fill": "$--text",
+                  "content": "Resources",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "m3j90",
+              "name": "navItem3",
+              "fill": "$--bg-subtle",
+              "cornerRadius": 99,
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "LMVxl",
+                  "name": "navItem3Text",
+                  "fill": "$--text",
+                  "content": "About",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "tLHDj",
+      "x": 0,
+      "y": 0,
+      "name": "Component/StatCard",
+      "reusable": true,
+      "width": 300,
+      "fill": "$--bg-card",
+      "cornerRadius": 24,
+      "stroke": {
+        "thickness": 2,
+        "fill": "$--primary"
+      },
+      "layout": "vertical",
+      "gap": 12,
+      "padding": 24,
+      "children": [
+        {
+          "type": "frame",
+          "id": "BO6fZ",
+          "name": "statIcon",
+          "width": "fill_container",
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 12,
+              "id": "owzGv",
+              "name": "iconBox",
+              "fill": "$--bg-subtle",
+              "width": 48,
+              "height": 48
+            },
+            {
+              "type": "frame",
+              "id": "1xdub",
+              "name": "trendBadge",
+              "fill": "#DCFCE7",
+              "cornerRadius": 99,
+              "gap": 4,
+              "padding": [
+                4,
+                10
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "D6vK6",
+                  "name": "trendText",
+                  "fill": "#16A34A",
+                  "content": "+5.2%",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "BRRsx",
+          "name": "statLabel",
+          "fill": "$--text-secondary",
+          "content": "Total Registrations",
+          "fontFamily": "Inter",
+          "fontSize": 13,
+          "fontWeight": "500"
+        },
+        {
+          "type": "text",
+          "id": "BZqLK",
+          "name": "statValue",
+          "fill": "$--text",
+          "content": "46,500",
+          "fontFamily": "Inter",
+          "fontSize": 32,
+          "fontWeight": "700"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "qgu3W",
+      "x": 0,
+      "y": 0,
+      "name": "Component/HubCard",
+      "reusable": true,
+      "width": 280,
+      "fill": "$--bg-card",
+      "cornerRadius": 16,
+      "stroke": {
+        "thickness": 1,
+        "fill": "$--border"
+      },
+      "layout": "vertical",
+      "gap": 8,
+      "padding": 20,
+      "children": [
+        {
+          "type": "frame",
+          "id": "H3yRq",
+          "name": "hubHeader",
+          "gap": 8,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 4,
+              "id": "G6Dhc",
+              "name": "hubIcon",
+              "fill": "$--primary",
+              "width": 20,
+              "height": 20
+            },
+            {
+              "type": "text",
+              "id": "qhYtX",
+              "name": "hubTitle",
+              "fill": "$--text",
+              "content": "Car Registrations",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "VHrXC",
+          "name": "hubDesc",
+          "fill": "$--text-secondary",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "View monthly new car registration data by fuel type and vehicle type.",
+          "lineHeight": 1.5,
+          "fontFamily": "Inter",
+          "fontSize": 13,
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "HDwam",
+      "x": 0,
+      "y": 300,
+      "name": "Homepage",
+      "width": 1280,
+      "fill": "$--bg",
+      "layout": "vertical",
+      "gap": 24,
+      "padding": [
+        0,
+        0,
+        32,
+        0
+      ],
+      "children": [
+        {
+          "id": "ySpLX",
+          "type": "ref",
+          "ref": "QIew6",
+          "width": "fill_container",
+          "name": "nav1"
+        },
+        {
+          "type": "frame",
+          "id": "qHV3o",
+          "name": "subNav",
+          "width": "fill_container",
+          "fill": "$--bg",
+          "gap": 8,
+          "padding": [
+            16,
+            32
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "Gk6SP",
+              "name": "pill1",
+              "fill": "$--primary",
+              "cornerRadius": 99,
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "did5e",
+                  "name": "pill1t",
+                  "fill": "$--primary-fg",
+                  "content": "Overview",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hGtTq",
+              "name": "pill2",
+              "fill": "$--bg-subtle",
+              "cornerRadius": 99,
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "XG8Ee",
+                  "name": "pill2t",
+                  "fill": "$--text",
+                  "content": "Cars",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NMzJP",
+              "name": "pill3",
+              "fill": "$--bg-subtle",
+              "cornerRadius": 99,
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "viyrF",
+                  "name": "pill3t",
+                  "fill": "$--text",
+                  "content": "COE",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DAo5J",
+          "name": "row1",
+          "width": "fill_container",
+          "gap": 24,
+          "padding": [
+            0,
+            32
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "51yAw",
+              "name": "h1",
+              "fill": "$--text",
+              "content": "Overview",
+              "fontFamily": "Inter",
+              "fontSize": 48,
+              "fontWeight": "700"
+            },
+            {
+              "id": "JrhLc",
+              "type": "ref",
+              "ref": "tLHDj",
+              "width": 280,
+              "name": "sc1",
+              "x": 281,
+              "descendants": {
+                "BO6fZ": {
+                  "width": "fill_container"
+                },
+                "1xdub": {
+                  "x": 173
+                }
+              }
+            },
+            {
+              "id": "t4QUs",
+              "type": "ref",
+              "ref": "tLHDj",
+              "width": 280,
+              "name": "sc2",
+              "x": 585,
+              "descendants": {
+                "BO6fZ": {
+                  "width": "fill_container"
+                },
+                "1xdub": {
+                  "x": 179,
+                  "fill": "#FEE2E2"
+                },
+                "D6vK6": {
+                  "content": "-2.1%",
+                  "fill": "#DC2626"
+                },
+                "BRRsx": {
+                  "content": "Monthly Change"
+                },
+                "BZqLK": {
+                  "content": "-2.1%"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "a4vFi",
+          "name": "COE Card",
+          "width": "fill_container",
+          "fill": "$--bg-card",
+          "cornerRadius": 16,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$--border"
+          },
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            24,
+            32
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "nuofL",
+              "name": "coeWrap",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                0,
+                8
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "8yUCY",
+                  "name": "coeHeader",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "LDG6X",
+                      "name": "coeTitle",
+                      "fill": "$--text",
+                      "content": "Latest COE Results",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "c0Ibt",
+                      "name": "coeBadge",
+                      "fill": "$--bg-subtle",
+                      "cornerRadius": 99,
+                      "padding": [
+                        4,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "HNYWE",
+                          "name": "coeBadgeT",
+                          "fill": "$--text-secondary",
+                          "content": "Mar 2025 Round 2",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "GUuJq",
+                  "name": "coeGrid",
+                  "width": "fill_container",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "zIw8J",
+                      "name": "catA",
+                      "width": "fill_container",
+                      "stroke": {
+                        "thickness": {
+                          "right": 1
+                        },
+                        "fill": "$--border"
+                      },
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "9PzJC",
+                          "name": "catAl",
+                          "fill": "$--text-secondary",
+                          "content": "Cat A",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "IICfM",
+                          "name": "catAv",
+                          "fill": "$--text",
+                          "content": "$103,501",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "YJCyP",
+                      "name": "catB",
+                      "width": "fill_container",
+                      "stroke": {
+                        "thickness": {
+                          "right": 1
+                        },
+                        "fill": "$--border"
+                      },
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "jKZnJ",
+                          "name": "catBl",
+                          "fill": "$--text-secondary",
+                          "content": "Cat B",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "mpfKm",
+                          "name": "catBv",
+                          "fill": "$--text",
+                          "content": "$155,689",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tkm7g",
+                      "name": "catC",
+                      "width": "fill_container",
+                      "stroke": {
+                        "thickness": {
+                          "right": 1
+                        },
+                        "fill": "$--border"
+                      },
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ADyIN",
+                          "name": "catCl",
+                          "fill": "$--text-secondary",
+                          "content": "Cat C",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "3gyTQ",
+                          "name": "catCv",
+                          "fill": "$--text",
+                          "content": "$76,010",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "viqDn",
+                      "name": "catD",
+                      "width": "fill_container",
+                      "stroke": {
+                        "thickness": {
+                          "right": 1
+                        },
+                        "fill": "$--border"
+                      },
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "AGmeE",
+                          "name": "catDl",
+                          "fill": "$--text-secondary",
+                          "content": "Cat D",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "qjeLr",
+                          "name": "catDv",
+                          "fill": "$--text",
+                          "content": "$8,001",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jz2DF",
+                      "name": "catE",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ZNHZI",
+                          "name": "catEl",
+                          "fill": "$--text-secondary",
+                          "content": "Cat E",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "TbaXe",
+                          "name": "catEv",
+                          "fill": "$--text",
+                          "content": "$115,523",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "8rrb2",
+          "name": "Row3",
+          "width": "fill_container",
+          "gap": 24,
+          "padding": [
+            0,
+            32
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "ANccu",
+              "name": "topMakes",
+              "width": "fill_container",
+              "fill": "$--bg-card",
+              "cornerRadius": 16,
+              "stroke": {
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "j0l7P",
+                  "name": "tmTitle",
+                  "fill": "$--text",
+                  "content": "Top Makes",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "VfQyI",
+                  "name": "mk1",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$--border"
+                  },
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "YGFKH",
+                      "name": "mk1n",
+                      "fill": "$--text",
+                      "content": "Toyota",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "iyzdZ",
+                      "name": "mk1v",
+                      "fill": "$--text-secondary",
+                      "content": "4,521",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "c3A7d",
+                  "name": "mk2",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$--border"
+                  },
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "TuK4X",
+                      "name": "mk2n",
+                      "fill": "$--text",
+                      "content": "BMW",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "zc784",
+                      "name": "mk2v",
+                      "fill": "$--text-secondary",
+                      "content": "2,310",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xaaWr",
+                  "name": "mk3",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$--border"
+                  },
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "z4QX8",
+                      "name": "mk3n",
+                      "fill": "$--text",
+                      "content": "Mercedes-Benz",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "bWwU7",
+                      "name": "mk3v",
+                      "fill": "$--text-secondary",
+                      "content": "2,108",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "XbiaM",
+                  "name": "mk4",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$--border"
+                  },
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Zjhwq",
+                      "name": "mk4n",
+                      "fill": "$--text",
+                      "content": "Honda",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "DfuaQ",
+                      "name": "mk4v",
+                      "fill": "$--text-secondary",
+                      "content": "1,842",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FncPv",
+                  "name": "mk5",
+                  "width": "fill_container",
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "5B9Wu",
+                      "name": "mk5n",
+                      "fill": "$--text",
+                      "content": "Hyundai",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "cndyv",
+                      "name": "mk5v",
+                      "fill": "$--text-secondary",
+                      "content": "1,567",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "arK54",
+              "name": "recentPosts",
+              "width": 360,
+              "fill": "$--bg-card",
+              "cornerRadius": 16,
+              "stroke": {
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Zjsj6",
+                  "name": "rpTitle",
+                  "fill": "$--text",
+                  "content": "Recent Posts",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "RuiUR",
+                  "name": "rp1",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "cRGdP",
+                      "name": "rp1t",
+                      "fill": "$--primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "COE Premiums Hit Record Highs in March 2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "31Nbj",
+                      "name": "rp1d",
+                      "fill": "$--text-muted",
+                      "content": "Mar 15, 2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "pKBvZ",
+                  "name": "rp2",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Q3SoZ",
+                      "name": "rp2t",
+                      "fill": "$--primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Electric Vehicle Registrations Surge 42%",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "pOUBY",
+                      "name": "rp2d",
+                      "fill": "$--text-muted",
+                      "content": "Mar 10, 2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "2pJBG",
+                  "name": "rp3",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "YWQem",
+                      "name": "rp3t",
+                      "fill": "$--primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "February 2025 Car Market Analysis",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "IHnlS",
+                      "name": "rp3d",
+                      "fill": "$--text-muted",
+                      "content": "Mar 5, 2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DdpGb",
+          "name": "Row4",
+          "width": "fill_container",
+          "gap": 24,
+          "padding": [
+            0,
+            32
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "RfQck",
+              "name": "chartCard",
+              "width": "fill_container",
+              "fill": "$--bg-card",
+              "cornerRadius": 16,
+              "stroke": {
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Z25Mb",
+                  "name": "chartTitle",
+                  "fill": "$--text",
+                  "content": "Yearly Registrations",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "rTORp",
+                  "name": "barArea",
+                  "width": "fill_container",
+                  "height": 200,
+                  "gap": 24,
+                  "padding": [
+                    0,
+                    16
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "4JfJX",
+                      "name": "b1w",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": [
+                            6,
+                            6,
+                            0,
+                            0
+                          ],
+                          "id": "inoeq",
+                          "name": "b1",
+                          "fill": "$--chart-1",
+                          "width": 48,
+                          "height": 120
+                        },
+                        {
+                          "type": "text",
+                          "id": "Kg0vy",
+                          "name": "b1l",
+                          "fill": "$--text-secondary",
+                          "content": "2021",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zx2yy",
+                      "name": "b2w",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": [
+                            6,
+                            6,
+                            0,
+                            0
+                          ],
+                          "id": "z9upA",
+                          "name": "b2",
+                          "fill": "$--chart-2",
+                          "width": 48,
+                          "height": 140
+                        },
+                        {
+                          "type": "text",
+                          "id": "EKuB2",
+                          "name": "b2l",
+                          "fill": "$--text-secondary",
+                          "content": "2022",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Fak1m",
+                      "name": "b3w",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": [
+                            6,
+                            6,
+                            0,
+                            0
+                          ],
+                          "id": "g4yTF",
+                          "name": "b3",
+                          "fill": "$--chart-3",
+                          "width": 48,
+                          "height": 160
+                        },
+                        {
+                          "type": "text",
+                          "id": "WUKwN",
+                          "name": "b3l",
+                          "fill": "$--text-secondary",
+                          "content": "2023",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "01we0",
+                      "name": "b4w",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": [
+                            6,
+                            6,
+                            0,
+                            0
+                          ],
+                          "id": "M05GD",
+                          "name": "b4",
+                          "fill": "$--chart-4",
+                          "width": 48,
+                          "height": 150
+                        },
+                        {
+                          "type": "text",
+                          "id": "57RMf",
+                          "name": "b4l",
+                          "fill": "$--text-secondary",
+                          "content": "2024",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ulasC",
+                      "name": "b5w",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": [
+                            6,
+                            6,
+                            0,
+                            0
+                          ],
+                          "id": "HSUOK",
+                          "name": "b5",
+                          "fill": "$--chart-1",
+                          "width": 48,
+                          "height": 180
+                        },
+                        {
+                          "type": "text",
+                          "id": "24StZ",
+                          "name": "b5l",
+                          "fill": "$--text-secondary",
+                          "content": "2025",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "A8xEJ",
+              "name": "mktCard",
+              "width": 360,
+              "fill": "$--bg-card",
+              "cornerRadius": 16,
+              "stroke": {
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "layout": "vertical",
+              "gap": 20,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "KcP6c",
+                  "name": "mktTitle",
+                  "fill": "$--text",
+                  "content": "Market Overview",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "Y94Iu",
+                  "name": "seg1",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "oM9lT",
+                      "name": "seg1h",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RyqYv",
+                          "name": "seg1l",
+                          "fill": "$--text",
+                          "content": "Petrol",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "XY6rS",
+                          "name": "seg1v",
+                          "fill": "$--text-secondary",
+                          "content": "42%",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "LqVyQ",
+                      "name": "seg1bar",
+                      "width": "fill_container",
+                      "height": 8,
+                      "fill": "$--bg-subtle",
+                      "cornerRadius": 4,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 4,
+                          "id": "26V9q",
+                          "name": "seg1fill",
+                          "fill": "$--chart-4",
+                          "width": 134,
+                          "height": 8
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RU29i",
+                  "name": "seg2",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ylnCA",
+                      "name": "seg2h",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "LbJpu",
+                          "name": "seg2l",
+                          "fill": "$--text",
+                          "content": "Electric",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "PRQ0n",
+                          "name": "seg2v",
+                          "fill": "$--text-secondary",
+                          "content": "28%",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hFi1h",
+                      "name": "seg2bar",
+                      "width": "fill_container",
+                      "height": 8,
+                      "fill": "$--bg-subtle",
+                      "cornerRadius": 4,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 4,
+                          "id": "bXkVH",
+                          "name": "seg2fill",
+                          "fill": "$--chart-1",
+                          "width": 87,
+                          "height": 8
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cOYSQ",
+                  "name": "seg3",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Cb5Ei",
+                      "name": "seg3h",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "h8e8L",
+                          "name": "seg3l",
+                          "fill": "$--text",
+                          "content": "Hybrid",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "HgbSU",
+                          "name": "seg3v",
+                          "fill": "$--text-secondary",
+                          "content": "30%",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ERXW1",
+                      "name": "seg3bar",
+                      "width": "fill_container",
+                      "height": 8,
+                      "fill": "$--bg-subtle",
+                      "cornerRadius": 4,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 4,
+                          "id": "eu9mH",
+                          "name": "seg3fill",
+                          "fill": "$--chart-3",
+                          "width": 93,
+                          "height": 8
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "4vQFH",
+      "x": 1400,
+      "y": 300,
+      "name": "Cars Hub",
+      "width": 1280,
+      "fill": "$--bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "sFW7q",
+          "type": "ref",
+          "ref": "QIew6",
+          "width": "fill_container",
+          "name": "nav2"
+        },
+        {
+          "type": "frame",
+          "id": "Ii0hN",
+          "name": "content2",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            24,
+            32
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "v8E0J",
+              "name": "h1c",
+              "fill": "$--text",
+              "content": "Cars",
+              "fontFamily": "Inter",
+              "fontSize": 48,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "KnFhs",
+              "name": "sub2",
+              "fill": "$--text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Explore Singapore car registration data, fuel types, vehicle types and more.",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "0kvuG",
+              "name": "grid2r1",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "id": "3rwkq",
+                  "type": "ref",
+                  "ref": "qgu3W",
+                  "width": "fill_container",
+                  "name": "hc1",
+                  "height": "fit_content",
+                  "descendants": {
+                    "qhYtX": {
+                      "content": "Registrations"
+                    },
+                    "VHrXC": {
+                      "width": "fill_container",
+                      "content": "Monthly new car registration data by fuel type and vehicle type."
+                    }
+                  }
+                },
+                {
+                  "id": "iGaxz",
+                  "type": "ref",
+                  "ref": "qgu3W",
+                  "width": "fill_container",
+                  "name": "hc2",
+                  "height": "fit_content",
+                  "x": 412,
+                  "descendants": {
+                    "qhYtX": {
+                      "content": "Deregistrations"
+                    },
+                    "VHrXC": {
+                      "width": "fill_container",
+                      "content": "Track vehicle deregistration trends and patterns over time."
+                    }
+                  }
+                },
+                {
+                  "id": "7Ctew",
+                  "type": "ref",
+                  "ref": "qgu3W",
+                  "width": "fill_container",
+                  "name": "hc3",
+                  "x": 824,
+                  "descendants": {
+                    "qhYtX": {
+                      "content": "Vehicle Population"
+                    },
+                    "VHrXC": {
+                      "width": "fill_container",
+                      "content": "Overall vehicle population statistics and growth trends."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dYZva",
+              "name": "grid2r2",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "id": "cQNwH",
+                  "type": "ref",
+                  "ref": "qgu3W",
+                  "width": "fill_container",
+                  "name": "hc4",
+                  "height": "fit_content",
+                  "descendants": {
+                    "qhYtX": {
+                      "content": "Fuel Types"
+                    },
+                    "VHrXC": {
+                      "width": "fill_container",
+                      "content": "Distribution of vehicles by fuel type including electric and hybrid."
+                    }
+                  }
+                },
+                {
+                  "id": "LCy0Z",
+                  "type": "ref",
+                  "ref": "qgu3W",
+                  "width": "fill_container",
+                  "name": "hc5",
+                  "height": "fit_content",
+                  "x": 412,
+                  "descendants": {
+                    "qhYtX": {
+                      "content": "Vehicle Types"
+                    },
+                    "VHrXC": {
+                      "width": "fill_container",
+                      "content": "Breakdown by sedan, SUV, hatchback, and other vehicle categories."
+                    }
+                  }
+                },
+                {
+                  "id": "kLJ20",
+                  "type": "ref",
+                  "ref": "qgu3W",
+                  "width": "fill_container",
+                  "name": "hc6",
+                  "x": 824,
+                  "descendants": {
+                    "qhYtX": {
+                      "content": "Makes"
+                    },
+                    "VHrXC": {
+                      "width": "fill_container",
+                      "content": "Registration data organised by car manufacturer and brand."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "5KmVP",
+              "name": "grid2r3",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "id": "XXdu5",
+                  "type": "ref",
+                  "ref": "qgu3W",
+                  "width": "fill_container",
+                  "name": "hc7",
+                  "height": "fit_content",
+                  "descendants": {
+                    "qhYtX": {
+                      "content": "PARF Rates"
+                    },
+                    "VHrXC": {
+                      "width": "fill_container",
+                      "content": "Preferential Additional Registration Fee rebate rates."
+                    }
+                  }
+                },
+                {
+                  "id": "u6UJF",
+                  "type": "ref",
+                  "ref": "qgu3W",
+                  "width": "fill_container",
+                  "name": "hc8",
+                  "height": "fit_content",
+                  "x": 618,
+                  "descendants": {
+                    "qhYtX": {
+                      "content": "Car Costs"
+                    },
+                    "VHrXC": {
+                      "width": "fill_container",
+                      "content": "Total cost of ownership including COE, ARF and other fees."
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "xuTpa",
+      "x": 2800,
+      "y": 300,
+      "name": "COE Hub",
+      "width": 1280,
+      "fill": "$--bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "yRHsG",
+          "type": "ref",
+          "ref": "QIew6",
+          "width": "fill_container",
+          "name": "nav3"
+        },
+        {
+          "type": "frame",
+          "id": "To6yP",
+          "name": "con3",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            24,
+            32
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "cUQX5",
+              "name": "h1coe",
+              "fill": "$--text",
+              "content": "COE",
+              "fontFamily": "Inter",
+              "fontSize": 48,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "JdZYm",
+              "name": "sub3",
+              "fill": "$--text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Certificate of Entitlement bidding results, premium trends and Prevailing Quota Premium rates.",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "YmfZR",
+              "name": "grid3",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "id": "WYZmS",
+                  "type": "ref",
+                  "ref": "qgu3W",
+                  "width": "fill_container",
+                  "name": "ch1",
+                  "height": "fit_content",
+                  "descendants": {
+                    "qhYtX": {
+                      "content": "COE Results"
+                    },
+                    "VHrXC": {
+                      "width": "fill_container",
+                      "content": "Detailed COE bidding results by category for each round."
+                    }
+                  }
+                },
+                {
+                  "id": "qceug",
+                  "type": "ref",
+                  "ref": "qgu3W",
+                  "width": "fill_container",
+                  "name": "ch2",
+                  "height": "fit_content",
+                  "x": 412,
+                  "descendants": {
+                    "qhYtX": {
+                      "content": "COE Premiums"
+                    },
+                    "VHrXC": {
+                      "width": "fill_container",
+                      "content": "Historical premium trends and analysis across all categories."
+                    }
+                  }
+                },
+                {
+                  "id": "oQ47X",
+                  "type": "ref",
+                  "ref": "qgu3W",
+                  "width": "fill_container",
+                  "name": "ch3",
+                  "x": 824,
+                  "descendants": {
+                    "qhYtX": {
+                      "content": "PQP Rates"
+                    },
+                    "VHrXC": {
+                      "width": "fill_container",
+                      "content": "Prevailing Quota Premium rates used for COE renewal calculations."
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "KfSdM",
+      "x": 0,
+      "y": 1400,
+      "name": "Car Registrations",
+      "width": 1280,
+      "fill": "$--bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "1gpue",
+          "type": "ref",
+          "ref": "QIew6",
+          "width": "fill_container",
+          "name": "nav4"
+        },
+        {
+          "type": "frame",
+          "id": "zniKd",
+          "name": "con4",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            24,
+            32
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "vYxTj",
+              "name": "hdr4",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "aVQAg",
+                  "name": "hdr4L",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "9Ndqv",
+                      "name": "h1reg",
+                      "fill": "$--text",
+                      "content": "Car Registrations",
+                      "fontFamily": "Inter",
+                      "fontSize": 36,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ROPAJ",
+                      "name": "sub4",
+                      "fill": "$--text-secondary",
+                      "content": "Monthly new car registration data",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "yMtwF",
+                  "name": "selector",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "gap": 8,
+                  "padding": [
+                    10,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Q44fh",
+                      "name": "selText",
+                      "fill": "$--text",
+                      "content": "March 2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "x6BIJ",
+                      "name": "selIcon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "chevron-down",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--text-secondary"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jZnVb",
+              "name": "metrics4",
+              "width": "fill_container",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "kICo6",
+                  "name": "m1",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qj4sA",
+                      "name": "m1l",
+                      "fill": "$--text-secondary",
+                      "content": "Total",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "mUeSa",
+                      "name": "m1v",
+                      "fill": "$--text",
+                      "content": "4,256",
+                      "fontFamily": "Inter",
+                      "fontSize": 28,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ejSD8",
+                  "name": "m2",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "B1eC9",
+                      "name": "m2l",
+                      "fill": "$--text-secondary",
+                      "content": "Top Fuel",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "CMgsS",
+                      "name": "m2v",
+                      "fill": "$--text",
+                      "content": "Electric",
+                      "fontFamily": "Inter",
+                      "fontSize": 28,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "0Z1DE",
+                  "name": "m3",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "iA7fU",
+                      "name": "m3l",
+                      "fill": "$--text-secondary",
+                      "content": "Top Vehicle",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "fY7zG",
+                      "name": "m3v",
+                      "fill": "$--text",
+                      "content": "SUV",
+                      "fontFamily": "Inter",
+                      "fontSize": 28,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Vqt1c",
+                  "name": "m4",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PUKZB",
+                      "name": "m4l",
+                      "fill": "$--text-secondary",
+                      "content": "vs Previous",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "JoFnO",
+                      "name": "m4v",
+                      "fill": "$--success",
+                      "content": "+8.3%",
+                      "fontFamily": "Inter",
+                      "fontSize": 28,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "0Gaan",
+              "name": "tabs4",
+              "width": "fill_container",
+              "stroke": {
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "$--border"
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "qyLok",
+                  "name": "tab4a",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 2
+                    },
+                    "fill": "$--primary"
+                  },
+                  "padding": [
+                    12,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "90VD0",
+                      "name": "tab4at",
+                      "fill": "$--primary",
+                      "content": "By Fuel Type",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "qantZ",
+                  "name": "tab4b",
+                  "padding": [
+                    12,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Dw4by",
+                      "name": "tab4bt",
+                      "fill": "$--text-secondary",
+                      "content": "By Vehicle Type",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uQZ8v",
+                  "name": "tab4c",
+                  "padding": [
+                    12,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "uiua1",
+                      "name": "tab4ct",
+                      "fill": "$--text-secondary",
+                      "content": "By Make",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NRR0R",
+              "name": "chartCard4",
+              "width": "fill_container",
+              "fill": "$--bg-card",
+              "cornerRadius": 16,
+              "stroke": {
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "13Snm",
+                  "name": "ct4",
+                  "fill": "$--text",
+                  "content": "Registrations by Fuel Type",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "0AfjQ",
+                  "name": "bars4",
+                  "width": "fill_container",
+                  "height": 220,
+                  "gap": 32,
+                  "padding": [
+                    0,
+                    24
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "XCRhD",
+                      "name": "fb1",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": [
+                            6,
+                            6,
+                            0,
+                            0
+                          ],
+                          "id": "csU7i",
+                          "name": "fb1b",
+                          "fill": "$--chart-1",
+                          "width": 64,
+                          "height": 180
+                        },
+                        {
+                          "type": "text",
+                          "id": "6teqy",
+                          "name": "fb1l",
+                          "fill": "$--text-secondary",
+                          "content": "Electric",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j1FNq",
+                      "name": "fb2",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": [
+                            6,
+                            6,
+                            0,
+                            0
+                          ],
+                          "id": "fHKVx",
+                          "name": "fb2b",
+                          "fill": "$--chart-2",
+                          "width": 64,
+                          "height": 140
+                        },
+                        {
+                          "type": "text",
+                          "id": "FS5wq",
+                          "name": "fb2l",
+                          "fill": "$--text-secondary",
+                          "content": "Petrol",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "rY8XE",
+                      "name": "fb3",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": [
+                            6,
+                            6,
+                            0,
+                            0
+                          ],
+                          "id": "pVQPB",
+                          "name": "fb3b",
+                          "fill": "$--chart-3",
+                          "width": 64,
+                          "height": 120
+                        },
+                        {
+                          "type": "text",
+                          "id": "YQfGe",
+                          "name": "fb3l",
+                          "fill": "$--text-secondary",
+                          "content": "Hybrid",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "3YxQE",
+                      "name": "fb4",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": [
+                            6,
+                            6,
+                            0,
+                            0
+                          ],
+                          "id": "CQJUm",
+                          "name": "fb4b",
+                          "fill": "$--chart-4",
+                          "width": 64,
+                          "height": 60
+                        },
+                        {
+                          "type": "text",
+                          "id": "UItIr",
+                          "name": "fb4l",
+                          "fill": "$--text-secondary",
+                          "content": "Diesel",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fSdHS",
+                      "name": "fb5",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": [
+                            6,
+                            6,
+                            0,
+                            0
+                          ],
+                          "id": "jD3Fr",
+                          "name": "fb5b",
+                          "fill": "$--chart-5",
+                          "width": 64,
+                          "height": 30
+                        },
+                        {
+                          "type": "text",
+                          "id": "AZq61",
+                          "name": "fb5l",
+                          "fill": "$--text-secondary",
+                          "content": "Others",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "FduSa",
+      "x": 1400,
+      "y": 1400,
+      "name": "Car Makes",
+      "width": 1280,
+      "fill": "$--bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "sTSZ3",
+          "type": "ref",
+          "ref": "QIew6",
+          "width": "fill_container",
+          "name": "nav5"
+        },
+        {
+          "type": "frame",
+          "id": "CD9lJ",
+          "name": "con5",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            24,
+            32
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "nvIle",
+              "name": "hdr5",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "vWWSI",
+                  "name": "h1mk",
+                  "fill": "$--text",
+                  "content": "Makes",
+                  "fontFamily": "Inter",
+                  "fontSize": 36,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "hVphP",
+                  "name": "sub5",
+                  "fill": "$--text-secondary",
+                  "content": "Browse car registrations by manufacturer",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "7Q9eN",
+              "name": "mkRow1",
+              "width": "fill_container",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "1pRut",
+                  "name": "mc1",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 8,
+                      "id": "IAg1N",
+                      "name": "mc1i",
+                      "fill": "$--bg-subtle",
+                      "width": 40,
+                      "height": 40
+                    },
+                    {
+                      "type": "frame",
+                      "id": "6mzIc",
+                      "name": "mc1t",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "YI91X",
+                          "name": "mc1n",
+                          "fill": "$--text",
+                          "content": "Toyota",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "xIhw0",
+                          "name": "mc1v",
+                          "fill": "$--text-secondary",
+                          "content": "4,521 registrations",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EmX2p",
+                  "name": "mc2",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 8,
+                      "id": "RuIb9",
+                      "name": "mc2i",
+                      "fill": "$--bg-subtle",
+                      "width": 40,
+                      "height": 40
+                    },
+                    {
+                      "type": "frame",
+                      "id": "pzUDL",
+                      "name": "mc2t",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "G4GbO",
+                          "name": "mc2n",
+                          "fill": "$--text",
+                          "content": "BMW",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Af21W",
+                          "name": "mc2v",
+                          "fill": "$--text-secondary",
+                          "content": "2,310 registrations",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "KHpAC",
+                  "name": "mc3",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 8,
+                      "id": "xW3la",
+                      "name": "mc3i",
+                      "fill": "$--bg-subtle",
+                      "width": 40,
+                      "height": 40
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ReJyA",
+                      "name": "mc3t",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "7GeoI",
+                          "name": "mc3n",
+                          "fill": "$--text",
+                          "content": "Mercedes-Benz",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t5hNa",
+                          "name": "mc3v",
+                          "fill": "$--text-secondary",
+                          "content": "2,108 registrations",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Hcd9j",
+                  "name": "mc4",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 8,
+                      "id": "FNrOb",
+                      "name": "mc4i",
+                      "fill": "$--bg-subtle",
+                      "width": 40,
+                      "height": 40
+                    },
+                    {
+                      "type": "frame",
+                      "id": "oIIEW",
+                      "name": "mc4t",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "eK9iG",
+                          "name": "mc4n",
+                          "fill": "$--text",
+                          "content": "Honda",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ArrGn",
+                          "name": "mc4v",
+                          "fill": "$--text-secondary",
+                          "content": "1,842 registrations",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "m0YMl",
+              "name": "mkRow2",
+              "width": "fill_container",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "kOcQ5",
+                  "name": "mc5",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 8,
+                      "id": "WmPPi",
+                      "name": "mc5i",
+                      "fill": "$--bg-subtle",
+                      "width": 40,
+                      "height": 40
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tZvQq",
+                      "name": "mc5t",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "lvSo9",
+                          "name": "mc5n",
+                          "fill": "$--text",
+                          "content": "Hyundai",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "VgI7j",
+                          "name": "mc5v",
+                          "fill": "$--text-secondary",
+                          "content": "1,567 registrations",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "QcO98",
+                  "name": "mc6",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 8,
+                      "id": "aXHef",
+                      "name": "mc6i",
+                      "fill": "$--bg-subtle",
+                      "width": 40,
+                      "height": 40
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MAL5u",
+                      "name": "mc6t",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "dr7Dy",
+                          "name": "mc6n",
+                          "fill": "$--text",
+                          "content": "Kia",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "qVauj",
+                          "name": "mc6v",
+                          "fill": "$--text-secondary",
+                          "content": "1,203 registrations",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "7YfZ9",
+                  "name": "mc7",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 8,
+                      "id": "Tslnx",
+                      "name": "mc7i",
+                      "fill": "$--bg-subtle",
+                      "width": 40,
+                      "height": 40
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sRjsV",
+                      "name": "mc7t",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vPggK",
+                          "name": "mc7n",
+                          "fill": "$--text",
+                          "content": "Mazda",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "uY4Po",
+                          "name": "mc7v",
+                          "fill": "$--text-secondary",
+                          "content": "982 registrations",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "lSFTT",
+                  "name": "mc8",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 8,
+                      "id": "G8cS9",
+                      "name": "mc8i",
+                      "fill": "$--bg-subtle",
+                      "width": 40,
+                      "height": 40
+                    },
+                    {
+                      "type": "frame",
+                      "id": "eNQnX",
+                      "name": "mc8t",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "amXtB",
+                          "name": "mc8n",
+                          "fill": "$--text",
+                          "content": "Audi",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "zJTn7",
+                          "name": "mc8v",
+                          "fill": "$--text-secondary",
+                          "content": "876 registrations",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "jjGhz",
+      "x": 2800,
+      "y": 1400,
+      "name": "COE Results",
+      "width": 1280,
+      "fill": "$--bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "SMCLL",
+          "type": "ref",
+          "ref": "QIew6",
+          "width": "fill_container",
+          "name": "nav6"
+        },
+        {
+          "type": "frame",
+          "id": "4hADv",
+          "name": "con6",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            24,
+            32
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "Elb8C",
+              "name": "hdr6",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "0oxzm",
+                  "name": "hdr6L",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "71rdT",
+                      "name": "h1coeR",
+                      "fill": "$--text",
+                      "content": "COE Results",
+                      "fontFamily": "Inter",
+                      "fontSize": 36,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "cPFx8",
+                      "name": "sub6",
+                      "fill": "$--text-secondary",
+                      "content": "COE bidding results by category",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "L7rDS",
+                  "name": "sel6",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "gap": 8,
+                  "padding": [
+                    10,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "dmbRA",
+                      "name": "sel6t",
+                      "fill": "$--text",
+                      "content": "March 2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "r74AS",
+                      "name": "sel6i",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "chevron-down",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--text-secondary"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "QUzXA",
+              "name": "rounds",
+              "width": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "XGdf3",
+                  "name": "r1card",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "thickness": 2,
+                    "fill": "$--primary"
+                  },
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 24,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Et8VP",
+                      "name": "r1title",
+                      "fill": "$--primary",
+                      "content": "Round 1",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "erUL5",
+                      "name": "r1grid",
+                      "width": "fill_container",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "lA45O",
+                          "name": "r1a",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Ihz05",
+                              "name": "r1al",
+                              "fill": "$--text-secondary",
+                              "content": "Cat A",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "I2oJp",
+                              "name": "r1av",
+                              "fill": "$--text",
+                              "content": "$99,000",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "AcBdP",
+                          "name": "r1b",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "nLlvB",
+                              "name": "r1bl",
+                              "fill": "$--text-secondary",
+                              "content": "Cat B",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Afcno",
+                              "name": "r1bv",
+                              "fill": "$--text",
+                              "content": "$150,001",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Y9JhS",
+                          "name": "r1c",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Pg5RB",
+                              "name": "r1cl",
+                              "fill": "$--text-secondary",
+                              "content": "Cat C",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "7597k",
+                              "name": "r1cv",
+                              "fill": "$--text",
+                              "content": "$72,010",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "7odeO",
+                          "name": "r1d",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "t4Mmi",
+                              "name": "r1dl",
+                              "fill": "$--text-secondary",
+                              "content": "Cat E",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "AedKT",
+                              "name": "r1dv",
+                              "fill": "$--text",
+                              "content": "$110,000",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "arWZy",
+                  "name": "r2card",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 24,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "MezRn",
+                      "name": "r2title",
+                      "fill": "$--text-secondary",
+                      "content": "Round 2",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "3y3ZA",
+                      "name": "r2grid",
+                      "width": "fill_container",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "gWsIc",
+                          "name": "r2a",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "9Tire",
+                              "name": "r2al",
+                              "fill": "$--text-secondary",
+                              "content": "Cat A",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "hgBte",
+                              "name": "r2av",
+                              "fill": "$--text",
+                              "content": "$103,501",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "0hcQS",
+                          "name": "r2b",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "exzwE",
+                              "name": "r2bl",
+                              "fill": "$--text-secondary",
+                              "content": "Cat B",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "7MeSP",
+                              "name": "r2bv",
+                              "fill": "$--text",
+                              "content": "$155,689",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "3rrCK",
+                          "name": "r2c",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Lj6sU",
+                              "name": "r2cl",
+                              "fill": "$--text-secondary",
+                              "content": "Cat C",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "hPJd3",
+                              "name": "r2cv",
+                              "fill": "$--text",
+                              "content": "$76,010",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "dQXsp",
+                          "name": "r2d",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "0r8mm",
+                              "name": "r2dl",
+                              "fill": "$--text-secondary",
+                              "content": "Cat E",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "BzYRW",
+                              "name": "r2dv",
+                              "fill": "$--text",
+                              "content": "$115,523",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NOh1d",
+              "name": "lineCard",
+              "width": "fill_container",
+              "fill": "$--bg-card",
+              "cornerRadius": 16,
+              "stroke": {
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "rFgVz",
+                  "name": "lineTitle",
+                  "fill": "$--text",
+                  "content": "Premium Trends",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "EJVqI",
+                  "name": "lineArea",
+                  "width": "fill_container",
+                  "height": 200,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "path",
+                      "id": "X2yTN",
+                      "x": 0,
+                      "y": 0,
+                      "name": "line1",
+                      "geometry": "M0 160c100-20 200-60 300-80 100-20 200 10 300-10 100-20 200-40 300-30",
+                      "width": 900,
+                      "height": 200,
+                      "stroke": {
+                        "thickness": 2,
+                        "fill": "$--chart-1"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "id": "I1Y6v",
+                      "x": 0,
+                      "y": 0,
+                      "name": "line2",
+                      "geometry": "M0 180c100-10 200-30 300-40 100-10 200 0 300-20 100-10 200-20 300-30",
+                      "width": 900,
+                      "height": 200,
+                      "stroke": {
+                        "thickness": 2,
+                        "fill": "$--chart-3"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uzd4W",
+                  "name": "legend",
+                  "width": "fill_container",
+                  "gap": 24,
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "J9wrQ",
+                      "name": "leg1",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 2,
+                          "id": "WYEID",
+                          "name": "leg1d",
+                          "fill": "$--chart-1",
+                          "width": 12,
+                          "height": 12
+                        },
+                        {
+                          "type": "text",
+                          "id": "duEPf",
+                          "name": "leg1t",
+                          "fill": "$--text-secondary",
+                          "content": "Cat A",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "G3Ifz",
+                      "name": "leg2",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 2,
+                          "id": "EnYc9",
+                          "name": "leg2d",
+                          "fill": "$--chart-3",
+                          "width": 12,
+                          "height": 12
+                        },
+                        {
+                          "type": "text",
+                          "id": "u77Tq",
+                          "name": "leg2t",
+                          "fill": "$--text-secondary",
+                          "content": "Cat B",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uixOE",
+              "name": "tableCard",
+              "clip": true,
+              "width": "fill_container",
+              "fill": "$--bg-card",
+              "cornerRadius": 16,
+              "stroke": {
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xHRYv",
+                  "name": "tableTitle",
+                  "padding": [
+                    16,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "FTh9d",
+                      "name": "tableTT",
+                      "fill": "$--text",
+                      "content": "Historical Data",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "05zUu",
+                  "name": "tHdr",
+                  "width": "fill_container",
+                  "fill": "$--bg-subtle",
+                  "padding": [
+                    12,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "q4IQE",
+                      "name": "tH1",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Month",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "7aJY0",
+                      "name": "tH2",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Cat A",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "8yQ43",
+                      "name": "tH3",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Cat B",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "82Kde",
+                      "name": "tH4",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Cat C",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ALv0v",
+                      "name": "tH5",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Cat E",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "r6beu",
+                  "name": "tR1",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$--border"
+                  },
+                  "padding": [
+                    12,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "velkS",
+                      "name": "tR1a",
+                      "fill": "$--text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Mar 2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "JFz7N",
+                      "name": "tR1b",
+                      "fill": "$--text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$103,501",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "vqFua",
+                      "name": "tR1c",
+                      "fill": "$--text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$155,689",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ZFfCP",
+                      "name": "tR1d",
+                      "fill": "$--text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$76,010",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "MzJs3",
+                      "name": "tR1e",
+                      "fill": "$--text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$115,523",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "n9gpv",
+                  "name": "tR2",
+                  "width": "fill_container",
+                  "padding": [
+                    12,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tJlo9",
+                      "name": "tR2a",
+                      "fill": "$--text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Feb 2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "fdMe3",
+                      "name": "tR2b",
+                      "fill": "$--text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$98,000",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "m13pq",
+                      "name": "tR2c",
+                      "fill": "$--text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$148,501",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "MkJzG",
+                      "name": "tR2d",
+                      "fill": "$--text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$71,000",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "YRKjf",
+                      "name": "tR2e",
+                      "fill": "$--text",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$108,000",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "zTTiC",
+      "x": 0,
+      "y": 2800,
+      "name": "Blog List",
+      "width": 1280,
+      "fill": "$--bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "R0QDp",
+          "type": "ref",
+          "ref": "QIew6",
+          "width": "fill_container",
+          "name": "nav7",
+          "descendants": {
+            "dsiae": {
+              "fill": "$--bg-subtle"
+            },
+            "kyQkM": {
+              "fill": "$--text"
+            },
+            "2J6Cg": {
+              "fill": "$--primary"
+            },
+            "G6c1m": {
+              "fill": "$--primary-fg"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "kQd0v",
+          "name": "con7",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            24,
+            32
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "KazOI",
+              "name": "h1blog",
+              "fill": "$--text",
+              "content": "Blog",
+              "fontFamily": "Inter",
+              "fontSize": 48,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "wHrY6",
+              "name": "sub7",
+              "fill": "$--text-secondary",
+              "content": "Insights and analysis on the Singapore car market",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "IpzKW",
+              "name": "search7",
+              "width": "fill_container",
+              "cornerRadius": 8,
+              "stroke": {
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "gap": 8,
+              "padding": [
+                12,
+                16
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "mwVO6",
+                  "name": "sIcon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "search",
+                  "iconFontFamily": "lucide",
+                  "fill": "$--text-muted"
+                },
+                {
+                  "type": "text",
+                  "id": "Q7kub",
+                  "name": "sText",
+                  "fill": "$--text-muted",
+                  "content": "Search posts...",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "rOcUq",
+              "name": "popSec",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "9VMKB",
+                  "name": "popTitle",
+                  "fill": "$--text",
+                  "content": "Popular Posts",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "dAUFY",
+                  "name": "postGrid",
+                  "width": "fill_container",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "9Z7O8",
+                      "name": "pc1",
+                      "clip": true,
+                      "width": "fill_container",
+                      "fill": "$--bg-card",
+                      "cornerRadius": 16,
+                      "stroke": {
+                        "thickness": 1,
+                        "fill": "$--border"
+                      },
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "5CoWa",
+                          "name": "pc1hero",
+                          "width": "fill_container",
+                          "height": 180,
+                          "fill": "$--chart-1"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "w8EdG",
+                          "name": "pc1body",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": 20,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "DMgaX",
+                              "name": "pc1tag",
+                              "fill": "$--bg-subtle",
+                              "cornerRadius": 99,
+                              "padding": [
+                                4,
+                                10
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "TAlpA",
+                                  "name": "pc1tagt",
+                                  "fill": "$--text-secondary",
+                                  "content": "COE",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "7xRxt",
+                              "name": "pc1title",
+                              "fill": "$--text",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "COE Premiums Hit Record Highs in March 2025",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "vVZCG",
+                              "name": "pc1date",
+                              "fill": "$--text-muted",
+                              "content": "Mar 15, 2025",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "F1Q6T",
+                      "name": "pc2",
+                      "clip": true,
+                      "width": "fill_container",
+                      "fill": "$--bg-card",
+                      "cornerRadius": 16,
+                      "stroke": {
+                        "thickness": 1,
+                        "fill": "$--border"
+                      },
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Csbq4",
+                          "name": "pc2hero",
+                          "width": "fill_container",
+                          "height": 180,
+                          "fill": "$--chart-3"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "lngoM",
+                          "name": "pc2body",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": 20,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "IpVcd",
+                              "name": "pc2tag",
+                              "fill": "$--bg-subtle",
+                              "cornerRadius": 99,
+                              "padding": [
+                                4,
+                                10
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "LW1TW",
+                                  "name": "pc2tagt",
+                                  "fill": "$--text-secondary",
+                                  "content": "Electric",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "kakeN",
+                              "name": "pc2title",
+                              "fill": "$--text",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Electric Vehicle Registrations Surge 42%",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "vJ1BV",
+                              "name": "pc2date",
+                              "fill": "$--text-muted",
+                              "content": "Mar 10, 2025",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xxW6T",
+                      "name": "pc3",
+                      "clip": true,
+                      "width": "fill_container",
+                      "fill": "$--bg-card",
+                      "cornerRadius": 16,
+                      "stroke": {
+                        "thickness": 1,
+                        "fill": "$--border"
+                      },
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "t3J79",
+                          "name": "pc3hero",
+                          "width": "fill_container",
+                          "height": 180,
+                          "fill": "$--chart-5"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "l4XGi",
+                          "name": "pc3body",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": 20,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "miJYG",
+                              "name": "pc3tag",
+                              "fill": "$--bg-subtle",
+                              "cornerRadius": 99,
+                              "padding": [
+                                4,
+                                10
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "W48Mb",
+                                  "name": "pc3tagt",
+                                  "fill": "$--text-secondary",
+                                  "content": "Market",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "hIKN4",
+                              "name": "pc3title",
+                              "fill": "$--text",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "February 2025 Car Market Analysis",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "1hkLa",
+                              "name": "pc3date",
+                              "fill": "$--text-muted",
+                              "content": "Mar 5, 2025",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Zwm8T",
+      "x": 1400,
+      "y": 2800,
+      "name": "Blog Post",
+      "width": 1280,
+      "fill": "$--bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "sUaVn",
+          "type": "ref",
+          "ref": "QIew6",
+          "width": "fill_container",
+          "name": "nav8",
+          "descendants": {
+            "dsiae": {
+              "fill": "$--bg-subtle"
+            },
+            "kyQkM": {
+              "fill": "$--text"
+            },
+            "2J6Cg": {
+              "fill": "$--primary"
+            },
+            "G6c1m": {
+              "fill": "$--primary-fg"
+            }
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "3G9wx",
+          "name": "progBar",
+          "fill": "$--primary",
+          "width": 800,
+          "height": 3
+        },
+        {
+          "type": "frame",
+          "id": "WRSP0",
+          "name": "cols8",
+          "width": "fill_container",
+          "gap": 32,
+          "padding": [
+            24,
+            32
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "vIaEH",
+              "name": "mainCol",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "1VGsU",
+                  "name": "heroImg",
+                  "width": "fill_container",
+                  "height": 360,
+                  "fill": "$--chart-2",
+                  "cornerRadius": 16
+                },
+                {
+                  "type": "frame",
+                  "id": "JStcH",
+                  "name": "metaRow",
+                  "width": "fill_container",
+                  "gap": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "doZoV",
+                      "name": "tagBadge",
+                      "fill": "$--primary",
+                      "cornerRadius": 99,
+                      "padding": [
+                        4,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rJOet",
+                          "name": "tagBT",
+                          "fill": "$--primary-fg",
+                          "content": "COE",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "dLWgd",
+                      "name": "metaDate",
+                      "fill": "$--text-secondary",
+                      "content": "Mar 15, 2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "koZBm",
+                      "name": "metaRead",
+                      "fill": "$--text-secondary",
+                      "content": "5 min read",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "e12Er",
+                      "name": "metaViews",
+                      "fill": "$--text-secondary",
+                      "content": "1,234 views",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "ORA0Z",
+                  "name": "h1post",
+                  "fill": "$--text",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "COE Premiums Hit Record Highs in March 2025",
+                  "fontFamily": "Inter",
+                  "fontSize": 32,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "M94GH",
+                  "name": "leadP",
+                  "fill": "$--text",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Certificate of Entitlement premiums across all categories reached unprecedented levels in the latest bidding round, reflecting strong demand and limited supply in the Singapore car market.",
+                  "lineHeight": 1.7,
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "Ldz9Z",
+                  "name": "h2post",
+                  "fill": "$--text",
+                  "content": "Key Highlights",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "aDtAQ",
+                  "name": "bodyP",
+                  "fill": "$--text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The March 2025 second bidding round saw significant increases across all vehicle categories. Category A premiums rose by 4.5% compared to the previous round, while Category B saw the largest jump at 7.2%. Industry analysts attribute this to seasonal demand patterns and upcoming policy changes that are expected to further restrict vehicle supply.",
+                  "lineHeight": 1.7,
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "F8V1t",
+              "name": "sidebar8",
+              "width": 280,
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "6aCIY",
+                  "name": "tocCard",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RWKVJ",
+                      "name": "tocTitle",
+                      "fill": "$--text",
+                      "content": "Table of Contents",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "2Bkzl",
+                      "name": "toc1",
+                      "fill": "$--primary",
+                      "content": "Overview",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "xAOgy",
+                      "name": "toc2",
+                      "fill": "$--text-secondary",
+                      "content": "Key Highlights",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "e1UAL",
+                      "name": "toc3",
+                      "fill": "$--text-secondary",
+                      "content": "Category A Results",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "7xbN7",
+                      "name": "toc4",
+                      "fill": "$--text-secondary",
+                      "content": "Category B Results",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "NZmk4",
+                      "name": "toc5",
+                      "fill": "$--text-secondary",
+                      "content": "Market Outlook",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "5Hcmg",
+                  "name": "shareCard",
+                  "width": "fill_container",
+                  "fill": "$--bg-card",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "CE16r",
+                      "name": "shareTitle",
+                      "fill": "$--text",
+                      "content": "Share",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ilkN1",
+                      "name": "shareRow",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "cFwqg",
+                          "name": "btnX",
+                          "fill": "$--bg-subtle",
+                          "cornerRadius": 8,
+                          "gap": 6,
+                          "padding": [
+                            8,
+                            14
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "M4Z33",
+                              "name": "btnXT",
+                              "fill": "$--text",
+                              "content": "X",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "rRfcJ",
+                          "name": "btnLi",
+                          "fill": "$--bg-subtle",
+                          "cornerRadius": 8,
+                          "gap": 6,
+                          "padding": [
+                            8,
+                            14
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "8KhYz",
+                              "name": "btnLiT",
+                              "fill": "$--text",
+                              "content": "LinkedIn",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vz7Oe",
+                          "name": "btnCp",
+                          "fill": "$--bg-subtle",
+                          "cornerRadius": 8,
+                          "gap": 6,
+                          "padding": [
+                            8,
+                            14
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "SWhQf",
+                              "name": "btnCpT",
+                              "fill": "$--text",
+                              "content": "Copy",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "qJNl6",
+      "x": 2800,
+      "y": 2800,
+      "name": "About",
+      "width": 1280,
+      "fill": "$--bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "kOrLW",
+          "type": "ref",
+          "ref": "QIew6",
+          "width": "fill_container",
+          "name": "nav9",
+          "descendants": {
+            "dsiae": {
+              "fill": "$--bg-subtle"
+            },
+            "kyQkM": {
+              "fill": "$--text"
+            },
+            "m3j90": {
+              "fill": "$--primary"
+            },
+            "LMVxl": {
+              "fill": "$--primary-fg"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "YqYDT",
+          "name": "hero9",
+          "width": "fill_container",
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "$--primary",
+                "position": 0
+              },
+              {
+                "color": "$--chart-3",
+                "position": 1
+              }
+            ]
+          },
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            64,
+            32
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "1gNpE",
+              "name": "chip9",
+              "fill": "#FFFFFF22",
+              "cornerRadius": 99,
+              "padding": [
+                6,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RlbP8",
+                  "name": "chipT",
+                  "fill": "$--primary-fg",
+                  "content": "Making car data accessible",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "I0uR7",
+              "name": "h1about",
+              "fill": "$--primary-fg",
+              "content": "About SG Cars Trends",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 42,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "5Bm9d",
+              "name": "subAbout",
+              "fill": "#FFFFFFCC",
+              "textGrowth": "fixed-width",
+              "width": 700,
+              "content": "Singapore's most comprehensive vehicle data platform, providing insights into car registrations, COE bidding results, and market trends.",
+              "lineHeight": 1.6,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "wDhm2",
+          "name": "statsRow",
+          "width": "fill_container",
+          "children": [
+            {
+              "type": "frame",
+              "id": "4pNxv",
+              "name": "st1",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "padding": [
+                32,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "vzu3g",
+                  "name": "st1v",
+                  "fill": "$--primary",
+                  "content": "50,000+",
+                  "fontFamily": "Inter",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "hq561",
+                  "name": "st1l",
+                  "fill": "$--text-secondary",
+                  "content": "Data Points",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MKX9C",
+              "name": "st2",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "padding": [
+                32,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "bxOHp",
+                  "name": "st2v",
+                  "fill": "$--primary",
+                  "content": "10+",
+                  "fontFamily": "Inter",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "KFaOU",
+                  "name": "st2l",
+                  "fill": "$--text-secondary",
+                  "content": "Years",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tlI6i",
+              "name": "st3",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "padding": [
+                32,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "8Bzrc",
+                  "name": "st3v",
+                  "fill": "$--primary",
+                  "content": "100+",
+                  "fontFamily": "Inter",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "M9AVi",
+                  "name": "st3l",
+                  "fill": "$--text-secondary",
+                  "content": "Car Makes",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "I7YL6",
+              "name": "st4",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "padding": [
+                32,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "77vRD",
+                  "name": "st4v",
+                  "fill": "$--primary",
+                  "content": "Daily",
+                  "fontFamily": "Inter",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "zeOR6",
+                  "name": "st4l",
+                  "fill": "$--text-secondary",
+                  "content": "Updates",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "5Is9a",
+          "name": "mission",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            48,
+            64
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "6sI2c",
+              "name": "missionTitle",
+              "fill": "$--text",
+              "content": "Our Mission",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 28,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "xnZJc",
+              "name": "missionBody",
+              "fill": "$--text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 700,
+              "content": "We believe that transparent access to vehicle data empowers consumers, industry professionals, and policymakers to make better decisions. SG Cars Trends consolidates data from the Land Transport Authority and other public sources into an intuitive, easy-to-use platform.",
+              "lineHeight": 1.7,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "wwdOE",
+          "name": "creator",
+          "width": "fill_container",
+          "fill": "$--bg-subtle",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            48,
+            64
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "2sS7N",
+              "name": "creatorTitle",
+              "fill": "$--text",
+              "content": "Built by Ru Chern",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 28,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "fbTu4",
+              "name": "creatorBody",
+              "fill": "$--text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 700,
+              "content": "SG Cars Trends is a passion project built and maintained by Ru Chern Chong, a software engineer based in Singapore with a keen interest in data visualisation and the automotive industry.",
+              "lineHeight": 1.7,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "--bg": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "--bg-card": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "--bg-subtle": {
+      "type": "color",
+      "value": "#F4F4F5"
+    },
+    "--border": {
+      "type": "color",
+      "value": "#E4E4E7"
+    },
+    "--chart-1": {
+      "type": "color",
+      "value": "#191970"
+    },
+    "--chart-2": {
+      "type": "color",
+      "value": "#2E4A8E"
+    },
+    "--chart-3": {
+      "type": "color",
+      "value": "#4A6AAE"
+    },
+    "--chart-4": {
+      "type": "color",
+      "value": "#708090"
+    },
+    "--chart-5": {
+      "type": "color",
+      "value": "#94A3B8"
+    },
+    "--chart-6": {
+      "type": "color",
+      "value": "#B8C4CE"
+    },
+    "--primary": {
+      "type": "color",
+      "value": "#191970"
+    },
+    "--primary-fg": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "--secondary": {
+      "type": "color",
+      "value": "#708090"
+    },
+    "--success": {
+      "type": "color",
+      "value": "#22C55E"
+    },
+    "--text": {
+      "type": "color",
+      "value": "#2F4F4F"
+    },
+    "--text-muted": {
+      "type": "color",
+      "value": "#94A3B8"
+    },
+    "--text-secondary": {
+      "type": "color",
+      "value": "#708090"
+    }
+  }
+}
