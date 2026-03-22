@@ -16,11 +16,15 @@ exports[`Makes > should render the section with title and count 1`] = `
         >
           Test Makes
         </h2>
-        <span
-          class="rounded-full bg-primary/10 px-2.5 py-0.5 font-medium text-primary text-xs"
+        <div
+          class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-tiny rounded-full bg-primary/20 text-primary-600"
         >
-          4
-        </span>
+          <span
+            class="flex-1 text-inherit font-normal px-1"
+          >
+            4
+          </span>
+        </div>
       </div>
     </div>
     <div
@@ -28,7 +32,9 @@ exports[`Makes > should render the section with title and count 1`] = `
     >
       <button
         aria-label="Scroll left"
-        class="flex size-8 shrink-0 items-center justify-center rounded-full border border-default-200 bg-white text-default-500 shadow-sm transition-colors hover:bg-default-50"
+        class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 border-medium text-tiny gap-2 rounded-full px-0 !gap-0 transition-transform-colors-opacity motion-reduce:transition-none bg-transparent border-default text-foreground min-w-8 w-8 h-8 data-[hover=true]:opacity-hover"
+        data-react-aria-pressable="true"
+        tabindex="0"
         type="button"
       >
         <svg
@@ -52,31 +58,41 @@ exports[`Makes > should render the section with title and count 1`] = `
         class="scrollbar-hide flex flex-1 gap-1 overflow-x-auto scroll-smooth"
       >
         <button
-          class="shrink-0 rounded-full px-3 py-1.5 font-medium text-sm transition-all bg-primary text-primary-foreground shadow-sm"
+          class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-full [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary text-primary-foreground data-[hover=true]:opacity-hover shrink-0"
+          data-react-aria-pressable="true"
+          tabindex="0"
           type="button"
         >
           ALL
         </button>
         <button
-          class="shrink-0 rounded-full px-3 py-1.5 font-medium text-sm transition-all text-default-600 hover:bg-default-100"
+          class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-full [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-transparent text-default-foreground data-[hover=true]:bg-default/40 shrink-0"
+          data-react-aria-pressable="true"
+          tabindex="0"
           type="button"
         >
           A
         </button>
         <button
-          class="shrink-0 rounded-full px-3 py-1.5 font-medium text-sm transition-all text-default-600 hover:bg-default-100"
+          class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-full [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-transparent text-default-foreground data-[hover=true]:bg-default/40 shrink-0"
+          data-react-aria-pressable="true"
+          tabindex="0"
           type="button"
         >
           B
         </button>
         <button
-          class="shrink-0 rounded-full px-3 py-1.5 font-medium text-sm transition-all text-default-600 hover:bg-default-100"
+          class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-full [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-transparent text-default-foreground data-[hover=true]:bg-default/40 shrink-0"
+          data-react-aria-pressable="true"
+          tabindex="0"
           type="button"
         >
           M
         </button>
         <button
-          class="shrink-0 rounded-full px-3 py-1.5 font-medium text-sm transition-all text-default-600 hover:bg-default-100"
+          class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-full [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-transparent text-default-foreground data-[hover=true]:bg-default/40 shrink-0"
+          data-react-aria-pressable="true"
+          tabindex="0"
           type="button"
         >
           P
@@ -84,7 +100,9 @@ exports[`Makes > should render the section with title and count 1`] = `
       </div>
       <button
         aria-label="Scroll right"
-        class="flex size-8 shrink-0 items-center justify-center rounded-full border border-default-200 bg-white text-default-500 shadow-sm transition-colors hover:bg-default-50"
+        class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 border-medium text-tiny gap-2 rounded-full px-0 !gap-0 transition-transform-colors-opacity motion-reduce:transition-none bg-transparent border-default text-foreground min-w-8 w-8 h-8 data-[hover=true]:opacity-hover"
+        data-react-aria-pressable="true"
+        tabindex="0"
         type="button"
       >
         <svg

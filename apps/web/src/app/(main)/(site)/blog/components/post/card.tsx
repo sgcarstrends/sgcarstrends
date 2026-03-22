@@ -1,6 +1,7 @@
 "use client";
 
 import { CardBody, Card as HeroCard } from "@heroui/card";
+import { Chip } from "@heroui/chip";
 import type { SelectPost } from "@sgcarstrends/database";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -41,7 +42,9 @@ export function Card({ post }: CardProps) {
             <span className="size-1 rounded-full bg-default-300" />
             <span>{readingTime} min read</span>
             {isNew && (
-              <span className="font-bold text-warning tracking-wide">NEW</span>
+              <Chip color="warning" variant="flat" size="sm">
+                NEW
+              </Chip>
             )}
           </div>
           <h3 className="line-clamp-2 font-bold text-lg leading-tight">

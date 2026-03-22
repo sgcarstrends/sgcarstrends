@@ -8,11 +8,15 @@ exports[`ComingSoon > should render ComingSoon label 1`] = `
     <span>
       Trends
     </span>
-    <span
-      class="absolute top-0 left-0 translate-x-1/2 -translate-y-1/2 rotate-3 transform text-nowrap rounded-sm bg-blue-100 px-2 py-1 font-bold text-blue-600 text-xs"
+    <div
+      class="max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-tiny rounded-full bg-primary/20 text-primary-600 absolute top-0 left-0 translate-x-1/2 -translate-y-1/2 rotate-3 transform text-nowrap"
     >
-      Coming Soon
-    </span>
+      <span
+        class="flex-1 text-inherit font-normal px-1"
+      >
+        Coming Soon
+      </span>
+    </div>
   </div>
 </div>
 `;

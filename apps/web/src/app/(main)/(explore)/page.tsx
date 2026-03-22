@@ -1,3 +1,5 @@
+import { Card, CardBody } from "@heroui/card";
+import { Skeleton } from "@heroui/skeleton";
 import { AnimatedGrid } from "@web/app/(main)/(explore)/components/animated-grid";
 import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
 import {
@@ -63,46 +65,54 @@ const structuredData: WithContext<WebSite> = {
 
 function SummaryCardSkeleton() {
   return (
-    <div className="rounded-3xl border-2 border-primary bg-white p-6">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="h-12 w-12 animate-pulse rounded-2xl bg-default-200" />
-        <div className="h-10 w-10 animate-pulse rounded-full bg-default-200" />
-      </div>
-      <div className="h-4 w-32 animate-pulse rounded bg-default-200" />
-      <div className="mt-2 h-10 w-28 animate-pulse rounded bg-default-200" />
-      <div className="mt-4 h-6 w-40 animate-pulse rounded-full bg-default-200" />
-    </div>
+    <Card className="border-2 border-primary" radius="lg">
+      <CardBody className="p-6">
+        <div className="mb-4 flex items-center justify-between">
+          <Skeleton className="h-12 w-12 rounded-2xl" />
+          <Skeleton className="h-10 w-10 rounded-full" />
+        </div>
+        <Skeleton className="h-4 w-32 rounded-lg" />
+        <Skeleton className="mt-2 h-10 w-28 rounded-lg" />
+        <Skeleton className="mt-4 h-6 w-40 rounded-full" />
+      </CardBody>
+    </Card>
   );
 }
 
 function MarketOverviewSkeleton() {
   return (
-    <div className="rounded-3xl border border-default-200 bg-white p-6">
-      <div className="mb-4 h-6 w-36 animate-pulse rounded bg-default-200" />
-      <div className="grid grid-cols-3 gap-4">
-        {/* biome-ignore lint/suspicious/noArrayIndexKey: Static skeleton list */}
-        {[0, 1, 2].map((i) => (
-          <div key={i} className="rounded-2xl bg-default-100 p-4">
-            <div className="h-4 w-16 animate-pulse rounded bg-default-200" />
-            <div className="mt-2 h-7 w-20 animate-pulse rounded bg-default-200" />
-          </div>
-        ))}
-      </div>
-    </div>
+    <Card radius="lg">
+      <CardBody className="p-6">
+        <Skeleton className="mb-4 h-6 w-36 rounded-lg" />
+        <div className="grid grid-cols-3 gap-4">
+          {/* biome-ignore lint/suspicious/noArrayIndexKey: Static skeleton list */}
+          {[0, 1, 2].map((i) => (
+            <Card key={i} shadow="none" className="bg-default-100">
+              <CardBody className="p-4">
+                <Skeleton className="h-4 w-16 rounded-lg" />
+                <Skeleton className="mt-2 h-7 w-20 rounded-lg" />
+              </CardBody>
+            </Card>
+          ))}
+        </div>
+      </CardBody>
+    </Card>
   );
 }
 
 function MonthlyChangeSummarySkeleton() {
   return (
-    <div className="rounded-3xl border-2 border-primary bg-white p-6">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="h-12 w-12 animate-pulse rounded-2xl bg-default-200" />
-        <div className="h-10 w-10 animate-pulse rounded-full bg-default-200" />
-      </div>
-      <div className="h-4 w-32 animate-pulse rounded bg-default-200" />
-      <div className="mt-2 h-10 w-28 animate-pulse rounded bg-default-200" />
-      <div className="mt-4 h-6 w-40 animate-pulse rounded-full bg-default-200" />
-    </div>
+    <Card className="border-2 border-primary" radius="lg">
+      <CardBody className="p-6">
+        <div className="mb-4 flex items-center justify-between">
+          <Skeleton className="h-12 w-12 rounded-2xl" />
+          <Skeleton className="h-10 w-10 rounded-full" />
+        </div>
+        <Skeleton className="h-4 w-32 rounded-lg" />
+        <Skeleton className="mt-2 h-10 w-28 rounded-lg" />
+        <Skeleton className="mt-4 h-6 w-40 rounded-full" />
+      </CardBody>
+    </Card>
   );
 }
 
