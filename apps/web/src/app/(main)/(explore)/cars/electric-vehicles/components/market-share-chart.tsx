@@ -3,18 +3,17 @@
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { cn } from "@heroui/theme";
 import {
+  CHART_CURSOR,
+  CHART_GRID,
+  CHART_HEIGHTS,
+} from "@sgcarstrends/theme/charts";
+import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
+import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
 import Typography from "@web/components/typography";
-import {
-  CARD_PADDING,
-  CHART_CURSOR,
-  CHART_GRID,
-  CHART_HEIGHTS,
-  RADIUS,
-} from "@web/config/design-system";
 import type { EvMarketShare } from "@web/queries/cars/electric-vehicles";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 

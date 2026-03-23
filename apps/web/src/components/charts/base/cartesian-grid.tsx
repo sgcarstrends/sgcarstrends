@@ -1,6 +1,6 @@
 "use client";
 
-import { CHART_GRID, type ChartGrid } from "@web/config/design-system";
+import { CHART_GRID, type ChartGrid } from "@sgcarstrends/theme/charts";
 import { CartesianGrid as RechartsCartesianGrid } from "recharts";
 
 interface StandardCartesianGridProps {

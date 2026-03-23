@@ -4,6 +4,12 @@ import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { cn } from "@heroui/theme";
 import type { SelectCarCost } from "@sgcarstrends/database";
 import {
+  CHART_CURSOR,
+  CHART_GRID,
+  CHART_HEIGHTS,
+} from "@sgcarstrends/theme/charts";
+import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
+import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -14,13 +20,6 @@ import {
   FUEL_TYPE_ORDER,
 } from "@web/app/(main)/(explore)/cars/costs/constants";
 import Typography from "@web/components/typography";
-import {
-  CARD_PADDING,
-  CHART_CURSOR,
-  CHART_GRID,
-  CHART_HEIGHTS,
-  RADIUS,
-} from "@web/config/design-system";
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 
 interface FuelTypeCostChartProps {

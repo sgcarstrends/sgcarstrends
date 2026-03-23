@@ -22,6 +22,7 @@
     "vercel-build": "turbo run @sgcarstrends/database#migrate && next build"
   },
   "dependencies": {
+    "@sgcarstrends/theme": "workspace:*",
     "@heroui/accordion": "^2.2.24",
     "@heroui/alert": "^2.2.26",
     "@heroui/autocomplete": "^2.3.29",
@@ -39,7 +40,7 @@
     "@heroui/pagination": "^2.2.23",
     "@heroui/popover": "^2.3.27",
     "@heroui/progress": "^2.2.22",
-    "@heroui/react": "^2.8.5",
+    "@heroui/react": "catalog:",
     "@heroui/select": "^2.4.28",
     "@heroui/skeleton": "^2.2.17",
     "@heroui/spacer": "^2.2.18",

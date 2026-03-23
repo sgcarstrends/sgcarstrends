@@ -2,6 +2,8 @@
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { cn } from "@heroui/theme";
+import { CHART_HEIGHTS } from "@sgcarstrends/theme/charts";
+import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
 import {
   ChartContainer,
   ChartTooltip,
@@ -14,7 +16,6 @@ import {
 } from "@web/app/(main)/(explore)/cars/annual/constants";
 import { useEffectiveYear } from "@web/app/(main)/(explore)/cars/annual/hooks/use-effective-year";
 import Typography from "@web/components/typography";
-import { CARD_PADDING, CHART_HEIGHTS, RADIUS } from "@web/config/design-system";
 import { useMemo } from "react";
 import { Cell, Pie, PieChart } from "recharts";
 

@@ -2,6 +2,8 @@
 
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { cn } from "@heroui/theme";
+import { CHART_CURSOR, CHART_GRID } from "@sgcarstrends/theme/charts";
+import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
 import {
   ChartContainer,
   ChartTooltip,
@@ -9,12 +11,6 @@ import {
 } from "@sgcarstrends/ui/components/chart";
 import { useEffectiveYear } from "@web/app/(main)/(explore)/cars/annual/hooks/use-effective-year";
 import Typography from "@web/components/typography";
-import {
-  CARD_PADDING,
-  CHART_CURSOR,
-  CHART_GRID,
-  RADIUS,
-} from "@web/config/design-system";
 import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { CHART_MARGINS } from "@sgcarstrends/theme/charts";
 import {
   ChartContainer,
   ChartLegend,
@@ -9,7 +10,6 @@ import {
 } from "@sgcarstrends/ui/components/chart";
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import { ChartWidget } from "@web/components/charts/widget";
-import { CHART_MARGINS } from "@web/config/design-system";
 import { formatNumber } from "@web/utils/charts";
 import { useMemo } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";

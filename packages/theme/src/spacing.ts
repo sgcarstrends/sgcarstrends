@@ -1,7 +1,7 @@
 /**
- * Design System Tokens
+ * Layout & UI Design Tokens
  *
- * Centralized design tokens for consistent UI across the application.
+ * Centralized layout tokens for consistent UI across the application.
  * Based on Vercel Web Interface Guidelines and modern dashboard design principles.
  */
 
@@ -38,47 +38,6 @@ export const RADIUS = {
 } as const;
 
 /**
- * Chart height tokens for standardized chart sizing (3-tier system)
- */
-export const CHART_HEIGHTS = {
-  /** 64px - Sparklines and mini charts */
-  sparkline: "h-16",
-  /** 300px - Standard dashboard charts (most charts) */
-  standard: "h-[300px]",
-  /** 400px - Detailed charts with more data */
-  tall: "h-[400px]",
-} as const;
-
-/**
- * Chart grid presets for consistent CartesianGrid styling
- */
-export const CHART_GRID = {
-  /** Default grid with horizontal dashed lines */
-  default: {
-    vertical: false,
-    strokeDasharray: "3 3",
-    className: "stroke-default-200",
-  },
-  /** Minimal grid with no lines */
-  minimal: {
-    vertical: false,
-    horizontal: false,
-    strokeDasharray: undefined,
-    className: undefined,
-  },
-} as const;
-
-/**
- * Chart tooltip cursor presets
- */
-export const CHART_CURSOR = {
-  /** Highlight cursor for bar/area charts */
-  highlight: { fill: "hsl(var(--muted))", opacity: 0.2 },
-  /** No cursor for line charts */
-  none: false,
-} as const;
-
-/**
  * Card variant presets for visual hierarchy
  */
 export const CARD_VARIANTS = {
@@ -88,18 +47,6 @@ export const CARD_VARIANTS = {
   hero: "rounded-3xl shadow-md",
   /** Metric card with hover effect */
   metric: "rounded-2xl hover:shadow-sm transition-shadow",
-} as const;
-
-/**
- * Chart margin presets for consistent chart layouts
- */
-export const CHART_MARGINS = {
-  /** Default margins for most charts */
-  default: { top: 20, right: 20, left: 20, bottom: 20 },
-  /** Extended margins for charts with legends */
-  withLegend: { top: 20, right: 30, left: 20, bottom: 40 },
-  /** Minimal margins for sparklines */
-  minimal: { top: 5, right: 5, left: 5, bottom: 5 },
 } as const;
 
 /**
@@ -132,10 +79,6 @@ export const ANIMATION_DURATION = {
  */
 export type Spacing = keyof typeof SPACING;
 export type Radius = keyof typeof RADIUS;
-export type ChartHeight = keyof typeof CHART_HEIGHTS;
-export type ChartMargin = keyof typeof CHART_MARGINS;
-export type ChartGrid = keyof typeof CHART_GRID;
-export type ChartCursor = keyof typeof CHART_CURSOR;
 export type CardVariant = keyof typeof CARD_VARIANTS;
 export type CardPadding = keyof typeof CARD_PADDING;
 export type AnimationDuration = keyof typeof ANIMATION_DURATION;
