@@ -2,7 +2,7 @@ import type { SelectCar } from "@sgcarstrends/database";
 import { render, screen } from "@testing-library/react";
 import { MakeDetail } from "./make-detail";
 
-vi.mock("framer-motion", () => ({
+vi.mock("motion/react", () => ({
   motion: {
     div: ({
       children,

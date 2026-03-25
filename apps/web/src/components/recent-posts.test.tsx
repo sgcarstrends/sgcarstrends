@@ -10,7 +10,7 @@ vi.mock("@heroui/link", () => ({
   ),
 }));
 
-vi.mock("framer-motion", () => ({
+vi.mock("motion/react", () => ({
   motion: {
     div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
   },

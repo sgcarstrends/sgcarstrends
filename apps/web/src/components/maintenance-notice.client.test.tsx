@@ -16,31 +16,16 @@ vi.mock("@web/hooks/use-maintenance", () => ({
   useMaintenance: () => mockUseMaintenance(),
 }));
 
-vi.mock("framer-motion", () => ({
+vi.mock("motion/react", () => ({
   motion: {
     div: ({
       children,
       className,
-      initial,
-      animate,
-      layout,
-      variants,
     }: {
       children?: React.ReactNode;
       className?: string;
-      initial?: string;
-      animate?: string;
-      layout?: boolean;
-      variants?: object;
     }) => (
-      <div
-        data-testid="motion-div"
-        data-initial={initial}
-        data-animate={animate}
-        data-layout={layout ? "true" : "false"}
-        data-has-variants={variants ? "true" : "false"}
-        className={className}
-      >
+      <div data-testid="motion-div" className={className}>
         {children}
       </div>
     ),

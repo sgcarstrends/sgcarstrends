@@ -4,7 +4,7 @@ import { ChartWidget } from "./widget";
 
 let mockReducedMotion = false;
 
-vi.mock("framer-motion", () => ({
+vi.mock("motion/react", () => ({
   motion: {
     div: ({ children }: { children: React.ReactNode }) => (
       <div data-testid="motion-wrapper">{children}</div>
