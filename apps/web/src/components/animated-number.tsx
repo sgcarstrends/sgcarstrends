@@ -1,7 +1,7 @@
 "use client";
 
 import { formatCurrency, formatNumber } from "@sgcarstrends/utils";
-import { motion, useSpring, useTransform } from "framer-motion";
+import { motion, useSpring, useTransform } from "motion/react";
 import { useEffect } from "react";
 
 interface AnimatedNumberProps {

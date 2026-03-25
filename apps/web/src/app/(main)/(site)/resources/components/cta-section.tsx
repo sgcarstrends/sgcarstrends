@@ -6,8 +6,8 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
 } from "@web/config/animations";
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { motion } from "motion/react";
 import Link from "next/link";
 
 export function CtaSection() {

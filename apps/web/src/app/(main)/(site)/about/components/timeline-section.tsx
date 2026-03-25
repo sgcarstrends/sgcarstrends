@@ -1,10 +1,10 @@
 "use client";
 
 import { Avatar } from "@heroui/avatar";
-import { cn } from "@heroui/theme";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import Typography from "@web/components/typography";
 import { fadeInUpVariants } from "@web/config/animations";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 interface TimelineItem {
   date: string;

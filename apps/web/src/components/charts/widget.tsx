@@ -1,12 +1,12 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
-import { cn } from "@heroui/theme";
 import { CHART_HEIGHTS, type ChartHeight } from "@sgcarstrends/theme/charts";
 import { CARD_VARIANTS, type CardVariant } from "@sgcarstrends/theme/spacing";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import Typography from "@web/components/typography";
 import { fadeInUpVariants } from "@web/config/animations";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 
 interface ChartWidgetProps {

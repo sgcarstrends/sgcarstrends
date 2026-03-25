@@ -7,9 +7,9 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
 } from "@web/config/animations";
-import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import { BookOpen, Car, Landmark, Layers, TrendingUp } from "lucide-react";
+import { motion } from "motion/react";
 
 interface GlossaryTerm {
   term: string;

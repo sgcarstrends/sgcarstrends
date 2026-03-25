@@ -8,7 +8,6 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
 } from "@web/config/animations";
-import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import {
   BarChart3,
@@ -18,6 +17,7 @@ import {
   MessageCircleQuestion,
   Zap,
 } from "lucide-react";
+import { motion } from "motion/react";
 
 interface FAQItem {
   question: string;

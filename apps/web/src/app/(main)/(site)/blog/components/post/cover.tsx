@@ -1,5 +1,5 @@
 import { Chip } from "@heroui/chip";
-import { cn } from "@heroui/theme";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 
 interface CoverProps {
   category: string;

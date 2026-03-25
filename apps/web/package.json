@@ -74,7 +74,7 @@
     "date-fns": "catalog:",
     "drizzle-orm": "catalog:",
     "exceljs": "^4.4.0",
-    "framer-motion": "^12.5.0",
+    "motion": "^12.5.0",
     "lucide-react": "^0.482.0",
     "match-sorter": "^8.1.0",
     "next": "catalog:",

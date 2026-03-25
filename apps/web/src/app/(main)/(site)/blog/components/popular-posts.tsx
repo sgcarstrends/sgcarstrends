@@ -7,8 +7,8 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
 } from "@web/config/animations";
-import { motion } from "framer-motion";
 import { Flame, TrendingUp } from "lucide-react";
+import { motion } from "motion/react";
 
 interface PostWithViews extends SelectPost {
   viewCount: number;

@@ -1,7 +1,7 @@
 "use client";
 
 import { Chip } from "@heroui/chip";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 export function HeroSection() {
   const entranceTransition = (delay: number) => ({

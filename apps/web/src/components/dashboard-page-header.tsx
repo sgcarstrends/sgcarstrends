@@ -1,4 +1,4 @@
-import { cn } from "@heroui/theme";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import type { ReactNode } from "react";
 
 interface DashboardPageHeaderProps {

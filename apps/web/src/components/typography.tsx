@@ -1,5 +1,4 @@
-import { cn } from "@heroui/theme";
-import React from "react";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 
 /**
  * Typography System
@@ -23,20 +22,24 @@ import React from "react";
  * @example
  * <Typography.H1>COE Overview</Typography.H1>
  */
-const H1 = React.forwardRef<
-  HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h1
-    ref={ref}
-    className={cn(
-      "scroll-m-20 font-semibold text-4xl text-foreground tracking-tight lg:text-5xl",
-      className,
-    )}
-    {...props}
-  />
-));
-H1.displayName = "H1";
+function H1({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement> & {
+  ref?: React.Ref<HTMLHeadingElement>;
+}) {
+  return (
+    <h1
+      ref={ref}
+      className={cn(
+        "scroll-m-20 font-semibold text-4xl text-foreground tracking-tight lg:text-5xl",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
 /**
  * H2 - Section titles
@@ -47,20 +50,24 @@ H1.displayName = "H1";
  * @example
  * <Typography.H2>Fun Facts</Typography.H2>
  */
-const H2 = React.forwardRef<
-  HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h2
-    ref={ref}
-    className={cn(
-      "scroll-m-20 font-semibold text-3xl text-foreground tracking-tight first:mt-0",
-      className,
-    )}
-    {...props}
-  />
-));
-H2.displayName = "H2";
+function H2({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement> & {
+  ref?: React.Ref<HTMLHeadingElement>;
+}) {
+  return (
+    <h2
+      ref={ref}
+      className={cn(
+        "scroll-m-20 font-semibold text-3xl text-foreground tracking-tight first:mt-0",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
 /**
  * H3 - Subsection titles
@@ -71,20 +78,24 @@ H2.displayName = "H2";
  * @example
  * <Typography.H3>Category A vs B</Typography.H3>
  */
-const H3 = React.forwardRef<
-  HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={cn(
-      "scroll-m-20 font-medium text-2xl text-foreground tracking-tight",
-      className,
-    )}
-    {...props}
-  />
-));
-H3.displayName = "H3";
+function H3({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement> & {
+  ref?: React.Ref<HTMLHeadingElement>;
+}) {
+  return (
+    <h3
+      ref={ref}
+      className={cn(
+        "scroll-m-20 font-medium text-2xl text-foreground tracking-tight",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
 /**
  * H4 - Small headings
@@ -95,20 +106,24 @@ H3.displayName = "H3";
  * @example
  * <Typography.H4>Latest PQP Rates</Typography.H4>
  */
-const H4 = React.forwardRef<
-  HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h4
-    ref={ref}
-    className={cn(
-      "scroll-m-20 font-medium text-default-900 text-xl tracking-tight",
-      className,
-    )}
-    {...props}
-  />
-));
-H4.displayName = "H4";
+function H4({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement> & {
+  ref?: React.Ref<HTMLHeadingElement>;
+}) {
+  return (
+    <h4
+      ref={ref}
+      className={cn(
+        "scroll-m-20 font-medium text-default-900 text-xl tracking-tight",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
 /**
  * TextLg - Large body text
@@ -120,17 +135,21 @@ H4.displayName = "H4";
  * @example
  * <Typography.TextLg>Explore COE trends and analysis.</Typography.TextLg>
  */
-const TextLg = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-foreground text-lg leading-relaxed", className)}
-    {...props}
-  />
-));
-TextLg.displayName = "TextLg";
+function TextLg({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement> & {
+  ref?: React.Ref<HTMLParagraphElement>;
+}) {
+  return (
+    <p
+      ref={ref}
+      className={cn("text-foreground text-lg leading-relaxed", className)}
+      {...props}
+    />
+  );
+}
 
 /**
  * Text - Standard body text
@@ -142,17 +161,21 @@ TextLg.displayName = "TextLg";
  * @example
  * <Typography.Text>The latest COE results show...</Typography.Text>
  */
-const Text = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-base text-foreground leading-7", className)}
-    {...props}
-  />
-));
-Text.displayName = "Text";
+function Text({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement> & {
+  ref?: React.Ref<HTMLParagraphElement>;
+}) {
+  return (
+    <p
+      ref={ref}
+      className={cn("text-base text-foreground leading-7", className)}
+      {...props}
+    />
+  );
+}
 
 /**
  * TextSm - Small body text
@@ -164,17 +187,21 @@ Text.displayName = "Text";
  * @example
  * <Typography.TextSm>Updated daily from LTA</Typography.TextSm>
  */
-const TextSm = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-default-600 text-sm leading-6", className)}
-    {...props}
-  />
-));
-TextSm.displayName = "TextSm";
+function TextSm({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement> & {
+  ref?: React.Ref<HTMLParagraphElement>;
+}) {
+  return (
+    <p
+      ref={ref}
+      className={cn("text-default-600 text-sm leading-6", className)}
+      {...props}
+    />
+  );
+}
 
 /**
  * Label - UI labels
@@ -185,20 +212,24 @@ TextSm.displayName = "TextSm";
  * @example
  * <Typography.Label>Select Month</Typography.Label>
  */
-const Label = React.forwardRef<
-  HTMLSpanElement,
-  React.HTMLAttributes<HTMLSpanElement>
->(({ className, ...props }, ref) => (
-  <span
-    ref={ref}
-    className={cn(
-      "font-medium text-foreground text-sm leading-none",
-      className,
-    )}
-    {...props}
-  />
-));
-Label.displayName = "Label";
+function Label({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement> & {
+  ref?: React.Ref<HTMLSpanElement>;
+}) {
+  return (
+    <span
+      ref={ref}
+      className={cn(
+        "font-medium text-foreground text-sm leading-none",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
 /**
  * Caption - Metadata text
@@ -209,81 +240,103 @@ Label.displayName = "Label";
  * @example
  * <Typography.Caption>Last updated: 29 Oct 2025</Typography.Caption>
  */
-const Caption = React.forwardRef<
-  HTMLSpanElement,
-  React.HTMLAttributes<HTMLSpanElement>
->(({ className, ...props }, ref) => (
-  <span
-    ref={ref}
-    className={cn("text-muted-foreground text-xs leading-tight", className)}
-    {...props}
-  />
-));
-Caption.displayName = "Caption";
+function Caption({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement> & {
+  ref?: React.Ref<HTMLSpanElement>;
+}) {
+  return (
+    <span
+      ref={ref}
+      className={cn("text-muted-foreground text-xs leading-tight", className)}
+      {...props}
+    />
+  );
+}
 
 // Legacy components for backward compatibility
-const P = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("not-first:mt-6 leading-7", className)}
-    {...props}
-  />
-));
-P.displayName = "P";
+function P({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement> & {
+  ref?: React.Ref<HTMLParagraphElement>;
+}) {
+  return (
+    <p
+      ref={ref}
+      className={cn("not-first:mt-6 leading-7", className)}
+      {...props}
+    />
+  );
+}
 
-const Blockquote = React.forwardRef<
-  HTMLQuoteElement,
-  React.HTMLAttributes<HTMLQuoteElement>
->(({ className, ...props }, ref) => (
-  <blockquote
-    ref={ref}
-    className={cn("mt-6 border-l-2 pl-6 italic", className)}
-    {...props}
-  />
-));
-Blockquote.displayName = "Blockquote";
+function Blockquote({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLQuoteElement> & {
+  ref?: React.Ref<HTMLQuoteElement>;
+}) {
+  return (
+    <blockquote
+      ref={ref}
+      className={cn("mt-6 border-l-2 pl-6 italic", className)}
+      {...props}
+    />
+  );
+}
 
-const List = React.forwardRef<
-  HTMLUListElement,
-  React.HTMLAttributes<HTMLUListElement>
->(({ className, ...props }, ref) => (
-  <ul
-    ref={ref}
-    className={cn("my-6 ml-6 list-disc [&>li]:mt-2", className)}
-    {...props}
-  />
-));
-List.displayName = "List";
+function List({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLUListElement> & {
+  ref?: React.Ref<HTMLUListElement>;
+}) {
+  return (
+    <ul
+      ref={ref}
+      className={cn("my-6 ml-6 list-disc [&>li]:mt-2", className)}
+      {...props}
+    />
+  );
+}
 
-const InlineCode = React.forwardRef<
-  HTMLElement,
-  React.HTMLAttributes<HTMLElement>
->(({ className, ...props }, ref) => (
-  <code
-    ref={ref}
-    className={cn(
-      "relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-medium font-mono text-sm",
-      className,
-    )}
-    {...props}
-  />
-));
-InlineCode.displayName = "InlineCode";
+function InlineCode({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> }) {
+  return (
+    <code
+      ref={ref}
+      className={cn(
+        "relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-medium font-mono text-sm",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-const Lead = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-muted-foreground text-xl leading-relaxed", className)}
-    {...props}
-  />
-));
-Lead.displayName = "Lead";
+function Lead({
+  className,
+  ref,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement> & {
+  ref?: React.Ref<HTMLParagraphElement>;
+}) {
+  return (
+    <p
+      ref={ref}
+      className={cn("text-muted-foreground text-xl leading-relaxed", className)}
+      {...props}
+    />
+  );
+}
 
 const Typography = {
   // Headings

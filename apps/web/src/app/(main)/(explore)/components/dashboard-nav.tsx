@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@heroui/button";
-import { cn } from "@heroui/react";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import { NewChip } from "@web/components/shared/chips";
 import { navigationSections } from "@web/config/navigation";
 import Link from "next/link";

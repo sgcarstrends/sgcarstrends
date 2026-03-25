@@ -6,8 +6,8 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
 } from "@web/config/animations";
-import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
+import { motion } from "motion/react";
 
 export function CreatorSection() {
   return (

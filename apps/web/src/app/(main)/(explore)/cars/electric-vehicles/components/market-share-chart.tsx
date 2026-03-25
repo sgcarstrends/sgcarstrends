@@ -1,7 +1,6 @@
 "use client";
 
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
-import { cn } from "@heroui/theme";
 import {
   CHART_CURSOR,
   CHART_GRID,
@@ -13,6 +12,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@sgcarstrends/ui/components/chart";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import Typography from "@web/components/typography";
 import type { EvMarketShare } from "@web/queries/cars/electric-vehicles";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";

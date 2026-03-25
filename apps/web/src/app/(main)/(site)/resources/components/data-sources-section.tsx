@@ -9,8 +9,8 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
 } from "@web/config/animations";
-import { motion } from "framer-motion";
 import { AlertTriangle, Calendar, Database, RefreshCw } from "lucide-react";
+import { motion } from "motion/react";
 
 const features = [
   {

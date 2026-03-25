@@ -8,8 +8,8 @@ import {
   staggerItemVariants,
 } from "@web/config/animations";
 import type { Pqp } from "@web/types/coe";
-import { motion } from "framer-motion";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { motion } from "motion/react";
 
 interface ComparisonSummaryCardProps {
   data: Pqp.Comparison[];

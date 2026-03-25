@@ -3,8 +3,8 @@
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
 import { fadeInUpVariants } from "@web/config/animations";
-import { motion } from "framer-motion";
 import { Home, RotateCcw } from "lucide-react";
+import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
 interface AnimatedEmptyStateWrapperProps {

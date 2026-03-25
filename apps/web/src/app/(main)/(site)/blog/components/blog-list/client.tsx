@@ -7,7 +7,7 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
 } from "@web/config/animations";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useMemo, useState } from "react";
 
 interface PostCounts {

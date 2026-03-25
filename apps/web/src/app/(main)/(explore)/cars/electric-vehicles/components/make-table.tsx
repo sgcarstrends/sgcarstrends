@@ -11,8 +11,8 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/table";
-import { cn } from "@heroui/theme";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import Typography from "@web/components/typography";
 import type { EvMakeDetail } from "@web/queries/cars";
 import { sortByDescriptor } from "@web/utils/sort";

@@ -8,8 +8,8 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
 } from "@web/config/animations";
-import { motion } from "framer-motion";
 import { Database, RefreshCw, Shield } from "lucide-react";
+import { motion } from "motion/react";
 
 const features = [
   {

@@ -1,7 +1,7 @@
 "use client";
 
 import { staggerItemVariants } from "@web/config/animations";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
 interface AnimatedSectionProps {
