@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardBody } from "@heroui/card";
+import { Link } from "@heroui/link";
 import Typography from "@web/components/typography";
 import {
   staggerContainerVariants,
@@ -60,28 +61,34 @@ export function QuickNavSection() {
           viewport={{ once: true, amount: 0.2 }}
         >
           {navItems.map((item) => (
-            <motion.a
+            <motion.div
               key={item.title}
-              href={item.href}
               variants={staggerItemVariants}
               className="group"
             >
-              <Card
-                className={`h-full border-default-200/80 p-3 transition-all duration-500 ${item.hoverBorder} hover:shadow-lg hover:shadow-primary/5`}
+              <Link
+                href={item.href}
+                color="foreground"
+                underline="none"
+                className="block h-full"
               >
-                <CardBody className="flex flex-col gap-4 p-6">
-                  <div
-                    className={`flex size-12 items-center justify-center rounded-xl ${item.containerBg} transition-colors`}
-                  >
-                    <item.icon className={`size-6 ${item.iconColor}`} />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Typography.H4>{item.title}</Typography.H4>
-                    <Typography.TextSm>{item.description}</Typography.TextSm>
-                  </div>
-                </CardBody>
-              </Card>
-            </motion.a>
+                <Card
+                  className={`h-full border-default-200/80 p-3 transition-all duration-500 ${item.hoverBorder} hover:shadow-lg hover:shadow-primary/5`}
+                >
+                  <CardBody className="flex flex-col gap-4 p-6">
+                    <div
+                      className={`flex size-12 items-center justify-center rounded-xl ${item.containerBg} transition-colors`}
+                    >
+                      <item.icon className={`size-6 ${item.iconColor}`} />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Typography.H4>{item.title}</Typography.H4>
+                      <Typography.TextSm>{item.description}</Typography.TextSm>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Link>
+            </motion.div>
           ))}
         </motion.div>
       </div>

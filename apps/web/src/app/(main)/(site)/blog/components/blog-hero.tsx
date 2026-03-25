@@ -1,3 +1,4 @@
+import { Chip } from "@heroui/chip";
 import { ViewCounter } from "@web/app/(main)/(site)/blog/components/view-counter";
 import { Suspense } from "react";
 
@@ -24,9 +25,17 @@ export function BlogHero({
   return (
     <div className="relative mb-12 w-full overflow-hidden bg-gradient-to-br from-[#191970] to-[#2E4A8E] py-16 md:py-24">
       <div className="container mx-auto flex flex-col justify-end px-6 md:px-12">
-        <span className="mb-3 font-bold text-white/70 text-xs uppercase tracking-[0.3em]">
+        <Chip
+          size="sm"
+          variant="flat"
+          classNames={{
+            base: "mb-3 bg-white/15",
+            content:
+              "text-white/80 font-bold text-xs uppercase tracking-[0.3em]",
+          }}
+        >
           {categoryLabel}
-        </span>
+        </Chip>
         <h1 className="mb-3 max-w-4xl font-black text-2xl text-white leading-tight tracking-tight sm:text-4xl md:text-6xl md:leading-[0.95]">
           {title}
         </h1>

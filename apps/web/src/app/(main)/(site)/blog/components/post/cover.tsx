@@ -1,3 +1,4 @@
+import { Chip } from "@heroui/chip";
 import { cn } from "@heroui/theme";
 
 interface CoverProps {
@@ -70,9 +71,16 @@ export function Cover({ category, className }: CoverProps) {
             {label}
           </span>
           {tagline && (
-            <span className="rounded-full bg-white/15 px-4 py-1 text-white/80 text-xs backdrop-blur-sm">
+            <Chip
+              size="sm"
+              variant="flat"
+              classNames={{
+                base: "bg-white/15 backdrop-blur-sm",
+                content: "text-white/80 text-xs",
+              }}
+            >
               {tagline}
-            </span>
+            </Chip>
           )}
         </div>
       )}

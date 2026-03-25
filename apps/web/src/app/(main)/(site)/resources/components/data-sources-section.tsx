@@ -2,6 +2,7 @@
 
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
+import { Link } from "@heroui/link";
 import Typography from "@web/components/typography";
 import {
   fadeInUpVariants,
@@ -10,7 +11,6 @@ import {
 } from "@web/config/animations";
 import { motion } from "framer-motion";
 import { AlertTriangle, Calendar, Database, RefreshCw } from "lucide-react";
-import Link from "next/link";
 
 const features = [
   {
@@ -128,9 +128,10 @@ export function DataSourcesSection() {
                     </div>
                     <Link
                       href="https://datamall.lta.gov.sg"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary text-sm hover:underline"
+                      isExternal
+                      showAnchorIcon
+                      color="primary"
+                      size="sm"
                     >
                       LTA DataMall
                     </Link>

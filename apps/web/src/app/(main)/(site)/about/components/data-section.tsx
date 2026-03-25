@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardBody } from "@heroui/card";
+import { Link } from "@heroui/link";
 import Typography from "@web/components/typography";
 import {
   fadeInUpVariants,
@@ -9,7 +10,6 @@ import {
 } from "@web/config/animations";
 import { motion } from "framer-motion";
 import { Database, RefreshCw, Shield } from "lucide-react";
-import Link from "next/link";
 
 const features = [
   {
@@ -79,9 +79,10 @@ export function DataSection() {
                     </div>
                     <Link
                       href="https://datamall.lta.gov.sg"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary text-sm hover:underline"
+                      isExternal
+                      showAnchorIcon
+                      color="primary"
+                      size="sm"
                     >
                       LTA DataMall
                     </Link>

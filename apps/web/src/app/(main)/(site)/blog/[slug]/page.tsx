@@ -244,11 +244,14 @@ export default async function BlogPostPage({ params }: PageProps) {
 
           <Divider className="my-6" />
           <div className="flex justify-center pb-8">
-            <Button color="primary" variant="ghost">
-              <Link href="/blog" className="flex items-center gap-2">
-                <Undo2 className="size-4" />
-                <span>Back to blog</span>
-              </Link>
+            <Button
+              as={Link}
+              href="/blog"
+              color="primary"
+              variant="ghost"
+              startContent={<Undo2 className="size-4" />}
+            >
+              Back to blog
             </Button>
           </div>
         </div>

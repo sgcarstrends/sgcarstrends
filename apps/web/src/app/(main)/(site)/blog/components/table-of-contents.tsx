@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@heroui/link";
 import { cn } from "@heroui/theme";
 import { useEffect, useState } from "react";
 
@@ -78,9 +79,11 @@ export function TableOfContents() {
       </div>
       <div className="flex flex-wrap gap-x-6 gap-y-2">
         {headings.map((heading, idx) => (
-          <a
+          <Link
             key={heading.id}
             href={`#${heading.id}`}
+            color="foreground"
+            underline="hover"
             onClick={(e) => {
               e.preventDefault();
               const element = document.getElementById(heading.id);
@@ -90,7 +93,7 @@ export function TableOfContents() {
               }
             }}
             className={cn(
-              "group flex items-center gap-2 font-bold text-sm underline-offset-4 transition-colors hover:underline",
+              "group flex items-center gap-2 font-bold text-sm underline-offset-4",
               activeId === heading.id
                 ? "text-foreground"
                 : "text-foreground hover:text-foreground",
@@ -107,7 +110,7 @@ export function TableOfContents() {
               {String(idx + 1).padStart(2, "0")}
             </span>
             <span>{heading.text}</span>
-          </a>
+          </Link>
         ))}
       </div>
     </nav>

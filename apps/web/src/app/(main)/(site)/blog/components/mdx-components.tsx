@@ -1,3 +1,5 @@
+import { Divider } from "@heroui/divider";
+import { Link } from "@heroui/link";
 import Typography from "@web/components/typography";
 import type { ComponentPropsWithoutRef } from "react";
 
@@ -55,11 +57,17 @@ export const mdxComponents = {
   ),
 
   // Links - styled for blog content
-  a: (props: ComponentPropsWithoutRef<"a">) => (
-    <a
-      {...props}
-      className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
-    />
+  a: ({ href, children }: ComponentPropsWithoutRef<"a">) => (
+    <Link
+      href={href ?? "#"}
+      isExternal={href?.startsWith("http")}
+      showAnchorIcon={href?.startsWith("http")}
+      color="primary"
+      underline="always"
+      className="font-medium underline-offset-4"
+    >
+      {children}
+    </Link>
   ),
 
   // Tables - Editorial style with accent border (HybridStyle)
@@ -92,9 +100,7 @@ export const mdxComponents = {
   ),
 
   // Horizontal rule
-  hr: (props: ComponentPropsWithoutRef<"hr">) => (
-    <hr className="my-12 border-default-200" {...props} />
-  ),
+  hr: () => <Divider className="my-12" />,
 
   // Pre-formatted code blocks
   pre: (props: ComponentPropsWithoutRef<"pre">) => (
