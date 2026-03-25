@@ -1,3 +1,9 @@
+## [4.64.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.64.0...v4.64.1) (2026-03-25)
+
+### Bug Fixes
+
+* **web:** use color-mix for dot pattern background ([f744be0](https://github.com/sgcarstrends/sgcarstrends/commit/f744be08bd2e50a223e8e61373f646d3727b9b2d))
+
 ## [4.64.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.63.0...v4.64.0) (2026-03-07)
 
 ### Features
