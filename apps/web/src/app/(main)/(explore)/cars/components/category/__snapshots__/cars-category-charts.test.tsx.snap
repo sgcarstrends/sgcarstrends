@@ -74,7 +74,7 @@ exports[`Cars Category Charts > TopMakesChart > should render chart title and de
           </div>
         </div>
         <div
-          class="flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-none [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-none [&_.recharts-surface]:outline-none h-[300px] w-full"
+          class="flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-default-500 [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-default-200 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-default-400 [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-none [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-default-200 [&_.recharts-radial-bar-background-sector]:fill-default-100 [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-default-100 [&_.recharts-reference-line_[stroke='#ccc']]:stroke-default-200 [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-none [&_.recharts-surface]:outline-none h-[300px] w-full"
           data-chart="chart-_r_0_"
         >
           <style>

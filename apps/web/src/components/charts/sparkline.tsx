@@ -1,10 +1,7 @@
 "use client";
 
-import {
-  type ChartConfig,
-  ChartContainer,
-} from "@sgcarstrends/ui/components/chart";
 import { cn } from "@sgcarstrends/ui/lib/utils";
+import { type ChartConfig, ChartContainer } from "@web/components/charts/core";
 import { Area, AreaChart } from "recharts";
 
 interface SparklineData {

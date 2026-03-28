@@ -7,13 +7,13 @@ import {
   CHART_HEIGHTS,
 } from "@sgcarstrends/theme/charts";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
+import { cn } from "@sgcarstrends/ui/lib/utils";
+import { EV_COLORS } from "@web/app/(main)/(explore)/cars/electric-vehicles/constants";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
-import { cn } from "@sgcarstrends/ui/lib/utils";
-import { EV_COLORS } from "@web/app/(main)/(explore)/cars/electric-vehicles/constants";
+} from "@web/components/charts/core";
 import Typography from "@web/components/typography";
 import type { EvMonthlyTrend } from "@web/queries/cars/electric-vehicles";
 import { Area, AreaChart, CartesianGrid, Legend, XAxis, YAxis } from "recharts";

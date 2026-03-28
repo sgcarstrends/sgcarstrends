@@ -2,14 +2,14 @@
 
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { numberFormat } from "@ruchernchong/number-format";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
   type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
-import { formatDateToMonthYear } from "@sgcarstrends/utils";
+} from "@web/components/charts/core";
 import Typography from "@web/components/typography";
 import type { Pqp } from "@web/types/coe";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";

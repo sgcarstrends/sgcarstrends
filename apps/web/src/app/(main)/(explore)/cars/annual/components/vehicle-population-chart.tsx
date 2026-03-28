@@ -7,11 +7,6 @@ import {
   CHART_HEIGHTS,
 } from "@sgcarstrends/theme/charts";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
 import { cn } from "@sgcarstrends/ui/lib/utils";
 import {
   FUEL_GROUP_COLORS,
@@ -20,6 +15,11 @@ import {
 } from "@web/app/(main)/(explore)/cars/annual/constants";
 import { useEffectiveYear } from "@web/app/(main)/(explore)/cars/annual/hooks/use-effective-year";
 import { searchParams } from "@web/app/(main)/(explore)/cars/annual/search-params";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@web/components/charts/core";
 import Typography from "@web/components/typography";
 import { useQueryStates } from "nuqs";
 import { useMemo } from "react";

@@ -118,7 +118,7 @@ Route-specific server actions (mutations only):
 **Keep Centralised When:**
 
 - Component used by 3+ different routes
-- Part of design system (use HeroUI components via `@heroui/*` packages, or `@sgcarstrends/ui` for shadcn/ui chart components)
+- Part of design system (use HeroUI components via `@heroui/*` packages, chart components from `@web/components/charts/core`)
 - Shared business logic (`queries/`, `lib/`)
 - Server actions used across multiple routes (`actions/`)
 - Generic utilities (`components/shared/`)
@@ -371,9 +371,9 @@ philosophy inspired by Vercel, Linear, and Stripe. Uses lighter font weights (se
 secondary headings/labels, normal for body text) with hierarchy driven by size and spacing.
 See [Typography System](#typography-system) section below.
 
-**UI Components**: HeroUI is the primary component library, imported directly from `@heroui/*` packages (e.g., `@heroui/button`, `@heroui/card`, `@heroui/table`). Chart components use shadcn/ui's chart library from `@sgcarstrends/ui/components/chart`.
+**UI Components**: HeroUI is the primary component library, imported directly from `@heroui/*` packages (e.g., `@heroui/button`, `@heroui/card`, `@heroui/table`). Chart components use HeroUI v2-styled primitives from `@web/components/charts/core`.
 
-**Charts**: Recharts-based shadcn/ui chart components from `@sgcarstrends/ui/components/chart` for data visualization.
+**Charts**: Recharts-based HeroUI v2-styled chart components from `@web/components/charts/core` for data visualization. Core primitives include `ChartContainer`, `ChartTooltipContent`, and `ChartLegendContent`.
 
 **Dashboard Components**: Interactive components for the homepage including:
 
@@ -1128,8 +1128,8 @@ Deployed via Vercel with automatic deployments:
 The codebase has consolidated on **HeroUI as the primary component library**:
 
 - **UI Components**: Use HeroUI components imported from `@heroui/*` packages (e.g., `@heroui/button`, `@heroui/card`, `@heroui/table`, `@heroui/skeleton`)
-- **Chart Components**: Use shadcn/ui chart components from `@sgcarstrends/ui/components/chart` (Recharts-based)
+- **Chart Components**: Use HeroUI v2-styled chart components from `@web/components/charts/core` (Recharts-based)
 - **Component Selection**: Leverage HeroUI's professional design system for analytics interfaces, tables, forms, and navigation
 - **Customisation**: Apply HeroUI's theming system (`@heroui/theme` for `cn()` utility) to match Singapore car market branding
 - **Performance**: Take advantage of HeroUI's tree-shakeable, optimised components
-- **Migration Complete**: All UI components have been migrated from shadcn/ui to HeroUI; shadcn/ui is retained only for chart components
+- **Migration Complete**: All UI components including charts have been migrated from shadcn/ui to HeroUI v2-styled components. Chart primitives (`ChartContainer`, `ChartTooltipContent`, `ChartLegendContent`) are in `src/components/charts/core/`

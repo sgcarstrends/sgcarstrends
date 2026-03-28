@@ -8,17 +8,17 @@ import {
   CHART_HEIGHTS,
 } from "@sgcarstrends/theme/charts";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
 import { cn } from "@sgcarstrends/ui/lib/utils";
 import { formatCurrency } from "@sgcarstrends/utils";
 import {
   FUEL_TYPE_LABELS,
   FUEL_TYPE_ORDER,
 } from "@web/app/(main)/(explore)/cars/costs/constants";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@web/components/charts/core";
 import Typography from "@web/components/typography";
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 

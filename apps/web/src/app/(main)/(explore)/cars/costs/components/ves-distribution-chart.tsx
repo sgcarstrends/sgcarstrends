@@ -4,13 +4,13 @@ import { Card, CardBody, CardHeader } from "@heroui/card";
 import type { SelectCarCost } from "@sgcarstrends/database";
 import { CHART_HEIGHTS } from "@sgcarstrends/theme/charts";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
+import { cn } from "@sgcarstrends/ui/lib/utils";
+import { VES_BAND_ORDER } from "@web/app/(main)/(explore)/cars/costs/constants";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
-import { cn } from "@sgcarstrends/ui/lib/utils";
-import { VES_BAND_ORDER } from "@web/app/(main)/(explore)/cars/costs/constants";
+} from "@web/components/charts/core";
 import Typography from "@web/components/typography";
 import { Cell, Pie, PieChart } from "recharts";
 

@@ -7,12 +7,12 @@ import {
   CHART_HEIGHTS,
 } from "@sgcarstrends/theme/charts";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
-import { cn } from "@sgcarstrends/ui/lib/utils";
+} from "@web/components/charts/core";
 import Typography from "@web/components/typography";
 import type { EvMarketShare } from "@web/queries/cars/electric-vehicles";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";

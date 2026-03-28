@@ -6,7 +6,7 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
+} from "@web/components/charts/core";
 import Typography from "@web/components/typography";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 

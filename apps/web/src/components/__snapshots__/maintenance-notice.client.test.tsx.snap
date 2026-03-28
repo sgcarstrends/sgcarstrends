@@ -4,21 +4,13 @@ exports[`maintenance-notice client helpers > should render animated wrappers wit
 <div>
   <div
     class="mx-auto flex max-w-4xl flex-col gap-8"
-    data-animate="visible"
-    data-has-variants="true"
-    data-initial="hidden"
-    data-layout="true"
     data-testid="motion-div"
   >
     <div
       class="section-class"
-      data-has-variants="true"
-      data-layout="false"
       data-testid="motion-div"
     >
       <div
-        data-has-variants="true"
-        data-layout="false"
         data-testid="motion-div"
       >
         <span>
@@ -28,13 +20,9 @@ exports[`maintenance-notice client helpers > should render animated wrappers wit
     </div>
     <div
       class="grid gap-4 md:grid-cols-2"
-      data-has-variants="true"
-      data-layout="false"
       data-testid="motion-div"
     >
       <div
-        data-has-variants="true"
-        data-layout="false"
         data-testid="motion-div"
       >
         <span>

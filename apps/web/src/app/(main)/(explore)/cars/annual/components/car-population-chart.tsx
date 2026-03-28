@@ -3,13 +3,13 @@
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { CHART_CURSOR, CHART_GRID } from "@sgcarstrends/theme/charts";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
+import { cn } from "@sgcarstrends/ui/lib/utils";
+import { useEffectiveYear } from "@web/app/(main)/(explore)/cars/annual/hooks/use-effective-year";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
-import { cn } from "@sgcarstrends/ui/lib/utils";
-import { useEffectiveYear } from "@web/app/(main)/(explore)/cars/annual/hooks/use-effective-year";
+} from "@web/components/charts/core";
 import Typography from "@web/components/typography";
 import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";

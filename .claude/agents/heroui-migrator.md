@@ -73,7 +73,7 @@ Produce a markdown table for each audit:
 ## Important Rules
 
 - Always fetch latest HeroUI v3 docs before making recommendations
-- Do NOT modify `packages/ui/src/components/` (shadcn/ui chart components only)
+- Do NOT modify `packages/ui/src/components/` (shadcn/ui low-level primitives only)
 - The project uses `cn()` from `@heroui/theme` — track if this changes in v3
 - Animation config is centralised in `apps/web/src/config/animations.ts`
 - Use Context7 MCP with `/heroui/react` for latest documentation

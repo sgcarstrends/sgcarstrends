@@ -6,11 +6,11 @@ allowed-tools: Read, Edit, Write, Grep, Glob
 
 # Chart Implementation Skill
 
-Uses **Recharts** via shadcn/ui `ChartContainer` for data visualization. Always use CSS variables for colors (see `design-language-system` skill).
+Uses **Recharts** via HeroUI v2-styled `ChartContainer` for data visualization. Always use CSS variables for colors (see `design-language-system` skill).
 
 ## Core Pattern
 
-All charts use `ChartContainer` from `@sgcarstrends/ui/components/chart` wrapped in `ChartWidget` from `@web/components/charts/widget`. **Never use raw `ResponsiveContainer` directly.**
+All charts use `ChartContainer` from `@web/components/charts/core` wrapped in `ChartWidget` from `@web/components/charts/widget`. **Never use raw `ResponsiveContainer` directly.**
 
 ```tsx
 "use client";
@@ -19,7 +19,7 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
+} from "@web/components/charts/core";
 import { ChartWidget } from "@web/components/charts/widget";
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from "recharts";
 
@@ -62,15 +62,7 @@ export function TopMakesChart({ data }: { data: { make: string; count: number }[
 
 ### Width/Height -1 Warning
 
-Recharts `ResponsiveContainer` logs `width(-1) and height(-1)` warnings on first render before `ResizeObserver` fires. Fix by setting `initialDimension` on `ResponsiveContainer` in `packages/ui/src/components/chart.tsx`:
-
-```tsx
-<RechartsPrimitive.ResponsiveContainer initialDimension={{ width: 0, height: 400 }}>
-  {children}
-</RechartsPrimitive.ResponsiveContainer>
-```
-
-Reference: [shadcn/ui PR #8486](https://github.com/shadcn-ui/ui/pull/8486), [recharts #6716](https://github.com/recharts/recharts/issues/6716)
+Recharts `ResponsiveContainer` logs `width(-1) and height(-1)` warnings on first render before `ResizeObserver` fires. The `ChartContainer` in `apps/web/src/components/charts/core/chart-container.tsx` already sets `initialDimension={{ width: 0, height: 400 }}` to suppress this.
 
 ## ChartWidget
 
@@ -121,12 +113,12 @@ const chartConfig = useMemo(() => {
 3. **CSS Variables** - Use `var(--chart-N)` for colors (1-6 available)
 4. **Axis styling** - Use `tickLine={false} axisLine={false} className="text-xs"` for clean axes
 5. **Grid** - Use `<CartesianGrid vertical={false} strokeDasharray="3 3" className="stroke-default-200" />`
-6. **Tooltips** - Use shadcn `<ChartTooltip content={<ChartTooltipContent />} />`
+6. **Tooltips** - Use `<ChartTooltip content={<ChartTooltipContent />} />`
 7. **Memoize** - Use `useMemo` for chart config and data transformations
 
 ## References
 
 - Recharts: Use Context7 for latest docs
 - Design Language System: See `design-language-system` skill for colors
-- Chart component source: `packages/ui/src/components/chart.tsx`
+- Chart core components: `apps/web/src/components/charts/core/`
 - Widget component: `apps/web/src/components/charts/widget.tsx`

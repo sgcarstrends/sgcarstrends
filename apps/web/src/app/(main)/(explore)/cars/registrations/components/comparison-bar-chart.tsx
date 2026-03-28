@@ -1,14 +1,14 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
-import { formatDateToMonthYear } from "@sgcarstrends/utils";
+} from "@web/components/charts/core";
 import Typography from "@web/components/typography";
 import type { Registration } from "@web/types/cars";
 import { formatNumber } from "@web/utils/charts";

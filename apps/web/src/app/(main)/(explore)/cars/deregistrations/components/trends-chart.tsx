@@ -1,12 +1,12 @@
 "use client";
 
 import { Card, CardBody } from "@heroui/card";
+import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
-import { formatDateToMonthYear } from "@sgcarstrends/utils";
+} from "@web/components/charts/core";
 import Typography from "@web/components/typography";
 import { formatNumber } from "@web/utils/charts";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";

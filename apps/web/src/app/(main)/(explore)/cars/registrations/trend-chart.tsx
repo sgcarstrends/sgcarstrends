@@ -5,7 +5,7 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@sgcarstrends/ui/components/chart";
+} from "@web/components/charts/core";
 import { Bar, BarChart, Cell, LabelList, XAxis, YAxis } from "recharts";
 
 interface MakeData {
