@@ -1,9 +1,9 @@
 "use client";
 
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
-import { cn } from "@heroui/theme";
 import { CHART_CURSOR, CHART_GRID } from "@sgcarstrends/theme/charts";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import { useEffectiveYear } from "@web/app/(main)/(explore)/cars/annual/hooks/use-effective-year";
 import {
   ChartContainer,

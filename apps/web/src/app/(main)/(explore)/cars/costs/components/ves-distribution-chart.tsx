@@ -1,10 +1,10 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
-import { cn } from "@heroui/theme";
 import type { SelectCarCost } from "@sgcarstrends/database";
 import { CHART_HEIGHTS } from "@sgcarstrends/theme/charts";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import { VES_BAND_ORDER } from "@web/app/(main)/(explore)/cars/costs/constants";
 import {
   ChartContainer,

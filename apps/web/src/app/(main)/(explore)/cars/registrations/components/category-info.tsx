@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@heroui/theme";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import Typography from "@web/components/typography";
 import type { COECategory } from "@web/types";
 import type { LucideIcon } from "lucide-react";

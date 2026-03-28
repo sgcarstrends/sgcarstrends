@@ -1,9 +1,9 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
-import { cn } from "@heroui/theme";
 import { CHART_HEIGHTS } from "@sgcarstrends/theme/charts";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import {
   FUEL_GROUP_COLORS,
   FUEL_GROUP_MAP,

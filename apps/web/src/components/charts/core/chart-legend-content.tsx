@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@heroui/theme";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import { getPayloadConfigFromPayload, useChartConfig } from "./chart-config";
 
 type LegendPayloadItem = {

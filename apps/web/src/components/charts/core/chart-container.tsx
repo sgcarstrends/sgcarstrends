@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@heroui/theme";
+import { cn } from "@sgcarstrends/ui/lib/utils";
 import type { ComponentProps, ReactNode } from "react";
 import { useId } from "react";
 import { ResponsiveContainer } from "recharts";

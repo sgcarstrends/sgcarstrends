@@ -1,12 +1,11 @@
 "use client";
 
-import { HeroUIProvider } from "@heroui/react";
 import { ToastProvider } from "@heroui/toast";
 import type { ReactNode } from "react";
 
 export function Providers({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <HeroUIProvider>
+    <>
       <ToastProvider
         placement="top-right"
         toastProps={{
@@ -15,6 +14,6 @@ export function Providers({ children }: Readonly<{ children: ReactNode }>) {
         }}
       />
       {children}
-    </HeroUIProvider>
+    </>
   );
 }
