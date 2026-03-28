@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { cn } from "@heroui/theme";
 import type { SelectCarCost } from "@sgcarstrends/database";
 import {
   CHART_CURSOR,
@@ -8,7 +9,6 @@ import {
   CHART_HEIGHTS,
 } from "@sgcarstrends/theme/charts";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
-import { cn } from "@sgcarstrends/ui/lib/utils";
 import { formatCurrency } from "@sgcarstrends/utils";
 import {
   FUEL_TYPE_LABELS,

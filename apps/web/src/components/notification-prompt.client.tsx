@@ -1,7 +1,7 @@
 "use client";
 
 import { Alert, addToast, Button } from "@heroui/react";
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { cn } from "@heroui/theme";
 import useStore from "@web/app/store";
 import { useCallback, useEffect } from "react";
 

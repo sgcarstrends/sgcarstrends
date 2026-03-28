@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { cn } from "@heroui/theme";
 import type { CSSProperties, ReactNode } from "react";
 import { useMemo } from "react";
 import { getPayloadConfigFromPayload, useChartConfig } from "./chart-config";

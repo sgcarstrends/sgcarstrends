@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { cn } from "@heroui/theme";
 import { type ChartConfig, ChartContainer } from "@web/components/charts/core";
 import { Area, AreaChart } from "recharts";
 

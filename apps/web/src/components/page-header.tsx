@@ -1,4 +1,4 @@
-import { cn } from "@sgcarstrends/ui/lib/utils";
+import { cn } from "@heroui/theme";
 import { LastUpdated } from "@web/components/shared/last-updated";
 import Typography from "@web/components/typography";
 import type { ReactNode } from "react";
