@@ -1,7 +1,6 @@
 "use client";
 
-import { Card, CardBody } from "@heroui/card";
-import { Accordion, AccordionItem } from "@heroui/react";
+import { Accordion, Card } from "@heroui/react";
 import Typography from "@web/components/typography";
 import {
   fadeInUpVariants,
@@ -185,11 +184,16 @@ export function FAQSection() {
                     <section.icon className={`size-5 ${section.iconColor}`} />
                     <Typography.H3>{section.title}</Typography.H3>
                   </div>
-                  <Accordion variant="bordered">
+                  <Accordion>
                     {section.items.map(({ answer, question }) => (
-                      <AccordionItem key={question} title={question}>
-                        <Typography.Text>{answer}</Typography.Text>
-                      </AccordionItem>
+                      <Accordion.Item key={question} id={question}>
+                        <Accordion.Heading>
+                          <Accordion.Trigger>{question}</Accordion.Trigger>
+                        </Accordion.Heading>
+                        <Accordion.Panel>
+                          <Typography.Text>{answer}</Typography.Text>
+                        </Accordion.Panel>
+                      </Accordion.Item>
                     ))}
                   </Accordion>
                 </motion.div>
@@ -198,7 +202,7 @@ export function FAQSection() {
               {/* Still Have Questions? */}
               <motion.div variants={staggerItemVariants}>
                 <Card className="border border-primary/20 bg-primary/5">
-                  <CardBody className="flex flex-row items-start gap-4 p-6">
+                  <Card.Content className="flex flex-row items-start gap-4 p-6">
                     <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
                       <MessageCircleQuestion className="size-5 text-primary" />
                     </div>
@@ -212,7 +216,7 @@ export function FAQSection() {
                         above.
                       </Typography.TextSm>
                     </div>
-                  </CardBody>
+                  </Card.Content>
                 </Card>
               </motion.div>
             </motion.div>

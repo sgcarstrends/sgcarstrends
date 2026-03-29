@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card } from "@heroui/react";
 import type { SelectCarCost } from "@sgcarstrends/database";
 import { CHART_HEIGHTS } from "@sgcarstrends/theme/charts";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
@@ -49,13 +49,13 @@ export function VesDistributionChart({ data }: VesDistributionChartProps) {
 
   return (
     <Card className={cn(RADIUS.card, CARD_PADDING.standard)}>
-      <CardHeader className="flex flex-col items-start gap-2">
+      <Card.Header className="flex flex-col items-start gap-2">
         <Typography.H4>VES Band Distribution</Typography.H4>
         <Typography.TextSm className="text-default-500">
           Number of models per VES band
         </Typography.TextSm>
-      </CardHeader>
-      <CardBody>
+      </Card.Header>
+      <Card.Content>
         <ChartContainer
           config={chartConfig}
           className={cn("mx-auto", CHART_HEIGHTS.standard)}
@@ -83,7 +83,7 @@ export function VesDistributionChart({ data }: VesDistributionChartProps) {
             </Pie>
           </PieChart>
         </ChartContainer>
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 }

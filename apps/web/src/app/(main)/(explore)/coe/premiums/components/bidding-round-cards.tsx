@@ -1,5 +1,4 @@
-import { Card, CardBody, CardHeader } from "@heroui/card";
-import { Chip } from "@heroui/chip";
+import { Card, Chip } from "@heroui/react";
 import {
   formatCurrency,
   formatDateToMonthYear,
@@ -69,21 +68,18 @@ const CategoryRow = ({
         {change !== null && change !== 0 && (
           <Chip
             size="sm"
-            variant="flat"
+            variant="tertiary"
             color={change > 0 ? "danger" : "success"}
-            startContent={
-              change > 0 ? (
-                <ArrowUpIcon className="size-3" />
-              ) : (
-                <ArrowDownIcon className="size-3" />
-              )
-            }
-            classNames={{
-              base: "h-6 px-1.5",
-              content: "text-xs font-medium tabular-nums",
-            }}
+            className="h-6 px-1.5"
           >
-            {Math.abs(change).toFixed(1)}%
+            {change > 0 ? (
+              <ArrowUpIcon className="size-3" />
+            ) : (
+              <ArrowDownIcon className="size-3" />
+            )}
+            <Chip.Label className="font-medium text-xs tabular-nums">
+              {Math.abs(change).toFixed(1)}%
+            </Chip.Label>
           </Chip>
         )}
       </div>
@@ -114,12 +110,12 @@ const RoundCard = ({
   if (isPlaceholder) {
     return (
       <Card className="border-2 border-dashed bg-default-50/50 p-3 shadow-none">
-        <CardHeader className="flex flex-row items-center gap-2 pb-2">
-          <Chip size="sm" color="primary">
+        <Card.Header className="flex flex-row items-center gap-2 pb-2">
+          <Chip size="sm" color="accent">
             {formatOrdinal(roundNumber)} Round
           </Chip>
-        </CardHeader>
-        <CardBody className="flex flex-col items-center justify-center gap-4 py-12">
+        </Card.Header>
+        <Card.Content className="flex flex-col items-center justify-center gap-4 py-12">
           <div className="flex size-12 items-center justify-center rounded-full bg-default-100">
             <ClockIcon className="size-6 text-default-400" />
           </div>
@@ -131,19 +127,19 @@ const RoundCard = ({
               2nd round bidding typically occurs mid-month
             </Typography.Caption>
           </div>
-        </CardBody>
+        </Card.Content>
       </Card>
     );
   }
 
   return (
     <Card className="rounded-2xl p-3">
-      <CardHeader className="flex flex-row items-center gap-2 pb-2">
-        <Chip size="sm" color="primary">
+      <Card.Header className="flex flex-row items-center gap-2 pb-2">
+        <Chip size="sm" color="accent">
           {formatOrdinal(roundNumber)} Round
         </Chip>
-      </CardHeader>
-      <CardBody className="flex flex-col gap-0 pt-0">
+      </Card.Header>
+      <Card.Content className="flex flex-col gap-0 pt-0">
         {/* Primary categories (A & B) */}
         <div className="flex flex-col">
           {PRIMARY_CATEGORIES.map((category) => {
@@ -191,7 +187,7 @@ const RoundCard = ({
             );
           })}
         </div>
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 };
@@ -210,7 +206,7 @@ export function BiddingRoundCards({
       <div className="flex items-center gap-2">
         <Typography.H3>Bidding Rounds</Typography.H3>
         {formattedMonth && (
-          <Chip size="sm" color="primary">
+          <Chip size="sm" color="accent">
             {formattedMonth}
           </Chip>
         )}

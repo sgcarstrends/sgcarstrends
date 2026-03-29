@@ -103,7 +103,7 @@ export function ChartTooltipContent({
     <div
       className={cn(
         "grid min-w-[8rem] items-start gap-1.5",
-        "rounded-xl border border-default-200 bg-content1",
+        "rounded-xl border border-default-200 bg-surface",
         "px-3 py-2 text-xs shadow-md",
         className,
       )}

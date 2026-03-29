@@ -1,6 +1,6 @@
 "use client";
 
-import { Tab, Tabs } from "@heroui/tabs";
+import { Tabs } from "@heroui/react";
 import {
   VIEWS,
   type View,
@@ -29,15 +29,21 @@ export function AnnualViewTabs({
     <Tabs
       selectedKey={view}
       onSelectionChange={(key) => setView(key as View)}
-      variant="underlined"
+      variant="primary"
       aria-label="Annual data view"
     >
-      <Tab key="fuel-type" title="By Fuel Type">
+      <Tabs.ListContainer>
+        <Tabs.List>
+          <Tabs.Tab id="fuel-type">By Fuel Type</Tabs.Tab>
+          <Tabs.Tab id="make">By Make</Tabs.Tab>
+        </Tabs.List>
+      </Tabs.ListContainer>
+      <Tabs.Panel id="fuel-type">
         <div className="flex flex-col gap-10 pt-4">{fuelTypeContent}</div>
-      </Tab>
-      <Tab key="make" title="By Make">
+      </Tabs.Panel>
+      <Tabs.Panel id="make">
         <div className="flex flex-col gap-10 pt-4">{makeContent}</div>
-      </Tab>
+      </Tabs.Panel>
     </Tabs>
   );
 }

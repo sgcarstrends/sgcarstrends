@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, addToast, Button } from "@heroui/react";
+import { Alert, Button, toast } from "@heroui/react";
 import { cn } from "@sgcarstrends/ui/lib/utils";
 import useStore from "@web/app/store";
 import { useCallback, useEffect } from "react";
@@ -42,15 +42,8 @@ export function NotificationPromptClient({
     setNotificationStatus(permission);
 
     if (permission === "granted") {
-      addToast({
-        title: enabledToastTitle,
+      toast.success(enabledToastTitle, {
         description: enabledToastDescription,
-        color: "success",
-        classNames: {
-          base: "bg-success-50 dark:bg-success-900/20 border border-success-200 dark:border-success-700",
-          icon: "w-5 h-5 fill-current text-success-600",
-        },
-        shouldShowTimeoutProgress: true,
       });
     }
   }, [setNotificationStatus, enabledToastTitle, enabledToastDescription]);
@@ -60,58 +53,35 @@ export function NotificationPromptClient({
     setNotificationStatus(permission);
 
     if (permission === "denied") {
-      addToast({
-        title: disabledToastTitle,
+      toast.warning(disabledToastTitle, {
         description: disabledToastDescription,
-        color: "warning",
-        classNames: {
-          base: "bg-warning-50 dark:bg-warning-900/20 border border-warning-200 dark:border-warning-700",
-          icon: "w-5 h-5 fill-current text-warning-600",
-        },
-        shouldShowTimeoutProgress: true,
       });
     }
   }, [setNotificationStatus, disabledToastTitle, disabledToastDescription]);
 
-  const handleClose = useCallback(() => {
-    setNotificationStatus("denied");
-  }, [setNotificationStatus]);
-
   if (notificationStatus === "default") {
     return (
       <Alert
-        color="primary"
-        variant="faded"
-        title={title}
-        description={description}
-        isClosable
-        onClose={handleClose}
+        status="accent"
         className={cn([
           "bg-default-50 shadow-sm dark:bg-background",
           "rounded-md rounded-l-none border border-l-8",
           "border-primary-200 border-l-primary dark:border-primary-100",
         ])}
-        endContent={
-          <div className="flex gap-2">
-            <Button
-              onPress={handleGranted}
-              color="primary"
-              size="sm"
-              variant="solid"
-            >
-              {allowLabel}
-            </Button>
-            <Button
-              onPress={handleDenied}
-              color="default"
-              size="sm"
-              variant="bordered"
-            >
-              {denyLabel}
-            </Button>
-          </div>
-        }
-      />
+      >
+        <Alert.Content>
+          <Alert.Title>{title}</Alert.Title>
+          <Alert.Description>{description}</Alert.Description>
+        </Alert.Content>
+        <div className="flex gap-2">
+          <Button onPress={handleGranted} size="sm" variant="primary">
+            {allowLabel}
+          </Button>
+          <Button onPress={handleDenied} size="sm" variant="secondary">
+            {denyLabel}
+          </Button>
+        </div>
+      </Alert>
     );
   }
 

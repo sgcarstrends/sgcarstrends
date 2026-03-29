@@ -1,4 +1,4 @@
-import { Chip } from "@heroui/chip";
+import { Chip } from "@heroui/react";
 import { slugify } from "@sgcarstrends/utils";
 import type { Make, MakeStats } from "@web/types";
 import { TrendingUp } from "lucide-react";
@@ -30,7 +30,7 @@ export function PopularMakes({
             Popular Makes
           </h2>
         </div>
-        <Chip variant="flat" color="primary" size="sm">
+        <Chip variant="tertiary" color="accent" size="sm">
           Top {makes.length}
         </Chip>
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
-import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
+import { Button, Link } from "@heroui/react";
 import { fadeInUpVariants } from "@web/config/animations";
 import { Home, RotateCcw } from "lucide-react";
 import { motion } from "motion/react";
@@ -31,21 +30,19 @@ export function AnimatedEmptyStateWrapper({
 export function DefaultActions() {
   return (
     <div className="flex items-center gap-4">
-      <Button
-        as={Link}
+      <Link
         href="/"
-        className="rounded-full"
-        variant="bordered"
-        startContent={<Home className="size-4" />}
+        className="inline-flex items-center gap-2 rounded-full border border-default-300 bg-default-100 px-4 py-2 font-medium text-foreground text-sm"
       >
+        <Home className="size-4" />
         Go Home
-      </Button>
+      </Link>
       <Button
         className="rounded-full"
-        variant="bordered"
+        variant="secondary"
         onPress={() => history.back()}
-        startContent={<RotateCcw className="size-4" />}
       >
+        <RotateCcw className="size-4" />
         Go Back
       </Button>
     </div>

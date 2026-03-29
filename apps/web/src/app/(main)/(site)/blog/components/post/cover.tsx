@@ -1,4 +1,4 @@
-import { Chip } from "@heroui/chip";
+import { Chip } from "@heroui/react";
 import { cn } from "@sgcarstrends/ui/lib/utils";
 
 interface CoverProps {
@@ -73,13 +73,12 @@ export function Cover({ category, className }: CoverProps) {
           {tagline && (
             <Chip
               size="sm"
-              variant="flat"
-              classNames={{
-                base: "bg-white/15 backdrop-blur-sm",
-                content: "text-white/80 text-xs",
-              }}
+              variant="tertiary"
+              className="bg-white/15 backdrop-blur-sm"
             >
-              {tagline}
+              <Chip.Label className="text-white/80 text-xs">
+                {tagline}
+              </Chip.Label>
             </Chip>
           )}
         </div>

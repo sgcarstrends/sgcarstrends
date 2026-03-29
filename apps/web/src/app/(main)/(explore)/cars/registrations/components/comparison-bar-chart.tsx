@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card } from "@heroui/react";
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
   ChartContainer,
@@ -54,11 +54,11 @@ export function ComparisonBarChart({
 
   return (
     <Card className="rounded-2xl p-3">
-      <CardHeader className="flex flex-col items-start gap-2">
+      <Card.Header className="flex flex-col items-start gap-2">
         <Typography.H4>{title}</Typography.H4>
         {description && <Typography.TextSm>{description}</Typography.TextSm>}
-      </CardHeader>
-      <CardBody>
+      </Card.Header>
+      <Card.Content>
         <ChartContainer config={chartConfig} style={{ height }}>
           <BarChart data={chartData} layout="vertical">
             <CartesianGrid
@@ -88,7 +88,7 @@ export function ComparisonBarChart({
             <Bar dataKey="monthB" fill="var(--chart-3)" radius={[0, 4, 4, 0]} />
           </BarChart>
         </ChartContainer>
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 }

@@ -1,16 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
-import { Pagination } from "@heroui/pagination";
-import {
-  type SortDescriptor,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-} from "@heroui/table";
+import { Button, Card, type SortDescriptor, Table } from "@heroui/react";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
 import { cn } from "@sgcarstrends/ui/lib/utils";
 import Typography from "@web/components/typography";
@@ -83,54 +73,68 @@ export function MakeTable({ data, month }: MakeTableProps) {
 
   return (
     <Card className={cn(RADIUS.card, CARD_PADDING.standard)}>
-      <CardHeader className="flex flex-col items-start gap-2">
+      <Card.Header className="flex flex-col items-start gap-2">
         <Typography.H4>EV Registrations by Make</Typography.H4>
         <Typography.TextSm className="text-default-500">
           {data.length} makes with EV registrations in {month}
         </Typography.TextSm>
-      </CardHeader>
-      <CardBody>
-        <Table
-          aria-label="EV registrations by make"
-          sortDescriptor={sortDescriptor}
-          onSortChange={setSortDescriptor}
-          bottomContent={
-            pages > 1 ? (
-              <div className="flex w-full justify-center">
-                <Pagination
-                  isCompact
-                  showControls
-                  showShadow
-                  page={page}
-                  total={pages}
-                  onChange={setPage}
-                />
+      </Card.Header>
+      <Card.Content>
+        <Table.ScrollContainer>
+          <Table.Content
+            aria-label="EV registrations by make"
+            sortDescriptor={sortDescriptor}
+            onSortChange={setSortDescriptor}
+          >
+            <Table.Header columns={columns}>
+              {(column) => (
+                <Table.Column
+                  key={column.key}
+                  allowsSorting={column.key !== "rank"}
+                >
+                  {column.label}
+                </Table.Column>
+              )}
+            </Table.Header>
+            <Table.Body items={paginatedData}>
+              {(item) => (
+                <Table.Row key={item.make}>
+                  {(columnKey) => (
+                    <Table.Cell>
+                      {renderCell(item, columnKey as unknown as Key)}
+                    </Table.Cell>
+                  )}
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table.Content>
+          {pages > 1 && (
+            <Table.Footer>
+              <div className="flex items-center justify-center gap-2">
+                <Button
+                  size="sm"
+                  variant="tertiary"
+                  isDisabled={page === 1}
+                  onPress={() => setPage(page - 1)}
+                >
+                  Previous
+                </Button>
+                <span className="text-default-500 text-sm">
+                  Page {page} of {pages}
+                </span>
+                <Button
+                  size="sm"
+                  variant="tertiary"
+                  isDisabled={page === pages}
+                  onPress={() => setPage(page + 1)}
+                >
+                  Next
+                </Button>
               </div>
-            ) : null
-          }
-          bottomContentPlacement="outside"
-        >
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn
-                key={column.key}
-                allowsSorting={column.key !== "rank"}
-              >
-                {column.label}
-              </TableColumn>
-            )}
-          </TableHeader>
-          <TableBody items={paginatedData}>
-            {(item) => (
-              <TableRow key={item.make}>
-                {(columnKey) => (
-                  <TableCell>{renderCell(item, columnKey)}</TableCell>
-                )}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </CardBody>
+            </Table.Footer>
+          )}
+        </Table.ScrollContainer>
+      </Card.Content>
     </Card>
   );
 }

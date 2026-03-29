@@ -1,6 +1,9 @@
-import { addToast } from "@heroui/toast";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { YearSelector } from "./year-selector";
+
+const { mockToast } = vi.hoisted(() => ({
+  mockToast: vi.fn(),
+}));
 
 const mockSetYear = vi.fn();
 const mockUseQueryState = vi.fn(() => [2024, mockSetYear]);
@@ -14,38 +17,60 @@ vi.mock("nuqs", () => ({
   useQueryState: () => mockUseQueryState(),
 }));
 
-vi.mock("@heroui/toast", () => ({
-  addToast: vi.fn(),
-}));
-
-vi.mock("@heroui/react", () => ({
-  Autocomplete: ({
-    selectedKey,
-    onSelectionChange,
-    children,
-  }: {
-    selectedKey?: string;
-    onSelectionChange?: (key: string | null) => void;
-    children?: React.ReactNode;
-  }) => (
-    <select
-      aria-label="Year"
-      data-testid="year-selector"
-      value={selectedKey ?? ""}
-      onChange={(event) => onSelectionChange?.(event.target.value || null)}
-    >
-      <option value="">None</option>
-      {children}
-    </select>
-  ),
-  AutocompleteItem: ({
-    children,
-    textValue,
-  }: {
-    children?: React.ReactNode;
-    textValue: string;
-  }) => <option value={textValue}>{children}</option>,
-}));
+vi.mock("@heroui/react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@heroui/react")>();
+  return {
+    ...mod,
+    toast: mockToast,
+    ComboBox: Object.assign(
+      ({
+        selectedKey,
+        onSelectionChange,
+        children,
+      }: {
+        selectedKey?: string;
+        onSelectionChange?: (key: string | null) => void;
+        children?: React.ReactNode;
+      }) => (
+        <select
+          aria-label="Year"
+          data-testid="year-selector"
+          value={selectedKey ?? ""}
+          onChange={(event) => onSelectionChange?.(event.target.value || null)}
+        >
+          <option value="">None</option>
+          {children}
+        </select>
+      ),
+      {
+        InputGroup: ({ children }: { children?: React.ReactNode }) => (
+          <>{children}</>
+        ),
+        Trigger: () => null,
+        Popover: ({ children }: { children?: React.ReactNode }) => (
+          <>{children}</>
+        ),
+      },
+    ),
+    Input: () => null,
+    Label: () => null,
+    ListBox: Object.assign(
+      ({ children }: { children?: React.ReactNode }) => <>{children}</>,
+      {
+        Item: ({
+          children,
+          textValue,
+        }: {
+          children?: React.ReactNode;
+          textValue: string;
+        }) => <option value={textValue}>{children}</option>,
+        Section: ({ children }: { children?: React.ReactNode }) => (
+          <>{children}</>
+        ),
+      },
+    ),
+  };
+});
 
 describe("YearSelector", () => {
   beforeEach(() => {
@@ -89,11 +114,8 @@ describe("YearSelector", () => {
       />,
     );
 
-    expect(addToast).toHaveBeenCalledTimes(1);
-    expect(addToast).toHaveBeenCalledWith({
-      title: "Latest data is 2024",
-      variant: "bordered",
-    });
+    expect(mockToast).toHaveBeenCalledTimes(1);
+    expect(mockToast).toHaveBeenCalledWith("Latest data is 2024");
 
     rerender(
       <YearSelector
@@ -102,7 +124,7 @@ describe("YearSelector", () => {
         wasAdjusted={true}
       />,
     );
-    expect(addToast).toHaveBeenCalledTimes(1);
+    expect(mockToast).toHaveBeenCalledTimes(1);
   });
 
   it("should not show toast when year was not adjusted", () => {
@@ -114,6 +136,6 @@ describe("YearSelector", () => {
       />,
     );
 
-    expect(addToast).not.toHaveBeenCalled();
+    expect(mockToast).not.toHaveBeenCalled();
   });
 });

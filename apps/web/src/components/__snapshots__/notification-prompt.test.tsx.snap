@@ -6,41 +6,35 @@ exports[`NotificationPrompt Component > should set notification status to curren
     data-testid="alert"
   >
     <div
-      data-testid="alert-title"
-    >
-      Enable Notifications?
-    </div>
-    <div
-      data-testid="alert-description"
-    >
-      Stay updated with the latest news and alerts by enabling browser notifications
-    </div>
-    <div
-      data-testid="alert-endcontent"
+      data-testid="alert-content"
     >
       <div
-        class="flex gap-2"
+        data-testid="alert-title"
       >
-        <button
-          data-testid="button"
-          type="button"
-        >
-          Allow
-        </button>
-        <button
-          data-testid="button"
-          type="button"
-        >
-          Deny
-        </button>
+        Enable Notifications?
+      </div>
+      <div
+        data-testid="alert-description"
+      >
+        Stay updated with the latest news and alerts by enabling browser notifications
       </div>
     </div>
-    <button
-      data-testid="alert-close"
-      type="button"
+    <div
+      class="flex gap-2"
     >
-      close
-    </button>
+      <button
+        data-testid="button"
+        type="button"
+      >
+        Allow
+      </button>
+      <button
+        data-testid="button"
+        type="button"
+      >
+        Deny
+      </button>
+    </div>
   </div>
 </div>
 `;

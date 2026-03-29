@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card } from "@heroui/react";
 import { CARD_VARIANTS, type CardVariant } from "@sgcarstrends/theme/spacing";
 import { cn } from "@sgcarstrends/ui/lib/utils";
 import { BarChartByType } from "@web/app/(main)/(explore)/cars/registrations/bar-chart-by-type";
@@ -36,11 +36,11 @@ export function StatCard({
     <Card
       className={cn(CARD_VARIANTS[variant], variantStyles[variant], className)}
     >
-      <CardHeader className="flex flex-col items-start gap-2">
+      <Card.Header className="flex flex-col items-start gap-2">
         <Typography.H4>{title}</Typography.H4>
         <Typography.TextSm>{description}</Typography.TextSm>
-      </CardHeader>
-      <CardBody className="flex-1">
+      </Card.Header>
+      <Card.Content className="flex-1">
         <BarChartByType data={data} />
         {Object.keys(data).includes(FUEL_TYPE.OTHERS) && (
           <Typography.TextSm className="text-muted-foreground italic">
@@ -48,7 +48,7 @@ export function StatCard({
             exact definition of &quot;Others&quot;.
           </Typography.TextSm>
         )}
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 }

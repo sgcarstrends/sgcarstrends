@@ -1,7 +1,6 @@
 "use client";
 
-import { Button } from "@heroui/button";
-import { Chip } from "@heroui/chip";
+import { Button, Chip } from "@heroui/react";
 import type { Make, MakeStats } from "@web/types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Key } from "react";
@@ -55,7 +54,7 @@ export function AllMakes({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <h2 className="font-semibold text-foreground text-lg">{title}</h2>
-          <Chip variant="flat" color="primary" size="sm">
+          <Chip variant="tertiary" color="accent" size="sm">
             {sortedMakes.length}
           </Chip>
         </div>
@@ -65,8 +64,7 @@ export function AllMakes({
       <div className="relative flex items-center gap-2">
         <Button
           isIconOnly
-          variant="bordered"
-          radius="full"
+          variant="secondary"
           size="sm"
           onPress={() => scroll("left")}
           aria-label="Scroll left"
@@ -81,10 +79,8 @@ export function AllMakes({
           {letters.map((letter) => (
             <Button
               key={letter}
-              radius="full"
               size="sm"
-              color={selectedLetter === letter ? "primary" : "default"}
-              variant={selectedLetter === letter ? "solid" : "light"}
+              variant={selectedLetter === letter ? "primary" : "tertiary"}
               onPress={() => handleSelectionChange(letter)}
               className="shrink-0"
             >
@@ -95,8 +91,7 @@ export function AllMakes({
 
         <Button
           isIconOnly
-          variant="bordered"
-          radius="full"
+          variant="secondary"
           size="sm"
           onPress={() => scroll("right")}
           aria-label="Scroll right"

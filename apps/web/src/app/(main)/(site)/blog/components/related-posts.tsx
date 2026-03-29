@@ -1,5 +1,4 @@
-import { Card, CardBody } from "@heroui/card";
-import { Chip } from "@heroui/chip";
+import { Card, Chip } from "@heroui/react";
 import { getRelatedPosts } from "@web/lib/data/posts";
 import Link from "next/link";
 import readingTime from "reading-time";
@@ -40,18 +39,17 @@ export async function RelatedPosts({
               className="group block h-full"
             >
               <Card className="h-full border-default-200 transition-colors hover:border-default-400">
-                <CardBody className="flex flex-col gap-4 p-4">
+                <Card.Content className="flex flex-col gap-4 p-4">
                   {/* Category Label */}
                   <Chip
                     size="sm"
                     color={category.color}
-                    variant="flat"
-                    classNames={{
-                      base: "h-5",
-                      content: "text-[10px] font-bold px-1",
-                    }}
+                    variant="tertiary"
+                    className="h-5"
                   >
-                    {category.label}
+                    <Chip.Label className="px-1 font-bold text-[10px]">
+                      {category.label}
+                    </Chip.Label>
                   </Chip>
 
                   {/* Title */}
@@ -71,7 +69,7 @@ export async function RelatedPosts({
                     <span className="size-1 rounded-full bg-default-300" />
                     <span>{Math.ceil(readTime)} min read</span>
                   </div>
-                </CardBody>
+                </Card.Content>
               </Card>
             </Link>
           );

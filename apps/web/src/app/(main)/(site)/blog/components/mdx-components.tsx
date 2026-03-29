@@ -1,5 +1,4 @@
-import { Divider } from "@heroui/divider";
-import { Link } from "@heroui/link";
+import { Link, Separator } from "@heroui/react";
 import Typography from "@web/components/typography";
 import type { ComponentPropsWithoutRef } from "react";
 
@@ -60,11 +59,12 @@ export const mdxComponents = {
   a: ({ href, children }: ComponentPropsWithoutRef<"a">) => (
     <Link
       href={href ?? "#"}
-      isExternal={href?.startsWith("http")}
-      showAnchorIcon={href?.startsWith("http")}
-      color="primary"
-      underline="always"
-      className="font-medium underline-offset-4"
+      {...(href?.startsWith("http") && {
+        target: "_blank",
+        rel: "noopener noreferrer",
+        showAnchorIcon: true,
+      })}
+      className="font-medium text-accent underline underline-offset-4"
     >
       {children}
     </Link>
@@ -100,7 +100,7 @@ export const mdxComponents = {
   ),
 
   // Horizontal rule
-  hr: () => <Divider className="my-12" />,
+  hr: () => <Separator className="my-12" />,
 
   // Pre-formatted code blocks
   pre: (props: ComponentPropsWithoutRef<"pre">) => (

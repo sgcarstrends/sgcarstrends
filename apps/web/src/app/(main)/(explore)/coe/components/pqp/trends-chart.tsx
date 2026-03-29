@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { Card } from "@heroui/react";
 import { numberFormat } from "@ruchernchong/number-format";
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
@@ -23,15 +23,15 @@ const chartConfig: ChartConfig = {};
 export function TrendsChart({ data }: TrendsChartProps) {
   return (
     <Card className="rounded-2xl p-3">
-      <CardHeader>
+      <Card.Header>
         <div className="flex flex-col gap-1">
           <Typography.H4>PQP Trends</Typography.H4>
           <Typography.TextSm className="text-default-500">
             Historical Prevailing Quota Premium rates across all COE categories
           </Typography.TextSm>
         </div>
-      </CardHeader>
-      <CardBody>
+      </Card.Header>
+      <Card.Content>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <LineChart data={data}>
             <CartesianGrid
@@ -68,13 +68,13 @@ export function TrendsChart({ data }: TrendsChartProps) {
             <ChartLegend />
           </LineChart>
         </ChartContainer>
-      </CardBody>
-      <CardFooter>
+      </Card.Content>
+      <Card.Footer>
         <p className="text-default-500 text-sm">
           Historical PQP rates (3-month average COE prices) used for COE
           renewals across categories.
         </p>
-      </CardFooter>
+      </Card.Footer>
     </Card>
   );
 }

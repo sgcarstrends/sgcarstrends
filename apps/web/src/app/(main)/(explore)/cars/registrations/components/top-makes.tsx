@@ -1,5 +1,4 @@
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
-import { Progress } from "@heroui/progress";
+import { Card, Label, ProgressBar } from "@heroui/react";
 import { slugify } from "@sgcarstrends/utils";
 import Typography from "@web/components/typography";
 import type { FuelType } from "@web/types/cars";
@@ -63,33 +62,38 @@ export function TopMakes({ data }: TopMakesProps) {
 
         return (
           <Card key={fuelType} className="p-3">
-            <CardHeader>
+            <Card.Header>
               <Typography.H4>{fuelType}</Typography.H4>
-            </CardHeader>
-            <CardBody>
+            </Card.Header>
+            <Card.Content>
               {makes.map(({ make, count }) => (
                 <div key={make} className="py-2">
-                  <Progress
-                    className="max-w-md"
-                    color="primary"
+                  <ProgressBar
+                    color="accent"
                     formatOptions={{
                       style: "decimal",
                       maximumFractionDigits: 0,
                     }}
-                    label={make.toUpperCase()}
                     maxValue={total}
-                    showValueLabel={true}
                     size="sm"
                     value={count}
-                  />
+                  >
+                    <Label className="max-w-md text-xs">
+                      {make.toUpperCase()}
+                    </Label>
+                    <ProgressBar.Output />
+                    <ProgressBar.Track className="max-w-md">
+                      <ProgressBar.Fill />
+                    </ProgressBar.Track>
+                  </ProgressBar>
                 </div>
               ))}
-            </CardBody>
-            <CardFooter>
+            </Card.Content>
+            <Card.Footer>
               <Link href={href} className="underline">
                 View More
               </Link>
-            </CardFooter>
+            </Card.Footer>
           </Card>
         );
       })}

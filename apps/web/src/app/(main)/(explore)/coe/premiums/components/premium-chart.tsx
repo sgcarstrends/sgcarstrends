@@ -1,7 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
-import { Select, SelectItem } from "@heroui/select";
+import { Card, ListBox, Select } from "@heroui/react";
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
   type Period,
@@ -80,7 +79,7 @@ export function COEPremiumChart({ data }: COEPremiumChartProps) {
 
   return (
     <Card className="rounded-2xl p-3">
-      <CardHeader className="flex flex-col gap-2 border-b lg:flex-row lg:items-center lg:justify-between">
+      <Card.Header className="flex flex-col gap-2 border-b lg:flex-row lg:items-center lg:justify-between">
         <div className="grid flex-1 gap-1">
           <Typography.H4>Quota Premium ($)</Typography.H4>
           <Typography.TextSm>
@@ -89,21 +88,28 @@ export function COEPremiumChart({ data }: COEPremiumChartProps) {
         </div>
         <Select
           aria-label="Select time period"
-          placeholder="Last 12 months"
           className="max-w-xs"
-          selectedKeys={new Set([period])}
-          onSelectionChange={(keys) => {
-            const selected = Array.from(keys)[0];
-            if (selected) setPeriod(selected as Period);
+          selectedKey={period}
+          onSelectionChange={(key) => {
+            if (key) setPeriod(key as Period);
           }}
-          startContent={<CalendarIcon className="size-4" />}
         >
-          {periods.map((p) => (
-            <SelectItem key={p}>{PERIOD_LABELS[p]}</SelectItem>
-          ))}
+          <Select.Trigger>
+            <CalendarIcon className="size-4" />
+            <Select.Value>{PERIOD_LABELS[period]}</Select.Value>
+          </Select.Trigger>
+          <Select.Popover>
+            <ListBox>
+              {periods.map((p) => (
+                <ListBox.Item key={p} id={p}>
+                  {PERIOD_LABELS[p]}
+                </ListBox.Item>
+              ))}
+            </ListBox>
+          </Select.Popover>
         </Select>
-      </CardHeader>
-      <CardBody className="p-6">
+      </Card.Header>
+      <Card.Content className="p-6">
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <LineChart
             data={filteredData}
@@ -151,7 +157,7 @@ export function COEPremiumChart({ data }: COEPremiumChartProps) {
             <ChartLegend />
           </LineChart>
         </ChartContainer>
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 }

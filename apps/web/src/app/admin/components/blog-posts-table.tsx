@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from "@heroui/modal";
+import { Modal } from "@heroui/react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -623,31 +617,31 @@ export function BlogPostsTable({
             setPreviewDialog({ open: false, post: null });
           }
         }}
-        size="5xl"
-        scrollBehavior="inside"
       >
-        <ModalContent>
-          <ModalHeader className="line-clamp-2">
-            {previewDialog.post?.title}
-          </ModalHeader>
-          <ModalBody>
-            {previewDialog.post && previews[previewDialog.post.id]}
-          </ModalBody>
-          <ModalFooter>
-            {previewDialog.post?.slug && (
-              <Button asChild variant="outline">
-                <Link
-                  href={`/blog/${previewDialog.post.slug}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ExternalLink className="mr-2 size-4" />
-                  View Live
-                </Link>
-              </Button>
-            )}
-          </ModalFooter>
-        </ModalContent>
+        <Modal.Container size="lg" scroll="inside">
+          <Modal.Dialog>
+            <Modal.Header className="line-clamp-2">
+              {previewDialog.post?.title}
+            </Modal.Header>
+            <Modal.Body>
+              {previewDialog.post && previews[previewDialog.post.id]}
+            </Modal.Body>
+            <Modal.Footer>
+              {previewDialog.post?.slug && (
+                <Button asChild variant="outline">
+                  <Link
+                    href={`/blog/${previewDialog.post.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink className="mr-2 size-4" />
+                    View Live
+                  </Link>
+                </Button>
+              )}
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal.Container>
       </Modal>
     </>
   );

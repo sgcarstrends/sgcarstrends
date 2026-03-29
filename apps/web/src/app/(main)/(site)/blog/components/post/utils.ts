@@ -1,4 +1,4 @@
-import type { ChipProps } from "@heroui/chip";
+import type { ChipProps } from "@heroui/react";
 import type { SelectPost } from "@sgcarstrends/database";
 import { differenceInDays } from "date-fns";
 
@@ -14,7 +14,7 @@ export const categoryConfig: Record<
   coe: {
     label: "COE",
     className: "text-primary",
-    color: "primary",
+    color: "accent",
   },
   cars: {
     label: "Cars",
@@ -24,7 +24,7 @@ export const categoryConfig: Record<
   default: {
     label: "Insights",
     className: "text-secondary",
-    color: "secondary",
+    color: "default",
   },
 };
 
@@ -32,7 +32,7 @@ export const categoryConfig: Record<
 export const defaultCategory = {
   label: "INSIGHTS",
   className: "text-secondary",
-  color: "secondary" as ChipProps["color"],
+  color: "default" as ChipProps["color"],
 };
 
 // Get category configuration for a post

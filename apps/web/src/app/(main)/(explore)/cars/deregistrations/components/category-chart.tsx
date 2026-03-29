@@ -1,7 +1,6 @@
 "use client";
 
-import { Autocomplete, AutocompleteItem } from "@heroui/autocomplete";
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { Card, ComboBox, Input, Label, ListBox } from "@heroui/react";
 import type { SelectDeregistration } from "@sgcarstrends/database";
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
@@ -83,7 +82,7 @@ export function CategoryChart({ data, months }: CategoryChartProps) {
 
   return (
     <Card className="rounded-2xl p-3">
-      <CardHeader className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+      <Card.Header className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div className="flex flex-col gap-1">
           <Typography.H3>Deregistrations by Category</Typography.H3>
           {selectedCategory ? (
@@ -99,20 +98,28 @@ export function CategoryChart({ data, months }: CategoryChartProps) {
             </Typography.Text>
           )}
         </div>
-        <Autocomplete
-          label="Month"
-          variant="bordered"
+        <ComboBox
           className="max-w-xs"
           selectedKey={currentMonth}
           onSelectionChange={handleMonthChange}
-          defaultItems={monthOptions}
         >
-          {(item: MonthOption) => (
-            <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>
-          )}
-        </Autocomplete>
-      </CardHeader>
-      <CardBody>
+          <Label className="sr-only">Month</Label>
+          <ComboBox.InputGroup>
+            <Input placeholder="Select Month" />
+            <ComboBox.Trigger />
+          </ComboBox.InputGroup>
+          <ComboBox.Popover>
+            <ListBox>
+              {monthOptions.map((item) => (
+                <ListBox.Item key={item.key} textValue={item.label}>
+                  {item.label}
+                </ListBox.Item>
+              ))}
+            </ListBox>
+          </ComboBox.Popover>
+        </ComboBox>
+      </Card.Header>
+      <Card.Content>
         <ChartContainer config={chartConfig} className="h-[400px] w-full">
           <BarChart data={sortedData} layout="vertical">
             <defs>
@@ -178,13 +185,13 @@ export function CategoryChart({ data, months }: CategoryChartProps) {
             </Bar>
           </BarChart>
         </ChartContainer>
-      </CardBody>
-      <CardFooter>
+      </Card.Content>
+      <Card.Footer>
         <Typography.TextSm className="text-default-500">
           Click on a bar to select a category, or use the dropdown above to
           change the month
         </Typography.TextSm>
-      </CardFooter>
+      </Card.Footer>
     </Card>
   );
 }

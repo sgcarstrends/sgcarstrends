@@ -1,18 +1,14 @@
 "use client";
 
-import { Chip } from "@heroui/chip";
-import { Input } from "@heroui/input";
-import { Pagination } from "@heroui/pagination";
-import { Select, SelectItem } from "@heroui/select";
 import {
+  Button,
+  Chip,
+  InputGroup,
+  ListBox,
+  Select,
   type SortDescriptor,
   Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-} from "@heroui/table";
+} from "@heroui/react";
 import type { SelectCarCost } from "@sgcarstrends/database";
 import { cn } from "@sgcarstrends/ui/lib/utils";
 import { formatCurrency } from "@sgcarstrends/utils";
@@ -47,20 +43,20 @@ const ROWS_PER_PAGE = 20;
 
 const FUEL_TYPE_COLORS: Record<
   string,
-  "success" | "primary" | "secondary" | "warning" | "default"
+  "success" | "accent" | "warning" | "default"
 > = {
   E: "success",
-  H: "primary",
-  R: "secondary",
+  H: "accent",
+  R: "accent",
   P: "warning",
 };
 
 const VES_BAND_COLORS: Record<
   string,
-  "success" | "primary" | "warning" | "danger" | "default"
+  "success" | "accent" | "warning" | "danger" | "default"
 > = {
   A: "success",
-  B: "primary",
+  B: "accent",
   C1: "warning",
   C2: "warning",
   C3: "danger",
@@ -142,7 +138,7 @@ export function CostTable({ data }: CostTableProps) {
         return (
           <Chip
             size="sm"
-            variant="flat"
+            variant="tertiary"
             color={FUEL_TYPE_COLORS[item.fuelType ?? ""] ?? "default"}
           >
             {FUEL_TYPE_LABELS[item.fuelType ?? ""] ?? item.fuelType}
@@ -152,7 +148,7 @@ export function CostTable({ data }: CostTableProps) {
         return (
           <Chip
             size="sm"
-            variant="flat"
+            variant="tertiary"
             color={VES_BAND_COLORS[item.vesBanding] ?? "default"}
           >
             {item.vesBanding}
@@ -210,90 +206,123 @@ export function CostTable({ data }: CostTableProps) {
       </div>
       <CostLegend />
       <div className="flex w-full flex-col gap-4 sm:flex-row">
-        <Input
-          type="search"
-          placeholder="Search make or model..."
-          value={search}
-          onValueChange={(value) => {
-            setSearch(value);
-            setPage(1);
-          }}
-          startContent={<Search className="size-4 text-default-400" />}
-          className="sm:max-w-xs"
-        />
+        <InputGroup className="sm:max-w-xs">
+          <InputGroup.Prefix>
+            <Search className="size-4 text-default-400" />
+          </InputGroup.Prefix>
+          <InputGroup.Input
+            type="search"
+            placeholder="Search make or model..."
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+          />
+        </InputGroup>
         <Select
-          placeholder="All Makes"
-          selectedKeys={makeFilter ? [makeFilter] : []}
-          onSelectionChange={(keys) => {
-            const selected = Array.from(keys)[0] as string | undefined;
-            setMakeFilter(selected ?? "");
-            setPage(1);
-          }}
           className="sm:max-w-[200px]"
           aria-label="Filter by make"
-        >
-          {makes.map((make) => (
-            <SelectItem key={make}>{make}</SelectItem>
-          ))}
-        </Select>
-        <Select
-          placeholder="All Fuel Types"
-          selectedKeys={fuelFilter ? [fuelFilter] : []}
-          onSelectionChange={(keys) => {
-            const selected = Array.from(keys)[0] as string | undefined;
-            setFuelFilter(selected ?? "");
+          selectedKey={makeFilter || null}
+          onSelectionChange={(key) => {
+            setMakeFilter(key ? String(key) : "");
             setPage(1);
           }}
+        >
+          <Select.Trigger>
+            <Select.Value>{makeFilter || "All Makes"}</Select.Value>
+          </Select.Trigger>
+          <Select.Popover>
+            <ListBox>
+              {makes.map((make) => (
+                <ListBox.Item key={make} id={make}>
+                  {make}
+                </ListBox.Item>
+              ))}
+            </ListBox>
+          </Select.Popover>
+        </Select>
+        <Select
           className="sm:max-w-[240px]"
           aria-label="Filter by fuel type"
+          selectedKey={fuelFilter || null}
+          onSelectionChange={(key) => {
+            setFuelFilter(key ? String(key) : "");
+            setPage(1);
+          }}
         >
-          {fuelTypes.map((fuelType) => (
-            <SelectItem key={fuelType}>
-              {FUEL_TYPE_LABELS[fuelType] ?? fuelType}
-            </SelectItem>
-          ))}
+          <Select.Trigger>
+            <Select.Value>
+              {fuelFilter
+                ? (FUEL_TYPE_LABELS[fuelFilter] ?? fuelFilter)
+                : "All Fuel Types"}
+            </Select.Value>
+          </Select.Trigger>
+          <Select.Popover>
+            <ListBox>
+              {fuelTypes.map((fuelType) => (
+                <ListBox.Item key={fuelType} id={fuelType}>
+                  {FUEL_TYPE_LABELS[fuelType] ?? fuelType}
+                </ListBox.Item>
+              ))}
+            </ListBox>
+          </Select.Popover>
         </Select>
       </div>
-      <Table
-        aria-label="Car cost breakdown table"
-        sortDescriptor={sortDescriptor}
-        onSortChange={setSortDescriptor}
-        bottomContent={
-          pages > 1 ? (
-            <div className="flex w-full justify-center">
-              <Pagination
-                isCompact
-                showControls
-                showShadow
-                page={effectivePage}
-                total={pages}
-                onChange={setPage}
-              />
+      <Table.ScrollContainer>
+        <Table.Content
+          aria-label="Car cost breakdown table"
+          sortDescriptor={sortDescriptor}
+          onSortChange={setSortDescriptor}
+        >
+          <Table.Header columns={columns}>
+            {(column) => (
+              <Table.Column
+                key={column.key}
+                allowsSorting={!["fuelType", "vesBanding"].includes(column.key)}
+              >
+                {column.label}
+              </Table.Column>
+            )}
+          </Table.Header>
+          <Table.Body items={paginatedData}>
+            {(item) => (
+              <Table.Row key={`${item.make}-${item.model}`}>
+                {(columnKey) => (
+                  <Table.Cell>
+                    {renderCell(item, columnKey as unknown as Key)}
+                  </Table.Cell>
+                )}
+              </Table.Row>
+            )}
+          </Table.Body>
+        </Table.Content>
+        {pages > 1 && (
+          <Table.Footer>
+            <div className="flex items-center justify-center gap-2">
+              <Button
+                size="sm"
+                variant="tertiary"
+                isDisabled={effectivePage === 1}
+                onPress={() => setPage(effectivePage - 1)}
+              >
+                Previous
+              </Button>
+              <span className="text-default-500 text-sm">
+                Page {effectivePage} of {pages}
+              </span>
+              <Button
+                size="sm"
+                variant="tertiary"
+                isDisabled={effectivePage === pages}
+                onPress={() => setPage(effectivePage + 1)}
+              >
+                Next
+              </Button>
             </div>
-          ) : null
-        }
-        bottomContentPlacement="outside"
-      >
-        <TableHeader columns={columns}>
-          {(column) => (
-            <TableColumn
-              key={column.key}
-              allowsSorting={!["fuelType", "vesBanding"].includes(column.key)}
-            >
-              {column.label}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody items={paginatedData}>
-          {(item) => (
-            <TableRow key={`${item.make}-${item.model}`}>
-              {(columnKey) => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+          </Table.Footer>
+        )}
+      </Table.ScrollContainer>
     </div>
   );
 }

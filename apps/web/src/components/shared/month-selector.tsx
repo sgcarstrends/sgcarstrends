@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Autocomplete,
-  AutocompleteItem,
-  AutocompleteSection,
-} from "@heroui/react";
-import { addToast } from "@heroui/toast";
+import { ComboBox, Input, Label, ListBox, toast } from "@heroui/react";
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import type { Month } from "@web/types";
 import { groupByYear } from "@web/utils/group-by-year";
@@ -34,10 +29,7 @@ export function MonthSelector({
   useEffect(() => {
     if (wasAdjusted && !hasShownToast.current) {
       hasShownToast.current = true;
-      addToast({
-        title: `Latest data is ${formatDateToMonthYear(latestMonth)}`,
-        variant: "bordered",
-      });
+      toast(`Latest data is ${formatDateToMonthYear(latestMonth)}`);
     }
   }, [wasAdjusted, latestMonth]);
 
@@ -48,29 +40,38 @@ export function MonthSelector({
   );
 
   return (
-    <Autocomplete
+    <ComboBox
       selectedKey={month}
       onSelectionChange={(key) => setMonth(key as string)}
-      aria-label="Month"
-      placeholder="Select Month"
-      startContent={<Calendar className="size-4" />}
-      variant="underlined"
     >
-      {sortedMonths.map(([year, months]) => (
-        <AutocompleteSection key={year} title={year}>
-          {months.map((month) => {
-            const date = `${year}-${month}`;
-            return (
-              <AutocompleteItem
-                key={date}
-                textValue={formatDateToMonthYear(date)}
-              >
-                {formatDateToMonthYear(date)}
-              </AutocompleteItem>
-            );
-          })}
-        </AutocompleteSection>
-      ))}
-    </Autocomplete>
+      <Label className="sr-only">Month</Label>
+      <ComboBox.InputGroup>
+        <Calendar className="size-4 text-default-400" />
+        <Input placeholder="Select Month" />
+        <ComboBox.Trigger />
+      </ComboBox.InputGroup>
+      <ComboBox.Popover>
+        <ListBox>
+          {sortedMonths.map(([year, monthList]) => (
+            <ListBox.Section key={year}>
+              <header className="px-2 py-1 font-medium text-default-500 text-xs">
+                {year}
+              </header>
+              {monthList.map((m) => {
+                const date = `${year}-${m}`;
+                return (
+                  <ListBox.Item
+                    key={date}
+                    textValue={formatDateToMonthYear(date)}
+                  >
+                    {formatDateToMonthYear(date)}
+                  </ListBox.Item>
+                );
+              })}
+            </ListBox.Section>
+          ))}
+        </ListBox>
+      </ComboBox.Popover>
+    </ComboBox>
   );
 }

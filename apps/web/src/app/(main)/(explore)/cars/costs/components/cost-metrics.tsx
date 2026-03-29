@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card } from "@heroui/react";
 import type { SelectCarCost } from "@sgcarstrends/database";
 import { CARD_PADDING, RADIUS } from "@sgcarstrends/theme/spacing";
 import { cn } from "@sgcarstrends/ui/lib/utils";
@@ -46,17 +46,17 @@ export function CostMetrics({ data }: CostMetricsProps) {
           key={metric.title}
           className={cn(RADIUS.card, CARD_PADDING.standard)}
         >
-          <CardHeader>
+          <Card.Header>
             <Typography.H4>{metric.title}</Typography.H4>
-          </CardHeader>
-          <CardBody className="flex flex-col gap-2">
+          </Card.Header>
+          <Card.Content className="flex flex-col gap-2">
             <span className="font-bold text-4xl text-primary tabular-nums">
               {metric.value}
             </span>
             <Typography.TextSm className="text-default-500">
               {metric.description}
             </Typography.TextSm>
-          </CardBody>
+          </Card.Content>
         </Card>
       ))}
     </div>

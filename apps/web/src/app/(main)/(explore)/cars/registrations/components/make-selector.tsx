@@ -1,6 +1,6 @@
 "use client";
 
-import { Autocomplete, AutocompleteItem } from "@heroui/react";
+import { ComboBox, Input, Label, ListBox } from "@heroui/react";
 import { slugify } from "@sgcarstrends/utils";
 import type { Make } from "@web/types";
 import Image from "next/image";
@@ -32,31 +32,35 @@ export function MakeSelector({
   }, [makes, selectedMake]);
 
   return (
-    <Autocomplete
+    <ComboBox
       selectedKey={validSelectedMake}
       onSelectionChange={(key) =>
         window.location.assign(slugify(key as string))
       }
-      aria-label="Make"
-      placeholder="Select Make"
-      startContent={
-        <Logo make={selectedMake} logoUrl={logoUrlMap[slugify(selectedMake)]} />
-      }
-      variant="underlined"
     >
-      {makes.map((make) => (
-        <AutocompleteItem key={make} textValue={make}>
-          <div className="flex items-center gap-2">
-            <Logo make={make} logoUrl={logoUrlMap[slugify(make)]} />
-            {make}
-          </div>
-        </AutocompleteItem>
-      ))}
-    </Autocomplete>
+      <Label className="sr-only">Make</Label>
+      <ComboBox.InputGroup>
+        <Logo make={selectedMake} logoUrl={logoUrlMap[slugify(selectedMake)]} />
+        <Input placeholder="Select Make" />
+        <ComboBox.Trigger />
+      </ComboBox.InputGroup>
+      <ComboBox.Popover>
+        <ListBox>
+          {makes.map((make) => (
+            <ListBox.Item key={make} textValue={make}>
+              <div className="flex items-center gap-2">
+                <Logo make={make} logoUrl={logoUrlMap[slugify(make)]} />
+                {make}
+              </div>
+            </ListBox.Item>
+          ))}
+        </ListBox>
+      </ComboBox.Popover>
+    </ComboBox>
   );
 }
 
-const Logo = ({ make, logoUrl }: LogoProps) => {
+function Logo({ make, logoUrl }: LogoProps) {
   if (!logoUrl) return null;
 
   return (
@@ -68,4 +72,4 @@ const Logo = ({ make, logoUrl }: LogoProps) => {
       className="size-6"
     />
   );
-};
+}

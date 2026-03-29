@@ -1,5 +1,4 @@
-import { Card, CardBody } from "@heroui/card";
-import { Skeleton } from "@heroui/skeleton";
+import { Card, Skeleton } from "@heroui/react";
 import { AnimatedGrid } from "@web/app/(main)/(explore)/components/animated-grid";
 import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
 import {
@@ -65,8 +64,8 @@ const structuredData: WithContext<WebSite> = {
 
 function SummaryCardSkeleton() {
   return (
-    <Card className="border-2 border-primary" radius="lg">
-      <CardBody className="p-6">
+    <Card className="border-2 border-primary">
+      <Card.Content className="p-6">
         <div className="mb-4 flex items-center justify-between">
           <Skeleton className="h-12 w-12 rounded-2xl" />
           <Skeleton className="h-10 w-10 rounded-full" />
@@ -74,36 +73,36 @@ function SummaryCardSkeleton() {
         <Skeleton className="h-4 w-32 rounded-lg" />
         <Skeleton className="mt-2 h-10 w-28 rounded-lg" />
         <Skeleton className="mt-4 h-6 w-40 rounded-full" />
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 }
 
 function MarketOverviewSkeleton() {
   return (
-    <Card radius="lg">
-      <CardBody className="p-6">
+    <Card>
+      <Card.Content className="p-6">
         <Skeleton className="mb-4 h-6 w-36 rounded-lg" />
         <div className="grid grid-cols-3 gap-4">
           {/* biome-ignore lint/suspicious/noArrayIndexKey: Static skeleton list */}
           {[0, 1, 2].map((i) => (
-            <Card key={i} shadow="none" className="bg-default-100">
-              <CardBody className="p-4">
+            <Card key={i} className="bg-default-100">
+              <Card.Content className="p-4">
                 <Skeleton className="h-4 w-16 rounded-lg" />
                 <Skeleton className="mt-2 h-7 w-20 rounded-lg" />
-              </CardBody>
+              </Card.Content>
             </Card>
           ))}
         </div>
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 }
 
 function MonthlyChangeSummarySkeleton() {
   return (
-    <Card className="border-2 border-primary" radius="lg">
-      <CardBody className="p-6">
+    <Card className="border-2 border-primary">
+      <Card.Content className="p-6">
         <div className="mb-4 flex items-center justify-between">
           <Skeleton className="h-12 w-12 rounded-2xl" />
           <Skeleton className="h-10 w-10 rounded-full" />
@@ -111,7 +110,7 @@ function MonthlyChangeSummarySkeleton() {
         <Skeleton className="h-4 w-32 rounded-lg" />
         <Skeleton className="mt-2 h-10 w-28 rounded-lg" />
         <Skeleton className="mt-4 h-6 w-40 rounded-full" />
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 }

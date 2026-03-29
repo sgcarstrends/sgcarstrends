@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, useDisclosure } from "@heroui/react";
+import { Button, useOverlayState } from "@heroui/react";
 import { TrendsComparison } from "@web/components/trends-comparison";
 import type { ComparisonData } from "@web/queries/cars/compare";
 import type { Month } from "@web/types";
@@ -17,24 +17,20 @@ export function TrendsCompareButton({
   months,
   comparisonData,
 }: TrendsCompareButtonProps) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const state = useOverlayState();
 
   return (
     <>
       <div className="flex justify-end">
-        <Button
-          color="primary"
-          variant="shadow"
-          startContent={<TrendingUp className="size-4" />}
-          onPress={onOpen}
-        >
+        <Button variant="primary" onPress={state.open}>
+          <TrendingUp className="size-4" />
           Compare Trends
         </Button>
       </div>
 
       <TrendsComparison
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        isOpen={state.isOpen}
+        onOpenChange={state.setOpen}
         currentMonth={currentMonth}
         months={months}
         comparisonData={comparisonData}

@@ -10,11 +10,7 @@ vi.mock("nuqs", () => ({
   useQueryState: vi.fn(() => ["2024-01", vi.fn()]),
 }));
 
-vi.mock("@heroui/toast", () => ({
-  addToast: vi.fn(),
-}));
-
-vi.mock("@web/utils/formatting/format-date-to-month-year", () => ({
+vi.mock("@sgcarstrends/utils", () => ({
   formatDateToMonthYear: vi.fn(() => "January 2024"),
 }));
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody } from "@heroui/card";
+import { Card } from "@heroui/react";
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import {
   ChartContainer,
@@ -33,16 +33,16 @@ export function TrendsChart({ data }: TrendsChartProps) {
   if (data.length === 0) {
     return (
       <Card className="rounded-2xl p-3">
-        <CardBody className="p-4">
+        <Card.Content className="p-4">
           <Typography.TextSm>No trend data available</Typography.TextSm>
-        </CardBody>
+        </Card.Content>
       </Card>
     );
   }
 
   return (
     <Card className="rounded-2xl p-3">
-      <CardBody className="p-4">
+      <Card.Content className="p-4">
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <AreaChart
             data={formattedData}
@@ -104,7 +104,7 @@ export function TrendsChart({ data }: TrendsChartProps) {
             />
           </AreaChart>
         </ChartContainer>
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@heroui/button";
+import { Button } from "@heroui/react";
 import Typography from "@web/components/typography";
 import {
   staggerContainerVariants,
@@ -48,27 +48,21 @@ export function CtaSection() {
             className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6"
             variants={staggerItemVariants}
           >
-            <Button
-              as={Link}
-              href="/"
-              color="primary"
-              radius="full"
-              size="lg"
-              className="gap-2 px-8"
-            >
-              Explore the Dashboard
-              <ArrowRight className="size-4" />
-            </Button>
-            <Button
-              as={Link}
-              href="/blog"
-              variant="bordered"
-              radius="full"
-              size="lg"
-              className="gap-2 px-8 text-foreground"
-            >
-              Read Our Blog
-            </Button>
+            <Link href="/">
+              <Button size="lg" className="gap-2 px-8">
+                Explore the Dashboard
+                <ArrowRight className="size-4" />
+              </Button>
+            </Link>
+            <Link href="/blog">
+              <Button
+                variant="secondary"
+                size="lg"
+                className="gap-2 px-8 text-foreground"
+              >
+                Read Our Blog
+              </Button>
+            </Link>
           </motion.div>
         </motion.div>
       </div>

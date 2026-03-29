@@ -10,17 +10,21 @@ vi.mock("@heroui/react", async () => {
   const actual = await vi.importActual("@heroui/react");
   return {
     ...actual,
-    Alert: ({
-      title,
-      children,
-    }: {
-      title?: string;
-      children?: React.ReactNode;
-    }) => (
-      <div data-testid="alert">
-        <div data-testid="alert-title">{title}</div>
-        {children}
-      </div>
+    Alert: Object.assign(
+      ({ children }: { children?: React.ReactNode }) => (
+        <div data-testid="alert">{children}</div>
+      ),
+      {
+        Content: ({ children }: { children?: React.ReactNode }) => (
+          <div data-testid="alert-content">{children}</div>
+        ),
+        Title: ({ children }: { children?: React.ReactNode }) => (
+          <div data-testid="alert-title">{children}</div>
+        ),
+        Description: ({ children }: { children?: React.ReactNode }) => (
+          <div data-testid="alert-description">{children}</div>
+        ),
+      },
     ),
   };
 });

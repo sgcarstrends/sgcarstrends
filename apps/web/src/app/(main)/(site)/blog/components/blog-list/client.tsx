@@ -1,6 +1,6 @@
 "use client";
 
-import { Tab, Tabs } from "@heroui/tabs";
+import { Tabs } from "@heroui/react";
 import type { SelectPost } from "@sgcarstrends/database";
 import { Post } from "@web/app/(main)/(site)/blog/components/post";
 import {
@@ -89,23 +89,22 @@ export function BlogListClient({ posts, counts, query }: BlogListClientProps) {
     <div className="flex flex-col gap-8">
       <Tabs
         selectedKey={selectedTab}
-        variant="underlined"
+        variant="primary"
         onSelectionChange={(key) => setSelectedTab(key as string)}
-        classNames={{
-          tabList: "gap-6",
-          tab: "px-0 h-10",
-          tabContent: "group-data-[selected=true]:font-semibold",
-        }}
+        className="gap-6"
       >
-        <Tab key="all" title={`${tabLabels.all} (${counts.total})`} />
-        {Object.keys(counts.category)
-          .sort((a, b) => a.localeCompare(b))
-          .map((cat) => (
-            <Tab
-              key={cat}
-              title={`${tabLabels[cat] || cat} (${counts.category[cat]})`}
-            />
-          ))}
+        <Tabs.ListContainer>
+          <Tabs.List>
+            <Tabs.Tab id="all">{`${tabLabels.all} (${counts.total})`}</Tabs.Tab>
+            {Object.keys(counts.category)
+              .sort((a, b) => a.localeCompare(b))
+              .map((cat) => (
+                <Tabs.Tab key={cat} id={cat}>
+                  {`${tabLabels[cat] || cat} (${counts.category[cat]})`}
+                </Tabs.Tab>
+              ))}
+          </Tabs.List>
+        </Tabs.ListContainer>
       </Tabs>
 
       {heroPost && (

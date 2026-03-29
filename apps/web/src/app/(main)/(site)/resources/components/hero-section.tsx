@@ -1,6 +1,6 @@
 "use client";
 
-import { Chip } from "@heroui/chip";
+import { Chip } from "@heroui/react";
 import { motion } from "motion/react";
 
 export function HeroSection() {
@@ -30,15 +30,13 @@ export function HeroSection() {
             transition={entranceTransition(0.1)}
           >
             <Chip
-              color="primary"
-              variant="dot"
-              classNames={{
-                base: "border-primary/20 bg-primary/5 backdrop-blur-sm",
-                content: "font-medium text-foreground tracking-wide text-sm",
-                dot: "bg-primary",
-              }}
+              color="accent"
+              variant="soft"
+              className="border-primary/20 bg-primary/5 backdrop-blur-sm"
             >
-              Educational Hub
+              <Chip.Label className="font-medium text-foreground text-sm tracking-wide">
+                Educational Hub
+              </Chip.Label>
             </Chip>
           </motion.div>
 

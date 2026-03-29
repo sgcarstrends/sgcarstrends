@@ -1,7 +1,4 @@
-import { Card, CardBody } from "@heroui/card";
-import { Chip } from "@heroui/chip";
-import { Divider } from "@heroui/divider";
-import { Link } from "@heroui/link";
+import { Card, Chip, Link, Separator } from "@heroui/react";
 import Typography from "@web/components/typography";
 import {
   Clock,
@@ -47,14 +44,14 @@ export function MaintenanceNotice() {
         {/* Status Section */}
         <AnimatedSection>
           <Card className="rounded-2xl p-3">
-            <CardBody>
+            <Card.Content>
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Clock className="size-5 text-primary" />
                     <Typography.Text>Estimated Completion</Typography.Text>
                   </div>
-                  <Chip variant="shadow" color="primary" size="lg">
+                  <Chip variant="secondary" color="accent" size="lg">
                     2 hours
                   </Chip>
                 </div>
@@ -80,7 +77,7 @@ export function MaintenanceNotice() {
                   analysis
                 </Typography.TextSm>
               </div>
-            </CardBody>
+            </Card.Content>
           </Card>
         </AnimatedSection>
 
@@ -90,7 +87,7 @@ export function MaintenanceNotice() {
           <AnimatedCardGrid>
             <AnimatedCard>
               <Card className="rounded-2xl p-3">
-                <CardBody className="flex flex-row items-start gap-4 p-4">
+                <Card.Content className="flex flex-row items-start gap-4 p-4">
                   <Zap className="mt-1 size-6 flex-shrink-0 text-primary" />
                   <div>
                     <Typography.H3>Performance Boost</Typography.H3>
@@ -99,12 +96,12 @@ export function MaintenanceNotice() {
                       analysis
                     </Typography.TextSm>
                   </div>
-                </CardBody>
+                </Card.Content>
               </Card>
             </AnimatedCard>
             <AnimatedCard>
               <Card className="rounded-2xl p-3">
-                <CardBody className="flex flex-row items-start gap-4 p-4">
+                <Card.Content className="flex flex-row items-start gap-4 p-4">
                   <Shield className="mt-1 size-6 flex-shrink-0 text-primary" />
                   <div>
                     <Typography.H3>Security Updates</Typography.H3>
@@ -113,12 +110,12 @@ export function MaintenanceNotice() {
                       data
                     </Typography.TextSm>
                   </div>
-                </CardBody>
+                </Card.Content>
               </Card>
             </AnimatedCard>
             <AnimatedCard>
               <Card className="rounded-2xl p-3">
-                <CardBody className="flex flex-row items-start gap-4 p-4">
+                <Card.Content className="flex flex-row items-start gap-4 p-4">
                   <TrendingUp className="mt-1 size-6 flex-shrink-0 text-primary" />
                   <div>
                     <Typography.H3>New Features</Typography.H3>
@@ -126,12 +123,12 @@ export function MaintenanceNotice() {
                       Adding advanced analytics for better market predictions
                     </Typography.TextSm>
                   </div>
-                </CardBody>
+                </Card.Content>
               </Card>
             </AnimatedCard>
             <AnimatedCard>
               <Card className="rounded-2xl p-3">
-                <CardBody className="flex flex-row items-start gap-4 p-4">
+                <Card.Content className="flex flex-row items-start gap-4 p-4">
                   <Wrench className="mt-1 size-6 flex-shrink-0 text-primary" />
                   <div>
                     <Typography.H3>Bug Fixes</Typography.H3>
@@ -139,14 +136,14 @@ export function MaintenanceNotice() {
                       Fixing minor issues to ensure smooth sailing ahead
                     </Typography.TextSm>
                   </div>
-                </CardBody>
+                </Card.Content>
               </Card>
             </AnimatedCard>
           </AnimatedCardGrid>
         </AnimatedSection>
 
         <AnimatedSection>
-          <Divider />
+          <Separator />
         </AnimatedSection>
 
         {/* Contact Section */}
@@ -159,8 +156,7 @@ export function MaintenanceNotice() {
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="mailto:support@sgcarstrends.com"
-              color="primary"
-              className="flex items-center gap-2 font-medium text-sm"
+              className="flex items-center gap-2 font-medium text-accent text-sm"
             >
               <Mail className="size-4" />
               support@sgcarstrends.com
@@ -168,9 +164,9 @@ export function MaintenanceNotice() {
             <span className="hidden text-foreground-400 sm:inline">|</span>
             <Link
               href="https://twitter.com/sgcarstrends"
-              color="primary"
-              className="flex items-center gap-2 font-medium text-sm"
-              isExternal
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 font-medium text-accent text-sm"
             >
               <MessageCircle className="size-4" />
               Follow updates on Twitter

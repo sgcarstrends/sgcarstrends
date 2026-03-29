@@ -9,29 +9,22 @@ vi.mock("@heroui/react", async () => {
   const actual = await vi.importActual("@heroui/react");
   return {
     ...actual,
-    addToast: vi.fn(),
-    Alert: ({
-      title,
-      description,
-      endContent,
-      onClose,
-      children,
-    }: {
-      title?: string;
-      description?: string;
-      endContent?: React.ReactNode;
-      onClose?: () => void;
-      children?: React.ReactNode;
-    }) => (
-      <div data-testid="alert">
-        <div data-testid="alert-title">{title}</div>
-        <div data-testid="alert-description">{description}</div>
-        <div data-testid="alert-endcontent">{endContent}</div>
-        <button type="button" data-testid="alert-close" onClick={onClose}>
-          close
-        </button>
-        {children}
-      </div>
+    toast: { success: vi.fn(), warning: vi.fn() },
+    Alert: Object.assign(
+      ({ children }: { children?: React.ReactNode }) => (
+        <div data-testid="alert">{children}</div>
+      ),
+      {
+        Content: ({ children }: { children?: React.ReactNode }) => (
+          <div data-testid="alert-content">{children}</div>
+        ),
+        Title: ({ children }: { children?: React.ReactNode }) => (
+          <div data-testid="alert-title">{children}</div>
+        ),
+        Description: ({ children }: { children?: React.ReactNode }) => (
+          <div data-testid="alert-description">{children}</div>
+        ),
+      },
     ),
     Button: ({
       onPress,
@@ -46,6 +39,10 @@ vi.mock("@heroui/react", async () => {
     ),
   };
 });
+
+vi.mock("@sgcarstrends/ui/lib/utils", () => ({
+  cn: (...args: unknown[]) => args.filter(Boolean).join(" "),
+}));
 
 vi.mock("@web/app/store", () => ({
   default: () => ({
@@ -135,13 +132,6 @@ describe("NotificationPrompt Component", () => {
       expect(global.Notification.requestPermission).toHaveBeenCalled();
       expect(mockSetNotificationStatus).toHaveBeenCalledWith("denied");
     });
-  });
-
-  it("should set notification status to denied when alert is closed", () => {
-    render(<NotificationPrompt />);
-
-    fireEvent.click(screen.getByTestId("alert-close"));
-    expect(mockSetNotificationStatus).toHaveBeenCalledWith("denied");
   });
 
   it("should not sync permission when Notification API is unavailable", () => {

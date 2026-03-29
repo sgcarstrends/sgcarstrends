@@ -1,28 +1,24 @@
 "use client";
 
-import { Button } from "@heroui/button";
+import { Button, Link } from "@heroui/react";
 import { ArrowLeft, Home } from "lucide-react";
-import Link from "next/link";
 
 export function NavigationButtons() {
   return (
     <div className="mb-12 flex flex-col gap-4 sm:flex-row">
-      <Button
-        as={Link}
+      <Link
         href="/"
-        color="primary"
-        variant="solid"
-        startContent={<Home className="size-4" />}
-        size="lg"
+        className="inline-flex items-center justify-center gap-2 rounded-medium bg-primary px-6 py-3 font-medium text-lg text-primary-foreground"
       >
+        <Home className="size-4" />
         Go to Homepage
-      </Button>
+      </Link>
       <Button
-        variant="bordered"
+        variant="secondary"
         onPress={() => window.history.back()}
-        startContent={<ArrowLeft className="size-4" />}
         size="lg"
       >
+        <ArrowLeft className="size-4" />
         Go Back
       </Button>
     </div>

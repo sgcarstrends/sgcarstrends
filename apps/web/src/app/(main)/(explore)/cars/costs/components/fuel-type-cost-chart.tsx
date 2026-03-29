@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { Card } from "@heroui/react";
 import type { SelectCarCost } from "@sgcarstrends/database";
 import {
   CHART_CURSOR,
@@ -52,13 +52,13 @@ export function FuelTypeCostChart({ data }: FuelTypeCostChartProps) {
 
   return (
     <Card className={cn(RADIUS.card, CARD_PADDING.standard)}>
-      <CardHeader className="flex flex-col items-start gap-2">
+      <Card.Header className="flex flex-col items-start gap-2">
         <Typography.H4>Avg Selling Price by Fuel Type</Typography.H4>
         <Typography.TextSm className="text-default-500">
           Average AD selling price (with COE) by fuel type
         </Typography.TextSm>
-      </CardHeader>
-      <CardBody>
+      </Card.Header>
+      <Card.Content>
         <ChartContainer
           config={chartConfig}
           className={cn(CHART_HEIGHTS.tall, "w-full")}
@@ -96,12 +96,12 @@ export function FuelTypeCostChart({ data }: FuelTypeCostChartProps) {
             </Bar>
           </BarChart>
         </ChartContainer>
-      </CardBody>
-      <CardFooter>
+      </Card.Content>
+      <Card.Footer>
         <Typography.TextSm className="text-default-500">
           Electric vehicles tend to have lower total costs due to VES rebates.
         </Typography.TextSm>
-      </CardFooter>
+      </Card.Footer>
     </Card>
   );
 }

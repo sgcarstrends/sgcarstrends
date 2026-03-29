@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody } from "@heroui/card";
+import { Card } from "@heroui/react";
 import type { CategoryWithPercentage } from "@web/app/(main)/(explore)/cars/deregistrations/components/constants";
 import {
   ChartContainer,
@@ -24,7 +24,7 @@ export function CategoryBreakdown({ data }: CategoryBreakdownProps) {
 
   return (
     <Card className="h-full p-3">
-      <CardBody className="p-4">
+      <Card.Content className="p-4">
         <h3 className="mb-3 font-medium text-default-500 text-xs uppercase tracking-wider">
           Distribution
         </h3>
@@ -74,7 +74,7 @@ export function CategoryBreakdown({ data }: CategoryBreakdownProps) {
             </Bar>
           </BarChart>
         </ChartContainer>
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 }

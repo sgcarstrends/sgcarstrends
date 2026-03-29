@@ -1,8 +1,6 @@
 "use client";
 
-import { Card, CardBody } from "@heroui/card";
-import { Chip } from "@heroui/chip";
-import { Link } from "@heroui/link";
+import { Card, Chip, Link } from "@heroui/react";
 import Typography from "@web/components/typography";
 import {
   fadeInUpVariants,
@@ -27,7 +25,7 @@ const features = [
       </>
     ),
     chip: (
-      <Chip size="sm" color="primary" variant="flat">
+      <Chip size="sm" variant="tertiary">
         Official Government Data
       </Chip>
     ),
@@ -63,19 +61,19 @@ const features = [
     ),
     chips: (
       <div className="flex flex-wrap gap-2">
-        <Chip size="sm" variant="flat">
+        <Chip size="sm" variant="tertiary">
           Car Registrations
         </Chip>
-        <Chip size="sm" variant="flat">
+        <Chip size="sm" variant="tertiary">
           COE Bidding Results
         </Chip>
-        <Chip size="sm" variant="flat">
+        <Chip size="sm" variant="tertiary">
           Vehicle Deregistrations
         </Chip>
-        <Chip size="sm" variant="flat">
+        <Chip size="sm" variant="tertiary">
           Vehicle Population
         </Chip>
-        <Chip size="sm" variant="flat">
+        <Chip size="sm" variant="tertiary">
           PQP Rates
         </Chip>
       </div>
@@ -118,7 +116,7 @@ export function DataSourcesSection() {
 
               {/* LTA Badge */}
               <Card className="border-default-200 p-3">
-                <CardBody className="flex flex-row items-center gap-4 p-4">
+                <Card.Content className="flex flex-row items-center gap-4 p-4">
                   <div className="flex size-12 items-center justify-center rounded-lg bg-default-200">
                     <Database className="size-6 text-default-600" />
                   </div>
@@ -128,15 +126,15 @@ export function DataSourcesSection() {
                     </div>
                     <Link
                       href="https://datamall.lta.gov.sg"
-                      isExternal
-                      showAnchorIcon
-                      color="primary"
-                      size="sm"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent text-sm"
                     >
                       LTA DataMall
+                      <Link.Icon />
                     </Link>
                   </div>
-                </CardBody>
+                </Card.Content>
               </Card>
             </motion.div>
           </div>
@@ -153,7 +151,7 @@ export function DataSourcesSection() {
               {features.map((feature) => (
                 <motion.div key={feature.title} variants={staggerItemVariants}>
                   <Card className="group h-full border-default-200/80 p-3 transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-                    <CardBody className="flex flex-col gap-4 p-6">
+                    <Card.Content className="flex flex-col gap-4 p-6">
                       <div
                         className={`flex size-12 items-center justify-center rounded-xl ${feature.containerBg} transition-colors`}
                       >
@@ -170,7 +168,7 @@ export function DataSourcesSection() {
                       {feature.extra}
                       {feature.chip}
                       {feature.chips}
-                    </CardBody>
+                    </Card.Content>
                   </Card>
                 </motion.div>
               ))}

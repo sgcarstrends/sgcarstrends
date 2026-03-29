@@ -1,9 +1,6 @@
 "use client";
 
-import { Button } from "@heroui/button";
-import { Card, CardBody, CardHeader } from "@heroui/card";
-import { Chip } from "@heroui/chip";
-import { Link } from "@heroui/link";
+import { Button, Card, Chip, Link } from "@heroui/react";
 
 const accentOptions = [
   {
@@ -47,7 +44,7 @@ const AccentPreview = ({
 
   return (
     <Card className="rounded-2xl">
-      <CardHeader className="flex flex-col items-start gap-2 pb-0">
+      <Card.Header className="flex flex-col items-start gap-2 pb-0">
         <div className="flex w-full items-center justify-between">
           <h3 className="font-medium text-xl">{colour.name}</h3>
           {colour.recommended && (
@@ -65,8 +62,8 @@ const AccentPreview = ({
             {colour.hsl}
           </code>
         </div>
-      </CardHeader>
-      <CardBody className="flex flex-col gap-6">
+      </Card.Header>
+      <Card.Content className="flex flex-col gap-6">
         {/* Colour swatch */}
         <div className="flex items-center gap-4">
           <div
@@ -122,20 +119,14 @@ const AccentPreview = ({
               Active
             </Chip>
             <Chip
-              classNames={{
-                base: "rounded-full border-2 bg-transparent",
-                content: "",
-              }}
+              className="rounded-full border-2 bg-transparent"
               style={{ ...accentBorderStyle, ...accentTextStyle }}
               size="sm"
             >
               Outlined
             </Chip>
             <Chip
-              classNames={{
-                base: "rounded-full",
-                content: "",
-              }}
+              className="rounded-full"
               style={{
                 backgroundColor: `${colour.hex}20`,
                 ...accentTextStyle,
@@ -209,7 +200,7 @@ const AccentPreview = ({
             <span className="text-sm text-white/80">on navy background</span>
           </div>
         </div>
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 };
@@ -230,13 +221,13 @@ export default function ColourPreviewPage() {
 
         {/* Current colours reference */}
         <Card className="mb-8 rounded-2xl border-2 border-primary">
-          <CardHeader className="flex flex-col items-start gap-2">
+          <Card.Header className="flex flex-col items-start gap-2">
             <h2 className="font-medium text-xl">Current Brand Colours</h2>
             <p className="text-default-600 text-sm">
               These are the established primary and secondary colours
             </p>
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Content>
             <div className="flex flex-wrap gap-6">
               <div className="flex items-center gap-3">
                 <div
@@ -271,7 +262,7 @@ export default function ColourPreviewPage() {
                 </div>
               </div>
             </div>
-          </CardBody>
+          </Card.Content>
         </Card>
 
         {/* Accent colour options */}
@@ -286,15 +277,15 @@ export default function ColourPreviewPage() {
 
         {/* Side by side comparison */}
         <Card className="rounded-2xl">
-          <CardHeader className="flex flex-col items-start gap-2">
+          <Card.Header className="flex flex-col items-start gap-2">
             <h2 className="font-medium text-xl">
               Side-by-Side Button Comparison
             </h2>
             <p className="text-default-600 text-sm">
               All accent colours shown together for direct comparison
             </p>
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Content>
             <div className="flex flex-wrap gap-3">
               {accentOptions.map((colour) => (
                 <Button
@@ -306,7 +297,7 @@ export default function ColourPreviewPage() {
                 </Button>
               ))}
             </div>
-          </CardBody>
+          </Card.Content>
         </Card>
       </div>
     </div>

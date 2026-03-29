@@ -3,7 +3,7 @@
 exports[`Footer > should render asynchronous footer content with version information 1`] = `
 <div>
   <footer
-    class="border-divider border-t bg-content1"
+    class="border-divider border-t bg-surface"
   >
     <div
       class="container mx-auto px-6 py-12"
@@ -43,12 +43,9 @@ exports[`Footer > should render asynchronous footer content with version informa
           >
             <a
               aria-label="Discord"
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 text-tiny gap-2 px-0 !gap-0 motion-reduce:transition-none bg-transparent data-[hover=true]:bg-default/40 min-w-8 w-8 h-8 rounded-full text-default-500 transition-colors hover:text-primary"
-              data-react-aria-pressable="true"
+              class="inline-flex size-8 items-center justify-center rounded-full text-default-500 transition-colors hover:text-primary"
               href="/discord"
               rel="me noreferrer"
-              role="button"
-              tabindex="0"
               target="_blank"
             >
               <svg
@@ -70,12 +67,9 @@ exports[`Footer > should render asynchronous footer content with version informa
             </a>
             <a
               aria-label="GitHub"
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 text-tiny gap-2 px-0 !gap-0 motion-reduce:transition-none bg-transparent data-[hover=true]:bg-default/40 min-w-8 w-8 h-8 rounded-full text-default-500 transition-colors hover:text-primary"
-              data-react-aria-pressable="true"
+              class="inline-flex size-8 items-center justify-center rounded-full text-default-500 transition-colors hover:text-primary"
               href="/github"
               rel="me noreferrer"
-              role="button"
-              tabindex="0"
               target="_blank"
             >
               <svg
@@ -97,12 +91,9 @@ exports[`Footer > should render asynchronous footer content with version informa
             </a>
             <a
               aria-label="Instagram"
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 text-tiny gap-2 px-0 !gap-0 motion-reduce:transition-none bg-transparent data-[hover=true]:bg-default/40 min-w-8 w-8 h-8 rounded-full text-default-500 transition-colors hover:text-primary"
-              data-react-aria-pressable="true"
+              class="inline-flex size-8 items-center justify-center rounded-full text-default-500 transition-colors hover:text-primary"
               href="/instagram"
               rel="me noreferrer"
-              role="button"
-              tabindex="0"
               target="_blank"
             >
               <svg
@@ -124,12 +115,9 @@ exports[`Footer > should render asynchronous footer content with version informa
             </a>
             <a
               aria-label="LinkedIn"
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 text-tiny gap-2 px-0 !gap-0 motion-reduce:transition-none bg-transparent data-[hover=true]:bg-default/40 min-w-8 w-8 h-8 rounded-full text-default-500 transition-colors hover:text-primary"
-              data-react-aria-pressable="true"
+              class="inline-flex size-8 items-center justify-center rounded-full text-default-500 transition-colors hover:text-primary"
               href="/linkedin"
               rel="me noreferrer"
-              role="button"
-              tabindex="0"
               target="_blank"
             >
               <svg
@@ -151,12 +139,9 @@ exports[`Footer > should render asynchronous footer content with version informa
             </a>
             <a
               aria-label="Telegram"
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 text-tiny gap-2 px-0 !gap-0 motion-reduce:transition-none bg-transparent data-[hover=true]:bg-default/40 min-w-8 w-8 h-8 rounded-full text-default-500 transition-colors hover:text-primary"
-              data-react-aria-pressable="true"
+              class="inline-flex size-8 items-center justify-center rounded-full text-default-500 transition-colors hover:text-primary"
               href="/telegram"
               rel="me noreferrer"
-              role="button"
-              tabindex="0"
               target="_blank"
             >
               <svg
@@ -178,12 +163,9 @@ exports[`Footer > should render asynchronous footer content with version informa
             </a>
             <a
               aria-label="Twitter"
-              class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 text-tiny gap-2 px-0 !gap-0 motion-reduce:transition-none bg-transparent data-[hover=true]:bg-default/40 min-w-8 w-8 h-8 rounded-full text-default-500 transition-colors hover:text-primary"
-              data-react-aria-pressable="true"
+              class="inline-flex size-8 items-center justify-center rounded-full text-default-500 transition-colors hover:text-primary"
               href="/twitter"
               rel="me noreferrer"
-              role="button"
-              tabindex="0"
               target="_blank"
             >
               <svg
@@ -260,7 +242,9 @@ exports[`Footer > should render asynchronous footer content with version informa
         </div>
       </div>
       <hr
-        class="shrink-0 bg-divider border-none w-full h-divider my-8"
+        class="separator separator--horizontal separator--default my-8"
+        data-orientation="horizontal"
+        data-slot="separator"
         role="separator"
       />
       <div

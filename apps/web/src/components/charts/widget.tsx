@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card } from "@heroui/react";
 import { CHART_HEIGHTS, type ChartHeight } from "@sgcarstrends/theme/charts";
 import { CARD_VARIANTS, type CardVariant } from "@sgcarstrends/theme/spacing";
 import { cn } from "@sgcarstrends/ui/lib/utils";
@@ -37,7 +37,7 @@ export function ChartWidget({
 
   const cardContent = (
     <Card className={cn(CARD_VARIANTS[variant], "p-3", className)}>
-      <CardHeader>
+      <Card.Header>
         <div className="flex flex-col gap-1">
           <Typography.H4>{title}</Typography.H4>
           {subtitle && (
@@ -46,8 +46,8 @@ export function ChartWidget({
             </Typography.TextSm>
           )}
         </div>
-      </CardHeader>
-      <CardBody>
+      </Card.Header>
+      <Card.Content>
         {isEmpty ? (
           <div
             className={cn(
@@ -62,7 +62,7 @@ export function ChartWidget({
         ) : (
           children
         )}
-      </CardBody>
+      </Card.Content>
     </Card>
   );
 

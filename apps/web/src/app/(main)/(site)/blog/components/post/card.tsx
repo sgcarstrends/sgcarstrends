@@ -1,7 +1,6 @@
 "use client";
 
-import { CardBody, Card as HeroCard } from "@heroui/card";
-import { Chip } from "@heroui/chip";
+import { Chip, Card as HeroCard } from "@heroui/react";
 import type { SelectPost } from "@sgcarstrends/database";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -28,33 +27,33 @@ export function Card({ post }: CardProps) {
   }, [post]);
 
   return (
-    <HeroCard
-      isPressable
-      as={Link}
-      href={`/blog/${post.slug}`}
-      className="h-full overflow-hidden"
-    >
-      <CardBody className="flex flex-col gap-0 p-0">
-        <Cover category={post.dataType ?? "default"} className="aspect-[2/1]" />
-        <div className="flex flex-col gap-2 p-4">
-          <div className="flex items-center gap-2 text-default-400 text-xs">
-            <span>{formatDate(publishedDate)}</span>
-            <span className="size-1 rounded-full bg-default-300" />
-            <span>{readingTime} min read</span>
-            {isNew && (
-              <Chip color="warning" variant="flat" size="sm">
-                NEW
-              </Chip>
+    <Link href={`/blog/${post.slug}`} className="block h-full">
+      <HeroCard className="h-full overflow-hidden">
+        <HeroCard.Content className="flex flex-col gap-0 p-0">
+          <Cover
+            category={post.dataType ?? "default"}
+            className="aspect-[2/1]"
+          />
+          <div className="flex flex-col gap-2 p-4">
+            <div className="flex items-center gap-2 text-default-400 text-xs">
+              <span>{formatDate(publishedDate)}</span>
+              <span className="size-1 rounded-full bg-default-300" />
+              <span>{readingTime} min read</span>
+              {isNew && (
+                <Chip color="warning" variant="tertiary" size="sm">
+                  NEW
+                </Chip>
+              )}
+            </div>
+            <h3 className="line-clamp-2 font-bold text-lg leading-tight">
+              {post.title}
+            </h3>
+            {excerpt && (
+              <p className="line-clamp-2 text-default-500 text-sm">{excerpt}</p>
             )}
           </div>
-          <h3 className="line-clamp-2 font-bold text-lg leading-tight">
-            {post.title}
-          </h3>
-          {excerpt && (
-            <p className="line-clamp-2 text-default-500 text-sm">{excerpt}</p>
-          )}
-        </div>
-      </CardBody>
-    </HeroCard>
+        </HeroCard.Content>
+      </HeroCard>
+    </Link>
   );
 }

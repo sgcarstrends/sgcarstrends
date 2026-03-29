@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card } from "@heroui/react";
 import Typography from "@web/components/typography";
 import { navLinks } from "@web/config/navigation";
 import { createPageMetadata } from "@web/lib/metadata";
@@ -24,18 +24,15 @@ export default function Page() {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {navLinks.coe.map(({ title, url, icon: Icon, description }) => (
           <Link key={url} href={url}>
-            <Card
-              isPressable
-              className="h-full bg-content1 p-4 transition-shadow hover:shadow-md"
-            >
-              <CardHeader className="flex flex-row items-center gap-2">
+            <Card className="h-full bg-surface p-4 transition-shadow hover:shadow-md">
+              <Card.Header className="flex flex-row items-center gap-2">
                 {Icon && <Icon className="size-5 text-primary" />}
                 <Typography.H4>{title}</Typography.H4>
-              </CardHeader>
+              </Card.Header>
               {description && (
-                <CardBody>
+                <Card.Content>
                   <Typography.TextSm>{description}</Typography.TextSm>
-                </CardBody>
+                </Card.Content>
               )}
             </Card>
           </Link>

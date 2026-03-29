@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Autocomplete,
-  AutocompleteItem,
-  AutocompleteSection,
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerHeader,
-} from "@heroui/react";
+import { ComboBox, Drawer, Input, Label, ListBox } from "@heroui/react";
 import { formatDateToMonthYear } from "@sgcarstrends/utils";
 import { ComparisonBarChart } from "@web/app/(main)/(explore)/cars/registrations/components/comparison-bar-chart";
 import { ComparisonSummary } from "@web/app/(main)/(explore)/cars/registrations/components/comparison-summary";
@@ -92,82 +84,91 @@ export function TrendsComparison({
     value: string,
     onChange: (val: string) => void,
   ) => (
-    <Autocomplete
-      label={label}
+    <ComboBox
       selectedKey={value}
       onSelectionChange={(key) => key && onChange(key as string)}
-      startContent={<Calendar className="size-4" />}
-      variant="bordered"
     >
-      {sortedMonths.map(([year, yearMonths]) => (
-        <AutocompleteSection key={year} title={year}>
-          {yearMonths.map((m) => {
-            const date = `${year}-${m}`;
-            return (
-              <AutocompleteItem
-                key={date}
-                textValue={formatDateToMonthYear(date)}
-              >
-                {formatDateToMonthYear(date)}
-              </AutocompleteItem>
-            );
-          })}
-        </AutocompleteSection>
-      ))}
-    </Autocomplete>
+      <Label className="sr-only">{label}</Label>
+      <ComboBox.InputGroup>
+        <Calendar className="size-4 text-default-400" />
+        <Input placeholder={label} />
+        <ComboBox.Trigger />
+      </ComboBox.InputGroup>
+      <ComboBox.Popover>
+        <ListBox>
+          {sortedMonths.map(([year, yearMonths]) => (
+            <ListBox.Section key={year}>
+              <header className="px-2 py-1 font-medium text-default-500 text-xs">
+                {year}
+              </header>
+              {yearMonths.map((m) => {
+                const date = `${year}-${m}`;
+                return (
+                  <ListBox.Item
+                    key={date}
+                    textValue={formatDateToMonthYear(date)}
+                  >
+                    {formatDateToMonthYear(date)}
+                  </ListBox.Item>
+                );
+              })}
+            </ListBox.Section>
+          ))}
+        </ListBox>
+      </ComboBox.Popover>
+    </ComboBox>
   );
 
   return (
-    <Drawer
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      placement="bottom"
-      size="5xl"
-      backdrop="blur"
-      shouldBlockScroll={true}
-    >
-      <DrawerContent>
-        <DrawerHeader className="flex flex-col items-center pb-2">
-          <div className="mb-4 h-1 w-12 rounded-full bg-gray-300" />
-          <div className="flex w-full flex-col gap-4 text-center">
-            <h2 className="font-bold text-xl">Trends Comparison</h2>
-            <p className="text-gray-600 text-sm">
-              Compare data across different periods
-            </p>
-          </div>
-        </DrawerHeader>
-        <DrawerBody className="flex flex-col gap-6">
-          <div className="grid grid-cols-2 gap-4">
-            {renderMonthPicker("Month A", monthA, setCompareA)}
-            {renderMonthPicker("Month B", monthB, setCompareB)}
-          </div>
-          {!comparisonData && (
-            <div className="flex justify-center py-8">
-              <span className="text-default-500">Loading comparison data…</span>
-            </div>
-          )}
-          {comparisonData && (
-            <div className="flex flex-col gap-4">
-              <ComparisonSummary
-                monthA={comparisonData.monthA}
-                monthB={comparisonData.monthB}
-              />
-              <ComparisonBarChart
-                monthA={comparisonData.monthA}
-                monthB={comparisonData.monthB}
-                type="fuelType"
-                title="Fuel Type Breakdown"
-              />
-              <ComparisonBarChart
-                monthA={comparisonData.monthA}
-                monthB={comparisonData.monthB}
-                type="vehicleType"
-                title="Vehicle Type Breakdown"
-              />
-            </div>
-          )}
-        </DrawerBody>
-      </DrawerContent>
+    <Drawer isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Drawer.Backdrop>
+        <Drawer.Content placement="bottom">
+          <Drawer.Dialog>
+            <Drawer.Header className="flex flex-col items-center pb-2">
+              <div className="mb-4 h-1 w-12 rounded-full bg-gray-300" />
+              <div className="flex w-full flex-col gap-4 text-center">
+                <h2 className="font-bold text-xl">Trends Comparison</h2>
+                <p className="text-gray-600 text-sm">
+                  Compare data across different periods
+                </p>
+              </div>
+            </Drawer.Header>
+            <Drawer.Body className="flex flex-col gap-6">
+              <div className="grid grid-cols-2 gap-4">
+                {renderMonthPicker("Month A", monthA, setCompareA)}
+                {renderMonthPicker("Month B", monthB, setCompareB)}
+              </div>
+              {!comparisonData && (
+                <div className="flex justify-center py-8">
+                  <span className="text-default-500">
+                    Loading comparison data…
+                  </span>
+                </div>
+              )}
+              {comparisonData && (
+                <div className="flex flex-col gap-4">
+                  <ComparisonSummary
+                    monthA={comparisonData.monthA}
+                    monthB={comparisonData.monthB}
+                  />
+                  <ComparisonBarChart
+                    monthA={comparisonData.monthA}
+                    monthB={comparisonData.monthB}
+                    type="fuelType"
+                    title="Fuel Type Breakdown"
+                  />
+                  <ComparisonBarChart
+                    monthA={comparisonData.monthA}
+                    monthB={comparisonData.monthB}
+                    type="vehicleType"
+                    title="Vehicle Type Breakdown"
+                  />
+                </div>
+              )}
+            </Drawer.Body>
+          </Drawer.Dialog>
+        </Drawer.Content>
+      </Drawer.Backdrop>
     </Drawer>
   );
 }

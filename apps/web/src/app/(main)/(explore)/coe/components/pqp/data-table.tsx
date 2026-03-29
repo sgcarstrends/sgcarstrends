@@ -1,18 +1,8 @@
 "use client";
 
-import { Pagination } from "@heroui/pagination";
-import {
-  type SortDescriptor,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-} from "@heroui/table";
+import { Button, type SortDescriptor, Table } from "@heroui/react";
 import { Currency } from "@web/components/shared/currency";
 import type { Pqp } from "@web/types/coe";
-import { ArrowUpDown } from "lucide-react";
 import { type Key, useCallback, useMemo, useState } from "react";
 
 interface DataTableProps {
@@ -77,40 +67,54 @@ export function DataTable({ rows, columns, rowsPerPage = 10 }: DataTableProps) {
   }, []);
 
   return (
-    <Table
-      sortDescriptor={sortDescriptor}
-      sortIcon={<ArrowUpDown size={16} />}
-      bottomContent={
-        <div className="flex w-full justify-center">
-          <Pagination
-            isCompact
-            showControls
-            showShadow
-            page={page}
-            total={pages}
-            onChange={setPage}
-          />
+    <Table.ScrollContainer>
+      <Table.Content
+        aria-label="PQP rates table"
+        sortDescriptor={sortDescriptor}
+        onSortChange={setSortDescriptor}
+      >
+        <Table.Header columns={columns}>
+          {(column) => (
+            <Table.Column key={column.key} allowsSorting={column.sortable}>
+              {column.label}
+            </Table.Column>
+          )}
+        </Table.Header>
+        <Table.Body items={sortedItems}>
+          {(item) => (
+            <Table.Row key={item.key}>
+              {(columnKey) => (
+                <Table.Cell>
+                  {renderCell(item, columnKey as unknown as Key)}
+                </Table.Cell>
+              )}
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table.Content>
+      <Table.Footer>
+        <div className="flex items-center justify-center gap-2">
+          <Button
+            size="sm"
+            variant="tertiary"
+            isDisabled={page === 1}
+            onPress={() => setPage(page - 1)}
+          >
+            Previous
+          </Button>
+          <span className="text-default-500 text-sm">
+            Page {page} of {pages}
+          </span>
+          <Button
+            size="sm"
+            variant="tertiary"
+            isDisabled={page === pages}
+            onPress={() => setPage(page + 1)}
+          >
+            Next
+          </Button>
         </div>
-      }
-      bottomContentPlacement="outside"
-      onSortChange={setSortDescriptor}
-    >
-      <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn key={column.key} allowsSorting={column.sortable}>
-            {column.label}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody items={sortedItems}>
-        {(item) => (
-          <TableRow key={item.key}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+      </Table.Footer>
+    </Table.ScrollContainer>
   );
 }

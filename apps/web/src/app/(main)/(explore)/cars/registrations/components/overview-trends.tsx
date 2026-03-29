@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card } from "@heroui/react";
 import { slugify } from "@sgcarstrends/utils";
 import { TrendChart } from "@web/app/(main)/(explore)/cars/registrations/trend-chart";
 import { AnimatedNumber } from "@web/components/animated-number";
@@ -14,23 +14,23 @@ export function CarOverviewTrends({ cars, total }: CarOverviewTrendsProps) {
   return (
     <div className="grid grid-cols-1 gap-4">
       <Card className="rounded-2xl p-3">
-        <CardHeader className="flex flex-col items-start gap-2">
+        <Card.Header className="flex flex-col items-start gap-2">
           <Typography.H4>By Make</Typography.H4>
           <Typography.TextSm>Top 10 makes</Typography.TextSm>
-        </CardHeader>
-        <CardBody>
+        </Card.Header>
+        <Card.Content>
           <TrendChart data={cars} />
-        </CardBody>
+        </Card.Content>
       </Card>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card className="rounded-2xl p-3">
-          <CardHeader className="flex flex-col items-start gap-2">
+          <Card.Header className="flex flex-col items-start gap-2">
             <Typography.H4>Stats</Typography.H4>
             <Typography.TextSm>
               <Typography.Label>{total}</Typography.Label> registrations
             </Typography.TextSm>
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Content>
             {cars.length > 0 &&
               cars.map(({ make, count }) => {
                 const marketShare = (count: number) => count / total;
@@ -51,7 +51,7 @@ export function CarOverviewTrends({ cars, total }: CarOverviewTrendsProps) {
                   </div>
                 );
               })}
-          </CardBody>
+          </Card.Content>
         </Card>
       </div>
     </div>

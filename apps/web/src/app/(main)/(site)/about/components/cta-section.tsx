@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@heroui/button";
+import { Button } from "@heroui/react";
 import Typography from "@web/components/typography";
 import {
   staggerContainerVariants,
@@ -43,18 +43,16 @@ export function CtaSection() {
             variants={staggerItemVariants}
           >
             {navLinks.socialMedia.map(({ title, url, icon: Icon }) => (
-              <Button
+              <Link
                 key={title}
-                as="a"
                 href={url}
                 rel="me noreferrer"
                 target="_blank"
-                variant="bordered"
-                className="gap-2 rounded-full border-default-300 px-5 text-foreground transition-all hover:border-primary hover:bg-primary/5"
+                className="inline-flex items-center gap-2 rounded-full border border-default-300 bg-transparent px-5 py-2 text-foreground transition-all hover:border-primary hover:bg-primary/5"
               >
                 <Icon className="size-4" />
                 <span>{title}</span>
-              </Button>
+              </Link>
             ))}
           </motion.div>
 
@@ -63,27 +61,21 @@ export function CtaSection() {
             className="flex flex-col items-center gap-4 pt-4 sm:flex-row sm:gap-6"
             variants={staggerItemVariants}
           >
-            <Button
-              as={Link}
-              href="/"
-              color="primary"
-              radius="full"
-              size="lg"
-              className="gap-2 px-8"
-            >
-              Explore the Dashboard
-              <ArrowRight className="size-4" />
-            </Button>
-            <Button
-              as={Link}
-              href="/blog"
-              variant="bordered"
-              radius="full"
-              size="lg"
-              className="gap-2 px-8 text-foreground"
-            >
-              Read Market Insights
-            </Button>
+            <Link href="/">
+              <Button size="lg" className="gap-2 px-8">
+                Explore the Dashboard
+                <ArrowRight className="size-4" />
+              </Button>
+            </Link>
+            <Link href="/blog">
+              <Button
+                variant="secondary"
+                size="lg"
+                className="gap-2 px-8 text-foreground"
+              >
+                Read Market Insights
+              </Button>
+            </Link>
           </motion.div>
         </motion.div>
       </div>

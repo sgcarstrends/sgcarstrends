@@ -1,8 +1,8 @@
-import { Chip } from "@heroui/chip";
+import { Chip } from "@heroui/react";
 
 export function NewChip() {
   return (
-    <Chip color="primary" size="sm">
+    <Chip color="accent" size="sm">
       New
     </Chip>
   );

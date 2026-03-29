@@ -1,7 +1,6 @@
 "use client";
 
-import { Button } from "@heroui/button";
-import { Input } from "@heroui/input";
+import { Button, InputGroup } from "@heroui/react";
 import { Search, X } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
 
@@ -14,28 +13,30 @@ export function BlogSearchInput() {
   );
 
   return (
-    <Input
-      type="search"
-      placeholder="Search blog posts..."
-      value={query}
-      onValueChange={setQuery}
-      startContent={<Search className="size-4 text-default-400" />}
-      endContent={
-        query ? (
+    <InputGroup className="rounded-full">
+      <InputGroup.Prefix>
+        <Search className="size-4 text-default-400" />
+      </InputGroup.Prefix>
+      <InputGroup.Input
+        type="search"
+        placeholder="Search blog posts..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        aria-label="Search blog posts"
+      />
+      {query ? (
+        <InputGroup.Suffix>
           <Button
             isIconOnly
-            variant="light"
+            variant="tertiary"
             size="sm"
             onPress={() => setQuery("")}
             aria-label="Clear search"
           >
             <X className="size-4 text-default-400" />
           </Button>
-        ) : null
-      }
-      classNames={{ inputWrapper: "rounded-full" }}
-      isClearable={false}
-      aria-label="Search blog posts"
-    />
+        </InputGroup.Suffix>
+      ) : null}
+    </InputGroup>
   );
 }

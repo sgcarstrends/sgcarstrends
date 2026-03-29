@@ -1,6 +1,6 @@
 "use client";
 
-import { Tab, Tabs } from "@heroui/tabs";
+import { Tabs } from "@heroui/react";
 import Typography from "@web/components/typography";
 import type { TypeItem } from "@web/types";
 import type { FuelType } from "@web/types/cars";
@@ -43,11 +43,14 @@ export function CategoryTabsPanel({
     <div className="col-span-12">
       <Tabs
         aria-label={`${title} Statistics`}
-        variant="underlined"
+        variant="primary"
         className="w-full"
       >
         {/*TODO: Reinstate later*/}
-        {/*<Tab key="overview" title="Overview">*/}
+        {/*<Tabs.ListContainer><Tabs.List>*/}
+        {/*<Tabs.Tab id="overview">Overview</Tabs.Tab>*/}
+        {/*</Tabs.List></Tabs.ListContainer>*/}
+        {/*<Tabs.Panel id="overview">*/}
         {/*  <div className="flex flex-col gap-6 py-4">*/}
         {/*    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">*/}
         {/*      <Suspense*/}
@@ -63,14 +66,24 @@ export function CategoryTabsPanel({
         {/*      </Suspense>*/}
         {/*    </div>*/}
         {/*  </div>*/}
-        {/*</Tab>*/}
+        {/*</Tabs.Panel>*/}
+
+        <Tabs.ListContainer>
+          <Tabs.List>
+            {types.map((type) => (
+              <Tabs.Tab key={type.name} id={type.name}>
+                {formatVehicleType(type.name)}
+              </Tabs.Tab>
+            ))}
+          </Tabs.List>
+        </Tabs.ListContainer>
 
         {types.map((type) => {
           const fuelTypeData = makesByFuelType.get(type.name);
           const rank = rankMap.get(type.name) ?? types.length;
 
           return (
-            <Tab key={type.name} title={formatVehicleType(type.name)}>
+            <Tabs.Panel key={type.name} id={type.name}>
               <div className="flex flex-col gap-6 py-4">
                 {/* Hero Statistics Row */}
                 <CategoryHeroCard
@@ -99,7 +112,7 @@ export function CategoryTabsPanel({
                   </div>
                 )}
               </div>
-            </Tab>
+            </Tabs.Panel>
           );
         })}
       </Tabs>

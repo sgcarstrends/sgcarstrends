@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card } from "@heroui/react";
 import Typography from "@web/components/typography";
 import {
   fadeInUpVariants,
@@ -231,12 +231,12 @@ export function GlossarySection() {
                 {category.terms.map(({ term, definition }) => (
                   <motion.div key={term} variants={staggerItemVariants}>
                     <Card className="h-full border-default-200/80 transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-                      <CardHeader className="pb-0">
+                      <Card.Header className="pb-0">
                         <Typography.H4>{term}</Typography.H4>
-                      </CardHeader>
-                      <CardBody>
+                      </Card.Header>
+                      <Card.Content>
                         <Typography.TextSm>{definition}</Typography.TextSm>
-                      </CardBody>
+                      </Card.Content>
                     </Card>
                   </motion.div>
                 ))}

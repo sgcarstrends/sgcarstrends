@@ -1,33 +1,29 @@
 "use client";
 
-import { Accordion, AccordionItem } from "@heroui/accordion";
-import { Alert } from "@heroui/alert";
 import {
-  Autocomplete,
-  AutocompleteItem,
-  AutocompleteSection,
-} from "@heroui/autocomplete";
-import { Avatar } from "@heroui/avatar";
-import { Button } from "@heroui/button";
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
-import { Chip } from "@heroui/chip";
-import { Divider } from "@heroui/divider";
-import {
+  Accordion,
+  Alert,
+  Avatar,
+  Button,
+  Card,
+  Chip,
+  ComboBox,
   Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerHeader,
-} from "@heroui/drawer";
-import { Input } from "@heroui/input";
-import { Link } from "@heroui/link";
-import { Popover, PopoverContent, PopoverTrigger } from "@heroui/popover";
-import { Progress } from "@heroui/progress";
-import { useDisclosure } from "@heroui/react";
-import { Select, SelectItem } from "@heroui/select";
-import { Skeleton } from "@heroui/skeleton";
-import { Tab, Tabs } from "@heroui/tabs";
-import { addToast } from "@heroui/toast";
-import { Tooltip } from "@heroui/tooltip";
+  Input,
+  InputGroup,
+  Label,
+  Link,
+  ListBox,
+  Popover,
+  ProgressBar,
+  Select,
+  Separator,
+  Skeleton,
+  Tabs,
+  Tooltip,
+  toast,
+  useOverlayState,
+} from "@heroui/react";
 import { useState } from "react";
 
 // === DATA ===
@@ -111,7 +107,7 @@ const coeCategories = [
 export default function ComponentsPreviewPage() {
   const [selectedMake, setSelectedMake] = useState<string>("");
   const [inputValue, setInputValue] = useState("");
-  const drawerDisclosure = useDisclosure();
+  const drawerState = useOverlayState();
 
   return (
     <div className="flex flex-col gap-8 p-8">
@@ -119,33 +115,36 @@ export default function ComponentsPreviewPage() {
       <div className="flex flex-col gap-2">
         <h1 className="font-bold text-3xl text-foreground">Design System</h1>
         <p className="text-default-600">
-          Navy Blue theme and HeroUI v2 components - design token driven preview
+          Navy Blue theme and HeroUI v3 components - design token driven preview
         </p>
       </div>
 
       {/* Tabbed Navigation */}
-      <Tabs
-        defaultSelectedKey="colors"
-        classNames={{
-          tabList: "sticky top-0 z-40 bg-background/80 backdrop-blur-sm",
-        }}
-      >
+      <Tabs defaultSelectedKey="colors">
+        <Tabs.ListContainer className="sticky top-0 z-40 bg-background/80 backdrop-blur-sm">
+          <Tabs.List>
+            <Tabs.Tab id="colors">Colors</Tabs.Tab>
+            <Tabs.Tab id="typography">Typography</Tabs.Tab>
+            <Tabs.Tab id="spacing">Spacing</Tabs.Tab>
+            <Tabs.Tab id="components">Components</Tabs.Tab>
+          </Tabs.List>
+        </Tabs.ListContainer>
         {/* === COLORS TAB === */}
-        <Tab key="colors" title="Colors">
+        <Tabs.Panel id="colors">
           <div className="flex flex-col gap-6 pt-4">
             <h2 className="font-semibold text-2xl">Colors</h2>
 
             {/* Brand Colors */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Brand Colors</p>
                   <p className="text-default-500 text-sm">
                     Semantic colors from theme configuration
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-4">
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-4">
                 <div className="flex flex-wrap gap-6">
                   {brandColors.map((color) => (
                     <div key={color.name} className="flex items-center gap-3">
@@ -160,20 +159,20 @@ export default function ComponentsPreviewPage() {
                     </div>
                   ))}
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Chart Colors */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Chart Colors</p>
                   <p className="text-default-500 text-sm">
                     Navy Blue gradient for data visualization
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody>
+              </Card.Header>
+              <Card.Content>
                 <div className="flex flex-wrap gap-4">
                   {chartColors.map((color, _index) => (
                     <div key={color.name} className="flex items-center gap-3">
@@ -190,20 +189,20 @@ export default function ComponentsPreviewPage() {
                     </div>
                   ))}
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Default Scale */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Default Scale</p>
                   <p className="text-default-500 text-sm">
                     Neutral color scale for UI elements
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody>
+              </Card.Header>
+              <Card.Content>
                 <div className="flex flex-wrap gap-2">
                   {defaultScale.map((shade) => (
                     <div
@@ -217,24 +216,24 @@ export default function ComponentsPreviewPage() {
                     </div>
                   ))}
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
           </div>
-        </Tab>
+        </Tabs.Panel>
 
         {/* === TYPOGRAPHY TAB === */}
-        <Tab key="typography" title="Typography">
+        <Tabs.Panel id="typography">
           <div className="flex flex-col gap-6 pt-4">
             <h2 className="font-semibold text-2xl">Typography</h2>
 
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Type Scale</p>
                   <p className="text-default-500 text-sm">Font: Geist Sans</p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-4">
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-4">
                 {typographyScale.map((type) => (
                   <div key={type.name} className="flex items-center gap-4">
                     <code className="w-16 rounded bg-default-100 px-2 py-1 text-center text-xs">
@@ -246,28 +245,28 @@ export default function ComponentsPreviewPage() {
                     </span>
                   </div>
                 ))}
-              </CardBody>
+              </Card.Content>
             </Card>
           </div>
-        </Tab>
+        </Tabs.Panel>
 
         {/* === SPACING TAB === */}
-        <Tab key="spacing" title="Spacing">
+        <Tabs.Panel id="spacing">
           <div className="flex flex-col gap-6 pt-4">
             <h2 className="font-semibold text-2xl">Spacing</h2>
 
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Spacing Scale</p>
                   <p className="text-default-500 text-sm">
                     Use gap utilities with even numbers
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-4">
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-4">
                 {/* Rules */}
-                <Alert color="primary">
+                <Alert status="accent">
                   <div className="flex flex-col gap-1 text-sm">
                     <p>
                       ✓ Use <code>gap-*</code> with even numbers
@@ -298,65 +297,38 @@ export default function ComponentsPreviewPage() {
                     </div>
                   ))}
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
           </div>
-        </Tab>
+        </Tabs.Panel>
 
         {/* === COMPONENTS TAB === */}
-        <Tab key="components" title="Components">
+        <Tabs.Panel id="components">
           <div className="flex flex-col gap-8 pt-4">
             <h2 className="font-semibold text-2xl">Components</h2>
 
             {/* Buttons */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Buttons</p>
                   <p className="text-default-500 text-sm">
                     Colors, variants, and sizes
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-6">
-                {/* Colors */}
-                <div className="flex flex-col gap-2">
-                  <p className="font-medium text-sm">Colors</p>
-                  <div className="flex flex-wrap gap-2">
-                    <Button color="default">Default</Button>
-                    <Button color="primary">Primary</Button>
-                    <Button color="secondary">Secondary</Button>
-                    <Button color="success">Success</Button>
-                    <Button color="warning">Warning</Button>
-                    <Button color="danger">Danger</Button>
-                  </div>
-                </div>
-
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-6">
                 {/* Variants */}
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Variants</p>
                   <div className="flex flex-wrap gap-2">
-                    <Button color="primary" variant="solid">
-                      Solid
-                    </Button>
-                    <Button color="primary" variant="bordered">
-                      Bordered
-                    </Button>
-                    <Button color="primary" variant="light">
-                      Light
-                    </Button>
-                    <Button color="primary" variant="flat">
-                      Flat
-                    </Button>
-                    <Button color="primary" variant="faded">
-                      Faded
-                    </Button>
-                    <Button color="primary" variant="shadow">
-                      Shadow
-                    </Button>
-                    <Button color="primary" variant="ghost">
-                      Ghost
-                    </Button>
+                    <Button variant="primary">Primary</Button>
+                    <Button variant="secondary">Secondary</Button>
+                    <Button variant="tertiary">Tertiary</Button>
+                    <Button variant="outline">Outline</Button>
+                    <Button variant="ghost">Ghost</Button>
+                    <Button variant="danger">Danger</Button>
+                    <Button variant="danger-soft">Danger Soft</Button>
                   </div>
                 </div>
 
@@ -364,13 +336,13 @@ export default function ComponentsPreviewPage() {
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Sizes</p>
                   <div className="flex flex-wrap items-center gap-2">
-                    <Button color="primary" size="sm">
+                    <Button variant="primary" size="sm">
                       Small
                     </Button>
-                    <Button color="primary" size="md">
+                    <Button variant="primary" size="md">
                       Medium
                     </Button>
-                    <Button color="primary" size="lg">
+                    <Button variant="primary" size="lg">
                       Large
                     </Button>
                   </div>
@@ -380,35 +352,34 @@ export default function ComponentsPreviewPage() {
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">States</p>
                   <div className="flex flex-wrap gap-2">
-                    <Button color="primary" isDisabled>
+                    <Button variant="primary" isDisabled>
                       Disabled
                     </Button>
-                    <Button color="primary" isLoading>
+                    <Button variant="primary" isPending>
                       Loading
                     </Button>
                   </div>
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Chips */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Chips</p>
                   <p className="text-default-500 text-sm">
                     Status indicators and labels
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-4">
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-4">
                 {/* Colors */}
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Colors</p>
                   <div className="flex flex-wrap gap-2">
                     <Chip color="default">Default</Chip>
-                    <Chip color="primary">Primary</Chip>
-                    <Chip color="secondary">Secondary</Chip>
+                    <Chip color="accent">Accent</Chip>
                     <Chip color="success">+5.2%</Chip>
                     <Chip color="warning">Warning</Chip>
                     <Chip color="danger">-2.1%</Chip>
@@ -419,27 +390,10 @@ export default function ComponentsPreviewPage() {
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Variants</p>
                   <div className="flex flex-wrap gap-2">
-                    <Chip color="primary" variant="solid">
-                      Solid
-                    </Chip>
-                    <Chip color="primary" variant="bordered">
-                      Bordered
-                    </Chip>
-                    <Chip color="primary" variant="light">
-                      Light
-                    </Chip>
-                    <Chip color="primary" variant="flat">
-                      Flat
-                    </Chip>
-                    <Chip color="primary" variant="faded">
-                      Faded
-                    </Chip>
-                    <Chip color="primary" variant="shadow">
-                      Shadow
-                    </Chip>
-                    <Chip color="primary" variant="dot">
-                      Dot
-                    </Chip>
+                    <Chip variant="primary">Primary</Chip>
+                    <Chip variant="secondary">Secondary</Chip>
+                    <Chip variant="soft">Soft</Chip>
+                    <Chip variant="tertiary">Tertiary</Chip>
                   </div>
                 </div>
 
@@ -447,38 +401,44 @@ export default function ComponentsPreviewPage() {
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Sizes</p>
                   <div className="flex flex-wrap items-center gap-2">
-                    <Chip color="primary" size="sm">
+                    <Chip color="accent" size="sm">
                       Small
                     </Chip>
-                    <Chip color="primary" size="md">
+                    <Chip color="accent" size="md">
                       Medium
                     </Chip>
-                    <Chip color="primary" size="lg">
+                    <Chip color="accent" size="lg">
                       Large
                     </Chip>
                   </div>
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Avatars */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Avatars</p>
                   <p className="text-default-500 text-sm">
                     User profile images with fallback
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-4">
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-4">
                 {/* Sizes */}
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Sizes</p>
                   <div className="flex flex-wrap items-center gap-4">
-                    <Avatar size="sm" name="SM" />
-                    <Avatar size="md" name="MD" />
-                    <Avatar size="lg" name="LG" />
+                    <Avatar size="sm">
+                      <Avatar.Fallback>SM</Avatar.Fallback>
+                    </Avatar>
+                    <Avatar size="md">
+                      <Avatar.Fallback>MD</Avatar.Fallback>
+                    </Avatar>
+                    <Avatar size="lg">
+                      <Avatar.Fallback>LG</Avatar.Fallback>
+                    </Avatar>
                   </div>
                 </div>
 
@@ -486,83 +446,120 @@ export default function ComponentsPreviewPage() {
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Colors</p>
                   <div className="flex flex-wrap items-center gap-4">
-                    <Avatar color="default" name="DF" />
-                    <Avatar color="primary" name="PR" />
-                    <Avatar color="secondary" name="SE" />
-                    <Avatar color="success" name="SU" />
-                    <Avatar color="warning" name="WA" />
-                    <Avatar color="danger" name="DA" />
+                    <Avatar>
+                      <Avatar.Fallback>DF</Avatar.Fallback>
+                    </Avatar>
+                    <Avatar className="bg-accent">
+                      <Avatar.Fallback>PR</Avatar.Fallback>
+                    </Avatar>
+                    <Avatar className="bg-secondary">
+                      <Avatar.Fallback>SE</Avatar.Fallback>
+                    </Avatar>
+                    <Avatar className="bg-success">
+                      <Avatar.Fallback>SU</Avatar.Fallback>
+                    </Avatar>
+                    <Avatar className="bg-warning">
+                      <Avatar.Fallback>WA</Avatar.Fallback>
+                    </Avatar>
+                    <Avatar className="bg-danger">
+                      <Avatar.Fallback>DA</Avatar.Fallback>
+                    </Avatar>
                   </div>
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Alerts */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Alerts</p>
                   <p className="text-default-500 text-sm">
                     Status messages and notifications
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-4">
-                <Alert color="default" title="Default Alert">
-                  This is a neutral informational message.
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-4">
+                <Alert status="default">
+                  <Alert.Content>
+                    <Alert.Title>Default Alert</Alert.Title>
+                    <Alert.Description>
+                      This is a neutral informational message.
+                    </Alert.Description>
+                  </Alert.Content>
                 </Alert>
-                <Alert color="primary" title="Primary Alert">
-                  Highlighted information for the user.
+                <Alert status="accent">
+                  <Alert.Content>
+                    <Alert.Title>Primary Alert</Alert.Title>
+                    <Alert.Description>
+                      Highlighted information for the user.
+                    </Alert.Description>
+                  </Alert.Content>
                 </Alert>
-                <Alert color="success" title="Success">
-                  Operation completed successfully.
+                <Alert status="success">
+                  <Alert.Content>
+                    <Alert.Title>Success</Alert.Title>
+                    <Alert.Description>
+                      Operation completed successfully.
+                    </Alert.Description>
+                  </Alert.Content>
                 </Alert>
-                <Alert color="warning" title="Warning">
-                  Market volatility is higher than usual.
+                <Alert status="warning">
+                  <Alert.Content>
+                    <Alert.Title>Warning</Alert.Title>
+                    <Alert.Description>
+                      Market volatility is higher than usual.
+                    </Alert.Description>
+                  </Alert.Content>
                 </Alert>
-                <Alert color="danger" title="Error">
-                  Failed to fetch data. Please try again.
+                <Alert status="danger">
+                  <Alert.Content>
+                    <Alert.Title>Error</Alert.Title>
+                    <Alert.Description>
+                      Failed to fetch data. Please try again.
+                    </Alert.Description>
+                  </Alert.Content>
                 </Alert>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Form Controls */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Form Controls</p>
                   <p className="text-default-500 text-sm">
                     Input fields, selects, and autocomplete
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-6">
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-6">
                 {/* Input variants */}
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Input Variants</p>
                   <div className="grid gap-4 md:grid-cols-2">
-                    <Input
-                      label="Flat"
-                      placeholder="Enter value"
-                      variant="flat"
-                      value={inputValue}
-                      onValueChange={setInputValue}
-                    />
-                    <Input
-                      label="Bordered"
-                      placeholder="Enter value"
-                      variant="bordered"
-                    />
-                    <Input
-                      label="Underlined"
-                      placeholder="Enter value"
-                      variant="underlined"
-                    />
-                    <Input
-                      label="Faded"
-                      placeholder="Enter value"
-                      variant="faded"
-                    />
+                    <div className="flex flex-col gap-1">
+                      <Label>Primary</Label>
+                      <InputGroup variant="primary">
+                        <InputGroup.Input
+                          placeholder="Enter value"
+                          value={inputValue}
+                          onChange={(e) => setInputValue(e.target.value)}
+                        />
+                      </InputGroup>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <Label>Secondary</Label>
+                      <InputGroup variant="secondary">
+                        <InputGroup.Input placeholder="Enter value" />
+                      </InputGroup>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <Label>Default</Label>
+                      <InputGroup>
+                        <InputGroup.Input placeholder="Enter value" />
+                      </InputGroup>
+                    </div>
                   </div>
                 </div>
 
@@ -570,59 +567,94 @@ export default function ComponentsPreviewPage() {
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Select</p>
                   <Select
-                    label="COE Category"
-                    placeholder="Select a category"
-                    selectedKeys={selectedMake ? [selectedMake] : []}
-                    onSelectionChange={(keys) =>
-                      setSelectedMake(Array.from(keys)[0] as string)
+                    aria-label="COE Category"
+                    selectedKey={selectedMake || null}
+                    onSelectionChange={(key) =>
+                      setSelectedMake(key ? String(key) : "")
                     }
                   >
-                    {coeCategories.map((cat) => (
-                      <SelectItem key={cat.key}>{cat.label}</SelectItem>
-                    ))}
+                    <Select.Trigger>
+                      <Select.Value>
+                        {selectedMake
+                          ? (coeCategories.find((c) => c.key === selectedMake)
+                              ?.label ?? "Select a category")
+                          : "Select a category"}
+                      </Select.Value>
+                    </Select.Trigger>
+                    <Select.Popover>
+                      <ListBox>
+                        {coeCategories.map((cat) => (
+                          <ListBox.Item key={cat.key} id={cat.key}>
+                            {cat.label}
+                          </ListBox.Item>
+                        ))}
+                      </ListBox>
+                    </Select.Popover>
                   </Select>
                 </div>
 
-                {/* Autocomplete */}
+                {/* ComboBox */}
                 <div className="flex flex-col gap-2">
-                  <p className="font-medium text-sm">Autocomplete</p>
-                  <Autocomplete
-                    label="Car Make"
-                    placeholder="Search for a make"
-                  >
-                    <AutocompleteSection title="Popular Makes">
-                      {carMakes.map((make) => (
-                        <AutocompleteItem key={make.key}>
-                          {make.label}
-                        </AutocompleteItem>
-                      ))}
-                    </AutocompleteSection>
-                  </Autocomplete>
+                  <p className="font-medium text-sm">ComboBox</p>
+                  <ComboBox>
+                    <Label className="sr-only">Car Make</Label>
+                    <ComboBox.InputGroup>
+                      <Input placeholder="Search for a make" />
+                    </ComboBox.InputGroup>
+                    <ComboBox.Popover>
+                      <ListBox>
+                        {carMakes.map((make) => (
+                          <ListBox.Item key={make.key} textValue={make.label}>
+                            {make.label}
+                          </ListBox.Item>
+                        ))}
+                      </ListBox>
+                    </ComboBox.Popover>
+                  </ComboBox>
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Progress */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Progress</p>
                   <p className="text-default-500 text-sm">
                     Progress bars and indicators
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-4">
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-4">
                 {/* Colors */}
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Colors</p>
                   <div className="flex flex-col gap-3">
-                    <Progress color="default" value={60} />
-                    <Progress color="primary" value={60} />
-                    <Progress color="secondary" value={60} />
-                    <Progress color="success" value={60} />
-                    <Progress color="warning" value={60} />
-                    <Progress color="danger" value={60} />
+                    <ProgressBar color="default" value={60}>
+                      <ProgressBar.Track>
+                        <ProgressBar.Fill />
+                      </ProgressBar.Track>
+                    </ProgressBar>
+                    <ProgressBar color="accent" value={60}>
+                      <ProgressBar.Track>
+                        <ProgressBar.Fill />
+                      </ProgressBar.Track>
+                    </ProgressBar>
+                    <ProgressBar color="success" value={60}>
+                      <ProgressBar.Track>
+                        <ProgressBar.Fill />
+                      </ProgressBar.Track>
+                    </ProgressBar>
+                    <ProgressBar color="warning" value={60}>
+                      <ProgressBar.Track>
+                        <ProgressBar.Fill />
+                      </ProgressBar.Track>
+                    </ProgressBar>
+                    <ProgressBar color="danger" value={60}>
+                      <ProgressBar.Track>
+                        <ProgressBar.Fill />
+                      </ProgressBar.Track>
+                    </ProgressBar>
                   </div>
                 </div>
 
@@ -630,31 +662,47 @@ export default function ComponentsPreviewPage() {
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Sizes</p>
                   <div className="flex flex-col gap-3">
-                    <Progress color="primary" size="sm" value={60} />
-                    <Progress color="primary" size="md" value={60} />
-                    <Progress color="primary" size="lg" value={60} />
+                    <ProgressBar color="accent" size="sm" value={60}>
+                      <ProgressBar.Track>
+                        <ProgressBar.Fill />
+                      </ProgressBar.Track>
+                    </ProgressBar>
+                    <ProgressBar color="accent" size="md" value={60}>
+                      <ProgressBar.Track>
+                        <ProgressBar.Fill />
+                      </ProgressBar.Track>
+                    </ProgressBar>
+                    <ProgressBar color="accent" size="lg" value={60}>
+                      <ProgressBar.Track>
+                        <ProgressBar.Fill />
+                      </ProgressBar.Track>
+                    </ProgressBar>
                   </div>
                 </div>
 
                 {/* Indeterminate */}
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-sm">Indeterminate</p>
-                  <Progress color="primary" isIndeterminate />
+                  <ProgressBar color="accent" isIndeterminate>
+                    <ProgressBar.Track>
+                      <ProgressBar.Fill />
+                    </ProgressBar.Track>
+                  </ProgressBar>
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Skeleton */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Skeleton</p>
                   <p className="text-default-500 text-sm">
                     Loading placeholders
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-4">
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">
                   <Skeleton className="size-12 rounded-full" />
                   <div className="flex flex-1 flex-col gap-2">
@@ -663,105 +711,118 @@ export default function ComponentsPreviewPage() {
                   </div>
                 </div>
                 <Skeleton className="h-24 w-full rounded-lg" />
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Links */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Links</p>
                   <p className="text-default-500 text-sm">
                     Navigation and anchor elements
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody>
+              </Card.Header>
+              <Card.Content>
                 <div className="flex flex-wrap items-center gap-6">
-                  <Link href="#" underline="hover">
+                  <Link href="#" className="hover:underline">
                     Hover underline
                   </Link>
-                  <Link href="#" underline="always">
+                  <Link href="#" className="underline">
                     Always underline
                   </Link>
-                  <Link href="#" underline="none">
+                  <Link href="#" className="no-underline">
                     No underline
                   </Link>
                   <Link href="#" isDisabled>
                     Disabled
                   </Link>
-                  <Link href="#" isExternal>
+                  <Link href="#" target="_blank" rel="noopener noreferrer">
                     External link
                   </Link>
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Divider */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Divider</p>
                   <p className="text-default-500 text-sm">Visual separators</p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-4">
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-4">
                 <div className="flex flex-col gap-4">
                   <p className="text-sm">Content above</p>
-                  <Divider />
+                  <Separator />
                   <p className="text-sm">Content below</p>
                 </div>
                 <div className="flex h-8 items-center gap-4">
                   <span className="text-sm">Item 1</span>
-                  <Divider orientation="vertical" />
+                  <Separator orientation="vertical" />
                   <span className="text-sm">Item 2</span>
-                  <Divider orientation="vertical" />
+                  <Separator orientation="vertical" />
                   <span className="text-sm">Item 3</span>
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Tooltip */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Tooltip</p>
                   <p className="text-default-500 text-sm">
                     Helpful hints on hover
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody>
+              </Card.Header>
+              <Card.Content>
                 <div className="flex flex-wrap gap-4">
-                  <Tooltip content="Default tooltip">
-                    <Button variant="bordered">Hover me</Button>
+                  <Tooltip>
+                    <Tooltip.Trigger>
+                      <Button variant="secondary">Hover me</Button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content>Default tooltip</Tooltip.Content>
                   </Tooltip>
-                  <Tooltip content="Top placement" placement="top">
-                    <Button variant="bordered">Top</Button>
+                  <Tooltip>
+                    <Tooltip.Trigger>
+                      <Button variant="secondary">Top</Button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content placement="top">
+                      Top placement
+                    </Tooltip.Content>
                   </Tooltip>
-                  <Tooltip content="Bottom placement" placement="bottom">
-                    <Button variant="bordered">Bottom</Button>
+                  <Tooltip>
+                    <Tooltip.Trigger>
+                      <Button variant="secondary">Bottom</Button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content placement="bottom">
+                      Bottom placement
+                    </Tooltip.Content>
                   </Tooltip>
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Popover */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Popover</p>
                   <p className="text-default-500 text-sm">
                     Rich content overlays
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody>
-                <Popover placement="bottom">
-                  <PopoverTrigger>
-                    <Button variant="bordered">Open Popover</Button>
-                  </PopoverTrigger>
-                  <PopoverContent>
+              </Card.Header>
+              <Card.Content>
+                <Popover>
+                  <Popover.Trigger>
+                    <Button variant="secondary">Open Popover</Button>
+                  </Popover.Trigger>
+                  <Popover.Content placement="bottom">
                     <div className="flex flex-col gap-2 p-4">
                       <p className="font-medium">COE Details</p>
                       <div className="flex flex-col gap-1 text-sm">
@@ -779,135 +840,143 @@ export default function ComponentsPreviewPage() {
                         </div>
                       </div>
                     </div>
-                  </PopoverContent>
+                  </Popover.Content>
                 </Popover>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Drawer */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Drawer</p>
                   <p className="text-default-500 text-sm">Slide-out panels</p>
                 </div>
-              </CardHeader>
-              <CardBody>
-                <Button variant="bordered" onPress={drawerDisclosure.onOpen}>
+              </Card.Header>
+              <Card.Content>
+                <Button variant="secondary" onPress={drawerState.open}>
                   Open Drawer
                 </Button>
-                <Drawer
-                  isOpen={drawerDisclosure.isOpen}
-                  onOpenChange={drawerDisclosure.onOpenChange}
-                  placement="right"
-                >
-                  <DrawerContent>
-                    <DrawerHeader>Drawer Title</DrawerHeader>
-                    <DrawerBody>
-                      <p className="text-default-600">
-                        This is a drawer panel that slides in from the side.
-                      </p>
-                    </DrawerBody>
-                  </DrawerContent>
+                <Drawer state={drawerState}>
+                  <Drawer.Backdrop>
+                    <Drawer.Content placement="right">
+                      <Drawer.Dialog>
+                        <Drawer.Header>Drawer Title</Drawer.Header>
+                        <Drawer.Body>
+                          <p className="text-default-600">
+                            This is a drawer panel that slides in from the side.
+                          </p>
+                        </Drawer.Body>
+                      </Drawer.Dialog>
+                    </Drawer.Content>
+                  </Drawer.Backdrop>
                 </Drawer>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Accordion */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Accordion</p>
                   <p className="text-default-500 text-sm">
                     Collapsible content sections
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody>
+              </Card.Header>
+              <Card.Content>
                 <Accordion>
-                  <AccordionItem key="1" title="Category A">
-                    <p className="text-default-600 text-sm">
-                      Cars up to 1600cc and 97kW. Most popular category for
-                      small cars.
-                    </p>
-                  </AccordionItem>
-                  <AccordionItem key="2" title="Category B">
-                    <p className="text-default-600 text-sm">
-                      Cars above 1600cc or 97kW. For larger vehicles and luxury
-                      cars.
-                    </p>
-                  </AccordionItem>
-                  <AccordionItem key="3" title="Category E">
-                    <p className="text-default-600 text-sm">
-                      Open category - can be used for any vehicle type.
-                    </p>
-                  </AccordionItem>
+                  <Accordion.Item id="1">
+                    <Accordion.Heading>
+                      <Accordion.Trigger>Category A</Accordion.Trigger>
+                    </Accordion.Heading>
+                    <Accordion.Panel>
+                      <p className="text-default-600 text-sm">
+                        Cars up to 1600cc and 97kW. Most popular category for
+                        small cars.
+                      </p>
+                    </Accordion.Panel>
+                  </Accordion.Item>
+                  <Accordion.Item id="2">
+                    <Accordion.Heading>
+                      <Accordion.Trigger>Category B</Accordion.Trigger>
+                    </Accordion.Heading>
+                    <Accordion.Panel>
+                      <p className="text-default-600 text-sm">
+                        Cars above 1600cc or 97kW. For larger vehicles and
+                        luxury cars.
+                      </p>
+                    </Accordion.Panel>
+                  </Accordion.Item>
+                  <Accordion.Item id="3">
+                    <Accordion.Heading>
+                      <Accordion.Trigger>Category E</Accordion.Trigger>
+                    </Accordion.Heading>
+                    <Accordion.Panel>
+                      <p className="text-default-600 text-sm">
+                        Open category - can be used for any vehicle type.
+                      </p>
+                    </Accordion.Panel>
+                  </Accordion.Item>
                 </Accordion>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Tabs (nested demo) */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Tabs</p>
                   <p className="text-default-500 text-sm">Tab variants</p>
                 </div>
-              </CardHeader>
-              <CardBody className="flex flex-col gap-4">
+              </Card.Header>
+              <Card.Content className="flex flex-col gap-4">
                 {/* Variants */}
                 <div className="flex flex-col gap-2">
-                  <p className="font-medium text-sm">Solid</p>
-                  <Tabs variant="solid" color="primary">
-                    <Tab key="cars" title="Cars" />
-                    <Tab key="coe" title="COE" />
-                    <Tab key="deregistrations" title="Deregistrations" />
+                  <p className="font-medium text-sm">Primary</p>
+                  <Tabs variant="primary">
+                    <Tabs.ListContainer>
+                      <Tabs.List>
+                        <Tabs.Tab id="cars-primary">Cars</Tabs.Tab>
+                        <Tabs.Tab id="coe-primary">COE</Tabs.Tab>
+                        <Tabs.Tab id="dereg-primary">Deregistrations</Tabs.Tab>
+                      </Tabs.List>
+                    </Tabs.ListContainer>
                   </Tabs>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <p className="font-medium text-sm">Bordered</p>
-                  <Tabs variant="bordered" color="primary">
-                    <Tab key="cars" title="Cars" />
-                    <Tab key="coe" title="COE" />
-                    <Tab key="deregistrations" title="Deregistrations" />
+                  <p className="font-medium text-sm">Secondary</p>
+                  <Tabs variant="secondary">
+                    <Tabs.ListContainer>
+                      <Tabs.List>
+                        <Tabs.Tab id="cars-secondary">Cars</Tabs.Tab>
+                        <Tabs.Tab id="coe-secondary">COE</Tabs.Tab>
+                        <Tabs.Tab id="dereg-secondary">
+                          Deregistrations
+                        </Tabs.Tab>
+                      </Tabs.List>
+                    </Tabs.ListContainer>
                   </Tabs>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <p className="font-medium text-sm">Light</p>
-                  <Tabs variant="light" color="primary">
-                    <Tab key="cars" title="Cars" />
-                    <Tab key="coe" title="COE" />
-                    <Tab key="deregistrations" title="Deregistrations" />
-                  </Tabs>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <p className="font-medium text-sm">Underlined</p>
-                  <Tabs variant="underlined" color="primary">
-                    <Tab key="cars" title="Cars" />
-                    <Tab key="coe" title="COE" />
-                    <Tab key="deregistrations" title="Deregistrations" />
-                  </Tabs>
-                </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Toast */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Toast</p>
                   <p className="text-default-500 text-sm">
                     Notification messages
                   </p>
                 </div>
-              </CardHeader>
-              <CardBody>
+              </Card.Header>
+              <Card.Content>
                 <div className="flex flex-wrap gap-2">
                   <Button
-                    color="default"
+                    variant="secondary"
                     onPress={() =>
-                      addToast({
-                        title: "Default",
+                      toast("Default", {
                         description: "This is a default toast",
                       })
                     }
@@ -915,104 +984,98 @@ export default function ComponentsPreviewPage() {
                     Default Toast
                   </Button>
                   <Button
-                    color="success"
+                    variant="primary"
                     onPress={() =>
-                      addToast({
-                        title: "Success",
+                      toast.success("Success", {
                         description: "Operation completed successfully",
-                        color: "success",
                       })
                     }
                   >
                     Success Toast
                   </Button>
                   <Button
-                    color="warning"
+                    variant="outline"
                     onPress={() =>
-                      addToast({
-                        title: "Warning",
+                      toast.warning("Warning", {
                         description: "Please review before proceeding",
-                        color: "warning",
                       })
                     }
                   >
                     Warning Toast
                   </Button>
                   <Button
-                    color="danger"
+                    variant="danger"
                     onPress={() =>
-                      addToast({
-                        title: "Error",
+                      toast.danger("Error", {
                         description: "Something went wrong",
-                        color: "danger",
                       })
                     }
                   >
                     Danger Toast
                   </Button>
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
 
             {/* Card Examples */}
             <Card>
-              <CardHeader>
+              <Card.Header>
                 <div className="flex flex-col gap-1">
                   <p className="font-medium">Card Examples</p>
                   <p className="text-default-500 text-sm">Card compositions</p>
                 </div>
-              </CardHeader>
-              <CardBody>
+              </Card.Header>
+              <Card.Content>
                 <div className="grid gap-4 md:grid-cols-3">
                   {/* Basic Card */}
                   <Card>
-                    <CardHeader>
+                    <Card.Header>
                       <div className="flex flex-col gap-1">
                         <p className="font-medium">Basic Card</p>
                         <p className="text-default-500 text-sm">Simple card</p>
                       </div>
-                    </CardHeader>
-                    <CardFooter>
-                      <Button size="sm" color="primary">
+                    </Card.Header>
+                    <Card.Footer>
+                      <Button size="sm" variant="primary">
                         Action
                       </Button>
-                    </CardFooter>
+                    </Card.Footer>
                   </Card>
 
                   {/* Metric Card */}
                   <Card>
-                    <CardHeader>
+                    <Card.Header>
                       <div className="flex flex-col gap-1">
                         <p className="text-default-500 text-sm">COE Premium</p>
                         <p className="font-bold text-2xl">$106,000</p>
                       </div>
-                    </CardHeader>
-                    <CardFooter>
+                    </Card.Header>
+                    <Card.Footer>
                       <Chip color="success" size="sm">
                         +2.5%
                       </Chip>
-                    </CardFooter>
+                    </Card.Footer>
                   </Card>
 
                   {/* Pressable Card */}
-                  <Card isPressable>
-                    <CardHeader>
+                  <Card>
+                    <Card.Header>
                       <div className="flex flex-col gap-1">
                         <p className="font-medium">Pressable Card</p>
                         <p className="text-default-500 text-sm">Click me</p>
                       </div>
-                    </CardHeader>
-                    <CardBody>
+                    </Card.Header>
+                    <Card.Content>
                       <p className="text-default-600 text-sm">
                         This card is interactive
                       </p>
-                    </CardBody>
+                    </Card.Content>
                   </Card>
                 </div>
-              </CardBody>
+              </Card.Content>
             </Card>
           </div>
-        </Tab>
+        </Tabs.Panel>
       </Tabs>
     </div>
   );

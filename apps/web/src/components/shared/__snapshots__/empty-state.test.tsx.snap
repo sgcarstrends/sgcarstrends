@@ -49,17 +49,15 @@ exports[`EmptyState > should render default title and description 1`] = `
       class="flex items-center gap-4"
     >
       <a
-        class="tap-highlight-transparent no-underline hover:opacity-hover active:opacity-disabled z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 border-medium px-4 min-w-20 h-10 text-small gap-2 [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-transparent border-default text-foreground data-[hover=true]:opacity-hover rounded-full"
+        class="link inline-flex items-center gap-2 rounded-full border border-default-300 bg-default-100 px-4 py-2 font-medium text-sm text-foreground"
+        data-rac=""
         data-react-aria-pressable="true"
         href="/"
-        role="button"
         tabindex="0"
       >
         <svg
-          aria-hidden="true"
           class="lucide lucide-house size-4"
           fill="none"
-          focusable="false"
           height="24"
           stroke="currentColor"
           stroke-linecap="round"
@@ -79,16 +77,17 @@ exports[`EmptyState > should render default title and description 1`] = `
         Go Home
       </a>
       <button
-        class="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transform-gpu data-[pressed=true]:scale-[0.97] cursor-pointer outline-solid outline-transparent data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 border-medium px-4 min-w-20 h-10 text-small gap-2 [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-transparent border-default text-foreground data-[hover=true]:opacity-hover rounded-full"
+        class="button button--md button--secondary rounded-full"
+        data-rac=""
         data-react-aria-pressable="true"
+        data-slot="button"
+        id="react-aria-_r_0_"
         tabindex="0"
         type="button"
       >
         <svg
-          aria-hidden="true"
           class="lucide lucide-rotate-ccw size-4"
           fill="none"
-          focusable="false"
           height="24"
           stroke="currentColor"
           stroke-linecap="round"

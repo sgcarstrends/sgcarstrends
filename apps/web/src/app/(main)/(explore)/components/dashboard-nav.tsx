@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@heroui/button";
+import { Button } from "@heroui/react";
 import { cn } from "@sgcarstrends/ui/lib/utils";
 import { NewChip } from "@web/components/shared/chips";
 import { navigationSections } from "@web/config/navigation";
@@ -32,21 +32,20 @@ export function DashboardNav() {
           {section.children.map(({ title, url, icon: Icon, badge }) => {
             const isActive = activeKey === url;
             return (
-              <Button
-                key={url}
-                as={Link}
-                href={url}
-                className={cn(
-                  "h-8 shrink-0 rounded-full px-3 font-medium text-sm transition-all duration-200",
-                  isActive
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-transparent text-default-600 hover:bg-default-100",
-                )}
-                startContent={Icon && <Icon className="size-4" />}
-                endContent={badge && <NewChip />}
-              >
-                {title}
-              </Button>
+              <Link key={url} href={url}>
+                <Button
+                  className={cn(
+                    "h-8 shrink-0 rounded-full px-3 font-medium text-sm transition-all duration-200",
+                    isActive
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "bg-transparent text-default-600 hover:bg-default-100",
+                  )}
+                >
+                  {Icon && <Icon className="size-4" />}
+                  {title}
+                  {badge && <NewChip />}
+                </Button>
+              </Link>
             );
           })}
         </div>

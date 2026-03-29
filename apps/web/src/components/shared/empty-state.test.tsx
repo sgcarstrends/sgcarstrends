@@ -33,9 +33,7 @@ describe("EmptyState", () => {
   it("should render default action buttons", () => {
     render(<EmptyState />);
 
-    expect(
-      screen.getByRole("button", { name: /go home/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /go home/i })).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /go back/i }),
     ).toBeInTheDocument();
@@ -44,8 +42,8 @@ describe("EmptyState", () => {
   it("should render Go Home as a link to /", () => {
     render(<EmptyState />);
 
-    const homeButton = screen.getByRole("button", { name: /go home/i });
-    expect(homeButton.closest("a")).toHaveAttribute("href", "/");
+    const homeLink = screen.getByRole("link", { name: /go home/i });
+    expect(homeLink).toHaveAttribute("href", "/");
   });
 
   it("should render custom title and description", () => {
@@ -75,7 +73,7 @@ describe("EmptyState", () => {
       screen.getByRole("button", { name: /custom action/i }),
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("button", { name: /go home/i }),
+      screen.queryByRole("link", { name: /go home/i }),
     ).not.toBeInTheDocument();
   });
 
@@ -83,7 +81,7 @@ describe("EmptyState", () => {
     render(<EmptyState showDefaultActions={false} />);
 
     expect(
-      screen.queryByRole("button", { name: /go home/i }),
+      screen.queryByRole("link", { name: /go home/i }),
     ).not.toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: /go back/i }),

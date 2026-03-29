@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar } from "@heroui/avatar";
+import { Avatar } from "@heroui/react";
 import { cn } from "@sgcarstrends/ui/lib/utils";
 import Typography from "@web/components/typography";
 import { fadeInUpVariants } from "@web/config/animations";
@@ -56,19 +56,17 @@ const TimelineItemComponent = ({ item, index }: TimelineItemComponentProps) => {
       {/* Timeline line and dot */}
       <div className="relative flex flex-col items-center">
         <Avatar
-          name={item.date}
-          classNames={{
-            base: cn(
-              "relative z-10 h-12 w-12 border-2 bg-card transition-colors",
-              item.highlight
-                ? "border-primary text-primary"
-                : "border-default-300 text-default-600 group-hover:border-primary/50",
-            ),
-            name: "font-medium text-sm",
-          }}
-          showFallback
-          getInitials={() => item.date}
-        />
+          className={cn(
+            "relative z-10 h-12 w-12 border-2 bg-card transition-colors",
+            item.highlight
+              ? "border-primary text-primary"
+              : "border-default-300 text-default-600 group-hover:border-primary/50",
+          )}
+        >
+          <Avatar.Fallback className="font-medium text-sm">
+            {item.date}
+          </Avatar.Fallback>
+        </Avatar>
         {index < timelineData.length - 1 && (
           <div className="absolute top-12 h-full w-0.5 bg-gradient-to-b from-default-300 to-default-200" />
         )}

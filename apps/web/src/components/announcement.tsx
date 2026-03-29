@@ -30,6 +30,10 @@ export function Announcement() {
   }
 
   return (
-    <Alert radius="none" variant="solid" title={activeAnnouncement.content} />
+    <Alert>
+      <Alert.Content>
+        <Alert.Title>{activeAnnouncement.content}</Alert.Title>
+      </Alert.Content>
+    </Alert>
   );
 }

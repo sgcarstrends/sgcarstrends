@@ -1,29 +1,33 @@
 import { render, screen } from "@testing-library/react";
 import { Infobox } from "./infobox";
 
-vi.mock("@heroui/alert", () => ({
-  Alert: ({
-    title,
-    description,
-    color,
-    variant,
-    className,
-  }: {
-    title: string;
-    description: React.ReactNode;
-    color: string;
-    variant: string;
-    className?: string;
-  }) => (
-    <section
-      data-testid="alert"
-      data-color={color}
-      data-variant={variant}
-      className={className}
-    >
-      <h3>{title}</h3>
-      <div data-testid="alert-description">{description}</div>
-    </section>
+vi.mock("@heroui/react", () => ({
+  Alert: Object.assign(
+    ({
+      status,
+      className,
+      children,
+    }: {
+      status?: string;
+      className?: string;
+      children?: React.ReactNode;
+    }) => (
+      <section data-testid="alert" data-status={status} className={className}>
+        {children}
+      </section>
+    ),
+    {
+      Indicator: () => <span data-testid="alert-indicator" />,
+      Content: ({ children }: { children?: React.ReactNode }) => (
+        <div data-testid="alert-content">{children}</div>
+      ),
+      Title: ({ children }: { children?: React.ReactNode }) => (
+        <h3 data-testid="alert-title">{children}</h3>
+      ),
+      Description: ({ children }: { children?: React.ReactNode }) => (
+        <div data-testid="alert-description">{children}</div>
+      ),
+    },
   ),
 }));
 
@@ -37,7 +41,7 @@ describe("Infobox", () => {
     );
 
     expect(container).toMatchSnapshot();
-    expect(screen.getByRole("heading", { name: "What is COE?" })).toBeVisible();
+    expect(screen.getByText("What is COE?")).toBeVisible();
     expect(screen.getByText("Certificate of Entitlement")).toBeVisible();
   });
 
@@ -45,8 +49,7 @@ describe("Infobox", () => {
     render(<Infobox title="Info" content="A short note" />);
 
     const alert = screen.getByTestId("alert");
-    expect(alert).toHaveAttribute("data-color", "primary");
-    expect(alert).toHaveAttribute("data-variant", "bordered");
+    expect(alert).toHaveAttribute("data-status", "accent");
     expect(alert).toHaveClass("px-4", "py-3");
   });
 });
