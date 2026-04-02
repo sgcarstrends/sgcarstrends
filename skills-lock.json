@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "skills": {
+    "ai-seo": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "5f7ce5ccdb2b0dce5e1ea7f3ed8bf17070b790865e91725ca8908e6ec829e164"
+    },
+    "analytics-tracking": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "1ad3893d31e5df78cb4b4e16801f49acbdf82daed5f775748859ca7dc638d6d0"
+    },
+    "content-strategy": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "be124f3733b037fb8d859f275454ecd1c590759ef9ab184bea35ba1a0a38e14c"
+    },
+    "heroui-react": {
+      "source": "heroui-inc/heroui",
+      "sourceType": "github",
+      "computedHash": "692cc86ded65b603961fa1bc5685670e2976a3a6e1459187c210b415e8dfeb1e"
+    },
+    "programmatic-seo": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "40b8fe29a6c9cb0606e6fa77aff227cf275e3808adf66e5ef69e02dcf60a7303"
+    },
+    "schema-markup": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "6319ded25235292939050de1c51a98c6633d79f793396506eda2fa8265343758"
+    },
+    "sentry-fix-issues": {
+      "source": "getsentry/sentry-agent-skills",
+      "sourceType": "github",
+      "computedHash": "5673b169d2a0eb6e4651a57eba4263d1c04dce10e2955c97902f1e9f80109a52"
+    },
+    "sentry-nextjs-sdk": {
+      "source": "getsentry/sentry-agent-skills",
+      "sourceType": "github",
+      "computedHash": "6bbb2bce22fa8fc3e0385dbe06fe5a26770b2f91f66ad8e78d80c1df3d4b2e05"
+    },
+    "sentry-pr-code-review": {
+      "source": "getsentry/sentry-agent-skills",
+      "sourceType": "github",
+      "computedHash": "2df9d5798ce8b08641b4119c8ef8816bef293f87825adf09a5d67176212a4c7a"
+    },
+    "seo-audit": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "1eef04180a5278a6869fab117c75fa2acf512bfda0a4b16569409b88b7bcb343"
+    }
+  }
+}
