@@ -8,6 +8,7 @@ import {
   staggerItemVariants,
 } from "@web/config/animations";
 import { motion } from "framer-motion";
+import posthog from "posthog-js";
 import { useMemo, useState } from "react";
 
 interface PostCounts {
@@ -90,7 +91,12 @@ export function BlogListClient({ posts, counts, query }: BlogListClientProps) {
       <Tabs
         selectedKey={selectedTab}
         variant="underlined"
-        onSelectionChange={(key) => setSelectedTab(key as string)}
+        onSelectionChange={(key) => {
+          posthog.capture("blog_category_tab_changed", {
+            category: key as string,
+          });
+          setSelectedTab(key as string);
+        }}
         classNames={{
           tabList: "gap-6",
           tab: "px-0 h-10",

@@ -34,3 +34,4 @@ sst-env.d.ts
 
 # Changesets
 .changeset/pre.json
+.env.local

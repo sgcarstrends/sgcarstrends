@@ -44,12 +44,21 @@ const nextConfig: NextConfig = {
     turbopackFileSystemCacheForBuild: true,
     typedEnv: true,
   },
+  skipTrailingSlashRedirect: true,
   async rewrites() {
     return [
       {
         source: "/:path*",
         has: [{ type: "host", value: "api.sgcarstrends.com" }],
         destination: "/api/v1/:path*",
+      },
+      {
+        source: "/ingest/static/:path*",
+        destination: "https://eu-assets.i.posthog.com/static/:path*",
+      },
+      {
+        source: "/ingest/:path*",
+        destination: "https://eu.i.posthog.com/:path*",
       },
     ];
   },

@@ -22,7 +22,6 @@
     "vercel-build": "turbo run @sgcarstrends/database#migrate && next build"
   },
   "dependencies": {
-    "@sgcarstrends/theme": "workspace:*",
     "@heroui/accordion": "2.2.26",
     "@heroui/alert": "2.2.29",
     "@heroui/autocomplete": "2.3.31",
@@ -58,6 +57,7 @@
     "@ruchernchong/number-format": "2.3.5",
     "@sgcarstrends/ai": "workspace:*",
     "@sgcarstrends/database": "workspace:*",
+    "@sgcarstrends/theme": "workspace:*",
     "@sgcarstrends/types": "workspace:*",
     "@sgcarstrends/ui": "workspace:*",
     "@sgcarstrends/utils": "workspace:*",
@@ -81,6 +81,7 @@
     "next-mdx-remote": "6.0.0",
     "nuqs": "2.8.5",
     "papaparse": "5.5.3",
+    "posthog-js": "1.364.4",
     "react": "catalog:",
     "react-dom": "catalog:",
     "reading-time": "1.5.0",

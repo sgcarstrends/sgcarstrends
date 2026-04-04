@@ -5,6 +5,7 @@ import { slugify } from "@sgcarstrends/utils";
 import type { Make } from "@web/types";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import posthog from "posthog-js";
 import type { Key } from "react";
 
 interface MakeSearchProps {
@@ -16,6 +17,7 @@ export function MakeSearch({ makes }: MakeSearchProps) {
 
   const handleSelectionChange = (key: Key | null) => {
     if (key) {
+      posthog.capture("car_make_searched", { make: key as string });
       router.push(`/cars/makes/${slugify(key as string)}`);
     }
   };
