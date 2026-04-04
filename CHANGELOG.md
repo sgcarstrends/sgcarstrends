@@ -1,3 +1,10 @@
+## [4.64.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.64.1...v4.64.2) (2026-04-04)
+
+### Bug Fixes
+
+* **web:** mock package version in footer snapshot test ([330dd58](https://github.com/sgcarstrends/sgcarstrends/commit/330dd58e7288cde45303e7fe267a2d5b90f32af0))
+* **web:** provide explicit compare functions and reduce initial value ([828cd87](https://github.com/sgcarstrends/sgcarstrends/commit/828cd87aeaa3a90fd8bffda2dc6dafc6bc15fe08))
+
 ## [4.64.1](https://github.com/sgcarstrends/sgcarstrends/compare/v4.64.0...v4.64.1) (2026-03-25)
 
 ### Bug Fixes
