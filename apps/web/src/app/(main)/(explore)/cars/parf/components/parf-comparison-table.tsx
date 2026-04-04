@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardBody } from "@heroui/card";
 import {
   Table,

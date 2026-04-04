@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar } from "@heroui/avatar";
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";

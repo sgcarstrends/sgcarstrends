@@ -23,7 +23,7 @@ import {
 import { Undo2 } from "lucide-react";
 import type { Metadata } from "next";
 import { cacheLife, cacheTag } from "next/cache";
-import Link from "next/link";
+
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import readingTime from "reading-time";
@@ -245,7 +245,6 @@ export default async function BlogPostPage({ params }: PageProps) {
           <Divider className="my-6" />
           <div className="flex justify-center pb-8">
             <Button
-              as={Link}
               href="/blog"
               color="primary"
               variant="ghost"
