@@ -1,0 +1,38 @@
+name: Lockfile Integrity
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lockfile-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check for lockfile tampering
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          LOCKFILE_CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" -- pnpm-lock.yaml)
+          MANIFEST_CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" -- '**/package.json')
+
+          if [ -n "$LOCKFILE_CHANGED" ] && [ -z "$MANIFEST_CHANGED" ]; then
+            echo "::error::Lockfile was modified without a corresponding package.json change. This may indicate lockfile tampering."
+            echo "If this is intentional (e.g., lockfile maintenance), add a package.json change or open a dedicated maintenance PR."
+            exit 1
+          fi
+
+          echo "Lockfile integrity check passed."
