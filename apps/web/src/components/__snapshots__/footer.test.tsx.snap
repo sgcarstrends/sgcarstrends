@@ -275,7 +275,7 @@ exports[`Footer > should render asynchronous footer content with version informa
             © 
             2026
              SGCarsTrends. All rights reserved. • v
-            4.64.0
+            0.0.0-test
           </p>
           <p
             class="text-default-600 text-sm leading-6"

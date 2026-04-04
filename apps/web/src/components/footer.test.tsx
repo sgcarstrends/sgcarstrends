@@ -2,6 +2,8 @@ import { render } from "@testing-library/react";
 import { Footer } from "@web/components/footer";
 import { afterEach, beforeEach, vi } from "vitest";
 
+vi.mock("../../package.json", () => ({ version: "0.0.0-test" }));
+
 describe("Footer", () => {
   beforeEach(() => {
     vi.useFakeTimers();
