@@ -7,10 +7,24 @@ import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
 import { createPageMetadata } from "@web/lib/metadata";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import type { WebPage, WithContext } from "schema-dts";
 import { AboutParf } from "./components/about-parf";
-import { PARFCalculator } from "./components/parf-calculator";
-import { PARFComparisonTable } from "./components/parf-comparison-table";
+
+// HeroUI v2 collection components (Table, Select) fail during static prerendering
+// due to @react-stately/collections SSR incompatibility. Dynamic import skips SSR.
+const PARFCalculator = dynamic(
+  () =>
+    import("./components/parf-calculator").then((mod) => mod.PARFCalculator),
+  { ssr: false },
+);
+const PARFComparisonTable = dynamic(
+  () =>
+    import("./components/parf-comparison-table").then(
+      (mod) => mod.PARFComparisonTable,
+    ),
+  { ssr: false },
+);
 
 const title = "PARF Calculator";
 const description =
