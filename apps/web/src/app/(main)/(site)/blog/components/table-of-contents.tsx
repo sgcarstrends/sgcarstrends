@@ -44,10 +44,12 @@ export function TableOfContents() {
       (entries) => {
         const visibleEntries = entries.filter((entry) => entry.isIntersecting);
         if (visibleEntries.length > 0) {
-          const topEntry = visibleEntries.reduce((prev, current) =>
-            prev.boundingClientRect.top < current.boundingClientRect.top
-              ? prev
-              : current,
+          const topEntry = visibleEntries.reduce(
+            (prev, current) =>
+              prev.boundingClientRect.top < current.boundingClientRect.top
+                ? prev
+                : current,
+            visibleEntries[0],
           );
           setActiveId(topEntry.target.id);
         }

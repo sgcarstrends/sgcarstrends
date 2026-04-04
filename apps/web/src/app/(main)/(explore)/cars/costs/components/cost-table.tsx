@@ -88,12 +88,17 @@ export function CostTable({ data }: CostTableProps) {
   });
 
   const makes = useMemo(
-    () => [...new Set(data.map((item) => item.make))].sort(),
+    () =>
+      [...new Set(data.map((item) => item.make))].sort((a, b) =>
+        a.localeCompare(b),
+      ),
     [data],
   );
   const fuelTypes = useMemo(
     () =>
-      [...new Set(data.map((item) => item.fuelType).filter(Boolean))].sort(),
+      [...new Set(data.map((item) => item.fuelType).filter(Boolean))].sort(
+        (a, b) => a.localeCompare(b),
+      ),
     [data],
   );
 
