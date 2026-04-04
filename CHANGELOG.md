@@ -1,3 +1,9 @@
+## [4.64.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.64.2...v4.64.3) (2026-04-04)
+
+### Bug Fixes
+
+* **web:** fix prerender build failures for HeroUI components ([61a40df](https://github.com/sgcarstrends/sgcarstrends/commit/61a40df10dabeca6c04e580bc0c99dd72eae1cd0))
+
 ## [4.64.2](https://github.com/sgcarstrends/sgcarstrends/compare/v4.64.1...v4.64.2) (2026-04-04)
 
 ### Bug Fixes
