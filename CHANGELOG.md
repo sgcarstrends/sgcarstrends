@@ -1,3 +1,9 @@
+## [4.64.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.64.3...v4.64.4) (2026-04-04)
+
+### Bug Fixes
+
+* **web:** use dynamic import to fix PARF page prerender failure ([2c978cd](https://github.com/sgcarstrends/sgcarstrends/commit/2c978cd86140e31cb5860f5088bf3477a462fd72))
+
 ## [4.64.3](https://github.com/sgcarstrends/sgcarstrends/compare/v4.64.2...v4.64.3) (2026-04-04)
 
 ### Bug Fixes
