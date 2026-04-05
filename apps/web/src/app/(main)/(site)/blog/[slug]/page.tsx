@@ -14,6 +14,7 @@ import { TableOfContents } from "@web/app/(main)/(site)/blog/components/table-of
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
 import { getPostViewCount } from "@web/lib/data/posts";
+import { generateBreadcrumbSchema } from "@web/lib/metadata";
 import {
   getAllPosts,
   getNextPost,
@@ -185,6 +186,16 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <>
       <StructuredData data={structuredData} />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]),
+        }}
+      />
       <ProgressBar />
 
       {/* Full-width content wrapper */}

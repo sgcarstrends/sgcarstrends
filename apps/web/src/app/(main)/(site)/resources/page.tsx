@@ -1,10 +1,17 @@
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import {
+  generateBreadcrumbSchema,
+  generateDefinedTermSetSchema,
+  generateFAQPageSchema,
+} from "@web/lib/metadata";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 import { CtaSection } from "./components/cta-section";
 import { DataSourcesSection } from "./components/data-sources-section";
+import { FAQ_SECTIONS } from "./components/faq-data";
 import { FAQSection } from "./components/faq-section";
+import { GLOSSARY_CATEGORIES } from "./components/glossary-data";
 import { GlossarySection } from "./components/glossary-section";
 import { GuidesSection } from "./components/guides-section";
 import { HeroSection } from "./components/hero-section";
@@ -51,9 +58,25 @@ export default function ResourcesPage() {
     },
   };
 
+  const faqSchema = generateFAQPageSchema(FAQ_SECTIONS);
+  const glossarySchema = generateDefinedTermSetSchema(GLOSSARY_CATEGORIES);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", path: "/" },
+    { name: "Resources", path: "/resources" },
+  ]);
+
   return (
     <>
       <StructuredData data={structuredData} />
+      <StructuredData
+        data={{ "@context": "https://schema.org", ...faqSchema }}
+      />
+      <StructuredData
+        data={{ "@context": "https://schema.org", ...glossarySchema }}
+      />
+      <StructuredData
+        data={{ "@context": "https://schema.org", ...breadcrumbSchema }}
+      />
       <div className="flex flex-col">
         <HeroSection />
         <QuickNavSection />

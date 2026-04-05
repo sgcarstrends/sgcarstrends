@@ -1,7 +1,11 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
+import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { navLinks } from "@web/config/navigation";
-import { createPageMetadata } from "@web/lib/metadata";
+import {
+  createPageMetadata,
+  generateDataCatalogSchema,
+} from "@web/lib/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -15,6 +19,17 @@ export const metadata: Metadata = createPageMetadata({
 export default function Page() {
   return (
     <div className="flex flex-col gap-8">
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateDataCatalogSchema(
+            "Singapore COE Data Catalogue",
+            "Certificate of Entitlement bidding results, premium trends, and PQP rates for Singapore's vehicle quota system.",
+            "/coe",
+            ["coe-results", "coe-premiums", "coe-pqp"],
+          ),
+        }}
+      />
       <div className="flex flex-col gap-2">
         <Typography.H1>COE</Typography.H1>
         <Typography.TextLg>

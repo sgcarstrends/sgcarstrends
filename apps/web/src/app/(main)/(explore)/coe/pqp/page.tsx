@@ -14,7 +14,11 @@ import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
 import { LAST_UPDATED_COE_KEY, SITE_URL } from "@web/config";
-import { createPageMetadata } from "@web/lib/metadata";
+import {
+  createPageMetadata,
+  generateBreadcrumbSchema,
+  generateDatasetSchema,
+} from "@web/lib/metadata";
 import { getPQPOverview } from "@web/queries/coe";
 import type { Pqp } from "@web/types/coe";
 import { fetchMonthsForCOE, getMonthOrLatest } from "@web/utils/dates/months";
@@ -117,6 +121,22 @@ async function PQPRatesContent({
   return (
     <>
       <StructuredData data={structuredData} />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateDatasetSchema("coe-pqp"),
+        }}
+      />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "COE", path: "/coe" },
+            { name: "PQP", path: "/coe/pqp" },
+          ]),
+        }}
+      />
       <AnimatedSection order={1}>
         <Infobox {...PAGE_CONTEXTS.pqp} />
       </AnimatedSection>

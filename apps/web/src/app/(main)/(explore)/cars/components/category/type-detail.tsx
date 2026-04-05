@@ -13,7 +13,10 @@ import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCarsTypePageData } from "@web/lib/cars/page-data";
 import { loadLastUpdated } from "@web/lib/common";
-import { createPageMetadata } from "@web/lib/metadata";
+import {
+  createPageMetadata,
+  generateBreadcrumbSchema,
+} from "@web/lib/metadata";
 import {
   checkFuelTypeIfExist,
   checkVehicleTypeIfExist,
@@ -159,6 +162,23 @@ async function TypeDetailContent({
   return (
     <>
       <StructuredData data={structuredData} />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Cars", path: "/cars" },
+            {
+              name:
+                config.category === "fuel-types"
+                  ? "Fuel Types"
+                  : "Vehicle Types",
+              path: `/cars/${config.category}`,
+            },
+            { name: type, path: `/cars/${config.category}/${type}` },
+          ]),
+        }}
+      />
 
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">

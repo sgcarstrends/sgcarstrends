@@ -15,7 +15,11 @@ import { TrendTable } from "@web/components/tables/coe-results-table";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadResultsPageData } from "@web/lib/coe/page-data";
-import { createPageMetadata } from "@web/lib/metadata";
+import {
+  createPageMetadata,
+  generateBreadcrumbSchema,
+  generateDatasetSchema,
+} from "@web/lib/metadata";
 import { getLatestCoeResults } from "@web/queries/coe";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -115,6 +119,22 @@ async function COEResultsContent({
   return (
     <>
       <StructuredData data={structuredData} />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateDatasetSchema("coe-results"),
+        }}
+      />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "COE", path: "/coe" },
+            { name: "Results", path: "/coe/results" },
+          ]),
+        }}
+      />
       <AnimatedSection order={1}>
         <Infobox {...PAGE_CONTEXTS.coe} />
       </AnimatedSection>

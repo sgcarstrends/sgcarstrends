@@ -16,7 +16,6 @@ import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import type { WebSite, WithContext } from "schema-dts";
 
 export const metadata: Metadata = {
   title: "Singapore Car Registration & COE Trends | Latest Statistics",
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
   },
 };
 
-const structuredData: WithContext<WebSite> = {
+const structuredData = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: SITE_TITLE,
@@ -61,7 +60,15 @@ const structuredData: WithContext<WebSite> = {
     name: SITE_TITLE,
     url: SITE_URL,
   },
-};
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${SITE_URL}/cars/makes?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+} as const;
 
 function SummaryCardSkeleton() {
   return (

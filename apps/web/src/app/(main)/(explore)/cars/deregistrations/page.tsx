@@ -21,7 +21,11 @@ import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { createPageMetadata } from "@web/lib/metadata";
+import {
+  createPageMetadata,
+  generateBreadcrumbSchema,
+  generateDatasetSchema,
+} from "@web/lib/metadata";
 import {
   getDeregistrations,
   getDeregistrationsByCategory,
@@ -240,6 +244,22 @@ async function DeregistrationsContent({
   return (
     <>
       <StructuredData data={structuredData} />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateDatasetSchema("deregistrations"),
+        }}
+      />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Cars", path: "/cars" },
+            { name: "Deregistrations", path: "/cars/deregistrations" },
+          ]),
+        }}
+      />
       <AnimatedSection order={1}>
         <Infobox {...PAGE_CONTEXTS.deregistrations} />
       </AnimatedSection>

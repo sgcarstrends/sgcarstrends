@@ -11,6 +11,7 @@ import { LAST_UPDATED_CARS_KEY } from "@web/config";
 import {
   createPageMetadata,
   createWebPageStructuredData,
+  generateBreadcrumbSchema,
 } from "@web/lib/metadata";
 import { getDistinctMakes } from "@web/queries/cars";
 import { getMakeCoeComparison } from "@web/queries/cars/makes/coe-comparison";
@@ -202,6 +203,17 @@ async function CarMakeContent({
   return (
     <>
       <StructuredData data={structuredData} />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Cars", path: "/cars" },
+            { name: "Makes", path: "/cars/makes" },
+            { name: exactMake, path: `/cars/makes/${make}` },
+          ]),
+        }}
+      />
       <Suspense fallback={<SkeletonCard className="h-[560px] w-full" />}>
         <MakeDetail
           cars={cars}

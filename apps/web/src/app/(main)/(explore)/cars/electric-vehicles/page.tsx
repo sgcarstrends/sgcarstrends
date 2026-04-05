@@ -12,6 +12,10 @@ import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import {
+  generateBreadcrumbSchema,
+  generateDatasetSchema,
+} from "@web/lib/metadata";
+import {
   getEvLatestSummary,
   getEvMakeDetails,
   getEvMarketShare,
@@ -79,6 +83,22 @@ export default async function ElectricVehiclesPage() {
   return (
     <>
       <StructuredData data={structuredData} />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateDatasetSchema("electric-vehicles"),
+        }}
+      />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          ...generateBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Cars", path: "/cars" },
+            { name: "Electric Vehicles", path: "/cars/electric-vehicles" },
+          ]),
+        }}
+      />
       <section className="flex flex-col gap-10">
         <DashboardPageHeader
           title={

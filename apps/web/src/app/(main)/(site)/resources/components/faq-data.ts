@@ -1,41 +1,19 @@
-"use client";
+// Data extracted from faq-section.tsx because "use client" modules
+// don't expose non-component exports to Server Components.
 
-import { Card, CardBody } from "@heroui/card";
-import { Accordion, AccordionItem } from "@heroui/react";
-import Typography from "@web/components/typography";
-import {
-  fadeInUpVariants,
-  staggerContainerVariants,
-  staggerItemVariants,
-} from "@web/config/animations";
-import { motion } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
-import {
-  BarChart3,
-  Car,
-  FileText,
-  Landmark,
-  MessageCircleQuestion,
-  Zap,
-} from "lucide-react";
-
-interface FAQItem {
+export interface FAQItem {
   question: string;
   answer: string;
 }
 
-interface FAQSectionData {
+export interface FAQSectionData {
   title: string;
-  icon: LucideIcon;
-  iconColor: string;
   items: FAQItem[];
 }
 
 export const FAQ_SECTIONS: FAQSectionData[] = [
   {
     title: "Certificate of Entitlement (COE)",
-    icon: Landmark,
-    iconColor: "text-primary",
     items: [
       {
         question: "What is COE in Singapore?",
@@ -66,8 +44,6 @@ export const FAQ_SECTIONS: FAQSectionData[] = [
   },
   {
     title: "Car Registration and Market Trends",
-    icon: Car,
-    iconColor: "text-success",
     items: [
       {
         question: "How often is car registration data updated?",
@@ -88,8 +64,6 @@ export const FAQ_SECTIONS: FAQSectionData[] = [
   },
   {
     title: "Electric and Hybrid Vehicles",
-    icon: Zap,
-    iconColor: "text-warning",
     items: [
       {
         question: "How are electric vehicles categorised for COE?",
@@ -105,8 +79,6 @@ export const FAQ_SECTIONS: FAQSectionData[] = [
   },
   {
     title: "PARF and Vehicle Deregistration",
-    icon: FileText,
-    iconColor: "text-secondary",
     items: [
       {
         question: "What is PARF?",
@@ -127,8 +99,6 @@ export const FAQ_SECTIONS: FAQSectionData[] = [
   },
   {
     title: "Using SG Cars Trends",
-    icon: BarChart3,
-    iconColor: "text-primary",
     items: [
       {
         question: "How can I access historical data?",
@@ -138,87 +108,3 @@ export const FAQ_SECTIONS: FAQSectionData[] = [
     ],
   },
 ];
-
-export function FAQSection() {
-  return (
-    <section id="faq" className="scroll-mt-24 py-20 lg:py-28">
-      <div className="container mx-auto">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          {/* Left column - Sticky header */}
-          <div className="lg:col-span-4">
-            <motion.div
-              className="sticky top-24 flex flex-col gap-6"
-              variants={fadeInUpVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-            >
-              <Typography.Label className="text-primary uppercase tracking-widest">
-                Common Questions
-              </Typography.Label>
-              <Typography.H2 className="lg:text-4xl">
-                Frequently Asked Questions
-              </Typography.H2>
-              <Typography.Text className="text-default-600">
-                Everything you need to know about Singapore&apos;s vehicle
-                market, from COE bidding to PARF rebates.
-              </Typography.Text>
-            </motion.div>
-          </div>
-
-          {/* Right column - FAQ categories */}
-          <div className="lg:col-span-8">
-            <motion.div
-              className="flex flex-col gap-8"
-              variants={staggerContainerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
-            >
-              {FAQ_SECTIONS.map((section) => (
-                <motion.div
-                  key={section.title}
-                  className="flex flex-col gap-4"
-                  variants={staggerItemVariants}
-                >
-                  <div className="flex items-center gap-3">
-                    <section.icon className={`size-5 ${section.iconColor}`} />
-                    <Typography.H3>{section.title}</Typography.H3>
-                  </div>
-                  <Accordion variant="bordered">
-                    {section.items.map(({ answer, question }) => (
-                      <AccordionItem key={question} title={question}>
-                        <Typography.Text>{answer}</Typography.Text>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                </motion.div>
-              ))}
-
-              {/* Still Have Questions? */}
-              <motion.div variants={staggerItemVariants}>
-                <Card className="border border-primary/20 bg-primary/5">
-                  <CardBody className="flex flex-row items-start gap-4 p-6">
-                    <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-                      <MessageCircleQuestion className="size-5 text-primary" />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <Typography.H4>Still Have Questions?</Typography.H4>
-                      <Typography.TextSm>
-                        If you have additional questions about Singapore&apos;s
-                        automotive market or need help understanding specific
-                        data points, feel free to explore our comprehensive car
-                        registration and COE data through the navigation menu
-                        above.
-                      </Typography.TextSm>
-                    </div>
-                  </CardBody>
-                </Card>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
