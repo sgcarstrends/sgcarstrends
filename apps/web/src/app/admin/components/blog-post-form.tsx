@@ -199,7 +199,7 @@ export function BlogPostForm({ mode, defaultValues }: BlogPostFormProps) {
           toast.error(result.error ?? "Failed to create blog post");
         }
       }
-    } catch (error) {
+    } catch {
       toast.error("An unexpected error occurred");
     } finally {
       setIsSubmitting(false);
