@@ -1,3 +1,10 @@
+## [4.65.0](https://github.com/sgcarstrends/sgcarstrends/compare/v4.64.4...v4.65.0) (2026-04-05)
+
+### Features
+
+* **web:** add /advertise page with PostHog traffic stats ([#746](https://github.com/sgcarstrends/sgcarstrends/issues/746)) ([fc873da](https://github.com/sgcarstrends/sgcarstrends/commit/fc873da04cc71d390165e4d3bf1e18bb18ba9f3d))
+* **web:** integrate PostHog with production-only pageview tracking ([883e2bd](https://github.com/sgcarstrends/sgcarstrends/commit/883e2bd93378020aed326a691321be6c08975a48))
+
 ## [4.64.4](https://github.com/sgcarstrends/sgcarstrends/compare/v4.64.3...v4.64.4) (2026-04-04)
 
 ### Bug Fixes
