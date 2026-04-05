@@ -21,6 +21,16 @@
       "sourceType": "github",
       "computedHash": "692cc86ded65b603961fa1bc5685670e2976a3a6e1459187c210b415e8dfeb1e"
     },
+    "oauth": {
+      "source": "vercel-labs/portless",
+      "sourceType": "github",
+      "computedHash": "9dbf0a5cc15d805924816a4df6654b105a163618ff986c79f6974211164b34a7"
+    },
+    "portless": {
+      "source": "vercel-labs/portless",
+      "sourceType": "github",
+      "computedHash": "d232b3f17c88b15b25f1c82a5b6594c31cc3bf5fdac7e5d179ca26bfddc31103"
+    },
     "programmatic-seo": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
