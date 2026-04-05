@@ -1,11 +1,6 @@
 {
   "version": 1,
   "skills": {
-    "ai-seo": {
-      "source": "coreyhaines31/marketingskills",
-      "sourceType": "github",
-      "computedHash": "5f7ce5ccdb2b0dce5e1ea7f3ed8bf17070b790865e91725ca8908e6ec829e164"
-    },
     "analytics-tracking": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
@@ -16,50 +11,20 @@
       "sourceType": "github",
       "computedHash": "be124f3733b037fb8d859f275454ecd1c590759ef9ab184bea35ba1a0a38e14c"
     },
-    "heroui-react": {
-      "source": "heroui-inc/heroui",
-      "sourceType": "github",
-      "computedHash": "692cc86ded65b603961fa1bc5685670e2976a3a6e1459187c210b415e8dfeb1e"
-    },
-    "oauth": {
-      "source": "vercel-labs/portless",
-      "sourceType": "github",
-      "computedHash": "9dbf0a5cc15d805924816a4df6654b105a163618ff986c79f6974211164b34a7"
-    },
-    "portless": {
-      "source": "vercel-labs/portless",
-      "sourceType": "github",
-      "computedHash": "d232b3f17c88b15b25f1c82a5b6594c31cc3bf5fdac7e5d179ca26bfddc31103"
-    },
-    "programmatic-seo": {
+    "copywriting": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
-      "computedHash": "40b8fe29a6c9cb0606e6fa77aff227cf275e3808adf66e5ef69e02dcf60a7303"
+      "computedHash": "2e83eda2221e97166172a0798e9b0379e34080595e107e2fc0cf580e9b3bbf7b"
     },
-    "schema-markup": {
+    "page-cro": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
-      "computedHash": "6319ded25235292939050de1c51a98c6633d79f793396506eda2fa8265343758"
+      "computedHash": "9505748dba2319487b285f8ab8c1e5417fce38a512d596e1c9e2e87b34b196e1"
     },
-    "sentry-fix-issues": {
-      "source": "getsentry/sentry-agent-skills",
-      "sourceType": "github",
-      "computedHash": "5673b169d2a0eb6e4651a57eba4263d1c04dce10e2955c97902f1e9f80109a52"
-    },
-    "sentry-nextjs-sdk": {
-      "source": "getsentry/sentry-agent-skills",
-      "sourceType": "github",
-      "computedHash": "6bbb2bce22fa8fc3e0385dbe06fe5a26770b2f91f66ad8e78d80c1df3d4b2e05"
-    },
-    "sentry-pr-code-review": {
-      "source": "getsentry/sentry-agent-skills",
-      "sourceType": "github",
-      "computedHash": "2df9d5798ce8b08641b4119c8ef8816bef293f87825adf09a5d67176212a4c7a"
-    },
-    "seo-audit": {
+    "social-content": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
-      "computedHash": "1eef04180a5278a6869fab117c75fa2acf512bfda0a4b16569409b88b7bcb343"
+      "computedHash": "85ffbc05cf88939ba3ff643a315928185af16181470349dfbaad2880047c9900"
     }
   }
 }
