@@ -39,7 +39,19 @@ interface TypeDetailProps {
   searchParams: Promise<SearchParams>;
 }
 
-export function TypeDetail({ config, params, searchParams }: TypeDetailProps) {
+export async function TypeDetail({
+  config,
+  params,
+  searchParams,
+}: TypeDetailProps) {
+  const { type } = await params;
+  const displayName =
+    config.category === "fuel-types"
+      ? (await checkFuelTypeIfExist(type))?.fuelType
+      : (await checkVehicleTypeIfExist(type))?.vehicleType;
+  const categoryLabel =
+    config.category === "fuel-types" ? "Fuel Type" : "Vehicle Type";
+
   return (
     <div className="flex flex-col gap-4">
       <DashboardPageHeader
@@ -50,8 +62,8 @@ export function TypeDetail({ config, params, searchParams }: TypeDetailProps) {
         }
         title={
           <DashboardPageTitle
-            title="Type Overview"
-            subtitle="Registration trends and monthly statistics for Singapore vehicles."
+            title={displayName ?? "Type Overview"}
+            subtitle={`Registration trends and monthly statistics by ${categoryLabel.toLowerCase()} in Singapore.`}
           />
         }
       />
@@ -116,8 +128,14 @@ async function TypeDetailContent({
   }
 
   const { cars } = await loadCarsTypePageData(config.category, type, month);
-  const title = "Cars in Singapore";
-  const description = config.description;
+  const displayName =
+    config.category === "fuel-types"
+      ? ((await checkFuelTypeIfExist(type))?.fuelType ?? type)
+      : ((await checkVehicleTypeIfExist(type))?.vehicleType ?? type);
+  const categoryLabel =
+    config.category === "fuel-types" ? "fuel type" : "vehicle type";
+  const title = `${displayName} Cars in Singapore`;
+  const description = `${displayName} car registrations in Singapore. Explore registration trends, statistics, and distribution by ${categoryLabel} for each month.`;
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",

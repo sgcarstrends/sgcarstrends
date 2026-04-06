@@ -5,7 +5,10 @@ import {
   type TypeDetailConfig,
 } from "@web/app/(main)/(explore)/cars/components/category/type-detail";
 import { SITE_TITLE, SITE_URL } from "@web/config";
-import { getDistinctVehicleTypes } from "@web/queries/cars";
+import {
+  checkVehicleTypeIfExist,
+  getDistinctVehicleTypes,
+} from "@web/queries/cars";
 import { getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -29,9 +32,13 @@ export async function generateMetadata({
   const { month: parsedMonth } = await loadTypeSearchParams(searchParams);
   const { month } = await getMonthOrLatest(parsedMonth, "cars");
 
-  const title = "Cars in Singapore";
-  const description = config.description;
+  const result = await checkVehicleTypeIfExist(type);
+  const displayName = result?.vehicleType ?? type;
+
+  const title = `${displayName} Cars in Singapore`;
+  const description = `${displayName} car registrations in Singapore. Explore registration trends, statistics, and distribution by vehicle type for each month.`;
   const canonical = `/cars/vehicle-types/${type}?month=${month}`;
+  const images = `/api/og?title=${encodeURIComponent(displayName)}&subtitle=${encodeURIComponent("Stats by Vehicle Type")}`;
 
   return {
     title,
@@ -43,6 +50,7 @@ export async function generateMetadata({
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
+      images,
     },
     twitter: {
       card: "summary_large_image",
@@ -50,6 +58,7 @@ export async function generateMetadata({
       description,
       site: "@sgcarstrends",
       creator: "@sgcarstrends",
+      images,
     },
     alternates: {
       canonical,

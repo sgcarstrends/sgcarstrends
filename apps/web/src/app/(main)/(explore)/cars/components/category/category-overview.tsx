@@ -99,7 +99,7 @@ async function CategoryOverviewContent({
   const categoryData = cars?.[config.apiDataField] || [];
 
   const formattedMonth = formatDateToMonthYear(month);
-  const title = `${formattedMonth} ${config.title} - Car Registrations`;
+  const title = `${formattedMonth} ${config.title}`;
   const description = config.description.replace("{month}", formattedMonth);
 
   const structuredData: WithContext<WebPage> = {

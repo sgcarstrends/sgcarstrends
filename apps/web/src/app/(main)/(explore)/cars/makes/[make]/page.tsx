@@ -53,7 +53,7 @@ export const generateMetadata = async ({
     });
   }
 
-  const title = `${exactMake} Cars Overview: Registration Trends`;
+  const title = `${exactMake} Cars in Singapore`;
   const description = `${exactMake} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
 
   const images = `/api/og?title=${exactMake}&subtitle=Stats by Make`;
@@ -192,7 +192,7 @@ async function CarMakeContent({
     monthsTracked: monthlyTotals.length,
   };
 
-  const title = `${exactMake} Cars Overview: Registration Trends`;
+  const title = `${exactMake} Cars in Singapore`;
   const description = `${exactMake} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
   const structuredData = createWebPageStructuredData(
     title,
