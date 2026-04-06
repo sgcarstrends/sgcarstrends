@@ -13,9 +13,8 @@ import { MonthSelector } from "@web/components/shared/month-selector";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import { UnreleasedFeature } from "@web/components/unreleased-feature";
-import { LAST_UPDATED_COE_KEY, SITE_URL } from "@web/config";
+import { LAST_UPDATED_COE_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import {
-  createPageMetadata,
   generateBreadcrumbSchema,
   generateDatasetSchema,
 } from "@web/lib/metadata";
@@ -28,45 +27,64 @@ import { Suspense } from "react";
 import type { WebPage, WithContext } from "schema-dts";
 import { loadSearchParams } from "./search-params";
 
-const title = "COE PQP Rates";
+const title = "PQP Rates for COE Renewal";
 const description =
   "Latest Prevailing Quota Premium (PQP) rates for COE renewal in Singapore. These rates show the average COE prices over the last 3 months.";
+const images = `${SITE_URL}/opengraph-image.png`;
 
 interface PageProps {
   searchParams: Promise<SearchParams>;
 }
 
-export const generateMetadata = (): Metadata => {
-  return createPageMetadata({
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: {
     title,
     description,
+    url: `${SITE_URL}/coe/pqp`,
+    siteName: SITE_TITLE,
+    locale: "en_SG",
+    type: "website",
+    images,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    site: "@sgcarstrends",
+    creator: "@sgcarstrends",
+    images,
+  },
+  alternates: {
     canonical: "/coe/pqp",
-    images: `${SITE_URL}/opengraph-image.png`,
-  });
+  },
 };
 
-const PQPRatesPage = async ({
+export default async function PQPRatesPage({
   searchParams: searchParamsPromise,
-}: PageProps) => (
-  <div className="flex flex-col gap-4">
-    <DashboardPageHeader
-      title={
-        <DashboardPageTitle
-          title="PQP Rates"
-          subtitle="Prevailing Quota Premium rates for COE renewal in Singapore."
-        />
-      }
-      meta={
-        <Suspense>
-          <PQPRatesHeaderMeta searchParams={searchParamsPromise} />
-        </Suspense>
-      }
-    />
-    <Suspense>
-      <PQPRatesContent searchParams={searchParamsPromise} />
-    </Suspense>
-  </div>
-);
+}: PageProps) {
+  return (
+    <div className="flex flex-col gap-4">
+      <DashboardPageHeader
+        title={
+          <DashboardPageTitle
+            title="PQP Rates"
+            subtitle="Prevailing Quota Premium rates for COE renewal in Singapore."
+          />
+        }
+        meta={
+          <Suspense>
+            <PQPRatesHeaderMeta searchParams={searchParamsPromise} />
+          </Suspense>
+        }
+      />
+      <Suspense>
+        <PQPRatesContent searchParams={searchParamsPromise} />
+      </Suspense>
+    </div>
+  );
+}
 
 async function PQPRatesHeaderMeta({
   searchParams: searchParamsPromise,
@@ -172,5 +190,3 @@ async function PQPRatesContent({
     </>
   );
 }
-
-export default PQPRatesPage;

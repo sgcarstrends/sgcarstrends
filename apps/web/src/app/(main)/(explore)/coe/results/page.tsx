@@ -16,7 +16,6 @@ import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadResultsPageData } from "@web/lib/coe/page-data";
 import {
-  createPageMetadata,
   generateBreadcrumbSchema,
   generateDatasetSchema,
 } from "@web/lib/metadata";
@@ -30,11 +29,11 @@ interface PageProps {
   searchParams: Promise<SearchParams>;
 }
 
-const title = "COE Results";
+const title = "Historical COE Bidding Results";
 const description =
   "Complete historical COE bidding results for Singapore. Explore trends, analyze price movements, and view detailed data for all vehicle categories.";
 
-export const generateMetadata = async (): Promise<Metadata> => {
+export async function generateMetadata(): Promise<Metadata> {
   const results = await getLatestCoeResults();
   const categories = results.reduce<Record<string, number>>(
     (category, current) => {
@@ -46,35 +45,57 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
   const images = `/api/og/coe?title=COE Results&subtitle=Historical Data&biddingNo=2&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
 
-  return createPageMetadata({
+  return {
     title,
     description,
-    canonical: "/coe/results",
-    images,
-    includeAuthors: true,
-  });
-};
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/coe/results`,
+      siteName: SITE_TITLE,
+      locale: "en_SG",
+      type: "website",
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: "@sgcarstrends",
+      creator: "@sgcarstrends",
+      images,
+    },
+    alternates: {
+      canonical: "/coe/results",
+    },
+    authors: [{ name: "SG Cars Trends", url: SITE_URL }],
+    creator: "SG Cars Trends",
+    publisher: "SG Cars Trends",
+  };
+}
 
-const COEResultsPage = ({ searchParams }: PageProps) => (
-  <div className="flex flex-col gap-6">
-    <DashboardPageHeader
-      title={
-        <DashboardPageTitle
-          title="COE Results"
-          subtitle="Historical COE bidding results by category and month."
-        />
-      }
-      meta={
-        <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
-          <COEResultsHeaderMeta searchParams={searchParams} />
-        </Suspense>
-      }
-    />
-    <Suspense fallback={<SkeletonCard className="h-[840px] w-full" />}>
-      <COEResultsContent searchParams={searchParams} />
-    </Suspense>
-  </div>
-);
+export default function COEResultsPage({ searchParams }: PageProps) {
+  return (
+    <div className="flex flex-col gap-6">
+      <DashboardPageHeader
+        title={
+          <DashboardPageTitle
+            title="COE Results"
+            subtitle="Historical COE bidding results by category and month."
+          />
+        }
+        meta={
+          <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+            <COEResultsHeaderMeta searchParams={searchParams} />
+          </Suspense>
+        }
+      />
+      <Suspense fallback={<SkeletonCard className="h-[840px] w-full" />}>
+        <COEResultsContent searchParams={searchParams} />
+      </Suspense>
+    </div>
+  );
+}
 
 async function COEResultsHeaderMeta({
   searchParams: searchParamsPromise,
@@ -178,5 +199,3 @@ async function COEResultsContent({
     </>
   );
 }
-
-export default COEResultsPage;

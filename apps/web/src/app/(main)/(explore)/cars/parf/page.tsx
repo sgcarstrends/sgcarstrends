@@ -4,40 +4,43 @@ import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { NewChip } from "@web/components/shared/chips";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
-import { SITE_URL } from "@web/config";
-import { createPageMetadata } from "@web/lib/metadata";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import type { WebPage, WithContext } from "schema-dts";
 import { AboutParf } from "./components/about-parf";
+import { PARFSections } from "./components/parf-sections";
 
-// HeroUI v2 collection components (Table, Select) fail during static prerendering
-// due to @react-stately/collections SSR incompatibility. Dynamic import skips SSR.
-const PARFCalculator = dynamic(
-  () =>
-    import("./components/parf-calculator").then((mod) => mod.PARFCalculator),
-  { ssr: false },
-);
-const PARFComparisonTable = dynamic(
-  () =>
-    import("./components/parf-comparison-table").then(
-      (mod) => mod.PARFComparisonTable,
-    ),
-  { ssr: false },
-);
-
-const title = "PARF Calculator";
+const title = "PARF Rebate Calculator Singapore";
 const description =
   "Compare PARF rebates before and after the Budget 2026 changes. Calculate how much less you would receive under the new rates.";
+const images = `${SITE_URL}/opengraph-image.png`;
 
-export const generateMetadata = (): Metadata => {
-  return createPageMetadata({
+export function generateMetadata(): Metadata {
+  return {
     title,
     description,
-    canonical: "/cars/parf",
-    images: `${SITE_URL}/opengraph-image.png`,
-  });
-};
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/cars/parf`,
+      siteName: SITE_TITLE,
+      locale: "en_SG",
+      type: "website",
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: "@sgcarstrends",
+      creator: "@sgcarstrends",
+      images,
+    },
+    alternates: {
+      canonical: "/cars/parf",
+    },
+  };
+}
 
 export default function PARFCalculatorPage() {
   const structuredData: WithContext<WebPage> = {
@@ -64,10 +67,7 @@ export default function PARFCalculatorPage() {
         <AboutParf {...PAGE_CONTEXTS.parf} />
       </AnimatedSection>
       <AnimatedSection order={2}>
-        <PARFCalculator />
-      </AnimatedSection>
-      <AnimatedSection order={3}>
-        <PARFComparisonTable />
+        <PARFSections />
       </AnimatedSection>
       <AnimatedSection order={4}>
         <p className="text-center text-default-600 text-xs">

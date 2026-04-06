@@ -2,20 +2,38 @@ import { Card, CardBody, CardHeader } from "@heroui/card";
 import { NewChip } from "@web/components/shared/chips";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import { navLinks } from "@web/config/navigation";
-import {
-  createPageMetadata,
-  generateDataCatalogSchema,
-} from "@web/lib/metadata";
+import { generateDataCatalogSchema } from "@web/lib/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = createPageMetadata({
-  title: "Cars",
-  description:
-    "Explore Singapore vehicle data including new registrations, deregistrations, makes, fuel types, vehicle types, and PARF calculator.",
-  canonical: "/cars",
-});
+const title = "Singapore Car Registration Data";
+const description =
+  "Explore Singapore vehicle data including new registrations, deregistrations, makes, fuel types, vehicle types, and PARF calculator.";
+
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: `${SITE_URL}/cars`,
+    siteName: SITE_TITLE,
+    locale: "en_SG",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    site: "@sgcarstrends",
+    creator: "@sgcarstrends",
+  },
+  alternates: {
+    canonical: "/cars",
+  },
+};
 
 export default function Page() {
   return (

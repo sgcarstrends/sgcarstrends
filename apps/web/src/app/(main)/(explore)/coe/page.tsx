@@ -1,20 +1,38 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import { navLinks } from "@web/config/navigation";
-import {
-  createPageMetadata,
-  generateDataCatalogSchema,
-} from "@web/lib/metadata";
+import { generateDataCatalogSchema } from "@web/lib/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = createPageMetadata({
-  title: "COE",
-  description:
-    "Certificate of Entitlement (COE) data for Singapore. View premiums, historical results, and PQP rates.",
-  canonical: "/coe",
-});
+const title = "COE Bidding Results Singapore";
+const description =
+  "Certificate of Entitlement (COE) data for Singapore. View premiums, historical results, and PQP rates.";
+
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: `${SITE_URL}/coe`,
+    siteName: SITE_TITLE,
+    locale: "en_SG",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    site: "@sgcarstrends",
+    creator: "@sgcarstrends",
+  },
+  alternates: {
+    canonical: "/coe",
+  },
+};
 
 export default function Page() {
   return (

@@ -22,7 +22,6 @@ import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import {
-  createPageMetadata,
   generateBreadcrumbSchema,
   generateDatasetSchema,
 } from "@web/lib/metadata";
@@ -108,51 +107,69 @@ interface PageProps {
   searchParams: Promise<SearchParams>;
 }
 
-export const generateMetadata = async ({
+export async function generateMetadata({
   searchParams,
-}: PageProps): Promise<Metadata> => {
+}: PageProps): Promise<Metadata> {
   const { month: parsedMonth } = await loadSearchParams(searchParams);
+
+  const makeMetadata = (pageTitle: string, canonical: string): Metadata => ({
+    title: pageTitle,
+    description,
+    openGraph: {
+      title: pageTitle,
+      description,
+      url: `${SITE_URL}${canonical}`,
+      siteName: SITE_TITLE,
+      locale: "en_SG",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: pageTitle,
+      description,
+      site: "@sgcarstrends",
+      creator: "@sgcarstrends",
+    },
+    alternates: { canonical },
+    authors: [{ name: "SG Cars Trends", url: SITE_URL }],
+    creator: "SG Cars Trends",
+    publisher: "SG Cars Trends",
+  });
 
   try {
     const { month } = await getMonthOrLatest(parsedMonth, "deregistrations");
     const formattedMonth = formatDateToMonthYear(month);
-
-    return createPageMetadata({
-      title: `${formattedMonth} ${title}`,
-      description,
-      canonical: `/cars/deregistrations?month=${month}`,
-      includeAuthors: true,
-    });
+    return makeMetadata(
+      `${formattedMonth} ${title}`,
+      `/cars/deregistrations?month=${month}`,
+    );
   } catch {
-    return createPageMetadata({
-      title,
-      description,
-      canonical: "/cars/deregistrations",
-      includeAuthors: true,
-    });
+    return makeMetadata(title, "/cars/deregistrations");
   }
-};
+}
 
-const DeregistrationsPage = ({ searchParams }: PageProps) => (
-  <div className="flex flex-col gap-8">
-    <DashboardPageHeader
-      title={
-        <DashboardPageTitle
-          title="Vehicle Deregistrations"
-          subtitle="Monthly vehicle deregistrations and scrapping trends in Singapore."
-        />
-      }
-      meta={
-        <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
-          <DeregistrationsHeaderMeta searchParams={searchParams} />
-        </Suspense>
-      }
-    />
-    <Suspense fallback={<SkeletonCard className="h-[860px] w-full" />}>
-      <DeregistrationsContent searchParams={searchParams} />
-    </Suspense>
-  </div>
-);
+export default function DeregistrationsPage({ searchParams }: PageProps) {
+  return (
+    <div className="flex flex-col gap-8">
+      <DashboardPageHeader
+        title={
+          <DashboardPageTitle
+            title="Vehicle Deregistrations"
+            subtitle="Monthly vehicle deregistrations and scrapping trends in Singapore."
+          />
+        }
+        meta={
+          <Suspense fallback={<SkeletonCard className="h-10 w-40" />}>
+            <DeregistrationsHeaderMeta searchParams={searchParams} />
+          </Suspense>
+        }
+      />
+      <Suspense fallback={<SkeletonCard className="h-[860px] w-full" />}>
+        <DeregistrationsContent searchParams={searchParams} />
+      </Suspense>
+    </div>
+  );
+}
 
 async function DeregistrationsHeaderMeta({
   searchParams: searchParamsPromise,
@@ -355,5 +372,3 @@ async function DeregistrationsContent({
     </>
   );
 }
-
-export default DeregistrationsPage;

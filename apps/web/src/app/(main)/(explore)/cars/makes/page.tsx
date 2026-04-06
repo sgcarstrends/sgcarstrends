@@ -1,13 +1,13 @@
 import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
-import { createPageMetadata } from "@web/lib/metadata";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import { MakesContentSection } from "./components/makes-content-section";
 import { MakesHeaderMeta } from "./components/makes-header-meta";
 
-const title = "Makes";
+const title = "Car Makes in Singapore";
 const description =
   "Comprehensive overview of car makes in Singapore. Explore popular brands, discover all available manufacturers, and view registration trends and market statistics.";
 
@@ -15,15 +15,30 @@ interface PageProps {
   searchParams: Promise<SearchParams>;
 }
 
-export const generateMetadata = async (): Promise<Metadata> => {
-  return createPageMetadata({
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: {
     title,
     description,
+    url: `${SITE_URL}/cars/makes`,
+    siteName: SITE_TITLE,
+    locale: "en_SG",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    site: "@sgcarstrends",
+    creator: "@sgcarstrends",
+  },
+  alternates: {
     canonical: "/cars/makes",
-  });
+  },
 };
 
-const CarMakesPage = ({ searchParams }: PageProps) => {
+export default function CarMakesPage({ searchParams }: PageProps) {
   return (
     <div className="flex flex-col gap-4">
       <DashboardPageHeader
@@ -40,6 +55,4 @@ const CarMakesPage = ({ searchParams }: PageProps) => {
       </AnimatedSection>
     </div>
   );
-};
-
-export default CarMakesPage;
+}

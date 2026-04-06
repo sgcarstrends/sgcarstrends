@@ -9,9 +9,9 @@ import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 import type { Blog, WithContext } from "schema-dts";
 
-const title = "Blog";
+const title = "Insights and Market Analysis";
 const description =
-  "Articles from the insights & analysis on Singapore's car and COE trends.";
+  "Data-driven insights and analysis on Singapore's car market, COE trends, and registration statistics. Expert commentary on the latest automotive data.";
 const url = "/blog";
 
 const structuredData: WithContext<Blog> = {

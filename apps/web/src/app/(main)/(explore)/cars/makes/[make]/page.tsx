@@ -7,9 +7,8 @@ import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { MonthSelector } from "@web/components/shared/month-selector";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
-import { LAST_UPDATED_CARS_KEY } from "@web/config";
+import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
 import {
-  createPageMetadata,
   createWebPageStructuredData,
   generateBreadcrumbSchema,
 } from "@web/lib/metadata";
@@ -39,32 +38,49 @@ export async function generateStaticParams() {
   return makes.map(({ make }) => ({ make: slugify(make) }));
 }
 
-export const generateMetadata = async ({
+export async function generateMetadata({
   params,
-}: PageProps): Promise<Metadata> => {
+}: PageProps): Promise<Metadata> {
   const { make } = await params;
 
   const exactMake = await getMakeFromSlug(make);
   if (!exactMake) {
-    return createPageMetadata({
+    return {
       title: "Car Make Not Found",
       description: "The requested car make could not be found.",
-      canonical: `/cars/makes/${make}`,
-    });
+      alternates: { canonical: `/cars/makes/${make}` },
+    };
   }
 
   const title = `${exactMake} Cars in Singapore`;
   const description = `${exactMake} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
-
   const images = `/api/og?title=${exactMake}&subtitle=Stats by Make`;
 
-  return createPageMetadata({
+  return {
     title,
     description,
-    canonical: `/cars/makes/${make}`,
-    images,
-  });
-};
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/cars/makes/${make}`,
+      siteName: SITE_TITLE,
+      locale: "en_SG",
+      type: "website",
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: "@sgcarstrends",
+      creator: "@sgcarstrends",
+      images,
+    },
+    alternates: {
+      canonical: `/cars/makes/${make}`,
+    },
+  };
+}
 
 export default async function CarMakePage({
   params,

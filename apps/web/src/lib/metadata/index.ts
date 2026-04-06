@@ -1,4 +1,3 @@
-export { createPageMetadata } from "./page-metadata";
 export {
   createWebPageStructuredData,
   generateBreadcrumbSchema,
