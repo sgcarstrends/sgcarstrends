@@ -77,6 +77,20 @@ export default function Page() {
           </Link>
         ))}
       </div>
+      <div className="flex flex-col gap-2 rounded-2xl bg-default-100 p-6">
+        <Typography.H3>Related</Typography.H3>
+        <Typography.TextSm>
+          Looking for COE bidding results and premium trends?{" "}
+          <Link href="/coe" className="text-primary hover:underline">
+            View COE data
+          </Link>
+          . For market insights and analysis, check out our{" "}
+          <Link href="/blog" className="text-primary hover:underline">
+            latest blog posts
+          </Link>
+          .
+        </Typography.TextSm>
+      </div>
     </div>
   );
 }

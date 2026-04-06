@@ -74,6 +74,20 @@ export default function Page() {
           </Link>
         ))}
       </div>
+      <div className="flex flex-col gap-2 rounded-2xl bg-default-100 p-6">
+        <Typography.H3>Related</Typography.H3>
+        <Typography.TextSm>
+          Explore{" "}
+          <Link href="/cars" className="text-primary hover:underline">
+            car registration data
+          </Link>{" "}
+          to see which makes and fuel types are most popular. Read our{" "}
+          <Link href="/blog" className="text-primary hover:underline">
+            market insights
+          </Link>{" "}
+          for expert analysis on COE trends.
+        </Typography.TextSm>
+      </div>
     </div>
   );
 }
