@@ -1,6 +1,6 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import { formatDateToMonthYear } from "@sgcarstrends/utils";
+import { formatDateToMonthYear, slugify } from "@sgcarstrends/utils";
 import { CarOverviewTrends } from "@web/app/(main)/(explore)/cars/registrations/components/overview-trends";
 import { AnimatedNumber } from "@web/components/animated-number";
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
@@ -176,6 +176,20 @@ async function TypeDetailContent({
           ]),
         }}
       />
+
+      <Typography.Text>
+        {cars.total > 0
+          ? `${displayName} vehicles accounted for ${cars.total.toLocaleString()} registrations in ${formattedMonth}.`
+          : `No ${displayName} vehicle registrations were recorded in ${formattedMonth}.`}{" "}
+        <a
+          href={`/cars/${config.category}`}
+          className="text-primary hover:underline"
+        >
+          View all{" "}
+          {config.category === "fuel-types" ? "fuel types" : "vehicle types"}{" "}
+          &rarr;
+        </a>
+      </Typography.Text>
 
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
