@@ -13,16 +13,12 @@ import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { loadCarsTypePageData } from "@web/lib/cars/page-data";
 import { loadLastUpdated } from "@web/lib/common";
-import {
-  createPageMetadata,
-  generateBreadcrumbSchema,
-} from "@web/lib/metadata";
+import { generateBreadcrumbSchema } from "@web/lib/metadata";
 import {
   checkFuelTypeIfExist,
   checkVehicleTypeIfExist,
 } from "@web/queries/cars";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
 import { createLoader, parseAsString } from "nuqs/server";
@@ -35,23 +31,6 @@ export const loadTypeSearchParams = createLoader(typeSearchParams);
 export interface TypeDetailConfig {
   category: "fuel-types" | "vehicle-types";
   description: string;
-}
-
-export async function generateTypeDetailMetadata(
-  config: TypeDetailConfig,
-  params: Promise<{ type: string }>,
-  searchParams: Promise<SearchParams>,
-): Promise<Metadata> {
-  const { type } = await params;
-  const { month: parsedMonth } = await loadTypeSearchParams(searchParams);
-  const { month } = await getMonthOrLatest(parsedMonth, "cars");
-
-  return createPageMetadata({
-    title: "Cars in Singapore",
-    description: config.description,
-    canonical: `/cars/${config.category}/${type}?month=${month}`,
-    images: `${SITE_URL}/opengraph-image.png`,
-  });
 }
 
 interface TypeDetailProps {

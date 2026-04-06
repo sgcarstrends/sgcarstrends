@@ -1,10 +1,13 @@
 import { slugify } from "@sgcarstrends/utils";
 import {
-  generateTypeDetailMetadata,
+  loadTypeSearchParams,
   TypeDetail,
   type TypeDetailConfig,
 } from "@web/app/(main)/(explore)/cars/components/category/type-detail";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import { getDistinctFuelTypes } from "@web/queries/cars";
+import { getMonthOrLatest } from "@web/utils/dates/months";
+import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 
 const config: TypeDetailConfig = {
@@ -18,8 +21,40 @@ interface PageProps {
   searchParams: Promise<SearchParams>;
 }
 
-export async function generateMetadata({ params, searchParams }: PageProps) {
-  return generateTypeDetailMetadata(config, params, searchParams);
+export async function generateMetadata({
+  params,
+  searchParams,
+}: PageProps): Promise<Metadata> {
+  const { type } = await params;
+  const { month: parsedMonth } = await loadTypeSearchParams(searchParams);
+  const { month } = await getMonthOrLatest(parsedMonth, "cars");
+
+  const title = "Cars in Singapore";
+  const description = config.description;
+  const canonical = `/cars/fuel-types/${type}?month=${month}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}${canonical}`,
+      siteName: SITE_TITLE,
+      locale: "en_SG",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: "@sgcarstrends",
+      creator: "@sgcarstrends",
+    },
+    alternates: {
+      canonical,
+    },
+  };
 }
 
 export async function generateStaticParams() {
