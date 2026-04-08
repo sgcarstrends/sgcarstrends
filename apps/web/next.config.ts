@@ -45,6 +45,25 @@ const nextConfig: NextConfig = {
     typedEnv: true,
   },
   skipTrailingSlashRedirect: true,
+  async redirects() {
+    return [
+      {
+        source: "/instagram",
+        destination: "https://www.instagram.com/sgcarstrends",
+        permanent: false,
+      },
+      {
+        source: "/telegram",
+        destination: "https://t.me/sgcarstrends",
+        permanent: false,
+      },
+      {
+        source: "/github",
+        destination: "https://github.com/sgcarstrends",
+        permanent: false,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
