@@ -1,11 +1,9 @@
 import {
   type IconType,
-  SiDiscord,
   SiGithub,
   SiInstagram,
-  SiLinkedin,
   SiTelegram,
-  SiX,
+  // SiThreads,
 } from "@icons-pack/react-simple-icons";
 import { sortByName } from "@sgcarstrends/utils";
 import {
@@ -60,20 +58,15 @@ export interface NavigationSection {
 
 const socialMedia: SocialMedia[] = [
   {
-    title: "Twitter",
-    url: "/twitter",
-    icon: SiX,
-  },
-  {
     title: "Instagram",
     url: "/instagram",
     icon: SiInstagram,
   },
-  {
-    title: "LinkedIn",
-    url: "/linkedin",
-    icon: SiLinkedin,
-  },
+  // {
+  //   title: "Threads",
+  //   url: "/threads",
+  //   icon: SiThreads,
+  // },
   {
     title: "Telegram",
     url: "/telegram",
@@ -83,11 +76,6 @@ const socialMedia: SocialMedia[] = [
     title: "GitHub",
     url: "/github",
     icon: SiGithub,
-  },
-  {
-    title: "Discord",
-    url: "/discord",
-    icon: SiDiscord,
   },
 ];
 

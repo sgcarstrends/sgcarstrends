@@ -145,10 +145,8 @@ ${recentPosts.map((post) => `- [${post.title}](${SITE_URL}/blog/${post.slug})`).
 - [Privacy Policy](${SITE_URL}/legal/privacy-policy): Data privacy and usage policy
 - [Terms of Service](${SITE_URL}/legal/terms-of-service): Terms and conditions
 - [GitHub Repository](https://github.com/sgcarstrends/sgcarstrends): Open source codebase
-- [Twitter/X](${SITE_URL}/twitter): Follow us on X
-- [LinkedIn](${SITE_URL}/linkedin): Connect on LinkedIn
+- [Instagram](${SITE_URL}/instagram): Follow us on Instagram
 - [Telegram](${SITE_URL}/telegram): Join our Telegram channel
-- [Discord](${SITE_URL}/discord): Join our Discord community
 `;
 }
 

@@ -60,11 +60,10 @@ export default async function AboutPage() {
     description:
       "A platform for exploring Singapore car registration statistics, COE bidding results, and market data.",
     sameAs: [
-      "https://twitter.com/sgcarstrends",
-      "https://github.com/sgcarstrends",
-      "https://linkedin.com/company/sgcarstrends",
+      "https://www.instagram.com/sgcarstrends",
+      // "https://www.threads.net/@sgcarstrends",
       "https://t.me/sgcarstrends",
-      "https://discord.gg/sgcarstrends",
+      "https://github.com/sgcarstrends",
     ],
     founder: {
       "@type": "Person",
