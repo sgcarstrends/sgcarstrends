@@ -10,6 +10,7 @@ import { mdxComponents } from "@web/app/(main)/(site)/blog/components/mdx-compon
 import { PostNavigation } from "@web/app/(main)/(site)/blog/components/post-navigation";
 import { ProgressBar } from "@web/app/(main)/(site)/blog/components/progress-bar";
 import { RelatedPosts } from "@web/app/(main)/(site)/blog/components/related-posts";
+import { ShareButtons } from "@web/app/(main)/(site)/blog/components/share-buttons";
 import { TableOfContents } from "@web/app/(main)/(site)/blog/components/table-of-contents";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
@@ -213,6 +214,10 @@ export default async function BlogPostPage({ params }: PageProps) {
 
         {/* Main Content - Single column, centered */}
         <div className="container mx-auto flex flex-col gap-8">
+          <div className="flex justify-end">
+            <ShareButtons url={`/blog/${post.slug}`} title={post.title} />
+          </div>
+
           {/* Table of Contents */}
           <TableOfContents />
 
