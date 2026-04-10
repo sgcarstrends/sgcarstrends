@@ -1,12 +1,19 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+vi.mock("@sgcarstrends/ai", () => ({
+  generateBlogContent: vi.fn(),
+  getDeregistrationsForMonth: vi.fn(),
+}));
+
 vi.mock("@sgcarstrends/utils", () => ({
   redis: {
     set: vi.fn(),
   },
+  tokeniser: vi.fn((data) => JSON.stringify(data)),
 }));
 
 vi.mock("workflow", () => ({
+  fetch: vi.fn(),
   getStepMetadata: vi.fn(() => ({ attempt: 1 })),
   FatalError: class FatalError extends Error {
     constructor(message: string) {
@@ -33,14 +40,28 @@ vi.mock("@web/queries/deregistrations/latest-month", () => ({
   getDeregistrationsLatestMonth: vi.fn(),
 }));
 
+vi.mock("@web/queries/posts", () => ({
+  getExistingPostByMonth: vi.fn(),
+}));
+
 vi.mock("next/cache", () => ({
   revalidateTag: vi.fn(),
 }));
 
+vi.mock("@web/workflows/shared", () => ({
+  revalidatePostsCache: vi.fn(),
+}));
+
+import {
+  generateBlogContent,
+  getDeregistrationsForMonth,
+} from "@sgcarstrends/ai";
 import { redis } from "@sgcarstrends/utils";
 import { getDeregistrationsLatestMonth } from "@web/queries/deregistrations/latest-month";
+import { getExistingPostByMonth } from "@web/queries/posts";
 import { deregistrationsWorkflow } from "@web/workflows/deregistrations";
 import { updateDeregistration } from "@web/workflows/deregistrations/steps/process-data";
+import { revalidatePostsCache } from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
 
 describe("deregistrationsWorkflow", () => {
@@ -79,7 +100,7 @@ describe("deregistrationsWorkflow", () => {
     expect(result.message).toBe("No deregistration data found.");
   });
 
-  it("should process data and revalidate cache on success", async () => {
+  it("should skip blog generation when post already exists", async () => {
     vi.mocked(updateDeregistration).mockResolvedValueOnce({
       recordsProcessed: 10,
       table: "deregistrations",
@@ -89,10 +110,50 @@ describe("deregistrationsWorkflow", () => {
     vi.mocked(getDeregistrationsLatestMonth).mockResolvedValueOnce({
       month: "2024-01",
     });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
+      {
+        id: "existing-post-id",
+        title: "Existing Post",
+        slug: "existing-post",
+      },
+    ]);
 
     const result = await deregistrationsWorkflow({});
 
-    expect(redis.set).toHaveBeenCalled();
+    expect(result.message).toBe(
+      "[DEREGISTRATIONS] Data processed. Post already exists, skipping.",
+    );
+    expect(generateBlogContent).not.toHaveBeenCalled();
+  });
+
+  it("should generate blog post when new data arrives", async () => {
+    vi.mocked(updateDeregistration).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      table: "deregistrations",
+      message: "",
+      timestamp: "",
+    });
+    vi.mocked(getDeregistrationsLatestMonth).mockResolvedValueOnce({
+      month: "2024-01",
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getDeregistrationsForMonth).mockResolvedValueOnce([
+      {
+        month: "2024-01",
+        make: "Toyota",
+        vehicleType: "Saloon",
+        number: 50,
+      },
+    ]);
+    vi.mocked(generateBlogContent).mockResolvedValueOnce({
+      month: "2024-01",
+      postId: "new-post-id",
+      title: "January 2024 Deregistrations",
+      slug: "january-2024-deregistrations",
+    });
+
+    const result = await deregistrationsWorkflow({});
+
     expect(revalidateTag).toHaveBeenCalledWith(
       "deregistrations:month:2024-01",
       "max",
@@ -102,9 +163,12 @@ describe("deregistrationsWorkflow", () => {
       "deregistrations:year:2024",
       "max",
     );
+    expect(generateBlogContent).toHaveBeenCalled();
+    expect(revalidatePostsCache).toHaveBeenCalled();
     expect(result.message).toBe(
       "[DEREGISTRATIONS] Data processed and cache revalidated successfully",
     );
+    expect(result.postId).toBe("new-post-id");
   });
 
   it("should use payload.month when provided and skip DB query", async () => {
@@ -114,6 +178,13 @@ describe("deregistrationsWorkflow", () => {
       message: "",
       timestamp: "",
     });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
+      {
+        id: "existing-post-id",
+        title: "Existing Post",
+        slug: "existing-post",
+      },
+    ]);
 
     const result = await deregistrationsWorkflow({ month: "2023-06" });
 
@@ -123,7 +194,7 @@ describe("deregistrationsWorkflow", () => {
       "max",
     );
     expect(result.message).toBe(
-      "[DEREGISTRATIONS] Data processed and cache revalidated successfully",
+      "[DEREGISTRATIONS] Data processed. Post already exists, skipping.",
     );
   });
 
@@ -137,12 +208,99 @@ describe("deregistrationsWorkflow", () => {
     vi.mocked(getDeregistrationsLatestMonth).mockResolvedValueOnce({
       month: "2024-02",
     });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([
+      { id: "existing", title: "Existing Post", slug: "existing-post" },
+    ]);
 
     await deregistrationsWorkflow({});
 
     expect(redis.set).toHaveBeenCalledWith(
       "last_updated:deregistrations",
       expect.any(Number),
+    );
+  });
+
+  it("should throw RetryableError when AI is rate limited (429)", async () => {
+    vi.mocked(updateDeregistration).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      table: "deregistrations",
+      message: "",
+      timestamp: "",
+    });
+    vi.mocked(getDeregistrationsLatestMonth).mockResolvedValueOnce({
+      month: "2024-01",
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getDeregistrationsForMonth).mockResolvedValueOnce([
+      {
+        month: "2024-01",
+        make: "Toyota",
+        vehicleType: "Saloon",
+        number: 50,
+      },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce(
+      new Error("API error: 429 Too Many Requests"),
+    );
+
+    await expect(deregistrationsWorkflow({})).rejects.toThrow(
+      "AI rate limited",
+    );
+  });
+
+  it("should throw FatalError when AI authentication fails (401)", async () => {
+    vi.mocked(updateDeregistration).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      table: "deregistrations",
+      message: "",
+      timestamp: "",
+    });
+    vi.mocked(getDeregistrationsLatestMonth).mockResolvedValueOnce({
+      month: "2024-01",
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getDeregistrationsForMonth).mockResolvedValueOnce([
+      {
+        month: "2024-01",
+        make: "Toyota",
+        vehicleType: "Saloon",
+        number: 50,
+      },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce(
+      new Error("API error: 401 Unauthorized"),
+    );
+
+    await expect(deregistrationsWorkflow({})).rejects.toThrow(
+      "AI authentication failed",
+    );
+  });
+
+  it("should rethrow unknown errors from AI generation", async () => {
+    vi.mocked(updateDeregistration).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      table: "deregistrations",
+      message: "",
+      timestamp: "",
+    });
+    vi.mocked(getDeregistrationsLatestMonth).mockResolvedValueOnce({
+      month: "2024-01",
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getDeregistrationsForMonth).mockResolvedValueOnce([
+      {
+        month: "2024-01",
+        make: "Toyota",
+        vehicleType: "Saloon",
+        number: 50,
+      },
+    ]);
+    vi.mocked(generateBlogContent).mockRejectedValueOnce(
+      new Error("Unknown AI error"),
+    );
+
+    await expect(deregistrationsWorkflow({})).rejects.toThrow(
+      "Unknown AI error",
     );
   });
 });

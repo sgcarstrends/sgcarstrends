@@ -39,8 +39,6 @@ async function processCarCostsData(): Promise<UpdaterResult> {
 
   return result;
 }
-processCarCostsData.maxRetries = 3;
-
 async function revalidateCarCostsCache(): Promise<void> {
   "use step";
 

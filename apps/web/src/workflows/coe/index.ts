@@ -94,8 +94,6 @@ async function processCoeData(): Promise<UpdaterResult> {
 
   return result;
 }
-processCoeData.maxRetries = 3;
-
 async function getLatestRecord(): Promise<{
   month: string;
   biddingNo: number;
@@ -150,4 +148,3 @@ async function generateCoePost(
     throw error;
   }
 }
-generateCoePost.maxRetries = 3;

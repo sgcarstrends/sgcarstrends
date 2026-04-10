@@ -15,7 +15,7 @@ export interface PostParams {
   tags: string[];
   highlights: Highlight[];
   month: string;
-  dataType: "cars" | "coe";
+  dataType: "cars" | "coe" | "deregistrations" | "electric-vehicles";
   responseMetadata: {
     responseId: string;
     modelId: string;

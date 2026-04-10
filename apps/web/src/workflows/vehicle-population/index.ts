@@ -36,8 +36,6 @@ async function processVehiclePopulationData(): Promise<UpdaterResult> {
   }
   return result;
 }
-processVehiclePopulationData.maxRetries = 3;
-
 async function getLatestYear(): Promise<string | null> {
   "use step";
   const years = await getVehiclePopulationYears();

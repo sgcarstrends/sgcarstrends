@@ -81,7 +81,6 @@ async function processCarsData(): Promise<UpdaterResult> {
 
   return result;
 }
-processCarsData.maxRetries = 3;
 
 async function syncMakesSortedSet(): Promise<void> {
   "use step";
@@ -139,4 +138,3 @@ async function generateCarsPost(
     throw error;
   }
 }
-generateCarsPost.maxRetries = 3;
