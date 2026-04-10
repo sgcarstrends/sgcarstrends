@@ -13,7 +13,8 @@ import { PostsSection } from "@web/app/(main)/(explore)/components/posts-section
 import { SummaryCard } from "@web/app/(main)/(explore)/components/summary-card";
 import { WelcomeSection } from "@web/app/(main)/(explore)/components/welcome-section";
 import { StructuredData } from "@web/components/structured-data";
-import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_URLS } from "@web/config/socials";
+import { LOGO_URL, SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
   },
 };
 
-const structuredData = {
+const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: SITE_TITLE,
@@ -68,6 +69,21 @@ const structuredData = {
     },
     "query-input": "required name=search_term_string",
   },
+} as const;
+
+const organisationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_TITLE,
+  url: SITE_URL,
+  logo: LOGO_URL,
+  description:
+    "A platform for exploring Singapore car registration statistics, COE bidding results, and market data.",
+  sameAs: [
+    SOCIAL_URLS.instagram,
+    SOCIAL_URLS.telegram,
+    SOCIAL_URLS.github,
+  ],
 } as const;
 
 function SummaryCardSkeleton() {
@@ -126,7 +142,8 @@ function MonthlyChangeSummarySkeleton() {
 const HomePage = () => {
   return (
     <>
-      <StructuredData data={structuredData} />
+      <StructuredData data={webSiteSchema} />
+      <StructuredData data={organisationSchema} />
       <section className="flex flex-col gap-8">
         {/* Bento Grid */}
         <AnimatedGrid className="grid grid-cols-12 gap-4">

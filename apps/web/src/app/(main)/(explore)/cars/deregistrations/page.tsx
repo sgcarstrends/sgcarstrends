@@ -21,6 +21,7 @@ import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import {
   generateBreadcrumbSchema,
   generateDatasetSchema,
@@ -127,8 +128,8 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: pageTitle,
       description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
+      site: SOCIAL_HANDLE,
+      creator: SOCIAL_HANDLE,
     },
     alternates: { canonical },
     authors: [{ name: "SG Cars Trends", url: SITE_URL }],

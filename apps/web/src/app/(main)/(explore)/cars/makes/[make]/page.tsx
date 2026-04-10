@@ -8,6 +8,7 @@ import { MonthSelector } from "@web/components/shared/month-selector";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { StructuredData } from "@web/components/structured-data";
 import { LAST_UPDATED_CARS_KEY, SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import {
   createWebPageStructuredData,
   generateBreadcrumbSchema,
@@ -72,8 +73,8 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
+      site: SOCIAL_HANDLE,
+      creator: SOCIAL_HANDLE,
       images,
     },
     alternates: {

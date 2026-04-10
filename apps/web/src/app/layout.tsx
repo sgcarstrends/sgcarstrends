@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "@web/app/providers";
 import LoadingIndicator from "@web/components/loading-indicator";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
@@ -62,8 +63,8 @@ export const metadata: Metadata = {
     title,
     description,
     images: [`${SITE_URL}/twitter-image.png`],
-    site: "@sgcarstrends",
-    creator: "@sgcarstrends",
+    site: SOCIAL_HANDLE,
+    creator: SOCIAL_HANDLE,
   },
   alternates: {
     canonical: SITE_URL,

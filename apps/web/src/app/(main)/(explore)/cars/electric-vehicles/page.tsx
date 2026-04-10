@@ -1,3 +1,4 @@
+// TODO: Add "Last updated" date
 import { AdoptionTrendChart } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/adoption-trend-chart";
 import { EvMetrics } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/ev-metrics";
 import { MakeTable } from "@web/app/(main)/(explore)/cars/electric-vehicles/components/make-table";

@@ -14,6 +14,7 @@ import { StructuredData } from "@web/components/structured-data";
 import { TrendTable } from "@web/components/tables/coe-results-table";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import { loadResultsPageData } from "@web/lib/coe/page-data";
 import {
   generateBreadcrumbSchema,
@@ -61,8 +62,8 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
+      site: SOCIAL_HANDLE,
+      creator: SOCIAL_HANDLE,
       images,
     },
     alternates: {

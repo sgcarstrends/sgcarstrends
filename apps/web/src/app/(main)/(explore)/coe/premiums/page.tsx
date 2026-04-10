@@ -10,6 +10,7 @@ import { Infobox } from "@web/components/shared/infobox";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import { loadLastUpdated } from "@web/lib/common";
 import { getLatestCoeResults } from "@web/queries/coe";
 import type { Metadata } from "next";
@@ -47,8 +48,8 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
+      site: SOCIAL_HANDLE,
+      creator: SOCIAL_HANDLE,
       images,
     },
     alternates: {

@@ -13,6 +13,7 @@ export const SITE_URL =
     ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
     : `https://${DOMAIN_NAME}`);
 export const SITE_TITLE = "SG Cars Trends";
+export const LOGO_URL = `${SITE_URL}/icon.png`;
 
 const DEFAULT_API_URL = `https://api.${DOMAIN_NAME}`;
 export const API_BASE_URL =

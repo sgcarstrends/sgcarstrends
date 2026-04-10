@@ -14,6 +14,7 @@ import { ShareButtons } from "@web/app/(main)/(site)/blog/components/share-butto
 import { TableOfContents } from "@web/app/(main)/(site)/blog/components/table-of-contents";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import { getPostViewCount } from "@web/lib/data/posts";
 import { generateBreadcrumbSchema } from "@web/lib/metadata";
 import {
@@ -75,8 +76,8 @@ export const generateMetadata = async ({
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt || "",
-      creator: "@sgcarstrends",
-      site: "@sgcarstrends",
+      creator: SOCIAL_HANDLE,
+      site: SOCIAL_HANDLE,
     },
     alternates: {
       canonical,

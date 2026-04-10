@@ -5,6 +5,7 @@ import {
 } from "@web/app/(main)/(explore)/cars/components/category/category-overview";
 import { loadSearchParams } from "@web/app/(main)/(explore)/cars/registrations/search-params";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import { getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -48,8 +49,8 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
+      site: SOCIAL_HANDLE,
+      creator: SOCIAL_HANDLE,
     },
     alternates: {
       canonical,

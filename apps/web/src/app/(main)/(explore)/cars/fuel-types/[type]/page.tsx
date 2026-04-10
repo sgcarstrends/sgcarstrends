@@ -5,6 +5,7 @@ import {
   type TypeDetailConfig,
 } from "@web/app/(main)/(explore)/cars/components/category/type-detail";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import { checkFuelTypeIfExist, getDistinctFuelTypes } from "@web/queries/cars";
 import { getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
@@ -53,8 +54,8 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
+      site: SOCIAL_HANDLE,
+      creator: SOCIAL_HANDLE,
       images,
     },
     alternates: {

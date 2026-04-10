@@ -3,6 +3,7 @@ import { Chip } from "@heroui/chip";
 import { Divider } from "@heroui/divider";
 import { Link } from "@heroui/link";
 import Typography from "@web/components/typography";
+import { SOCIAL_URLS } from "@web/config/socials";
 import {
   Clock,
   Mail,
@@ -167,7 +168,7 @@ export function MaintenanceNotice() {
             </Link>
             <span className="hidden text-foreground-400 sm:inline">|</span>
             <Link
-              href="https://twitter.com/sgcarstrends"
+              href={SOCIAL_URLS.twitter}
               color="primary"
               className="flex items-center gap-2 font-medium text-sm"
               isExternal

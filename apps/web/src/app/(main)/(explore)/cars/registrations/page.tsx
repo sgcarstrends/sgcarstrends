@@ -13,6 +13,7 @@ import { MonthSelector } from "@web/components/shared/month-selector";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import { loadCarsMetadataData } from "@web/lib/cars/page-data";
 import { loadLastUpdated } from "@web/lib/common";
 import { getComparisonData } from "@web/queries/cars/compare";
@@ -55,8 +56,8 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
+      site: SOCIAL_HANDLE,
+      creator: SOCIAL_HANDLE,
       images,
     },
     alternates: {

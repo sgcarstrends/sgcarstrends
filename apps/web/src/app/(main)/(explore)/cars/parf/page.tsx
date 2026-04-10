@@ -5,6 +5,7 @@ import { NewChip } from "@web/components/shared/chips";
 import { PAGE_CONTEXTS } from "@web/components/shared/page-contexts";
 import { StructuredData } from "@web/components/structured-data";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import type { Metadata } from "next";
 import type { WebPage, WithContext } from "schema-dts";
 import { AboutParf } from "./components/about-parf";
@@ -32,8 +33,8 @@ export function generateMetadata(): Metadata {
       card: "summary_large_image",
       title,
       description,
-      site: "@sgcarstrends",
-      creator: "@sgcarstrends",
+      site: SOCIAL_HANDLE,
+      creator: SOCIAL_HANDLE,
       images,
     },
     alternates: {

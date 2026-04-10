@@ -1,5 +1,6 @@
 import { StructuredData } from "@web/components/structured-data";
 import { FEATURE_FLAG_UNRELEASED, SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import { getDailyTraffic, getTrafficStats } from "@web/lib/posthog";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -30,8 +31,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${title} - ${SITE_TITLE}`,
     description,
-    site: "@sgcarstrends",
-    creator: "@sgcarstrends",
+    site: SOCIAL_HANDLE,
+    creator: SOCIAL_HANDLE,
   },
   alternates: {
     canonical: "/advertise",

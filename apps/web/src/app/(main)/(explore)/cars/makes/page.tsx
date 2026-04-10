@@ -2,6 +2,7 @@ import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-s
 import { DashboardPageHeader } from "@web/components/dashboard-page-header";
 import { DashboardPageTitle } from "@web/components/dashboard-page-title";
 import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE } from "@web/config/socials";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import { MakesContentSection } from "./components/makes-content-section";
@@ -30,8 +31,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    site: "@sgcarstrends",
-    creator: "@sgcarstrends",
+    site: SOCIAL_HANDLE,
+    creator: SOCIAL_HANDLE,
   },
   alternates: {
     canonical: "/cars/makes",

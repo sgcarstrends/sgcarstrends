@@ -1,5 +1,6 @@
 import { StructuredData } from "@web/components/structured-data";
-import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_URLS, SOCIAL_HANDLE } from "@web/config/socials";
+import { LOGO_URL, SITE_TITLE, SITE_URL } from "@web/config";
 import type { Metadata } from "next";
 import type { Organization, Person, WebPage, WithContext } from "schema-dts";
 import { CreatorSection } from "./components/creator-section";
@@ -29,8 +30,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${title} - ${SITE_TITLE}`,
     description,
-    site: "@sgcarstrends",
-    creator: "@sgcarstrends",
+    site: SOCIAL_HANDLE,
+    creator: SOCIAL_HANDLE,
   },
   alternates: {
     canonical: "/about",
@@ -56,14 +57,13 @@ export default async function AboutPage() {
     "@type": "Organization",
     name: SITE_TITLE,
     url: SITE_URL,
-    logo: `${SITE_URL}/icon.png`,
+    logo: LOGO_URL,
     description:
       "A platform for exploring Singapore car registration statistics, COE bidding results, and market data.",
     sameAs: [
-      "https://www.instagram.com/sgcarstrends",
-      // "https://www.threads.net/@sgcarstrends",
-      "https://t.me/sgcarstrends",
-      "https://github.com/sgcarstrends",
+      SOCIAL_URLS.instagram,
+      SOCIAL_URLS.telegram,
+      SOCIAL_URLS.github,
     ],
     founder: {
       "@type": "Person",
