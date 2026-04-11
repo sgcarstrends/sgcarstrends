@@ -18,7 +18,7 @@ import { GuidesSection } from "./components/guides-section";
 import { HeroSection } from "./components/hero-section";
 import { QuickNavSection } from "./components/quick-nav-section";
 
-const title = "Resources and Guides";
+const title = "Learn";
 const description =
   "Educational hub for Singapore's automotive market — FAQs, glossary of key terms, data sources, and guides to understanding COE, PARF, and car registration trends.";
 
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: `${SITE_URL}/resources`,
+    url: `${SITE_URL}/learn`,
     siteName: SITE_TITLE,
     locale: "en_SG",
     type: "website",
@@ -41,17 +41,17 @@ export const metadata: Metadata = {
     creator: SOCIAL_HANDLE,
   },
   alternates: {
-    canonical: "/resources",
+    canonical: "/learn",
   },
 };
 
-export default function ResourcesPage() {
+export default function LearnPage() {
   const structuredData: WithContext<WebPage> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: title,
     description,
-    url: `${SITE_URL}/resources`,
+    url: `${SITE_URL}/learn`,
     publisher: {
       "@type": "Organization",
       name: SITE_TITLE,
@@ -63,7 +63,7 @@ export default function ResourcesPage() {
   const glossarySchema = generateDefinedTermSetSchema(GLOSSARY_CATEGORIES);
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", path: "/" },
-    { name: "Resources", path: "/resources" },
+    { name: "Learn", path: "/learn" },
   ]);
 
   return (

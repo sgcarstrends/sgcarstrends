@@ -25,7 +25,7 @@ export function Header() {
       // Dashboard active for home, cars, coe routes (all dashboard content)
       return (
         !pathname.startsWith("/blog") &&
-        !pathname.startsWith("/resources") &&
+        !pathname.startsWith("/learn") &&
         !pathname.startsWith("/about")
       );
     }

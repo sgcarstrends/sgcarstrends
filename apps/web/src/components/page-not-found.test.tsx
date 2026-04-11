@@ -43,9 +43,9 @@ describe("PageNotFound", () => {
   it("has correct link href attributes", () => {
     render(<PageNotFound />);
 
-    const resourcesLink = screen.getByRole("link", {
-      name: /resources page/i,
-    });
-    expect(resourcesLink).toHaveAttribute("href", "/resources");
+    expect(screen.getByRole("link", { name: /learn page/i })).toHaveAttribute(
+      "href",
+      "/learn",
+    );
   });
 });

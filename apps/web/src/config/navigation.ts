@@ -179,8 +179,8 @@ export const navLinks: NavLinks = {
       show: true,
     },
     {
-      title: "Resources",
-      url: "/resources",
+      title: "Learn",
+      url: "/learn",
       icon: BookOpen,
       description:
         "Educational hub with FAQs, glossary, guides and data sources",
@@ -214,7 +214,7 @@ export const NAV_ITEMS = [
   { href: "/", label: "Overview" },
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
-  { href: "/resources", label: "Resources" },
+  { href: "/learn", label: "Learn" },
 ] as const satisfies readonly NavItem[];
 
 export const POLAR_DONATION_URL = "https://polar.sh/sgcarstrends";

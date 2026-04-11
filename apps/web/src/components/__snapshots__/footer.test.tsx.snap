@@ -167,12 +167,12 @@ exports[`Footer > should render asynchronous footer content with version informa
             </a>
             <a
               class="block text-default-600 transition-colors hover:text-primary"
-              href="/resources"
+              href="/learn"
             >
               <p
                 class="text-default-600 text-sm leading-6"
               >
-                Resources
+                Learn
               </p>
             </a>
           </div>

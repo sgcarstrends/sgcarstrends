@@ -138,7 +138,7 @@ ${recentPosts.map((post) => `- [${post.title}](${SITE_URL}/blog/${post.slug})`).
 ## About & Information
 
 - [About](${SITE_URL}/about): About ${SITE_TITLE} platform
-- [Resources](${SITE_URL}/resources): Educational hub with FAQs, glossary, guides and data sources
+- [Learn](${SITE_URL}/learn): Educational hub with FAQs, glossary, guides and data sources
 
 ## Optional
 

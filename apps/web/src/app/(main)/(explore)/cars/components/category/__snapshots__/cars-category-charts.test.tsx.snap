@@ -30,48 +30,60 @@ exports[`Cars Category Charts > TopMakesChart > should render chart title and de
         <div
           class="flex gap-2"
         >
-          <div
-            class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-7 text-small rounded-full bg-default text-default-foreground first-of-type:bg-primary first-of-type:text-primary-foreground"
+          <a
+            href="/cars/makes/toyota"
           >
-            <span
-              class="max-h-[80%]"
+            <div
+              class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-7 text-small rounded-full bg-default text-default-foreground cursor-pointer first-of-type:bg-primary first-of-type:text-primary-foreground"
             >
-              🥇
-            </span>
-            <span
-              class="flex-1 text-inherit font-normal px-2 pl-1"
-            >
-              Toyota
-            </span>
-          </div>
-          <div
-            class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-7 text-small rounded-full bg-default text-default-foreground first-of-type:bg-primary first-of-type:text-primary-foreground"
+              <span
+                class="max-h-[80%]"
+              >
+                🥇
+              </span>
+              <span
+                class="flex-1 text-inherit font-normal px-2 pl-1"
+              >
+                Toyota
+              </span>
+            </div>
+          </a>
+          <a
+            href="/cars/makes/honda"
           >
-            <span
-              class="max-h-[80%]"
+            <div
+              class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-7 text-small rounded-full bg-default text-default-foreground cursor-pointer first-of-type:bg-primary first-of-type:text-primary-foreground"
             >
-              🥈
-            </span>
-            <span
-              class="flex-1 text-inherit font-normal px-2 pl-1"
-            >
-              Honda
-            </span>
-          </div>
-          <div
-            class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-7 text-small rounded-full bg-default text-default-foreground first-of-type:bg-primary first-of-type:text-primary-foreground"
+              <span
+                class="max-h-[80%]"
+              >
+                🥈
+              </span>
+              <span
+                class="flex-1 text-inherit font-normal px-2 pl-1"
+              >
+                Honda
+              </span>
+            </div>
+          </a>
+          <a
+            href="/cars/makes/bmw"
           >
-            <span
-              class="max-h-[80%]"
+            <div
+              class="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-7 text-small rounded-full bg-default text-default-foreground cursor-pointer first-of-type:bg-primary first-of-type:text-primary-foreground"
             >
-              🥉
-            </span>
-            <span
-              class="flex-1 text-inherit font-normal px-2 pl-1"
-            >
-              BMW
-            </span>
-          </div>
+              <span
+                class="max-h-[80%]"
+              >
+                🥉
+              </span>
+              <span
+                class="flex-1 text-inherit font-normal px-2 pl-1"
+              >
+                BMW
+              </span>
+            </div>
+          </a>
         </div>
         <div
           class="flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-none [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-none [&_.recharts-surface]:outline-none h-[300px] w-full"
