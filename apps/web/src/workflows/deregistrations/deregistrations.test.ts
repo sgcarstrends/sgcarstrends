@@ -140,8 +140,7 @@ describe("deregistrationsWorkflow", () => {
     vi.mocked(getDeregistrationsForMonth).mockResolvedValueOnce([
       {
         month: "2024-01",
-        make: "Toyota",
-        vehicleType: "Saloon",
+        category: "Saloon",
         number: 50,
       },
     ]);
@@ -234,8 +233,7 @@ describe("deregistrationsWorkflow", () => {
     vi.mocked(getDeregistrationsForMonth).mockResolvedValueOnce([
       {
         month: "2024-01",
-        make: "Toyota",
-        vehicleType: "Saloon",
+        category: "Saloon",
         number: 50,
       },
     ]);
@@ -262,8 +260,7 @@ describe("deregistrationsWorkflow", () => {
     vi.mocked(getDeregistrationsForMonth).mockResolvedValueOnce([
       {
         month: "2024-01",
-        make: "Toyota",
-        vehicleType: "Saloon",
+        category: "Saloon",
         number: 50,
       },
     ]);
@@ -290,8 +287,7 @@ describe("deregistrationsWorkflow", () => {
     vi.mocked(getDeregistrationsForMonth).mockResolvedValueOnce([
       {
         month: "2024-01",
-        make: "Toyota",
-        vehicleType: "Saloon",
+        category: "Saloon",
         number: 50,
       },
     ]);

@@ -96,7 +96,7 @@
     "tailwind-merge": "3.4.0",
     "tailwindcss-animate": "1.0.7",
     "twitter-api-v2": "1.28.0",
-    "workflow": "4.1.0-beta.63",
+    "workflow": "4.2.0",
     "zod": "catalog:",
     "zustand": "5.0.9"
   },
