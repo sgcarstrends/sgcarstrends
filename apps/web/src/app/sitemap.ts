@@ -1,4 +1,5 @@
 import { slugify } from "@sgcarstrends/utils";
+import { getAllGuideSlugs } from "@web/app/(main)/(site)/learn/lib/guides";
 import { SITE_LINKS, SITE_URL } from "@web/config";
 import { getDistinctMakes } from "@web/queries/cars";
 import { getAllPosts } from "@web/queries/posts";
@@ -108,6 +109,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
     },
+    ...getAllGuideSlugs().map((slug) => ({
+      url: `${SITE_URL}/learn/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+    })),
     ...SITE_LINKS.map((link) => ({
       url: `${SITE_URL}${link.href}`,
       lastModified: new Date(),

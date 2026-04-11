@@ -138,7 +138,14 @@ ${recentPosts.map((post) => `- [${post.title}](${SITE_URL}/blog/${post.slug})`).
 ## About & Information
 
 - [About](${SITE_URL}/about): About ${SITE_TITLE} platform
-- [Learn](${SITE_URL}/learn): Educational hub with FAQs, glossary, guides and data sources
+- [Learn](${SITE_URL}/learn): Educational hub with FAQs, terminology, guides and data sources
+
+## Guides
+
+- [COE Guide](${SITE_URL}/learn/coe): Certificate of Entitlement — how bidding works, categories, and tips
+- [PARF Guide](${SITE_URL}/learn/parf): PARF rebate calculation, when to deregister your car
+- [ARF Guide](${SITE_URL}/learn/arf): Additional Registration Fee tiers and how it's calculated
+- [OMV Guide](${SITE_URL}/learn/omv): Open Market Value — how Singapore Customs assesses your car
 
 ## Optional
 

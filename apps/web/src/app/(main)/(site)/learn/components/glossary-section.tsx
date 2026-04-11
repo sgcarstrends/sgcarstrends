@@ -1,14 +1,19 @@
 "use client";
 
 import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Link } from "@heroui/link";
 import Typography from "@web/components/typography";
 import {
   fadeInUpVariants,
   staggerContainerVariants,
   staggerItemVariants,
 } from "@web/config/animations";
+import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { getAllGuideSlugs } from "../lib/guides";
 import { GLOSSARY_CATEGORIES } from "./glossary-data";
+
+const guideSlugs = getAllGuideSlugs();
 
 export function GlossarySection() {
   return (
@@ -64,18 +69,38 @@ export function GlossarySection() {
                 <Typography.H3>{category.title}</Typography.H3>
               </div>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {category.terms.map(({ term, definition }) => (
-                  <motion.div key={term} variants={staggerItemVariants}>
+                {category.terms.map(({ term, definition }) => {
+                  const slug = term.toLowerCase();
+                  const hasGuide = guideSlugs.includes(slug);
+
+                  const card = (
                     <Card className="h-full border-default-200/80 transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
                       <CardHeader className="pb-0">
-                        <Typography.H4>{term}</Typography.H4>
+                        <div className="flex w-full items-center justify-between">
+                          <Typography.H4>{term}</Typography.H4>
+                          {hasGuide && (
+                            <ArrowRight className="size-4 text-primary" />
+                          )}
+                        </div>
                       </CardHeader>
                       <CardBody>
                         <Typography.TextSm>{definition}</Typography.TextSm>
                       </CardBody>
                     </Card>
-                  </motion.div>
-                ))}
+                  );
+
+                  return (
+                    <motion.div key={term} variants={staggerItemVariants}>
+                      {hasGuide ? (
+                        <Link href={`/learn/${slug}`} className="block h-full">
+                          {card}
+                        </Link>
+                      ) : (
+                        card
+                      )}
+                    </motion.div>
+                  );
+                })}
               </div>
             </motion.div>
           ))}
