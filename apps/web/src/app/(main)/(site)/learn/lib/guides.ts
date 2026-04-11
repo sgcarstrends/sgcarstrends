@@ -138,31 +138,45 @@ PARF was introduced to encourage vehicle owners to deregister their cars earlier
 
 ## How PARF is Calculated
 
-PARF rebates are calculated as a percentage of the ARF paid at registration, decreasing each year:
+PARF rebates are calculated as a percentage of the ARF paid at registration, decreasing each year. **Budget 2026** introduced significant changes to the rebate schedule.
 
-| Vehicle Age | PARF Rebate |
-|-------------|-------------|
-| Within 5 years | 75% of ARF |
-| 6th year | 70% of ARF |
-| 7th year | 65% of ARF |
-| 8th year | 60% of ARF |
-| 9th year | 55% of ARF |
-| 10th year | 50% of ARF |
+### New PARF Rates (February 2026 onwards)
+
+For cars registered with COEs from the second February 2026 bidding exercise:
+
+| Vehicle Age | PARF Rebate | Cap |
+|-------------|-------------|-----|
+| Within 5 years | 30% of ARF | $30,000 |
+| 6th year | 25% of ARF | $30,000 |
+| 7th year | 20% of ARF | $30,000 |
+| 8th year | 15% of ARF | $30,000 |
+| 9th year | 10% of ARF | $30,000 |
+| 10th year | 5% of ARF | $30,000 |
+
+### Legacy PARF Rates (pre-February 2026)
+
+For cars registered before February 2026, the original rates still apply:
+
+| Vehicle Age | PARF Rebate | Cap |
+|-------------|-------------|-----|
+| Within 5 years | 75% of ARF | $60,000 |
+| 6th year | 70% of ARF | $60,000 |
+| 7th year | 65% of ARF | $60,000 |
+| 8th year | 60% of ARF | $60,000 |
+| 9th year | 55% of ARF | $60,000 |
+| 10th year | 50% of ARF | $60,000 |
 
 After 10 years (when the original COE expires), **no PARF rebate is available**.
 
-### Example Calculation
+### Example: Legacy vs New Rates
 
-Let's say you bought a car with an OMV of $30,000:
-- **ARF paid**: $30,000 (100% of first $20,000 + 140% of next $10,000 = $20,000 + $14,000 = $34,000)
-- Actually, let's use simpler numbers for illustration
+For a car with **$100,000 ARF** deregistered at Year 5:
 
-For a car with **$40,000 ARF**:
-- **Year 5 deregistration**: $40,000 × 75% = **$30,000 PARF rebate**
-- **Year 7 deregistration**: $40,000 × 65% = **$26,000 PARF rebate**
-- **Year 10 deregistration**: $40,000 × 50% = **$20,000 PARF rebate**
+**Legacy (pre-Feb 2026)**: $100,000 × 75% = $75,000 → capped at **$60,000**
 
-The difference between Year 5 and Year 10 is $10,000 — that's a significant sum to factor into your ownership calculations.
+**New (Feb 2026+)**: $100,000 × 30% = $30,000 → **$30,000** (within cap)
+
+The new structure significantly reduces PARF benefits, especially for high-ARF vehicles where the cap previously provided substantial rebates.
 
 ## PARF vs COE Rebate
 
@@ -259,15 +273,17 @@ ARF is one of the largest cost components when buying a car in Singapore, often 
 
 ## ARF Tiers and Rates
 
-The ARF uses a progressive tiered system:
+The ARF uses a progressive 5-tier system (revised February 2023):
 
 | OMV Range | ARF Rate |
 |-----------|----------|
 | First $20,000 | 100% |
-| Next $30,000 ($20,001 - $50,000) | 140% |
-| Above $50,000 | 180% |
+| $20,001 – $40,000 | 140% |
+| $40,001 – $60,000 | 190% |
+| $60,001 – $80,000 | 250% |
+| Above $80,000 | 320% |
 
-This means a car with a higher OMV pays proportionally more ARF.
+The steeper rates at higher tiers mean luxury vehicles pay significantly more ARF relative to their OMV.
 
 ## ARF Calculation Examples
 
@@ -280,13 +296,21 @@ This means a car with a higher OMV pays proportionally more ARF.
 - Next $15,000 × 140% = $21,000
 - Total ARF: **$41,000**
 
-### Example 3: Luxury Car (OMV $80,000)
+### Example 3: Premium Car (OMV $55,000)
 - First $20,000 × 100% = $20,000
-- Next $30,000 × 140% = $42,000
-- Remaining $30,000 × 180% = $54,000
-- Total ARF: **$116,000**
+- Next $20,000 × 140% = $28,000
+- Next $15,000 × 190% = $28,500
+- Total ARF: **$76,500**
 
-Notice how the ARF for the luxury car ($116,000) is more than 6 times the budget car ($18,000), even though the OMV is only about 4.4 times higher.
+### Example 4: Luxury Car (OMV $100,000)
+- First $20,000 × 100% = $20,000
+- Next $20,000 × 140% = $28,000
+- Next $20,000 × 190% = $38,000
+- Next $20,000 × 250% = $50,000
+- Remaining $20,000 × 320% = $64,000
+- Total ARF: **$200,000**
+
+Notice how the ARF for the luxury car ($200,000) is double the OMV itself, due to the steep 320% top tier.
 
 ## Why ARF Matters
 
@@ -319,15 +343,16 @@ Goods vehicles and buses have different ARF structures aligned with their vehicl
 
 ## Historical Context
 
-The tiered ARF system has evolved over time:
+The tiered ARF system has evolved significantly:
 
 | Year | Change |
 |------|--------|
-| 2013 | Introduced current tiered structure (previously 100% flat) |
+| 2013 | Introduced tiered structure (previously 100% flat rate) |
 | 2018 | Rates increased for higher tiers |
-| 2023 | Structure maintained, focus on EV incentives instead |
+| 2022 | New 220% tier for OMV above $80,000 |
+| 2023 | Major revision: 5-tier structure with rates up to 320% |
 
-The progressive structure was introduced to make car ownership more accessible for budget-conscious buyers while ensuring luxury vehicles pay more.
+The February 2023 revision introduced steeper tiers to moderate demand for luxury vehicles while keeping entry-level cars more accessible.
 
 ## ARF vs COE: What's the Difference?
 
@@ -541,6 +566,134 @@ Not exactly. Paper value for loans/insurance may differ from OMV as it includes 
     relatedLinks: [
       { label: "PARF Calculator", href: "/cars/parf" },
       { label: "Car Registrations", href: "/cars/registrations" },
+    ],
+    lastUpdated: "2026-04-11",
+  },
+  {
+    slug: "pqp",
+    term: "PQP",
+    title: "Prevailing Quota Premium (PQP) - COE Renewal Costs Explained",
+    description:
+      "Complete guide to Singapore's PQP: how it's calculated, when to renew vs deregister, and current PQP rates across all vehicle categories.",
+    excerpt:
+      "The Prevailing Quota Premium determines how much you pay to renew your COE after 10 years. Understanding PQP helps you decide whether to extend your car's lifespan or deregister for rebates.",
+    content: `## What is PQP?
+
+The **Prevailing Quota Premium (PQP)** is the moving average of COE prices used to calculate the cost of renewing your Certificate of Entitlement after the initial 10-year period expires.
+
+When your COE expires, you have two choices:
+1. **Deregister** and receive any remaining PARF/COE rebates
+2. **Renew** by paying the PQP for another 5 or 10 years
+
+## How PQP is Calculated
+
+PQP is the **3-month moving average** of Quota Premiums in your vehicle's COE category. It's updated after each COE bidding exercise (twice monthly).
+
+For example, if the last 6 COE results for Category A were:
+- $95,000, $98,000, $97,000, $100,000, $99,000, $96,000
+
+The PQP would be based on the average of the most recent results, smoothing out short-term fluctuations.
+
+## Renewal Options and Costs
+
+| Renewal Term | Cost | Notes |
+|--------------|------|-------|
+| **10-year renewal** | 100% of PQP | Full decade of usage |
+| **5-year renewal** | 50% of PQP | Shorter commitment |
+
+### Example
+
+If Category A PQP is **$100,000**:
+- **10-year renewal**: Pay $100,000
+- **5-year renewal**: Pay $50,000
+
+**Note**: After a 5-year renewal, you cannot renew again — the car must be deregistered when the renewed COE expires.
+
+## PQP vs COE Bidding
+
+| Aspect | PQP (Renewal) | COE (New Registration) |
+|--------|---------------|------------------------|
+| **Price** | Fixed (moving average) | Variable (auction) |
+| **Timing** | Pay when your COE expires | Bid during exercises |
+| **Flexibility** | Choose 5 or 10 years | Always 10 years |
+| **Competition** | None (guaranteed) | Bid against others |
+
+**Key advantage of PQP**: You're guaranteed renewal at the published rate — no bidding competition.
+
+## When to Renew vs Deregister
+
+### Consider Renewal When:
+- Your car is well-maintained and reliable
+- Current PQP is lower than prevailing COE prices
+- You want to avoid the hassle of buying a new car
+- The car has low mileage and good condition
+
+### Consider Deregistration When:
+- Car requires expensive repairs
+- You want a newer model with better features
+- PARF rebate is still substantial (pre-Feb 2026 cars)
+- Running costs are high (road tax, fuel, maintenance)
+
+## Important: No PARF After Renewal
+
+Once you renew your COE, the car becomes **PARF-ineligible**. You will only receive a pro-rated COE rebate if you deregister later — no PARF rebate.
+
+This is a key consideration: if your car has significant PARF value remaining, deregistering might yield more than the car's resale value with a renewed COE.
+
+## PQP by Category
+
+PQP rates vary by COE category:
+
+| Category | Vehicles | Typical PQP Range |
+|----------|----------|-------------------|
+| **A** | Cars ≤1,600cc/130bhp | Moderate |
+| **B** | Cars >1,600cc/130bhp | Higher |
+| **C** | Goods vehicles, buses | Lower |
+| **D** | Motorcycles | Lowest |
+| **E** | Open (any vehicle) | Highest |
+
+Check our [PQP Rates](/coe/pqp) page for current rates across all categories.
+
+## The Renewal Process
+
+1. **Check eligibility**: Your COE must be expiring within 3 months
+2. **Decide term**: Choose 5-year or 10-year renewal
+3. **Apply online**: Submit via OneMotoring
+4. **Pay PQP**: Complete payment before COE expiry
+5. **Receive new COE**: Valid from the day after original expiry
+
+**Important**: If you miss the deadline, your car becomes illegal to drive and may be deregistered automatically.
+
+## PQP Trends
+
+PQP follows COE market trends with a lag due to the moving average calculation:
+- When COE prices rise, PQP increases gradually
+- When COE prices fall, PQP decreases gradually
+- The smoothing effect protects against extreme spikes
+
+## Frequently Asked Questions
+
+### Can I renew before my COE expires?
+You can apply for renewal up to 3 months before expiry, but the new COE period only starts after the current one ends.
+
+### Can I renew again after a 5-year renewal?
+No. A 5-year renewal is final — when it expires, the car must be deregistered. Only a 10-year renewal allows for a subsequent renewal.
+
+### Is the PQP refundable if I deregister early?
+Yes, you receive a pro-rated refund based on remaining months. However, no PARF rebate applies to renewed COEs.
+
+### Why is PQP sometimes higher than current COE prices?
+PQP is a moving average, so it can lag behind recent price drops. Conversely, it may be lower than current prices if COE has recently spiked.
+
+## Related Terms
+
+- [COE](/learn/coe) — The licence PQP renews
+- [PARF](/learn/parf) — Lost eligibility after renewal
+- [ARF](/learn/arf) — Not affected by renewal`,
+    relatedTerms: ["COE", "PARF", "ARF"],
+    relatedLinks: [
+      { label: "Current PQP Rates", href: "/coe/pqp" },
+      { label: "COE Results", href: "/coe/results" },
     ],
     lastUpdated: "2026-04-11",
   },

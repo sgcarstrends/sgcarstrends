@@ -143,9 +143,10 @@ ${recentPosts.map((post) => `- [${post.title}](${SITE_URL}/blog/${post.slug})`).
 ## Guides
 
 - [COE Guide](${SITE_URL}/learn/coe): Certificate of Entitlement — how bidding works, categories, and tips
-- [PARF Guide](${SITE_URL}/learn/parf): PARF rebate calculation, when to deregister your car
-- [ARF Guide](${SITE_URL}/learn/arf): Additional Registration Fee tiers and how it's calculated
+- [PARF Guide](${SITE_URL}/learn/parf): PARF rebate calculation and Budget 2026 changes
+- [ARF Guide](${SITE_URL}/learn/arf): Additional Registration Fee 5-tier structure (Feb 2023)
 - [OMV Guide](${SITE_URL}/learn/omv): Open Market Value — how Singapore Customs assesses your car
+- [PQP Guide](${SITE_URL}/learn/pqp): Prevailing Quota Premium — COE renewal costs explained
 
 ## Optional
 
