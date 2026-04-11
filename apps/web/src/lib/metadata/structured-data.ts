@@ -252,7 +252,7 @@ export function generateDefinedTermSetSchema(
 ): DefinedTermSet {
   return {
     "@type": "DefinedTermSet",
-    name: "Singapore Automotive Glossary",
+    name: "Singapore Automotive Terms",
     description:
       "Key terms and definitions for Singapore's vehicle market, including COE, PARF, and vehicle classification terminology",
     hasDefinedTerm: categories.flatMap((category) =>
@@ -260,7 +260,7 @@ export function generateDefinedTermSetSchema(
         "@type": "DefinedTerm" as const,
         name: term,
         description: definition,
-        inDefinedTermSet: "Singapore Automotive Glossary",
+        inDefinedTermSet: "Singapore Automotive Terms",
       })),
     ),
   };
