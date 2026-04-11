@@ -43,7 +43,7 @@ COE prices are determined through an open bidding process conducted by the Land 
 3. At close, the lowest successful bid in each category becomes the Quota Premium (QP)
 4. All successful bidders pay the QP, not their actual bid amount
 
-This is a **uniform-price auction** — everyone pays the same price regardless of how much they bid.
+This is a **uniform-price auction**: everyone pays the same price regardless of how much they bid.
 
 ## The 5 COE Categories
 
@@ -60,8 +60,8 @@ This is a **uniform-price auction** — everyone pays the same price regardless 
 ### Which Category Should You Choose?
 
 For most car buyers, it comes down to Category A vs B:
-- **Category A**: Smaller, more fuel-efficient cars — Toyota Corolla, Honda Civic base models, most EVs
-- **Category B**: Larger, more powerful cars — BMW 3 Series, Mercedes C-Class, Tesla Model 3 Performance
+- **Category A**: Smaller, more fuel-efficient cars: Toyota Corolla, Honda Civic base models, most EVs
+- **Category B**: Larger, more powerful cars: BMW 3 Series, Mercedes C-Class, Tesla Model 3 Performance
 
 If both categories have similar premiums, some buyers choose Category E for flexibility in case they want to transfer the COE to a different vehicle type later.
 
@@ -82,7 +82,7 @@ When your 10-year COE expires, you have two options:
 1. **Deregister** the vehicle and claim any remaining PARF rebate
 2. **Renew** the COE for another 5 or 10 years
 
-Renewal costs are based on the **Prevailing Quota Premium (PQP)** — a moving average of recent COE prices in your category. See our [PQP Rates](/coe/pqp) page for current rates.
+Renewal costs are based on the **Prevailing Quota Premium (PQP)**: a moving average of recent COE prices in your category. See our [PQP Rates](/coe/pqp) page for current rates.
 
 ### Renewal Terms
 - **10-year renewal**: Pay 100% of PQP
@@ -94,7 +94,7 @@ Note: Renewed COEs do not qualify for PARF rebates.
 
 1. **Monitor trends**: Track prices over several months before deciding
 2. **Consider timing**: Prices often dip slightly in January and during economic uncertainty
-3. **Factor in all costs**: COE is just one component — remember ARF, OMV, and other fees
+3. **Factor in all costs**: COE is just one component: remember ARF, OMV, and other fees
 4. **Paper bids**: Let your dealer handle bidding through a "paper bid" for convenience
 
 ## Frequently Asked Questions
@@ -110,10 +110,10 @@ Your deposit is returned, and you can bid again in the next exercise.
 
 ## Related Terms
 
-- [ARF](/learn/arf) — Additional Registration Fee
-- [PARF](/learn/parf) — Preferential Additional Registration Fee
-- [OMV](/learn/omv) — Open Market Value
-- [PQP](/learn/pqp) — Prevailing Quota Premium`,
+- [ARF](/learn/arf): Additional Registration Fee
+- [PARF](/learn/parf): Preferential Additional Registration Fee
+- [OMV](/learn/omv): Open Market Value
+- [PQP](/learn/pqp): Prevailing Quota Premium`,
     relatedTerms: ["ARF", "PARF", "OMV", "PQP"],
     relatedLinks: [
       { label: "Current COE Premiums", href: "/coe/premiums" },
@@ -227,7 +227,7 @@ You can also export the vehicle instead of scrapping, which may yield additional
 
 EVs follow the same PARF structure. However, since EVs tend to have higher OMV (and thus higher ARF), the PARF rebates are typically larger in absolute terms.
 
-This is one reason why the total cost of ownership for EVs can be competitive despite higher upfront prices — the higher PARF rebate offsets some depreciation.
+This is one reason why the total cost of ownership for EVs can be competitive despite higher upfront prices: the higher PARF rebate offsets some depreciation.
 
 ## Check Your PARF Value
 
@@ -246,10 +246,10 @@ PARF is a government rebate. Scrap value is what scrapyards pay for the vehicle'
 
 ## Related Terms
 
-- [ARF](/learn/arf) — The fee PARF is calculated from
-- [COE](/learn/coe) — Certificate of Entitlement
-- [OMV](/learn/omv) — Determines your ARF
-- [PQP](/learn/pqp) — COE renewal cost`,
+- [ARF](/learn/arf): The fee PARF is calculated from
+- [COE](/learn/coe): Certificate of Entitlement
+- [OMV](/learn/omv): Determines your ARF
+- [PQP](/learn/pqp): COE renewal cost`,
     relatedTerms: ["ARF", "COE", "OMV", "PQP"],
     relatedLinks: [
       { label: "PARF Calculator", href: "/cars/parf" },
@@ -264,7 +264,7 @@ PARF is a government rebate. Scrap value is what scrapyards pay for the vehicle'
     description:
       "Complete guide to Singapore's ARF: the tiered tax structure, how it's calculated from OMV, and its impact on car prices and PARF rebates.",
     excerpt:
-      "The Additional Registration Fee is a major component of car prices in Singapore. This tiered tax on vehicle value can add tens of thousands to your purchase — here's how it works.",
+      "The Additional Registration Fee is a major component of car prices in Singapore. This tiered tax on vehicle value can add tens of thousands to your purchase:here's how it works.",
     content: `## What is ARF?
 
 The **Additional Registration Fee (ARF)** is a tax levied when you first register a vehicle in Singapore. It's calculated based on the vehicle's Open Market Value (OMV) and uses a tiered rate structure designed to make luxury vehicles proportionally more expensive.
@@ -392,9 +392,9 @@ No, ARF is mandatory for all new vehicle registrations in Singapore. There are n
 
 ## Related Terms
 
-- [OMV](/learn/omv) — The value ARF is calculated from
-- [PARF](/learn/parf) — Rebate based on ARF
-- [COE](/learn/coe) — The other major registration cost`,
+- [OMV](/learn/omv): The value ARF is calculated from
+- [PARF](/learn/parf): Rebate based on ARF
+- [COE](/learn/coe): The other major registration cost`,
     relatedTerms: ["OMV", "PARF", "COE"],
     relatedLinks: [
       { label: "PARF Calculator", href: "/cars/parf" },
@@ -549,7 +549,7 @@ However, government incentives (ARF rebates, road tax exemptions) help offset th
 Yes, you can appeal to Singapore Customs if you believe the assessment is incorrect. You'll need supporting documentation.
 
 ### Does OMV include shipping costs?
-Yes, OMV is based on CIF (Cost, Insurance, Freight) value — the landed cost before Singapore taxes.
+Yes, OMV is based on CIF (Cost, Insurance, Freight) value: the landed cost before Singapore taxes.
 
 ### Why is OMV different for same model?
 Variants, options, import source, and assessment timing can all cause OMV differences for the same model.
@@ -559,9 +559,9 @@ Not exactly. Paper value for loans/insurance may differ from OMV as it includes 
 
 ## Related Terms
 
-- [ARF](/learn/arf) — Calculated from OMV
-- [PARF](/learn/parf) — Indirectly based on OMV via ARF
-- [COE](/learn/coe) — Separate from OMV-based taxes`,
+- [ARF](/learn/arf): Calculated from OMV
+- [PARF](/learn/parf): Indirectly based on OMV via ARF
+- [COE](/learn/coe): Separate from OMV-based taxes`,
     relatedTerms: ["ARF", "PARF", "COE"],
     relatedLinks: [
       { label: "PARF Calculator", href: "/cars/parf" },
@@ -607,7 +607,7 @@ If Category A PQP is **$100,000**:
 - **10-year renewal**: Pay $100,000
 - **5-year renewal**: Pay $50,000
 
-**Note**: After a 5-year renewal, you cannot renew again — the car must be deregistered when the renewed COE expires.
+**Note**: After a 5-year renewal, you cannot renew again: the car must be deregistered when the renewed COE expires.
 
 ## PQP vs COE Bidding
 
@@ -618,7 +618,7 @@ If Category A PQP is **$100,000**:
 | **Flexibility** | Choose 5 or 10 years | Always 10 years |
 | **Competition** | None (guaranteed) | Bid against others |
 
-**Key advantage of PQP**: You're guaranteed renewal at the published rate — no bidding competition.
+**Key advantage of PQP**: You're guaranteed renewal at the published rate: no bidding competition.
 
 ## When to Renew vs Deregister
 
@@ -636,7 +636,7 @@ If Category A PQP is **$100,000**:
 
 ## Important: No PARF After Renewal
 
-Once you renew your COE, the car becomes **PARF-ineligible**. You will only receive a pro-rated COE rebate if you deregister later — no PARF rebate.
+Once you renew your COE, the car becomes **PARF-ineligible**. You will only receive a pro-rated COE rebate if you deregister later: no PARF rebate.
 
 This is a key consideration: if your car has significant PARF value remaining, deregistering might yield more than the car's resale value with a renewed COE.
 
@@ -677,7 +677,7 @@ PQP follows COE market trends with a lag due to the moving average calculation:
 You can apply for renewal up to 3 months before expiry, but the new COE period only starts after the current one ends.
 
 ### Can I renew again after a 5-year renewal?
-No. A 5-year renewal is final — when it expires, the car must be deregistered. Only a 10-year renewal allows for a subsequent renewal.
+No. A 5-year renewal is final: when it expires, the car must be deregistered. Only a 10-year renewal allows for a subsequent renewal.
 
 ### Is the PQP refundable if I deregister early?
 Yes, you receive a pro-rated refund based on remaining months. However, no PARF rebate applies to renewed COEs.
@@ -687,9 +687,9 @@ PQP is a moving average, so it can lag behind recent price drops. Conversely, it
 
 ## Related Terms
 
-- [COE](/learn/coe) — The licence PQP renews
-- [PARF](/learn/parf) — Lost eligibility after renewal
-- [ARF](/learn/arf) — Not affected by renewal`,
+- [COE](/learn/coe): The licence PQP renews
+- [PARF](/learn/parf): Lost eligibility after renewal
+- [ARF](/learn/arf): Not affected by renewal`,
     relatedTerms: ["COE", "PARF", "ARF"],
     relatedLinks: [
       { label: "Current PQP Rates", href: "/coe/pqp" },
