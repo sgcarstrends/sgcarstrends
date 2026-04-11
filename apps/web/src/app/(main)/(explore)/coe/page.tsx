@@ -1,4 +1,6 @@
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { AnimatedGrid } from "@web/app/(main)/(explore)/components/animated-grid";
+import { AnimatedSection } from "@web/app/(main)/(explore)/components/animated-section";
+import { ExploreCard } from "@web/app/(main)/(explore)/components/explore-card";
 import { StructuredData } from "@web/components/structured-data";
 import Typography from "@web/components/typography";
 import { SITE_TITLE, SITE_URL } from "@web/config";
@@ -36,6 +38,12 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
+  // Separate hero card (Premiums) from the rest
+  const heroItem = navLinks.coe.find((item) => item.url === "/coe/premiums");
+  const sidebarItems = navLinks.coe.filter(
+    (item) => item.url !== "/coe/premiums",
+  );
+
   return (
     <div className="flex flex-col gap-8">
       <StructuredData
@@ -52,43 +60,56 @@ export default function Page() {
       <div className="flex flex-col gap-2">
         <Typography.H1>COE</Typography.H1>
         <Typography.TextLg>
-          Certificate of Entitlement data and analysis for Singapore.
-        </Typography.TextLg>
-      </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {navLinks.coe.map(({ title, url, icon: Icon, description }) => (
-          <Link key={url} href={url}>
-            <Card
-              isPressable
-              className="h-full bg-content1 p-4 transition-shadow hover:shadow-md"
-            >
-              <CardHeader className="flex flex-row items-center gap-2">
-                {Icon && <Icon className="size-5 text-primary" />}
-                <Typography.H4>{title}</Typography.H4>
-              </CardHeader>
-              {description && (
-                <CardBody>
-                  <Typography.TextSm>{description}</Typography.TextSm>
-                </CardBody>
-              )}
-            </Card>
-          </Link>
-        ))}
-      </div>
-      <div className="flex flex-col gap-2 rounded-2xl bg-default-100 p-6">
-        <Typography.H3>Related</Typography.H3>
-        <Typography.TextSm>
-          Explore{" "}
+          Certificate of Entitlement data and analysis for Singapore. Explore{" "}
           <Link href="/cars" className="text-primary hover:underline">
             car registration data
           </Link>{" "}
-          to see which makes and fuel types are most popular. Read our{" "}
-          <Link href="/blog" className="text-primary hover:underline">
-            market insights
-          </Link>{" "}
-          for expert analysis on COE trends.
-        </Typography.TextSm>
+          to see which makes and fuel types are most popular.
+        </Typography.TextLg>
       </div>
+
+      <AnimatedGrid className="grid grid-cols-12 gap-4">
+        {/* Hero card: Premiums - spans 8 columns on desktop */}
+        {heroItem?.icon && (
+          <AnimatedSection className="col-span-12 md:col-span-8" order={0}>
+            <ExploreCard
+              title={heroItem.title}
+              description={heroItem.description ?? ""}
+              href={heroItem.url}
+              icon={
+                <heroItem.icon
+                  className={`size-6 ${heroItem.iconColor ?? "text-primary"}`}
+                />
+              }
+              badge={heroItem.badge}
+              variant="hero"
+              className="h-full min-h-[200px] md:min-h-[280px]"
+            />
+          </AnimatedSection>
+        )}
+
+        {/* Sidebar: Results and PQP stacked vertically */}
+        <div className="col-span-12 flex flex-col gap-4 md:col-span-4">
+          {sidebarItems.map((item, index) => (
+            <AnimatedSection key={item.url} order={index + 1}>
+              <ExploreCard
+                title={item.title}
+                description={item.description ?? ""}
+                href={item.url}
+                icon={
+                  item.icon && (
+                    <item.icon
+                      className={`size-5 ${item.iconColor ?? "text-primary"}`}
+                    />
+                  )
+                }
+                badge={item.badge}
+                variant="standard"
+              />
+            </AnimatedSection>
+          ))}
+        </div>
+      </AnimatedGrid>
     </div>
   );
 }
