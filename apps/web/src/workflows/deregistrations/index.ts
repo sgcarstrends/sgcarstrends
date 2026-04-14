@@ -8,9 +8,13 @@ import type { UpdaterResult } from "@web/lib/updater";
 import { getDeregistrationsLatestMonth } from "@web/queries/deregistrations/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { updateDeregistration } from "@web/workflows/deregistrations/steps/process-data";
-import { revalidatePostsCache } from "@web/workflows/shared";
+import {
+  emitEvent,
+  handleAIError,
+  revalidatePostsCache,
+} from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
-import { FatalError, fetch, RetryableError } from "workflow";
+import { fetch } from "workflow";
 
 interface DeregistrationsWorkflowPayload {
   month?: string;
@@ -32,7 +36,13 @@ export async function deregistrationsWorkflow(
 
   globalThis.fetch = fetch;
 
+  await emitEvent({ type: "step:start", step: "processDeregistrationsData" });
   const result = await processDeregistrationsData();
+  await emitEvent({
+    type: "data:processed",
+    step: "processDeregistrationsData",
+    data: { recordsProcessed: result.recordsProcessed },
+  });
 
   if (result.recordsProcessed === 0) {
     return { message: "No deregistration records processed." };
@@ -43,7 +53,9 @@ export async function deregistrationsWorkflow(
     return { message: "No deregistration data found." };
   }
 
+  await emitEvent({ type: "step:start", step: "revalidateDeregistrationsCache" });
   await revalidateDeregistrationsCache(latestMonth);
+  await emitEvent({ type: "cache:revalidated", step: "revalidateDeregistrationsCache", data: { month: latestMonth } });
 
   const existingPost = await checkExistingDeregistrationsPost(latestMonth);
   if (existingPost) {
@@ -53,8 +65,10 @@ export async function deregistrationsWorkflow(
     };
   }
 
+  await emitEvent({ type: "step:start", step: "generateDeregistrationsPost" });
   const deregistrationsData = await fetchDeregistrationsData(latestMonth);
   const post = await generateDeregistrationsPost(deregistrationsData, latestMonth);
+  await emitEvent({ type: "post:generated", step: "generateDeregistrationsPost", data: { postId: post.postId } });
 
   await revalidatePostsCache();
 
@@ -121,13 +135,6 @@ async function generateDeregistrationsPost(
       dataType: "deregistrations",
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    if (message.includes("429")) {
-      throw new RetryableError("AI rate limited", { retryAfter: "1m" });
-    }
-    if (message.includes("401") || message.includes("403")) {
-      throw new FatalError("AI authentication failed");
-    }
-    throw error;
+    handleAIError(error);
   }
 }

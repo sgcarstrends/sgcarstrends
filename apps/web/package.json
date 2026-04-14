@@ -120,6 +120,7 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "4.7.0",
     "@vitest/coverage-v8": "catalog:",
+    "@workflow/vitest": "4.0.1",
     "babel-plugin-react-compiler": "1.0.0",
     "jsdom": "26.1.0",
     "postcss": "8.5.6",

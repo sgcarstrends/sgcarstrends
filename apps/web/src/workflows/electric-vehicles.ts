@@ -5,8 +5,12 @@ import {
 import { tokeniser } from "@sgcarstrends/utils";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
-import { revalidatePostsCache } from "@web/workflows/shared";
-import { FatalError, fetch, RetryableError } from "workflow";
+import {
+  emitEvent,
+  handleAIError,
+  revalidatePostsCache,
+} from "@web/workflows/shared";
+import { fetch } from "workflow";
 
 interface ElectricVehiclesWorkflowPayload {
   month?: string;
@@ -38,12 +42,17 @@ export async function electricVehiclesWorkflow(
     return { message: "[EV] Post already exists, skipping." };
   }
 
+  await emitEvent({ type: "step:start", step: "fetchEvData" });
   const evData = await fetchEvData(month);
+  await emitEvent({ type: "data:processed", step: "fetchEvData", data: { recordCount: evData.length } });
+
   if (evData.length === 0) {
     return { message: "[EV] No EV data for this month." };
   }
 
+  await emitEvent({ type: "step:start", step: "generateEvPost" });
   const post = await generateEvPost(evData, month);
+  await emitEvent({ type: "post:generated", step: "generateEvPost", data: { postId: post.postId } });
 
   await revalidatePostsCache();
 
@@ -90,13 +99,6 @@ async function generateEvPost(
       dataType: "electric-vehicles",
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    if (message.includes("429")) {
-      throw new RetryableError("AI rate limited", { retryAfter: "1m" });
-    }
-    if (message.includes("401") || message.includes("403")) {
-      throw new FatalError("AI authentication failed");
-    }
-    throw error;
+    handleAIError(error);
   }
 }

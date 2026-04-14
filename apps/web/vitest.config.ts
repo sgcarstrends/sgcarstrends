@@ -84,7 +84,11 @@ export default defineConfig({
         statements: 80,
       },
     },
-    exclude: [...configDefaults.exclude, "tests"],
+    exclude: [
+      ...configDefaults.exclude,
+      "tests",
+      "**/*.integration.test.ts",
+    ],
     setupFiles: "./setup-tests.ts",
   },
 });

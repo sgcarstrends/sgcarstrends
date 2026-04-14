@@ -20,6 +20,8 @@
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+.workflow-vitest/
+.workflow-data/
 
 # Cache & Temp
 *.tsbuildinfo

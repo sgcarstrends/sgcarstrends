@@ -2,6 +2,7 @@ import { redis } from "@sgcarstrends/utils";
 import { LAST_UPDATED_CAR_COSTS_KEY } from "@web/config";
 import type { UpdaterResult } from "@web/lib/updater";
 import { updateCarCosts } from "@web/workflows/car-costs/steps/process-data";
+import { emitEvent } from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
 
 interface CarCostsWorkflowResult {
@@ -15,13 +16,21 @@ interface CarCostsWorkflowResult {
 export async function carCostsWorkflow(): Promise<CarCostsWorkflowResult> {
   "use workflow";
 
+  await emitEvent({ type: "step:start", step: "processCarCostsData" });
   const result = await processCarCostsData();
+  await emitEvent({
+    type: "data:processed",
+    step: "processCarCostsData",
+    data: { recordsProcessed: result.recordsProcessed },
+  });
 
   if (result.recordsProcessed === 0) {
     return { message: "No car cost records processed." };
   }
 
+  await emitEvent({ type: "step:start", step: "revalidateCarCostsCache" });
   await revalidateCarCostsCache();
+  await emitEvent({ type: "cache:revalidated", step: "revalidateCarCostsCache" });
 
   return {
     message: "[CAR COSTS] Data processed and cache revalidated successfully",

@@ -5,9 +5,13 @@ import type { UpdaterResult } from "@web/lib/updater";
 import { getCOELatestRecord } from "@web/queries/coe/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { updateCoe } from "@web/workflows/coe/steps/process-data";
-import { revalidatePostsCache } from "@web/workflows/shared";
+import {
+  emitEvent,
+  handleAIError,
+  revalidatePostsCache,
+} from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
-import { FatalError, fetch, RetryableError } from "workflow";
+import { fetch } from "workflow";
 
 interface CoeWorkflowPayload {
   month?: string;
@@ -29,7 +33,13 @@ export async function coeWorkflow(
 
   globalThis.fetch = fetch;
 
+  await emitEvent({ type: "step:start", step: "processCoeData" });
   const result = await processCoeData();
+  await emitEvent({
+    type: "data:processed",
+    step: "processCoeData",
+    data: { recordsProcessed: result.recordsProcessed },
+  });
 
   if (result.recordsProcessed === 0) {
     return {
@@ -62,7 +72,9 @@ export async function coeWorkflow(
   }
 
   const year = month.split("-")[0];
+  await emitEvent({ type: "step:start", step: "revalidateCoeCache" });
   await revalidateCoeCache(month, year);
+  await emitEvent({ type: "cache:revalidated", step: "revalidateCoeCache", data: { month, year } });
 
   const existingPost = await checkExistingCoePost(month);
   if (existingPost) {
@@ -72,8 +84,10 @@ export async function coeWorkflow(
     };
   }
 
+  await emitEvent({ type: "step:start", step: "generateCoePost" });
   const coeData = await fetchCoeData(month);
   const post = await generateCoePost(coeData, month);
+  await emitEvent({ type: "post:generated", step: "generateCoePost", data: { postId: post.postId } });
 
   await revalidatePostsCache();
 
@@ -138,13 +152,6 @@ async function generateCoePost(
   try {
     return await generateBlogContent({ data, month, dataType: "coe" });
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    if (message.includes("429")) {
-      throw new RetryableError("AI rate limited", { retryAfter: "1m" });
-    }
-    if (message.includes("401") || message.includes("403")) {
-      throw new FatalError("AI authentication failed");
-    }
-    throw error;
+    handleAIError(error);
   }
 }

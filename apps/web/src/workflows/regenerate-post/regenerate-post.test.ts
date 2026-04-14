@@ -12,9 +12,31 @@ vi.mock("@sgcarstrends/utils", () => ({
 
 vi.mock("workflow", () => ({
   fetch: vi.fn(),
+  getWritable: vi.fn(() => ({
+    getWriter: () => ({
+      write: vi.fn().mockResolvedValue(undefined),
+      releaseLock: vi.fn(),
+    }),
+  })),
+  FatalError: class FatalError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = "FatalError";
+    }
+  },
+  RetryableError: class RetryableError extends Error {
+    constructor(
+      message: string,
+      public options?: { retryAfter?: number | string },
+    ) {
+      super(message);
+      this.name = "RetryableError";
+    }
+  },
 }));
 
-vi.mock("@web/workflows/shared", () => ({
+vi.mock("@web/workflows/shared", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@web/workflows/shared")>()),
   revalidatePostsCache: vi.fn(),
 }));
 
@@ -140,5 +162,61 @@ describe("regeneratePostWorkflow", () => {
 
     expect(getCoeForMonth).toHaveBeenCalledWith("2024-02");
     expect(getCarsAggregatedByMonth).not.toHaveBeenCalled();
+  });
+
+  it("should throw RetryableError when AI rate limited (429)", async () => {
+    vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([]);
+    vi.mocked(regenerateBlogContent).mockRejectedValueOnce(
+      new Error("Request failed with status 429"),
+    );
+
+    await expect(
+      regeneratePostWorkflow({
+        month: "2024-01",
+        dataType: "cars",
+      }),
+    ).rejects.toThrow("AI rate limited");
+  });
+
+  it("should throw FatalError when AI authentication fails (401)", async () => {
+    vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([]);
+    vi.mocked(regenerateBlogContent).mockRejectedValueOnce(
+      new Error("Request failed with status 401"),
+    );
+
+    await expect(
+      regeneratePostWorkflow({
+        month: "2024-01",
+        dataType: "cars",
+      }),
+    ).rejects.toThrow("AI authentication failed");
+  });
+
+  it("should throw FatalError when AI authentication fails (403)", async () => {
+    vi.mocked(getCoeForMonth).mockResolvedValueOnce([]);
+    vi.mocked(regenerateBlogContent).mockRejectedValueOnce(
+      new Error("Request failed with status 403"),
+    );
+
+    await expect(
+      regeneratePostWorkflow({
+        month: "2024-01",
+        dataType: "coe",
+      }),
+    ).rejects.toThrow("AI authentication failed");
+  });
+
+  it("should rethrow unknown errors from AI generation", async () => {
+    vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([]);
+    vi.mocked(regenerateBlogContent).mockRejectedValueOnce(
+      new Error("Unknown AI error"),
+    );
+
+    await expect(
+      regeneratePostWorkflow({
+        month: "2024-01",
+        dataType: "cars",
+      }),
+    ).rejects.toThrow("Unknown AI error");
   });
 });

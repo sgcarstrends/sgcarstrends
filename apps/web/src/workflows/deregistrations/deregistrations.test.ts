@@ -15,6 +15,12 @@ vi.mock("@sgcarstrends/utils", () => ({
 vi.mock("workflow", () => ({
   fetch: vi.fn(),
   getStepMetadata: vi.fn(() => ({ attempt: 1 })),
+  getWritable: vi.fn(() => ({
+    getWriter: () => ({
+      write: vi.fn().mockResolvedValue(undefined),
+      releaseLock: vi.fn(),
+    }),
+  })),
   FatalError: class FatalError extends Error {
     constructor(message: string) {
       super(message);
@@ -48,7 +54,8 @@ vi.mock("next/cache", () => ({
   revalidateTag: vi.fn(),
 }));
 
-vi.mock("@web/workflows/shared", () => ({
+vi.mock("@web/workflows/shared", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@web/workflows/shared")>()),
   revalidatePostsCache: vi.fn(),
 }));
 

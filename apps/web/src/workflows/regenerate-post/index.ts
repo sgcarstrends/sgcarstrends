@@ -4,7 +4,11 @@ import {
   regenerateBlogContent,
 } from "@sgcarstrends/ai";
 import { tokeniser } from "@sgcarstrends/utils";
-import { revalidatePostsCache } from "@web/workflows/shared";
+import {
+  emitEvent,
+  handleAIError,
+  revalidatePostsCache,
+} from "@web/workflows/shared";
 import { fetch } from "workflow";
 
 interface RegeneratePostPayload {
@@ -34,13 +38,14 @@ export async function regeneratePostWorkflow(
 
   const { month, dataType } = payload;
 
-  // Step 1: Fetch data
+  await emitEvent({ type: "step:start", step: "fetchData", data: { month, dataType } });
   const data = await fetchData(month, dataType);
+  await emitEvent({ type: "step:complete", step: "fetchData" });
 
-  // Step 2: Generate blog content
+  await emitEvent({ type: "step:start", step: "generatePost" });
   const post = await generatePost(data, month, dataType);
+  await emitEvent({ type: "post:generated", step: "generatePost", data: { postId: post.postId } });
 
-  // Step 3: Revalidate posts cache
   await revalidatePostsCache();
 
   return {
@@ -75,9 +80,13 @@ async function generatePost(
   "use step";
   console.log(`Generating ${dataType} blog content for ${month}`);
 
-  return regenerateBlogContent({
-    data,
-    month,
-    dataType,
-  });
+  try {
+    return await regenerateBlogContent({
+      data,
+      month,
+      dataType,
+    });
+  } catch (error) {
+    handleAIError(error);
+  }
 }

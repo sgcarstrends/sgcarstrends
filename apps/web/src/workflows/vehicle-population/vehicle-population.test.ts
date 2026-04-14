@@ -8,6 +8,12 @@ vi.mock("@sgcarstrends/utils", () => ({
 
 vi.mock("workflow", () => ({
   getStepMetadata: vi.fn(() => ({ attempt: 1 })),
+  getWritable: vi.fn(() => ({
+    getWriter: () => ({
+      write: vi.fn().mockResolvedValue(undefined),
+      releaseLock: vi.fn(),
+    }),
+  })),
   FatalError: class FatalError extends Error {
     constructor(message: string) {
       super(message);

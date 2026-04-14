@@ -9,9 +9,13 @@ import type { UpdaterResult } from "@web/lib/updater";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { updateCars } from "@web/workflows/cars/steps/process-data";
-import { revalidatePostsCache } from "@web/workflows/shared";
+import {
+  emitEvent,
+  handleAIError,
+  revalidatePostsCache,
+} from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
-import { FatalError, fetch, RetryableError } from "workflow";
+import { fetch } from "workflow";
 
 interface CarsWorkflowPayload {
   month?: string;
@@ -34,7 +38,13 @@ export async function carsWorkflow(
   // Enable WDK's durable fetch for AI SDK
   globalThis.fetch = fetch;
 
+  await emitEvent({ type: "step:start", step: "processCarsData" });
   const result = await processCarsData();
+  await emitEvent({
+    type: "data:processed",
+    step: "processCarsData",
+    data: { recordsProcessed: result.recordsProcessed },
+  });
 
   if (result.recordsProcessed === 0) {
     return {
@@ -42,14 +52,18 @@ export async function carsWorkflow(
     };
   }
 
+  await emitEvent({ type: "step:start", step: "syncMakesSortedSet" });
   await syncMakesSortedSet();
+  await emitEvent({ type: "step:complete", step: "syncMakesSortedSet" });
 
   const month = payload.month ?? (await getLatestMonth());
   if (!month) {
     return { message: "[CARS] No car records found" };
   }
 
+  await emitEvent({ type: "step:start", step: "revalidateCarsCache" });
   await revalidateCarsCache(month);
+  await emitEvent({ type: "cache:revalidated", step: "revalidateCarsCache", data: { month } });
 
   const existingPost = await checkExistingCarsPost(month);
   if (existingPost) {
@@ -59,8 +73,10 @@ export async function carsWorkflow(
     };
   }
 
+  await emitEvent({ type: "step:start", step: "generateCarsPost" });
   const carsData = await fetchCarsData(month);
   const post = await generateCarsPost(carsData, month);
+  await emitEvent({ type: "post:generated", step: "generateCarsPost", data: { postId: post.postId } });
 
   await revalidatePostsCache();
 
@@ -126,15 +142,6 @@ async function generateCarsPost(
   try {
     return await generateBlogContent({ data, month, dataType: "cars" });
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    // Rate limit - wait before retry
-    if (message.includes("429")) {
-      throw new RetryableError("AI rate limited", { retryAfter: "1m" });
-    }
-    // Auth error - can't succeed
-    if (message.includes("401") || message.includes("403")) {
-      throw new FatalError("AI authentication failed");
-    }
-    throw error;
+    handleAIError(error);
   }
 }
