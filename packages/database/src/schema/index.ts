@@ -1,5 +1,23 @@
 export * from "./auth";
 export {
+  advertisers,
+  advertisersRelations,
+  type InsertAdvertiser,
+  type SelectAdvertiser,
+} from "./advertisers";
+export {
+  campaignEvents,
+  campaignEventsRelations,
+  type InsertCampaignEvent,
+  type SelectCampaignEvent,
+} from "./campaign-events";
+export {
+  campaigns,
+  campaignsRelations,
+  type InsertCampaign,
+  type SelectCampaign,
+} from "./campaigns";
+export {
   carCosts,
   type InsertCarCost,
   type SelectCarCost,

@@ -4,6 +4,9 @@ packages:
 
 catalog:
   '@ai-sdk/google': 3.0.6
+  '@vercel/blob': 2.3.0
+  resend: 4.3.0
+  stripe: 17.6.0
   '@heroui/react': 2.8.7
   '@upstash/redis': 1.37.0
   drizzle-orm: 0.45.2
