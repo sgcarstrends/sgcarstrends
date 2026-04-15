@@ -7,6 +7,7 @@ import {
   createCampaign,
   type CampaignActionState,
 } from "@web/app/(partners)/actions/campaigns";
+import { PLANS } from "@web/app/(partners)/lib/plans";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
@@ -17,11 +18,11 @@ const placementTypes = [
   { value: "in-feed", label: "In-Feed Card", description: "Home page bento grid" },
 ];
 
-const plans = [
-  { value: "starter", label: "Starter", price: "$299/month" },
-  { value: "growth", label: "Growth", price: "$599/month" },
-  { value: "premium", label: "Premium", price: "$999/month" },
-];
+const plans = Object.entries(PLANS).map(([value, plan]) => ({
+  value,
+  label: plan.name,
+  price: `S$${plan.price}/month`,
+}));
 
 const initialState: CampaignActionState = {};
 
@@ -30,11 +31,11 @@ export function CampaignForm() {
   const [state, formAction, pending] = useActionState(createCampaign, initialState);
 
   useEffect(() => {
-    if (state.success && state.campaignId) {
-      toast.success("Campaign created successfully");
-      router.push(`/campaigns/${state.campaignId}`);
+    if (state.success && state.paymentUrl) {
+      toast.success("Redirecting to payment...");
+      window.location.href = state.paymentUrl;
     }
-  }, [state.success, state.campaignId, router]);
+  }, [state.success, state.paymentUrl]);
 
   return (
     <form action={formAction} className="flex flex-col gap-4">

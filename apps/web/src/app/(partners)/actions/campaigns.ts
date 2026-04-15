@@ -2,6 +2,8 @@
 
 import { campaigns, db, eq } from "@sgcarstrends/database";
 import { auth } from "@web/app/admin/lib/auth";
+import { type PlanKey } from "@web/app/(partners)/lib/plans";
+import { getPaymentUrl } from "@web/app/(partners)/lib/stripe";
 import { getAdvertiserByUserId } from "@web/app/(partners)/queries/advertiser";
 import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
@@ -56,6 +58,7 @@ export interface CampaignActionState {
   };
   success?: boolean;
   campaignId?: string;
+  paymentUrl?: string;
 }
 
 export async function createCampaign(
@@ -142,9 +145,12 @@ export async function createCampaign(
     revalidateTag(`campaigns:advertiser:${advertiser.id}`, "max");
     revalidateTag(`partner:dashboard:${advertiser.id}`, "max");
 
+    const paymentUrl = getPaymentUrl(plan as PlanKey, campaign.id);
+
     return {
       success: true,
       campaignId: campaign.id,
+      paymentUrl,
     };
   } catch {
     return {
