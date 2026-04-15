@@ -13,7 +13,7 @@ import { RelatedPosts } from "@web/app/(main)/(site)/blog/components/related-pos
 import { ShareButtons } from "@web/app/(main)/(site)/blog/components/share-buttons";
 import { TableOfContents } from "@web/app/(main)/(site)/blog/components/table-of-contents";
 import { StructuredData } from "@web/components/structured-data";
-import { SITE_URL } from "@web/config";
+import { SITE_TITLE, SITE_URL } from "@web/config";
 import { SOCIAL_HANDLE } from "@web/config/socials";
 import { getPostViewCount } from "@web/lib/data/posts";
 import { generateBreadcrumbSchema } from "@web/lib/metadata";
@@ -59,16 +59,16 @@ export const generateMetadata = async ({
     title: post.title,
     description: post.excerpt || "",
     keywords: post.tags ?? [],
-    authors: [{ name: "SG Cars Trends AI", url: SITE_URL }],
-    creator: "SG Cars Trends",
-    publisher: "SG Cars Trends",
+    authors: [{ name: `${SITE_TITLE} AI`, url: SITE_URL }],
+    creator: SITE_TITLE,
+    publisher: SITE_TITLE,
     openGraph: {
       title: post.title,
       description: post.excerpt || "",
       type: "article",
       publishedTime: publishedDate.toISOString(),
       modifiedTime: modifiedDate.toISOString(),
-      authors: ["SG Cars Trends"],
+      authors: [SITE_TITLE],
       tags: post.tags ?? [],
       url: `${SITE_URL}${canonical}`,
     },
@@ -161,12 +161,12 @@ export default async function BlogPostPage({ params }: PageProps) {
     inLanguage: "en-SG",
     author: {
       "@type": "Organization",
-      name: "SG Cars Trends",
+      name: SITE_TITLE,
       url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
-      name: "SG Cars Trends",
+      name: SITE_TITLE,
       url: SITE_URL,
     },
     image: {
@@ -178,7 +178,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       post.dataType === "cars" ? "Market Analysis" : "COE Bidding",
     isPartOf: {
       "@type": "Blog",
-      name: "SG Cars Trends Blog",
+      name: `${SITE_TITLE} Blog`,
       url: `${SITE_URL}/blog`,
     },
   };

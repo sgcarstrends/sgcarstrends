@@ -2,6 +2,7 @@
 
 import { Link } from "@heroui/link";
 import Typography from "@web/components/typography";
+import { SITE_TITLE } from "@web/config";
 import {
   staggerContainerVariants,
   staggerItemVariants,
@@ -45,7 +46,7 @@ export function CreatorSection() {
                 Singapore
               </Typography.H2>
               <Typography.TextLg className="text-default-600">
-                SG Cars Trends is an independent project created by{" "}
+                {SITE_TITLE} is an independent project created by{" "}
                 <Link
                   href="https://ruchern.dev"
                   isExternal

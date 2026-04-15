@@ -34,12 +34,12 @@ export function createWebPageStructuredData(
 const datasetBase = {
   creator: {
     "@type": "Organization" as const,
-    name: "SG Cars Trends",
+    name: SITE_TITLE,
     url: SITE_URL,
   },
   publisher: {
     "@type": "Organization" as const,
-    name: "SG Cars Trends",
+    name: SITE_TITLE,
     url: SITE_URL,
   },
   provider: {
