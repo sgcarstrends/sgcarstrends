@@ -11,9 +11,8 @@ import { MissionSection } from "./components/mission-section";
 import { StatsSection } from "./components/stats-section";
 import { TimelineSection } from "./components/timeline-section";
 
-const title = "About SG Cars Trends";
-const description =
-  "Learn about SG Cars Trends, a platform for exploring Singapore car registration statistics, COE bidding results, and market data. Built to make car market information easier to find and understand.";
+const title = `About ${SITE_TITLE}`;
+const description = `Learn about ${SITE_TITLE}, a platform for exploring Singapore car registration statistics, COE bidding results, and market data. Built to make car market information easier to find and understand.`;
 
 export const metadata: Metadata = {
   title,

@@ -6,7 +6,7 @@ exports[`StructuredData > should inject JSON-LD script 1`] = `
     id="structured-data"
     type="application/ld+json"
   >
-    {"@context":"https://schema.org","@type":"Organization","name":"SG Cars Trends"}
+    {"@context":"https://schema.org","@type":"Organization","name":"MotorMetrics"}
   </script>
 </div>
 `;

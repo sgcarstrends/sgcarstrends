@@ -1,9 +1,9 @@
+import { SITE_TITLE } from "@web/config";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description:
-    "Terms and conditions for using SG Cars Trends. Understand data usage rights, liability limits, and acceptable use of our Singapore car market platform.",
+  description: `Terms and conditions for using ${SITE_TITLE}. Understand data usage rights, liability limits, and acceptable use of our Singapore car market platform.`,
   alternates: {
     canonical: "/legal/terms-of-service",
   },
@@ -20,7 +20,7 @@ export default function TermsPage() {
       <section>
         <h2>Using Our Website</h2>
         <p>
-          By using SGCarsTrends, you agree to these terms. Pretty
+          By using {SITE_TITLE}, you agree to these terms. Pretty
           straightforward!
         </p>
       </section>

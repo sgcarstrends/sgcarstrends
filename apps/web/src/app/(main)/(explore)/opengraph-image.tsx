@@ -4,7 +4,7 @@ import { Section } from "@web/lib/og/templates/section";
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "SG Cars Trends - Singapore Car Registration & COE Statistics";
+  "MotorMetrics - Singapore Car Registration & COE Statistics";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 

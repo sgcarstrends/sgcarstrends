@@ -1,6 +1,8 @@
 // Data extracted from faq-section.tsx because "use client" modules
 // don't expose non-component exports to Server Components.
 
+import { SITE_TITLE } from "@web/config";
+
 export interface FAQItem {
   question: string;
   answer: string;
@@ -51,7 +53,7 @@ export const FAQ_SECTIONS: FAQSectionData[] = [
           "Car registration data is updated monthly following the Land Transport Authority's (LTA) official data releases. The data typically becomes available 2-3 weeks after the end of each month and includes comprehensive breakdowns by manufacturer, fuel type, and vehicle category.",
       },
       {
-        question: "What data sources does SG Cars Trends use?",
+        question: `What data sources does ${SITE_TITLE} use?`,
         answer:
           "All vehicle registration and COE data is sourced directly from Singapore's Land Transport Authority (LTA), ensuring accuracy and official government backing. We process and format this data to provide insights and analytics for easier understanding of market trends.",
       },
@@ -98,7 +100,7 @@ export const FAQ_SECTIONS: FAQSectionData[] = [
     ],
   },
   {
-    title: "Using SG Cars Trends",
+    title: `Using ${SITE_TITLE}`,
     items: [
       {
         question: "How can I access historical data?",

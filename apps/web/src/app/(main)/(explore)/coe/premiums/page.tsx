@@ -55,9 +55,9 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: "/coe/premiums",
     },
-    authors: [{ name: "SG Cars Trends", url: SITE_URL }],
-    creator: "SG Cars Trends",
-    publisher: "SG Cars Trends",
+    authors: [{ name: SITE_TITLE, url: SITE_URL }],
+    creator: SITE_TITLE,
+    publisher: SITE_TITLE,
   };
 }
 

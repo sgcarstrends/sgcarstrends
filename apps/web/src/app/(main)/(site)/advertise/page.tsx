@@ -13,8 +13,7 @@ import { StatsSection } from "./components/stats-section";
 import { TrafficChartSection } from "./components/traffic-chart-section";
 
 const title = "Advertise";
-const description =
-  "Reach Singapore's most engaged car enthusiasts. See our traffic stats, ad placements, and pricing to promote your product on SG Cars Trends.";
+const description = `Reach Singapore's most engaged car enthusiasts. See our traffic stats, ad placements, and pricing to promote your product on ${SITE_TITLE}.`;
 
 export const metadata: Metadata = {
   title,

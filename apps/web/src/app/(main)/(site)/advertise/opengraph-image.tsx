@@ -3,7 +3,7 @@ import { getOGFonts } from "@web/lib/og/fonts";
 import { Section } from "@web/lib/og/templates/section";
 import { ImageResponse } from "next/og";
 
-export const alt = "Advertise on SG Cars Trends";
+export const alt = "Advertise on MotorMetrics";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 
