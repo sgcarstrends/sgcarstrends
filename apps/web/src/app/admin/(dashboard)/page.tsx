@@ -7,13 +7,7 @@ import {
   CardTitle,
 } from "@sgcarstrends/ui/components/card";
 import { WorkflowMonitor } from "@web/app/admin/components/workflow-monitor";
-import {
-  Database,
-  RefreshCw,
-  Server,
-  Settings,
-  Wrench,
-} from "lucide-react";
+import { Database, RefreshCw, Server, Settings, Wrench } from "lucide-react";
 import Link from "next/link";
 
 const Dashboard = () => {

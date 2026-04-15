@@ -8,8 +8,8 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
 } from "@web/config/animations";
-import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { getAllGuideSlugs } from "../lib/guides";
 import { GLOSSARY_CATEGORIES } from "./glossary-data";
 

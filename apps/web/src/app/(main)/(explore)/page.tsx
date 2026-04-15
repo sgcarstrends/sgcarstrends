@@ -13,8 +13,8 @@ import { PostsSection } from "@web/app/(main)/(explore)/components/posts-section
 import { SummaryCard } from "@web/app/(main)/(explore)/components/summary-card";
 import { WelcomeSection } from "@web/app/(main)/(explore)/components/welcome-section";
 import { StructuredData } from "@web/components/structured-data";
-import { SOCIAL_URLS } from "@web/config/socials";
 import { LOGO_URL, SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_URLS } from "@web/config/socials";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -79,11 +79,7 @@ const organisationSchema = {
   logo: LOGO_URL,
   description:
     "A platform for exploring Singapore car registration statistics, COE bidding results, and market data.",
-  sameAs: [
-    SOCIAL_URLS.instagram,
-    SOCIAL_URLS.telegram,
-    SOCIAL_URLS.github,
-  ],
+  sameAs: [SOCIAL_URLS.instagram, SOCIAL_URLS.telegram, SOCIAL_URLS.github],
 } as const;
 
 function SummaryCardSkeleton() {

@@ -1,6 +1,6 @@
 import { auth } from "@web/app/admin/lib/auth";
-import { getRun } from "workflow/api";
 import { headers } from "next/headers";
+import { getRun } from "workflow/api";
 
 export async function GET(request: Request) {
   const headersList = await headers();

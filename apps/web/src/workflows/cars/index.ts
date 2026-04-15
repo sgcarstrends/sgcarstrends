@@ -63,7 +63,11 @@ export async function carsWorkflow(
 
   await emitEvent({ type: "step:start", step: "revalidateCarsCache" });
   await revalidateCarsCache(month);
-  await emitEvent({ type: "cache:revalidated", step: "revalidateCarsCache", data: { month } });
+  await emitEvent({
+    type: "cache:revalidated",
+    step: "revalidateCarsCache",
+    data: { month },
+  });
 
   const existingPost = await checkExistingCarsPost(month);
   if (existingPost) {
@@ -76,7 +80,11 @@ export async function carsWorkflow(
   await emitEvent({ type: "step:start", step: "generateCarsPost" });
   const carsData = await fetchCarsData(month);
   const post = await generateCarsPost(carsData, month);
-  await emitEvent({ type: "post:generated", step: "generateCarsPost", data: { postId: post.postId } });
+  await emitEvent({
+    type: "post:generated",
+    step: "generateCarsPost",
+    data: { postId: post.postId },
+  });
 
   await revalidatePostsCache();
 

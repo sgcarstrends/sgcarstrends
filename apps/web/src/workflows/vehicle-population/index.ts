@@ -1,8 +1,8 @@
 import { redis } from "@sgcarstrends/utils";
 import type { UpdaterResult } from "@web/lib/updater";
 import { getVehiclePopulationYears } from "@web/queries/vehicle-population";
-import { updateVehiclePopulation } from "@web/workflows/vehicle-population/steps/process-data";
 import { emitEvent } from "@web/workflows/shared";
+import { updateVehiclePopulation } from "@web/workflows/vehicle-population/steps/process-data";
 import { revalidateTag } from "next/cache";
 
 export async function vehiclePopulationWorkflow(): Promise<{
@@ -27,9 +27,16 @@ export async function vehiclePopulationWorkflow(): Promise<{
     return { message: "No vehicle population data found." };
   }
 
-  await emitEvent({ type: "step:start", step: "revalidateVehiclePopulationCache" });
+  await emitEvent({
+    type: "step:start",
+    step: "revalidateVehiclePopulationCache",
+  });
   await revalidateVehiclePopulationCache(latestYear);
-  await emitEvent({ type: "cache:revalidated", step: "revalidateVehiclePopulationCache", data: { year: latestYear } });
+  await emitEvent({
+    type: "cache:revalidated",
+    step: "revalidateVehiclePopulationCache",
+    data: { year: latestYear },
+  });
 
   return {
     message:

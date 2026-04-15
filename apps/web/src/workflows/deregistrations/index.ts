@@ -53,9 +53,16 @@ export async function deregistrationsWorkflow(
     return { message: "No deregistration data found." };
   }
 
-  await emitEvent({ type: "step:start", step: "revalidateDeregistrationsCache" });
+  await emitEvent({
+    type: "step:start",
+    step: "revalidateDeregistrationsCache",
+  });
   await revalidateDeregistrationsCache(latestMonth);
-  await emitEvent({ type: "cache:revalidated", step: "revalidateDeregistrationsCache", data: { month: latestMonth } });
+  await emitEvent({
+    type: "cache:revalidated",
+    step: "revalidateDeregistrationsCache",
+    data: { month: latestMonth },
+  });
 
   const existingPost = await checkExistingDeregistrationsPost(latestMonth);
   if (existingPost) {
@@ -67,8 +74,15 @@ export async function deregistrationsWorkflow(
 
   await emitEvent({ type: "step:start", step: "generateDeregistrationsPost" });
   const deregistrationsData = await fetchDeregistrationsData(latestMonth);
-  const post = await generateDeregistrationsPost(deregistrationsData, latestMonth);
-  await emitEvent({ type: "post:generated", step: "generateDeregistrationsPost", data: { postId: post.postId } });
+  const post = await generateDeregistrationsPost(
+    deregistrationsData,
+    latestMonth,
+  );
+  await emitEvent({
+    type: "post:generated",
+    step: "generateDeregistrationsPost",
+    data: { postId: post.postId },
+  });
 
   await revalidatePostsCache();
 

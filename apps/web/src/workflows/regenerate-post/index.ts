@@ -38,13 +38,21 @@ export async function regeneratePostWorkflow(
 
   const { month, dataType } = payload;
 
-  await emitEvent({ type: "step:start", step: "fetchData", data: { month, dataType } });
+  await emitEvent({
+    type: "step:start",
+    step: "fetchData",
+    data: { month, dataType },
+  });
   const data = await fetchData(month, dataType);
   await emitEvent({ type: "step:complete", step: "fetchData" });
 
   await emitEvent({ type: "step:start", step: "generatePost" });
   const post = await generatePost(data, month, dataType);
-  await emitEvent({ type: "post:generated", step: "generatePost", data: { postId: post.postId } });
+  await emitEvent({
+    type: "post:generated",
+    step: "generatePost",
+    data: { postId: post.postId },
+  });
 
   await revalidatePostsCache();
 

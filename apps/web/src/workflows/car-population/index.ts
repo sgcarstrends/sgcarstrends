@@ -29,7 +29,11 @@ export async function carPopulationWorkflow(): Promise<{
 
   await emitEvent({ type: "step:start", step: "revalidateCarPopulationCache" });
   await revalidateCarPopulationCache(latestYear);
-  await emitEvent({ type: "cache:revalidated", step: "revalidateCarPopulationCache", data: { year: latestYear } });
+  await emitEvent({
+    type: "cache:revalidated",
+    step: "revalidateCarPopulationCache",
+    data: { year: latestYear },
+  });
 
   return {
     message:

@@ -74,7 +74,11 @@ export async function coeWorkflow(
   const year = month.split("-")[0];
   await emitEvent({ type: "step:start", step: "revalidateCoeCache" });
   await revalidateCoeCache(month, year);
-  await emitEvent({ type: "cache:revalidated", step: "revalidateCoeCache", data: { month, year } });
+  await emitEvent({
+    type: "cache:revalidated",
+    step: "revalidateCoeCache",
+    data: { month, year },
+  });
 
   const existingPost = await checkExistingCoePost(month);
   if (existingPost) {
@@ -87,7 +91,11 @@ export async function coeWorkflow(
   await emitEvent({ type: "step:start", step: "generateCoePost" });
   const coeData = await fetchCoeData(month);
   const post = await generateCoePost(coeData, month);
-  await emitEvent({ type: "post:generated", step: "generateCoePost", data: { postId: post.postId } });
+  await emitEvent({
+    type: "post:generated",
+    step: "generateCoePost",
+    data: { postId: post.postId },
+  });
 
   await revalidatePostsCache();
 

@@ -85,10 +85,7 @@ export function WorkflowMonitor() {
   const [workflows, setWorkflows] = useState<Record<string, WorkflowState>>(
     () =>
       Object.fromEntries(
-        WORKFLOW_TYPES.map((w) => [
-          w.id,
-          { lastRun: null, triggering: false },
-        ]),
+        WORKFLOW_TYPES.map((w) => [w.id, { lastRun: null, triggering: false }]),
       ),
   );
   const [polling, setPolling] = useState(false);
@@ -217,7 +214,9 @@ export function WorkflowMonitor() {
             onClick={refreshAll}
             disabled={polling}
           >
-            <RefreshCw className={`mr-2 size-4 ${polling ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`mr-2 size-4 ${polling ? "animate-spin" : ""}`}
+            />
             Refresh
           </Button>
         </div>

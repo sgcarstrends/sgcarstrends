@@ -3,10 +3,7 @@
  * Tests the workflow lifecycle (start, step execution, return value)
  * without requiring database or external service connections.
  */
-export async function testCalculateWorkflow(input: {
-  a: number;
-  b: number;
-}) {
+export async function testCalculateWorkflow(input: { a: number; b: number }) {
   "use workflow";
 
   const sum = await addNumbers(input.a, input.b);

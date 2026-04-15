@@ -30,7 +30,10 @@ export async function carCostsWorkflow(): Promise<CarCostsWorkflowResult> {
 
   await emitEvent({ type: "step:start", step: "revalidateCarCostsCache" });
   await revalidateCarCostsCache();
-  await emitEvent({ type: "cache:revalidated", step: "revalidateCarCostsCache" });
+  await emitEvent({
+    type: "cache:revalidated",
+    step: "revalidateCarCostsCache",
+  });
 
   return {
     message: "[CAR COSTS] Data processed and cache revalidated successfully",

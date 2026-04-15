@@ -1,6 +1,6 @@
 import { getPostsWorkflowRevalidationTags } from "@web/lib/cache-tags";
 import { revalidateTag } from "next/cache";
-import { FatalError, RetryableError, getWritable } from "workflow";
+import { FatalError, getWritable, RetryableError } from "workflow";
 
 import type { WorkflowEvent } from "./types";
 

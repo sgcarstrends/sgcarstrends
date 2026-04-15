@@ -1,7 +1,4 @@
-import {
-  generateBlogContent,
-  getEvDataForMonth,
-} from "@sgcarstrends/ai";
+import { generateBlogContent, getEvDataForMonth } from "@sgcarstrends/ai";
 import { tokeniser } from "@sgcarstrends/utils";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
@@ -44,7 +41,11 @@ export async function electricVehiclesWorkflow(
 
   await emitEvent({ type: "step:start", step: "fetchEvData" });
   const evData = await fetchEvData(month);
-  await emitEvent({ type: "data:processed", step: "fetchEvData", data: { recordCount: evData.length } });
+  await emitEvent({
+    type: "data:processed",
+    step: "fetchEvData",
+    data: { recordCount: evData.length },
+  });
 
   if (evData.length === 0) {
     return { message: "[EV] No EV data for this month." };
@@ -52,7 +53,11 @@ export async function electricVehiclesWorkflow(
 
   await emitEvent({ type: "step:start", step: "generateEvPost" });
   const post = await generateEvPost(evData, month);
-  await emitEvent({ type: "post:generated", step: "generateEvPost", data: { postId: post.postId } });
+  await emitEvent({
+    type: "post:generated",
+    step: "generateEvPost",
+    data: { postId: post.postId },
+  });
 
   await revalidatePostsCache();
 

@@ -1,6 +1,6 @@
 import { StructuredData } from "@web/components/structured-data";
-import { SOCIAL_URLS, SOCIAL_HANDLE } from "@web/config/socials";
 import { LOGO_URL, SITE_TITLE, SITE_URL } from "@web/config";
+import { SOCIAL_HANDLE, SOCIAL_URLS } from "@web/config/socials";
 import type { Metadata } from "next";
 import type { Organization, Person, WebPage, WithContext } from "schema-dts";
 import { CreatorSection } from "./components/creator-section";
@@ -59,11 +59,7 @@ export default async function AboutPage() {
     logo: LOGO_URL,
     description:
       "A platform for exploring Singapore car registration statistics, COE bidding results, and market data.",
-    sameAs: [
-      SOCIAL_URLS.instagram,
-      SOCIAL_URLS.telegram,
-      SOCIAL_URLS.github,
-    ],
+    sameAs: [SOCIAL_URLS.instagram, SOCIAL_URLS.telegram, SOCIAL_URLS.github],
     founder: {
       "@type": "Person",
       name: "Ru Chern",

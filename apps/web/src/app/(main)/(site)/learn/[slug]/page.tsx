@@ -17,7 +17,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import type { Article, DefinedTerm, WithContext } from "schema-dts";
-import { getAllGuideSlugs, getGuideBySlug, GUIDES } from "../lib/guides";
+import { GUIDES, getAllGuideSlugs, getGuideBySlug } from "../lib/guides";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -67,7 +67,13 @@ export async function generateStaticParams() {
   return getAllGuideSlugs().map((slug) => ({ slug }));
 }
 
-async function GuideContent({ slug, content }: { slug: string; content: string }) {
+async function GuideContent({
+  slug,
+  content,
+}: {
+  slug: string;
+  content: string;
+}) {
   "use cache";
   cacheLife("max");
   cacheTag(`learn:${slug}`);
@@ -193,7 +199,8 @@ export default async function GuidePage({ params }: PageProps) {
             {guide.excerpt}
           </Typography.TextLg>
           <Typography.Caption>
-            Last updated: {new Date(guide.lastUpdated).toLocaleDateString("en-SG", {
+            Last updated:{" "}
+            {new Date(guide.lastUpdated).toLocaleDateString("en-SG", {
               day: "numeric",
               month: "long",
               year: "numeric",

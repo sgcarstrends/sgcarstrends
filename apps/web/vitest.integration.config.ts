@@ -1,6 +1,6 @@
+import { workflow } from "@workflow/vitest";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
-import { workflow } from "@workflow/vitest";
 
 export default defineConfig({
   plugins: [tsconfigPaths(), workflow()],
