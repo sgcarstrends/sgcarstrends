@@ -3,7 +3,8 @@ import { db } from "@sgcarstrends/database";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
-import { admin } from "better-auth/plugins";
+import { admin, magicLink } from "better-auth/plugins";
+import { sendMagicLinkEmail } from "@web/app/(partners)/lib/emails";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -23,6 +24,12 @@ export const auth = betterAuth({
   },
   plugins: [
     admin(),
+    magicLink({
+      sendMagicLink: async ({ email, url }) => {
+        await sendMagicLinkEmail(email, url);
+      },
+      expiresIn: 60 * 10, // 10 minutes
+    }),
     nextCookies(), // Make sure this is the last plugin in the array
   ],
   socialProviders: {
