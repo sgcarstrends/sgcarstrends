@@ -2,6 +2,7 @@
 
 import { Card, CardBody } from "@heroui/card";
 import Typography from "@web/components/typography";
+import { SITE_TITLE } from "@web/config";
 import { fadeInUpVariants } from "@web/config/animations";
 import { motion } from "framer-motion";
 
@@ -45,7 +46,7 @@ export function MissionSection() {
                 decisions feels nearly impossible.
               </Typography.TextLg>
               <Typography.TextLg className="text-default-600">
-                We built SG Cars Trends to change that. By aggregating official
+                We built {SITE_TITLE} to change that. By aggregating official
                 data from the Land Transport Authority and presenting it through
                 intuitive visualisations, we hope to make this data easier to
                 find and explore, rather than scattered across government

@@ -3,7 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "@web/app/providers";
 import LoadingIndicator from "@web/components/loading-indicator";
-import { SITE_TITLE, SITE_URL } from "@web/config";
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@web/config";
 import { SOCIAL_HANDLE } from "@web/config/socials";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
@@ -17,7 +17,7 @@ const geistSans = Geist({
 });
 
 const title = SITE_TITLE;
-const description: string = `Statistics for car trends in Singapore. Data provided by Land Transport Authority (LTA)`;
+const description = SITE_DESCRIPTION;
 const url = new URL(SITE_URL);
 
 export const metadata: Metadata = {
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     default: title,
   },
   description,
-  authors: [{ name: "SG Cars Trends", url: SITE_URL }],
-  creator: "SG Cars Trends",
-  publisher: "SG Cars Trends",
+  authors: [{ name: SITE_TITLE, url: SITE_URL }],
+  creator: SITE_TITLE,
+  publisher: SITE_TITLE,
   category: "Automotive Statistics",
   robots: {
     index: true,
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/opengraph-image.png`,
         width: 1200,
         height: 630,
-        alt: "SG Cars Trends - Singapore Car Registration Statistics",
+        alt: `${SITE_TITLE} - Singapore Car Registration Statistics`,
       },
     ],
     url,

@@ -3,6 +3,7 @@
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 import { Link } from "@heroui/link";
+import { SITE_TITLE } from "@web/config";
 import { motion } from "framer-motion";
 import { ArrowRight, BarChart3 } from "lucide-react";
 
@@ -65,7 +66,7 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={entranceTransition(0.3)}
           >
-            SG Cars Trends reaches an engaged, technical audience of car buyers,
+            {SITE_TITLE} reaches an engaged, technical audience of car buyers,
             owners, and enthusiasts actively researching Singapore&apos;s
             automotive market.
           </motion.p>

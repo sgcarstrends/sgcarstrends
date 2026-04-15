@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import { StructuredData } from "@web/components/structured-data";
+import { SITE_TITLE } from "@web/config";
 import type { Organization, WithContext } from "schema-dts";
 import { vi } from "vitest";
 
@@ -13,7 +14,7 @@ describe("StructuredData", () => {
     const data: WithContext<Organization> = {
       "@context": "https://schema.org",
       "@type": "Organization",
-      name: "SG Cars Trends",
+      name: SITE_TITLE,
     };
 
     const { container } = render(<StructuredData data={data} />);
@@ -23,6 +24,6 @@ describe("StructuredData", () => {
     ) as HTMLScriptElement;
 
     expect(script).toBeTruthy();
-    expect(script.textContent).toContain("SG Cars Trends");
+    expect(script.textContent).toContain(SITE_TITLE);
   });
 });

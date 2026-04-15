@@ -1,9 +1,9 @@
+import { SITE_TITLE } from "@web/config";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description:
-    "How SG Cars Trends collects, uses, and protects your data. Learn about our analytics, third-party services, and your privacy rights.",
+  description: `How ${SITE_TITLE} collects, uses, and protects your data. Learn about our analytics, third-party services, and your privacy rights.`,
   alternates: {
     canonical: "/legal/privacy-policy",
   },
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
         <h2>Privacy? We&apos;ve Got You Covered</h2>
         <p>
           We care about your privacy. This policy explains how we collect and
-          use your information when you visit SGCarsTrends. We&apos;ll keep it
+          use your information when you visit {SITE_TITLE}. We&apos;ll keep it
           simple and straightforward.
         </p>
       </section>
