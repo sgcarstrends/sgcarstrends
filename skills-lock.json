@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "agent-email-inbox": {
+      "source": "resend/resend-skills",
+      "sourceType": "github",
+      "computedHash": "0d6218effcaecacfb0e1d77ad268a445d82fac2d3f04db470386282fb35e77da"
+    },
     "analytics-tracking": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
@@ -16,15 +21,45 @@
       "sourceType": "github",
       "computedHash": "2e83eda2221e97166172a0798e9b0379e34080595e107e2fc0cf580e9b3bbf7b"
     },
+    "email-best-practices": {
+      "source": "resend/email-best-practices",
+      "sourceType": "github",
+      "computedHash": "501db5b4e31fd1bc8cf458fd50a2fdd023ddb468eea24dac91af6ce1e2e131ec"
+    },
     "page-cro": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
       "computedHash": "9505748dba2319487b285f8ab8c1e5417fce38a512d596e1c9e2e87b34b196e1"
     },
+    "react-email": {
+      "source": "resend/react-email",
+      "sourceType": "github",
+      "computedHash": "dc8823cae35b2650f5ca0aa56a806b724cfd92118b68a561d29d99f138fee8d2"
+    },
+    "resend": {
+      "source": "resend/resend-skills",
+      "sourceType": "github",
+      "computedHash": "19aeef0ffcdbb0ddeba7962d1a49339df2801f27e50181280d3beece7a54b62c"
+    },
+    "resend-cli": {
+      "source": "resend/resend-skills",
+      "sourceType": "github",
+      "computedHash": "09ea9273cf33f2fe49dfaff3a99a693693fa39ae127c5dc032b4d9db9e4e5b4e"
+    },
     "social-content": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
       "computedHash": "85ffbc05cf88939ba3ff643a315928185af16181470349dfbaad2880047c9900"
+    },
+    "stripe-best-practices": {
+      "source": "stripe/ai",
+      "sourceType": "github",
+      "computedHash": "ae5889d45a1e29668b672290ca8d3d833fa30ff0634be85c30918ca0385dd1c6"
+    },
+    "upgrade-stripe": {
+      "source": "stripe/ai",
+      "sourceType": "github",
+      "computedHash": "06c5c3fd85657ff9aaadff65bd2d63f606da8e44802dc1f9aaf42c73263a11b7"
     }
   }
 }

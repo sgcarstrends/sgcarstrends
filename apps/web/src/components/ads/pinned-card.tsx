@@ -1,5 +1,5 @@
 import { Card, CardBody } from "@heroui/card";
-import { getActiveCampaign } from "@web/app/(partners)/queries/campaigns";
+import { getActiveCampaign } from "@web/app/partners/queries/campaigns";
 import Image from "next/image";
 
 export async function PinnedCard() {

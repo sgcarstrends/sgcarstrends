@@ -1,4 +1,4 @@
-import { getActiveCampaign } from "@web/app/(partners)/queries/campaigns";
+import { getActiveCampaign } from "@web/app/partners/queries/campaigns";
 import Image from "next/image";
 import { FloatingBannerDismiss } from "./floating-banner-dismiss";
 

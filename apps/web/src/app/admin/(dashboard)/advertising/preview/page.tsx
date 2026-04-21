@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader } from "@heroui/card";
-import { getActiveCampaign } from "@web/app/(partners)/queries/campaigns";
+import { getActiveCampaign } from "@web/app/partners/queries/campaigns";
 import Typography from "@web/components/typography";
 import Image from "next/image";
 
