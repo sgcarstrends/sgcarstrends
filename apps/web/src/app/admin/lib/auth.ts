@@ -54,6 +54,17 @@ export const auth = betterAuth({
             priceId: process.env.STRIPE_PRICE_PREMIUM as string,
           },
         ],
+        onSubscriptionComplete: async ({ stripeSubscription }) => {
+          const campaignId = stripeSubscription.metadata?.campaignId;
+          if (!campaignId) return;
+
+          await db
+            .update(campaigns)
+            .set({ status: "active" })
+            .where(eq(campaigns.id, campaignId));
+
+          revalidateTag(`campaign:${campaignId}`, "max");
+        },
       },
     }),
     nextCookies(), // Make sure this is the last plugin in the array
