@@ -134,6 +134,13 @@
       "when": 1772371129504,
       "tag": "0018_past_the_order",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1776247989553,
+      "tag": "0019_melodic_chronomancer",
+      "breakpoints": true
     }
   ]
 }

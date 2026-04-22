@@ -21,7 +21,36 @@ interface AppConfig {
 }
 
 export async function proxy(request: NextRequest) {
+  const hostname = request.headers.get("host") ?? "";
   const { pathname } = request.nextUrl;
+
+  // Handle partners subdomain routing
+  if (hostname.startsWith("partners.")) {
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-pathname", pathname);
+
+    // Allow public access to login page and auth API
+    if (pathname === "/login" || pathname.startsWith("/api/auth")) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/(partners)${pathname}`;
+      return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
+    }
+
+    // Check partner session for protected routes
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      const loginUrl = new URL("/login", request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    // Rewrite to partner routes
+    const url = request.nextUrl.clone();
+    url.pathname = `/(partners)${pathname}`;
+    return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
+  }
 
   if (pathname.startsWith("/api/v1")) {
     const ip = request.headers.get("x-forwarded-for") ?? "127.0.0.1";

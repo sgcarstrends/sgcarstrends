@@ -1,8 +1,22 @@
 {
   "mcpServers": {
+    "resend": {
+      "command": "bunx",
+      "args": ["-y", "resend-mcp"],
+      "env": {
+        "RESEND_API_KEY": "${RESEND_API_KEY}"
+      }
+    },
     "sgcarstrends": {
       "command": "bunx",
       "args": ["-y", "@sgcarstrends/mcp"]
+    },
+    "stripe": {
+      "type": "http",
+      "url": "https://mcp.stripe.com",
+      "headers": {
+        "Authorization": "Bearer ${STRIPE_API_KEY}"
+      }
     }
   }
 }
