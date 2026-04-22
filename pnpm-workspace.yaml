@@ -31,3 +31,10 @@ catalog:
 
 overrides:
   form-data@>=4.0.0 <4.0.4: '>=4.0.4'
+
+publicHoistPattern:
+  - '*@heroui/*'
+
+ignoreScripts: true
+
+savePrefix: ""
