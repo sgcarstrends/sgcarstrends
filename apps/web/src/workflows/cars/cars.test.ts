@@ -156,6 +156,8 @@ describe("carsWorkflow", () => {
       postId: "new-post-id",
       title: "January 2024 Car Registrations",
       slug: "january-2024-car-registrations",
+      excerpt: "Summary of January 2024 car registrations.",
+      dataType: "cars",
     });
 
     const result = await carsWorkflow({});

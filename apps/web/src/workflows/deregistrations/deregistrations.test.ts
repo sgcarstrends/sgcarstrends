@@ -156,6 +156,8 @@ describe("deregistrationsWorkflow", () => {
       postId: "new-post-id",
       title: "January 2024 Deregistrations",
       slug: "january-2024-deregistrations",
+      excerpt: "Summary of January 2024 deregistrations.",
+      dataType: "deregistrations",
     });
 
     const result = await deregistrationsWorkflow({});

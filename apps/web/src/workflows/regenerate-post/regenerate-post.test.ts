@@ -69,6 +69,8 @@ describe("regeneratePostWorkflow", () => {
       postId: "regenerated-post-id",
       title: "Updated January 2024 Car Registrations",
       slug: "january-2024-car-registrations",
+      excerpt: "Updated summary.",
+      dataType: "cars",
     });
 
     const result = await regeneratePostWorkflow({
@@ -108,6 +110,8 @@ describe("regeneratePostWorkflow", () => {
       postId: "regenerated-coe-post-id",
       title: "Updated January 2024 COE Results",
       slug: "january-2024-coe-results",
+      excerpt: "Updated COE summary.",
+      dataType: "coe",
     });
 
     const result = await regeneratePostWorkflow({
@@ -135,6 +139,8 @@ describe("regeneratePostWorkflow", () => {
       postId: "id",
       title: "Title",
       slug: "slug",
+      excerpt: "Excerpt.",
+      dataType: "cars",
     });
 
     await regeneratePostWorkflow({
@@ -153,6 +159,8 @@ describe("regeneratePostWorkflow", () => {
       postId: "id",
       title: "Title",
       slug: "slug",
+      excerpt: "Excerpt.",
+      dataType: "coe",
     });
 
     await regeneratePostWorkflow({

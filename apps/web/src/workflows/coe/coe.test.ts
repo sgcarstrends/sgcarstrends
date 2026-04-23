@@ -193,6 +193,8 @@ describe("coeWorkflow", () => {
       postId: "new-post-id",
       title: "January 2024 COE Results",
       slug: "january-2024-coe-results",
+      excerpt: "Summary of January 2024 COE results.",
+      dataType: "coe",
     });
 
     const result = await coeWorkflow({});

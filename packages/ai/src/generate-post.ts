@@ -15,6 +15,8 @@ export interface GenerateAndSaveResult {
   postId: string;
   title: string;
   slug: string;
+  excerpt: string;
+  dataType: "cars" | "coe" | "deregistrations" | "electric-vehicles";
 }
 
 /**
@@ -113,6 +115,7 @@ async function saveGeneratedPost(
     title: output.title,
     content: output.content,
     excerpt: output.excerpt,
+    heroImage: null,
     tags: output.tags,
     highlights: output.highlights,
     month,
@@ -132,6 +135,8 @@ async function saveGeneratedPost(
     postId: post.id,
     title: post.title,
     slug: post.slug,
+    excerpt: output.excerpt,
+    dataType,
   };
 }
 

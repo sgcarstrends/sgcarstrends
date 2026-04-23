@@ -208,9 +208,10 @@ export default async function BlogPostPage({ params }: PageProps) {
           slug={post.slug}
           publishedAt={publishedDate}
           readingTimeText={readingTimeText}
-          tags={post.tags ?? undefined}
+          tags={post.tags}
           postId={post.id}
           initialViewCount={initialViewCount}
+          heroImage={post.heroImage}
         />
 
         {/* Main Content - Single column, centered */}

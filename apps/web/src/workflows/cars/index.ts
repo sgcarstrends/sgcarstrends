@@ -11,6 +11,7 @@ import { getExistingPostByMonth } from "@web/queries/posts";
 import { updateCars } from "@web/workflows/cars/steps/process-data";
 import {
   emitEvent,
+  generatePostHero,
   handleAIError,
   revalidatePostsCache,
 } from "@web/workflows/shared";
@@ -85,6 +86,28 @@ export async function carsWorkflow(
     step: "generateCarsPost",
     data: { postId: post.postId },
   });
+
+  await emitEvent({ type: "step:start", step: "generateCarsHero" });
+  try {
+    await generatePostHero({
+      postId: post.postId,
+      title: post.title,
+      excerpt: post.excerpt,
+      dataType: post.dataType,
+    });
+    await emitEvent({
+      type: "step:complete",
+      step: "generateCarsHero",
+      data: { postId: post.postId },
+    });
+  } catch (error) {
+    console.error("[CARS] Hero image generation failed after retries:", error);
+    await emitEvent({
+      type: "step:complete",
+      step: "generateCarsHero",
+      data: { postId: post.postId, heroGenerated: false },
+    });
+  }
 
   await revalidatePostsCache();
 

@@ -1,5 +1,6 @@
 import { Chip } from "@heroui/chip";
 import { ViewCounter } from "@web/app/(main)/(site)/blog/components/view-counter";
+import Image from "next/image";
 import { Suspense } from "react";
 
 interface BlogHeroProps {
@@ -7,24 +8,39 @@ interface BlogHeroProps {
   slug: string;
   publishedAt: Date;
   readingTimeText: string;
-  tags?: string[];
+  tags: string[] | null;
   postId: string;
   initialViewCount: number;
+  heroImage: string | null;
 }
 
 export function BlogHero({
   title,
   publishedAt,
   readingTimeText,
-  tags = [],
+  tags,
   postId,
   initialViewCount,
+  heroImage,
 }: BlogHeroProps) {
-  const categoryLabel = tags.length > 0 ? tags[0] : "Market Analysis";
+  const categoryLabel = tags && tags.length > 0 ? tags[0] : "Market Analysis";
 
   return (
     <div className="relative mb-12 w-full overflow-hidden bg-gradient-to-br from-[#191970] to-[#2E4A8E] py-16 md:py-24">
-      <div className="container mx-auto flex flex-col justify-end px-6 md:px-12">
+      {heroImage && (
+        <>
+          <Image
+            src={heroImage}
+            alt={title}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#191970]/85 to-[#2E4A8E]/70" />
+        </>
+      )}
+      <div className="relative container mx-auto flex flex-col justify-end px-6 md:px-12">
         <Chip
           size="sm"
           variant="flat"

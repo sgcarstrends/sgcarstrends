@@ -3,6 +3,7 @@ packages:
   - packages/*
 
 catalog:
+  '@ai-sdk/gateway': 3.0.104
   '@ai-sdk/google': 3.0.6
   '@heroui/react': 2.8.7
   '@upstash/redis': 1.37.0

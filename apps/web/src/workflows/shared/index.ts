@@ -1,3 +1,8 @@
+import {
+  generateHeroImage,
+  updatePostHeroImage,
+} from "@sgcarstrends/ai";
+import { slugify } from "@sgcarstrends/utils";
 import { getPostsWorkflowRevalidationTags } from "@web/lib/cache-tags";
 import { revalidateTag } from "next/cache";
 import { FatalError, getWritable, RetryableError } from "workflow";
@@ -33,6 +38,39 @@ export async function revalidatePostsCache(): Promise<void> {
     revalidateTag(tag, "max");
   }
   console.log("[WORKFLOW] Posts cache invalidated");
+}
+
+/**
+ * Generate a hero image for a saved post and update the posts row.
+ * Lives in its own step so retries are independent of content generation —
+ * a failure here never re-runs the AI text pipeline. Throws on failure so
+ * WDK retries; the workflow body should wrap this in try/catch for graceful
+ * degradation (post stays with heroImage = null).
+ */
+export async function generatePostHero(params: {
+  postId: string;
+  title: string;
+  excerpt: string;
+  dataType: "cars" | "coe" | "deregistrations" | "electric-vehicles";
+}): Promise<string> {
+  "use step";
+
+  const { postId, title, excerpt, dataType } = params;
+  console.log(
+    `[HERO] Generating hero image — postId=${postId}, dataType=${dataType}`,
+  );
+
+  const { url } = await generateHeroImage({
+    title,
+    excerpt,
+    dataType,
+    slug: slugify(title),
+  });
+
+  await updatePostHeroImage(postId, url);
+  console.log(`[HERO] Hero image saved — postId=${postId}, url=${url}`);
+
+  return url;
 }
 
 /**

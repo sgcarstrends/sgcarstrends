@@ -7,6 +7,7 @@ import { getExistingPostByMonth } from "@web/queries/posts";
 import { updateCoe } from "@web/workflows/coe/steps/process-data";
 import {
   emitEvent,
+  generatePostHero,
   handleAIError,
   revalidatePostsCache,
 } from "@web/workflows/shared";
@@ -96,6 +97,28 @@ export async function coeWorkflow(
     step: "generateCoePost",
     data: { postId: post.postId },
   });
+
+  await emitEvent({ type: "step:start", step: "generateCoeHero" });
+  try {
+    await generatePostHero({
+      postId: post.postId,
+      title: post.title,
+      excerpt: post.excerpt,
+      dataType: post.dataType,
+    });
+    await emitEvent({
+      type: "step:complete",
+      step: "generateCoeHero",
+      data: { postId: post.postId },
+    });
+  } catch (error) {
+    console.error("[COE] Hero image generation failed after retries:", error);
+    await emitEvent({
+      type: "step:complete",
+      step: "generateCoeHero",
+      data: { postId: post.postId, heroGenerated: false },
+    });
+  }
 
   await revalidatePostsCache();
 

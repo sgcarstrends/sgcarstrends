@@ -10,6 +10,7 @@ import { getExistingPostByMonth } from "@web/queries/posts";
 import { updateDeregistration } from "@web/workflows/deregistrations/steps/process-data";
 import {
   emitEvent,
+  generatePostHero,
   handleAIError,
   revalidatePostsCache,
 } from "@web/workflows/shared";
@@ -83,6 +84,31 @@ export async function deregistrationsWorkflow(
     step: "generateDeregistrationsPost",
     data: { postId: post.postId },
   });
+
+  await emitEvent({ type: "step:start", step: "generateDeregistrationsHero" });
+  try {
+    await generatePostHero({
+      postId: post.postId,
+      title: post.title,
+      excerpt: post.excerpt,
+      dataType: post.dataType,
+    });
+    await emitEvent({
+      type: "step:complete",
+      step: "generateDeregistrationsHero",
+      data: { postId: post.postId },
+    });
+  } catch (error) {
+    console.error(
+      "[DEREGISTRATIONS] Hero image generation failed after retries:",
+      error,
+    );
+    await emitEvent({
+      type: "step:complete",
+      step: "generateDeregistrationsHero",
+      data: { postId: post.postId, heroGenerated: false },
+    });
+  }
 
   await revalidatePostsCache();
 

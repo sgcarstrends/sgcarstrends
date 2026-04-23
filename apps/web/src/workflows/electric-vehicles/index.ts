@@ -4,6 +4,7 @@ import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import {
   emitEvent,
+  generatePostHero,
   handleAIError,
   revalidatePostsCache,
 } from "@web/workflows/shared";
@@ -34,30 +35,55 @@ export async function electricVehiclesWorkflow(
     return { message: "[EV] No car data found." };
   }
 
-  const existingPost = await checkExistingEvPost(month);
+  const existingPost = await checkExistingElectricVehiclesPost(month);
   if (existingPost) {
     return { message: "[EV] Post already exists, skipping." };
   }
 
-  await emitEvent({ type: "step:start", step: "fetchEvData" });
-  const evData = await fetchEvData(month);
+  await emitEvent({ type: "step:start", step: "fetchElectricVehiclesData" });
+  const electricVehiclesData = await fetchElectricVehiclesData(month);
   await emitEvent({
     type: "data:processed",
-    step: "fetchEvData",
-    data: { recordCount: evData.length },
+    step: "fetchElectricVehiclesData",
+    data: { recordCount: electricVehiclesData.length },
   });
 
-  if (evData.length === 0) {
+  if (electricVehiclesData.length === 0) {
     return { message: "[EV] No EV data for this month." };
   }
 
-  await emitEvent({ type: "step:start", step: "generateEvPost" });
-  const post = await generateEvPost(evData, month);
+  await emitEvent({ type: "step:start", step: "generateElectricVehiclesPost" });
+  const post = await generateElectricVehiclesPost(
+    electricVehiclesData,
+    month,
+  );
   await emitEvent({
     type: "post:generated",
-    step: "generateEvPost",
+    step: "generateElectricVehiclesPost",
     data: { postId: post.postId },
   });
+
+  await emitEvent({ type: "step:start", step: "generateElectricVehiclesHero" });
+  try {
+    await generatePostHero({
+      postId: post.postId,
+      title: post.title,
+      excerpt: post.excerpt,
+      dataType: post.dataType,
+    });
+    await emitEvent({
+      type: "step:complete",
+      step: "generateElectricVehiclesHero",
+      data: { postId: post.postId },
+    });
+  } catch (error) {
+    console.error("[EV] Hero image generation failed after retries:", error);
+    await emitEvent({
+      type: "step:complete",
+      step: "generateElectricVehiclesHero",
+      data: { postId: post.postId, heroGenerated: false },
+    });
+  }
 
   await revalidatePostsCache();
 
@@ -72,7 +98,7 @@ async function getLatestMonth(): Promise<string | null> {
   return getCarsLatestMonth();
 }
 
-async function checkExistingEvPost(
+async function checkExistingElectricVehiclesPost(
   month: string,
 ): Promise<{ id: string } | null> {
   "use step";
@@ -84,18 +110,18 @@ async function checkExistingEvPost(
   return existingPost ?? null;
 }
 
-async function fetchEvData(month: string) {
+async function fetchElectricVehiclesData(month: string) {
   "use step";
   return getEvDataForMonth(month);
 }
 
-async function generateEvPost(
-  evData: Awaited<ReturnType<typeof getEvDataForMonth>>,
+async function generateElectricVehiclesPost(
+  electricVehiclesData: Awaited<ReturnType<typeof getEvDataForMonth>>,
   month: string,
 ) {
   "use step";
 
-  const data = tokeniser(evData);
+  const data = tokeniser(electricVehiclesData);
 
   try {
     return await generateBlogContent({

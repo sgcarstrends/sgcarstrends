@@ -6,6 +6,7 @@ import {
 import { tokeniser } from "@sgcarstrends/utils";
 import {
   emitEvent,
+  generatePostHero,
   handleAIError,
   revalidatePostsCache,
 } from "@web/workflows/shared";
@@ -53,6 +54,31 @@ export async function regeneratePostWorkflow(
     step: "generatePost",
     data: { postId: post.postId },
   });
+
+  await emitEvent({ type: "step:start", step: "regeneratePostHero" });
+  try {
+    await generatePostHero({
+      postId: post.postId,
+      title: post.title,
+      excerpt: post.excerpt,
+      dataType: post.dataType,
+    });
+    await emitEvent({
+      type: "step:complete",
+      step: "regeneratePostHero",
+      data: { postId: post.postId },
+    });
+  } catch (error) {
+    console.error(
+      "[REGENERATE] Hero image generation failed after retries:",
+      error,
+    );
+    await emitEvent({
+      type: "step:complete",
+      step: "regeneratePostHero",
+      data: { postId: post.postId, heroGenerated: false },
+    });
+  }
 
   await revalidatePostsCache();
 

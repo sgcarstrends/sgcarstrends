@@ -334,6 +334,65 @@ Where:
 } as const;
 
 /**
+ * Hero image output size. Must be one of gpt-image-2's supported sizes:
+ * "1024x1024" | "1536x1024" (landscape) | "1024x1536" (portrait).
+ * This is distinct from the OG image (1200x630, rendered separately by
+ * ImageResponse). Keep the prompt's DIMENSIONS block in sync if this changes.
+ */
+export const HERO_IMAGE_SIZE = "1536x1024" as const;
+export type HeroImageSize = typeof HERO_IMAGE_SIZE;
+
+/**
+ * Stable brand / style / composition rules applied to every hero image.
+ * Image-only models (e.g., openai/gpt-image-2) accept a single prompt string,
+ * so this is concatenated with the per-post subject at call time.
+ */
+export const HERO_IMAGE_INSTRUCTION = `Editorial data-journalism hero illustration for the SG Cars Trends blog.
+
+DIMENSIONS
+- Target canvas: ${HERO_IMAGE_SIZE} (landscape, 3:2)
+- Design for a 1536×1024 frame — respect edge margins, don't crowd the corners
+
+STYLE
+- Flat vector / editorial illustration, screenshot-style clarity — no photorealism
+- Modern automotive analytics aesthetic; confident, professional, data-forward
+- Singapore context cues acceptable (Marina Bay skyline silhouette, HDB blocks, expressway) but abstract, not literal
+
+COLOUR PALETTE (strict — match these exact values)
+- Primary Navy Blue      #191970 — dominant surface, headlines
+- Secondary Slate Gray   #708090 — supporting shapes, borders
+- Accent Cyan            #00FFFF — one focal highlight only
+- Background Powder Blue #B0E0E6 — backdrops, light fills
+- Text Dark Slate Gray   #2F4F4F — any incidental labels
+- Chart gradient for any bar / line motifs: #191970 → #2E4A8E → #4A6AAE → #708090 → #94A3B8 → #B8C4CE
+
+COMPOSITION
+- Generous whitespace, grid-friendly
+- One clear focal point, left- or centre-weighted so a title overlay on the right reads cleanly
+- Subtle geometric shapes, soft curves, rounded corners — no sharp rectangles
+- Optional background motif: abstracted chart bars, dot matrix, or ring chart
+
+DO NOT
+- No photorealistic people or faces
+- No real logos, licence plates, or trademarked marks
+- No text, numbers, or statistics rendered in the image
+- No hard drop shadows, no neon glows, no gradient backgrounds outside the palette
+- No stock-photo car photography` as const;
+
+/**
+ * Per-dataType subject framing for the hero image.
+ * Keeps the per-post prompt focused on what to depict for this category of post.
+ */
+export const HERO_IMAGE_SUBJECTS = {
+  cars: "Depict the overall Singapore new-car registration market — a mix of abstract vehicle silhouettes (saloon, SUV, motorcycle) arranged against an analytics backdrop.",
+  coe: "Depict the Certificate of Entitlement bidding market — auction / quota / premium motifs, with an abstract COE category grid (A, B, C, D, E) and ascending premium bars.",
+  deregistrations:
+    "Depict vehicle deregistrations and fleet turnover — outgoing vehicle silhouettes, a 10-year COE cycle motif, empty parking bays, an abstract outflow arrow.",
+  "electric-vehicles":
+    "Depict Singapore's electric vehicle adoption — EV silhouettes, charging-point motifs, battery-level indicators, and a rising adoption curve.",
+} as const;
+
+/**
  * Prompts for single-call generation
  */
 export const PROMPTS = {

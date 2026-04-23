@@ -12,6 +12,7 @@ export interface PostParams {
   title: string;
   content: string;
   excerpt: string;
+  heroImage: string | null;
   tags: string[];
   highlights: Highlight[];
   month: string;
@@ -34,6 +35,7 @@ export const savePost = async (data: PostParams) => {
       slug,
       content: data.content,
       excerpt: data.excerpt,
+      heroImage: data.heroImage,
       tags: data.tags,
       highlights: data.highlights,
       status: "published",
@@ -49,6 +51,7 @@ export const savePost = async (data: PostParams) => {
         slug,
         content: data.content,
         excerpt: data.excerpt,
+        heroImage: data.heroImage,
         tags: data.tags,
         highlights: data.highlights,
         metadata: data.responseMetadata,
@@ -81,6 +84,21 @@ export const savePost = async (data: PostParams) => {
 
   return post;
 };
+
+/**
+ * Updates the heroImage column for an existing post. Used by the workflow
+ * hero-image step after the post has been saved, so hero generation retries
+ * independently of content generation.
+ */
+export async function updatePostHeroImage(
+  postId: string,
+  heroImage: string,
+): Promise<void> {
+  await db
+    .update(posts)
+    .set({ heroImage, modifiedAt: new Date() })
+    .where(eq(posts.id, postId));
+}
 
 /**
  * Revalidates web app cache for blog posts
