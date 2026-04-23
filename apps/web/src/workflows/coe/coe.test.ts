@@ -2,14 +2,16 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@sgcarstrends/ai", () => ({
   generateBlogContent: vi.fn(),
+  generateHeroImage: vi.fn(),
   getCoeForMonth: vi.fn(),
+  updatePostHeroImage: vi.fn(),
 }));
 
-vi.mock("@sgcarstrends/utils", () => ({
+vi.mock("@sgcarstrends/utils", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sgcarstrends/utils")>()),
   redis: {
     set: vi.fn(),
   },
-  tokeniser: vi.fn((data) => JSON.stringify(data)),
 }));
 
 vi.mock("@web/workflows/coe/steps/process-data", () => ({
@@ -59,7 +61,12 @@ vi.mock("@web/workflows/shared", async (importOriginal) => ({
   revalidatePostsCache: vi.fn(),
 }));
 
-import { generateBlogContent, getCoeForMonth } from "@sgcarstrends/ai";
+import {
+  generateBlogContent,
+  generateHeroImage,
+  getCoeForMonth,
+  updatePostHeroImage,
+} from "@sgcarstrends/ai";
 import { redis } from "@sgcarstrends/utils";
 import { getCOELatestRecord } from "@web/queries/coe/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
@@ -196,9 +203,23 @@ describe("coeWorkflow", () => {
       excerpt: "Summary of January 2024 COE results.",
       dataType: "coe",
     });
+    vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      url: "https://blob.example/coe.png",
+    });
+    vi.mocked(updatePostHeroImage).mockResolvedValueOnce(undefined);
 
     const result = await coeWorkflow({});
 
+    expect(generateHeroImage).toHaveBeenCalledWith({
+      title: "January 2024 COE Results",
+      excerpt: "Summary of January 2024 COE results.",
+      dataType: "coe",
+      slug: expect.any(String),
+    });
+    expect(updatePostHeroImage).toHaveBeenCalledWith(
+      "new-post-id",
+      "https://blob.example/coe.png",
+    );
     expect(revalidateTag).toHaveBeenCalledWith("coe:latest", "max");
     expect(revalidateTag).toHaveBeenCalledWith("coe:previous", "max");
     expect(revalidateTag).toHaveBeenCalledWith("coe:months", "max");

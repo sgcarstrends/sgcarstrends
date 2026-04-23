@@ -2,14 +2,16 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@sgcarstrends/ai", () => ({
   generateBlogContent: vi.fn(),
+  generateHeroImage: vi.fn(),
   getDeregistrationsForMonth: vi.fn(),
+  updatePostHeroImage: vi.fn(),
 }));
 
-vi.mock("@sgcarstrends/utils", () => ({
+vi.mock("@sgcarstrends/utils", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sgcarstrends/utils")>()),
   redis: {
     set: vi.fn(),
   },
-  tokeniser: vi.fn((data) => JSON.stringify(data)),
 }));
 
 vi.mock("workflow", () => ({
@@ -61,7 +63,9 @@ vi.mock("@web/workflows/shared", async (importOriginal) => ({
 
 import {
   generateBlogContent,
+  generateHeroImage,
   getDeregistrationsForMonth,
+  updatePostHeroImage,
 } from "@sgcarstrends/ai";
 import { redis } from "@sgcarstrends/utils";
 import { getDeregistrationsLatestMonth } from "@web/queries/deregistrations/latest-month";
@@ -159,9 +163,23 @@ describe("deregistrationsWorkflow", () => {
       excerpt: "Summary of January 2024 deregistrations.",
       dataType: "deregistrations",
     });
+    vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      url: "https://blob.example/dereg.png",
+    });
+    vi.mocked(updatePostHeroImage).mockResolvedValueOnce(undefined);
 
     const result = await deregistrationsWorkflow({});
 
+    expect(generateHeroImage).toHaveBeenCalledWith({
+      title: "January 2024 Deregistrations",
+      excerpt: "Summary of January 2024 deregistrations.",
+      dataType: "deregistrations",
+      slug: expect.any(String),
+    });
+    expect(updatePostHeroImage).toHaveBeenCalledWith(
+      "new-post-id",
+      "https://blob.example/dereg.png",
+    );
     expect(revalidateTag).toHaveBeenCalledWith(
       "deregistrations:month:2024-01",
       "max",

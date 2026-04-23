@@ -1,13 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@sgcarstrends/ai", () => ({
+  generateHeroImage: vi.fn(),
   getCarsAggregatedByMonth: vi.fn(),
   getCoeForMonth: vi.fn(),
   regenerateBlogContent: vi.fn(),
-}));
-
-vi.mock("@sgcarstrends/utils", () => ({
-  tokeniser: vi.fn((data) => JSON.stringify(data)),
+  updatePostHeroImage: vi.fn(),
 }));
 
 vi.mock("workflow", () => ({
@@ -41,9 +39,11 @@ vi.mock("@web/workflows/shared", async (importOriginal) => ({
 }));
 
 import {
+  generateHeroImage,
   getCarsAggregatedByMonth,
   getCoeForMonth,
   regenerateBlogContent,
+  updatePostHeroImage,
 } from "@sgcarstrends/ai";
 import { regeneratePostWorkflow } from "@web/workflows/regenerate-post";
 import { revalidatePostsCache } from "@web/workflows/shared";

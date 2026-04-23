@@ -2,14 +2,16 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@sgcarstrends/ai", () => ({
   generateBlogContent: vi.fn(),
+  generateHeroImage: vi.fn(),
   getCarsAggregatedByMonth: vi.fn(),
+  updatePostHeroImage: vi.fn(),
 }));
 
-vi.mock("@sgcarstrends/utils", () => ({
+vi.mock("@sgcarstrends/utils", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@sgcarstrends/utils")>()),
   redis: {
     set: vi.fn(),
   },
-  tokeniser: vi.fn((data) => JSON.stringify(data)),
 }));
 
 vi.mock("@web/workflows/cars/steps/process-data", () => ({
@@ -67,7 +69,9 @@ vi.mock("@web/lib/redis/makes", () => ({
 
 import {
   generateBlogContent,
+  generateHeroImage,
   getCarsAggregatedByMonth,
+  updatePostHeroImage,
 } from "@sgcarstrends/ai";
 import { redis } from "@sgcarstrends/utils";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
@@ -159,9 +163,23 @@ describe("carsWorkflow", () => {
       excerpt: "Summary of January 2024 car registrations.",
       dataType: "cars",
     });
+    vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      url: "https://blob.example/cars.png",
+    });
+    vi.mocked(updatePostHeroImage).mockResolvedValueOnce(undefined);
 
     const result = await carsWorkflow({});
 
+    expect(generateHeroImage).toHaveBeenCalledWith({
+      title: "January 2024 Car Registrations",
+      excerpt: "Summary of January 2024 car registrations.",
+      dataType: "cars",
+      slug: expect.any(String),
+    });
+    expect(updatePostHeroImage).toHaveBeenCalledWith(
+      "new-post-id",
+      "https://blob.example/cars.png",
+    );
     expect(revalidateTag).toHaveBeenCalledWith("cars:month:2024-01", "max");
     expect(revalidateTag).toHaveBeenCalledWith("cars:months", "max");
     expect(revalidateTag).toHaveBeenCalledWith("cars:makes", "max");
