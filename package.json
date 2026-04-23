@@ -21,6 +21,7 @@
     "build:web": "turbo run @sgcarstrends/web#build",
     "dev:web": "turbo run @sgcarstrends/web#dev",
     "test:web": "turbo run @sgcarstrends/web#test",
+    "test:integration:web": "turbo run @sgcarstrends/web#test:integration",
     "lint:web": "turbo run @sgcarstrends/web#lint",
     "typecheck:web": "turbo run @sgcarstrends/web#typecheck",
     "start:web": "turbo run @sgcarstrends/web#start",
