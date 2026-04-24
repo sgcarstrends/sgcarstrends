@@ -85,6 +85,7 @@ describe("carsWorkflow", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "log").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
   it("should return early when no records are processed", async () => {
@@ -187,6 +188,46 @@ describe("carsWorkflow", () => {
     expect(revalidateTag).toHaveBeenCalledWith("cars:top-makes", "max");
     expect(revalidateTag).toHaveBeenCalledWith("cars:year:2024", "max");
     expect(generateBlogContent).toHaveBeenCalled();
+    expect(revalidatePostsCache).toHaveBeenCalled();
+    expect(result.message).toBe(
+      "[CARS] Data processed and cache revalidated successfully",
+    );
+    expect(result.postId).toBe("new-post-id");
+  });
+
+  it("should still complete when hero image generation fails", async () => {
+    vi.mocked(updateCars).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      table: "cars",
+      message: "",
+      timestamp: "",
+    });
+    vi.mocked(getCarsLatestMonth).mockResolvedValueOnce("2024-01");
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([
+      {
+        month: "2024-01",
+        make: "Toyota",
+        fuelType: "Petrol",
+        vehicleType: "Saloon",
+        number: 100,
+      },
+    ]);
+    vi.mocked(generateBlogContent).mockResolvedValueOnce({
+      month: "2024-01",
+      postId: "new-post-id",
+      title: "January 2024 Car Registrations",
+      slug: "january-2024-car-registrations",
+      excerpt: "Summary of January 2024 car registrations.",
+      dataType: "cars",
+    });
+    vi.mocked(generateHeroImage).mockRejectedValueOnce(
+      new Error("hero gen boom"),
+    );
+
+    const result = await carsWorkflow({});
+
+    expect(updatePostHeroImage).not.toHaveBeenCalled();
     expect(revalidatePostsCache).toHaveBeenCalled();
     expect(result.message).toBe(
       "[CARS] Data processed and cache revalidated successfully",

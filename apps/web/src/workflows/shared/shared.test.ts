@@ -1,42 +1,88 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+vi.mock("@sgcarstrends/ai", () => ({
+  generateHeroImage: vi.fn(),
+  updatePostHeroImage: vi.fn(),
+}));
+
 vi.mock("next/cache", () => ({
   revalidateTag: vi.fn(),
 }));
 
-const { MockFatalError, MockRetryableError } = vi.hoisted(() => {
-  class MockFatalError extends Error {
-    name = "FatalError";
-    constructor(message: string) {
-      super(message);
+const { MockFatalError, MockRetryableError, writerWrite, writerReleaseLock } =
+  vi.hoisted(() => {
+    class MockFatalError extends Error {
+      name = "FatalError";
+      constructor(message: string) {
+        super(message);
+      }
     }
-  }
 
-  class MockRetryableError extends Error {
-    name = "RetryableError";
-    retryAfter?: string;
-    constructor(message: string, options?: { retryAfter?: string }) {
-      super(message);
-      this.retryAfter = options?.retryAfter;
+    class MockRetryableError extends Error {
+      name = "RetryableError";
+      retryAfter?: string;
+      constructor(message: string, options?: { retryAfter?: string }) {
+        super(message);
+        this.retryAfter = options?.retryAfter;
+      }
     }
-  }
 
-  return { MockFatalError, MockRetryableError };
-});
+    const writerWrite = vi.fn().mockResolvedValue(undefined);
+    const writerReleaseLock = vi.fn();
+
+    return {
+      MockFatalError,
+      MockRetryableError,
+      writerWrite,
+      writerReleaseLock,
+    };
+  });
 
 vi.mock("workflow", () => ({
   FatalError: MockFatalError,
   RetryableError: MockRetryableError,
   getWritable: vi.fn(() => ({
     getWriter: () => ({
-      write: vi.fn().mockResolvedValue(undefined),
-      releaseLock: vi.fn(),
+      write: writerWrite,
+      releaseLock: writerReleaseLock,
     }),
   })),
 }));
 
-import { handleAIError, revalidatePostsCache } from "@web/workflows/shared";
+import { generateHeroImage, updatePostHeroImage } from "@sgcarstrends/ai";
+import {
+  emitEvent,
+  generatePostHero,
+  handleAIError,
+  revalidatePostsCache,
+} from "@web/workflows/shared";
 import { revalidateTag } from "next/cache";
+
+describe("emitEvent", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should write event with timestamp and release the writer lock", async () => {
+    await emitEvent({ type: "step:start", step: "doThing" });
+
+    expect(writerWrite).toHaveBeenCalledTimes(1);
+    const event = writerWrite.mock.calls[0][0];
+    expect(event).toMatchObject({ type: "step:start", step: "doThing" });
+    expect(typeof event.timestamp).toBe("number");
+    expect(writerReleaseLock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should release the writer lock even when write fails", async () => {
+    writerWrite.mockRejectedValueOnce(new Error("write failed"));
+
+    await expect(
+      emitEvent({ type: "step:start", step: "fail" }),
+    ).rejects.toThrow("write failed");
+
+    expect(writerReleaseLock).toHaveBeenCalledTimes(1);
+  });
+});
 
 describe("revalidatePostsCache", () => {
   beforeEach(() => {
@@ -55,6 +101,74 @@ describe("revalidatePostsCache", () => {
     );
 
     consoleSpy.mockRestore();
+  });
+});
+
+describe("generatePostHero", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+  });
+
+  it("should generate hero image and persist the URL to the post", async () => {
+    vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      url: "https://blob.example/hero.png",
+    });
+    vi.mocked(updatePostHeroImage).mockResolvedValueOnce(undefined);
+
+    const url = await generatePostHero({
+      postId: "post-1",
+      title: "January 2024 Car Registrations",
+      excerpt: "Summary.",
+      dataType: "cars",
+    });
+
+    expect(generateHeroImage).toHaveBeenCalledWith({
+      title: "January 2024 Car Registrations",
+      excerpt: "Summary.",
+      dataType: "cars",
+      slug: expect.any(String),
+    });
+    expect(updatePostHeroImage).toHaveBeenCalledWith(
+      "post-1",
+      "https://blob.example/hero.png",
+    );
+    expect(url).toBe("https://blob.example/hero.png");
+  });
+
+  it("should propagate errors from generateHeroImage", async () => {
+    vi.mocked(generateHeroImage).mockRejectedValueOnce(
+      new Error("gateway down"),
+    );
+
+    await expect(
+      generatePostHero({
+        postId: "post-1",
+        title: "T",
+        excerpt: "E",
+        dataType: "coe",
+      }),
+    ).rejects.toThrow("gateway down");
+
+    expect(updatePostHeroImage).not.toHaveBeenCalled();
+  });
+
+  it("should propagate errors from updatePostHeroImage", async () => {
+    vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      url: "https://blob.example/hero.png",
+    });
+    vi.mocked(updatePostHeroImage).mockRejectedValueOnce(
+      new Error("db write failed"),
+    );
+
+    await expect(
+      generatePostHero({
+        postId: "post-1",
+        title: "T",
+        excerpt: "E",
+        dataType: "deregistrations",
+      }),
+    ).rejects.toThrow("db write failed");
   });
 });
 

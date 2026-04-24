@@ -79,6 +79,7 @@ describe("deregistrationsWorkflow", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "log").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
   it("should return early when no records are processed", async () => {
@@ -222,6 +223,46 @@ describe("deregistrationsWorkflow", () => {
     expect(result.message).toBe(
       "[DEREGISTRATIONS] Data processed. Post already exists, skipping.",
     );
+  });
+
+  it("should still complete when hero image generation fails", async () => {
+    vi.mocked(updateDeregistration).mockResolvedValueOnce({
+      recordsProcessed: 10,
+      table: "deregistrations",
+      message: "",
+      timestamp: "",
+    });
+    vi.mocked(getDeregistrationsLatestMonth).mockResolvedValueOnce({
+      month: "2024-01",
+    });
+    vi.mocked(getExistingPostByMonth).mockResolvedValueOnce([]);
+    vi.mocked(getDeregistrationsForMonth).mockResolvedValueOnce([
+      {
+        month: "2024-01",
+        category: "Saloon",
+        number: 50,
+      },
+    ]);
+    vi.mocked(generateBlogContent).mockResolvedValueOnce({
+      month: "2024-01",
+      postId: "new-post-id",
+      title: "January 2024 Deregistrations",
+      slug: "january-2024-deregistrations",
+      excerpt: "Summary of January 2024 deregistrations.",
+      dataType: "deregistrations",
+    });
+    vi.mocked(generateHeroImage).mockRejectedValueOnce(
+      new Error("hero gen boom"),
+    );
+
+    const result = await deregistrationsWorkflow({});
+
+    expect(updatePostHeroImage).not.toHaveBeenCalled();
+    expect(revalidatePostsCache).toHaveBeenCalled();
+    expect(result.message).toBe(
+      "[DEREGISTRATIONS] Data processed and cache revalidated successfully",
+    );
+    expect(result.postId).toBe("new-post-id");
   });
 
   it("should update redis timestamp when records are processed", async () => {

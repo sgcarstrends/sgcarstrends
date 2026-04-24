@@ -52,6 +52,7 @@ describe("regeneratePostWorkflow", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "log").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
   it("should regenerate cars post successfully", async () => {
@@ -72,6 +73,10 @@ describe("regeneratePostWorkflow", () => {
       excerpt: "Updated summary.",
       dataType: "cars",
     });
+    vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      url: "https://blob.example/regen.png",
+    });
+    vi.mocked(updatePostHeroImage).mockResolvedValueOnce(undefined);
 
     const result = await regeneratePostWorkflow({
       month: "2024-01",
@@ -84,6 +89,16 @@ describe("regeneratePostWorkflow", () => {
       month: "2024-01",
       dataType: "cars",
     });
+    expect(generateHeroImage).toHaveBeenCalledWith({
+      title: "Updated January 2024 Car Registrations",
+      excerpt: "Updated summary.",
+      dataType: "cars",
+      slug: expect.any(String),
+    });
+    expect(updatePostHeroImage).toHaveBeenCalledWith(
+      "regenerated-post-id",
+      "https://blob.example/regen.png",
+    );
     expect(revalidatePostsCache).toHaveBeenCalled();
     expect(result.message).toBe(
       "[REGENERATE] Successfully regenerated cars post for 2024-01",
@@ -91,6 +106,33 @@ describe("regeneratePostWorkflow", () => {
     expect(result.postId).toBe("regenerated-post-id");
     expect(result.title).toBe("Updated January 2024 Car Registrations");
     expect(result.slug).toBe("january-2024-car-registrations");
+  });
+
+  it("should still complete when hero image generation fails", async () => {
+    vi.mocked(getCarsAggregatedByMonth).mockResolvedValueOnce([]);
+    vi.mocked(regenerateBlogContent).mockResolvedValueOnce({
+      month: "2024-01",
+      postId: "regenerated-post-id",
+      title: "Updated January 2024 Car Registrations",
+      slug: "january-2024-car-registrations",
+      excerpt: "Updated summary.",
+      dataType: "cars",
+    });
+    vi.mocked(generateHeroImage).mockRejectedValueOnce(
+      new Error("hero gen boom"),
+    );
+
+    const result = await regeneratePostWorkflow({
+      month: "2024-01",
+      dataType: "cars",
+    });
+
+    expect(updatePostHeroImage).not.toHaveBeenCalled();
+    expect(revalidatePostsCache).toHaveBeenCalled();
+    expect(result.postId).toBe("regenerated-post-id");
+    expect(result.message).toBe(
+      "[REGENERATE] Successfully regenerated cars post for 2024-01",
+    );
   });
 
   it("should regenerate coe post successfully", async () => {
