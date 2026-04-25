@@ -3,6 +3,7 @@
 import { CardBody, Card as HeroCard } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import type { SelectPost } from "@sgcarstrends/database";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Cover } from "./cover";
@@ -35,7 +36,20 @@ export function Card({ post }: CardProps) {
       className="h-full overflow-hidden"
     >
       <CardBody className="flex flex-col gap-0 p-0">
-        <Cover category={post.dataType ?? "default"} className="aspect-[2/1]" />
+        {post.heroImage ? (
+          <div className="relative aspect-2/1 overflow-hidden">
+            <Image
+              src={post.heroImage}
+              alt={post.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-linear-to-br from-primary/40 to-primary/20" />
+          </div>
+        ) : (
+          <Cover category={post.dataType ?? "default"} className="aspect-2/1" />
+        )}
         <div className="flex flex-col gap-2 p-4">
           <div className="flex items-center gap-2 text-default-400 text-xs">
             <span>{formatDate(publishedDate)}</span>
