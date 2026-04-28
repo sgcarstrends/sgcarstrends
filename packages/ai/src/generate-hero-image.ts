@@ -1,5 +1,5 @@
 import { gateway } from "@ai-sdk/gateway";
-import { experimental_generateImage as generateImage } from "ai";
+import { generateImage } from "ai";
 import { uploadPostHeroImage } from "./blob";
 import {
   HERO_IMAGE_INSTRUCTION,

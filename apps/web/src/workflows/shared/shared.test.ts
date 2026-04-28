@@ -112,6 +112,7 @@ describe("generatePostHero", () => {
 
   it("should generate hero image and persist the URL to the post", async () => {
     vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      pathname: "hero.png",
       url: "https://blob.example/hero.png",
     });
     vi.mocked(updatePostHeroImage).mockResolvedValueOnce(undefined);
@@ -155,6 +156,7 @@ describe("generatePostHero", () => {
 
   it("should propagate errors from updatePostHeroImage", async () => {
     vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      pathname: "hero.png",
       url: "https://blob.example/hero.png",
     });
     vi.mocked(updatePostHeroImage).mockRejectedValueOnce(

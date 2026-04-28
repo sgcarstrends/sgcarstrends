@@ -74,6 +74,7 @@ describe("regeneratePostWorkflow", () => {
       dataType: "cars",
     });
     vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      pathname: "regen.png",
       url: "https://blob.example/regen.png",
     });
     vi.mocked(updatePostHeroImage).mockResolvedValueOnce(undefined);

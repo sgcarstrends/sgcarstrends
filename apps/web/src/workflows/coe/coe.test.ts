@@ -205,6 +205,7 @@ describe("coeWorkflow", () => {
       dataType: "coe",
     });
     vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      pathname: "coe.png",
       url: "https://blob.example/coe.png",
     });
     vi.mocked(updatePostHeroImage).mockResolvedValueOnce(undefined);

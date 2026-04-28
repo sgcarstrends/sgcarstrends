@@ -165,6 +165,7 @@ describe("carsWorkflow", () => {
       dataType: "cars",
     });
     vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      pathname: "cars.png",
       url: "https://blob.example/cars.png",
     });
     vi.mocked(updatePostHeroImage).mockResolvedValueOnce(undefined);

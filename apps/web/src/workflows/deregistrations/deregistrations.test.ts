@@ -165,6 +165,7 @@ describe("deregistrationsWorkflow", () => {
       dataType: "deregistrations",
     });
     vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      pathname: "dereg.png",
       url: "https://blob.example/dereg.png",
     });
     vi.mocked(updatePostHeroImage).mockResolvedValueOnce(undefined);

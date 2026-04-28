@@ -124,6 +124,7 @@ describe("electricVehiclesWorkflow", () => {
     ]);
     vi.mocked(generateBlogContent).mockResolvedValueOnce(generatedPost);
     vi.mocked(generateHeroImage).mockResolvedValueOnce({
+      pathname: "ev.png",
       url: "https://blob.example/ev.png",
     });
     vi.mocked(updatePostHeroImage).mockResolvedValueOnce(undefined);
