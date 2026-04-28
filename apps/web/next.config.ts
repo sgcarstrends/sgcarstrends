@@ -61,6 +61,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/:path*",
+        has: [{ type: "host", value: "staging.sgcarstrends.com" }],
+        destination: "https://staging.motormetrics.app/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
         has: [{ type: "host", value: "docs.sgcarstrends.com" }],
         destination: "https://docs.motormetrics.app/:path*",
         permanent: true,
