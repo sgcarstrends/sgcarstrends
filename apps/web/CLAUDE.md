@@ -1117,7 +1117,7 @@ Deployed via Vercel with automatic deployments:
 
 ## Development Notes
 
-- **Package Manager**: Uses pnpm v10.22.0
+- **Package Manager**: Uses pnpm v11.0.0
 - **TypeScript**: Strict mode enabled
 - **Turbopack**: Enabled for faster builds and development
 - **Feature Flags**: Controlled via `NEXT_PUBLIC_FEATURE_FLAG_UNRELEASED`

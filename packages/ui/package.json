@@ -49,6 +49,5 @@
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts"
-  },
-  "packageManager": "pnpm@10.22.0"
+  }
 }

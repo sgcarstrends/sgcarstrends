@@ -53,10 +53,7 @@ export async function electricVehiclesWorkflow(
   }
 
   await emitEvent({ type: "step:start", step: "generateElectricVehiclesPost" });
-  const post = await generateElectricVehiclesPost(
-    electricVehiclesData,
-    month,
-  );
+  const post = await generateElectricVehiclesPost(electricVehiclesData, month);
   await emitEvent({
     type: "post:generated",
     step: "generateElectricVehiclesPost",

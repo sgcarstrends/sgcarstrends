@@ -15,7 +15,6 @@
     "migrate": "drizzle-kit migrate",
     "typecheck": "tsc --noEmit"
   },
-  "packageManager": "pnpm@10.22.0",
   "dependencies": {
     "@neondatabase/serverless": "1.0.1",
     "drizzle-orm": "catalog:"
