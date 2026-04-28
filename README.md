@@ -128,7 +128,7 @@ sgcarstrends/
 - **Infrastructure**: Vercel with automatic deployments
 - **Scheduling**: Vercel WDK Workflows with Vercel Cron for data processing
 - **LLM Integration**: Vercel AI SDK with Google Gemini for blog content generation
-- **Package Management**: pnpm v10.22.0 workspace with catalog for centralised dependency management
+- **Package Management**: pnpm v11.0.0 workspace with catalog for centralised dependency management
 - **Build Tools**: Turbo v2.6.3 for monorepo orchestration, Turbopack for fast development builds
 - **Testing**: Vitest v4.0.15 (unit), Playwright (E2E) with comprehensive coverage
 - **Linting & Formatting**: Biome v2.3.0 for consistent code style, formatting, and import organisation
@@ -156,7 +156,7 @@ System architecture diagrams are available in the `docs/` directory:
 ### Prerequisites
 
 - Node.js >= 22
-- pnpm v10.22.0
+- pnpm v11.0.0
 
 ### Installation
 

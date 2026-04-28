@@ -1,7 +1,4 @@
-import {
-  generateHeroImage,
-  updatePostHeroImage,
-} from "@sgcarstrends/ai";
+import { generateHeroImage, updatePostHeroImage } from "@sgcarstrends/ai";
 import { slugify } from "@sgcarstrends/utils";
 import { getPostsWorkflowRevalidationTags } from "@web/lib/cache-tags";
 import { revalidateTag } from "next/cache";

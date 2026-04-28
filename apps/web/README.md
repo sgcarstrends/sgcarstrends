@@ -28,7 +28,7 @@ Certificate of Entitlement) bidding results, and market trends.
 ### Prerequisites
 
 - Node.js >= 22
-- pnpm 10.22.0
+- pnpm 11.0.0
 
 ### Installation
 

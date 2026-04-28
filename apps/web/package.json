@@ -129,6 +129,5 @@
     "typescript": "catalog:",
     "vite-tsconfig-paths": "catalog:",
     "vitest": "catalog:"
-  },
-  "packageManager": "pnpm@10.22.0"
+  }
 }
