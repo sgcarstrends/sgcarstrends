@@ -145,10 +145,10 @@ export const MEDAL_MAPPING: Record<number, string> = {
 };
 
 export const announcements: Announcement[] = [
-  // {
-  //   content: `🌟 Welcome to ${SITE_TITLE} - We are currently revamping the site!`,
-  //   paths: undefined, // Global announcement (fallback)
-  // },
+  {
+    content:
+      "SG Cars Trends is now MotorMetrics. If you have us bookmarked, please update it to https://motormetrics.app ✨",
+  },
   // {
   //   content: "🚗 Latest car registration data now available!",
   //   paths: ["/cars"],
