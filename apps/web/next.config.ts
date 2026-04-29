@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "assets.sgcarstrends.com",
+        hostname: "assets.motormetrics.app",
         pathname: "/logos/**",
       },
       {
@@ -38,7 +38,7 @@ const nextConfig: NextConfig = {
     },
     browserToTerminal: true,
   },
-  transpilePackages: ["@sgcarstrends/ui"],
+  transpilePackages: ["@motormetrics/ui"],
   experimental: {
     mcpServer: true,
     turbopackFileSystemCacheForBuild: true,
@@ -48,18 +48,48 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/:path*",
+        has: [{ type: "host", value: "sgcarstrends.com" }],
+        destination: "https://motormetrics.app/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.sgcarstrends.com" }],
+        destination: "https://motormetrics.app/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "staging.sgcarstrends.com" }],
+        destination: "https://staging.motormetrics.app/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "docs.sgcarstrends.com" }],
+        destination: "https://docs.motormetrics.app/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "api.sgcarstrends.com" }],
+        destination: "https://api.motormetrics.app/:path*",
+        permanent: true,
+      },
+      {
         source: "/instagram",
-        destination: "https://www.instagram.com/sgcarstrends",
+        destination: "https://www.instagram.com/motormetrics",
         permanent: false,
       },
       {
         source: "/telegram",
-        destination: "https://t.me/sgcarstrends",
+        destination: "https://t.me/motormetrics",
         permanent: false,
       },
       {
         source: "/github",
-        destination: "https://github.com/sgcarstrends",
+        destination: "https://github.com/motormetrics",
         permanent: false,
       },
     ];
@@ -68,7 +98,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/:path*",
-        has: [{ type: "host", value: "api.sgcarstrends.com" }],
+        has: [{ type: "host", value: "api.motormetrics.app" }],
         destination: "/api/v1/:path*",
       },
       {
