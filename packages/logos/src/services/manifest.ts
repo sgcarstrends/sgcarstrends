@@ -15,10 +15,7 @@ const createEmptyManifest = (): LogoManifest => ({
  * has been written yet so the caller can bootstrap one.
  */
 export const readManifest = async (): Promise<LogoManifest | null> => {
-  const result = await get(MANIFEST_PATHNAME, {
-    access: "public",
-    useCache: false,
-  });
+  const result = await get(MANIFEST_PATHNAME, { access: "public" });
 
   if (!result || result.statusCode !== 200) {
     return null;
