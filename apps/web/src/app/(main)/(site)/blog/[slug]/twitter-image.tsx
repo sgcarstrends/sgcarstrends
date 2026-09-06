@@ -4,7 +4,7 @@ import {
   getReadingTime,
 } from "@web/app/(main)/(site)/blog/components/post/utils";
 import { Article } from "@web/lib/og/cards/article";
-import { OG_CONTENT_TYPE, OG_HEADERS, TWITTER_SIZE } from "@web/lib/og/config";
+import { OG_CONTENT_TYPE, TWITTER_SIZE } from "@web/lib/og/config";
 import { getOGFonts } from "@web/lib/og/fonts";
 import { getAllPosts, getPostBySlug } from "@web/queries/posts";
 import { ImageResponse } from "next/og";
@@ -44,7 +44,6 @@ export default async function Image({ params }: ImageProps) {
     {
       ...size,
       fonts,
-      headers: OG_HEADERS,
     },
   );
 }

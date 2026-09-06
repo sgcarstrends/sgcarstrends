@@ -1,4 +1,4 @@
-import { OG_COLOURS } from "../colours";
+import { OG_COLOURS } from "@web/lib/og/colours";
 
 interface PillProps {
   children: string;

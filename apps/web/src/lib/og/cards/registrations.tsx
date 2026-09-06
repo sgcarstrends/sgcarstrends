@@ -1,7 +1,7 @@
-import { OG_COLOURS } from "../colours";
-import { DeltaChip } from "../templates/delta-chip";
-import { Frame } from "../templates/frame";
-import { Pill } from "../templates/pill";
+import { OG_COLOURS } from "@web/lib/og/colours";
+import { DeltaChip } from "@web/lib/og/templates/delta-chip";
+import { Frame } from "@web/lib/og/templates/frame";
+import { Pill } from "@web/lib/og/templates/pill";
 
 /** Frame padding, footer and bar labels leave this much for the tallest bar */
 const CHROME_HEIGHT = 108 + 100 + 48;

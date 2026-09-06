@@ -1,6 +1,6 @@
 import { slugify } from "@motormetrics/utils";
 import { FuelMix } from "@web/lib/og/cards/fuel-mix";
-import { OG_CONTENT_TYPE, OG_HEADERS, OG_SIZE } from "@web/lib/og/config";
+import { OG_CONTENT_TYPE, OG_SIZE } from "@web/lib/og/config";
 import { loadFuelMix } from "@web/lib/og/data";
 import { getOGFonts } from "@web/lib/og/fonts";
 import { getDistinctFuelTypes } from "@web/queries/cars";
@@ -27,6 +27,5 @@ export default async function Image() {
   return new ImageResponse(<FuelMix height={size.height} {...data} />, {
     ...size,
     fonts,
-    headers: OG_HEADERS,
   });
 }

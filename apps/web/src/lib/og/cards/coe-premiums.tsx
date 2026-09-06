@@ -1,8 +1,8 @@
-import { OG_COLOURS } from "../colours";
-import { sparkline } from "../sparkline";
-import { DeltaChip } from "../templates/delta-chip";
-import { Frame } from "../templates/frame";
-import { Pill } from "../templates/pill";
+import { OG_COLOURS } from "@web/lib/og/colours";
+import { sparkline } from "@web/lib/og/sparkline";
+import { DeltaChip } from "@web/lib/og/templates/delta-chip";
+import { Frame } from "@web/lib/og/templates/frame";
+import { Pill } from "@web/lib/og/templates/pill";
 
 const CHART_WIDTH = 500;
 const CHART_HEIGHT = 250;

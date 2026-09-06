@@ -1,6 +1,6 @@
 import { slugify } from "@motormetrics/utils";
 import { Registrations } from "@web/lib/og/cards/registrations";
-import { OG_CONTENT_TYPE, OG_HEADERS, TWITTER_SIZE } from "@web/lib/og/config";
+import { OG_CONTENT_TYPE, TWITTER_SIZE } from "@web/lib/og/config";
 import { loadRegistrations } from "@web/lib/og/data";
 import { getOGFonts } from "@web/lib/og/fonts";
 import { getDistinctVehicleTypes } from "@web/queries/cars";
@@ -29,6 +29,5 @@ export default async function Image() {
   return new ImageResponse(<Registrations height={size.height} {...data} />, {
     ...size,
     fonts,
-    headers: OG_HEADERS,
   });
 }

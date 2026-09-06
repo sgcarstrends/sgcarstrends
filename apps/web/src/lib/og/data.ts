@@ -1,5 +1,12 @@
 import type { COECategory } from "@motormetrics/types";
 import { formatCurrency, formatDateToMonthYear } from "@motormetrics/utils";
+import type { CoePremiumsProps } from "@web/lib/og/cards/coe-premiums";
+import type { CoeResultsProps } from "@web/lib/og/cards/coe-results";
+import type { FuelMixProps, FuelSlice } from "@web/lib/og/cards/fuel-mix";
+import type { MakeProps } from "@web/lib/og/cards/make";
+import type { RegistrationsProps } from "@web/lib/og/cards/registrations";
+import type { SiteDefaultProps } from "@web/lib/og/cards/site-default";
+import { OG_COLOURS } from "@web/lib/og/colours";
 import {
   getCarsComparison,
   getCarsData,
@@ -16,13 +23,6 @@ import {
 } from "@web/queries/coe";
 import type { COEResult } from "@web/types";
 import type { RegistrationStat } from "@web/types/cars";
-import type { CoePremiumsProps } from "./cards/coe-premiums";
-import type { CoeResultsProps } from "./cards/coe-results";
-import type { FuelMixProps, FuelSlice } from "./cards/fuel-mix";
-import type { MakeProps } from "./cards/make";
-import type { RegistrationsProps } from "./cards/registrations";
-import type { SiteDefaultProps } from "./cards/site-default";
-import { OG_COLOURS } from "./colours";
 
 type CardData<Props> = Omit<Props, "height">;
 

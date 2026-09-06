@@ -1,5 +1,5 @@
+import { OG_COLOURS } from "@web/lib/og/colours";
 import type { ReactNode } from "react";
-import { OG_COLOURS } from "../colours";
 
 interface StatTileProps {
   value: string;

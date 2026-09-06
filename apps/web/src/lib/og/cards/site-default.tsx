@@ -1,8 +1,8 @@
-import { OG_COLOURS } from "../colours";
-import { OG_CONFIG } from "../config";
-import { Frame } from "../templates/frame";
-import { Pill } from "../templates/pill";
-import { StatTile } from "../templates/stat-tile";
+import { OG_COLOURS } from "@web/lib/og/colours";
+import { OG_CONFIG } from "@web/lib/og/config";
+import { Frame } from "@web/lib/og/templates/frame";
+import { Pill } from "@web/lib/og/templates/pill";
+import { StatTile } from "@web/lib/og/templates/stat-tile";
 
 export interface SiteDefaultProps {
   height: number;

@@ -1,6 +1,6 @@
-import { OG_COLOURS } from "../colours";
-import { Frame } from "../templates/frame";
-import { Pill } from "../templates/pill";
+import { OG_COLOURS } from "@web/lib/og/colours";
+import { Frame } from "@web/lib/og/templates/frame";
+import { Pill } from "@web/lib/og/templates/pill";
 
 export interface ArticleProps {
   height: number;
@@ -29,46 +29,53 @@ export function Article({ height, tag, byline, title, excerpt }: ArticleProps) {
           backgroundColor: "rgba(78,124,155,0.09)",
         }}
       />
-      <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-        <Pill tone="solid">{tag}</Pill>
-        <span
-          style={{ fontSize: 24, fontWeight: 600, color: OG_COLOURS.subtle }}
-        >
-          {byline}
-        </span>
-      </div>
       <div
         style={{
+          flex: 1,
           display: "flex",
-          marginTop: 30,
-          fontSize: titleSize,
-          lineHeight: 1.1,
-          fontWeight: 800,
-          letterSpacing: "-0.035em",
-          color: OG_COLOURS.ink,
-          maxWidth: 940,
-          lineClamp: 3,
+          flexDirection: "column",
+          alignItems: "flex-start",
+          gap: 26,
         }}
       >
-        {title}
-      </div>
-      {excerpt && (
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <Pill tone="solid">{tag}</Pill>
+          <span
+            style={{ fontSize: 24, fontWeight: 600, color: OG_COLOURS.subtle }}
+          >
+            {byline}
+          </span>
+        </div>
         <div
           style={{
             display: "flex",
-            marginTop: 24,
-            fontSize: 29,
-            lineHeight: 1.4,
-            fontWeight: 500,
-            color: OG_COLOURS.muted,
-            maxWidth: 880,
+            fontSize: titleSize,
+            lineHeight: 1.1,
+            fontWeight: 800,
+            letterSpacing: "-0.035em",
+            color: OG_COLOURS.ink,
+            maxWidth: 940,
             lineClamp: 3,
           }}
         >
-          {excerpt}
+          {title}
         </div>
-      )}
-      <div style={{ flex: 1, minHeight: 36 }} />
+        {excerpt && (
+          <div
+            style={{
+              display: "flex",
+              fontSize: 29,
+              lineHeight: 1.4,
+              fontWeight: 500,
+              color: OG_COLOURS.muted,
+              maxWidth: 880,
+              lineClamp: 3,
+            }}
+          >
+            {excerpt}
+          </div>
+        )}
+      </div>
     </Frame>
   );
 }

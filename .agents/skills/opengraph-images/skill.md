@@ -22,7 +22,7 @@ the parent's wholesale, including file-based images, so **every segment whose pa
 
 | File | Purpose |
 |------|---------|
-| `apps/web/src/lib/og/config.ts` | `OG_SIZE`, `TWITTER_SIZE`, `OG_CONTENT_TYPE`, `OG_HEADERS` |
+| `apps/web/src/lib/og/config.ts` | `OG_SIZE`, `TWITTER_SIZE`, `OG_CONTENT_TYPE`; `OG_HEADERS` only for the static PARF card |
 | `apps/web/src/lib/og/colours.ts` | Card palette from the design comp |
 | `apps/web/src/lib/og/fonts.ts` | `getOGFonts()` — Urbanist 500/600/700/800 |
 | `apps/web/src/lib/og/templates/` | `Frame` (background + footer), `Pill`, `DeltaChip`, `StatTile` |
@@ -53,7 +53,7 @@ replaces the file-based image entirely.
 ```tsx
 // opengraph-image.tsx (twitter-image.tsx swaps OG_SIZE for TWITTER_SIZE)
 import { CoeResults } from "@web/lib/og/cards/coe-results";
-import { OG_CONTENT_TYPE, OG_HEADERS, OG_SIZE } from "@web/lib/og/config";
+import { OG_CONTENT_TYPE, OG_SIZE } from "@web/lib/og/config";
 import { loadCoeResults } from "@web/lib/og/data";
 import { getOGFonts } from "@web/lib/og/fonts";
 import { ImageResponse } from "next/og";
@@ -72,7 +72,6 @@ export default async function Image() {
   return new ImageResponse(<CoeResults height={size.height} {...data} />, {
     ...size,
     fonts,
-    headers: OG_HEADERS,
   });
 }
 ```
@@ -117,7 +116,7 @@ cards revalidate on the same tags as the pages. Format numbers there, not in the
 
 1. Run `pnpm dev` and open `/opengraph-image`, `/coe/results/twitter-image`,
    `/cars/makes/toyota/opengraph-image`, `/blog/<slug>/opengraph-image` directly.
-2. `curl -sI` an image and confirm `content-type: image/png` and the immutable cache header.
+2. `curl -sI` an image and confirm `content-type: image/png`. Data-driven cards must not send an immutable cache header.
 3. View source of the page and confirm `og:image` and `twitter:image` point at the generated
    routes.
 4. Social debuggers: Facebook Sharing Debugger, Twitter Card Validator, LinkedIn Post Inspector.

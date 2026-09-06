@@ -33,7 +33,7 @@ export const TWITTER_SIZE = {
 /** Content type every image file exports */
 export const OG_CONTENT_TYPE = "image/png";
 
-/** Standard cache headers for static OG images */
+/** Long-lived cache headers, only for cards whose content never changes (PARF) */
 export const OG_HEADERS = {
   "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable",
 } as const;

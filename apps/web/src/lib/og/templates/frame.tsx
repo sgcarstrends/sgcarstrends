@@ -1,6 +1,6 @@
+import { OG_COLOURS } from "@web/lib/og/colours";
+import { OG_CONFIG } from "@web/lib/og/config";
 import type { ReactNode } from "react";
-import { OG_COLOURS } from "../colours";
-import { OG_CONFIG } from "../config";
 
 interface FrameProps {
   /** 630 for og:image, 600 for twitter:image */

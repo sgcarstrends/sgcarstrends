@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { OG_CONFIG } from "./config";
+import { OG_CONFIG } from "@web/lib/og/config";
 
 const FONT_DIR = join(process.cwd(), "assets/fonts");
 

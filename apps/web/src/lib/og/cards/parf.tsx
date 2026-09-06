@@ -1,6 +1,6 @@
-import { OG_COLOURS } from "../colours";
-import { Frame } from "../templates/frame";
-import { Pill } from "../templates/pill";
+import { OG_COLOURS } from "@web/lib/og/colours";
+import { Frame } from "@web/lib/og/templates/frame";
+import { Pill } from "@web/lib/og/templates/pill";
 
 interface ParfProps {
   height: number;
