@@ -20,6 +20,9 @@ export const OG_COLOURS = {
   /** Axis labels and hairline text */
   faint: "#96A2A7",
 
+  /** Wordmark ink — the first arch and "motor" */
+  inkDeep: "#16323F",
+
   /** Slate-blue accent */
   accent: "#4E7C9B",
 

@@ -1,11 +1,11 @@
 import { Typography } from "@heroui/react";
+import { LogoMark, Wordmark } from "@web/components/brand-logo";
 import { SITE_TITLE } from "@web/config";
 import {
   FOOTER_NAV_ITEMS,
   type NavItem,
   navLinks,
 } from "@web/config/navigation";
-import { TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { version } from "../../package.json";
 
@@ -25,10 +25,17 @@ export function Footer({
         className="flex items-center gap-3 text-foreground"
         href="/"
       >
-        <TrendingUp className="size-5" strokeWidth={2.5} />
-        <span className="font-extrabold text-base">
-          Motor<span className="text-accent-strong">Metrics</span>
-        </span>
+        <LogoMark
+          first="currentColor"
+          second="var(--accent)"
+          size={20}
+          strokeWidth={8}
+        />
+        <Wordmark
+          className="text-[15px]"
+          first="currentColor"
+          second="var(--accent)"
+        />
       </Link>
 
       <nav aria-label="Footer navigation">
