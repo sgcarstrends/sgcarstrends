@@ -97,7 +97,7 @@ async function listMakes(): Promise<string[]> {
 
 /**
  * One make, one step, so a retry re-fetches only this image. Returns null
- * for a failure other than a 404 so the make is retried on the next run.
+ * for a failure other than "not found" so the make is retried on the next run.
  */
 async function fetchLogo(make: string): Promise<LogoEntry | null> {
   "use step";
@@ -118,7 +118,7 @@ async function fetchLogo(make: string): Promise<LogoEntry | null> {
     };
   }
 
-  if (result.error.endsWith(" 404")) {
+  if (result.notFound) {
     console.log(`[LOGOS] No logo at source for ${make}`);
     return {
       make,

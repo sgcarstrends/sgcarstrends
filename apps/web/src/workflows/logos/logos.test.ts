@@ -92,6 +92,7 @@ describe("logosWorkflow", () => {
             make,
             sourceUrl: "https://source/zeekr-logo.png",
             error: "Failed to fetch logo: 404",
+            notFound: true,
           },
     );
 
@@ -110,7 +111,7 @@ describe("logosWorkflow", () => {
     expect(revalidateTag).toHaveBeenCalledWith("logos", "max");
   });
 
-  it("leaves a make out of the manifest on a non-404 failure", async () => {
+  it("leaves a make out of the manifest on a retryable failure", async () => {
     vi.mocked(readManifest).mockResolvedValue(manifestWith());
     vi.mocked(getDistinctMakes).mockResolvedValue([{ make: "BYD" }]);
     vi.mocked(downloadLogo).mockResolvedValue({
@@ -118,6 +119,7 @@ describe("logosWorkflow", () => {
       make: "byd",
       sourceUrl: "https://source/byd-logo.png",
       error: "fetch failed",
+      notFound: false,
     });
 
     const result = await logosWorkflow();
