@@ -1,3 +1,13 @@
+## [5.16.0](https://github.com/motormetrics/motormetrics/compare/v5.15.0...v5.16.0) (2026-09-06)
+
+### Features
+
+* **web:** rebuild social share images from the Social Images design ([465f526](https://github.com/motormetrics/motormetrics/commit/465f5269ca800b3f5a515e5accf7eacaafbe4a41))
+
+### Bug Fixes
+
+* **web:** drop immutable cache from data-driven share cards ([a1b4b3d](https://github.com/motormetrics/motormetrics/commit/a1b4b3d60e65456261a64cff2b53feb25549dc8e))
+
 ## [5.15.0](https://github.com/motormetrics/motormetrics/compare/v5.14.0...v5.15.0) (2026-09-05)
 
 ### Features
