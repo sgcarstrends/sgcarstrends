@@ -176,7 +176,11 @@ documents it and the HeroUI token bindings. If the two ever disagree, `globals.c
 
 ### OpenGraph Images
 
-Dynamic OG images via Next.js `ImageResponse`. See the `opengraph-images` skill for implementation patterns.
+Share images come only from the `opengraph-image.tsx` / `twitter-image.tsx` file conventions; pages
+never set `openGraph.images` or `twitter.images` (a page-level `images` key replaces the file-based
+image, and a page's own `openGraph` block also discards any image inherited from a parent segment, so
+every segment whose page sets `openGraph` carries its own pair). Cards live in `src/lib/og/cards` and
+data in `src/lib/og/data.ts`. See the `opengraph-images` skill for the card map and patterns.
 
 **Constraints**:
 
@@ -185,7 +189,7 @@ Dynamic OG images via Next.js `ImageResponse`. See the `opengraph-images` skill 
 - Font files must be loaded explicitly (`.ttf`)
 - Server-side only (no React hooks)
 
-**Testing**: visit `/about/opengraph-image` directly, or use the Facebook/Twitter/LinkedIn social debuggers.
+**Testing**: visit `/coe/results/opengraph-image` directly, or use the Facebook/Twitter/LinkedIn social debuggers.
 
 ### Testing Strategy
 

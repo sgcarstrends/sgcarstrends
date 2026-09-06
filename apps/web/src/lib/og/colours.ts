@@ -1,36 +1,59 @@
 /**
- * OG image colour tokens (Satori-compatible hex values)
+ * Share-card colour tokens (Satori-compatible hex values).
  *
- * Satori (the library behind next/og) doesn't support CSS variables,
- * so we define hex values directly.
- *
- * @see CLAUDE.md Colour System section for design tokens
+ * Satori (the library behind next/og) doesn't support CSS variables, so the
+ * values from the "Social Images" design comp are written out directly.
  */
 export const OG_COLOURS = {
-  /** Navy Blue - primary brand colour */
-  primary: "#191970",
+  /** Cream card background */
+  background: "#F7F5EF",
 
-  /** Light background */
-  background: "#f5f5f5",
+  /** Primary ink */
+  ink: "#232A2E",
 
-  /** Dark text */
-  foreground: "#0a0a0a",
+  /** Body copy */
+  muted: "#5A6A70",
 
-  /** Muted text (70% opacity equivalent) */
-  mutedForeground: "rgba(10, 10, 10, 0.7)",
+  /** Labels and captions */
+  subtle: "#7B888D",
 
-  /** Subtle text (90% opacity equivalent) */
-  subtleForeground: "rgba(10, 10, 10, 0.9)",
+  /** Axis labels and hairline text */
+  faint: "#96A2A7",
 
-  /** Chip background */
-  chipBackground: "rgba(25, 25, 112, 0.05)",
+  /** Slate-blue accent */
+  accent: "#4E7C9B",
 
-  /** Chip border */
-  chipBorder: "rgba(25, 25, 112, 0.2)",
+  /** Soft accent pill background */
+  accentSoft: "#DCE7EC",
+
+  /** Soft accent pill text */
+  accentDeep: "#2C5670",
+
+  /** Secondary bar fill */
+  accentMuted: "#B9CBD6",
+
+  /** Dividers and bar tracks */
+  rule: "#E5E1D5",
+
+  /** White tiles */
+  surface: "#FFFFFF",
+
+  /** Tile shadow */
+  tileShadow: "0 3px 12px rgba(35,42,46,0.06)",
+
+  /** Delta chip, value went up */
+  upBackground: "#FBEBD3",
+  upForeground: "#96601C",
+
+  /** Delta chip, value went down */
+  downBackground: "#DFF1DF",
+  downForeground: "#2F6B3A",
+
+  /** Fuel mix series: petrol, electric, hybrid, diesel */
+  fuel: {
+    petrol: "#C3CFD5",
+    electric: "#4E7C9B",
+    hybrid: "#7FAAC4",
+    diesel: "#16323F",
+  },
 } as const;
-
-/**
- * CSS gradient string for Navy Blue gradient text
- */
-export const OG_NAVY_GRADIENT =
-  "linear-gradient(to right, #191970, rgba(25, 25, 112, 0.7))";

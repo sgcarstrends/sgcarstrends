@@ -34,8 +34,6 @@ export async function generateMetadata({
   const title = `${displayName} Cars in Singapore`;
   const description = `${displayName} car registrations in Singapore. Explore registration trends, statistics, and distribution by vehicle type for each month.`;
   const canonical = `/cars/vehicle-types/${type}`;
-  const images = `/api/og?title=${encodeURIComponent(displayName)}&subtitle=${encodeURIComponent("Stats by Vehicle Type")}`;
-
   return {
     title,
     description,
@@ -46,7 +44,6 @@ export async function generateMetadata({
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
-      images,
     },
     twitter: {
       card: "summary_large_image",
@@ -54,7 +51,6 @@ export async function generateMetadata({
       description,
       site: SOCIAL_HANDLE,
       creator: SOCIAL_HANDLE,
-      images,
     },
     alternates: {
       canonical,

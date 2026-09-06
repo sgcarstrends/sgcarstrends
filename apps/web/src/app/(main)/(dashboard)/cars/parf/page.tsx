@@ -14,8 +14,6 @@ import type { WebPage, WithContext } from "schema-dts";
 const title = "PARF Rebate Calculator Singapore";
 const description =
   "Compare PARF rebates before and after the Budget 2026 changes. Calculate how much less you would receive under the new rates.";
-const images = `${SITE_URL}/opengraph-image.png`;
-
 export function generateMetadata(): Metadata {
   return {
     title,
@@ -27,7 +25,6 @@ export function generateMetadata(): Metadata {
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
-      images,
     },
     twitter: {
       card: "summary_large_image",
@@ -35,7 +32,6 @@ export function generateMetadata(): Metadata {
       description,
       site: SOCIAL_HANDLE,
       creator: SOCIAL_HANDLE,
-      images,
     },
     alternates: {
       canonical: "/cars/parf",

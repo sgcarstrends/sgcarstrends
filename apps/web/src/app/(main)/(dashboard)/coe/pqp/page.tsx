@@ -18,8 +18,6 @@ import type { WebPage, WithContext } from "schema-dts";
 const title = "PQP Rates for COE Renewal";
 const description =
   "Latest Prevailing Quota Premium (PQP) rates for COE renewal in Singapore. These rates show the average COE prices over the last 3 months.";
-const images = `${SITE_URL}/opengraph-image.png`;
-
 export const metadata: Metadata = {
   title,
   description,
@@ -30,7 +28,6 @@ export const metadata: Metadata = {
     siteName: SITE_TITLE,
     locale: "en_SG",
     type: "website",
-    images,
   },
   twitter: {
     card: "summary_large_image",
@@ -38,7 +35,6 @@ export const metadata: Metadata = {
     description,
     site: SOCIAL_HANDLE,
     creator: SOCIAL_HANDLE,
-    images,
   },
   alternates: {
     canonical: "/coe/pqp",

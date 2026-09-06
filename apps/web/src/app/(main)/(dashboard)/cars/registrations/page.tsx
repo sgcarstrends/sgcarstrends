@@ -9,7 +9,6 @@ import { Report, ReportSection } from "@web/components/shared/report";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { SOCIAL_HANDLE } from "@web/config/socials";
-import { loadCarsMetadataData } from "@web/lib/cars/page-data";
 import { getComparisonData } from "@web/queries/cars/compare";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
@@ -31,9 +30,6 @@ export async function generateMetadata({
   const title = "Singapore Car Registrations";
   const description = `Discover ${formattedMonth} car registrations in Singapore. See detailed stats by fuel type, vehicle type, and top brands.`;
 
-  const { topTypes, carRegistration } = await loadCarsMetadataData(month);
-  const images = `/api/og?title=Car Registrations&subtitle=Monthly Stats Summary&month=${month}&total=${carRegistration.total}&topFuelType=${topTypes.topFuelType.name}&topVehicleType=${topTypes.topVehicleType.name}`;
-
   return {
     title,
     description,
@@ -44,7 +40,6 @@ export async function generateMetadata({
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
-      images,
     },
     twitter: {
       card: "summary_large_image",
@@ -52,7 +47,6 @@ export async function generateMetadata({
       description,
       site: SOCIAL_HANDLE,
       creator: SOCIAL_HANDLE,
-      images,
     },
     alternates: {
       canonical: "/cars/registrations",

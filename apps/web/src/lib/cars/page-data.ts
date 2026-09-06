@@ -5,7 +5,6 @@ import {
   getCarsData,
   getFuelTypeData,
   getTopMakesByFuelType,
-  getTopTypes,
   getVehicleTypeData,
 } from "@web/queries/cars";
 import { fetchMonthsForCars } from "@web/utils/dates/months";
@@ -92,19 +91,4 @@ export async function loadCarsTypePageData(
   ]);
 
   return { cars, months, lastUpdated };
-}
-
-/**
- * Load metadata data for cars overview page
- *
- * @param month - Month in YYYY-MM format
- * @returns Top types and car registration data for metadata generation
- */
-export async function loadCarsMetadataData(month: string) {
-  const [topTypes, carRegistration] = await Promise.all([
-    getTopTypes(month),
-    getCarsData(month),
-  ]);
-
-  return { topTypes, carRegistration };
 }

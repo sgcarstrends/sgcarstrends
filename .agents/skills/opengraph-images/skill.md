@@ -1,359 +1,131 @@
 ---
 name: opengraph-images
-description: Create dynamic OpenGraph images for social media sharing using Next.js ImageResponse API. Use when adding OG images to new pages, updating existing OG images, or implementing page-specific social previews.
+description: Create dynamic OpenGraph and Twitter share images using Next.js ImageResponse. Use when adding social images to new pages, updating an existing share card, or debugging OG image rendering.
 allowed-tools: Read, Edit, Write, Grep, Glob
 ---
 
 # OpenGraph Images Skill
 
-This skill helps you create consistent, branded OpenGraph images for social media sharing across the web application.
+Share images are generated from the Next.js file conventions `opengraph-image.tsx` (1200×630)
+and `twitter-image.tsx` (1200×600). A page's own `openGraph`/`twitter` metadata block replaces
+the parent's wholesale, including file-based images, so **every segment whose page sets
+`openGraph` needs its own pair**. Copy the nearest pair and change the card if needed.
 
 ## When to Use This Skill
 
-- Creating dynamic OG images for new pages
-- Updating existing OG image content/styling
-- Implementing page-specific social previews
-- Adding custom fonts to OG images
-- Debugging OG image rendering issues
+- Giving a new page or section its own share card
+- Changing the copy or data on an existing card
+- Adding a new card design from the "Social Images" Claude Design comp
+- Debugging Satori rendering issues
 
 ## Key Files
 
 | File | Purpose |
 |------|---------|
-| `apps/web/src/app/opengraph-image.png` | Static homepage OG image |
-| `apps/web/src/app/about/opengraph-image.tsx` | Dynamic About page OG image |
-| `apps/web/src/app/blog/[slug]/opengraph-image.tsx` | Dynamic blog post OG images |
-| `apps/web/assets/fonts/` | Geist font files for OG images |
+| `apps/web/src/lib/og/config.ts` | `OG_SIZE`, `TWITTER_SIZE`, `OG_CONTENT_TYPE`, `OG_HEADERS` |
+| `apps/web/src/lib/og/colours.ts` | Card palette from the design comp |
+| `apps/web/src/lib/og/fonts.ts` | `getOGFonts()` — Urbanist 500/600/700/800 |
+| `apps/web/src/lib/og/templates/` | `Frame` (background + footer), `Pill`, `DeltaChip`, `StatTile` |
+| `apps/web/src/lib/og/cards/` | The eight card components, one per page type |
+| `apps/web/src/lib/og/data.ts` | `load*()` composers over the cached queries |
+| `apps/web/src/lib/og/sparkline.ts` | Series → SVG path strings |
+| `apps/web/assets/fonts/` | Urbanist TTFs |
 
-## Standard Configuration
+## Card → route map
 
-### Required Exports
+| Card | Component | Routes |
+|------|-----------|--------|
+| 01 Site default | `SiteDefault` | `app/` root, `(dashboard)/` home, `about`, `advertise`, `blog`, `contact`, `learn` |
+| 02 COE bidding results | `CoeResults` | `coe/results`, `coe/premiums` |
+| 03 COE premiums (Cat A + B) | `CoePremiums` | `coe/` hub, `coe/pqp` |
+| 04 Car registrations | `Registrations` | `cars/` hub, `cars/registrations`, `cars/annual`, `cars/deregistrations`, `cars/makes`, `cars/vehicle-types`, `cars/vehicle-types/[type]` |
+| 05 Make | `Make` | `cars/makes/[make]` |
+| 06 Fuel mix | `FuelMix` | `cars/fuel-types`, `cars/fuel-types/[type]`, `cars/electric-vehicles`, `cars/electric-vehicles/charging` |
+| 07 Article | `Article` | `blog/[slug]`, `learn/[slug]` |
+| 08 PARF | `Parf` | `cars/parf` |
 
-```typescript
+## Route file shape
+
+Both files in a segment are identical apart from the size constant. Never add
+`openGraph.images` or `twitter.images` to a page's metadata — a page-level `images` key
+replaces the file-based image entirely.
+
+```tsx
+// opengraph-image.tsx (twitter-image.tsx swaps OG_SIZE for TWITTER_SIZE)
+import { CoeResults } from "@web/lib/og/cards/coe-results";
+import { OG_CONTENT_TYPE, OG_HEADERS, OG_SIZE } from "@web/lib/og/config";
+import { loadCoeResults } from "@web/lib/og/data";
+import { getOGFonts } from "@web/lib/og/fonts";
 import { ImageResponse } from "next/og";
 
-// Alt text for accessibility
-export const alt = "Page Title - SG Cars Trends";
-
-// Standard OG image dimensions
-export const size = {
-  width: 1200,
-  height: 630,
-};
-
-// Image format
-export const contentType = "image/png";
-```
-
-### Font Loading
-
-Load Geist fonts from `assets/fonts/` for consistent typography:
-
-```typescript
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
+export const alt = "Latest COE bidding results - MotorMetrics";
+export const size = OG_SIZE;
+export const contentType = OG_CONTENT_TYPE;
 
 export default async function Image() {
-  const [geistRegular, geistSemiBold, geistBold] = await Promise.all([
-    readFile(join(process.cwd(), "assets/fonts/Geist-Regular.ttf")),
-    readFile(join(process.cwd(), "assets/fonts/Geist-SemiBold.ttf")),
-    readFile(join(process.cwd(), "assets/fonts/Geist-Bold.ttf")),
-  ]);
+  const [data, fonts] = await Promise.all([loadCoeResults(), getOGFonts()]);
 
-  return new ImageResponse(
-    // JSX content
-    <div>...</div>,
-    {
-      ...size,
-      fonts: [
-        { name: "Geist", data: geistRegular, style: "normal", weight: 400 },
-        { name: "Geist", data: geistSemiBold, style: "normal", weight: 500 },
-        { name: "Geist", data: geistBold, style: "normal", weight: 700 },
-      ],
-    },
-  );
-}
-```
-
-## Design Structure
-
-### Standard Layout Pattern
-
-OG images follow a consistent three-part structure:
-
-```
-┌────────────────────────────────────────────┐
-│  [Eyebrow Chip]  (page context indicator)  │
-│                                            │
-│  Main Headline                             │
-│  With Gradient Text                        │
-│                                            │
-│  Subheadline description text that         │
-│  provides additional context               │
-└────────────────────────────────────────────┘
-```
-
-### Eyebrow Chip
-
-Small pill-shaped indicator that signals page type/context:
-
-```typescript
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-    padding: "8px 16px",
-    backgroundColor: "rgba(37, 99, 235, 0.05)",
-    border: "1px solid rgba(37, 99, 235, 0.2)",
-    borderRadius: 9999,
-    marginBottom: 32,
-  }}
->
-  <div
-    style={{
-      width: 8,
-      height: 8,
-      borderRadius: "50%",
-      backgroundColor: "#2563eb",
-    }}
-  />
-  <span
-    style={{
-      fontSize: 16,
-      fontWeight: 500,
-      color: "rgba(10, 10, 10, 0.9)",
-      letterSpacing: "0.025em",
-    }}
-  >
-    Behind the Data
-  </span>
-</div>
-```
-
-**Eyebrow Text Guidelines:**
-
-| Page Type | Eyebrow Text |
-|-----------|--------------|
-| Homepage | Singapore Car Market Data |
-| About | Behind the Data |
-| Blog Post | Blog / Analysis / Insights |
-| COE | COE Bidding Results |
-| Cars | Vehicle Registrations |
-
-### Main Headline
-
-Two-line headline with gradient text on the second line:
-
-```typescript
-<div
-  style={{
-    display: "flex",
-    flexDirection: "column",
-    fontSize: 64,
-    fontWeight: 700,
-    color: "#0a0a0a",
-    lineHeight: 1.1,
-    letterSpacing: "-0.025em",
-    marginBottom: 24,
-  }}
->
-  <span>First Line of</span>
-  <span
-    style={{
-      backgroundImage: "linear-gradient(to right, #2563eb, rgba(37, 99, 235, 0.7))",
-      backgroundClip: "text",
-      color: "transparent",
-    }}
-  >
-    Gradient Headline
-  </span>
-</div>
-```
-
-### Subheadline
-
-Supporting description text:
-
-```typescript
-<div
-  style={{
-    display: "flex",
-    fontSize: 24,
-    color: "rgba(10, 10, 10, 0.7)",
-    lineHeight: 1.5,
-    maxWidth: 700,
-    fontWeight: 400,
-  }}
->
-  Description text that provides additional context about the page content.
-</div>
-```
-
-## Colour Palette
-
-| Element | Colour | Value |
-|---------|--------|-------|
-| Background | Light gray | `#f5f5f5` |
-| Primary text | Near black | `#0a0a0a` |
-| Secondary text | Muted | `rgba(10, 10, 10, 0.7)` |
-| Primary blue | Brand | `#2563eb` |
-| Gradient end | Lighter blue | `rgba(37, 99, 235, 0.7)` |
-| Chip background | Tinted | `rgba(37, 99, 235, 0.05)` |
-| Chip border | Subtle | `rgba(37, 99, 235, 0.2)` |
-
-## Static vs Dynamic OG Images
-
-### Use Static PNG When:
-
-- Content never changes (homepage)
-- No page-specific data needed
-- Maximum performance required
-
-```
-src/app/opengraph-image.png  # Just place the file
-```
-
-### Use Dynamic TSX When:
-
-- Content varies by page/route (blog posts, about)
-- Need custom fonts
-- Dynamic data from database
-
-```typescript
-// src/app/[route]/opengraph-image.tsx
-export default async function Image({ params }) {
-  // Fetch data, generate dynamic content
-}
-```
-
-## Dynamic Route OG Images
-
-For routes with dynamic segments (e.g., blog posts):
-
-```typescript
-import { getAllPosts, getPostBySlug } from "@web/queries/posts";
-import { ImageResponse } from "next/og";
-
-interface Props {
-  params: Promise<{ slug: string }>;
-}
-
-export const size = { width: 1200, height: 630 };
-export const dynamic = "force-static";
-
-export async function generateStaticParams() {
-  const posts = await getAllPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-}
-
-const Image = async ({ params }: Props) => {
-  const { slug } = await params;
-  const post = await getPostBySlug(slug);
-
-  if (!post) {
+  if (!data) {
     return new Response("Not found", { status: 404 });
   }
 
-  return new ImageResponse(
-    <div style={{ /* ... */ }}>
-      {post.title}
-    </div>,
-    {
-      ...size,
-      headers: {
-        "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable",
-      },
-    },
-  );
-};
-
-export default Image;
+  return new ImageResponse(<CoeResults height={size.height} {...data} />, {
+    ...size,
+    fonts,
+    headers: OG_HEADERS,
+  });
+}
 ```
 
-## Caching Headers
+Dynamic segments also export `generateStaticParams` (see `cars/makes/[make]`), returning at
+least one param under Cache Components.
 
-For static/infrequently changing OG images:
+## Card anatomy
 
-```typescript
-return new ImageResponse(content, {
-  ...size,
-  headers: {
-    "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable",
-  },
-});
-```
+Every card is `({ height, ...data }) => <Frame height={height}>…</Frame>`. `Frame` draws the
+cream background, `54px 60px` padding and the footer (accent circle, wordmark, right-hand
+label). Put a `<div style={{ flex: 1 }} />` spacer before the last block so the footer
+stays pinned.
 
-## Important Constraints
+Data comes from `lib/og/data.ts`, which composes the existing `"use cache"` queries, so
+cards revalidate on the same tags as the pages. Format numbers there, not in the card.
 
-### ImageResponse JSX Limitations
+## Colour Palette
 
-The `ImageResponse` API uses Satori for rendering, which has constraints:
+| Token | Value | Use |
+|-------|-------|-----|
+| `background` | `#F7F5EF` | Card background |
+| `ink` | `#232A2E` | Headlines and values |
+| `muted` | `#5A6A70` | Body copy |
+| `subtle` | `#7B888D` | Labels |
+| `faint` | `#96A2A7` | Axis labels |
+| `accent` | `#4E7C9B` | Highlights, wordmark, icon |
+| `accentSoft` / `accentDeep` | `#DCE7EC` / `#2C5670` | Soft pill |
+| `rule` | `#E5E1D5` | Dividers, bar tracks |
+| `up*` / `down*` | `#FBEBD3/#96601C` · `#DFF1DF/#2F6B3A` | Delta chips |
+| `fuel.*` | `#C3CFD5 #4E7C9B #7FAAC4 #16323F` | Petrol, electric, hybrid, diesel |
 
-- **No CSS classes** - Use inline `style` objects only
-- **Limited CSS properties** - Flexbox works, Grid doesn't
-- **No external images** - Must be base64 or absolute URLs
-- **Font files required** - Must load `.ttf` files explicitly
-- **No React hooks** - Server-side only
+## Satori constraints
 
-### Common Style Gotchas
+- Inline `style` objects only; flexbox only (no `grid`), no `conic-gradient`, no `text-wrap`
+- A `div` with several children must be `display: flex`
+- Draw charts as inline `<svg>`: paths for sparklines, stroked `<circle>` arcs with
+  `strokeDasharray` for donuts
+- Fonts must be static `.ttf` files; the whole route including fonts must stay under 500 KB
 
-```typescript
-// ❌ Won't work
-<div className="flex gap-4">
+## Testing
 
-// ✅ Use inline styles
-<div style={{ display: "flex", gap: 16 }}>
-
-// ❌ CSS Grid not supported
-<div style={{ display: "grid" }}>
-
-// ✅ Use Flexbox
-<div style={{ display: "flex", flexWrap: "wrap" }}>
-```
-
-## Testing OG Images
-
-1. **Local development**: Visit `http://localhost:3000/about/opengraph-image` directly
-2. **Social debuggers**:
-   - [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/)
-   - [Twitter Card Validator](https://cards-dev.twitter.com/validator)
-   - [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/)
-3. **OG Preview tools**: [opengraph.xyz](https://www.opengraph.xyz/)
-
-## File Organization
-
-```
-src/app/
-├── opengraph-image.png           # Static homepage OG
-├── about/
-│   └── opengraph-image.tsx       # Dynamic About OG
-├── blog/
-│   └── [slug]/
-│       └── opengraph-image.tsx   # Dynamic blog post OG
-├── cars/
-│   └── opengraph-image.tsx       # Dynamic cars section OG
-└── coe/
-    └── opengraph-image.tsx       # Dynamic COE section OG
-```
+1. Run `pnpm dev` and open `/opengraph-image`, `/coe/results/twitter-image`,
+   `/cars/makes/toyota/opengraph-image`, `/blog/<slug>/opengraph-image` directly.
+2. `curl -sI` an image and confirm `content-type: image/png` and the immutable cache header.
+3. View source of the page and confirm `og:image` and `twitter:image` point at the generated
+   routes.
+4. Social debuggers: Facebook Sharing Debugger, Twitter Card Validator, LinkedIn Post Inspector.
 
 ## Validation Checklist
 
-When creating/updating OG images:
-
-- [ ] Exports `alt`, `size`, and `contentType`
-- [ ] Uses standard 1200x630 dimensions
-- [ ] Follows three-part structure (eyebrow, headline, subheadline)
-- [ ] Uses brand colours from palette
-- [ ] Loads Geist fonts for custom typography
-- [ ] Uses inline styles only (no CSS classes)
-- [ ] Eyebrow text clearly indicates page context
-- [ ] Headline is concise and fits on two lines max
-- [ ] Subheadline provides useful context
-- [ ] Tested in social media debuggers
-
-## Related Files
-
-- `apps/web/CLAUDE.md` - Web app conventions
-- `apps/web/assets/fonts/` - Geist font files
-- `apps/web/src/config/index.ts` - Site title and URL constants
+- [ ] Both `opengraph-image.tsx` and `twitter-image.tsx` exist, each exporting `alt`, `size`, `contentType`
+- [ ] Card is rendered through `Frame` with `height={size.height}`
+- [ ] Data is loaded via `lib/og/data.ts` from cached queries
+- [ ] No `images` key in the page's `generateMetadata`
+- [ ] Rendered at both sizes without clipping

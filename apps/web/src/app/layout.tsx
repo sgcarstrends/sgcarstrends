@@ -58,14 +58,6 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    images: [
-      {
-        url: `${SITE_URL}/opengraph-image.png`,
-        width: 1200,
-        height: 630,
-        alt: `${SITE_TITLE} - Singapore Car Registration Statistics`,
-      },
-    ],
     url,
     siteName: title,
     locale: "en_SG",
@@ -75,7 +67,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: [`${SITE_URL}/twitter-image.png`],
     site: SOCIAL_HANDLE,
     creator: SOCIAL_HANDLE,
   },
