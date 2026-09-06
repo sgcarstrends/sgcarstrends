@@ -180,7 +180,7 @@ Share images come only from the `opengraph-image.tsx` / `twitter-image.tsx` file
 never set `openGraph.images` or `twitter.images` (a page-level `images` key replaces the file-based
 image, and a page's own `openGraph` block also discards any image inherited from a parent segment, so
 every segment whose page sets `openGraph` carries its own pair). Cards live in `src/lib/og/cards` and
-data in `src/lib/og/data.ts`. See the `opengraph-images` skill for the card map and patterns.
+data in `src/lib/og/data.ts`; see the Next.js `opengraph-image` and `twitter-image` file conventions.
 
 **Constraints**:
 
