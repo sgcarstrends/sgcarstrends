@@ -9,7 +9,6 @@ const robots = (): MetadataRoute.Robots => {
     return {
       rules: [
         { userAgent: "*", disallow: "/" },
-        { userAgent: "*", allow: "/api/og/" },
         { userAgent: "AhrefsSiteAudit", allow: "/", disallow: protectedPaths },
         {
           userAgent: "AhrefsSiteAudit",
@@ -31,7 +30,6 @@ const robots = (): MetadataRoute.Robots => {
       { userAgent: "*", allow: "/" },
       { userAgent: "*", allow: "/_next/static/" },
       { userAgent: "*", disallow: protectedPaths },
-      { userAgent: "*", allow: "/api/og/" },
     ],
     sitemap,
   };

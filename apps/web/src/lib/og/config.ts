@@ -9,25 +9,31 @@ export const OG_CONFIG = {
   height: 630,
 
   /** Font family (must match fonts.ts) */
-  fontFamily: "Geist",
+  fontFamily: "Urbanist",
 
   /** Site name for branding */
   siteName: SITE_TITLE,
 
   /** Site URL for branding */
   siteUrl: DOMAIN_NAME,
-
-  /** Border radius in pixels */
-  borderRadius: 10,
 } as const;
 
-/** Exported size object for Next.js OG image metadata */
+/** og:image size (1200×630) for `opengraph-image.tsx` files */
 export const OG_SIZE = {
   width: OG_CONFIG.width,
   height: OG_CONFIG.height,
 } as const;
 
-/** Standard cache headers for static OG images */
+/** twitter:image size (1200×600, summary_large_image) for `twitter-image.tsx` files */
+export const TWITTER_SIZE = {
+  width: OG_CONFIG.width,
+  height: 600,
+} as const;
+
+/** Content type every image file exports */
+export const OG_CONTENT_TYPE = "image/png";
+
+/** Long-lived cache headers, only for cards whose content never changes (PARF) */
 export const OG_HEADERS = {
   "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable",
 } as const;

@@ -6,7 +6,7 @@ import { Report } from "@web/components/shared/report";
 import { SkeletonCard } from "@web/components/shared/skeleton";
 import { SITE_TITLE, SITE_URL } from "@web/config";
 import { SOCIAL_HANDLE } from "@web/config/socials";
-import { getCoeMonths, getLatestCoeResults } from "@web/queries/coe";
+import { getCoeMonths } from "@web/queries/coe";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
@@ -19,18 +19,7 @@ const title = "COE Premiums and Trends";
 const description =
   "Certificate of Entitlement (COE) analysis hub for Singapore vehicle registration. View latest premiums, trends, and category-specific insights.";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const results = await getLatestCoeResults();
-  const categories = results.reduce<Record<string, number>>(
-    (category, current) => {
-      category[current.vehicleClass] = current.premium;
-      return category;
-    },
-    {},
-  );
-
-  const images = `/api/og/coe?title=COE Overview&subtitle=Overview&biddingNo=2&categoryA=${categories["Category A"]}&categoryB=${categories["Category B"]}&categoryC=${categories["Category C"]}&categoryD=${categories["Category D"]}&categoryE=${categories["Category E"]}`;
-
+export function generateMetadata(): Metadata {
   return {
     title,
     description,
@@ -41,7 +30,6 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
-      images,
     },
     twitter: {
       card: "summary_large_image",
@@ -49,7 +37,6 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       site: SOCIAL_HANDLE,
       creator: SOCIAL_HANDLE,
-      images,
     },
     alternates: {
       canonical: "/coe/premiums",

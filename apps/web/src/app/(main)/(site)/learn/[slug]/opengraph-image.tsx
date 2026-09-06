@@ -1,14 +1,21 @@
-import { OG_HEADERS, OG_SIZE } from "@web/lib/og/config";
+import { formatDate } from "@web/app/(main)/(site)/blog/components/post/utils";
+import { Article } from "@web/lib/og/cards/article";
+import { OG_CONTENT_TYPE, OG_SIZE } from "@web/lib/og/config";
 import { getOGFonts } from "@web/lib/og/fonts";
-import { Article } from "@web/lib/og/templates/article";
 import { ImageResponse } from "next/og";
-import { getAllGuideSlugs, getGuideBySlug } from "../lib/guides";
+import {
+  getAllGuideSlugs,
+  getGuideBySlug,
+  getReadingMinutes,
+} from "../lib/guides";
 
 interface ImageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const alt = "MotorMetrics guide";
 export const size = OG_SIZE;
+export const contentType = OG_CONTENT_TYPE;
 
 export async function generateStaticParams() {
   return getAllGuideSlugs().map((slug) => ({ slug }));
@@ -22,11 +29,20 @@ export default async function Image({ params }: ImageProps) {
     return new Response("Not found", { status: 404 });
   }
 
-  const fonts = getOGFonts();
+  const fonts = await getOGFonts();
+  const byline = `${formatDate(new Date(guide.lastUpdated))} · ${getReadingMinutes(guide.content)} min read`;
 
-  return new ImageResponse(<Article eyebrow="Learn" title={guide.title} />, {
-    ...size,
-    fonts,
-    headers: OG_HEADERS,
-  });
+  return new ImageResponse(
+    <Article
+      height={size.height}
+      tag="Learn"
+      byline={byline}
+      title={guide.title}
+      excerpt={guide.excerpt}
+    />,
+    {
+      ...size,
+      fonts,
+    },
+  );
 }

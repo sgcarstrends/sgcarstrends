@@ -23,7 +23,6 @@ graph TB
         end
 
         subgraph "Internal APIs"
-            OGImages[GET /api/og/* - OpenGraph Images]
             Analytics[POST /api/analytics - Analytics Events]
         end
     end
@@ -67,7 +66,6 @@ graph TB
     %% API Route connections
     NextJS --> HealthCheck
     NextJS --> Revalidate
-    NextJS --> OGImages
     NextJS --> Analytics
 
     %% Workflow triggers
@@ -110,7 +108,6 @@ graph TB
     %% Data connections
     HealthCheck --> Neon
     Revalidate --> Upstash
-    OGImages --> Blob
 
     %% Styling
     classDef endpoint fill:#e1f5fe
@@ -119,7 +116,7 @@ graph TB
     classDef database fill:#e8f5e8
     classDef platform fill:#f3e5f5
 
-    class HealthCheck,Revalidate,OGImages,Analytics,WorkflowCars,WorkflowCOE,WorkflowDereg endpoint
+    class HealthCheck,Revalidate,Analytics,WorkflowCars,WorkflowCOE,WorkflowDereg endpoint
     class CarsWorkflow,COEWorkflow,DeregWorkflow,BlogGeneration,SocialPosting workflow
     class LTA,Gemini,Discord,LinkedIn,Telegram,Twitter external
     class Neon,Upstash,Blob database

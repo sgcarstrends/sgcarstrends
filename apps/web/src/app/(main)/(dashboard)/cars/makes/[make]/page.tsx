@@ -53,8 +53,6 @@ export async function generateMetadata({
 
   const title = `${exactMake} Cars in Singapore`;
   const description = `${exactMake} cars overview. Historical car registration trends and monthly breakdown by fuel and vehicle types in Singapore.`;
-  const images = `/api/og?title=${exactMake}&subtitle=Stats by Make`;
-
   return {
     title,
     description,
@@ -65,7 +63,6 @@ export async function generateMetadata({
       siteName: SITE_TITLE,
       locale: "en_SG",
       type: "website",
-      images,
     },
     twitter: {
       card: "summary_large_image",
@@ -73,7 +70,6 @@ export async function generateMetadata({
       description,
       site: SOCIAL_HANDLE,
       creator: SOCIAL_HANDLE,
-      images,
     },
     alternates: {
       canonical: `/cars/makes/${make}`,
