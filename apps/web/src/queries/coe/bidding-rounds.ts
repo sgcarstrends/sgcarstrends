@@ -1,5 +1,7 @@
-import { asc, coe, db, eq, max } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { coe } from "@motormetrics/database/schema";
 import type { COEResult } from "@web/types";
+import { asc, eq, max } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface MonthBiddingRounds {

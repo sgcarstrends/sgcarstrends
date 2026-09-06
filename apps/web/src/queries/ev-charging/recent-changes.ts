@@ -1,16 +1,6 @@
-import {
-  and,
-  count,
-  db,
-  desc,
-  eq,
-  evChargingEvents,
-  gt,
-  gte,
-  isNull,
-  max,
-  min,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { evChargingEvents } from "@motormetrics/database/schema";
+import { and, count, desc, eq, gt, gte, isNull, max, min } from "drizzle-orm";
 import { cacheLife } from "next/cache";
 import type { EvChargingLocation } from "./locations";
 import {

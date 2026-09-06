@@ -5,14 +5,21 @@ const selectChain = {
   from: vi.fn<() => Promise<unknown[]>>(async () => []),
 };
 
-vi.mock("@motormetrics/database", () => ({
+vi.mock("@motormetrics/database/client", () => ({
   db: {
     select: vi.fn(() => selectChain),
     insert: vi.fn(() => insertChain),
   },
+}));
+
+vi.mock("@motormetrics/database/schema", () => ({
   evChargingEvents: {},
   evConnectorStatus: { evCpId: "ev_cp_id", observedAt: "observed_at" },
   evLocationHourly: { locationId: "location_id", hour: "hour" },
+}));
+
+vi.mock("drizzle-orm", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("drizzle-orm")>()),
   max: vi.fn(),
   sql: Object.assign(vi.fn(), { raw: vi.fn() }),
 }));
@@ -23,7 +30,7 @@ vi.mock("@web/lib/ev-charging", () => ({
   parseBatch: vi.fn(),
 }));
 
-import { db } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
 import {
   extractLastUpdated,
   fetchBatch,

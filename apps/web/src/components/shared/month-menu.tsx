@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Dropdown, Header, Label, toast } from "@heroui/react";
-import { formatDateToMonthYear } from "@motormetrics/utils";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
 import type { Month } from "@web/types";
 import { groupByYear } from "@web/utils/group-by-year";
 import { ChevronDown } from "lucide-react";

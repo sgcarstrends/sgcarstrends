@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const mockRedisGet = vi.fn();
 const mockRedisSet = vi.fn();
 
-vi.mock("@motormetrics/utils", () => ({
+vi.mock("@motormetrics/utils/redis", () => ({
   redis: {
     get: (...args: unknown[]) => mockRedisGet(...args),
     set: (...args: unknown[]) => mockRedisSet(...args),

@@ -5,7 +5,7 @@ import {
   SiTelegram,
   // SiThreads,
 } from "@icons-pack/react-simple-icons";
-import { sortByName } from "@motormetrics/utils";
+import { sortByName } from "@motormetrics/utils/sorting";
 import {
   BarChart3,
   BookOpen,

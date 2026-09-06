@@ -1,4 +1,4 @@
-import type { SelectPost } from "@motormetrics/database";
+import type { SelectPost } from "@motormetrics/database/schema";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 

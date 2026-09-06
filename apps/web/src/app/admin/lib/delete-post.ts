@@ -1,5 +1,7 @@
-import { db, eq, posts } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { posts } from "@motormetrics/database/schema";
 import { getPostPublishRevalidationTags } from "@web/lib/cache-tags/posts";
+import { eq } from "drizzle-orm";
 import { revalidateTag } from "next/cache";
 
 export async function deletePost(id: string) {

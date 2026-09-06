@@ -1,8 +1,8 @@
-vi.mock("@motormetrics/database", () => ({
+vi.mock("@motormetrics/database/schema", () => ({
   cars: { name: "cars" },
 }));
 
-vi.mock("@motormetrics/utils", () => ({
+vi.mock("@motormetrics/utils/cleanSpecialChars", () => ({
   cleanSpecialChars: vi.fn(
     (
       value: string,
@@ -27,7 +27,7 @@ vi.mock("@web/lib/updater", () => ({
   update: vi.fn(),
 }));
 
-import { cleanSpecialChars } from "@motormetrics/utils";
+import { cleanSpecialChars } from "@motormetrics/utils/cleanSpecialChars";
 import { type UpdaterResult, update } from "@web/lib/updater";
 import { updateCars } from "./process-data";
 

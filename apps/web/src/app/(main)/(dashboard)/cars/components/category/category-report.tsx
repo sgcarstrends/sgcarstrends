@@ -1,5 +1,6 @@
 import { Typography } from "@heroui/react";
-import { formatDateToMonthYear, slugify } from "@motormetrics/utils";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
+import { slugify } from "@motormetrics/utils/slugify";
 import {
   MeasureTabs,
   PeriodTabs,

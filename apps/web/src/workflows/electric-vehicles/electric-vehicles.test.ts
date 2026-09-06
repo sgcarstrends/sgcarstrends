@@ -1,20 +1,23 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@motormetrics/ai", async () => {
-  // classifyAIError is pure; use the real one so these keep covering the
-  // whole path from a provider error to the WDK error type.
-  const { classifyAIError } = await vi.importActual<
-    typeof import("@motormetrics/ai/src/errors")
-  >("@motormetrics/ai/src/errors");
+// classifyAIError is left unmocked; it is pure, so these keep covering the
+// whole path from a provider error to the WDK error type.
 
-  return {
-    classifyAIError,
-    generateBlogContent: vi.fn(),
-    generateHeroImage: vi.fn(),
-    getEvDataForMonth: vi.fn(),
-    updatePostHeroImage: vi.fn(),
-  };
-});
+vi.mock("@motormetrics/ai/generate-hero-image", () => ({
+  generateHeroImage: vi.fn(),
+}));
+
+vi.mock("@motormetrics/ai/generate-post", () => ({
+  generateBlogContent: vi.fn(),
+}));
+
+vi.mock("@motormetrics/ai/queries", () => ({
+  getEvDataForMonth: vi.fn(),
+}));
+
+vi.mock("@motormetrics/ai/save-post", () => ({
+  updatePostHeroImage: vi.fn(),
+}));
 
 vi.mock("@web/queries/cars/latest-month", () => ({
   getCarsLatestMonth: vi.fn(),
@@ -59,12 +62,10 @@ vi.mock("@web/workflows/shared", async (importOriginal) => ({
   revalidatePostsCache: vi.fn(),
 }));
 
-import {
-  generateBlogContent,
-  generateHeroImage,
-  getEvDataForMonth,
-  updatePostHeroImage,
-} from "@motormetrics/ai";
+import { generateHeroImage } from "@motormetrics/ai/generate-hero-image";
+import { generateBlogContent } from "@motormetrics/ai/generate-post";
+import { getEvDataForMonth } from "@motormetrics/ai/queries";
+import { updatePostHeroImage } from "@motormetrics/ai/save-post";
 import { getCarsLatestMonth } from "@web/queries/cars/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { electricVehiclesWorkflow } from "@web/workflows/electric-vehicles";

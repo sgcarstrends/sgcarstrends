@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@motormetrics/utils", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@motormetrics/utils")>()),
+vi.mock("@motormetrics/utils/redis", () => ({
   redis: {
     set: vi.fn(),
   },
@@ -28,7 +27,7 @@ vi.mock("workflow", () => ({
   RetryableError: class RetryableError extends Error {},
 }));
 
-import { redis } from "@motormetrics/utils";
+import { redis } from "@motormetrics/utils/redis";
 import {
   evChargingWorkflow,
   LAST_UPDATED_EV_CHARGING_KEY,

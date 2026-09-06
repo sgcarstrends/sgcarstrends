@@ -1,4 +1,4 @@
-import { redis } from "@motormetrics/utils";
+import { redis } from "@motormetrics/utils/redis";
 import {
   LAST_UPDATED_CARS_KEY,
   LAST_UPDATED_COE_KEY,

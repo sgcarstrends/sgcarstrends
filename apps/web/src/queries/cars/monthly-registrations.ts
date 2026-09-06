@@ -1,15 +1,8 @@
-import {
-  cars,
-  db,
-  desc,
-  eq,
-  gt,
-  ilike,
-  sql,
-  sum,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
 import type { Comparison, Registration } from "@web/types/cars";
 import { format, subMonths } from "date-fns";
+import { desc, eq, gt, ilike, sql, sum } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getCarsData(month: string): Promise<Registration> {

@@ -12,7 +12,7 @@ const { delMock, pipelineExecMock, pipelineZaddMock, getDistinctMakesMock } =
     };
   });
 
-vi.mock("@motormetrics/utils", () => ({
+vi.mock("@motormetrics/utils/redis", () => ({
   redis: {
     del: delMock,
     pipeline: () => ({
@@ -31,19 +31,15 @@ vi.mock("@neondatabase/serverless", () => ({
   neon: vi.fn(() => vi.fn()),
 }));
 
-vi.mock("@motormetrics/database", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@motormetrics/database")>();
-  return {
-    ...mod,
-    db: {
-      selectDistinct: vi.fn(() => ({
-        from: vi.fn(() => ({
-          orderBy: vi.fn(() => getDistinctMakesMock()),
-        })),
+vi.mock("@motormetrics/database/client", () => ({
+  db: {
+    selectDistinct: vi.fn(() => ({
+      from: vi.fn(() => ({
+        orderBy: vi.fn(() => getDistinctMakesMock()),
       })),
-    },
-  };
-});
+    })),
+  },
+}));
 
 import { populateMakesSortedSet } from "./makes";
 

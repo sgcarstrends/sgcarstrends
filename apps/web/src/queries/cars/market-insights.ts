@@ -1,10 +1,12 @@
-import { and, cars, db, desc, eq, gt, sql } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
 import {
   calculateMarketShareData,
   findDominantType,
 } from "@web/lib/cars/calculations";
 import { getCarsData } from "@web/queries/cars/monthly-registrations";
 import type { FuelType, TopType } from "@web/types/cars";
+import { and, desc, eq, gt, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface CarMarketShareData {

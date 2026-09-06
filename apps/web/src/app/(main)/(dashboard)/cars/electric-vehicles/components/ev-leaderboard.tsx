@@ -1,6 +1,6 @@
 import { Typography } from "@heroui/react";
 import { NumberValue } from "@heroui-pro/react";
-import { slugify } from "@motormetrics/utils";
+import { slugify } from "@motormetrics/utils/slugify";
 import { yearToDateMakes } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/components/ev-series";
 import { EV_FUEL_TYPES } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/constants";
 import { buildLogoMap } from "@web/app/(main)/(dashboard)/cars/makes/components/make-rows";

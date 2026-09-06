@@ -1,4 +1,6 @@
-import { and, cars, db, eq, gt, sql } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
+import { and, eq, gt, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface CategorySummary {

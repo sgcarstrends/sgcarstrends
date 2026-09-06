@@ -1,15 +1,7 @@
-import {
-  and,
-  asc,
-  coe,
-  db,
-  desc,
-  eq,
-  lte,
-  or,
-  type SelectCOE,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { coe, type SelectCOE } from "@motormetrics/database/schema";
 import type { COECategory } from "@web/types";
+import { and, asc, desc, eq, lte, or } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 /** One bidding exercise — `(month, biddingNo)` — with a row per category. */

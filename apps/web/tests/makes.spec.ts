@@ -1,4 +1,4 @@
-import { slugify } from "@motormetrics/utils";
+import { slugify } from "@motormetrics/utils/slugify";
 import { expect, test } from "@playwright/test";
 
 test.describe("Makes Page", () => {

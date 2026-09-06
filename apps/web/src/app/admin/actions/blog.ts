@@ -1,8 +1,7 @@
 "use server";
 
-import type { LanguageModelUsage } from "@motormetrics/ai";
-import type { SelectPost } from "@motormetrics/database";
-import { db } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import type { SelectPost } from "@motormetrics/database/schema";
 import { auth } from "@web/app/admin/lib/auth";
 import {
   type CreatePostInput,
@@ -14,6 +13,7 @@ import {
   updatePost,
 } from "@web/app/admin/lib/update-post";
 import { regeneratePostWorkflow } from "@web/workflows/regenerate-post";
+import type { LanguageModelUsage } from "ai";
 import { headers } from "next/headers";
 import { start } from "workflow/api";
 

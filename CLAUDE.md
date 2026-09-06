@@ -35,6 +35,11 @@ packages reference them with `"package": "catalog:"` rather than a literal versi
 
 - Avoid `any` type - prefer `unknown` with type guards
 - Use workspace imports: `@motormetrics/database`, `@motormetrics/utils`, `@motormetrics/types`
+- Import workspace packages by **subpath**, not through a barrel: `@motormetrics/utils/slugify`,
+  `@motormetrics/database/schema`, `@motormetrics/ai/embedding`. Each package's `package.json`
+  `exports` map is the public API — a new public module needs a new entry there.
+  `@motormetrics/types` is the exception: it is a single flat file of type declarations
+  with nothing to split, so it keeps a plain package entry point.
 
 ### Naming Conventions
 

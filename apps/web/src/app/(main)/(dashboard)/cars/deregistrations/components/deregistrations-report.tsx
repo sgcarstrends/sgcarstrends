@@ -1,6 +1,6 @@
 import { Typography } from "@heroui/react";
-import type { SelectDeregistration } from "@motormetrics/database";
-import { formatDateToMonthYear } from "@motormetrics/utils";
+import type { SelectDeregistration } from "@motormetrics/database/schema";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
 import {
   type DeregistrationSeries,
   DeregistrationsChart,

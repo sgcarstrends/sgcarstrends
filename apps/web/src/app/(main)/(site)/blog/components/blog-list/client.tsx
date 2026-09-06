@@ -2,7 +2,7 @@
 
 import { Tabs } from "@heroui/react";
 
-import type { SelectPost } from "@motormetrics/database";
+import type { SelectPost } from "@motormetrics/database/schema";
 import { Post } from "@web/app/(main)/(site)/blog/components/post";
 import posthog from "posthog-js";
 import { useMemo, useState } from "react";

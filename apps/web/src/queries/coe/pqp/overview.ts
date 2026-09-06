@@ -1,14 +1,7 @@
-import {
-  and,
-  coe,
-  db,
-  desc,
-  eq,
-  inArray,
-  isNotNull,
-  pqp,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { coe, pqp } from "@motormetrics/database/schema";
 import type { Pqp } from "@web/types/coe";
+import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 /** Every category LTA publishes a PQP for. */

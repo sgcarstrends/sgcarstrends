@@ -1,5 +1,5 @@
 import { NumberValue } from "@heroui-pro/react";
-import { formatDateToMonthYear } from "@motormetrics/utils";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
 import { formatMonthLabel } from "@web/app/(main)/(dashboard)/cars/components/format-month";
 import {
   changeRatio,

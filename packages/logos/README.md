@@ -16,15 +16,14 @@ under the `logos` tag in `apps/web/src/queries/logos`. The logos workflow is the
 
 ```typescript
 import {
-  type CarLogo,
-  type LogoManifest,
   bootstrapManifest,
-  downloadLogo,
   manifestToLogos,
-  normaliseMake,
   readManifest,
   writeManifest,
-} from "@motormetrics/logos";
+} from "@motormetrics/logos/services/manifest";
+import { downloadLogo } from "@motormetrics/logos/services/scraper";
+import type { CarLogo, LogoManifest } from "@motormetrics/logos/types";
+import { normaliseMake } from "@motormetrics/logos/utils/normalise-make";
 
 const manifest = (await readManifest()) ?? (await bootstrapManifest());
 const logos = manifestToLogos(manifest);

@@ -2,13 +2,13 @@
 // `relations()` blocks the default adapter entry point expects, so the adapter
 // has to come from the relations-v2 export to read them.
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
+import { db } from "@motormetrics/database/client";
 import {
   accounts,
-  db,
   sessions,
   users,
   verifications,
-} from "@motormetrics/database";
+} from "@motormetrics/database/schema";
 import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";

@@ -1,4 +1,4 @@
-import { redis } from "@motormetrics/utils";
+import { redis } from "@motormetrics/utils/redis";
 import type { Period } from "@web/app/(main)/(dashboard)/coe/search-params";
 import { LAST_UPDATED_COE_KEY } from "@web/config";
 import { groupCOEResultsByBidding } from "@web/lib/coe/calculations";

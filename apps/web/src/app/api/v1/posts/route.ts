@@ -1,4 +1,4 @@
-import { db } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
 import { createPost, createPostSchema } from "@web/app/admin/lib/create-post";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";

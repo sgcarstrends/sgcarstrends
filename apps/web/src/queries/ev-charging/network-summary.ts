@@ -1,5 +1,7 @@
-import { count, db, evChargingPoints } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { evChargingPoints } from "@motormetrics/database/schema";
 import { EV_CHARGING_CACHE_TAG } from "@web/lib/cache-tags";
+import { count } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface EvChargingNetworkSummary {

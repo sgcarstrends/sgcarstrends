@@ -1,4 +1,4 @@
-import type { SelectPost } from "@motormetrics/database";
+import type { SelectPost } from "@motormetrics/database/schema";
 import { render, screen } from "@testing-library/react";
 import { RecentPosts } from "@web/app/(main)/(dashboard)/components/recent-posts";
 

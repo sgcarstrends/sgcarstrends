@@ -128,7 +128,7 @@ const cars = await db.query.cars.findMany({
 ### Redis Caching
 
 ```typescript
-import { redis } from "@motormetrics/utils";
+import { redis } from "@motormetrics/utils/redis";
 
 export async function getCarsWithCache(make: string) {
   const cacheKey = `cars:${make}`;

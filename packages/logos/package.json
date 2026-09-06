@@ -5,8 +5,15 @@
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@motormetrics.app>",
   "license": "MIT",
-  "main": "src/index.ts",
-  "module": "src/index.ts",
+  "exports": {
+    "./config": "./src/config/index.ts",
+    "./types": "./src/types/index.ts",
+    "./services/blob": "./src/services/blob.ts",
+    "./services/manifest": "./src/services/manifest.ts",
+    "./services/scraper": "./src/services/scraper.ts",
+    "./utils/file-utils": "./src/utils/file-utils.ts",
+    "./utils/normalise-make": "./src/utils/normalise-make.ts"
+  },
   "sideEffects": false,
   "scripts": {
     "test": "vitest run",

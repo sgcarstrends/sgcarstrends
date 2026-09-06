@@ -1,6 +1,6 @@
 "use server";
 
-import { redis } from "@motormetrics/utils";
+import { redis } from "@motormetrics/utils/redis";
 import { auth } from "@web/app/admin/lib/auth";
 import { headers } from "next/headers";
 

@@ -1,4 +1,4 @@
-import { slugify } from "@motormetrics/utils";
+import { slugify } from "@motormetrics/utils/slugify";
 import { Registrations } from "@web/lib/og/cards/registrations";
 import { OG_CONTENT_TYPE, TWITTER_SIZE } from "@web/lib/og/config";
 import { loadRegistrations } from "@web/lib/og/data";

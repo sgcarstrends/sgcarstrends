@@ -1,4 +1,4 @@
-import type { SelectPost } from "@motormetrics/database";
+import type { SelectPost } from "@motormetrics/database/schema";
 import { differenceInDays } from "date-fns";
 
 type ChipColor = "default" | "warning" | "accent" | "danger" | "success";

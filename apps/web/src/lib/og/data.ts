@@ -1,5 +1,6 @@
 import type { COECategory } from "@motormetrics/types";
-import { formatCurrency, formatDateToMonthYear } from "@motormetrics/utils";
+import { formatCurrency } from "@motormetrics/utils/format-currency";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
 import type { CoePremiumsProps } from "@web/lib/og/cards/coe-premiums";
 import type { CoeResultsProps } from "@web/lib/og/cards/coe-results";
 import type { FuelMixProps, FuelSlice } from "@web/lib/og/cards/fuel-mix";

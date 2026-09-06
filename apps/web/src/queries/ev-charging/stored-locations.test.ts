@@ -1,4 +1,5 @@
-import { db, evConnectorStatus } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { evConnectorStatus } from "@motormetrics/database/schema";
 import { resetDbMocks } from "../test-utils";
 import {
   districtPredicate,

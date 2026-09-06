@@ -1,6 +1,6 @@
 import { Typography } from "@heroui/react";
 import { NumberValue } from "@heroui-pro/react";
-import { slugify } from "@motormetrics/utils";
+import { slugify } from "@motormetrics/utils/slugify";
 import { buildLogoMap } from "@web/app/(main)/(dashboard)/cars/makes/components/make-rows";
 import { resolveCarsMonth } from "@web/app/(main)/(dashboard)/cars/search-params";
 import { DeltaChip } from "@web/components/shared/delta-chip";

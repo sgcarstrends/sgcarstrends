@@ -1,5 +1,5 @@
-import type { CarLogo } from "@motormetrics/logos";
-import { slugify } from "@motormetrics/utils";
+import type { CarLogo } from "@motormetrics/logos/types";
+import { slugify } from "@motormetrics/utils/slugify";
 import { HYBRID_REGEX } from "@web/config";
 import type { MakeRegistrationStat } from "@web/queries/cars";
 import {

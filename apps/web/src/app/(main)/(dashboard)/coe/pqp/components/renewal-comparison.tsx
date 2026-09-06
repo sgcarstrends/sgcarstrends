@@ -1,5 +1,5 @@
 import { Typography } from "@heroui/react";
-import { formatCurrency } from "@motormetrics/utils";
+import { formatCurrency } from "@motormetrics/utils/format-currency";
 import { ReportSection } from "@web/components/shared/report";
 import {
   ReportCell,

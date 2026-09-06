@@ -1,4 +1,4 @@
-import { db, type PgTable } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
 import {
   type UpdaterConfig,
   type UpdaterOptions,
@@ -8,6 +8,7 @@ import { calculateChecksum } from "@web/lib/updater/services/calculate-checksum"
 import { fetchAndExtractZip } from "@web/lib/updater/services/download-file";
 import { processCsv } from "@web/lib/updater/services/process-csv";
 import type { Checksum } from "@web/utils/checksum";
+import type { PgTable } from "drizzle-orm/pg-core";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock all dependencies
@@ -18,21 +19,20 @@ vi.mock("@web/utils/checksum");
 vi.mock("@neondatabase/serverless", () => ({
   neon: vi.fn(() => vi.fn()),
 }));
-vi.mock("@motormetrics/database", async (importOriginal) => {
-  const actual =
-    await importOriginal<typeof import("@motormetrics/database")>();
-  return {
-    ...actual,
-    getTableName: vi.fn(() => "test_table"),
-    getTableColumns: vi.fn(() => ({ month: {}, make: {}, fuel_type: {} })),
-    db: {
-      insert: vi.fn(),
-      $cache: {
-        invalidate: vi.fn(),
-      },
+vi.mock("@motormetrics/database/client", () => ({
+  db: {
+    insert: vi.fn(),
+    $cache: {
+      invalidate: vi.fn(),
     },
-  };
-});
+  },
+}));
+
+vi.mock("drizzle-orm", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("drizzle-orm")>()),
+  getTableName: vi.fn(() => "test_table"),
+  getTableColumns: vi.fn(() => ({ month: {}, make: {}, fuel_type: {} })),
+}));
 
 // Mock table object
 const mockTable = {

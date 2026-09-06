@@ -1,18 +1,9 @@
-import {
-  and,
-  asc,
-  coe,
-  db,
-  desc,
-  eq,
-  gte,
-  lte,
-  max,
-  type SelectCOE,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { coe, type SelectCOE } from "@motormetrics/database/schema";
 import { getDateRangeForYear } from "@web/lib/coe/calculations";
 import type { COECategory } from "@web/types";
 import { subMonths } from "date-fns";
+import { and, asc, desc, eq, gte, lte, max } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 const COE_CATEGORIES: COECategory[] = [

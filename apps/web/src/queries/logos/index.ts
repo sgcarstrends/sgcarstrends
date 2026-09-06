@@ -1,8 +1,8 @@
 import {
-  type CarLogo,
   manifestToLogos,
   readManifest,
-} from "@motormetrics/logos";
+} from "@motormetrics/logos/services/manifest";
+import type { CarLogo } from "@motormetrics/logos/types";
 import { LOGOS_CACHE_TAG } from "@web/lib/cache-tags";
 import { cacheLife, cacheTag } from "next/cache";
 

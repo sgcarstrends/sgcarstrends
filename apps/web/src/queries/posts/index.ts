@@ -1,18 +1,17 @@
+import { db } from "@motormetrics/database/client";
+import { posts, type SelectPost } from "@motormetrics/database/schema";
 import {
   and,
   cosineDistance,
   count,
-  db,
   desc,
   eq,
   gt,
   ilike,
   isNotNull,
   or,
-  posts,
-  type SelectPost,
   sql,
-} from "@motormetrics/database";
+} from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function searchPosts(query: string): Promise<SelectPost[]> {
@@ -35,7 +34,9 @@ export async function searchPosts(query: string): Promise<SelectPost[]> {
   }
 
   try {
-    const { generateQueryEmbedding } = await import("@motormetrics/ai");
+    const { generateQueryEmbedding } = await import(
+      "@motormetrics/ai/embedding"
+    );
     const embedding = await generateQueryEmbedding(query);
 
     const similarity = sql<number>`1 - (${cosineDistance(posts.embedding, embedding)})`;

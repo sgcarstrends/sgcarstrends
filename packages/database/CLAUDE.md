@@ -16,6 +16,21 @@ repo by design and should never be "repaired" to match. To rehearse a migration,
 `DATABASE_URL` at a fresh Neon branch of production and run `pnpm migrate` plus
 `pnpm migrate:check` there.
 
+## Entry Points
+
+There is no package barrel. `package.json` exposes two subpaths:
+
+- `@motormetrics/database/client` — the `db` instance. Importing it opens a Neon
+  connection at module load, so only import it where a query actually runs.
+- `@motormetrics/database/schema` — tables and their `Insert*`/`Select*` types.
+
+`src/schema/index.ts` is deliberately kept as a barrel: `drizzle.config.ts` points its
+`schema` option at that one file, and `src/relations.ts` needs `import * as schema` to
+build the relations config. It re-exports table definitions only, with no side effects.
+
+Drizzle operators (`eq`, `and`, `sql`, …) come from `drizzle-orm` directly. Consumers
+already depend on it, so re-exporting them here only obscured where they came from.
+
 ## Naming Conventions
 
 **Table names**: `snake_case` (e.g., `cars`, `coe`, `pqp`)

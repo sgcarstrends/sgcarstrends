@@ -3,7 +3,8 @@
 import { Card, Typography } from "@heroui/react";
 import { BarChart } from "@heroui-pro/react/bar-chart";
 
-import { formatDateToMonthYear, formatNumber } from "@motormetrics/utils";
+import { formatNumber } from "@motormetrics/utils/format-currency";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
 import type { Registration } from "@web/types/cars";
 
 interface ComparisonBarChartProps {

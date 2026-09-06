@@ -100,7 +100,7 @@ global.fetch = mockFetch;
 ### Mock Redis
 
 ```typescript
-vi.mock("@motormetrics/utils", () => ({
+vi.mock("@motormetrics/utils/redis", () => ({
   redis: {
     get: vi.fn(),
     set: vi.fn(),

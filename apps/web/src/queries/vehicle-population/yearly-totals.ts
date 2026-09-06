@@ -1,4 +1,6 @@
-import { db, desc, sql, vehiclePopulation } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { vehiclePopulation } from "@motormetrics/database/schema";
+import { desc, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 interface YearlyTotal {

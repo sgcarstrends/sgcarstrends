@@ -1,8 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@motormetrics/ai", () => ({
+vi.mock("@motormetrics/ai/errors", () => ({
   classifyAIError: vi.fn(),
+}));
+
+vi.mock("@motormetrics/ai/generate-hero-image", () => ({
   generateHeroImage: vi.fn(),
+}));
+
+vi.mock("@motormetrics/ai/save-post", () => ({
   updatePostHeroImage: vi.fn(),
 }));
 
@@ -47,11 +53,9 @@ vi.mock("workflow", () => ({
   })),
 }));
 
-import {
-  classifyAIError,
-  generateHeroImage,
-  updatePostHeroImage,
-} from "@motormetrics/ai";
+import { classifyAIError } from "@motormetrics/ai/errors";
+import { generateHeroImage } from "@motormetrics/ai/generate-hero-image";
+import { updatePostHeroImage } from "@motormetrics/ai/save-post";
 import {
   emitEvent,
   generatePostHero,

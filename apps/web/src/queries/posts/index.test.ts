@@ -5,7 +5,7 @@ const { generateQueryEmbeddingMock } = vi.hoisted(() => ({
   generateQueryEmbeddingMock: vi.fn(),
 }));
 
-vi.mock("@motormetrics/ai", () => ({
+vi.mock("@motormetrics/ai/embedding", () => ({
   generateQueryEmbedding: generateQueryEmbeddingMock,
 }));
 

@@ -1,4 +1,6 @@
-import { db, evLocationHourly, gte, sql, sum } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { evLocationHourly } from "@motormetrics/database/schema";
+import { gte, sql, sum } from "drizzle-orm";
 import { cacheLife } from "next/cache";
 
 const daysAgo = (days: number) =>

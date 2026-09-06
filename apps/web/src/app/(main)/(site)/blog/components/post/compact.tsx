@@ -1,7 +1,7 @@
 "use client";
 
 import { Chip } from "@heroui/react";
-import type { SelectPost } from "@motormetrics/database";
+import type { SelectPost } from "@motormetrics/database/schema";
 import Link from "next/link";
 import { formatDate, getCategoryConfig, getReadingTime } from "./utils";
 

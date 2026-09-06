@@ -1,15 +1,7 @@
-import {
-  and,
-  asc,
-  coe,
-  db,
-  desc,
-  eq,
-  max,
-  or,
-  sql,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { coe } from "@motormetrics/database/schema";
 import type { COEResult } from "@web/types";
+import { and, asc, desc, eq, max, or, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getLatestCoeResults(): Promise<COEResult[]> {

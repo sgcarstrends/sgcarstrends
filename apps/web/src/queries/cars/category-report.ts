@@ -11,7 +11,9 @@
  * ending at the selected one" is not expressible as an `ORDER BY … LIMIT`.
  */
 
-import { cars, db, desc, inArray, sql } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
+import { desc, inArray, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export type CategoryField = "fuelType" | "vehicleType";

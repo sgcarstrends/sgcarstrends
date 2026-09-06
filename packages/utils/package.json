@@ -5,8 +5,21 @@
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@motormetrics.app>",
   "license": "MIT",
-  "main": "src/index.ts",
-  "module": "src/index.ts",
+  "exports": {
+    "./cleanSpecialChars": "./src/cleanSpecialChars.ts",
+    "./format-count": "./src/format-count.ts",
+    "./format-currency": "./src/format-currency.ts",
+    "./format-date-to-month-year": "./src/format-date-to-month-year.ts",
+    "./format-growth-rate": "./src/format-growth-rate.ts",
+    "./format-ordinal": "./src/format-ordinal.ts",
+    "./format-percentage": "./src/format-percentage.ts",
+    "./get-unique-months": "./src/get-unique-months.ts",
+    "./redis": "./src/redis.ts",
+    "./slugify": "./src/slugify.ts",
+    "./sorting": "./src/sorting.ts",
+    "./tokeniser": "./src/tokeniser.ts",
+    "./validate-month": "./src/validate-month.ts"
+  },
   "sideEffects": false,
   "scripts": {
     "dev": "tsc --watch",

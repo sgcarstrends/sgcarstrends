@@ -1,7 +1,7 @@
 "use client";
 
 import { NumberValue } from "@heroui-pro/react";
-import type { SelectPost } from "@motormetrics/database";
+import type { SelectPost } from "@motormetrics/database/schema";
 import { Flame, TrendingUp } from "lucide-react";
 import Link from "next/link";
 

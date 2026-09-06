@@ -1,14 +1,6 @@
-import {
-  and,
-  cars,
-  db,
-  desc,
-  gt,
-  gte,
-  lte,
-  max,
-  sql,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
+import { and, desc, gt, gte, lte, max, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 /**

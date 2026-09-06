@@ -2,7 +2,7 @@
 
 import { ComboBox, Input, Label, ListBox } from "@heroui/react";
 
-import { slugify } from "@motormetrics/utils";
+import { slugify } from "@motormetrics/utils/slugify";
 import type { Make } from "@web/types";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";

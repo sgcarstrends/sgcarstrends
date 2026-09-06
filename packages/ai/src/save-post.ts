@@ -1,6 +1,8 @@
-import { db, eq, posts } from "@motormetrics/database";
-import { slugify } from "@motormetrics/utils";
+import { db } from "@motormetrics/database/client";
+import { posts } from "@motormetrics/database/schema";
+import { slugify } from "@motormetrics/utils/slugify";
 import type { LanguageModelUsage } from "ai";
+import { eq } from "drizzle-orm";
 import { generateDocumentEmbedding } from "./embedding";
 import type { Highlight } from "./schemas";
 

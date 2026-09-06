@@ -1,23 +1,25 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@motormetrics/ai", async () => {
-  // classifyAIError is pure; use the real one so these keep covering the
-  // whole path from a provider error to the WDK error type.
-  const { classifyAIError } = await vi.importActual<
-    typeof import("@motormetrics/ai/src/errors")
-  >("@motormetrics/ai/src/errors");
+// classifyAIError is left unmocked; it is pure, so these keep covering the
+// whole path from a provider error to the WDK error type.
 
-  return {
-    classifyAIError,
-    generateBlogContent: vi.fn(),
-    generateHeroImage: vi.fn(),
-    getDeregistrationsForMonth: vi.fn(),
-    updatePostHeroImage: vi.fn(),
-  };
-});
+vi.mock("@motormetrics/ai/generate-hero-image", () => ({
+  generateHeroImage: vi.fn(),
+}));
 
-vi.mock("@motormetrics/utils", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@motormetrics/utils")>()),
+vi.mock("@motormetrics/ai/generate-post", () => ({
+  generateBlogContent: vi.fn(),
+}));
+
+vi.mock("@motormetrics/ai/queries", () => ({
+  getDeregistrationsForMonth: vi.fn(),
+}));
+
+vi.mock("@motormetrics/ai/save-post", () => ({
+  updatePostHeroImage: vi.fn(),
+}));
+
+vi.mock("@motormetrics/utils/redis", () => ({
   redis: {
     set: vi.fn(),
   },
@@ -70,13 +72,11 @@ vi.mock("@web/workflows/shared", async (importOriginal) => ({
   revalidatePostsCache: vi.fn(),
 }));
 
-import {
-  generateBlogContent,
-  generateHeroImage,
-  getDeregistrationsForMonth,
-  updatePostHeroImage,
-} from "@motormetrics/ai";
-import { redis } from "@motormetrics/utils";
+import { generateHeroImage } from "@motormetrics/ai/generate-hero-image";
+import { generateBlogContent } from "@motormetrics/ai/generate-post";
+import { getDeregistrationsForMonth } from "@motormetrics/ai/queries";
+import { updatePostHeroImage } from "@motormetrics/ai/save-post";
+import { redis } from "@motormetrics/utils/redis";
 import { getDeregistrationsLatestMonth } from "@web/queries/deregistrations/latest-month";
 import { getExistingPostByMonth } from "@web/queries/posts";
 import { deregistrationsWorkflow } from "@web/workflows/deregistrations";

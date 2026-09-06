@@ -11,17 +11,9 @@
  * in this format, so range comparisons on the stored text are chronological.
  */
 
-import {
-  and,
-  cars,
-  db,
-  desc,
-  gt,
-  gte,
-  lte,
-  sql,
-  sum,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
+import { and, desc, gt, gte, lte, sql, sum } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 /** The two columns these pages pivot on, named as the schema names them. */
