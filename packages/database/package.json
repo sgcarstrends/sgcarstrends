@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "1.1.0",
-    "drizzle-orm": "catalog:"
+    "drizzle-orm": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",
