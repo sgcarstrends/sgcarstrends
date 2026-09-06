@@ -1,3 +1,10 @@
+## [5.16.1](https://github.com/motormetrics/motormetrics/compare/v5.16.0...v5.16.1) (2026-09-06)
+
+### Bug Fixes
+
+* **logos:** drop useCache from the public manifest read ([f8f3fa0](https://github.com/motormetrics/motormetrics/commit/f8f3fa092d99579007bc871cf307c1b3f860382c))
+* **logos:** treat a non-image source response as not found ([eb61bc1](https://github.com/motormetrics/motormetrics/commit/eb61bc1d9051057cc7ef55d117ad55b0ef8115bb))
+
 ## [5.16.0](https://github.com/motormetrics/motormetrics/compare/v5.15.0...v5.16.0) (2026-09-06)
 
 ### Features
