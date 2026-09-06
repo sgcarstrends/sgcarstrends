@@ -11,7 +11,14 @@ export type ScrapeResult =
       pathname: string;
       sourceUrl: string;
     }
-  | { success: false; make: string; sourceUrl: string; error: string };
+  | {
+      success: false;
+      make: string;
+      sourceUrl: string;
+      error: string;
+      /** The source has no logo for this make; do not retry. */
+      notFound: boolean;
+    };
 
 /**
  * Fetch a logo from the external source and store it. Does not check whether
@@ -29,6 +36,20 @@ export const downloadLogo = async (make: string): Promise<ScrapeResult> => {
         make: normalisedMake,
         sourceUrl,
         error: `Failed to fetch logo: ${response.status}`,
+        notFound: response.status === 404,
+      };
+    }
+
+    // The source redirects unknown makes to its homepage with a 200, so a
+    // non-image body means there is no logo rather than a transient failure.
+    const responseType = response.headers.get("content-type") ?? "";
+    if (!responseType.startsWith("image/")) {
+      return {
+        success: false,
+        make: normalisedMake,
+        sourceUrl,
+        error: `Source returned ${responseType || "no content type"}, not an image`,
+        notFound: true,
       };
     }
 
@@ -40,6 +61,7 @@ export const downloadLogo = async (make: string): Promise<ScrapeResult> => {
         make: normalisedMake,
         sourceUrl,
         error: "Downloaded image is too small, likely corrupted",
+        notFound: false,
       };
     }
 
@@ -60,6 +82,7 @@ export const downloadLogo = async (make: string): Promise<ScrapeResult> => {
       make: normalisedMake,
       sourceUrl,
       error: error instanceof Error ? error.message : "Unknown error",
+      notFound: false,
     };
   }
 };
