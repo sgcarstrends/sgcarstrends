@@ -1,13 +1,6 @@
-import {
-  and,
-  cars,
-  db,
-  desc,
-  eq,
-  ilike,
-  type SelectCar,
-  sql,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars, type SelectCar } from "@motormetrics/database/schema";
+import { and, desc, eq, ilike, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { FUEL_TYPE, type TypeConfig, VEHICLE_TYPE } from "../categories";
 

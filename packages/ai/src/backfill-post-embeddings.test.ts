@@ -1,4 +1,4 @@
-import { db } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   backfillPostEmbeddings,
@@ -10,18 +10,14 @@ vi.mock("./embedding", () => ({
   generateDocumentEmbedding: vi.fn(),
 }));
 
-vi.mock("@motormetrics/database", () => ({
-  and: vi.fn((...conditions: unknown[]) => conditions),
-  asc: vi.fn((column: unknown) => column),
-  count: vi.fn(() => "count"),
+vi.mock("@motormetrics/database/client", () => ({
   db: {
     select: vi.fn(),
     update: vi.fn(),
   },
-  eq: vi.fn((...values: unknown[]) => values),
-  gt: vi.fn((...values: unknown[]) => values),
-  isNotNull: vi.fn((column: unknown) => column),
-  isNull: vi.fn((column: unknown) => column),
+}));
+
+vi.mock("@motormetrics/database/schema", () => ({
   posts: {
     content: "content",
     embedding: "embedding",
@@ -29,6 +25,17 @@ vi.mock("@motormetrics/database", () => ({
     id: "id",
     title: "title",
   },
+}));
+
+vi.mock("drizzle-orm", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("drizzle-orm")>()),
+  and: vi.fn((...conditions: unknown[]) => conditions),
+  asc: vi.fn((column: unknown) => column),
+  count: vi.fn(() => "count"),
+  eq: vi.fn((...values: unknown[]) => values),
+  gt: vi.fn((...values: unknown[]) => values),
+  isNotNull: vi.fn((column: unknown) => column),
+  isNull: vi.fn((column: unknown) => column),
 }));
 
 function createBatchSelect(batches: unknown[][]) {

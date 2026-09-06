@@ -5,8 +5,10 @@
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@motormetrics.app>",
   "license": "MIT",
-  "main": "src/index.ts",
-  "module": "src/index.ts",
+  "exports": {
+    "./client": "./src/client.ts",
+    "./schema": "./src/schema/index.ts"
+  },
   "scripts": {
     "push": "drizzle-kit push",
     "generate": "drizzle-kit generate",

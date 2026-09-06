@@ -10,7 +10,7 @@ import {
   Separator,
 } from "@heroui/react";
 
-import { formatDateToMonthYear } from "@motormetrics/utils";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
 import { ComparisonBarChart } from "@web/app/(main)/(dashboard)/cars/registrations/components/comparison-bar-chart";
 import { ComparisonSummary } from "@web/app/(main)/(dashboard)/cars/registrations/components/comparison-summary";
 import type { ComparisonData } from "@web/queries/cars/compare";

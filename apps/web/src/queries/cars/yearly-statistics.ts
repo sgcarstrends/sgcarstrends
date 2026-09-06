@@ -1,4 +1,6 @@
-import { and, cars, db, desc, eq, gt, sql } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
+import { and, desc, eq, gt, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;

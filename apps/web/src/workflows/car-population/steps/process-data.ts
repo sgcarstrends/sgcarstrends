@@ -1,4 +1,4 @@
-import { carPopulation } from "@motormetrics/database";
+import { carPopulation } from "@motormetrics/database/schema";
 import type { CarPopulation } from "@motormetrics/types";
 import { update } from "@web/lib/updater";
 

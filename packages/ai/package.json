@@ -5,8 +5,17 @@
   "type": "module",
   "author": "Ru Chern Chong <ruchern.chong@motormetrics.app>",
   "license": "MIT",
-  "main": "src/index.ts",
-  "module": "src/index.ts",
+  "exports": {
+    "./config": "./src/config.ts",
+    "./embedding": "./src/embedding.ts",
+    "./errors": "./src/errors.ts",
+    "./generate-hero-image": "./src/generate-hero-image.ts",
+    "./generate-post": "./src/generate-post.ts",
+    "./queries": "./src/queries.ts",
+    "./save-post": "./src/save-post.ts",
+    "./schemas": "./src/schemas.ts",
+    "./tags": "./src/tags.ts"
+  },
   "scripts": {
     "backfill:embeddings": "tsx scripts/backfill-post-embeddings.ts",
     "reset:embeddings": "tsx scripts/reset-post-embeddings.ts",

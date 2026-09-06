@@ -1,4 +1,6 @@
-import { coe, db, desc } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { coe } from "@motormetrics/database/schema";
+import { desc } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getCoeMonths(): Promise<{ month: string }[]> {

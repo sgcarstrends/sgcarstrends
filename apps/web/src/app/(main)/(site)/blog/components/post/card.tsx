@@ -2,7 +2,7 @@
 
 import { Chip, Card as HeroCard } from "@heroui/react";
 
-import type { SelectPost } from "@motormetrics/database";
+import type { SelectPost } from "@motormetrics/database/schema";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";

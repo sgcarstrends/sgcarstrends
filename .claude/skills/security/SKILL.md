@@ -91,7 +91,7 @@ React escapes content by default. When rendering HTML:
 
 ```typescript
 import { Ratelimit } from "@upstash/ratelimit";
-import { redis } from "@motormetrics/utils";
+import { redis } from "@motormetrics/utils/redis";
 
 const ratelimit = new Ratelimit({
   redis,

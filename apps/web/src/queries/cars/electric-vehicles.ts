@@ -1,4 +1,6 @@
-import { cars, db, desc, eq, inArray, sql } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
+import { desc, eq, inArray, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 const BEV_FUEL_TYPES = ["Electric"];

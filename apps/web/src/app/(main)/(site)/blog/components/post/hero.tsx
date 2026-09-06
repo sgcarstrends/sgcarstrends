@@ -2,7 +2,7 @@
 
 import { Card } from "@heroui/react";
 
-import type { SelectPost } from "@motormetrics/database";
+import type { SelectPost } from "@motormetrics/database/schema";
 import Image from "next/image";
 import Link from "next/link";
 import { Cover } from "./cover";

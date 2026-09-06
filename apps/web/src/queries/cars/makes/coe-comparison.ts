@@ -1,17 +1,7 @@
-import {
-  and,
-  asc,
-  avg,
-  cars,
-  coe,
-  db,
-  gte,
-  ilike,
-  inArray,
-  lte,
-  sql,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars, coe } from "@motormetrics/database/schema";
 import { getDateRange24Months } from "@web/lib/coe/calculations";
+import { and, asc, avg, gte, ilike, inArray, lte, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface MakeCoeComparisonData {

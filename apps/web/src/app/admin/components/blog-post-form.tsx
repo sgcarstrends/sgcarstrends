@@ -11,7 +11,7 @@ import {
   TextArea,
   TextField,
 } from "@heroui/react";
-import type { SelectPost } from "@motormetrics/database";
+import type { SelectPost } from "@motormetrics/database/schema";
 import {
   createBlogPost,
   regeneratePost,

@@ -1,7 +1,9 @@
-import { generateDocumentEmbedding } from "@motormetrics/ai";
-import { db, eq, posts } from "@motormetrics/database";
-import { slugify } from "@motormetrics/utils";
+import { generateDocumentEmbedding } from "@motormetrics/ai/embedding";
+import { db } from "@motormetrics/database/client";
+import { posts } from "@motormetrics/database/schema";
+import { slugify } from "@motormetrics/utils/slugify";
 import { getPostPublishRevalidationTags } from "@web/lib/cache-tags/posts";
+import { eq } from "drizzle-orm";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 

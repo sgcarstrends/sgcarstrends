@@ -1,4 +1,4 @@
-import { formatDateToMonthYear } from "@motormetrics/utils";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
 import { RegistrationsReport } from "@web/app/(main)/(dashboard)/cars/registrations/components/registrations-report";
 import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/registrations/search-params";
 import { TrendsCompareButton } from "@web/app/(main)/(dashboard)/cars/registrations/trends-compare-button";

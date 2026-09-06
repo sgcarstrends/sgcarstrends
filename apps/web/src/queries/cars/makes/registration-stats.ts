@@ -1,4 +1,6 @@
-import { asc, cars, db, max, sql } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
+import { asc, max, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface MakeRegistrationStat {

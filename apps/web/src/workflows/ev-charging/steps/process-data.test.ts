@@ -1,4 +1,4 @@
-vi.mock("@motormetrics/database", () => ({
+vi.mock("@motormetrics/database/schema", () => ({
   evChargingPoints: { name: "ev_charging_points" },
 }));
 

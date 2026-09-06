@@ -1,4 +1,4 @@
-import { slugify } from "@motormetrics/utils";
+import { slugify } from "@motormetrics/utils/slugify";
 import { FuelMix } from "@web/lib/og/cards/fuel-mix";
 import { OG_CONTENT_TYPE, OG_SIZE } from "@web/lib/og/config";
 import { loadFuelMix } from "@web/lib/og/data";

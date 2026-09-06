@@ -13,7 +13,9 @@ here, and prefer it when the two appear to disagree.
   introduce another tracker.
 - **Spelling is English (Singapore)** in code, comments, and documentation.
 - **Workspace imports** use the `@motormetrics/*` scope, for example `@motormetrics/database`,
-  `@motormetrics/utils`, and `@motormetrics/types`.
+  `@motormetrics/utils`, and `@motormetrics/types`. Packages expose subpaths rather than a
+  barrel, so import `@motormetrics/utils/slugify`, not `@motormetrics/utils`. The `exports`
+  map in each `package.json` is the public API.
 
 ## Code style
 

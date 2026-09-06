@@ -1,4 +1,5 @@
-import { cars, coe, db, deregistrations } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars, coe, deregistrations } from "@motormetrics/database/schema";
 import { and, asc, eq, gt, ilike, sql } from "drizzle-orm";
 
 export function getCarsAggregatedByMonth(month: string) {

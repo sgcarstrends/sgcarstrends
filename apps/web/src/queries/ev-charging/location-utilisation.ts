@@ -1,14 +1,6 @@
-import {
-  and,
-  asc,
-  db,
-  desc,
-  eq,
-  evLocationHourly,
-  gte,
-  sql,
-  sum,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { evLocationHourly } from "@motormetrics/database/schema";
+import { and, asc, desc, eq, gte, sql, sum } from "drizzle-orm";
 import { cacheLife } from "next/cache";
 import type { EvChargingLocation } from "./locations";
 import {

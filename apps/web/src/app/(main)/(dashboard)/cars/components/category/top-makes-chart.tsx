@@ -2,7 +2,8 @@
 
 import { Card, Chip, Typography } from "@heroui/react";
 import { BarChart } from "@heroui-pro/react/bar-chart";
-import { formatNumber, slugify } from "@motormetrics/utils";
+import { formatNumber } from "@motormetrics/utils/format-currency";
+import { slugify } from "@motormetrics/utils/slugify";
 import { getRankingEmoji } from "@web/lib/cars/calculations";
 import Link from "next/link";
 import { useMemo } from "react";

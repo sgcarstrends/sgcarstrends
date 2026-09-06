@@ -1,21 +1,23 @@
-import { generateDocumentEmbedding } from "@motormetrics/ai";
-import { db } from "@motormetrics/database";
+import { generateDocumentEmbedding } from "@motormetrics/ai/embedding";
+import { db } from "@motormetrics/database/client";
 import { revalidateTag } from "next/cache";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createPost } from "./create-post";
 import { updatePost } from "./update-post";
 
-vi.mock("@motormetrics/ai", () => ({
+vi.mock("@motormetrics/ai/embedding", () => ({
   generateDocumentEmbedding: vi.fn(),
 }));
 
-vi.mock("@motormetrics/database", () => ({
+vi.mock("@motormetrics/database/client", () => ({
   db: {
     insert: vi.fn(),
     query: { posts: { findFirst: vi.fn() } },
     update: vi.fn(),
   },
-  eq: vi.fn(() => "predicate"),
+}));
+
+vi.mock("@motormetrics/database/schema", () => ({
   posts: {
     dataType: "dataType",
     id: "id",
@@ -23,7 +25,12 @@ vi.mock("@motormetrics/database", () => ({
   },
 }));
 
-vi.mock("@motormetrics/utils", () => ({
+vi.mock("drizzle-orm", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("drizzle-orm")>()),
+  eq: vi.fn(() => "predicate"),
+}));
+
+vi.mock("@motormetrics/utils/slugify", () => ({
   slugify: vi.fn((value: string) => value.toLowerCase().replaceAll(" ", "-")),
 }));
 

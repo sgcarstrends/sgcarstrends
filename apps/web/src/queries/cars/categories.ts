@@ -3,7 +3,9 @@
  * This module provides reusable query functions that work with both fuelType and vehicleType columns
  */
 
-import { and, cars, db, desc, eq, sql } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
+import { and, desc, eq, sql } from "drizzle-orm";
 
 /**
  * Configuration for type-based queries

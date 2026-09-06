@@ -1,14 +1,7 @@
-import {
-  count,
-  db,
-  evConnectorStatus,
-  like,
-  max,
-  min,
-  or,
-  sql,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { evConnectorStatus } from "@motormetrics/database/schema";
 import { getPostalDistrict } from "@web/config/postal-districts";
+import { count, like, max, min, or, sql } from "drizzle-orm";
 import type { EvChargingLocation } from "./locations";
 
 /**

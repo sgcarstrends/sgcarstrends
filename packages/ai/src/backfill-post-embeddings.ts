@@ -1,14 +1,6 @@
-import {
-  and,
-  asc,
-  count,
-  db,
-  eq,
-  gt,
-  isNotNull,
-  isNull,
-  posts,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { posts } from "@motormetrics/database/schema";
+import { and, asc, count, eq, gt, isNotNull, isNull } from "drizzle-orm";
 import { generateDocumentEmbedding } from "./embedding";
 
 export interface BackfillPostEmbeddingsOptions {

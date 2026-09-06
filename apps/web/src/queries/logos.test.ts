@@ -6,8 +6,10 @@ const { readManifestMock, cacheLifeMock, cacheTagMock } = vi.hoisted(() => ({
   cacheTagMock: vi.fn(),
 }));
 
-vi.mock("@motormetrics/logos", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@motormetrics/logos")>()),
+vi.mock("@motormetrics/logos/services/manifest", async (importOriginal) => ({
+  ...(await importOriginal<
+    typeof import("@motormetrics/logos/services/manifest")
+  >()),
   readManifest: readManifestMock,
 }));
 

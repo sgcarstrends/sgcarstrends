@@ -1,5 +1,5 @@
 import { Typography } from "@heroui/react";
-import { formatCurrency } from "@motormetrics/utils";
+import { formatCurrency } from "@motormetrics/utils/format-currency";
 import { formatMonth } from "@web/app/(main)/(dashboard)/coe/components/coe-exercise-utils";
 import {
   PQPChart,

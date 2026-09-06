@@ -1,4 +1,4 @@
-import { redis } from "@motormetrics/utils";
+import { redis } from "@motormetrics/utils/redis";
 import { EV_CHARGING_CACHE_TAG } from "@web/lib/cache-tags";
 import type { UpdaterResult } from "@web/lib/updater";
 import { updateEvChargingPoints } from "@web/workflows/ev-charging/steps/process-data";

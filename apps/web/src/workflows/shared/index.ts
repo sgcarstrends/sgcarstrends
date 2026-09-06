@@ -1,9 +1,7 @@
-import {
-  classifyAIError,
-  generateHeroImage,
-  updatePostHeroImage,
-} from "@motormetrics/ai";
-import { slugify } from "@motormetrics/utils";
+import { classifyAIError } from "@motormetrics/ai/errors";
+import { generateHeroImage } from "@motormetrics/ai/generate-hero-image";
+import { updatePostHeroImage } from "@motormetrics/ai/save-post";
+import { slugify } from "@motormetrics/utils/slugify";
 import { getPostsWorkflowRevalidationTags } from "@web/lib/cache-tags";
 import { revalidateTag } from "next/cache";
 import { FatalError, getWritable, RetryableError } from "workflow";

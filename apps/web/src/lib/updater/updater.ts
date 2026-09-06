@@ -1,10 +1,5 @@
 import path from "node:path";
-import {
-  db,
-  getTableColumns,
-  getTableName,
-  type PgTable,
-} from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
 import { calculateChecksum } from "@web/lib/updater/services/calculate-checksum";
 import { fetchAndExtractZip } from "@web/lib/updater/services/download-file";
 import {
@@ -12,6 +7,8 @@ import {
   processCsv,
 } from "@web/lib/updater/services/process-csv";
 import { Checksum } from "@web/utils/checksum";
+import { getTableColumns, getTableName } from "drizzle-orm";
+import type { PgTable } from "drizzle-orm/pg-core";
 
 type UpdaterSource =
   | { url: string; filePath?: never }

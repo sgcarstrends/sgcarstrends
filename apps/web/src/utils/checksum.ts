@@ -1,5 +1,6 @@
 import path from "node:path";
-import { redis, slugify } from "@motormetrics/utils";
+import { redis } from "@motormetrics/utils/redis";
+import { slugify } from "@motormetrics/utils/slugify";
 import type { Redis } from "@upstash/redis";
 
 export class Checksum {

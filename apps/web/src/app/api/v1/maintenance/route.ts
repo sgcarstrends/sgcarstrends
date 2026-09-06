@@ -1,4 +1,4 @@
-import { redis } from "@motormetrics/utils";
+import { redis } from "@motormetrics/utils/redis";
 import { NextResponse } from "next/server";
 import { validateApiToken } from "../lib/auth";
 

@@ -1,5 +1,13 @@
 # MotorMetrics AI Package
 
+## Entry Points
+
+There is no package barrel. Import by subpath — `@motormetrics/ai/generate-post`,
+`@motormetrics/ai/embedding`, `@motormetrics/ai/errors`, and so on. The `exports` map
+in `package.json` lists them all; a new public module needs an entry there. This keeps
+consumers that only want the pure `classifyAIError` helper from pulling in the AI SDK,
+the Vercel Blob client, and the database connection.
+
 ## Code Execution Tool
 
 The **critical feature** that prevents hallucinations:

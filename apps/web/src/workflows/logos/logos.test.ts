@@ -1,11 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@motormetrics/logos", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@motormetrics/logos")>()),
+vi.mock("@motormetrics/logos/services/manifest", async (importOriginal) => ({
+  ...(await importOriginal<
+    typeof import("@motormetrics/logos/services/manifest")
+  >()),
   bootstrapManifest: vi.fn(),
-  downloadLogo: vi.fn(),
   readManifest: vi.fn(),
   writeManifest: vi.fn(),
+}));
+
+vi.mock("@motormetrics/logos/services/scraper", () => ({
+  downloadLogo: vi.fn(),
 }));
 
 vi.mock("@web/queries/cars/filter-options", () => ({
@@ -18,11 +23,11 @@ vi.mock("next/cache", () => ({
 
 import {
   bootstrapManifest,
-  downloadLogo,
-  type LogoManifest,
   readManifest,
   writeManifest,
-} from "@motormetrics/logos";
+} from "@motormetrics/logos/services/manifest";
+import { downloadLogo } from "@motormetrics/logos/services/scraper";
+import type { LogoManifest } from "@motormetrics/logos/types";
 import { getDistinctMakes } from "@web/queries/cars/filter-options";
 import { revalidateTag } from "next/cache";
 import { logosWorkflow } from "./index";

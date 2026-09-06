@@ -1,9 +1,11 @@
 import crypto from "node:crypto";
-import { and, db, eq, gt, sessions } from "@motormetrics/database";
-import { redis } from "@motormetrics/utils";
+import { db } from "@motormetrics/database/client";
+import { sessions } from "@motormetrics/database/schema";
+import { redis } from "@motormetrics/utils/redis";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { auth } from "@web/app/admin/lib/auth";
+import { and, eq, gt } from "drizzle-orm";
 import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 

@@ -1,4 +1,4 @@
-import { db } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
 import {
   emitEvent,
   generatePostHero,

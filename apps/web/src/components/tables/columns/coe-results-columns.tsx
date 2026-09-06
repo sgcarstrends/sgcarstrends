@@ -3,7 +3,7 @@
 import { Button, Chip } from "@heroui/react";
 import { NumberValue } from "@heroui-pro/react";
 
-import { formatOrdinal } from "@motormetrics/utils";
+import { formatOrdinal } from "@motormetrics/utils/format-ordinal";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { COEResult } from "@web/types";
 import { ArrowUpDown } from "lucide-react";

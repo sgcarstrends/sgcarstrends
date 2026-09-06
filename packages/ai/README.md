@@ -21,7 +21,7 @@ step lookup succeeds. Gemini 2 embeddings use 768 dimensions.
 ### Generate and save a post
 
 ```typescript
-import { generateBlogContent } from "@motormetrics/ai";
+import { generateBlogContent } from "@motormetrics/ai/generate-post";
 
 const post = await generateBlogContent({
   data: tokenisedData,
@@ -55,7 +55,7 @@ with `title` and `content`) into the document embedding helper:
 import {
   generateDocumentEmbedding,
   generateQueryEmbedding,
-} from "@motormetrics/ai";
+} from "@motormetrics/ai/embedding";
 
 const documentEmbedding = await generateDocumentEmbedding({
   title: savedPost.title,

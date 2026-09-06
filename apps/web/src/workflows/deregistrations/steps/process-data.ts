@@ -1,4 +1,4 @@
-import { deregistrations } from "@motormetrics/database";
+import { deregistrations } from "@motormetrics/database/schema";
 import type { Deregistration } from "@motormetrics/types";
 import { LTA_DATAMALL_BASE_URL } from "@web/config/workflow";
 import { update } from "@web/lib/updater";

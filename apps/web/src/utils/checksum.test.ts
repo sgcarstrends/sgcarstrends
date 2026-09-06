@@ -9,8 +9,11 @@ const mockRedis = {
   hget: mockHget,
 };
 
-vi.mock("@motormetrics/utils", () => ({
+vi.mock("@motormetrics/utils/redis", () => ({
   redis: {},
+}));
+
+vi.mock("@motormetrics/utils/slugify", () => ({
   slugify: (str: string) => str.toLowerCase().replace(/\s+/g, "-"),
 }));
 

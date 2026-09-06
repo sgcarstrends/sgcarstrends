@@ -1,6 +1,6 @@
-import { cars } from "@motormetrics/database";
+import { cars } from "@motormetrics/database/schema";
 import type { Car } from "@motormetrics/types";
-import { cleanSpecialChars } from "@motormetrics/utils";
+import { cleanSpecialChars } from "@motormetrics/utils/cleanSpecialChars";
 import { LTA_DATAMALL_BASE_URL } from "@web/config/workflow";
 import { update } from "@web/lib/updater";
 

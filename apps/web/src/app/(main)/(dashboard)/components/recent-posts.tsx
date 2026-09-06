@@ -1,6 +1,6 @@
 import { Tooltip, Typography } from "@heroui/react";
 import { buttonVariants } from "@heroui/styles";
-import type { SelectPost } from "@motormetrics/database";
+import type { SelectPost } from "@motormetrics/database/schema";
 import { Post } from "@web/app/(main)/(site)/blog/components/post";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";

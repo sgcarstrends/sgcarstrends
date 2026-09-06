@@ -1,12 +1,10 @@
+import { db } from "@motormetrics/database/client";
 import {
-  db,
   evChargingEvents,
   evConnectorStatus,
   evLocationHourly,
   type InsertEvConnectorStatus,
-  max,
-  sql,
-} from "@motormetrics/database";
+} from "@motormetrics/database/schema";
 import {
   type ConnectorStatus,
   extractLastUpdated,
@@ -17,6 +15,7 @@ import {
   diffSnapshot,
   type PreviousConnectorState,
 } from "@web/workflows/ev-charging-live/steps/diff-snapshot";
+import { max, sql } from "drizzle-orm";
 
 // Neon's HTTP endpoint caps a statement at 32,767 bound parameters. The status
 // upsert binds 19 columns a row, so 1,500 rows stays well under it.

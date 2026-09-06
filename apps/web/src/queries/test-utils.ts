@@ -81,13 +81,7 @@ vi.mock("@neondatabase/serverless", () => ({
   neon: vi.fn(() => vi.fn()),
 }));
 
-vi.mock("@motormetrics/database", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@motormetrics/database")>();
-  return {
-    ...mod,
-    db: mockDb,
-  };
-});
+vi.mock("@motormetrics/database/client", () => ({ db: mockDb }));
 
 export const cacheLifeMock = vi.fn();
 export const cacheTagMock = vi.fn();

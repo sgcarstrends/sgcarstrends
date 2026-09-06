@@ -1,4 +1,6 @@
-import { db, deregistrations, sql } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { deregistrations } from "@motormetrics/database/schema";
+import { sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 /**

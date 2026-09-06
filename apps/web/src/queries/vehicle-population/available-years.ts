@@ -1,4 +1,6 @@
-import { db, desc, vehiclePopulation } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { vehiclePopulation } from "@motormetrics/database/schema";
+import { desc } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getVehiclePopulationYears(): Promise<{ year: string }[]> {

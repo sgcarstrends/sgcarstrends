@@ -5,7 +5,7 @@ const { zrangeMock, getDistinctMakesMock } = vi.hoisted(() => ({
   getDistinctMakesMock: vi.fn(),
 }));
 
-vi.mock("@motormetrics/utils", () => ({
+vi.mock("@motormetrics/utils/redis", () => ({
   redis: {
     zrange: zrangeMock,
   },

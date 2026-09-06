@@ -1,5 +1,6 @@
 import { Typography } from "@heroui/react";
-import { formatDateToMonthYear, slugify } from "@motormetrics/utils";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
+import { slugify } from "@motormetrics/utils/slugify";
 import { TypeChart } from "@web/app/(main)/(dashboard)/cars/components/category/type-chart";
 import { PeriodTabs } from "@web/app/(main)/(dashboard)/cars/components/category/type-filters";
 import { SectionErrorBoundary } from "@web/components/error-boundary";

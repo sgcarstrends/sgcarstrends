@@ -1,6 +1,6 @@
 import { Chip, ProgressBar, Typography } from "@heroui/react";
 import { NumberValue } from "@heroui-pro/react";
-import { formatDateToMonthYear } from "@motormetrics/utils";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
 import { deriveChargingNetworkGrowth } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/components/charging-network";
 import { CHARGING_POINT_TARGET_2030 } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/constants";
 import { shiftMonth } from "@web/app/(main)/(dashboard)/cars/makes/components/make-rows";

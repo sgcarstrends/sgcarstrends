@@ -1,4 +1,4 @@
-import { coe, pqp } from "@motormetrics/database";
+import { coe, pqp } from "@motormetrics/database/schema";
 import type { COE, PQP } from "@motormetrics/types";
 import { LTA_DATAMALL_BASE_URL } from "@web/config/workflow";
 import { update } from "@web/lib/updater";

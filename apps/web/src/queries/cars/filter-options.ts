@@ -1,4 +1,6 @@
-import { and, cars, db, desc, eq, gt, sum } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
+import { and, desc, eq, gt, sum } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { FUEL_TYPE, type TypeConfig, VEHICLE_TYPE } from "./categories";
 

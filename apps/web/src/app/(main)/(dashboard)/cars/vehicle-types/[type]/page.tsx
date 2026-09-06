@@ -1,4 +1,4 @@
-import { slugify } from "@motormetrics/utils";
+import { slugify } from "@motormetrics/utils/slugify";
 import {
   TypeDetail,
   type TypeDetailConfig,

@@ -1,7 +1,7 @@
 "use client";
 
 import { Input, Label, ListBox, Select, Typography } from "@heroui/react";
-import { formatCurrency } from "@motormetrics/utils";
+import { formatCurrency } from "@motormetrics/utils/format-currency";
 import {
   AGE_BRACKETS,
   NEW_CAP,

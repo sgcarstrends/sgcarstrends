@@ -1,12 +1,11 @@
 import {
   bootstrapManifest,
-  downloadLogo,
-  type LogoEntry,
-  type LogoManifest,
-  normaliseMake,
   readManifest,
   writeManifest,
-} from "@motormetrics/logos";
+} from "@motormetrics/logos/services/manifest";
+import { downloadLogo } from "@motormetrics/logos/services/scraper";
+import type { LogoEntry, LogoManifest } from "@motormetrics/logos/types";
+import { normaliseMake } from "@motormetrics/logos/utils/normalise-make";
 import { LOGOS_CACHE_TAG } from "@web/lib/cache-tags";
 import { getDistinctMakes } from "@web/queries/cars/filter-options";
 import { revalidateTag } from "next/cache";

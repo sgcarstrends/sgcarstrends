@@ -1,4 +1,6 @@
-import { cars, db, desc, eq, sql, sum } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { cars } from "@motormetrics/database/schema";
+import { desc, eq, sql, sum } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";

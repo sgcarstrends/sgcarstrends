@@ -1,5 +1,9 @@
 import type { SortDescriptor } from "@heroui/react";
-import { SortDirection, sortByName, sortByValue } from "@motormetrics/utils";
+import {
+  SortDirection,
+  sortByName,
+  sortByValue,
+} from "@motormetrics/utils/sorting";
 
 export function sortByDescriptor<T extends Record<string, unknown>>(
   data: T[],

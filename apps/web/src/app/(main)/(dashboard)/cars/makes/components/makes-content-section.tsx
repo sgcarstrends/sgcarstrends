@@ -1,5 +1,5 @@
 import { Skeleton } from "@heroui/react";
-import { slugify } from "@motormetrics/utils";
+import { slugify } from "@motormetrics/utils/slugify";
 import { SectionErrorBoundary } from "@web/components/error-boundary";
 import { Hairline, OverviewGrid } from "@web/components/shared/overview";
 import { StructuredData } from "@web/components/structured-data";

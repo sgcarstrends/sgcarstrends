@@ -1,16 +1,8 @@
-import {
-  and,
-  cosineDistance,
-  db,
-  desc,
-  eq,
-  gt,
-  isNotNull,
-  posts,
-  sql,
-} from "@motormetrics/database";
-import { redis } from "@motormetrics/utils";
+import { db } from "@motormetrics/database/client";
+import { posts } from "@motormetrics/database/schema";
+import { redis } from "@motormetrics/utils/redis";
 import { getPostsByIds } from "@web/queries/posts";
+import { and, cosineDistance, desc, eq, gt, isNotNull, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getPostViewCount(postId: string): Promise<number> {

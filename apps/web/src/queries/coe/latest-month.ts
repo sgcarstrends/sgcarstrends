@@ -1,4 +1,6 @@
-import { coe, db, max } from "@motormetrics/database";
+import { db } from "@motormetrics/database/client";
+import { coe } from "@motormetrics/database/schema";
+import { max } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 /**

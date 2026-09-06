@@ -1,4 +1,4 @@
-import { slugify } from "@motormetrics/utils";
+import { slugify } from "@motormetrics/utils/slugify";
 import { CoeComparisonChart } from "@web/app/(main)/(dashboard)/cars/components/makes/coe-comparison-chart";
 import { MakeSearch } from "@web/app/(main)/(dashboard)/cars/components/makes/make-search";
 import { MakeReport } from "@web/app/(main)/(dashboard)/cars/makes/[make]/components/make-report";

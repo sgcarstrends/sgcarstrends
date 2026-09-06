@@ -1,4 +1,4 @@
-vi.mock("@motormetrics/database", () => ({
+vi.mock("@motormetrics/database/schema", () => ({
   carPopulation: {
     year: "year",
     make: "make",

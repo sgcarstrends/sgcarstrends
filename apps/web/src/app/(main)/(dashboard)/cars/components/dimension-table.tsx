@@ -10,7 +10,7 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@heroui/react";
-import { slugify } from "@motormetrics/utils";
+import { slugify } from "@motormetrics/utils/slugify";
 import {
   CAR_DIMENSIONS,
   DIMENSION_LABELS,

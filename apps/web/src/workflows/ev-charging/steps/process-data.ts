@@ -1,4 +1,4 @@
-import { evChargingPoints } from "@motormetrics/database";
+import { evChargingPoints } from "@motormetrics/database/schema";
 import type { EvChargingPoint } from "@motormetrics/types";
 import { update } from "@web/lib/updater";
 import { format, isValid, parse } from "date-fns";

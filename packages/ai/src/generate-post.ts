@@ -92,8 +92,7 @@ async function generateContent(
     steps,
   });
   const generationId =
-    readGatewayGenerationId(finalStep.providerMetadata) ??
-    generationIds.at(-1);
+    readGatewayGenerationId(finalStep.providerMetadata) ?? generationIds.at(-1);
   const totalCost = await sumGatewayGenerationCosts(generationIds);
 
   return {

@@ -1,3 +1,7 @@
+// This file is the whole package: shared type declarations with no runtime code and
+// no submodules, so it stays a single flat entry point rather than a barrel over
+// other files. Everything else in the workspace exposes subpath exports instead.
+
 // Enums
 export enum FuelType {
   Diesel = "Diesel",

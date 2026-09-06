@@ -2,8 +2,8 @@
 
 import { Button } from "@heroui/react";
 
-import type { SelectCar } from "@motormetrics/database";
-import { slugify } from "@motormetrics/utils";
+import type { SelectCar } from "@motormetrics/database/schema";
+import { slugify } from "@motormetrics/utils/slugify";
 import type { ColumnDef } from "@tanstack/react-table";
 import { formatVehicleType } from "@web/utils/formatting/format-vehicle-type";
 import { ArrowUpDown } from "lucide-react";

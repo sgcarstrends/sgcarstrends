@@ -1,4 +1,4 @@
-import { formatDateToMonthYear } from "@motormetrics/utils";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
 import {
   type CategoryConfig,
   CategoryOverview,
