@@ -1,3 +1,9 @@
+## [5.17.0](https://github.com/motormetrics/motormetrics/compare/v5.16.1...v5.17.0) (2026-09-06)
+
+### Features
+
+* **web:** adopt new logo and wordmark with brand page ([3b965e9](https://github.com/motormetrics/motormetrics/commit/3b965e9dc357791195108c856014fa7b29a54c9d))
+
 ## [5.16.1](https://github.com/motormetrics/motormetrics/compare/v5.16.0...v5.16.1) (2026-09-06)
 
 ### Bug Fixes
