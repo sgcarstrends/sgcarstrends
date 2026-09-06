@@ -65,15 +65,14 @@ export function Frame({
             aria-label="MotorMetrics"
             width="23"
             height="23"
-            viewBox="0 0 24 24"
+            viewBox="0 0 64 64"
             fill="none"
             stroke="#FFFFFF"
-            strokeWidth="2.5"
+            strokeWidth="7"
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-            <polyline points="16 7 22 7 22 13" />
+            <path d="M8 50 V30 a12 12 0 0 1 24 0 V50 M32 50 V30 a12 12 0 0 1 24 0 V50" />
           </svg>
         </div>
         <div
@@ -81,11 +80,11 @@ export function Frame({
             display: "flex",
             fontSize: 29,
             fontWeight: 800,
-            letterSpacing: "-0.02em",
+            letterSpacing: "-0.03em",
           }}
         >
-          <span style={{ color: OG_COLOURS.ink }}>Motor</span>
-          <span style={{ color: OG_COLOURS.accent }}>Metrics</span>
+          <span style={{ color: OG_COLOURS.inkDeep }}>motor</span>
+          <span style={{ color: OG_COLOURS.accent }}>metrics</span>
         </div>
         <span
           style={{

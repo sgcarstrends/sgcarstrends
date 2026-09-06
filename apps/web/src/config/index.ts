@@ -23,7 +23,7 @@ export const DOMAIN_NAME = "motormetrics.app";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? `https://${DOMAIN_NAME}`;
 
-export const LOGO_URL = `${SITE_URL}/icon.png`;
+export const LOGO_URL = `${SITE_URL}/apple-icon`;
 
 export const SUPPORT_EMAIL = "support@motormetrics.app";
 export const GITHUB_REPO_URL = "https://github.com/motormetrics/motormetrics";

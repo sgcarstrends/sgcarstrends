@@ -12,32 +12,35 @@ exports[`Footer > should render the shell footer with navigation and version inf
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-trending-up size-5"
         fill="none"
-        height="24"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2.5"
-        viewBox="0 0 24 24"
-        width="24"
-        xmlns="http://www.w3.org/2000/svg"
+        height="20"
+        viewBox="0 0 64 64"
+        width="20"
       >
         <path
-          d="M16 7h6v6"
+          d="M8 50 V30 a12 12 0 0 1 24 0 V50"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="8"
         />
         <path
-          d="m22 7-8.5 8.5-5-5L2 17"
+          d="M32 50 V30 a12 12 0 0 1 24 0 V50"
+          stroke="var(--accent)"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="8"
         />
       </svg>
       <span
-        class="font-extrabold text-base"
+        class="font-extrabold tracking-[-0.03em] text-[15px]"
+        style="color: currentcolor;"
       >
-        Motor
+        motor
         <span
-          class="text-accent-strong"
+          style="color: var(--accent);"
         >
-          Metrics
+          metrics
         </span>
       </span>
     </a>

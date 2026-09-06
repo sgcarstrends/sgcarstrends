@@ -3,6 +3,7 @@
 import type { Key } from "@heroui/react";
 import { Button, cn, Dropdown, Header, Label } from "@heroui/react";
 import { Navbar } from "@heroui-pro/react";
+import { LogoMark, Wordmark } from "@web/components/brand-logo";
 import { BetaChip, NewChip } from "@web/components/shared/chips";
 import {
   MORE_NAV_ITEMS,
@@ -11,7 +12,7 @@ import {
   PRIMARY_NAV_ITEMS,
 } from "@web/config/navigation";
 import { SOCIAL_URLS } from "@web/config/socials";
-import { ChevronDown, TrendingUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -139,10 +140,15 @@ export function AppNav({
         <Navbar.Brand>
           <Link
             aria-label="MotorMetrics home"
-            className="flex size-13 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground"
+            className="flex shrink-0 items-center gap-3 text-foreground no-underline"
             href="/"
           >
-            <TrendingUp className="size-6" strokeWidth={2.5} />
+            <LogoMark first="currentColor" second="var(--accent)" size={40} />
+            <Wordmark
+              className="hidden text-2xl lg:inline"
+              first="currentColor"
+              second="var(--accent)"
+            />
           </Link>
         </Navbar.Brand>
 
