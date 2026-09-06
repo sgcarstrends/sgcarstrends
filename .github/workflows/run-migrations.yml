@@ -29,12 +29,6 @@ jobs:
         with:
           persist-credentials: false
       - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
-        with:
-
-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - name: Run migrations
         working-directory: ./packages/database
