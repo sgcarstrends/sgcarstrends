@@ -1,6 +1,15 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { LogoManifest } from "../types";
 import { manifestToLogos } from "./manifest";
+
+// manifestToLogos is pure, but importing ./manifest pulls in @vercel/blob,
+// which kicks off an unawaited feature-detection promise at module scope.
+// A factory mock keeps the real module out of the test run entirely.
+vi.mock("@vercel/blob", () => ({
+  get: vi.fn(),
+  list: vi.fn(),
+  put: vi.fn(),
+}));
 
 const manifest: LogoManifest = {
   version: 1,

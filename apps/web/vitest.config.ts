@@ -10,6 +10,12 @@ export default defineConfig({
     fsModuleCache: true,
     globals: true,
     environment: "jsdom",
+    // Vitest 5 externalises @testing-library/jest-dom, which resolves its CJS
+    // entry and pulls in a second `vitest` module instance. That instance
+    // registers its own snapshot plugin, so toMatchSnapshot() looks up a
+    // SnapshotClient that was never set up for the file. Inlining keeps
+    // jest-dom on the ESM build that shares this run's vitest instance.
+    server: { deps: { inline: ["@testing-library/jest-dom"] } },
     // detectAsyncLeaks: true, // Available for targeted debugging; too noisy with framer-motion animation leaks
     coverage: {
       enabled: true,
