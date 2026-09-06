@@ -25,8 +25,6 @@ export async function fetchAndExtractZip(
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  // The whole archive is buffered in memory. LTA DataMall archives are a few
-  // megabytes at most, so streaming extraction is not worth the complexity.
   const arrayBuffer = await response.arrayBuffer();
   const zip = new AdmZip(Buffer.from(arrayBuffer));
   const extracted = new Map<string, string>();

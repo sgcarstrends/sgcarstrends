@@ -21,6 +21,12 @@ export async function processCsv<T>(
   filePath: string,
   options: CSVTransformOptions<T> = {},
 ) {
+  // The whole file is read and parsed into an array of row objects. The
+  // parsed rows dominate memory, not the download: the largest DataMall CSV
+  // (cars by make, ~3.5 MB, ~61k rows) parses to ~13 MB of objects on a
+  // ~250 KB archive. Well within function memory, and several workflow crons
+  // share an instance at 10:00 under Fluid Compute. Switch to a streaming
+  // parse before buffering here if a source grows by an order of magnitude.
   const fileContent = await fs.readFile(filePath, "utf-8");
 
   const {
