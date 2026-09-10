@@ -138,7 +138,7 @@ export async function proxy(request: NextRequest) {
   requestHeaders.set("x-nonce", nonce);
   requestHeaders.set(
     "Permissions-Policy",
-    "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+    "camera=(), microphone=(), geolocation=(self), browsing-topics=()",
   );
 
   requestHeaders.set(
