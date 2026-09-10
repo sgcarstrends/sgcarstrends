@@ -1,5 +1,6 @@
 vi.mock("./snapshot", () => ({ getEvChargingSnapshot: vi.fn() }));
 
+import "../test-utils";
 import { connector } from "./fixtures";
 import { getEvChargingPriceRankings } from "./price-rankings";
 import { getEvChargingSnapshot } from "./snapshot";

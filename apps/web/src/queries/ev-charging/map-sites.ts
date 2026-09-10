@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import { getEvChargingLocationUtilisation } from "./location-utilisation";
 import { type EvChargingLocation, groupLocations } from "./locations";
 import { getEvChargingSnapshot } from "./snapshot";
@@ -27,6 +28,9 @@ interface SiteExtras {
  * Locations without coordinates are dropped rather than guessed at.
  */
 export async function getEvChargingMapSites(): Promise<EvChargingMapSite[]> {
+  "use cache: remote";
+  cacheLife("hours");
+
   const [{ records }, utilisation] = await Promise.all([
     getEvChargingSnapshot(),
     getEvChargingLocationUtilisation({ order: "busiest", limit: 10_000 }),

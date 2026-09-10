@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import { inDistrict } from "./locations";
 import { getEvChargingSnapshot } from "./snapshot";
 
@@ -15,6 +16,9 @@ export interface EvChargingLiveSummary {
 export async function getEvChargingLiveSummary(
   district?: string,
 ): Promise<EvChargingLiveSummary> {
+  "use cache: remote";
+  cacheLife("hours");
+
   const { observedAt, records } = await getEvChargingSnapshot();
   const summary: EvChargingLiveSummary = {
     connectors: 0,
