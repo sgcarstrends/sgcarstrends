@@ -1,5 +1,6 @@
 "use client";
 
+import * as Sentry from "@sentry/nextjs";
 import { AlertTriangle } from "lucide-react";
 import { Geist } from "next/font/google";
 import { useEffect } from "react";
@@ -17,7 +18,7 @@ export default function GlobalError({
   retry: () => void;
 }>) {
   useEffect(() => {
-    console.error(error);
+    Sentry.captureException(error);
   }, [error]);
 
   return (

@@ -41,6 +41,8 @@
     "@neondatabase/serverless": "1.1.0",
     "@number-flow/react": "0.6.0",
     "@opentelemetry/sdk-trace-node": "2.7.1",
+    "@sentry/nextjs": "catalog:",
+    "@sentry/opentelemetry": "catalog:",
     "@react-aria/utils": "3.34.1",
     "@ruchernchong/number-format": "2.3.5",
     "@tanstack/react-table": "8.21.3",
