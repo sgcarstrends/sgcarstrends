@@ -1,7 +1,13 @@
 import path from "node:path";
 import { db } from "@motormetrics/database/client";
-import { calculateChecksum } from "@web/lib/updater/services/calculate-checksum";
-import { fetchAndExtractZip } from "@web/lib/updater/services/download-file";
+import {
+  calculateBufferChecksum,
+  calculateChecksum,
+} from "@web/lib/updater/services/calculate-checksum";
+import {
+  extractZip,
+  fetchZipBuffer,
+} from "@web/lib/updater/services/download-file";
 import {
   type CSVTransformOptions,
   processCsv,
@@ -49,21 +55,30 @@ export async function update<T>(
   const tableName = getTableName(table);
 
   // === Download and verify ===
-  let destinationPath: string;
-  if (config.url === undefined) {
-    destinationPath = config.filePath;
-  } else {
-    const extractedFiles = await fetchAndExtractZip(config.url);
-    const [firstFile] = extractedFiles.values();
-    if (!firstFile) {
-      throw new Error(`No files found in ZIP at ${config.url}`);
-    }
-    destinationPath = firstFile;
-  }
-  console.log("Destination path:", destinationPath);
+  // For URL sources, hash the raw ZIP bytes and compare before extracting so
+  // unchanged runs skip extraction, parsing and database work entirely.
+  let checksumKey: string;
+  let checksum: string;
+  let resolveCsvPath: () => string;
 
-  const checksumKey = path.basename(destinationPath);
-  const checksum = await calculateChecksum(destinationPath);
+  if (config.url === undefined) {
+    const { filePath } = config;
+    checksumKey = path.basename(filePath);
+    checksum = await calculateChecksum(filePath);
+    resolveCsvPath = () => filePath;
+  } else {
+    const { url } = config;
+    const zipBuffer = await fetchZipBuffer(url);
+    checksumKey = path.basename(new URL(url).pathname);
+    checksum = calculateBufferChecksum(zipBuffer);
+    resolveCsvPath = () => {
+      const [firstFile] = extractZip(zipBuffer).values();
+      if (!firstFile) {
+        throw new Error(`No files found in ZIP at ${url}`);
+      }
+      return firstFile;
+    };
+  }
   console.log("Checksum:", checksum);
 
   const cachedChecksum = await checksumService.getCachedChecksum(checksumKey);
@@ -84,6 +99,9 @@ export async function update<T>(
   } else {
     console.log("Checksum has been changed.");
   }
+
+  const destinationPath = resolveCsvPath();
+  console.log("Destination path:", destinationPath);
 
   // === Process CSV ===
   const processedData = await processCsv<T>(

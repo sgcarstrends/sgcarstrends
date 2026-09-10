@@ -4,8 +4,14 @@ import {
   type UpdaterOptions,
   update,
 } from "@web/lib/updater";
-import { calculateChecksum } from "@web/lib/updater/services/calculate-checksum";
-import { fetchAndExtractZip } from "@web/lib/updater/services/download-file";
+import {
+  calculateBufferChecksum,
+  calculateChecksum,
+} from "@web/lib/updater/services/calculate-checksum";
+import {
+  extractZip,
+  fetchZipBuffer,
+} from "@web/lib/updater/services/download-file";
 import { processCsv } from "@web/lib/updater/services/process-csv";
 import type { Checksum } from "@web/utils/checksum";
 import type { PgTable } from "drizzle-orm/pg-core";
@@ -86,9 +92,11 @@ describe("update", () => {
     };
 
     // Default mock implementations
-    vi.mocked(fetchAndExtractZip).mockResolvedValue(
+    vi.mocked(fetchZipBuffer).mockResolvedValue(Buffer.from("zip-bytes"));
+    vi.mocked(extractZip).mockReturnValue(
       new Map([["test-file.csv", "/tmp/test-file.csv"]]),
     );
+    vi.mocked(calculateBufferChecksum).mockReturnValue("abc123");
     vi.mocked(calculateChecksum).mockResolvedValue("abc123");
     vi.mocked(processCsv).mockResolvedValue(mockData);
 
@@ -116,12 +124,14 @@ describe("update", () => {
       timestamp: expect.any(String),
     });
 
-    expect(fetchAndExtractZip).toHaveBeenCalledWith(
-      "https://example.com/data.zip",
+    expect(fetchZipBuffer).toHaveBeenCalledWith("https://example.com/data.zip");
+    expect(calculateBufferChecksum).toHaveBeenCalledWith(
+      Buffer.from("zip-bytes"),
     );
-    expect(calculateChecksum).toHaveBeenCalledWith("/tmp/test-file.csv");
+    expect(extractZip).toHaveBeenCalledWith(Buffer.from("zip-bytes"));
+    expect(calculateChecksum).not.toHaveBeenCalled();
     expect(mockChecksum.cacheChecksum).toHaveBeenCalledWith(
-      "test-file.csv",
+      "data.zip",
       "abc123",
     );
   });
@@ -138,6 +148,7 @@ describe("update", () => {
       timestamp: expect.any(String),
     });
 
+    expect(extractZip).not.toHaveBeenCalled();
     expect(processCsv).not.toHaveBeenCalled();
     expect(db.insert).not.toHaveBeenCalled();
   });
@@ -178,7 +189,7 @@ describe("update", () => {
     await update(updaterConfig, updaterOptions);
 
     expect(mockChecksum.cacheChecksum).toHaveBeenCalledWith(
-      "test-file.csv",
+      "data.zip",
       "abc123",
     );
   });
@@ -255,7 +266,8 @@ describe("update", () => {
   });
 
   it("should throw when the ZIP contains no files", async () => {
-    vi.mocked(fetchAndExtractZip).mockResolvedValue(new Map());
+    vi.mocked(mockChecksum.getCachedChecksum).mockResolvedValue(null);
+    vi.mocked(extractZip).mockReturnValue(new Map());
 
     await expect(update(updaterConfig, updaterOptions)).rejects.toThrow(
       "No files found in ZIP",
@@ -263,9 +275,7 @@ describe("update", () => {
   });
 
   it("should propagate errors from download", async () => {
-    vi.mocked(fetchAndExtractZip).mockRejectedValue(
-      new Error("Download failed"),
-    );
+    vi.mocked(fetchZipBuffer).mockRejectedValue(new Error("Download failed"));
 
     await expect(update(updaterConfig, updaterOptions)).rejects.toThrow(
       "Download failed",
@@ -283,7 +293,8 @@ describe("update", () => {
 
     await update(configWithFilePath, updaterOptions);
 
-    expect(fetchAndExtractZip).not.toHaveBeenCalled();
+    expect(fetchZipBuffer).not.toHaveBeenCalled();
+    expect(extractZip).not.toHaveBeenCalled();
     expect(calculateChecksum).toHaveBeenCalledWith("/tmp/pre-extracted.csv");
     expect(mockChecksum.cacheChecksum).toHaveBeenCalledWith(
       "pre-extracted.csv",

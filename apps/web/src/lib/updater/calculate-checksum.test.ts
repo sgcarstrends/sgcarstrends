@@ -1,7 +1,10 @@
 import crypto from "node:crypto";
 import { unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { calculateChecksum } from "@web/lib/updater/services/calculate-checksum";
+import {
+  calculateBufferChecksum,
+  calculateChecksum,
+} from "@web/lib/updater/services/calculate-checksum";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 describe("calculateChecksum", () => {
@@ -57,5 +60,15 @@ describe("calculateChecksum", () => {
       crypto.createHash("sha256").update(largeContent).digest("hex"),
     );
     expect(duration).toBeLessThan(1000); // Should complete in less than a second
+  });
+});
+
+describe("calculateBufferChecksum", () => {
+  it("should match the SHA-256 of the buffer contents", () => {
+    const buffer = Buffer.from("Hello, world!");
+
+    expect(calculateBufferChecksum(buffer)).toBe(
+      crypto.createHash("sha256").update(buffer).digest("hex"),
+    );
   });
 });
