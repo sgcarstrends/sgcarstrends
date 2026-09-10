@@ -1,3 +1,9 @@
+## [5.19.3](https://github.com/motormetrics/motormetrics/compare/v5.19.2...v5.19.3) (2026-09-10)
+
+### Performance Improvements
+
+* **web:** prerender the charging map and cache its readers ([4cb0209](https://github.com/motormetrics/motormetrics/commit/4cb0209d47316a463b4bad87001901de5916f650))
+
 ## [5.19.2](https://github.com/motormetrics/motormetrics/compare/v5.19.1...v5.19.2) (2026-09-10)
 
 ### Performance Improvements
