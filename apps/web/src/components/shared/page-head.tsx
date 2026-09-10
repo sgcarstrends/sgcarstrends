@@ -16,10 +16,13 @@ import type { ReactNode } from "react";
  * 52); that is below the threshold worth a variant, so both use one scale.
  */
 export function PageHead({
+  badge,
   controls,
   description,
   title,
 }: {
+  /** Status chip rendered beside the title, e.g. a "Beta" marker. */
+  badge?: ReactNode;
   controls?: ReactNode;
   /** Lede paragraph. Report-family pages set it; bento-family pages omit it. */
   description?: string;
@@ -28,7 +31,10 @@ export function PageHead({
   return (
     <div className="flex flex-wrap items-end gap-6">
       <div className={cn("flex flex-col gap-2", description && "max-w-prose")}>
-        <Typography.Heading level={1}>{title}</Typography.Heading>
+        <div className="flex flex-wrap items-center gap-4">
+          <Typography.Heading level={1}>{title}</Typography.Heading>
+          {badge}
+        </div>
         {description ? (
           <Typography.Paragraph color="muted">
             {description}

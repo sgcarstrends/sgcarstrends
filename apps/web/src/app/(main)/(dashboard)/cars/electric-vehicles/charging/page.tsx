@@ -98,17 +98,15 @@ export default function ChargingPage({ searchParams }: PageProps) {
       />
 
       <PageHead
+        badge={
+          <Chip color="accent" size="lg" variant="soft">
+            Beta
+          </Chip>
+        }
         controls={
-          <>
-            <Chip color="accent" variant="soft">
-              Beta
-            </Chip>
-            <Suspense
-              fallback={<Skeleton className="h-12 w-56 rounded-full" />}
-            >
-              <DistrictControl searchParams={searchParams} />
-            </Suspense>
-          </>
+          <Suspense fallback={<Skeleton className="h-12 w-56 rounded-full" />}>
+            <DistrictControl searchParams={searchParams} />
+          </Suspense>
         }
         title="EV charging"
       />
