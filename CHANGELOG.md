@@ -1,3 +1,13 @@
+## [5.17.2](https://github.com/motormetrics/motormetrics/compare/v5.17.1...v5.17.2) (2026-09-10)
+
+### Bug Fixes
+
+* **web:** bound ingest exclusion in proxy matcher ([6188017](https://github.com/motormetrics/motormetrics/commit/6188017c8a7a83edbcc597f737745b8668211791))
+
+### Performance Improvements
+
+* **web:** skip proxy for PostHog ingest requests ([0f19c83](https://github.com/motormetrics/motormetrics/commit/0f19c83bd2e73846bab3fea7f0cf4c69b7fa64c8))
+
 ## [5.17.1](https://github.com/motormetrics/motormetrics/compare/v5.17.0...v5.17.1) (2026-09-10)
 
 ### Performance Improvements
