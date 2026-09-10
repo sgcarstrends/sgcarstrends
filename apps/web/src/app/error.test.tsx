@@ -1,6 +1,11 @@
+import * as Sentry from "@sentry/nextjs";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import AppError from "./error";
+
+vi.mock("@sentry/nextjs", () => ({
+  captureException: vi.fn(),
+}));
 
 vi.mock("@heroui/react", async (importOriginal) => ({
   ...(await importOriginal<Record<string, unknown>>()),
@@ -43,7 +48,7 @@ describe("AppError", () => {
       ),
     ).toBeInTheDocument();
     expect(screen.getByText("Error ID: abc123")).toBeInTheDocument();
-    expect(console.error).toHaveBeenCalledWith(error);
+    expect(Sentry.captureException).toHaveBeenCalledWith(error);
   });
 
   it("should omit the error id when digest is missing", () => {
