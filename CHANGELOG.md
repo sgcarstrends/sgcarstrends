@@ -1,3 +1,9 @@
+## [5.17.1](https://github.com/motormetrics/motormetrics/compare/v5.17.0...v5.17.1) (2026-09-10)
+
+### Performance Improvements
+
+* **web:** revalidate EV charging snapshot hourly ([ac26ded](https://github.com/motormetrics/motormetrics/commit/ac26dedf086052ceac844a624de03ba72a700aa4))
+
 ## [5.17.0](https://github.com/motormetrics/motormetrics/compare/v5.16.1...v5.17.0) (2026-09-06)
 
 ### Features
