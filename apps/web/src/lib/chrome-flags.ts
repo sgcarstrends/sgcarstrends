@@ -1,5 +1,7 @@
-import { createClient } from "@vercel/flags-core";
+import { SITE_URL } from "@web/config";
+import { advertiseNav, advertisePage, blogNav, socialLinks } from "@web/flags";
 import { FLAGS_CACHE_TAG } from "@web/lib/cache-tags/flags";
+import { evaluate } from "flags/next";
 import { cacheLife, cacheTag } from "next/cache";
 
 export interface ChromeFlags {
@@ -20,11 +22,12 @@ const DEFAULTS: ChromeFlags = {
  * Site-wide toggles for the nav, footer and static pages, evaluated once and
  * cached.
  *
- * The `flag()` helper from `flags/next` reads request headers on every call,
- * which turns every route that renders the chrome into a per-request function
- * invocation. These are not per-user decisions, so this reads them with the
- * core client, which needs no request, inside `use cache`. The build evaluates
- * them against the bundled definitions and the result stays static until
+ * Called without a request, the Flags SDK reads `headers()` and `cookies()`
+ * on every evaluation, which turns every route that renders the chrome into a
+ * per-request function invocation. These are not per-user decisions, so this
+ * hands the SDK a bare request instead, which makes it skip `next/headers`,
+ * and runs inside `use cache`. The build evaluates the flags against the
+ * definitions embedded in the deployment and the result stays static until
  * `FLAGS_CACHE_TAG` is revalidated or the site is redeployed.
  */
 export async function getChromeFlags(): Promise<ChromeFlags> {
@@ -32,28 +35,11 @@ export async function getChromeFlags(): Promise<ChromeFlags> {
   cacheLife("max");
   cacheTag(FLAGS_CACHE_TAG);
 
-  const sdkKey = process.env.FLAGS;
-  if (!sdkKey) {
-    return DEFAULTS;
-  }
-
   try {
-    const client = createClient(sdkKey, { disableMetrics: true });
-    await client.initialize();
-    const [advertisePage, advertiseNav, blogNav, socialLinks] =
-      await Promise.all([
-        client.evaluate<boolean>("advertise-page", DEFAULTS.advertisePage),
-        client.evaluate<boolean>("advertise-nav", DEFAULTS.advertiseNav),
-        client.evaluate<boolean>("blog-nav", DEFAULTS.blogNav),
-        client.evaluate<boolean>("social-links", DEFAULTS.socialLinks),
-      ]);
-
-    return {
-      advertisePage: advertisePage.value ?? DEFAULTS.advertisePage,
-      advertiseNav: advertiseNav.value ?? DEFAULTS.advertiseNav,
-      blogNav: blogNav.value ?? DEFAULTS.blogNav,
-      socialLinks: socialLinks.value ?? DEFAULTS.socialLinks,
-    };
+    return await evaluate(
+      { advertisePage, advertiseNav, blogNav, socialLinks },
+      new Request(SITE_URL),
+    );
   } catch (error) {
     console.warn("[FLAGS] Falling back to defaults for the chrome:", error);
     return DEFAULTS;

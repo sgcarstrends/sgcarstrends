@@ -465,9 +465,6 @@ importers:
       '@vercel/config':
         specifier: 0.0.30
         version: 0.0.30
-      '@vercel/flags-core':
-        specifier: 1.7.1
-        version: 1.7.1(@aws-sdk/credential-provider-web-identity@3.972.49)(next@16.3.0(@babel/core@7.29.6(supports-color@8.1.1))(@opentelemetry/api@1.9.1)(@playwright/test@1.60.0)(@types/node@24.13.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))
       '@vercel/functions':
         specifier: 3.5.1
         version: 3.5.1(@aws-sdk/credential-provider-web-identity@3.972.49)
