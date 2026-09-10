@@ -19,13 +19,15 @@ const EMPTY: EvChargingSnapshot = { observedAt: null, records: [] };
  * five-minute batch file.
  *
  * Nothing is stored: every live figure on the site derives from this one
- * cached download. The built-in `minutes` profile matches the feed's own
- * refresh rate, so a visitor sees at most a few minutes of staleness. Without
- * an account key the snapshot is empty and the pages show their empty state.
+ * cached download. The `hours` profile is deliberately coarser than the
+ * feed's five-minute refresh: this query feeds the homepage, and the shortest
+ * cache life on a route sets how often Vercel regenerates the whole page. A
+ * one-minute profile burned the Hobby ISR-write and CPU quotas. Without an
+ * account key the snapshot is empty and the pages show their empty state.
  */
 export async function getEvChargingSnapshot(): Promise<EvChargingSnapshot> {
   "use cache";
-  cacheLife("minutes");
+  cacheLife("hours");
 
   const accountKey = process.env.LTA_DATAMALL_ACCOUNT_KEY;
   if (!accountKey) {
