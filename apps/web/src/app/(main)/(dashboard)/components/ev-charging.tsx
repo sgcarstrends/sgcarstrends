@@ -1,12 +1,9 @@
 import { Chip, ProgressBar, Typography } from "@heroui/react";
 import { NumberValue } from "@heroui-pro/react";
 import { Headline, SectionHead } from "@web/components/shared/overview";
-import { districtForPostalCode } from "@web/config/postal-districts";
 import {
-  type EvChargingPricedLocation,
-  getEvChargingLiveSummary,
-  getEvChargingNetworkSummary,
-  getEvChargingPriceRankings,
+  type EvChargingRateStat,
+  getEvChargingOverview,
 } from "@web/queries/ev-charging";
 
 const LINK = {
@@ -14,36 +11,14 @@ const LINK = {
   label: "All charging data",
 };
 
-/**
- * Where a rate is charged: the operator and district when one location has
- * it, otherwise how many share it.
- */
-function describeRate(locations: EvChargingPricedLocation[]): string | null {
-  const leader = locations[0];
-  if (!leader) {
-    return null;
-  }
-
-  const atRate = locations.filter(
-    (location) => location.pricePerKwh === leader.pricePerKwh,
-  );
-  if (atRate.length > 1) {
-    return `${atRate.length} locations at this rate`;
-  }
-
-  return [leader.operator, districtForPostalCode(leader.postalCode)?.name]
-    .filter(Boolean)
-    .join(" · ");
-}
-
 function RateStat({
   label,
-  locations,
+  stat,
 }: {
   label: string;
-  locations: EvChargingPricedLocation[];
+  stat: EvChargingRateStat | null;
 }) {
-  const price = locations[0]?.pricePerKwh;
+  const price = stat?.pricePerKwh;
   return (
     <div className="flex min-w-0 flex-col gap-1">
       <Typography.Paragraph className="font-semibold" color="muted" size="sm">
@@ -59,7 +34,7 @@ function RateStat({
         size="sm"
         truncate
       >
-        {describeRate(locations) ?? "not advertised"}
+        {stat?.description ?? "not advertised"}
       </Typography.Paragraph>
     </div>
   );
@@ -71,20 +46,8 @@ function RateStat({
  * network counts and says so rather than showing a stale percentage.
  */
 export async function EvCharging() {
-  const [live, cheapest, priciest, network] = await Promise.all([
-    getEvChargingLiveSummary(),
-    getEvChargingPriceRankings({
-      limit: Number.MAX_SAFE_INTEGER,
-      order: "cheapest",
-      powerRating: "DC",
-    }),
-    getEvChargingPriceRankings({
-      limit: Number.MAX_SAFE_INTEGER,
-      order: "priciest",
-      powerRating: "DC",
-    }),
-    getEvChargingNetworkSummary(),
-  ]);
+  const { live, network, cheapestDc, priciestDc } =
+    await getEvChargingOverview();
 
   const isLive = live.connectors > 0 && live.observedAt !== null;
   const usable = live.connectors - live.unavailable;
@@ -184,10 +147,10 @@ export async function EvCharging() {
           </Typography.Paragraph>
         )}
 
-        {cheapest.length > 0 ? (
+        {cheapestDc ? (
           <div className="grid grid-cols-2 gap-6 border-separator border-t pt-4">
-            <RateStat label="Cheapest DC rate" locations={cheapest} />
-            <RateStat label="Most expensive DC rate" locations={priciest} />
+            <RateStat label="Cheapest DC rate" stat={cheapestDc} />
+            <RateStat label="Most expensive DC rate" stat={priciestDc} />
           </div>
         ) : null}
 
