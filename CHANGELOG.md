@@ -1,3 +1,9 @@
+## [5.18.2](https://github.com/motormetrics/motormetrics/compare/v5.18.1...v5.18.2) (2026-09-10)
+
+### Bug Fixes
+
+* **web:** hold busy hours until a full day is sampled ([7d304d5](https://github.com/motormetrics/motormetrics/commit/7d304d50e23e92dded0335dfdacd437467227f67))
+
 ## [5.18.1](https://github.com/motormetrics/motormetrics/compare/v5.18.0...v5.18.1) (2026-09-10)
 
 ### Bug Fixes
