@@ -11,7 +11,7 @@ interface YearlyTotal {
 export async function getVehiclePopulationYearlyTotals(): Promise<
   YearlyTotal[]
 > {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   cacheTag("vehicle-population:totals");
 

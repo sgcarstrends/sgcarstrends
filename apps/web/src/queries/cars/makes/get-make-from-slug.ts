@@ -12,7 +12,7 @@ import { cacheLife, cacheTag } from "next/cache";
 export async function getMakeFromSlug(
   slug: string,
 ): Promise<string | undefined> {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   cacheTag("cars:makes");
 

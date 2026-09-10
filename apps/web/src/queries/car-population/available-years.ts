@@ -4,7 +4,7 @@ import { desc } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getCarPopulationYears(): Promise<{ year: string }[]> {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   cacheTag("cars:population:years");
 

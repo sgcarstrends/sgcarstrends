@@ -11,7 +11,7 @@ export async function getComparisonData(
   monthA: string,
   monthB: string,
 ): Promise<ComparisonData> {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   cacheTag(`cars:month:${monthA}`, `cars:month:${monthB}`);
 

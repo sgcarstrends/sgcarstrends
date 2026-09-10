@@ -23,7 +23,7 @@ export interface EvChargingHourlyUtilisation {
 export async function getEvChargingUtilisationByHour(
   days = 7,
 ): Promise<EvChargingHourlyUtilisation[]> {
-  "use cache";
+  "use cache: remote";
   cacheLife("hours");
 
   const hourOfDay =

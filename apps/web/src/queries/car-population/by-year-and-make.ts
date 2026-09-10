@@ -12,7 +12,7 @@ interface YearMakeTotal {
 export async function getCarPopulationByYearAndMake(): Promise<
   YearMakeTotal[]
 > {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   cacheTag("cars:population:totals");
 

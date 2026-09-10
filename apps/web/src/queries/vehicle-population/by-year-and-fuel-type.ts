@@ -12,7 +12,7 @@ interface YearFuelTypeTotal {
 export async function getVehiclePopulationByYearAndFuelType(): Promise<
   YearFuelTypeTotal[]
 > {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   cacheTag("vehicle-population:totals");
 

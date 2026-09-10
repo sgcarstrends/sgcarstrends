@@ -21,7 +21,7 @@ export interface EvChargingMonthlyRegistrations {
 export async function getEvChargingRegistrationsByMonth(): Promise<
   EvChargingMonthlyRegistrations[]
 > {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   cacheTag(EV_CHARGING_CACHE_TAG);
 

@@ -25,9 +25,14 @@ Blog actions are **mutations only** (view incrementing, tag updates); blog reads
 
 ### Data Architecture
 
-**Cache Components** (Next.js 16): data-fetching queries use `"use cache"` with `cacheLife("max")` and granular cache
-tags (e.g. `cars:month:2024-01`, `coe:period:12m`). The custom "max" profile is defined in `next.config.ts`.
-See the `cache-components` skill for implementation patterns.
+**Cache Components** (Next.js 16): data-fetching queries use `"use cache: remote"` with `cacheLife("max")` and
+granular cache tags (e.g. `cars:month:2024-01`, `coe:period:12m`). The custom "max" profile is defined in
+`next.config.ts`. See the `cache-components` skill for implementation patterns.
+
+**Why `remote`, not plain `"use cache"`**: at request time, plain `"use cache"` stores entries in a per-instance
+in-memory handler, which never persists across serverless invocations. Every request outside the static shell
+(anything reading `searchParams`) re-ran every query against Neon. `"use cache: remote"` writes to the shared
+Vercel Data Cache instead, while still prerendering into the static shell where possible.
 
 **Why "max" (30-day stale/revalidate, 1-year expire)**: data updates monthly, so this yields ~2 regenerations/month
 (1 automatic + 1 on-demand) versus ~30 with daily checks — roughly **15x less** Vercel Fluid Compute. Do not shorten

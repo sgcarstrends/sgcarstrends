@@ -14,7 +14,7 @@ export interface MakeCoeComparisonData {
 export async function getMakeCoeComparison(
   make: string,
 ): Promise<MakeCoeComparisonData[]> {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
 
   const { startMonth, endMonth } = getDateRange24Months();

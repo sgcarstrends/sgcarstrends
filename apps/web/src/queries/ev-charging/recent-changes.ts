@@ -37,7 +37,7 @@ export interface EvChargingRecentChanges {
 export async function getEvChargingRecentChanges(
   days = 7,
 ): Promise<EvChargingRecentChanges> {
-  "use cache";
+  "use cache: remote";
   cacheLife("hours");
 
   const locations = storedLocationsSubquery();

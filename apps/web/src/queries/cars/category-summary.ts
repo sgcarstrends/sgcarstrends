@@ -19,7 +19,7 @@ const yearExpr = sql`extract(year from to_date(${cars.month}, 'YYYY-MM'))`;
 export async function getCategorySummaryByYear(
   year?: number,
 ): Promise<CategorySummary> {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   cacheTag("cars:annual", "cars:fuel:electric", "cars:fuel:hybrid");
   if (year) {
