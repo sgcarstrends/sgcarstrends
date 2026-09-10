@@ -7,7 +7,7 @@ importers:
     configDependencies: {}
     packageManagerDependencies:
       pnpm:
-        specifier: ^12.4.0
+        specifier: 12.4.0
         version: 12.4.0
 
 packages:
@@ -308,7 +308,7 @@ importers:
         specifier: 17.0.4
         version: 17.0.4
       node:
-        specifier: runtime:^26.8.0
+        specifier: runtime:26.8.2
         version: runtime:26.8.2
       portless:
         specifier: 0.15.5
