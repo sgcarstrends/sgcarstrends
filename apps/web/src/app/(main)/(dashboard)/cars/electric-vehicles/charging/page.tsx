@@ -1,4 +1,4 @@
-import { Skeleton } from "@heroui/react";
+import { Chip, Skeleton } from "@heroui/react";
 import { BusyHours } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/charging/components/busy-hours";
 import { ChargingMap } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/charging/components/charging-map";
 import {
@@ -99,9 +99,16 @@ export default function ChargingPage({ searchParams }: PageProps) {
 
       <PageHead
         controls={
-          <Suspense fallback={<Skeleton className="h-12 w-56 rounded-full" />}>
-            <DistrictControl searchParams={searchParams} />
-          </Suspense>
+          <>
+            <Chip color="accent" variant="soft">
+              Beta
+            </Chip>
+            <Suspense
+              fallback={<Skeleton className="h-12 w-56 rounded-full" />}
+            >
+              <DistrictControl searchParams={searchParams} />
+            </Suspense>
+          </>
         }
         title="EV charging"
       />
