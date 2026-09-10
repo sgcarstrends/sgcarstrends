@@ -6,11 +6,12 @@ import { Segment } from "@heroui-pro/react";
 import { Map, type MapClusterLayerProps, useMap } from "@heroui-pro/react/map";
 import { siteParam } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/charging/search-params";
 import { describeConnectors } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/charging/utils/describe-connectors";
+import { getPostalDistrict } from "@web/config/postal-districts";
 import { inDistrict } from "@web/queries/ev-charging/locations";
 import type { EvChargingMapSite } from "@web/queries/ev-charging/map-sites";
 import type { FeatureCollection, Point } from "geojson";
 import { type LngLatBoundsLike, setWorkerUrl } from "maplibre-gl";
-import { useQueryState } from "nuqs";
+import { parseAsString, useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 setWorkerUrl("/maplibre/maplibre-gl-worker.mjs");
@@ -321,13 +322,9 @@ function SiteFocus({
   return null;
 }
 
-export function ChargingMapView({
-  district,
-  sites,
-}: {
-  district: string;
-  sites: EvChargingMapSite[];
-}) {
+export function ChargingMapView({ sites }: { sites: EvChargingMapSite[] }) {
+  const [district] = useQueryState("district", parseAsString.withDefault(""));
+  const scope = getPostalDistrict(district)?.name ?? "Singapore";
   const [tokens, setTokens] = useState<MapTokens | null>(null);
   const [mode, setMode] = useState<MapMode>("availability");
   const [selected, setSelected] = useState<SelectedSite | null>(null);
@@ -371,6 +368,13 @@ export function ChargingMapView({
 
   return (
     <>
+      <div className="flex flex-col gap-1">
+        <Typography.Paragraph className="text-muted">
+          Live availability by site
+        </Typography.Paragraph>
+        <Typography.Heading level={3}>Chargers in {scope}</Typography.Heading>
+      </div>
+
       <Segment
         aria-label="Map view"
         className="w-fit"

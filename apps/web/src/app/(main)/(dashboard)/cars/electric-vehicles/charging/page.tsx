@@ -118,7 +118,7 @@ export default function ChargingPage({ searchParams }: PageProps) {
       <AnimatedSection order={0}>
         <SectionErrorBoundary title="Charger map unavailable">
           <Suspense fallback={<CardSkeleton className="h-[600px]" />}>
-            <ChargingMapSection searchParams={searchParams} />
+            <ChargingMap />
           </Suspense>
         </SectionErrorBoundary>
       </AnimatedSection>
@@ -145,11 +145,6 @@ export default function ChargingPage({ searchParams }: PageProps) {
 async function DistrictControl({ searchParams }: PageProps) {
   const { district } = await loadSearchParams(searchParams);
   return <DistrictSelect district={district} />;
-}
-
-async function ChargingMapSection({ searchParams }: PageProps) {
-  const { district } = await loadSearchParams(searchParams);
-  return <ChargingMap district={district} />;
 }
 
 async function ChargingBento({ searchParams }: PageProps) {

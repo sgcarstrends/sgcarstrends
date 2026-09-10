@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import {
   type EvChargingLocation,
   groupLocations,
@@ -35,6 +36,9 @@ export async function getEvChargingPriceRankings({
   district,
   limit = 10,
 }: PriceRankingOptions): Promise<EvChargingPricedLocation[]> {
+  "use cache: remote";
+  cacheLife("hours");
+
   const { records } = await getEvChargingSnapshot();
   const matching = records.filter(
     (record) =>

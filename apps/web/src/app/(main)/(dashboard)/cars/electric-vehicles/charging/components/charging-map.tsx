@@ -1,29 +1,26 @@
-import { Typography } from "@heroui/react";
 import { MAP_ANCHOR_ID } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/charging/search-params";
 import { SurfaceCard } from "@web/components/shared/bento";
-import { getPostalDistrict } from "@web/config/postal-districts";
 import { getEvChargingMapSites } from "@web/queries/ev-charging";
 import { ChargingMapView } from "./charging-map-view";
 
-/** Every public charging site on a map, coloured by live availability. */
-export async function ChargingMap({ district }: { district: string }) {
+/**
+ * Every public charging site on a map, coloured by live availability.
+ *
+ * Reads no search params: the district filter is applied on the client, so
+ * this card prerenders into the static shell with the cached site list and
+ * costs nothing per request. Reading the district here would put a 2 MB
+ * payload into every visit.
+ */
+export async function ChargingMap() {
   const sites = await getEvChargingMapSites();
   if (sites.length === 0) {
     return null;
   }
-  const scope = getPostalDistrict(district)?.name ?? "Singapore";
 
   return (
     <div className="scroll-mt-6" id={MAP_ANCHOR_ID}>
       <SurfaceCard className="gap-4 p-7">
-        <div className="flex flex-col gap-1">
-          <Typography.Paragraph className="text-muted">
-            Live availability by site
-          </Typography.Paragraph>
-          <Typography.Heading level={3}>Chargers in {scope}</Typography.Heading>
-        </div>
-
-        <ChargingMapView district={district} sites={sites} />
+        <ChargingMapView sites={sites} />
       </SurfaceCard>
     </div>
   );

@@ -1,3 +1,4 @@
+import "../test-utils";
 import { connector } from "./fixtures";
 import { getEvChargingLocationUtilisation } from "./location-utilisation";
 import { getEvChargingMapSites } from "./map-sites";
