@@ -12,7 +12,7 @@ export interface EvChargingNetworkSummary {
 }
 
 export async function getEvChargingNetworkSummary(): Promise<EvChargingNetworkSummary> {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   cacheTag(EV_CHARGING_CACHE_TAG);
 

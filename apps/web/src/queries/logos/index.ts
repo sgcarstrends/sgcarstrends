@@ -15,7 +15,7 @@ import { cacheLife, cacheTag } from "next/cache";
 export async function getAllCarLogos(): Promise<
   { logos: CarLogo[] } | { error: string }
 > {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   cacheTag(LOGOS_CACHE_TAG);
 

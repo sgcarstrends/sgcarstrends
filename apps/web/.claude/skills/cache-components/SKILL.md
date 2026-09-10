@@ -68,7 +68,7 @@ import { CACHE_TAG } from "@web/lib/cache";
 import { cacheLife, cacheTag } from "next/cache";
 
 export const getCarRegistrations = async () => {
-  "use cache";
+  "use cache: remote";  // remote: shared Vercel Data Cache, not per-instance memory
   cacheLife("max");  // 30-day revalidation for monthly data
   cacheTag(CACHE_TAG.CARS);  // Domain-level tag, NOT per-query
 
@@ -120,7 +120,7 @@ cacheLife: {
 
 ```typescript
 export const getLatestCOE = async (): Promise<COEResult[]> => {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");  // Monthly updates = perfect fit
   cacheTag(CACHE_TAG.COE);
 

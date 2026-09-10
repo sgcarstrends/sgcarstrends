@@ -58,7 +58,7 @@ const toNumber = (value: number | string | null | undefined): number => {
 export async function getPQPOverview(
   categories: readonly PQPCategory[] = PQP_REPORTED_CATEGORIES,
 ): Promise<Pqp.Overview> {
-  "use cache";
+  "use cache: remote";
   cacheLife("max");
   cacheTag("coe:pqp");
 

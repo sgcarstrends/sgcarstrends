@@ -47,7 +47,7 @@ export async function getEvChargingLocationUtilisation({
   limit = 10,
   days = 7,
 }: LocationUtilisationOptions): Promise<EvChargingLocationUtilisation[]> {
-  "use cache";
+  "use cache: remote";
   cacheLife("hours");
 
   const locations = storedLocationsSubquery();
