@@ -1,3 +1,9 @@
+## [5.18.1](https://github.com/motormetrics/motormetrics/compare/v5.18.0...v5.18.1) (2026-09-10)
+
+### Bug Fixes
+
+* **web:** place beta chip beside the page title ([db532bb](https://github.com/motormetrics/motormetrics/commit/db532bb62aa133261e00677b936f428416055835))
+
 ## [5.18.0](https://github.com/motormetrics/motormetrics/compare/v5.17.2...v5.18.0) (2026-09-10)
 
 ### Features
