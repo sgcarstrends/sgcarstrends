@@ -1,9 +1,9 @@
 import { Typography } from "@heroui/react";
+import { describeConnectors } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/charging/utils/describe-connectors";
 import { InkPanel } from "@web/components/shared/bento";
 import { districtForPostalCode } from "@web/config/postal-districts";
 import { getEvChargingRecentChanges } from "@web/queries/ev-charging";
 import { Sparkles } from "lucide-react";
-import { describeConnectors } from "./location-row";
 
 const LIMIT = 5;
 

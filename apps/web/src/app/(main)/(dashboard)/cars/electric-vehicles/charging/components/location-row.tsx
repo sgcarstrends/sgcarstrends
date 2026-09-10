@@ -5,17 +5,11 @@ import {
   MAP_ANCHOR_ID,
   siteParam,
 } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/charging/search-params";
+import { describeConnectors } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/charging/utils/describe-connectors";
 import { districtForPostalCode } from "@web/config/postal-districts";
 import type { EvChargingLocation } from "@web/queries/ev-charging";
 import { useQueryState } from "nuqs";
 import type { ReactNode } from "react";
-
-/** "2× DC 120 kW" style summary of what a location offers. */
-export const describeConnectors = (location: EvChargingLocation): string => {
-  const rating = location.dcConnectors > 0 ? "DC" : "AC";
-  const speed = location.maxSpeedKw != null ? ` ${location.maxSpeedKw} kW` : "";
-  return `${location.connectors}× ${rating}${speed}`;
-};
 
 /**
  * A location line item shared by the ranked lists on the charging page.
