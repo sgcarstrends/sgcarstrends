@@ -5,13 +5,13 @@ import { Segment } from "@heroui-pro/react";
 // biome-ignore lint/suspicious/noShadowRestrictedNames: HeroUI Pro Map component
 import { Map, type MapClusterLayerProps, useMap } from "@heroui-pro/react/map";
 import { siteParam } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/charging/search-params";
+import { describeConnectors } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/charging/utils/describe-connectors";
 import { inDistrict } from "@web/queries/ev-charging/locations";
 import type { EvChargingMapSite } from "@web/queries/ev-charging/map-sites";
 import type { FeatureCollection, Point } from "geojson";
 import { type LngLatBoundsLike, setWorkerUrl } from "maplibre-gl";
 import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { describeConnectors } from "./location-row";
 
 setWorkerUrl("/maplibre/maplibre-gl-worker.mjs");
 
