@@ -1,3 +1,9 @@
+## [5.18.3](https://github.com/motormetrics/motormetrics/compare/v5.18.2...v5.18.3) (2026-09-10)
+
+### Bug Fixes
+
+* **web:** allow geolocation for the charging map locate control ([1fbba9f](https://github.com/motormetrics/motormetrics/commit/1fbba9fe5f0f79cb94d8d7299b924d23d7202375))
+
 ## [5.18.2](https://github.com/motormetrics/motormetrics/compare/v5.18.1...v5.18.2) (2026-09-10)
 
 ### Bug Fixes
