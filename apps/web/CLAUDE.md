@@ -207,6 +207,9 @@ Web-specific variables (see root `CLAUDE.md` for the cross-cutting ones):
   Without them, flags fall back to their `defaultValue` (`false`). Toggle independently in preview vs
   production via the dashboard or `vercel flags enable|disable --environment`. Keys:
   `advertise-page`, `advertise-nav`, `blog-nav`, `blog-popular-posts`, `social-links`
+- `QSTASH_TOKEN` / `QSTASH_CURRENT_SIGNING_KEY` / `QSTASH_NEXT_SIGNING_KEY`: Upstash QStash. The
+  five-minute `ev-charging-live` schedule lives in QStash, not `vercel.ts` crons; it forwards
+  `CRON_SECRET` as the bearer token so the route needs no QStash-specific verification
 - `VERCEL_ENV`: social media redirects and production-only features activate only when this is `"production"`
 - `NEXT_PUBLIC_VERCEL_URL`: client-side deployment URL, without the `https://` protocol. `SITE_URL` falls back to it
   when `NEXT_PUBLIC_SITE_URL` is unset

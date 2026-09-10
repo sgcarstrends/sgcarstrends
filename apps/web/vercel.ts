@@ -8,6 +8,9 @@ export const config: VercelConfig = {
     },
   },
   relatedProjects: ["prj_fyAvupEssH3LO4OQFDWplinVFlaI"],
+  // The live EV charging ingest (/api/workflows/ev-charging-live) is not
+  // here: Hobby caps crons at once a day, so it runs every five minutes from
+  // a QStash schedule (id `ev-charging-live`) that forwards CRON_SECRET.
   crons: [
     {
       path: "/api/workflows/cars",
@@ -41,13 +44,6 @@ export const config: VercelConfig = {
       // After the cars run so newly registered makes are in the database.
       path: "/api/workflows/logos",
       schedule: "0 11 * * *",
-    },
-    {
-      path: "/api/workflows/ev-charging-live",
-      // TODO: The DataMall batch refreshes every 5 minutes, but Hobby caps
-      // crons at once a day. Change to "*/5 * * * *" once the project is on
-      // Vercel Pro.
-      schedule: "0 22 * * *",
     },
   ],
   regions: ["sin1"],
