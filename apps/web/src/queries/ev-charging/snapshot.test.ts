@@ -26,7 +26,7 @@ describe("getEvChargingSnapshot", () => {
       records: [],
     });
     expect(fetchBatch).not.toHaveBeenCalled();
-    expect(cacheLifeMock).toHaveBeenCalledWith("minutes");
+    expect(cacheLifeMock).toHaveBeenCalledWith("hours");
   });
 
   it("should fetch, parse and stamp the feed time", async () => {
