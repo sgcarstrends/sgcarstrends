@@ -16,8 +16,28 @@ export async function BusyHours() {
   );
   const max = Math.max(peak.utilisationPercent, 1);
 
-  if (peak.utilisationPercent === 0) {
-    return null;
+  // A peak only means something once every hour of the day has been
+  // sampled; before that the busiest hour is just whichever one the cron
+  // happened to land on.
+  const sampledHours = hours.filter((item) => item.samples > 0).length;
+  if (sampledHours < hours.length) {
+    return (
+      <SurfaceCard className="gap-4 p-7">
+        <div className="flex flex-col gap-1">
+          <Typography.Paragraph className="text-muted">
+            Busy hours
+          </Typography.Paragraph>
+          <Typography.Heading level={3}>Busiest hour</Typography.Heading>
+        </div>
+        <Typography.Paragraph color="muted" size="sm">
+          Not enough usage history for Singapore yet. Check back after a day of
+          readings.
+        </Typography.Paragraph>
+        <Typography.Paragraph color="muted" size="xs">
+          Share of connectors in use, Singapore time · past 7 days
+        </Typography.Paragraph>
+      </SurfaceCard>
+    );
   }
 
   return (

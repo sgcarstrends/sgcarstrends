@@ -11,6 +11,8 @@ export interface EvChargingHourlyUtilisation {
   hour: number;
   /** Share of usable connectors occupied, 0–100. */
   utilisationPercent: number;
+  /** Five-minute readings behind the figure; zero until the hour is sampled. */
+  samples: number;
 }
 
 /**
@@ -34,17 +36,20 @@ export async function getEvChargingUtilisationByHour(
       Number,
     );
 
+  const samples = sum(evLocationHourly.samples).mapWith(Number);
+
   const rows = await db
-    .select({ hour: hourOfDay, utilisationPercent: utilisation })
+    .select({ hour: hourOfDay, utilisationPercent: utilisation, samples })
     .from(evLocationHourly)
     .where(gte(evLocationHourly.hour, daysAgo(days)))
     .groupBy(hourOfDay)
     .orderBy(hourOfDay);
 
-  const byHour = new Map(rows.map((row) => [row.hour, row.utilisationPercent]));
+  const byHour = new Map(rows.map((row) => [row.hour, row]));
 
   return Array.from({ length: 24 }, (_, hour) => ({
     hour,
-    utilisationPercent: byHour.get(hour) ?? 0,
+    utilisationPercent: byHour.get(hour)?.utilisationPercent ?? 0,
+    samples: byHour.get(hour)?.samples ?? 0,
   }));
 }

@@ -8,16 +8,20 @@ describe("getEvChargingUtilisationByHour", () => {
 
   it("should return 24 hours, zero-filling the ones without samples", async () => {
     queueSelect([
-      { hour: 1, utilisationPercent: 32 },
-      { hour: 19, utilisationPercent: 24.5 },
+      { hour: 1, utilisationPercent: 32, samples: 40 },
+      { hour: 19, utilisationPercent: 24.5, samples: 12 },
     ]);
 
     const rows = await getEvChargingUtilisationByHour();
 
     expect(rows).toHaveLength(24);
-    expect(rows[0]).toEqual({ hour: 0, utilisationPercent: 0 });
-    expect(rows[1]).toEqual({ hour: 1, utilisationPercent: 32 });
-    expect(rows[19]).toEqual({ hour: 19, utilisationPercent: 24.5 });
+    expect(rows[0]).toEqual({ hour: 0, utilisationPercent: 0, samples: 0 });
+    expect(rows[1]).toEqual({ hour: 1, utilisationPercent: 32, samples: 40 });
+    expect(rows[19]).toEqual({
+      hour: 19,
+      utilisationPercent: 24.5,
+      samples: 12,
+    });
     expect(cacheLifeMock).toHaveBeenCalledWith("hours");
   });
 
