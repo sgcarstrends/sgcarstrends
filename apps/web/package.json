@@ -48,6 +48,7 @@
     "@upstash/redis": "catalog:",
     "@vercel/analytics": "1.6.1",
     "@vercel/config": "0.0.30",
+    "@vercel/flags-core": "1.7.1",
     "@vercel/functions": "3.5.1",
     "@vercel/related-projects": "catalog:",
     "@vercel/speed-insights": "1.3.1",

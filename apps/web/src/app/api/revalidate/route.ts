@@ -29,6 +29,9 @@ import type { NextRequest } from "next/server";
  * Posts:
  * - posts:list             - Blog post list
  * - posts:slug:{slug}      - Individual post (e.g., posts:slug:jan-2024)
+ *
+ * Flags:
+ * - flags                  - Nav and footer toggles read at build time
  */
 export const POST = async (req: NextRequest) => {
   const token = req.headers.get("x-revalidate-token");
