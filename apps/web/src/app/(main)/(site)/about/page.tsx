@@ -10,7 +10,7 @@ import { SitePage } from "@web/components/shared/site-page";
 import { StructuredData } from "@web/components/structured-data";
 import { LOGO_URL, SITE_TITLE, SITE_URL, SUPPORT_EMAIL } from "@web/config";
 import { brandSameAs, SOCIAL_HANDLE } from "@web/config/socials";
-import { socialLinks } from "@web/flags";
+import { getChromeFlags } from "@web/lib/chrome-flags";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import type {
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
 };
 
 async function OrganizationStructuredData() {
-  const sameAs = brandSameAs(await socialLinks());
+  const sameAs = brandSameAs((await getChromeFlags()).socialLinks);
   const organizationSchema: WithContext<Organization> = {
     "@context": "https://schema.org",
     "@type": "Organization",

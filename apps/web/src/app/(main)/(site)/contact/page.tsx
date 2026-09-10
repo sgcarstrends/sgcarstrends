@@ -4,7 +4,7 @@ import {
   SITE_URL,
   SUPPORT_EMAIL,
 } from "@web/config";
-import { advertisePage } from "@web/flags";
+import { getChromeFlags } from "@web/lib/chrome-flags";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 async function AdvertisingSection() {
-  const showAdvertisePage = await advertisePage();
+  const { advertisePage: showAdvertisePage } = await getChromeFlags();
   if (!showAdvertisePage) {
     return null;
   }

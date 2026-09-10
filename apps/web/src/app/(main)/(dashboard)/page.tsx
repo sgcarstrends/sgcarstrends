@@ -18,7 +18,7 @@ import { PageEyebrow } from "@web/components/shared/page-eyebrow";
 import { StructuredData } from "@web/components/structured-data";
 import { LOGO_URL, SITE_TITLE, SITE_URL, SUPPORT_EMAIL } from "@web/config";
 import { brandSameAs } from "@web/config/socials";
-import { socialLinks } from "@web/flags";
+import { getChromeFlags } from "@web/lib/chrome-flags";
 import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
@@ -78,7 +78,7 @@ const webSiteSchema = {
 } as const;
 
 async function OrganizationStructuredData() {
-  const sameAs = brandSameAs(await socialLinks());
+  const sameAs = brandSameAs((await getChromeFlags()).socialLinks);
 
   return (
     <StructuredData
