@@ -1,3 +1,9 @@
+## [5.19.0](https://github.com/motormetrics/motormetrics/compare/v5.18.4...v5.19.0) (2026-09-10)
+
+### Features
+
+* **web:** gate the Visitor Intent PostHog survey ([e8da3df](https://github.com/motormetrics/motormetrics/commit/e8da3dfaf68995cb9335cd9928f6a0fdb8edc664)), closes [#1030](https://github.com/motormetrics/motormetrics/issues/1030) [#1031](https://github.com/motormetrics/motormetrics/issues/1031)
+
 ## [5.18.4](https://github.com/motormetrics/motormetrics/compare/v5.18.3...v5.18.4) (2026-09-10)
 
 ### Bug Fixes
