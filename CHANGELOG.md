@@ -1,3 +1,9 @@
+## [5.19.2](https://github.com/motormetrics/motormetrics/compare/v5.19.1...v5.19.2) (2026-09-10)
+
+### Performance Improvements
+
+* **web:** cache the homepage EV charging overview ([c5aced0](https://github.com/motormetrics/motormetrics/commit/c5aced0951d05855bd9fa513015bb32f6bd925f5))
+
 ## [5.19.1](https://github.com/motormetrics/motormetrics/compare/v5.19.0...v5.19.1) (2026-09-10)
 
 ### Bug Fixes
