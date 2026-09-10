@@ -1,6 +1,7 @@
 import type { CarLogo } from "@motormetrics/logos/types";
 import { slugify } from "@motormetrics/utils/slugify";
 import { HYBRID_REGEX } from "@web/config";
+import { LOGOS_CACHE_TAG } from "@web/lib/cache-tags/logos";
 import type { MakeRegistrationStat } from "@web/queries/cars";
 import {
   getCarsLatestMonth,
@@ -9,7 +10,7 @@ import {
   getMakeRegistrationStats,
 } from "@web/queries/cars";
 import { getAllCarLogos } from "@web/queries/logos";
-import { cache } from "react";
+import { cacheLife, cacheTag } from "next/cache";
 import {
   FUEL_FILTERS,
   type FuelFilter,
@@ -267,57 +268,68 @@ async function loadMonthCounts(
 /**
  * Every make for the active range and fuel filter, ranked and shared out.
  *
- * Memoised per request because four sections read the same rows behind their
- * own Suspense boundaries.
+ * Cached per range and fuel filter so the four sections that read the same
+ * rows behind their own Suspense boundaries share one entry, and the reshaping
+ * work is done once per data release rather than once per request.
  */
-export const loadMakeRows = cache(
-  async (range: Range, fuel: string | null): Promise<MakeRowsResult> => {
-    const [latestMonth, fuelTypeRows, logoResult] = await Promise.all([
-      getCarsLatestMonth(),
-      getDistinctFuelTypes(),
-      getAllCarLogos(),
-    ]);
-
-    const fuelTypes = fuelTypeRows.map((row) => row.fuelType);
-    const logoUrlBySlug = buildLogoMap(
-      "logos" in logoResult ? logoResult.logos : [],
+export async function loadMakeRows(
+  range: Range,
+  fuel: string | null,
+): Promise<MakeRowsResult> {
+  "use cache: remote";
+  cacheLife("max");
+  cacheTag("cars:months", "cars:makes", LOGOS_CACHE_TAG);
+  if (isFuelFilter(fuel)) {
+    cacheTag(
+      ...FUEL_FILTER_QUERIES[fuel].map((fuelType) => `cars:fuel:${fuelType}`),
     );
+  }
 
-    if (!latestMonth) {
-      return { fuelTypes, latestMonth: null, rows: [], total: 0 };
-    }
+  const [latestMonth, fuelTypeRows, logoResult] = await Promise.all([
+    getCarsLatestMonth(),
+    getDistinctFuelTypes(),
+    getAllCarLogos(),
+  ]);
 
-    let totals: MakeTotals[];
-    if (isFuelFilter(fuel)) {
-      const breakdowns = await Promise.all(
-        FUEL_FILTER_QUERIES[fuel].map((fuelType) => getFuelTypeData(fuelType)),
-      );
-      totals = buildTotalsFromFuelRows(
-        breakdowns.flatMap((breakdown) => breakdown.data),
-        (fuelType) => matchesFuelFilter(fuel, fuelType),
-        latestMonth,
-        range,
-      );
-    } else {
-      const [stats, monthCountByMake] = await Promise.all([
-        getMakeRegistrationStats(),
-        range === "month"
-          ? loadMonthCounts(latestMonth, fuelTypes)
-          : Promise.resolve({}),
-      ]);
-      totals = buildTotalsFromStats(stats, range, monthCountByMake);
-    }
+  const fuelTypes = fuelTypeRows.map((row) => row.fuelType);
+  const logoUrlBySlug = buildLogoMap(
+    "logos" in logoResult ? logoResult.logos : [],
+  );
 
-    const rows = finaliseRows(totals, logoUrlBySlug);
+  if (!latestMonth) {
+    return { fuelTypes, latestMonth: null, rows: [], total: 0 };
+  }
 
-    return {
-      fuelTypes,
+  let totals: MakeTotals[];
+  if (isFuelFilter(fuel)) {
+    const breakdowns = await Promise.all(
+      FUEL_FILTER_QUERIES[fuel].map((fuelType) => getFuelTypeData(fuelType)),
+    );
+    totals = buildTotalsFromFuelRows(
+      breakdowns.flatMap((breakdown) => breakdown.data),
+      (fuelType) => matchesFuelFilter(fuel, fuelType),
       latestMonth,
-      rows,
-      total: rows.reduce((sum, row) => sum + row.count, 0),
-    };
-  },
-);
+      range,
+    );
+  } else {
+    const [stats, monthCountByMake] = await Promise.all([
+      getMakeRegistrationStats(),
+      range === "month"
+        ? loadMonthCounts(latestMonth, fuelTypes)
+        : Promise.resolve({}),
+    ]);
+    totals = buildTotalsFromStats(stats, range, monthCountByMake);
+  }
+
+  const rows = finaliseRows(totals, logoUrlBySlug);
+
+  return {
+    fuelTypes,
+    latestMonth,
+    rows,
+    total: rows.reduce((sum, row) => sum + row.count, 0),
+  };
+}
 
 export interface ElectricOnlyMake {
   count: number;
@@ -368,38 +380,45 @@ export function selectElectricOnlyMakes(
   };
 }
 
-export const loadElectricOnlyMakes = cache(
-  async (): Promise<ElectricOnlySummary | null> => {
-    const [latestMonth, stats, electric, logoResult] = await Promise.all([
-      getCarsLatestMonth(),
-      getMakeRegistrationStats(),
-      getFuelTypeData(BEV_FUEL_TYPE),
-      getAllCarLogos(),
-    ]);
+export async function loadElectricOnlyMakes(): Promise<ElectricOnlySummary | null> {
+  "use cache: remote";
+  cacheLife("max");
+  cacheTag(
+    "cars:months",
+    "cars:makes",
+    `cars:fuel:${BEV_FUEL_TYPE}`,
+    LOGOS_CACHE_TAG,
+  );
 
-    if (!latestMonth) {
-      return null;
+  const [latestMonth, stats, electric, logoResult] = await Promise.all([
+    getCarsLatestMonth(),
+    getMakeRegistrationStats(),
+    getFuelTypeData(BEV_FUEL_TYPE),
+    getAllCarLogos(),
+  ]);
+
+  if (!latestMonth) {
+    return null;
+  }
+
+  const latestYear = latestMonth.slice(0, 4);
+  const electricByMake = new Map<string, number>();
+  for (const row of electric.data) {
+    if (
+      row.fuelType !== BEV_FUEL_TYPE ||
+      !row.month.startsWith(`${latestYear}-`)
+    ) {
+      continue;
     }
-
-    const latestYear = latestMonth.slice(0, 4);
-    const electricByMake = new Map<string, number>();
-    for (const row of electric.data) {
-      if (
-        row.fuelType !== BEV_FUEL_TYPE ||
-        !row.month.startsWith(`${latestYear}-`)
-      ) {
-        continue;
-      }
-      electricByMake.set(
-        row.make,
-        (electricByMake.get(row.make) ?? 0) + row.count,
-      );
-    }
-
-    return selectElectricOnlyMakes(
-      stats,
-      electricByMake,
-      buildLogoMap("logos" in logoResult ? logoResult.logos : []),
+    electricByMake.set(
+      row.make,
+      (electricByMake.get(row.make) ?? 0) + row.count,
     );
-  },
-);
+  }
+
+  return selectElectricOnlyMakes(
+    stats,
+    electricByMake,
+    buildLogoMap("logos" in logoResult ? logoResult.logos : []),
+  );
+}
