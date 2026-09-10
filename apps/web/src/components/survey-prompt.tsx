@@ -9,7 +9,7 @@ export const VISITOR_INTENT_SURVEY_ID = "01a08b16-358f-0000-e30b-147c4ae4e28c";
 
 export const SURVEY_SHOWN_AT_KEY = "motormetrics:survey-shown-at";
 export const SURVEY_COOLDOWN_MS = 90 * 24 * 60 * 60 * 1000;
-export const SURVEY_ROUTE_PATTERN = /^\/(coe|cars)(\/|$)/;
+const SURVEY_ROUTE_PATTERN = /^\/(coe|cars)(\/|$)/;
 
 const SURVEY_PROMPT_DELAY_MS = 10_000;
 

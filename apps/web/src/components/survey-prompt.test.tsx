@@ -1,11 +1,11 @@
 import { act, render } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   SURVEY_COOLDOWN_MS,
   SURVEY_SHOWN_AT_KEY,
   SurveyPrompt,
   VISITOR_INTENT_SURVEY_ID,
-} from "./survey-prompt";
+} from "@web/components/survey-prompt";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const state = vi.hoisted(() => ({
   pathname: "/coe/pqp",
