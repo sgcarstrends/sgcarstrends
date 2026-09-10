@@ -4,6 +4,7 @@ import { Banner } from "@web/components/banner";
 import { FlaggedAppNav, FlaggedFooter } from "@web/components/flagged-chrome";
 import { Footer } from "@web/components/footer";
 import { NotificationPrompt } from "@web/components/notification-prompt";
+import { SurveyPrompt } from "@web/components/survey-prompt";
 import { type ReactNode, Suspense } from "react";
 
 export default function MainLayout({
@@ -12,6 +13,7 @@ export default function MainLayout({
   return (
     <div className="min-h-screen bg-background text-foreground">
       <NotificationPrompt />
+      <SurveyPrompt />
       <Announcement />
       <Banner />
 
