@@ -1,3 +1,10 @@
+## [5.19.1](https://github.com/motormetrics/motormetrics/compare/v5.19.0...v5.19.1) (2026-09-10)
+
+### Bug Fixes
+
+* **web:** keep Blob failures out of the shared logo cache ([73e91f8](https://github.com/motormetrics/motormetrics/commit/73e91f8b3b1be4a9c03e2cac9679a1b7b225a979))
+* **web:** use remote cache handler for query modules ([348261a](https://github.com/motormetrics/motormetrics/commit/348261aa54b9d6207aa1f84c937773a4ee56cb75))
+
 ## [5.19.0](https://github.com/motormetrics/motormetrics/compare/v5.18.4...v5.19.0) (2026-09-10)
 
 ### Features
