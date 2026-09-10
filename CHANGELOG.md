@@ -1,3 +1,9 @@
+## [5.18.4](https://github.com/motormetrics/motormetrics/compare/v5.18.3...v5.18.4) (2026-09-10)
+
+### Bug Fixes
+
+* **web:** bump next to 16.3.4 for security advisory ([fdc86b5](https://github.com/motormetrics/motormetrics/commit/fdc86b5238169fbbe8a755997e8cb86088a72046)), closes [#1006](https://github.com/motormetrics/motormetrics/issues/1006)
+
 ## [5.18.3](https://github.com/motormetrics/motormetrics/compare/v5.18.2...v5.18.3) (2026-09-10)
 
 ### Bug Fixes
