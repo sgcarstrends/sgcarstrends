@@ -1,6 +1,12 @@
 import { OpenTelemetry } from "@ai-sdk/otel";
 import { LangfuseSpanProcessor } from "@langfuse/otel";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import * as Sentry from "@sentry/nextjs";
+import {
+  SentryPropagator,
+  SentrySampler,
+  SentrySpanProcessor,
+} from "@sentry/opentelemetry";
 import { registerTelemetry } from "ai";
 
 const toHex = (bytes: Uint8Array) =>
@@ -9,6 +15,17 @@ const toHex = (bytes: Uint8Array) =>
     .join("");
 
 export async function register() {
+  if (process.env.NEXT_RUNTIME === "edge") {
+    await import("./sentry.edge.config");
+    return;
+  }
+
+  if (process.env.NEXT_RUNTIME !== "nodejs") {
+    return;
+  }
+
+  const { sentryClient } = await import("./sentry.server.config");
+
   const langfuseSpanProcessor = new LangfuseSpanProcessor({
     shouldExportSpan: ({ otelSpan }) =>
       ["langfuse-sdk", "ai"].includes(otelSpan.instrumentationScope.name),
@@ -17,7 +34,9 @@ export async function register() {
   });
 
   const tracerProvider = new NodeTracerProvider({
-    spanProcessors: [langfuseSpanProcessor],
+    // Sentry decides sampling so trace propagation stays consistent.
+    sampler: sentryClient ? new SentrySampler(sentryClient) : undefined,
+    spanProcessors: [new SentrySpanProcessor(), langfuseSpanProcessor],
     // Use Web Crypto API to avoid Math.random() which triggers
     // Next.js prerender bailout in Server Components.
     idGenerator: {
@@ -26,6 +45,13 @@ export async function register() {
     },
   });
 
-  tracerProvider.register();
+  tracerProvider.register({
+    propagator: new SentryPropagator(),
+    contextManager: new Sentry.SentryContextManager(),
+  });
+  Sentry.validateOpenTelemetrySetup();
+
   registerTelemetry(new OpenTelemetry({ runtimeContext: true }));
 }
+
+export const onRequestError = Sentry.captureRequestError;

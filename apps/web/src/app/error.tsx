@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Typography } from "@heroui/react";
+import * as Sentry from "@sentry/nextjs";
 import { AlertTriangle } from "lucide-react";
 import { useEffect } from "react";
 
@@ -12,7 +13,7 @@ export default function AppError({
   retry: () => void;
 }>) {
   useEffect(() => {
-    console.error(error);
+    Sentry.captureException(error);
   }, [error]);
 
   return (

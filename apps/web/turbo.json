@@ -7,7 +7,12 @@
       "env": [
         "CRON_SECRET",
         "NEXT_PUBLIC_POSTHOG_HOST",
-        "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN"
+        "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN",
+        "NEXT_PUBLIC_SENTRY_DSN",
+        "SENTRY_AUTH_TOKEN",
+        "SENTRY_DSN",
+        "SENTRY_ORG",
+        "SENTRY_PROJECT"
       ]
     },
     "dev": {
@@ -15,7 +20,9 @@
       "passThroughEnv": [
         "CRON_SECRET",
         "NEXT_PUBLIC_POSTHOG_HOST",
-        "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN"
+        "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN",
+        "NEXT_PUBLIC_SENTRY_DSN",
+        "SENTRY_DSN"
       ]
     }
   }
