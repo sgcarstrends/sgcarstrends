@@ -1,3 +1,13 @@
+## [5.18.0](https://github.com/motormetrics/motormetrics/compare/v5.17.2...v5.18.0) (2026-09-10)
+
+### Features
+
+* **web:** mark EV charging page as beta ([35e03f3](https://github.com/motormetrics/motormetrics/commit/35e03f34d71b26375a1165c6444dfb6bd8aaae01))
+
+### Bug Fixes
+
+* **web:** call describeConnectors from a shared module ([51aaa7a](https://github.com/motormetrics/motormetrics/commit/51aaa7aedbfe52ba6c70249b7ec557138b984535))
+
 ## [5.17.2](https://github.com/motormetrics/motormetrics/compare/v5.17.1...v5.17.2) (2026-09-10)
 
 ### Bug Fixes
