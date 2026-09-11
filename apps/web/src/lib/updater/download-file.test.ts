@@ -1,4 +1,8 @@
-import { fetchAndExtractZip } from "@web/lib/updater/services/download-file";
+import {
+  extractZip,
+  fetchAndExtractZip,
+  fetchZipBuffer,
+} from "@web/lib/updater/services/download-file";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@web/config/workflow", () => ({
@@ -36,6 +40,38 @@ vi.mock("adm-zip", () => {
       }
     },
   };
+});
+
+describe("fetchZipBuffer", () => {
+  const mockUrl = "https://example.com/test.zip";
+
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it("should return the response body as a Buffer", async () => {
+    const bytes = new TextEncoder().encode("zip-bytes");
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: true,
+      arrayBuffer: vi.fn().mockResolvedValue(bytes.buffer),
+    } as unknown as Response);
+
+    const result = await fetchZipBuffer(mockUrl);
+
+    expect(global.fetch).toHaveBeenCalledWith(mockUrl);
+    expect(Buffer.isBuffer(result)).toBe(true);
+    expect(result.toString()).toBe("zip-bytes");
+  });
+});
+
+describe("extractZip", () => {
+  it("should extract files and skip directories", () => {
+    const result = extractZip(Buffer.alloc(0));
+
+    expect(result.size).toBe(2);
+    expect(result.get("test.csv")).toBe("/tmp/test.csv");
+    expect(result.has("folder/")).toBe(false);
+  });
 });
 
 describe("fetchAndExtractZip", () => {
