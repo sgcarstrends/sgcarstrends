@@ -4,7 +4,6 @@ export * from "./location-utilisation";
 export * from "./locations";
 export * from "./map-sites";
 export * from "./network-summary";
-export * from "./overview";
 export * from "./price-rankings";
 export * from "./recent-changes";
 export * from "./registrations-by-month";

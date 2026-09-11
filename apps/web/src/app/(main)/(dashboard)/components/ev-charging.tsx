@@ -1,163 +1,47 @@
-import { Chip, ProgressBar, Typography } from "@heroui/react";
+import { Typography } from "@heroui/react";
 import { NumberValue } from "@heroui-pro/react";
-import { Headline, SectionHead } from "@web/components/shared/overview";
-import {
-  type EvChargingRateStat,
-  getEvChargingOverview,
-} from "@web/queries/ev-charging";
+import { SectionHead } from "@web/components/shared/overview";
+import { getEvChargingNetworkSummary } from "@web/queries/ev-charging";
 
 const LINK = {
   href: "/cars/electric-vehicles/charging",
   label: "All charging data",
 };
 
-function RateStat({
-  label,
-  stat,
-}: {
-  label: string;
-  stat: EvChargingRateStat | null;
-}) {
-  const price = stat?.pricePerKwh;
-  return (
-    <div className="flex min-w-0 flex-col gap-1">
-      <Typography.Paragraph className="font-semibold" color="muted" size="sm">
-        {label}
-      </Typography.Paragraph>
-      <span className="font-extrabold text-[26px] tabular-nums tracking-tight">
-        {price == null ? "—" : `$${price.toFixed(2)}`}
-        <span className="font-semibold text-[15px] text-muted">/kWh</span>
-      </span>
-      <Typography.Paragraph
-        className="font-medium"
-        color="muted"
-        size="sm"
-        truncate
-      >
-        {stat?.description ?? "not advertised"}
-      </Typography.Paragraph>
-    </div>
-  );
-}
-
 /**
- * Public connector state from LTA DataMall's live feed. Everything derives
- * from one cached snapshot; without a feed key it falls back to the registered
- * network counts and says so rather than showing a stale percentage.
+ * The registered public charging network. The live connector state and
+ * per-kWh rates stay on the charging pages: they refresh hourly, and the
+ * homepage carries nothing that would regenerate its shell that often.
  */
 export async function EvCharging() {
-  const { live, network, cheapestDc, priciestDc } =
-    await getEvChargingOverview();
+  const network = await getEvChargingNetworkSummary();
 
-  const isLive = live.connectors > 0 && live.observedAt !== null;
-  const usable = live.connectors - live.unavailable;
-  const inUsePercent = usable > 0 ? (live.occupied / usable) * 100 : 0;
-
-  if (!isLive && network.connectors === 0) {
+  if (network.connectors === 0) {
     return null;
   }
 
   return (
     <section className="flex flex-col gap-6">
       <SectionHead
-        caption={
-          isLive
-            ? "Public connectors in Singapore · live"
-            : "Public connectors in Singapore"
-        }
+        caption="Public connectors in Singapore"
         eyebrow="Electric vehicles"
         link={LINK}
         title="EV charging"
       />
-      <div className="flex flex-col gap-3">
-        {isLive ? (
-          <>
-            <Headline
-              caption="of public connectors in use right now"
-              delta={
-                <Chip
-                  className="gap-2 rounded-full px-3.5 py-2 font-bold text-sm"
-                  color="success"
-                  variant="soft"
-                >
-                  <span
-                    aria-hidden
-                    className="size-2 rounded-full bg-success"
-                  />
-                  <Chip.Label className="px-0">Live</Chip.Label>
-                </Chip>
-              }
-              size="md"
-              value={`${inUsePercent.toFixed(1)}%`}
-            />
-            {/* Decorative: the figure above already states the share. */}
-            <ProgressBar
-              aria-hidden
-              className="w-full"
-              value={Math.min(inUsePercent, 100)}
-            >
-              <ProgressBar.Track className="h-3 rounded-full bg-surface-secondary">
-                <ProgressBar.Fill className="rounded-full bg-accent" />
-              </ProgressBar.Track>
-            </ProgressBar>
-            <Typography.Paragraph
-              className="font-medium"
-              color="muted"
-              size="sm"
-            >
-              <NumberValue
-                locale="en-SG"
-                maximumFractionDigits={0}
-                value={live.connectors}
-              />{" "}
-              connectors across{" "}
-              <NumberValue
-                locale="en-SG"
-                maximumFractionDigits={0}
-                value={live.locations}
-              />{" "}
-              locations
-              {live.unavailable > 0 ? (
-                <>
-                  {" · "}
-                  <NumberValue
-                    locale="en-SG"
-                    maximumFractionDigits={0}
-                    value={live.unavailable}
-                  />{" "}
-                  out of service
-                </>
-              ) : null}
-            </Typography.Paragraph>
-          </>
-        ) : (
-          <Typography.Paragraph className="font-medium" color="muted">
-            <NumberValue
-              locale="en-SG"
-              maximumFractionDigits={0}
-              value={network.connectors}
-            />{" "}
-            connectors across{" "}
-            <NumberValue
-              locale="en-SG"
-              maximumFractionDigits={0}
-              value={network.sites}
-            />{" "}
-            locations · live availability is not available right now
-          </Typography.Paragraph>
-        )}
-
-        {cheapestDc ? (
-          <div className="grid grid-cols-2 gap-6 border-separator border-t pt-4">
-            <RateStat label="Cheapest DC rate" stat={cheapestDc} />
-            <RateStat label="Most expensive DC rate" stat={priciestDc} />
-          </div>
-        ) : null}
-
-        <Typography.Paragraph className="font-medium" color="muted" size="sm">
-          Per-kWh rates from LTA DataMall
-        </Typography.Paragraph>
-      </div>
+      <Typography.Paragraph className="font-medium" color="muted">
+        <NumberValue
+          locale="en-SG"
+          maximumFractionDigits={0}
+          value={network.connectors}
+        />{" "}
+        connectors across{" "}
+        <NumberValue
+          locale="en-SG"
+          maximumFractionDigits={0}
+          value={network.sites}
+        />{" "}
+        locations · live availability and rates on the charging page
+      </Typography.Paragraph>
     </section>
   );
 }
