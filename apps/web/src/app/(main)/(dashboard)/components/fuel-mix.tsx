@@ -1,10 +1,9 @@
 import { Typography } from "@heroui/react";
 import { NumberValue } from "@heroui-pro/react";
-import { resolveCarsMonth } from "@web/app/(main)/(dashboard)/cars/search-params";
 import { donutArcs } from "@web/app/(main)/(dashboard)/components/overview-series";
 import { SectionHead } from "@web/components/shared/overview";
 import { getYearToDateByFuelType } from "@web/queries/cars";
-import type { SearchParams } from "nuqs/server";
+import { getLatestMonth } from "@web/utils/dates/months";
 
 const RADIUS = 74;
 /** Arc length removed from each segment so the rounded caps read as separate. */
@@ -41,12 +40,8 @@ const POWERTRAINS = [
 const OTHER = { color: "var(--chart-6)", label: "Other" };
 
 /** Registrations by powertrain for the selected month's year. */
-export async function FuelMix({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const month = await resolveCarsMonth(searchParams);
+export async function FuelMix() {
+  const month = await getLatestMonth("cars");
   const year = Number(month.slice(0, 4));
   const fuelTypes = await getYearToDateByFuelType(year);
 

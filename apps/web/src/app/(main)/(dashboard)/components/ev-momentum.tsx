@@ -7,7 +7,6 @@ import {
   resolveMonthIndex,
 } from "@web/app/(main)/(dashboard)/cars/electric-vehicles/components/ev-series";
 import { buildLogoMap } from "@web/app/(main)/(dashboard)/cars/makes/components/make-rows";
-import { resolveCarsMonth } from "@web/app/(main)/(dashboard)/cars/search-params";
 import { DeltaChip } from "@web/components/shared/delta-chip";
 import { MakeAvatar } from "@web/components/shared/make-avatar";
 import { Headline, SectionHead } from "@web/components/shared/overview";
@@ -15,7 +14,7 @@ import { SparklineChart } from "@web/components/shared/sparkline-chart";
 import { getEvMarketShare, getEvMonthlyTrend } from "@web/queries/cars";
 import { getTopMakesByFuelType } from "@web/queries/cars/market-insights";
 import { getAllCarLogos } from "@web/queries/logos";
-import type { SearchParams } from "nuqs/server";
+import { getLatestMonth } from "@web/utils/dates/months";
 
 /** Months of share history drawn under the figure. */
 const SPARK_MONTHS = 12;
@@ -33,12 +32,8 @@ const formatMonthName = (month: string) => {
  * the three makes selling the most of them — the same framing as the EV page
  * the section links to.
  */
-export async function EvMomentum({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const month = await resolveCarsMonth(searchParams);
+export async function EvMomentum() {
+  const month = await getLatestMonth("cars");
   const [trend, marketShare, fuelTypes, logoResult] = await Promise.all([
     getEvMonthlyTrend(),
     getEvMarketShare(),

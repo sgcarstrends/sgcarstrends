@@ -4,7 +4,6 @@ import {
   formatMonthLabel,
   formatMonthName,
 } from "@web/app/(main)/(dashboard)/cars/components/format-month";
-import { resolveCarsMonth } from "@web/app/(main)/(dashboard)/cars/search-params";
 import {
   type CoeCategorySeries,
   CoePremiums,
@@ -17,7 +16,7 @@ import {
 } from "@web/app/(main)/(dashboard)/components/overview-series";
 import { SectionHead } from "@web/components/shared/overview";
 import { getAllCoeCategoryTrends, getPqpRates } from "@web/queries/coe";
-import type { SearchParams } from "nuqs/server";
+import { getLatestMonth } from "@web/utils/dates/months";
 
 /** Bidding months drawn in the premium trend, the selected one last. */
 const TREND_MONTHS = 12;
@@ -36,12 +35,8 @@ const CATEGORY_NAMES: Record<string, string> = {
  * The trend query is scoped to a calendar year, so the selected year and the
  * one before are merged to give a full 12-exercise run-up to any month.
  */
-export async function CoeSection({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const month = await resolveCarsMonth(searchParams);
+export async function CoeSection() {
+  const month = await getLatestMonth("cars");
   const year = Number(month.slice(0, 4));
   const [previousYearTrends, currentYearTrends, pqpRates] = await Promise.all([
     getAllCoeCategoryTrends(year - 1),

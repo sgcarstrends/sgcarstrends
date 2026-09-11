@@ -1,5 +1,4 @@
 import { Skeleton } from "@heroui/react";
-import { loadSearchParams } from "@web/app/(main)/(dashboard)/cars/search-params";
 import { CoeSection } from "@web/app/(main)/(dashboard)/components/coe-section";
 import { DeregistrationsHeadline } from "@web/app/(main)/(dashboard)/components/deregistrations-headline";
 import { EvCharging } from "@web/app/(main)/(dashboard)/components/ev-charging";
@@ -19,9 +18,8 @@ import { StructuredData } from "@web/components/structured-data";
 import { LOGO_URL, SITE_TITLE, SITE_URL, SUPPORT_EMAIL } from "@web/config";
 import { brandSameAs } from "@web/config/socials";
 import { socialLinks } from "@web/flags";
-import { fetchMonthsForCars, getMonthOrLatest } from "@web/utils/dates/months";
+import { fetchMonthsForCars, getLatestMonth } from "@web/utils/dates/months";
 import type { Metadata } from "next";
-import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -103,24 +101,21 @@ async function OrganizationStructuredData() {
   );
 }
 
-interface PageProps {
-  searchParams: Promise<SearchParams>;
-}
-
-async function MonthControl({ searchParams }: PageProps) {
-  const { month: requestedMonth } = await loadSearchParams(searchParams);
-  const [months, { month, wasAdjusted }] = await Promise.all([
+/**
+ * The homepage always shows the latest month, so the picker is static and
+ * hands any other selection to the Cars overview, which reads `?month`.
+ */
+async function MonthControl() {
+  const [months, month] = await Promise.all([
     fetchMonthsForCars(),
-    getMonthOrLatest(requestedMonth, "cars"),
+    getLatestMonth("cars"),
   ]);
 
   if (months.length === 0) {
     return null;
   }
 
-  return (
-    <MonthMenu latestMonth={month} months={months} wasAdjusted={wasAdjusted} />
-  );
+  return <MonthMenu basePath="/cars" latestMonth={month} months={months} />;
 }
 
 /** A section-shaped placeholder: eyebrow, figure, then the chart area. */
@@ -135,7 +130,7 @@ function BlockSkeleton({ chartHeight }: { chartHeight: string }) {
   );
 }
 
-export default function HomePage({ searchParams }: PageProps) {
+export default function HomePage() {
   return (
     <>
       <StructuredData data={webSiteSchema} />
@@ -150,7 +145,7 @@ export default function HomePage({ searchParams }: PageProps) {
               <Suspense
                 fallback={<Skeleton className="h-6 w-36 rounded-full" />}
               >
-                <MonthControl searchParams={searchParams} />
+                <MonthControl />
               </Suspense>
             }
             section="Singapore car market"
@@ -160,12 +155,12 @@ export default function HomePage({ searchParams }: PageProps) {
           <OverviewGrid>
             <SectionErrorBoundary title="Registrations unavailable">
               <Suspense fallback={<BlockSkeleton chartHeight="h-[150px]" />}>
-                <RegistrationsHeadline searchParams={searchParams} />
+                <RegistrationsHeadline />
               </Suspense>
             </SectionErrorBoundary>
             <SectionErrorBoundary title="Deregistrations unavailable">
               <Suspense fallback={<BlockSkeleton chartHeight="h-[170px]" />}>
-                <DeregistrationsHeadline searchParams={searchParams} />
+                <DeregistrationsHeadline />
               </Suspense>
             </SectionErrorBoundary>
           </OverviewGrid>
@@ -175,7 +170,7 @@ export default function HomePage({ searchParams }: PageProps) {
 
         <SectionErrorBoundary title="COE premiums unavailable">
           <Suspense fallback={<BlockSkeleton chartHeight="h-[200px]" />}>
-            <CoeSection searchParams={searchParams} />
+            <CoeSection />
           </Suspense>
         </SectionErrorBoundary>
 
@@ -184,12 +179,12 @@ export default function HomePage({ searchParams }: PageProps) {
         <OverviewGrid>
           <SectionErrorBoundary title="Top makes unavailable">
             <Suspense fallback={<BlockSkeleton chartHeight="h-[220px]" />}>
-              <TopMakes searchParams={searchParams} />
+              <TopMakes />
             </Suspense>
           </SectionErrorBoundary>
           <SectionErrorBoundary title="Fuel mix unavailable">
             <Suspense fallback={<BlockSkeleton chartHeight="h-[172px]" />}>
-              <FuelMix searchParams={searchParams} />
+              <FuelMix />
             </Suspense>
           </SectionErrorBoundary>
         </OverviewGrid>
@@ -199,7 +194,7 @@ export default function HomePage({ searchParams }: PageProps) {
         <OverviewGrid>
           <SectionErrorBoundary title="Electric momentum unavailable">
             <Suspense fallback={<BlockSkeleton chartHeight="h-[240px]" />}>
-              <EvMomentum searchParams={searchParams} />
+              <EvMomentum />
             </Suspense>
           </SectionErrorBoundary>
           <SectionErrorBoundary title="EV charging unavailable">

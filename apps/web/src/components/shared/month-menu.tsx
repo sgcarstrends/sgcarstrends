@@ -5,6 +5,7 @@ import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-
 import type { Month } from "@web/types";
 import { groupByYear } from "@web/utils/group-by-year";
 import { ChevronDown } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { parseAsString, useQueryState } from "nuqs";
 import posthog from "posthog-js";
 import { useEffect, useMemo, useRef, useTransition } from "react";
@@ -17,16 +18,22 @@ import { useEffect, useMemo, useRef, useTransition } from "react";
  * Writes the same `month` search param as `MonthSelector`, with
  * `shallow: false` so the server re-renders the page for the new month. The
  * combo box stays on the report pages, where the comps still draw a field.
+ *
+ * With `basePath`, a pick navigates to that route with `?month` instead of
+ * rewriting the current URL, for pages that always show the latest month.
  */
 export function MonthMenu({
+  basePath,
   latestMonth,
   months,
   wasAdjusted,
 }: {
+  basePath?: string;
   latestMonth: Month;
   months: Month[];
   wasAdjusted?: boolean;
 }) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [month, setMonth] = useQueryState(
     "month",
@@ -68,6 +75,12 @@ export function MonthMenu({
               filter: "month",
               value: key,
             });
+            if (basePath) {
+              startTransition(() => {
+                router.push(`${basePath}?month=${String(key)}`);
+              });
+              return;
+            }
             setMonth(String(key));
           }}
         >
