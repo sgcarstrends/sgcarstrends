@@ -1,3 +1,9 @@
+## [5.20.2](https://github.com/motormetrics/motormetrics/compare/v5.20.1...v5.20.2) (2026-09-11)
+
+### Performance Improvements
+
+* **web:** checksum ZIP bytes before extraction ([98e78b9](https://github.com/motormetrics/motormetrics/commit/98e78b9ca9467bed90caafe647847a618890493a)), closes [#731](https://github.com/motormetrics/motormetrics/issues/731)
+
 ## [5.20.1](https://github.com/motormetrics/motormetrics/compare/v5.20.0...v5.20.1) (2026-09-11)
 
 ### Performance Improvements
