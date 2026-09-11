@@ -16,8 +16,7 @@ import {
 import { EyebrowValue, PageEyebrow } from "@web/components/shared/page-eyebrow";
 import { StructuredData } from "@web/components/structured-data";
 import { LOGO_URL, SITE_TITLE, SITE_URL, SUPPORT_EMAIL } from "@web/config";
-import { brandSameAs } from "@web/config/socials";
-import { socialLinks } from "@web/flags";
+import { BRAND_SOCIAL_PROFILE_URLS } from "@web/config/socials";
 import { getLatestMonth } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import { Suspense } from "react";
@@ -75,8 +74,8 @@ const webSiteSchema = {
   },
 } as const;
 
-async function OrganizationStructuredData() {
-  const sameAs = brandSameAs(await socialLinks());
+function OrganizationStructuredData() {
+  const sameAs = [...BRAND_SOCIAL_PROFILE_URLS];
 
   return (
     <StructuredData
@@ -127,9 +126,7 @@ export default function HomePage() {
   return (
     <>
       <StructuredData data={webSiteSchema} />
-      <Suspense>
-        <OrganizationStructuredData />
-      </Suspense>
+      <OrganizationStructuredData />
 
       <OverviewPage>
         <div className="flex flex-col gap-7">

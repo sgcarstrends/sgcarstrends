@@ -437,7 +437,7 @@ exports[`MaintenanceNotice > should render the maintenance copy and run the hook
         </span>
         <a
           class="flex items-center gap-2 font-medium text-accent-strong text-sm"
-          href="https://twitter.com/motormetrics"
+          href="https://x.com/motormetricsapp"
           rel="noreferrer"
           target="_blank"
         >

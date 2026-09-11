@@ -1,4 +1,3 @@
-import { brandSameAs, SOCIAL_URLS } from "@web/config/socials";
 import { footerNavItems, moreNavItems } from "@web/utils/flagged-nav";
 
 describe("moreNavItems", () => {
@@ -41,19 +40,5 @@ describe("footerNavItems", () => {
         "/legal/terms-of-service",
       ],
     );
-  });
-});
-
-describe("brandSameAs", () => {
-  it("should return Instagram, Telegram, and GitHub when social-links is on", () => {
-    expect(brandSameAs(true)).toEqual([
-      SOCIAL_URLS.instagram,
-      SOCIAL_URLS.telegram,
-      SOCIAL_URLS.github,
-    ]);
-  });
-
-  it("should return no profile URLs when social-links is off", () => {
-    expect(brandSameAs(false)).toEqual([]);
   });
 });

@@ -5,7 +5,6 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import { socialLinks } from "@web/flags";
 import {
   getDistinctFuelTypes,
   getDistinctVehicleTypes,
@@ -16,7 +15,6 @@ import { getLatestCoeResults } from "@web/queries/coe";
 import { getCOELatestMonth } from "@web/queries/coe/latest-month";
 import { getAllPosts } from "@web/queries/posts";
 import { cacheLife, cacheTag } from "next/cache";
-import { connection } from "next/server";
 
 async function generateLlmsTxt() {
   "use cache";
@@ -170,15 +168,13 @@ ${recentPosts.map((post) => `- [${post.title}](${SITE_URL}/blog/${post.slug})`).
 
 function socialChannelLines() {
   return `- [Instagram](${SITE_URL}/instagram): Follow us on Instagram
-- [Telegram](${SITE_URL}/telegram): Join our Telegram channel`;
+- [Telegram](${SITE_URL}/telegram): Join our Telegram channel
+- [X](${SITE_URL}/x): Follow us on X`;
 }
 
 export async function GET() {
   const content = await generateLlmsTxt();
-  await connection();
-  const body = (await socialLinks())
-    ? `${content}${socialChannelLines()}\n`
-    : content;
+  const body = `${content}${socialChannelLines()}\n`;
 
   return new Response(body, {
     headers: {

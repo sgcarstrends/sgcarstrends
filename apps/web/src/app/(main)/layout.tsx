@@ -1,11 +1,24 @@
 import { Announcement } from "@web/components/announcement";
 import { AppNav } from "@web/components/app-nav";
 import { Banner } from "@web/components/banner";
-import { FlaggedAppNav, FlaggedFooter } from "@web/components/flagged-chrome";
 import { Footer } from "@web/components/footer";
 import { NotificationPrompt } from "@web/components/notification-prompt";
 import { SurveyPrompt } from "@web/components/survey-prompt";
+import { advertiseNav, blogNav } from "@web/flags";
+import { footerNavItems, moreNavItems } from "@web/utils/flagged-nav";
 import { type ReactNode, Suspense } from "react";
+
+async function FlaggedAppNav() {
+  const [advertise, blog] = await Promise.all([advertiseNav(), blogNav()]);
+
+  return <AppNav moreNavItems={moreNavItems({ advertise, blog })} />;
+}
+
+async function FlaggedFooter() {
+  const advertise = await advertiseNav();
+
+  return <Footer navItems={footerNavItems({ advertise })} />;
+}
 
 export default function MainLayout({
   children,

@@ -4,6 +4,7 @@ import {
   SiInstagram,
   SiTelegram,
   // SiThreads,
+  SiX,
 } from "@icons-pack/react-simple-icons";
 import { sortByName } from "@motormetrics/utils/sorting";
 import {
@@ -75,6 +76,11 @@ const socialMedia: SocialMedia[] = [
     title: "GitHub",
     url: "/github",
     icon: SiGithub,
+  },
+  {
+    title: "X",
+    url: "/x",
+    icon: SiX,
   },
 ];
 

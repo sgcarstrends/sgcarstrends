@@ -28,10 +28,3 @@ export const blogPopularPosts = flag<boolean>({
   defaultValue: false,
   adapter: vercelAdapter(),
 });
-
-/** Instagram, Telegram, and GitHub promotional UI (not X/Twitter). */
-export const socialLinks = flag<boolean>({
-  key: "social-links",
-  defaultValue: false,
-  adapter: vercelAdapter(),
-});

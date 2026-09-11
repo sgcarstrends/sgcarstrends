@@ -113,10 +113,8 @@ function MobileMenuLink({
 
 export function AppNav({
   moreNavItems = MORE_NAV_ITEMS,
-  showSocialLinks = false,
 }: {
   moreNavItems?: readonly NavigationItem[];
-  showSocialLinks?: boolean;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -245,81 +243,79 @@ export function AppNav({
 
         <Navbar.Spacer />
 
-        {showSocialLinks ? (
-          <Link
-            className="hidden rounded-full bg-foreground px-6 py-3.5 font-bold text-accent-foreground text-sm transition-colors hover:bg-muted md:block"
-            href={SOCIAL_URLS.telegram}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Get updates
-          </Link>
-        ) : null}
+        <Link
+          className="hidden rounded-full bg-foreground px-6 py-3.5 font-bold text-accent-foreground text-sm transition-colors hover:bg-muted md:block"
+          href={SOCIAL_URLS.telegram}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Get updates
+        </Link>
 
         <Navbar.MenuToggle className="md:hidden" />
       </Navbar.Header>
 
-      <Navbar.Menu className="gap-1">
-        {PRIMARY_NAV_ITEMS.map(({ href, items, label, sectionLabel }) => {
-          if (!items) {
-            return (
-              <MobileMenuLink
-                href={href}
-                isCurrent={href === activeHref}
-                key={href}
-                label={label}
-              />
-            );
-          }
-
-          // The pill's own dropdown flattens into an eyebrow plus its rows, so
-          // the whole tree is reachable without a second level of tapping.
-          return (
-            <div className="flex flex-col gap-1" key={href}>
-              <Header className={menuHeaderClassName}>{sectionLabel}</Header>
-              <MobileMenuLink
-                href={href}
-                isCurrent={href === activeHref}
-                label={`${label} overview`}
-              />
-              {items.map(({ badge, title, url }) => (
-                <MobileMenuLink
-                  badge={badge}
-                  href={url}
-                  isCurrent={matchesPath(pathname, url)}
-                  key={url}
-                  label={title}
-                />
-              ))}
-            </div>
-          );
-        })}
-
+      <Navbar.Menu className="gap-4">
         <div className="flex flex-col gap-1">
-          <Header className={menuHeaderClassName}>
-            {MORE_NAV_SECTION_LABEL}
-          </Header>
-          {moreNavItems.map(({ badge, title, url }) => (
-            <MobileMenuLink
-              badge={badge}
-              href={url}
-              isCurrent={matchesPath(pathname, url)}
-              key={url}
-              label={title}
-            />
-          ))}
+          {PRIMARY_NAV_ITEMS.map(({ href, items, label, sectionLabel }) => {
+            if (!items) {
+              return (
+                <MobileMenuLink
+                  href={href}
+                  isCurrent={href === activeHref}
+                  key={href}
+                  label={label}
+                />
+              );
+            }
+
+            // The pill's own dropdown flattens into an eyebrow plus its rows, so
+            // the whole tree is reachable without a second level of tapping.
+            return (
+              <div className="flex flex-col gap-1" key={href}>
+                <Header className={menuHeaderClassName}>{sectionLabel}</Header>
+                <MobileMenuLink
+                  href={href}
+                  isCurrent={href === activeHref}
+                  label={`${label} overview`}
+                />
+                {items.map(({ badge, title, url }) => (
+                  <MobileMenuLink
+                    badge={badge}
+                    href={url}
+                    isCurrent={matchesPath(pathname, url)}
+                    key={url}
+                    label={title}
+                  />
+                ))}
+              </div>
+            );
+          })}
+
+          <div className="flex flex-col gap-1">
+            <Header className={menuHeaderClassName}>
+              {MORE_NAV_SECTION_LABEL}
+            </Header>
+            {moreNavItems.map(({ badge, title, url }) => (
+              <MobileMenuLink
+                badge={badge}
+                href={url}
+                isCurrent={matchesPath(pathname, url)}
+                key={url}
+                label={title}
+              />
+            ))}
+          </div>
         </div>
 
-        {showSocialLinks ? (
-          <Link
-            className="mt-4 rounded-full bg-foreground px-6 py-3.5 text-center font-bold text-accent-foreground text-sm transition-colors hover:bg-muted"
-            href={SOCIAL_URLS.telegram}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Get updates
-          </Link>
-        ) : null}
+        <Link
+          className="rounded-full bg-foreground px-6 py-3.5 text-center font-bold text-accent-foreground text-sm transition-colors hover:bg-muted"
+          href={SOCIAL_URLS.telegram}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Get updates
+        </Link>
       </Navbar.Menu>
     </Navbar>
   );

@@ -211,7 +211,7 @@ Web-specific variables (see root `CLAUDE.md` for the cross-cutting ones):
   (`src/flags.ts`). Both are set per environment on Vercel; run `vercel env pull` to sync locally.
   Without them, flags fall back to their `defaultValue` (`false`). Toggle independently in preview vs
   production via the dashboard or `vercel flags enable|disable --environment`. Keys:
-  `advertise-page`, `advertise-nav`, `blog-nav`, `blog-popular-posts`, `social-links`
+  `advertise-page`, `advertise-nav`, `blog-nav`, `blog-popular-posts`
 - `QSTASH_TOKEN` / `QSTASH_CURRENT_SIGNING_KEY` / `QSTASH_NEXT_SIGNING_KEY`: Upstash QStash. The
   five-minute `ev-charging-live` schedule lives in QStash, not `vercel.ts` crons; it forwards
   `CRON_SECRET` as the bearer token so the route needs no QStash-specific verification
