@@ -113,10 +113,8 @@ function MobileMenuLink({
 
 export function AppNav({
   moreNavItems = MORE_NAV_ITEMS,
-  showSocialLinks = false,
 }: {
   moreNavItems?: readonly NavigationItem[];
-  showSocialLinks?: boolean;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -245,16 +243,14 @@ export function AppNav({
 
         <Navbar.Spacer />
 
-        {showSocialLinks ? (
-          <Link
-            className="hidden rounded-full bg-foreground px-6 py-3.5 font-bold text-accent-foreground text-sm transition-colors hover:bg-muted md:block"
-            href={SOCIAL_URLS.telegram}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Get updates
-          </Link>
-        ) : null}
+        <Link
+          className="hidden rounded-full bg-foreground px-6 py-3.5 font-bold text-accent-foreground text-sm transition-colors hover:bg-muted md:block"
+          href={SOCIAL_URLS.telegram}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Get updates
+        </Link>
 
         <Navbar.MenuToggle className="md:hidden" />
       </Navbar.Header>
@@ -310,16 +306,14 @@ export function AppNav({
           ))}
         </div>
 
-        {showSocialLinks ? (
-          <Link
-            className="mt-4 rounded-full bg-foreground px-6 py-3.5 text-center font-bold text-accent-foreground text-sm transition-colors hover:bg-muted"
-            href={SOCIAL_URLS.telegram}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Get updates
-          </Link>
-        ) : null}
+        <Link
+          className="mt-4 rounded-full bg-foreground px-6 py-3.5 text-center font-bold text-accent-foreground text-sm transition-colors hover:bg-muted"
+          href={SOCIAL_URLS.telegram}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Get updates
+        </Link>
       </Navbar.Menu>
     </Navbar>
   );

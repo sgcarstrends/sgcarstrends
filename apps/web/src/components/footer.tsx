@@ -13,10 +13,8 @@ const COPYRIGHT_YEAR = new Date().getFullYear();
 
 export function Footer({
   navItems = FOOTER_NAV_ITEMS,
-  showSocialLinks = false,
 }: {
   navItems?: readonly NavItem[];
-  showSocialLinks?: boolean;
 }) {
   return (
     <footer className="mt-auto flex flex-wrap items-center gap-x-7 gap-y-4 border-separator border-t pt-6">
@@ -53,23 +51,21 @@ export function Footer({
         </ul>
       </nav>
 
-      {showSocialLinks ? (
-        <ul className="flex items-center gap-4">
-          {navLinks.socialMedia.map(({ icon: Icon, title, url }) => (
-            <li key={title}>
-              <Link
-                aria-label={title}
-                className="block text-muted transition-colors hover:text-accent-strong"
-                href={url}
-                rel="me noreferrer"
-                target="_blank"
-              >
-                <Icon aria-hidden="true" className="size-4" />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      ) : null}
+      <ul className="flex items-center gap-4">
+        {navLinks.socialMedia.map(({ icon: Icon, title, url }) => (
+          <li key={title}>
+            <Link
+              aria-label={title}
+              className="block text-muted transition-colors hover:text-accent-strong"
+              href={url}
+              rel="me noreferrer"
+              target="_blank"
+            >
+              <Icon aria-hidden="true" className="size-4" />
+            </Link>
+          </li>
+        ))}
+      </ul>
 
       <Typography.Paragraph color="muted" size="xs" className="ml-auto">
         © {COPYRIGHT_YEAR} {SITE_TITLE} · Data provided by{" "}

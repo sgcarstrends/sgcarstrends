@@ -5,7 +5,6 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@web/config";
-import { socialLinks } from "@web/flags";
 import {
   getDistinctFuelTypes,
   getDistinctVehicleTypes,
@@ -16,7 +15,6 @@ import { getLatestCoeResults } from "@web/queries/coe";
 import { getCOELatestMonth } from "@web/queries/coe/latest-month";
 import { getAllPosts } from "@web/queries/posts";
 import { cacheLife, cacheTag } from "next/cache";
-import { connection } from "next/server";
 
 async function generateLlmsTxt() {
   "use cache";
@@ -175,10 +173,7 @@ function socialChannelLines() {
 
 export async function GET() {
   const content = await generateLlmsTxt();
-  await connection();
-  const body = (await socialLinks())
-    ? `${content}${socialChannelLines()}\n`
-    : content;
+  const body = `${content}${socialChannelLines()}\n`;
 
   return new Response(body, {
     headers: {

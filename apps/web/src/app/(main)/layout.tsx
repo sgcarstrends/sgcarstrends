@@ -1,15 +1,19 @@
 import { Announcement } from "@web/components/announcement";
 import { AppNav } from "@web/components/app-nav";
 import { Banner } from "@web/components/banner";
-import { FlaggedAppNav, FlaggedFooter } from "@web/components/flagged-chrome";
 import { Footer } from "@web/components/footer";
 import { NotificationPrompt } from "@web/components/notification-prompt";
 import { SurveyPrompt } from "@web/components/survey-prompt";
-import { type ReactNode, Suspense } from "react";
+import { advertiseNav, blogNav } from "@web/flags";
+import { footerNavItems, moreNavItems } from "@web/utils/flagged-nav";
+import type { ReactNode } from "react";
 
-export default function MainLayout({
+export default async function MainLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
+  const advertise = await advertiseNav();
+  const blog = await blogNav();
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <NotificationPrompt />
@@ -23,13 +27,9 @@ export default function MainLayout({
         the content beneath them, and the two bars above use the same measure.
       */}
       <div className="mx-auto flex min-h-screen w-full max-w-page flex-col gap-8 px-4 py-8 sm:px-6 lg:px-9 lg:py-9">
-        <Suspense fallback={<AppNav />}>
-          <FlaggedAppNav />
-        </Suspense>
+        <AppNav moreNavItems={moreNavItems({ advertise, blog })} />
         <main className="flex flex-1 flex-col gap-8">{children}</main>
-        <Suspense fallback={<Footer />}>
-          <FlaggedFooter />
-        </Suspense>
+        <Footer navItems={footerNavItems({ advertise })} />
       </div>
     </div>
   );

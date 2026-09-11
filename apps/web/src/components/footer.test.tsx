@@ -15,7 +15,7 @@ describe("Footer", () => {
     expect(queryByText("Advertise")).not.toBeInTheDocument();
   });
 
-  it("should render Advertise and social icons when those flags are on", () => {
+  it("should render Advertise when the flag is on, with social icons", () => {
     const { getByRole, getByText } = render(
       <Footer
         navItems={[
@@ -25,7 +25,6 @@ describe("Footer", () => {
           { href: "/legal/privacy-policy", label: "Privacy" },
           { href: "/legal/terms-of-service", label: "Terms" },
         ]}
-        showSocialLinks
       />,
     );
 

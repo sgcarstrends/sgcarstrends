@@ -9,10 +9,8 @@ import { StatsSection } from "@web/app/(main)/(site)/about/components/stats-sect
 import { SitePage } from "@web/components/shared/site-page";
 import { StructuredData } from "@web/components/structured-data";
 import { LOGO_URL, SITE_TITLE, SITE_URL, SUPPORT_EMAIL } from "@web/config";
-import { brandSameAs, SOCIAL_HANDLE } from "@web/config/socials";
-import { socialLinks } from "@web/flags";
+import { BRAND_SOCIAL_PROFILE_URLS, SOCIAL_HANDLE } from "@web/config/socials";
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import type {
   FAQPage,
   Organization,
@@ -47,8 +45,8 @@ export const metadata: Metadata = {
   },
 };
 
-async function OrganizationStructuredData() {
-  const sameAs = brandSameAs(await socialLinks());
+function OrganizationStructuredData() {
+  const sameAs = [...BRAND_SOCIAL_PROFILE_URLS];
   const organizationSchema: WithContext<Organization> = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -120,9 +118,7 @@ export default function AboutPage() {
   return (
     <>
       <StructuredData data={webPageSchema} />
-      <Suspense>
-        <OrganizationStructuredData />
-      </Suspense>
+      <OrganizationStructuredData />
       <StructuredData data={personSchema} />
       <StructuredData data={faqSchema} />
 
