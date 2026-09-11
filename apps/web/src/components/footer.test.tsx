@@ -32,5 +32,6 @@ describe("Footer", () => {
     expect(getByRole("link", { name: "Instagram" })).toBeInTheDocument();
     expect(getByRole("link", { name: "Telegram" })).toBeInTheDocument();
     expect(getByRole("link", { name: "GitHub" })).toBeInTheDocument();
+    expect(getByRole("link", { name: "X" })).toBeInTheDocument();
   });
 });

@@ -168,7 +168,8 @@ ${recentPosts.map((post) => `- [${post.title}](${SITE_URL}/blog/${post.slug})`).
 
 function socialChannelLines() {
   return `- [Instagram](${SITE_URL}/instagram): Follow us on Instagram
-- [Telegram](${SITE_URL}/telegram): Join our Telegram channel`;
+- [Telegram](${SITE_URL}/telegram): Join our Telegram channel
+- [X](${SITE_URL}/x): Follow us on X`;
 }
 
 export async function GET() {

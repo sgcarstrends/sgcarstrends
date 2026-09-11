@@ -85,6 +85,11 @@ const nextConfig: NextConfig = {
         destination: "https://github.com/motormetrics",
         permanent: false,
       },
+      {
+        source: "/x",
+        destination: "https://x.com/motormetrics",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {
