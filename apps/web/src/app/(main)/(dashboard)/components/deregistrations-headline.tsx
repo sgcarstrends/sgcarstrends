@@ -10,7 +10,7 @@ import {
 } from "@web/app/(main)/(dashboard)/components/overview-series";
 import { ColumnChart } from "@web/components/shared/column-chart";
 import { DeltaChip } from "@web/components/shared/delta-chip";
-import { Headline } from "@web/components/shared/overview";
+import { Headline, SectionLink } from "@web/components/shared/overview";
 import { getDeregistrations } from "@web/queries/deregistrations";
 import { getLatestMonth } from "@web/utils/dates/months";
 
@@ -55,7 +55,14 @@ export async function DeregistrationsHeadline() {
             value={changeRatio(current.total, previous?.total) * 100}
           />
         }
-        label="Deregistrations"
+        label={
+          <span className="flex items-center gap-4">
+            Deregistrations
+            <SectionLink href="/cars/deregistrations">
+              All deregistrations
+            </SectionLink>
+          </span>
+        }
         value={
           <NumberValue
             locale="en-SG"

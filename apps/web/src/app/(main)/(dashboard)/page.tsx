@@ -1,4 +1,5 @@
 import { Skeleton } from "@heroui/react";
+import { formatDateToMonthYear } from "@motormetrics/utils/format-date-to-month-year";
 import { CoeSection } from "@web/app/(main)/(dashboard)/components/coe-section";
 import { DeregistrationsHeadline } from "@web/app/(main)/(dashboard)/components/deregistrations-headline";
 import { EvCharging } from "@web/app/(main)/(dashboard)/components/ev-charging";
@@ -7,18 +8,17 @@ import { FuelMix } from "@web/app/(main)/(dashboard)/components/fuel-mix";
 import { RegistrationsHeadline } from "@web/app/(main)/(dashboard)/components/registrations-headline";
 import { TopMakes } from "@web/app/(main)/(dashboard)/components/top-makes";
 import { SectionErrorBoundary } from "@web/components/error-boundary";
-import { MonthMenu } from "@web/components/shared/month-menu";
 import {
   Hairline,
   OverviewGrid,
   OverviewPage,
 } from "@web/components/shared/overview";
-import { PageEyebrow } from "@web/components/shared/page-eyebrow";
+import { EyebrowValue, PageEyebrow } from "@web/components/shared/page-eyebrow";
 import { StructuredData } from "@web/components/structured-data";
 import { LOGO_URL, SITE_TITLE, SITE_URL, SUPPORT_EMAIL } from "@web/config";
 import { brandSameAs } from "@web/config/socials";
 import { socialLinks } from "@web/flags";
-import { fetchMonthsForCars, getLatestMonth } from "@web/utils/dates/months";
+import { getLatestMonth } from "@web/utils/dates/months";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -102,20 +102,13 @@ async function OrganizationStructuredData() {
 }
 
 /**
- * The homepage always shows the latest month, so the picker is static and
- * hands any other selection to the Cars overview, which reads `?month`.
+ * The homepage always shows the latest month, so the eyebrow names it rather
+ * than offering a picker; each block links to the page that can change it.
  */
-async function MonthControl() {
-  const [months, month] = await Promise.all([
-    fetchMonthsForCars(),
-    getLatestMonth("cars"),
-  ]);
+async function LatestMonth() {
+  const month = await getLatestMonth("cars");
 
-  if (months.length === 0) {
-    return null;
-  }
-
-  return <MonthMenu basePath="/cars" latestMonth={month} months={months} />;
+  return <EyebrowValue>{formatDateToMonthYear(month)}</EyebrowValue>;
 }
 
 /** A section-shaped placeholder: eyebrow, figure, then the chart area. */
@@ -145,7 +138,7 @@ export default function HomePage() {
               <Suspense
                 fallback={<Skeleton className="h-6 w-36 rounded-full" />}
               >
-                <MonthControl />
+                <LatestMonth />
               </Suspense>
             }
             section="Singapore car market"

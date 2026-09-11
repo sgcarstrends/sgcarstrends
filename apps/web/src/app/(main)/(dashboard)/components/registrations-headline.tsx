@@ -5,7 +5,7 @@ import {
 } from "@web/app/(main)/(dashboard)/cars/components/format-month";
 import { changeRatio } from "@web/app/(main)/(dashboard)/components/overview-series";
 import { DeltaChip } from "@web/components/shared/delta-chip";
-import { Headline } from "@web/components/shared/overview";
+import { Headline, SectionLink } from "@web/components/shared/overview";
 import { SparklineChart } from "@web/components/shared/sparkline-chart";
 import { getMonthlyRegistrationTotals } from "@web/queries/cars";
 import { getVehiclePopulationYearlyTotals } from "@web/queries/vehicle-population";
@@ -81,7 +81,12 @@ export async function RegistrationsHeadline() {
             value={changeRatio(current.total, previous?.total) * 100}
           />
         }
-        label="New car registrations"
+        label={
+          <span className="flex items-center gap-4">
+            New car registrations
+            <SectionLink href="/cars">All registrations</SectionLink>
+          </span>
+        }
         value={
           <NumberValue
             locale="en-SG"
