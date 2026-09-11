@@ -1,6 +1,11 @@
+import * as Sentry from "@sentry/nextjs";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import GlobalError from "./global-error";
+
+vi.mock("@sentry/nextjs", () => ({
+  captureException: vi.fn(),
+}));
 
 vi.mock("next/font/google", () => ({
   Geist: () => ({ className: "mock-geist" }),
@@ -24,7 +29,7 @@ describe("GlobalError", () => {
       screen.getByText("A critical error occurred. Please try again."),
     ).toBeInTheDocument();
     expect(screen.getByText("Error ID: xyz789")).toBeInTheDocument();
-    expect(console.error).toHaveBeenCalledWith(error);
+    expect(Sentry.captureException).toHaveBeenCalledWith(error);
   });
 
   it("should omit the error id when digest is missing", () => {
