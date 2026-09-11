@@ -1,3 +1,13 @@
+## [5.20.0](https://github.com/motormetrics/motormetrics/compare/v5.19.3...v5.20.0) (2026-09-11)
+
+### Features
+
+* **web:** add Sentry error monitoring and tracing ([3f67b51](https://github.com/motormetrics/motormetrics/commit/3f67b51c75e9db903f41138f90e36582e0a99abf))
+
+### Bug Fixes
+
+* **web:** read the Sentry DSN from the integration variable ([d442891](https://github.com/motormetrics/motormetrics/commit/d442891e21990710016809ac29370b08f0583de3))
+
 ## [5.19.3](https://github.com/motormetrics/motormetrics/compare/v5.19.2...v5.19.3) (2026-09-10)
 
 ### Performance Improvements
