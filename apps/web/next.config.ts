@@ -87,7 +87,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/x",
-        destination: "https://x.com/motormetrics",
+        destination: "https://x.com/motormetricsapp",
         permanent: false,
       },
     ];

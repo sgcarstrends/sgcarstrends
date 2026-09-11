@@ -1,12 +1,13 @@
 const BRAND_HANDLE = "motormetrics";
 
-export const SOCIAL_HANDLE = `@${BRAND_HANDLE}`;
+/** X handle, used for the twitter card metadata. */
+export const SOCIAL_HANDLE = "@motormetricsapp";
 
 export const SOCIAL_URLS = {
   instagram: `https://www.instagram.com/${BRAND_HANDLE}`,
   telegram: `https://t.me/${BRAND_HANDLE}`,
   github: `https://github.com/${BRAND_HANDLE}`,
-  twitter: `https://x.com/${BRAND_HANDLE}`,
+  twitter: "https://x.com/motormetricsapp",
 } as const;
 
 /** Instagram, Telegram, GitHub, and X. */
