@@ -1,11 +1,7 @@
 import crypto from "node:crypto";
-import { db } from "@motormetrics/database/client";
-import { sessions } from "@motormetrics/database/schema";
-import { redis } from "@motormetrics/utils/redis";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { auth } from "@web/app/admin/lib/auth";
-import { and, eq, gt } from "drizzle-orm";
 import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -14,13 +10,6 @@ const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
   limiter: Ratelimit.slidingWindow(60, "1 m"),
 });
-
-interface AppConfig {
-  maintenance: {
-    enabled: boolean;
-    message: string;
-  };
-}
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -68,47 +57,6 @@ export async function proxy(request: NextRequest) {
     if (!session) {
       return NextResponse.redirect(new URL("/admin/login", request.url));
     }
-  }
-
-  const config = await redis.get<AppConfig>("config");
-  const isMaintenanceMode = config?.maintenance?.enabled ?? false;
-  const isOnMaintenancePage =
-    request.nextUrl.pathname.startsWith("/maintenance");
-
-  // Check for admin session bypass (via cross-subdomain cookie from admin.motormetrics.app)
-  let hasAdminSession = false;
-  if (isMaintenanceMode) {
-    const sessionToken = request.cookies.get(
-      "better-auth.session_token",
-    )?.value;
-    if (sessionToken) {
-      const [session] = await db
-        .select({ id: sessions.id })
-        .from(sessions)
-        .where(
-          and(
-            eq(sessions.token, sessionToken),
-            gt(sessions.expiresAt, new Date()),
-          ),
-        )
-        .limit(1);
-
-      hasAdminSession = !!session;
-    }
-  }
-
-  // Maintenance enabled, user NOT on maintenance page, NO admin session → redirect TO maintenance
-  if (isMaintenanceMode && !isOnMaintenancePage && !hasAdminSession) {
-    const maintenanceUrl = new URL("/maintenance", request.url);
-    maintenanceUrl.searchParams.set("from", request.url);
-    return NextResponse.redirect(maintenanceUrl);
-  }
-
-  // Maintenance disabled, user ON maintenance page → redirect AWAY from maintenance
-  if (!isMaintenanceMode && isOnMaintenancePage) {
-    const fromUrl = request.nextUrl.searchParams.get("from");
-    const redirectUrl = fromUrl ? new URL(fromUrl) : new URL("/", request.url);
-    return NextResponse.redirect(redirectUrl);
   }
 
   const nonce = crypto.randomBytes(16).toString("base64");
