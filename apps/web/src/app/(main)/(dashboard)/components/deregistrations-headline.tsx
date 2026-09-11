@@ -3,7 +3,6 @@ import {
   formatMonthLabel,
   formatMonthName,
 } from "@web/app/(main)/(dashboard)/cars/components/format-month";
-import { resolveCarsMonth } from "@web/app/(main)/(dashboard)/cars/search-params";
 import {
   changeRatio,
   sumByMonth,
@@ -11,9 +10,9 @@ import {
 } from "@web/app/(main)/(dashboard)/components/overview-series";
 import { ColumnChart } from "@web/components/shared/column-chart";
 import { DeltaChip } from "@web/components/shared/delta-chip";
-import { Headline } from "@web/components/shared/overview";
+import { Headline, SectionLink } from "@web/components/shared/overview";
 import { getDeregistrations } from "@web/queries/deregistrations";
-import type { SearchParams } from "nuqs/server";
+import { getLatestMonth } from "@web/utils/dates/months";
 
 /** Months drawn in the column chart, the selected one last. */
 const CHART_MONTHS = 8;
@@ -31,12 +30,8 @@ const formatTick = (month: string) => {
  * The deregistration feed can trail the registration one, so the window ends
  * at the newest month at or before the selection and the caption names it.
  */
-export async function DeregistrationsHeadline({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const month = await resolveCarsMonth(searchParams);
+export async function DeregistrationsHeadline() {
+  const month = await getLatestMonth("cars");
   const rows = await getDeregistrations();
   const series = windowEndingAt(sumByMonth(rows), month, CHART_MONTHS);
 
@@ -60,7 +55,14 @@ export async function DeregistrationsHeadline({
             value={changeRatio(current.total, previous?.total) * 100}
           />
         }
-        label="Deregistrations"
+        label={
+          <span className="flex items-center gap-4">
+            Deregistrations
+            <SectionLink href="/cars/deregistrations">
+              All deregistrations
+            </SectionLink>
+          </span>
+        }
         value={
           <NumberValue
             locale="en-SG"

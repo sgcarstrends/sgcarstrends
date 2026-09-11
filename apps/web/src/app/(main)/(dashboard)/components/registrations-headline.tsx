@@ -3,14 +3,13 @@ import {
   formatMonthLabel,
   formatMonthName,
 } from "@web/app/(main)/(dashboard)/cars/components/format-month";
-import { resolveCarsMonth } from "@web/app/(main)/(dashboard)/cars/search-params";
 import { changeRatio } from "@web/app/(main)/(dashboard)/components/overview-series";
 import { DeltaChip } from "@web/components/shared/delta-chip";
-import { Headline } from "@web/components/shared/overview";
+import { Headline, SectionLink } from "@web/components/shared/overview";
 import { SparklineChart } from "@web/components/shared/sparkline-chart";
 import { getMonthlyRegistrationTotals } from "@web/queries/cars";
 import { getVehiclePopulationYearlyTotals } from "@web/queries/vehicle-population";
-import type { SearchParams } from "nuqs/server";
+import { getLatestMonth } from "@web/utils/dates/months";
 
 /**
  * Deep enough to reach the oldest month the picker offers, so selecting an
@@ -22,12 +21,8 @@ const HISTORY_LIMIT = 360;
 const SPARK_MONTHS = 12;
 
 /** The page's opening figure: new car registrations for the selected month. */
-export async function RegistrationsHeadline({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const month = await resolveCarsMonth(searchParams);
+export async function RegistrationsHeadline() {
+  const month = await getLatestMonth("cars");
   const [monthlyTotals, populationTotals] = await Promise.all([
     getMonthlyRegistrationTotals(HISTORY_LIMIT),
     getVehiclePopulationYearlyTotals(),
@@ -86,7 +81,12 @@ export async function RegistrationsHeadline({
             value={changeRatio(current.total, previous?.total) * 100}
           />
         }
-        label="New car registrations"
+        label={
+          <span className="flex items-center gap-4">
+            New car registrations
+            <SectionLink href="/cars">All registrations</SectionLink>
+          </span>
+        }
         value={
           <NumberValue
             locale="en-SG"
