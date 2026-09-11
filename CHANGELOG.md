@@ -1,3 +1,11 @@
+## [5.20.1](https://github.com/motormetrics/motormetrics/compare/v5.20.0...v5.20.1) (2026-09-11)
+
+### Performance Improvements
+
+* **web:** drop the live EV figures from the homepage ([34bef9d](https://github.com/motormetrics/motormetrics/commit/34bef9d04866b2b6eeac739f1fde798dd29c7d3f))
+* **web:** prerender the homepage data blocks ([8c47015](https://github.com/motormetrics/motormetrics/commit/8c4701522cd85da172918f344ebaf5dfe452c3a6))
+* **web:** replace the homepage month picker with a link per block ([d88e382](https://github.com/motormetrics/motormetrics/commit/d88e382c273ae4d38e084a6330dfdb9e7b928248))
+
 ## [5.20.0](https://github.com/motormetrics/motormetrics/compare/v5.19.3...v5.20.0) (2026-09-11)
 
 ### Features
